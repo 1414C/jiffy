@@ -1,4 +1,4 @@
-# glrestgen1
+# rgen
 
 ## Overview
 A simple code generation utility to create RESTful services with a Postgres DB backend.
