@@ -4,6 +4,24 @@
 A simple code generation utility to create RESTful services with a Postgres DB backend.
 <br/>
 
+## Go Forward Options
+1.  Consider simply enforcing the use of ID, CreatedAt, UpdatedAt, DeletedAt in the model as explicitly named fields.
+    - rewrite the model file with these values
+    - no major code changes
+    - confusing for users
+    - field name collisions
+2.  Consider keeping gorm, but providing a model creation tool that enforces the use of gorm.Model?
+    - what would such a tool look like?
+    - what would the resulting model look like?
+    - would work best as as interactive tool (aka loopback)
+    - would require no changes to the existing code?
+3.  Consider dropping gorm for sqlx
+    - update model to support key definitions
+    - update model reader to understand primary_key
+    - code db-specific layer in the model (aka ORM-lite)
+    - heavy changes to codebase
+    - free hand with relationship definition in the model
+
 ## Features
 * login / session management via jwt
 * built-in support for the creation of signing-keys for jwt
