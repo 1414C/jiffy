@@ -1,0 +1,40 @@
+package util
+
+import (
+	"encoding/base64"
+	"math/rand"
+)
+
+// Bytes returns a byte slice of length n
+func Bytes(n int) ([]byte, error) {
+
+	b := make([]byte, n)
+	_, err := rand.Read(b)
+	if err != nil {
+		return nil, err
+	}
+	return b, nil
+}
+
+// NBytes returns the number of bytes used in the base64
+// URL encoded string
+func NBytes(base64String string) (int, error) {
+	b, err := base64.URLEncoding.DecodeString(base64String)
+	if err != nil {
+		return -1, err
+	}
+	return len(b), nil
+}
+
+// String will generate a byte slice of size n,
+// then will return a string that is the base64
+// encoded version of that byte slice.
+func String(nBytes int) (string, error) {
+
+	b, err := Bytes(nBytes)
+	if err != nil {
+		return "", err
+	}
+	// encode the byte slice to a string
+	return base64.URLEncoding.EncodeToString(b), nil
+}

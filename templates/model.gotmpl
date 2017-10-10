@@ -1,0 +1,347 @@
+package models
+
+//=============================================================================================
+// base {{.Header.Name}} entity model code generated on {{ .GetDateTimeStamp }}
+//=============================================================================================
+
+import (
+	"github.com/jinzhu/gorm"
+)
+
+{{/*  Entity struct fields for use inside pipelines */}}
+{{$headerName := .Header.Name -}}
+{{$headerValue := .Header.Value -}}
+
+{{/*  $pref is populated by a call to .GetLowerCasePrefixLetter which is a  */ -}}
+{{/*  method on the Entity struct in the main.go program file.              */ -}}
+{{ $pref := .GetLowerCasePrefixLetter -}}
+
+
+{{/*  generate the Entity struct  */}}
+// {{.Header.Name}} structure
+type {{.Header.Name}} struct {{printf "%s" "{" }}
+	gorm.Model
+	Href         string  `gorm:"-"`
+	{{range .Fields -}} 
+	{{/* $tagLine := .GetGormTagLine true */ -}}
+    {{/* .Name}}  {{.Value }} `{{$tagLine}}` */ -}}
+	{{.Name}}  {{.Value }} `{{.GormTagLine}}`
+	{{end -}}
+}
+
+// {{.Header.Name}}DB is a CRUD-type interface specifically for dealing with {{.Header.Name}}s.
+type {{.Header.Name}}DB interface {
+	Create({{.Header.Value}} *{{.Header.Name}}) error
+	Update({{.Header.Value}} *{{.Header.Name}}) error
+	Delete(id uint) error
+	Get(id uint) {{.Header.Name}}
+	Get{{.Header.Name}}s() []{{.Header.Name}}
+{{/* iterate over .Fields (Info) to add support for selectable fields to the model's interface */ -}}
+{{range .Fields -}}
+	{{if .Selectable -}}
+	    {{/* for example:  GetPersonsByName(op, name string) []Person                          */ -}}
+		Get{{$headerName}}sBy{{.Name}}(op string, {{.Name}} {{.Value}}) []{{$headerName}}
+	{{end -}}
+{{end -}}
+
+}
+
+// {{.Header.Value}}Validator checks and normalizes data prior to
+// db access.
+type {{.Header.Value}}Validator struct {
+	{{.Header.Name}}DB
+}
+
+// {{.Header.Value}}ValFunc type is the prototype for discrete {{.Header.Name}} normalization
+// and validation functions that will be executed by func run{{.Header.Name}}ValidationFuncs(...)
+type {{.Header.Value}}ValFunc func(*{{.Header.Name}}) error
+
+// {{.Header.Name}}Service is the public interface to the {{.Header.Name}} entity
+type {{.Header.Name}}Service interface {
+	{{.Header.Name}}DB
+}
+
+// private service for {{.Header.Value}}
+type {{.Header.Value}}Service struct {
+	{{.Header.Name}}DB
+}
+
+// {{.Header.Value}}Gorm is a gorm-based implementation of the {{.Header.Name}}DB interface.
+// consider that you could write {{.Header.Value}}SQL to implement {{.Header.Name}}DB via
+// native sql rather than via orm.
+type {{.Header.Value}}Gorm struct {
+	db *gorm.DB
+}
+
+var _ {{.Header.Name}}DB = &{{.Header.Value}}Gorm{}
+
+// new{{.Header.Name}}Validator returns a new {{.Header.Value}}Validator
+func new{{.Header.Name}}Validator({{$pref}}db {{.Header.Name}}DB) *{{.Header.Value}}Validator {
+	return &{{.Header.Value}}Validator{
+		{{.Header.Name}}DB: {{$pref}}db,
+	}
+}
+
+// run{{.Header.Name}}ValFuncs executes a list of discrete validation
+// functions against a {{.Header.Value}}.
+func run{{.Header.Name}}ValFuncs({{.Header.Value}} *{{.Header.Name}}, fns ...{{.Header.Value}}ValFunc) error {
+
+	// iterate over the slice of function names and execute
+	// each in-turn.  the order in which the lists are made
+	// can matter...
+	for _, fn := range fns {
+		err := fn({{.Header.Value}})
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// New{{.Header.Name}}Service needs some work:
+func New{{.Header.Name}}Service(db *gorm.DB) {{.Header.Name}}Service {
+
+	{{$pref}}g := &{{.Header.Value}}Gorm{db}
+
+	{{$pref}}v := new{{.Header.Name}}Validator({{$pref}}g) // *db
+	return &{{.Header.Value}}Service{
+		{{.Header.Name}}DB: {{$pref}}v,
+	}
+}
+
+// ensure consistency (build error if delta exists)
+var _ {{.Header.Name}}DB = &{{.Header.Value}}Validator{}
+
+//-------------------------------------------------------------------------------------------------------
+// CRUD-type model methods for {{.Header.Name}}
+//-------------------------------------------------------------------------------------------------------
+//
+// Create validates and normalizes data used in the {{.Header.Value}} creation.
+// Create then calls the creation code contained in {{.Header.Name}}Service.
+func ({{$pref}}v *{{.Header.Value}}Validator) Create({{.Header.Value}} *{{.Header.Name}}) error {
+
+	// perform normalization and validation -- comment out checks that are not required
+	// note that the check calls are generated as a straight enumeration of the entity
+    // structure.  It may be neccessary to adjust the calling order depending on the 
+	// relationships between the fields in the entity structure.
+	err := run{{.Header.Name}}ValFuncs({{.Header.Value}}{{printf "%s" "," -}}
+	{{range .Fields}} 
+		{{$pref}}v.normval{{.Name}}{{printf "%s" "," -}}
+    {{end}}
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return {{$pref}}v.{{.Header.Name}}DB.Create({{.Header.Value}})
+}
+
+// Update validates and normalizes the content of the {{.Header.Name}}
+// being updated by way of executing a list of predefined discrete
+// checks.  if the checks are successful, the entity is updated
+// on the db via the ORM.
+func ({{$pref}}v *{{.Header.Value}}Validator) Update({{.Header.Value}} *{{.Header.Name}}) error {
+
+	// perform normalization and validation -- comment out checks that are not required
+	// note that the check calls are generated as a straight enumeration of the entity
+    // structure.  It may be neccessary to adjust the calling order depending on the 
+	// relationships between the fields in the entity structure.
+	err := run{{.Header.Name}}ValFuncs({{.Header.Value}}{{printf "%s" "," -}}
+	{{range .Fields}} 
+		{{$pref}}v.normval{{.Name}}{{printf "%s" "," -}}
+    {{end}}
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return {{$pref}}v.{{.Header.Name}}DB.Update({{.Header.Value}})
+}
+
+// Delete is passed through to the ORM with no real
+// validations.  id is checked in the controller.
+func ({{$pref}}v *{{.Header.Value}}Validator) Delete(id uint) error {
+
+	return {{$pref}}v.{{.Header.Name}}DB.Delete(id)
+}
+
+// Get is passed through to the ORM with no real
+// validations.  id is checked in the controller.
+func ({{$pref}}v *{{.Header.Value}}Validator) Get(id uint) {{.Header.Name}} {
+
+	return {{$pref}}v.{{.Header.Name}}DB.Get(id)
+}
+
+// Get{{.Header.Name}}s is passed through to the ORM with no validation
+func ({{$pref}}v *{{.Header.Value}}Validator) Get{{.Header.Name}}s() []{{.Header.Name}} {
+
+	return {{$pref}}v.{{.Header.Name}}DB.Get{{.Header.Name}}s()
+}
+
+//-------------------------------------------------------------------------------------------------------
+// internal {{.Header.Value}}Validator funcs
+//-------------------------------------------------------------------------------------------------------
+// These discrete functions are used to normalize and validate the Entity fields
+// from with in the Create and Update methods.  See the comments in the model's 
+// Create and Update methods for details regarding use.
+
+{{range .Fields}}{{printf "%s" "" -}}
+// normval{{.Name}} normalizes and validates field {{.Name}}
+func ({{$pref}}v *{{$headerValue}}Validator) normval{{.Name}}({{$headerValue}} *{{$headerName}}) error {
+
+	// TODO: implement normalization and validation for {{.Name}}
+	return nil
+}
+{{printf "%s" "\n" -}}
+{{end}}
+
+//-------------------------------------------------------------------------------------------------------
+// internal {{.Header.Value}} Simple Query Validator funcs
+//-------------------------------------------------------------------------------------------------------
+// Simple query normalization and validation occurs in the controller to an
+// extent, as the URL has to be examined closely in order to determine what to call 
+// in the model.  This section may be blank if no model fields were marked as 
+// selectable in the <models>.json file.
+{{range .Fields -}}
+	{{if .Selectable -}}
+		// Get{{$headerName}}By{{.Name}} is passed through to the ORM with no validation.
+
+		func ({{$pref}}v *{{$headerValue}}Validator) Get{{$headerName}}sBy{{.Name}}(op string, {{.SnakeCaseName}} {{.Value}}) []{{$headerName}} {
+
+		// TODO: implement normalization and validation for the Get{{$headerName}}sBy{{.Name}} call.
+		// TODO: typically no modifications are required here.
+		return {{$pref}}v.{{$headerName}}DB.Get{{$headerName}}sBy{{.Name}}(op, {{.SnakeCaseName}})
+		}
+
+	{{end -}}
+{{end -}}
+
+//-------------------------------------------------------------------------------------------------------
+// ORM db CRUD access methods
+//-------------------------------------------------------------------------------------------------------
+//
+// Create a new {{.Header.Name}} in the database via the ORM
+func ({{$pref}}g *{{.Header.Value}}Gorm) Create({{.Header.Value}} *{{.Header.Name}}) error {
+	return {{$pref}}g.db.Create({{.Header.Value}}).Error
+}
+
+// Update an existng {{.Header.Name}} in the database via the ORM
+func ({{$pref}}g *{{.Header.Value}}Gorm) Update({{.Header.Value}} *{{.Header.Name}}) error {
+	return {{$pref}}g.db.Save({{.Header.Value}}).Error
+}
+
+// Delete an existing {{.Header.Name}} in the database via the ORM
+func ({{$pref}}g *{{.Header.Value}}Gorm) Delete(id uint) error {
+
+	{{.Header.Value}} := {{.Header.Name}} {
+		Model: gorm.Model{
+			ID: id,
+		},
+	}
+	return {{$pref}}g.db.Delete(&{{.Header.Value}}).Error
+}
+
+// Get an existing {{.Header.Name}} from the database via the ORM
+func ({{$pref}}g *{{.Header.Value}}Gorm) Get(id uint) {{.Header.Name}} {
+
+	var {{.Header.Value}} {{.Header.Name}}
+	{{$pref}}g.db.First(&{{.Header.Value}}, id)
+	return {{.Header.Value}}
+}
+
+// Get all existing {{.Header.Name}}s from the db via the ORM
+func ({{$pref}}g *{{.Header.Value}}Gorm) Get{{.Header.Name}}s() []{{.Header.Name}} {
+
+	var {{.Header.Value}}s []{{.Header.Name}}
+	{{$pref}}g.db.Find(&{{.Header.Value}}s)
+	return {{.Header.Value}}s
+}
+
+//-------------------------------------------------------------------------------------------------------
+// ORM db simple selector access methods
+//-------------------------------------------------------------------------------------------------------
+//
+{{range .Fields -}}
+	{{if .Selectable -}}
+		// Get all existing {{$headerName}}sBy{{.Name}} from the db via the ORM
+		func ({{$pref}}g *{{$headerValue}}Gorm) Get{{$headerName}}sBy{{.Name}}(op string, {{.Name}} {{.Value}}) []{{$headerName}} {
+
+		var {{$headerValue}}s []{{$headerName}}
+		var c string
+
+		switch op {
+		{{$queryOps := .GetQueryOps -}}
+		{{$lcName := .SnakeCaseName -}}
+		{{if .IsBoolFieldType -}}
+		  	{{if .GetHasEQOp -}}
+			  	case "EQ":
+					c = "{{$lcName}} = ?"
+			{{end -}}
+			{{if .GetHasNEOp -}}
+				case "NE":
+					c = "{{$lcName}} != ?"
+			{{end -}}
+				default:
+					return nil
+				}
+		{{end -}}
+		{{if .IsStringFieldType -}}
+			{{if .GetHasEQOp -}}
+				case "EQ":
+					c = "{{$lcName}} = ?"
+			{{end -}}
+			{{if .GetHasNEOp -}}
+				case "NE":
+					c = "{{$lcName}} != ?"
+			{{end -}}
+			{{if .GetHasLIKEOp -}}
+				case "LIKE":
+					c = "{{$lcName}} like ?"
+			{{end -}}
+				default:
+					return nil
+				}
+		{{end -}}
+		{{if .IsNumberFieldType -}}
+			{{if .GetHasEQOp -}}
+				case "EQ":
+					c = "{{$lcName}} = ?"
+			{{end -}}
+			{{if .GetHasNEOp -}}
+				case "NE":
+					c = "{{$lcName}} != ?"
+			{{end -}}
+			{{if .GetHasLTOp -}}
+				case "LT":
+					c = "{{$lcName}} < ?"
+			{{end -}}
+			{{if .GetHasLEOp -}}
+				case "LE":
+					c = "{{$lcName}} <= ?"
+			{{end -}}
+			{{if .GetHasGTOp -}}
+				case "GT":
+					c = "{{$lcName}} > ?"
+			{{end -}}
+			{{if .GetHasGEOp -}}
+				case "GE":
+					c = "{{$lcName}} >= ?"
+			{{end -}}
+				default:
+					return nil
+				}
+		{{end -}}
+
+		db := {{$pref}}g.db.Where(c, {{.Name}}).Find(&{{$headerValue}}s)
+		if db.Error != nil {
+			return nil
+		}
+		log.Println("Get{{$headerName}}sBy{{.Name}} found:", {{$headerValue}}s)
+		log.Println("Get{{$headerName}}sBy{{.Name}} row count:", db.RowsAffected)
+		return {{$headerValue}}s
+	}
+
+	{{end -}}
+{{end -}}

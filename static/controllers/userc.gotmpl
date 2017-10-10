@@ -1,0 +1,161 @@
+package controllers
+
+import (
+	"crypto/ecdsa"
+	"encoding/json"
+	"fmt"
+	"log"
+	"net/http"
+	"strconv"
+	"time"
+    
+	"{{.AppPath}}/models"
+	"github.com/dgrijalva/jwt-go"
+	"github.com/gorilla/mux"
+)
+
+// UserController - the user controller type
+type UserController struct {
+	us        models.UserService
+	signKey   *ecdsa.PrivateKey
+	verifyKey *ecdsa.PublicKey
+}
+
+// Token is the jwt return type
+type Token struct {
+	Token string `json:"token"`
+}
+
+// NewUserController creates a new UserController
+func NewUserController(us models.UserService, signKey *ecdsa.PrivateKey, verifyKey *ecdsa.PublicKey) *UserController {
+	return &UserController{
+		us:        us,
+		signKey:   signKey,
+		verifyKey: verifyKey,
+	}
+}
+
+// Login - used to verify the provided email address and password
+//
+// POST /login
+func (uc *UserController) Login(w http.ResponseWriter, r *http.Request) {
+
+	// parse the User data in JSON format from the incoming request
+	var u models.User
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&u); err != nil {
+		respondWithError(w, http.StatusBadRequest, "userc: Invalid request payload")
+		return
+	}
+	defer r.Body.Close()
+
+	// fill the User model with the data needed for authentication only
+	user := models.User{
+		Email:    u.Email,
+		Password: u.Password,
+	}
+
+	// attempt to authenticate the user.  note that writing to
+	// the response-writer in advance of setting the cookie will
+	// cause the call to http.SetCookie(&cookie) to silently fail.
+	authenticatedUser, err := uc.us.Authenticate(user.Email, user.Password)
+	if err != nil {
+		switch err {
+		case models.ErrNotFound:
+			log.Println(err)
+			respondWithError(w, http.StatusBadRequest, err.Error())
+			return
+		default:
+			log.Println(err)
+			respondWithError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+	}
+
+	// token := jwt.New(jwt.SigningMethodRS256)
+	token := jwt.New(jwt.SigningMethodES384)
+	claims := make(jwt.MapClaims)
+	claims["email"] = authenticatedUser.Email
+	claims["id"] = authenticatedUser.ID
+	claims["exp"] = time.Now().Add(time.Hour * time.Duration(1)).Unix()
+	claims["iat"] = time.Now().Unix()
+	token.Claims = claims
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Fprintln(w, "Error extracting the key")
+		fatal(err)
+	}
+
+	tokenString, err := token.SignedString(uc.signKey)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Fprintln(w, "Error while signing the token")
+		fatal(err)
+	}
+
+	response := Token{tokenString}
+	respondWithJSON(w, http.StatusOK, response)
+}
+
+// Create - process the signup when a user attempts to create a new user account.
+// It is debatable whether Create should be supported as a general user creation
+// mechanism.
+//
+// POST /signup
+func (uc *UserController) Create(w http.ResponseWriter, r *http.Request) {
+
+	// parse the User data in JSON format from the incoming request
+	var u models.User
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&u); err != nil {
+		respondWithError(w, http.StatusBadRequest, "userc: Invalid request payload")
+		return
+	}
+	defer r.Body.Close()
+
+	// fill the User model
+	user := models.User{
+		Name:     u.Name,
+		Email:    u.Email,
+		Password: u.Password,
+	}
+
+	// call the create method on the user model
+	err := uc.us.Create(&user)
+	if err != nil {
+		log.Println(err)
+		respondWithError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	respondWithJSON(w, http.StatusCreated, user)
+}
+
+// Delete facilitates the deletion of an existing User.  This method is bound
+// to the gorilla.mux router in main.go.
+//
+// DELETE /user/:id
+func (uc *UserController) Delete(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, "Invalid User ID")
+		return
+	}
+
+	err = uc.us.Delete(uint(id))
+	if err != nil {
+		if err != nil {
+			respondWithError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+	}
+	respondWithHeader(w, http.StatusAccepted)
+}
+
+func fatal(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+}

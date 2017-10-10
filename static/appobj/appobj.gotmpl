@@ -1,0 +1,241 @@
+package appobj
+
+import (
+	"crypto/ecdsa"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"os"
+	"strconv"
+
+	"{{.AppPath}}/controllers"
+	"{{.AppPath}}/middleware"
+	"{{.AppPath}}/models"
+	// "{{.AppPath}}/util"
+	"github.com/dgrijalva/jwt-go"
+	"github.com/gorilla/mux"
+)
+
+// AppObj is the one and only application object
+type AppObj struct {
+	cfg       Config
+	dbConfig  PostgresConfig
+	services  *models.Services
+    {{range .Entities -}} 
+    {{.Header.Value}}C *controllers.{{.Header.Name}}Controller
+    {{end -}}
+	userC     *controllers.UserController
+	router    *mux.Router
+	verifyKey *ecdsa.PublicKey  // jwt support
+	signKey   *ecdsa.PrivateKey // jwt support
+}
+
+// RunMode defines the two basic operation modes
+type RunMode int
+
+const (
+	cDev RunMode = iota // development settings (.dev.config.json)
+	cPrd                // production settings (.prd.config.json)
+	cDef                // default settings - uses compiled config in app.DefaultConfig()
+)
+
+// Initialize the application
+func (a *AppObj) Initialize(dev, prd, dr bool) {
+
+	// retrieve the app config based on production/test setting
+	if prd && dev {
+		fmt.Println("please specify only -dev or -prod, but not both.  Exiting.")
+		os.Exit(-1)
+	}
+
+	// fallback to compiled config if neither -dev or -prod were specified
+	if !prd && !dev {
+		a.cfg = LoadConfig(cDef)
+	}
+
+	// try to load production configuration file (.prd.config.json)
+	if prd {
+		a.cfg = LoadConfig(cPrd)
+	}
+
+	// try to load development configuration file (.dev.config.json)
+	if dev {
+		a.cfg = LoadConfig(cDev)
+	}
+
+	// get the Postgres config
+	a.dbConfig = a.cfg.Database
+
+	// create Services
+	a.createServices()
+
+	// perform destructive reset of db table content?
+	if dr {
+		a.destructiveReset()
+	}
+
+	// perform automigration of positive db table changes
+	a.automigrate()
+
+	// initialize JWT keys for user-authentiction
+	a.initializeJWTKeys()
+
+	// create Controllers
+	a.createControllers()
+
+	// initialize Routes
+	a.initializeRoutes()
+}
+
+// destructiveReset executes a destructive reset to refresh db
+func (a *AppObj) destructiveReset() {
+	a.services.DestructiveReset()
+	fmt.Println("Destructive reset has been carried out.  Exiting...")
+	os.Exit(0)
+}
+
+// automigrate the db tables to ensure positive changes in
+// the model structure have been applied.
+func (a *AppObj) automigrate() {
+	if err := a.services.AutoMigrate(); err != nil {
+		panic(err)
+	}
+}
+
+// createServices creates new services for the application object
+func (a *AppObj) createServices() {
+	var err error
+	a.services, err = models.NewServices(
+		models.WithGorm(a.dbConfig.Dialect(), a.dbConfig.ConnectionInfo()),
+		models.WithLogMode(!a.cfg.IsProd()),
+		models.WithUser(a.cfg.Pepper),
+        {{range .Entities -}} 
+        models.With{{.Header.Name}}(),
+        {{end -}}
+		// models.With<Entity>,
+	)
+
+	if err != nil {
+		panic(err)
+	}
+}
+
+// initialize the jwt keys
+func (a *AppObj) initializeJWTKeys() {
+
+	fmt.Println("JWTPrivKeyFile:", a.cfg.JWTPrivKeyFile)
+	fmt.Println("JWTPubKeyFile:", a.cfg.JWTPubKeyFile)
+
+	signBytes, err := ioutil.ReadFile(a.cfg.JWTPrivKeyFile)
+	fatal(err)
+
+	a.signKey, err = jwt.ParseECPrivateKeyFromPEM(signBytes)
+	fatal(err)
+
+	verifyBytes, err := ioutil.ReadFile(a.cfg.JWTPubKeyFile)
+	fatal(err)
+
+	a.verifyKey, err = jwt.ParseECPublicKeyFromPEM(verifyBytes)
+	fatal(err)
+}
+
+// createControllers for each entity
+func (a *AppObj) createControllers() {
+    a.userC = controllers.NewUserController(a.services.User, a.signKey, a.verifyKey)
+    {{range .Entities -}} 
+    a.{{.Header.Value}}C = controllers.New{{.Header.Name}}Controller(a.services.{{.Header.Name}})
+    {{end -}}
+}
+
+// initializeRoutes creates routes and applies middleware
+func (a *AppObj) initializeRoutes() {
+
+	// create the RequireUser middleware to ensure page access
+	// is secure.
+	requireUserMw := middleware.RequireUser{
+		User:      a.services.User,
+		VerifyKey: a.verifyKey,
+	}
+
+	// get a gorilla router and create controllers
+	a.router = mux.NewRouter()
+	if a.router == nil {
+		panic("appobj: failed to initialize mux")
+	}
+
+	// add user routes
+	a.router.HandleFunc("/user", a.userC.Create).Methods("POST")
+	a.router.HandleFunc("/user/login", a.userC.Login).Methods("POST")
+	a.router.HandleFunc("/user/{id:[0-9]+}", a.userC.Delete).Methods("DELETE")
+
+    {{range .Entities -}} 
+    // add {{.Header.Name}} protected routes for standard CRUD access and simple filtering
+    a.router.HandleFunc("/{{.Header.Value}}s", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Get{{.Header.Name}}s)).Methods("GET")
+    a.router.HandleFunc("/{{.Header.Value}}", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Create)).Methods("POST")
+    a.router.HandleFunc("/{{.Header.Value}}/{id:[0-9]+}", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Get)).Methods("GET")
+    a.router.HandleFunc("/{{.Header.Value}}/{id:[0-9]+}", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Update)).Methods("PUT")
+    a.router.HandleFunc("/{{.Header.Value}}/{id:[0-9]+}", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Delete)).Methods("DELETE")
+	
+    {{$headerName := .Header.Name -}}
+	{{$headerValue := .Header.Value -}}
+	{{range .Fields -}}
+		{{if .Selectable -}}
+			{{if .IsStringFieldType -}}
+				{{/*       [(]+(?:EQ|eq|NE|ne|LIKE|like)+[ ']+[a-zA-Z0-9_]+[')]+      */ -}}
+				// http://127.0.0.1:<port>/{{$headerValue}}s/{{.SnakeCaseName}}(EQ '<sel_string>')
+				a.router.HandleFunc("/{{$headerValue}}s/{{.SnakeCaseName}}{{ printf "%s" "{" }}{{.SnakeCaseName}}:{{.GetSelStringRegex}}{{ printf "%s" "}" }}", 
+	  			requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}sBy{{.Name}})).Methods("GET")
+
+			{{end -}}
+			{{if .IsBoolFieldType -}}
+				{{/*      [(]+(?:EQ|eq)+[ ']+(?:true|TRUE|false|FALSE)+[')]+          */ -}}
+				// http://127.0.0.1:<port>/{{$headerValue}}s/{{.SnakeCaseName}}(EQ TRUE)
+				a.router.HandleFunc("/{{$headerValue}}s/{{.SnakeCaseName}}{{ printf "%s" "{" }}{{.SnakeCaseName}}:{{.GetSelBoolRegex}}{{ printf "%s" "}" }}",
+					requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}sBy{{.Name}})).Methods("GET")
+
+			{{end -}}
+			{{if .IsNumberFieldType -}}
+				{{/*   float-types:   [(]+(?:EQ|eq|LT|lt|LE|le|GT|gt|GE|ge)+[ ]+[0-9._]+[)]+      */ -}}
+				{{/*   uint-types:    [(]+(?:EQ|eq|LT|lt|LE|le|GT|gt|GE|ge)+[ ]+[0-9_]+[)]+       */ -}}
+				{{/*   int-types:     [(]+(?:EQ|eq|LT|lt|LE|le|GT|gt|GE|ge)+[ ]+[0-9_-]+[)]+      */ -}} 
+			    // http://127.0.0.1:<port>/{{$headerValue}}s/{{.SnakeCaseName}}(EQ 72.43)    
+				// http://127.0.0.1:<port>/{{$headerValue}}s/{{.SnakeCaseName}}(LT 110)
+				// http://127.0.0.1:<port>/{{$headerValue}}s/{{.SnakeCaseName}}(GE -43)
+				a.router.HandleFunc("/{{$headerValue}}s/{{.SnakeCaseName}}{{ printf "%s" "{" }}{{.SnakeCaseName}}:{{.GetSelNumberRegex}}{{ printf "%s" "}" }}",
+					requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}sBy{{.Name}})).Methods("GET")
+
+			{{end -}}
+		{{end -}}
+    {{end -}}
+{{end -}}
+}
+
+// Run the application
+func (a *AppObj) Run() {
+
+	// close db connection later
+	defer a.services.Close()
+
+	port := ":" + strconv.Itoa(a.cfg.Port)
+
+	if a.cfg.IsProd() {
+		fmt.Println("Production settings selected...")
+		fmt.Println("Starting https server on port", port)
+		log.Fatal(http.ListenAndServeTLS(port, a.cfg.CertFile, a.cfg.KeyFile, a.router))
+	} else {
+		if a.cfg.IsDev() {
+			fmt.Println("Development settings selected...")
+		} else {
+			fmt.Println("Default settings selected...")
+		}
+		fmt.Println("Starting http server on port... ", a.cfg.Port)
+		log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", a.cfg.Port), a.router))
+	}
+}
+
+func fatal(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+}

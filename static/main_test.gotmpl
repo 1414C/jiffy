@@ -1,0 +1,552 @@
+package main_test
+
+import (
+	"bytes"
+	"crypto/rand"
+	"crypto/tls"
+	"crypto/x509"
+	"encoding/json"
+	"flag"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"os"
+	"testing"
+	"time"
+
+	"{{.AppPath}}/appobj"
+    "{{.AppPath}}/models"
+)
+
+// SessionData contains session management vars
+type SessionData struct {
+	jwtToken     string
+	client       *http.Client
+	log          bool
+	ID         	 uint
+	baseURL      string
+	testURL    	 string
+	testEndPoint string
+	userName     string
+	userID       uint
+}
+
+var (
+	sessionData SessionData
+	certFile    = flag.String("cert", "mycert1.cer", "A PEM encoded certificate file.")
+	keyFile     = flag.String("key", "mycert1.key", "A PEM encoded private key file.")
+	caFile      = flag.String("CA", "myCA.cer", "A PEM encoded CA's certificate file.")
+)
+
+var a appobj.AppObj
+
+func TestMain(m *testing.M) {
+
+	// parse flags
+	logFlag := flag.Bool("log", false, "extended log")
+	useHttpsFlag := flag.Bool("https", false, "true == use https")
+	portFlag := flag.String("port", "3000", "port to connect to")
+	flag.Parse()
+
+	sessionData.log = *logFlag
+
+	// initialize client / transport
+	err := sessionData.initializeClient(*useHttpsFlag)
+	if err != nil {
+		log.Fatalf("%s\n", err.Error())
+	}
+
+	// build base url
+	err = sessionData.buildURL(*useHttpsFlag, *portFlag)
+	if err != nil {
+		log.Fatalf("%s\n", err.Error())
+	}
+
+	// create test user
+	err = sessionData.createUser()
+	if err != nil {
+		log.Fatalf("%s\n", err.Error())
+	}
+
+	// login / get jwt
+	err = sessionData.getJWT()
+	if err != nil {
+		log.Fatalf("%s\n", err.Error())
+	}
+
+	code := m.Run()
+
+	// delete test user
+	err = sessionData.deleteUser()
+	if err != nil {
+		log.Fatalf("%s\n", err.Error())
+	}
+
+	os.Exit(code)
+
+}
+
+// initialize client / transport
+func (sd *SessionData) initializeClient(useHttps bool) error  {
+
+	// https
+	if useHttps {
+		// Load client cert
+		cert, err := tls.LoadX509KeyPair(*certFile, *keyFile)
+		if err != nil {
+			return err
+		}
+
+		// Load CA cert
+		caCert, err := ioutil.ReadFile(*caFile)
+		if err != nil {
+			return err
+		}
+		caCertPool := x509.NewCertPool()
+		caCertPool.AppendCertsFromPEM(caCert)
+
+		// Setup HTTPS client
+		tlsConfig := &tls.Config{
+			Certificates: []tls.Certificate{cert},
+			RootCAs:      caCertPool,
+		}
+		tlsConfig.BuildNameToCertificate()
+		transport := &http.Transport{TLSClientConfig: tlsConfig}
+		sd.client = &http.Client{Transport: transport,
+			Timeout: time.Second * 10,
+		}
+	}
+	// http
+	sd.client = &http.Client{
+		Timeout: time.Second * 10,
+	}
+	return nil
+}
+
+// buildURL builds a url based on flag parameters
+//
+// internal
+func (sd *SessionData) buildURL(useHttps bool, port string) error {
+
+	sd.baseURL = "http"
+	if useHttps {
+		sd.baseURL = sd.baseURL + "s"
+	}
+	sd.baseURL = sd.baseURL + "://localhost:" + port
+	return nil
+}
+
+// createUser creates a test user for the application
+//
+// POST - /user
+func (sd *SessionData) createUser() error {
+
+	url := sd.baseURL + "/user"
+
+	// create unique user name
+	b := make([]byte, 16)
+	_, err := rand.Read(b)
+	if err != nil {
+		return err
+	}
+	sessionData.userName = fmt.Sprintf("%X%X%X%X%X", b[0:4], b[4:6], b[6:8], b[8:10], b[10:])
+	jsonStr := fmt.Sprintf("{\"email\":\"%s@1414c.io\",\"password\":\"woofwoof\"}", sessionData.userName)
+
+	// var jsonBody = []byte(`{"email":"testuser123@1414c.io", "password":"woofwoof"}`)
+	var jsonBody = []byte(jsonStr)
+	fmt.Println("creating user:", string(jsonBody))
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonBody))
+	req.Close = true
+	req.Header.Set("Content-Type", "application/json")
+	if sd.log {
+		fmt.Println("POST request Headers:", req.Header)
+	}
+
+	resp, err := sd.client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	var user models.User
+	decoder := json.NewDecoder(resp.Body)
+	if err := decoder.Decode(&user); err != nil {
+		return err
+	}
+
+	sessionData.userID = user.ID
+
+	if sd.log {
+		fmt.Println("response Status:", resp.Status)
+		fmt.Println("response Headers:", resp.Header)
+		body, _ := ioutil.ReadAll(resp.Body)
+		fmt.Println("response Body:", string(body))
+	}
+	return nil
+}
+
+// deleteUser deletes the test user
+//
+// DELETE - /user/:id
+func (sd *SessionData) deleteUser() error {
+
+	idStr := fmt.Sprint(sessionData.userID)
+	// url := "https://localhost:8080/user/" + idStr
+	fmt.Println("deleting user:", sessionData.userName, sessionData.userID)
+	url := sessionData.baseURL + "/user/" + idStr
+	var jsonBody = []byte(`{}`)
+	req, err := http.NewRequest("DELETE", url, bytes.NewBuffer(jsonBody))
+	req.Close = true
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+sessionData.jwtToken)
+
+	if sessionData.log {
+		fmt.Println("sessionData.ID:", string(sessionData.ID))
+		fmt.Println("DELETE URL:", url)
+		fmt.Println("DELETE request Headers:", req.Header)
+	}
+
+	resp, err := sessionData.client.Do(req)
+	if err != nil {
+		fmt.Printf("Test was unable to DELETE /user/%d. Got %s.\n", sessionData.userID, err.Error())
+		return err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusAccepted {
+		fmt.Printf("DELETE /user{:id} expected http status code of 201 - got %d", resp.StatusCode)
+		return err
+	}
+	return nil
+}
+
+// getJWT authenticates and get JWT
+//
+// POST - /user/login
+func (sd *SessionData) getJWT() error {
+
+	type jwtResponse struct {
+		Token string `json:"token"`
+	}
+
+	// url := "https://localhost:8080/user/login"
+	url := sessionData.baseURL + "/user/login"
+	// var jsonStr = []byte(`{"email":"bunnybear10@1414c.io", "password":"woofwoof"}`)
+	jsonStr := fmt.Sprintf("{\"email\":\"%s@1414c.io\",\"password\":\"woofwoof\"}", sessionData.userName)
+	fmt.Println("using user:", jsonStr)
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(jsonStr)))
+	req.Close = true
+	req.Header.Set("Content-Type", "application/json")
+	if sd.log {
+		fmt.Println("POST request Headers:", req.Header)
+	}
+
+	resp, err := sd.client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	var j jwtResponse
+	decoder := json.NewDecoder(resp.Body)
+	if err := decoder.Decode(&j); err != nil {
+		return err
+	}
+
+	sd.jwtToken = j.Token
+
+	if sd.log {
+		fmt.Println("response Status:", resp.Status)
+		fmt.Println("response Headers:", resp.Header)
+		body, _ := ioutil.ReadAll(resp.Body)
+		fmt.Println("response Body:", string(body))
+	}
+	return nil
+}
+
+// testSelectableField is used to test the endpoint access to an entity field
+// that has been marked as Selectable in the model file.  access will be tested
+// for each of the supported operations via multiple calls to this method.  
+// The selection data provided in the end-point string is representitive of 
+// the field data-type only, and it is not expected that the string or 
+// number types will return a data payload in the response body.  Consequently,
+// only the http status code in the response is examined.
+//
+// GET - sd.testURL
+func (sd *SessionData) testSelectableField(t *testing.T) {
+
+	var jsonStr = []byte(`{}`)
+    req, _ := http.NewRequest("GET", sd.testURL, bytes.NewBuffer(jsonStr))
+    req.Close = true
+    req.Header.Set("Content-Type", "application/json")
+    req.Header.Set("Authorization", "Bearer "+sessionData.jwtToken)
+
+    if sessionData.log {
+        fmt.Println("GET URL:", sd.testURL)
+        fmt.Println("GET request Headers:", req.Header)
+    }
+
+    resp, err := sessionData.client.Do(req)
+    if err != nil {
+        t.Errorf("Test was unable to GET %s. Got %s.\n", sd.testEndPoint, err.Error())
+    }
+    defer resp.Body.Close()
+
+    if resp.StatusCode != http.StatusOK {
+        t.Errorf("GET %s expected http status code of 200 - got %d", sd.testEndPoint, resp.StatusCode)
+    }
+}
+
+{{range .Entities -}} 
+
+// TestGet{{.Header.Name}}s attempts to read all {{.Header.Value}}s from the db
+//
+// GET /{{.Header.Value}}s
+func TestGet{{.Header.Name}}s(t *testing.T) {
+
+	// url := "https://localhost:8080/{{.Header.Value}}s"
+	url := sessionData.baseURL + "/{{.Header.Value}}s"
+	jsonStr := []byte(`{}`)
+	req, err := http.NewRequest("GET", url, bytes.NewBuffer(jsonStr))
+	req.Close = true
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+sessionData.jwtToken)
+
+	if sessionData.log {
+		fmt.Println("GET /{{.Header.Value}}s request Headers:", req.Header)
+	}
+
+	// client := &http.Client{}
+	resp, err := sessionData.client.Do(req)
+	if err != nil {
+		t.Errorf("Test was unable to GET /{{.Header.Value}}s. Got %s.\n", err.Error())
+	}
+	defer resp.Body.Close()
+
+	if sessionData.log {
+		fmt.Println("GET /{{.Header.Value}}s response Status:", resp.Status)
+		fmt.Println("GET /{{.Header.Value}}s response Headers:", resp.Header)
+		body, _ := ioutil.ReadAll(resp.Body)
+		fmt.Println("GET /{{.Header.Value}}s response Body:", string(body))
+	}
+}
+
+// TestCreate{{.Header.Name}} attempts to create a new {{.Header.Name}} on the db
+//
+// POST /{{.Header.Value}}
+func TestCreate{{.Header.Name}}(t *testing.T) {
+
+	// url := "https://localhost:8080/{{.Header.Value}}"
+	url := sessionData.baseURL + "/{{.Header.Value}}"
+	{{$upd := false}}
+    {{ $new_json := .BuildTestPostJSON $upd }}
+	var jsonStr = []byte({{ $new_json }})
+
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+	req.Close = true
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+sessionData.jwtToken)
+
+	if sessionData.log {
+		fmt.Println("POST request Headers:", req.Header)
+	}
+
+	resp, err := sessionData.client.Do(req)
+	if err != nil {
+		t.Errorf("Test was unable to POST /{{.Header.Value}}. Got %s.\n", err.Error())
+		body, _ := ioutil.ReadAll(resp.Body)
+		fmt.Println("GET /{{.Header.Value}} response Body:", string(body))
+		t.Errorf("Test was unable to POST /{{.Header.Value}}. Got %s.\n", err.Error())
+	}
+	defer resp.Body.Close()
+
+	var e models.{{.Header.Name}}
+	decoder := json.NewDecoder(resp.Body)
+	if err := decoder.Decode(&e); err != nil {
+		t.Errorf("Test was unable to decode the result of POST /product. Got %s.\n", err.Error())
+	}
+
+	//============================================================================================
+	// TODO: implement validation of the returned entity here
+	//============================================================================================
+	if {{.BuildTestValidationExpression $upd}} {
+		t.Errorf("inconsistency detected in POST /{{.Header.Value}}.")
+	} else {
+		sessionData.ID = e.ID
+	}
+}
+
+// TestGet{{.Header.Name}} attempts to read {{.Header.Value}}/{:id} from the db
+// using the id created in this entity's TestCreate function.
+//
+// GET /{{.Header.Value}}/{:id}
+func TestGet{{.Header.Name}} (t *testing.T) {
+
+	idStr := fmt.Sprint(sessionData.ID)
+	// url := "https://localhost:8080/{{.Header.Value}}/" + idStr
+	url := sessionData.baseURL + "/{{.Header.Value}}/" + idStr
+	jsonStr := []byte(`{}`)
+	req, err := http.NewRequest("GET", url, bytes.NewBuffer(jsonStr))
+	req.Close = true
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+sessionData.jwtToken)
+
+	if sessionData.log {
+		fmt.Println("GET /{{.Header.Value}} request Headers:", req.Header)
+	}
+
+	// client := &http.Client{}
+	resp, err := sessionData.client.Do(req)
+	if err != nil {
+		t.Errorf("Test was unable to GET /{{.Header.Value}}/%d. Got %s.\n", sessionData.ID, err.Error())
+	}
+	defer resp.Body.Close()
+
+	if sessionData.log {
+		fmt.Println("GET /{{.Header.Value}} response Status:", resp.Status)
+		fmt.Println("GET /{{.Header.Value}} response Headers:", resp.Header)
+		body, _ := ioutil.ReadAll(resp.Body)
+		fmt.Println("GET /{{.Header.Value}} response Body:", string(body))
+	}
+}
+
+// TestUpdate{{.Header.Name}} attempts to update an existing {{.Header.Name}} on the db
+//
+// PUT /{{.Header.Value}}/{:id}
+func TestUpdate{{.Header.Name}}(t *testing.T) {
+
+	idStr := fmt.Sprint(sessionData.ID)
+	// url := "https://localhost:8080/{{.Header.Value}}/" + idStr
+	url := sessionData.baseURL + "/{{.Header.Value}}/" + idStr
+	{{$upd := true}}
+	{{ $new_json := .BuildTestPostJSON $upd }}
+	var jsonStr = []byte({{ $new_json }})
+
+	req, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonStr))
+	req.Close = true
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+sessionData.jwtToken)
+
+	if sessionData.log {
+		fmt.Println("POST request Headers:", req.Header)
+	}
+
+	resp, err := sessionData.client.Do(req)
+	if err != nil {
+		t.Errorf("Test was unable to PUT /{{.Header.Value}}/{:id}. Got %s.\n", err.Error())
+	}
+
+	if resp.StatusCode != http.StatusCreated {
+		t.Errorf("PUT /{{.Header.Value}}{:id} expected http status code of 201 - got %d", resp.StatusCode)
+	}
+	defer resp.Body.Close()
+}
+
+// TestDelete{{.Header.Name}} attempts to delete the new {{.Header.Name}} on the db
+//
+// DELETE /{{.Header.Value}}/{:id}
+func TestDelete{{.Header.Name}}(t *testing.T) {
+
+	idStr := fmt.Sprint(sessionData.ID)
+	// url := "https://localhost:8080/{{.Header.Value}}/" + idStr
+	url := sessionData.baseURL + "/{{.Header.Value}}/" + idStr
+	var jsonStr = []byte(`{}`)
+	req, err := http.NewRequest("DELETE", url, bytes.NewBuffer(jsonStr))
+	req.Close = true
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+sessionData.jwtToken)
+
+	if sessionData.log {
+		fmt.Println("sessionData.ID:", string(sessionData.ID))
+		fmt.Println("DELETE URL:", url)
+		fmt.Println("DELETE request Headers:", req.Header)
+	}
+
+	resp, err := sessionData.client.Do(req)
+	if err != nil {
+		t.Errorf("Test was unable to DELETE /{{.Header.Value}}/%d. Got %s.\n", sessionData.ID, err.Error())
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusAccepted {
+		t.Errorf("DELETE /{{.Header.Value}}{:id} expected http status code of 201 - got %d", resp.StatusCode)
+	}
+}
+
+{{$headerName := .Header.Name -}}
+{{$headerValue := .Header.Value -}}
+{{range .Fields -}}
+{{if .Selectable -}}
+ {{$info := . -}}
+ {{$ops := .GetQueryOps -}}
+ {{$isBool := .IsBoolFieldType -}}
+ {{$isString := .IsStringFieldType -}}
+ {{$isFloat := .IsFloatFieldType -}}
+ {{$isUInt := .IsUIntFieldType -}}
+ {{$isInt := .IsIntFieldType -}}
+func TestGet{{$headerName}}sBy{{$info.Name}}(t *testing.T) {
+ 
+   {{if $isBool -}}
+   // http://127.0.0.1:<port>/{{$headerValue}}s/{{$info.SnakeCaseName}}(OP true|false)
+   	{{range $ops -}}
+		sessionData.testEndPoint = "/{{$headerValue}}s/{{$info.SnakeCaseName}}({{.}} true)"
+		sessionData.testURL = sessionData.baseURL + sessionData.testEndPoint 
+		sessionData.testSelectableField(t)
+
+		sessionData.testEndPoint = "/{{$headerValue}}s/{{$info.SnakeCaseName}}({{.}} false)"
+		sessionData.testURL = sessionData.baseURL + sessionData.testEndPoint 
+		sessionData.testSelectableField(t)
+
+   	{{end -}}
+   {{end -}}
+
+   {{if $isString -}}
+   // http://127.0.0.1:<port>/{{$headerValue}}s/{{$info.SnakeCaseName}}(OP '<sel_string>')
+   	{{range $ops -}}
+	   	sessionData.testEndPoint = "/{{$headerValue}}s/{{$info.SnakeCaseName}}({{.}} 'test_string')"
+		sessionData.testURL = sessionData.baseURL + sessionData.testEndPoint
+		sessionData.testSelectableField(t)
+
+   	{{end -}}
+   {{end -}}
+
+   {{if $isFloat -}}
+   // http://127.0.0.1:<port>/{{$headerValue}}s/{{$info.SnakeCaseName}}(OP xxx.yyy) 
+	{{range $ops -}}
+		sessionData.testEndPoint = "/{{$headerValue}}s/{{$info.SnakeCaseName}}({{.}} 55.44)"
+		sessionData.testURL = sessionData.baseURL + sessionData.testEndPoint
+		sessionData.testSelectableField(t)
+
+	{{end -}}
+   {{end -}}
+
+	{{if $isInt -}}
+   	// http://127.0.0.1:<port>/{{$headerValue}}s/{{$info.SnakeCaseName}}(OP +-XXX) 
+	{{range $ops -}}
+		sessionData.testEndPoint = "/{{$headerValue}}s/{{$info.SnakeCaseName}}({{.}} -44)"
+		sessionData.testURL = sessionData.baseURL + sessionData.testEndPoint
+		sessionData.testSelectableField(t)
+
+		sessionData.testEndPoint = "/{{$headerValue}}s/{{$info.SnakeCaseName}}({{.}} 55)"
+		sessionData.testURL = sessionData.baseURL + sessionData.testEndPoint
+		sessionData.testSelectableField(t)
+
+	{{end -}}
+   {{end -}}
+
+	{{if $isUInt -}}
+   	// http://127.0.0.1:<port>/{{$headerValue}}s/{{$info.SnakeCaseName}}(OP XXX) 
+	{{range $ops -}}
+		sessionData.testEndPoint = "/{{$headerValue}}s/{{$info.SnakeCaseName}}({{.}} 77)"
+		sessionData.testURL = sessionData.baseURL + sessionData.testEndPoint
+		sessionData.testSelectableField(t)
+
+	{{end -}}
+   {{end -}}
+}  // end func {{.}}
+
+{{end -}}
+
+{{end -}}
+{{end}}

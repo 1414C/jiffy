@@ -1,0 +1,21 @@
+package main
+
+import (
+	"flag"
+	_ "github.com/lib/pq"
+
+	"{{.AppPath}}/appobj"
+)
+
+func main() {
+
+	prodFlag := flag.Bool("prod", false, "this flag should be set in a production environment")
+	devFlag := flag.Bool("dev", false, "this flag should be set in a development environment")
+	drFlag := flag.Bool("dr", false, "db destructive reset")
+
+	flag.Parse()
+
+	a := appobj.AppObj{}
+	a.Initialize(*devFlag, *prodFlag, *drFlag)
+	a.Run()
+}

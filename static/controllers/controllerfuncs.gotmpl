@@ -1,0 +1,240 @@
+package controllers
+
+//=============================================================================================
+//
+//  controllerfuncs.go contains common discrete functions that are leveraged
+//  throughout the controllers package.
+//
+// generated code: please do not modify 
+// code generated on {{ .GetDateTimeStamp }}
+//=============================================================================================
+
+import (
+	"encoding/json"
+	"fmt"
+	"net/http"
+	"strconv"
+	"strings"
+)
+
+
+// send a generic err response in JSON
+func respondWithError(w http.ResponseWriter, code int, message string) {
+	respondWithJSON(w, code, map[string]string{"error": message})
+}
+
+// send an arbitrary response to the caller
+func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
+	response, _ := json.Marshal(payload)
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(code)
+	w.Write(response)
+}
+
+// send a http-header-only response
+func respondWithHeader(w http.ResponseWriter, code int) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(code)
+	w.Write(nil)
+}
+
+//---------------------------------------------------------------------------------------------
+// support functions for Href creation
+//---------------------------------------------------------------------------------------------
+// buildHrefStringFromCRUDReq builds a rawURLString from data in a CRUD request
+func buildHrefStringFromCRUDReq(r *http.Request, withSuffix bool) string {
+
+	// fill the urlString for the response Href
+	var urlString string
+	if r.TLS != nil {
+		urlString = "https://"
+	} else {
+		urlString = "http://"
+	}
+	if withSuffix {
+		return urlString + r.Host + r.URL.String() + "/"
+	}
+	return urlString + r.Host + r.URL.String()
+}
+
+// buildHrefStringFromSimpleQueryReq builds a rawURLString from data in a simple query request
+// for example, http://localhost:3000/entity/name(LIKE 'tha')
+// is converted to http://localhost:3000/entity/name/
+func buildHrefStringFromSimpleQueryReq(r *http.Request, withSuffix bool) (string, error) {
+
+	// fill the urlString for the response Href
+	var urlString string
+	if r.TLS != nil {
+		urlString = "https://"
+	} else {
+		urlString = "http://"
+	}
+
+	// %-encoded - unescape the URL.String
+	endPoint := r.URL.String()
+	var err error
+	if strings.ContainsAny(endPoint, "%") {
+		endPoint, err = url.PathUnescape(endPoint)
+		if err != nil {
+			return "", err
+		}
+	}
+
+	sl := strings.Split(endPoint, "(")
+	if len(sl) != 2 {
+		return "", fmt.Errorf("unable to determine base Href for request.  got %s", endPoint)
+	}
+
+	if withSuffix {
+		return urlString + r.Host + sl[0] + "/", nil
+	}
+	return urlString + r.Host + sl[0], nil
+}
+
+//---------------------------------------------------------------------------------------------
+// support functions for simple query construction
+//---------------------------------------------------------------------------------------------
+// buildStringQueryComponents separates the incoming simple query-string into its consituent
+// parts; namely operation and predicate.  This is used for all generated entity simple accessors
+// where the predicate field is of the string-type.
+func buildStringQueryComponents(searchString string) (op, predicate string, err error) {
+
+	searchString = strings.TrimPrefix(searchString, "(")
+	searchString = strings.TrimSuffix(searchString, ")")
+	sc := strings.SplitN(searchString, "'", 2)
+	for i, s := range sc {
+		if i == 0 {
+			sc[i] = strings.ToUpper(strings.TrimSuffix(s, " "))
+		} else {
+			sc[i] = strings.TrimSuffix(s, "'")
+		}
+		fmt.Println([]byte(sc[i]))
+	}
+
+	op = sc[0]
+	predicate = sc[1]
+
+	switch op {
+	case "EQ":
+		// do not modify predicate
+	case "LIKE":
+		if predicate != "" {
+			predicate = "%" + predicate + "%"
+		}
+	case "LT":
+		// do not modify predicate
+	case "LE":
+		// do not modify predicate
+	case "GT":
+		// do not modify predicate
+	case "GE":
+		// do not modify predicate
+	default:
+		// do nothing
+	}
+	return op, predicate, nil
+}
+
+// buildUIntQueryComponents separates the incoming simple query-string into its consituent
+// parts; namely operation and predicate.  This is used for all generated entity simple accessors
+// where the predicate field is of the uint, uint8, uint16, uint32 and uint64-type.
+func buildUIntQueryComponents(searchString string) (op string, predicate uint, err error) {
+
+	searchString = strings.TrimPrefix(searchString, "(")
+	searchString = strings.TrimSuffix(searchString, ")")
+	sc := strings.SplitN(searchString, " ", 2)
+	if len(sc) == 2 {
+		sc[0] = strings.ToUpper(strings.TrimSuffix(sc[0], " "))
+	} else {
+		// this can't really happen based on the regex in the route definition
+		return "", 0, fmt.Errorf("bad query construction")
+	}
+
+	op = sc[0]
+	p, err := strconv.ParseUint(sc[1], 10, 0)
+	if err != nil {
+		return "", 0, fmt.Errorf("unable to convert string %s to uint-value", sc[1])
+	}
+	predicate = uint(p)
+	return op, predicate, nil
+}
+
+// buildIntQueryComponents separates the incoming simple query-string into its consituent
+// parts; namely operation and predicate.  This is used for all generated entity simple accessors
+// where the predicate field is of the int, int8, int16, int32 and int64-type.
+func buildIntQueryComponents(searchString string) (op string, predicate int, err error) {
+
+	searchString = strings.TrimPrefix(searchString, "(")
+	searchString = strings.TrimSuffix(searchString, ")")
+	sc := strings.SplitN(searchString, " ", 2)
+	if len(sc) == 2 {
+		sc[0] = strings.ToUpper(strings.TrimSuffix(sc[0], " "))
+	} else {
+		// this can't really happen based on the regex in the route definition
+		return "", 0, fmt.Errorf("bad query construction")
+	}
+
+	op = sc[0]
+	predicate, err = strconv.Atoi(sc[1])
+	if err != nil {
+		return "", 0, fmt.Errorf("unable to convert string %s to int-value", sc[1])
+	}
+	return op, predicate, nil
+}
+
+// build simple query components for float64 search predicates
+func buildFloatQueryComponents(searchString string) (op string, predicate float64, err error) {
+
+	searchString = strings.TrimPrefix(searchString, "(")
+	searchString = strings.TrimSuffix(searchString, ")")
+	sc := strings.SplitN(searchString, " ", 2)
+	if len(sc) == 2 {
+		sc[0] = strings.ToUpper(strings.TrimSuffix(sc[0], " "))
+	} else {
+		// this can't really happen based on the regex in the route definition
+		return "", 0, fmt.Errorf("bad query construction")
+	}
+
+	op = sc[0]
+	predicate, err = strconv.ParseFloat(sc[1], 64)
+	if err != nil {
+		return "", 0, fmt.Errorf("unable to convert string %s to float64-value", sc[1])
+	}
+	return op, predicate, nil
+}
+
+// build simple query components for bool search predicates
+func buildBoolQueryComponents(searchString string) (op string, predicate bool, err error) {
+
+	searchString = strings.TrimPrefix(searchString, "(")
+	searchString = strings.TrimSuffix(searchString, ")")
+	sc := strings.SplitN(searchString, " ", 2)
+
+	// upper-case for operator and predicate
+	for i, s := range sc {
+		if i == 0 {
+			sc[i] = strings.ToUpper(strings.TrimSuffix(s, " "))
+		} else {
+			sc[i] = strings.ToUpper(s)
+		}
+	}
+
+	// this can't really happen based on the regex in the route definition
+	if len(sc) != 2 {
+		return "", false, fmt.Errorf("unable to convert string %s to bool value", searchString)
+	}
+
+	op = sc[0]
+
+	if sc[1] == "TRUE" {
+		predicate = true
+	} else {
+		predicate = false
+	}
+	return op, predicate, nil
+}
+
+//=============================================================================================
+// end of generated code
+//=============================================================================================

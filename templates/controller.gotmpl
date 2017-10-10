@@ -1,0 +1,242 @@
+package controllers
+
+//=============================================================================================
+// base {{.Header.Name}} entity controller code generated on {{ .GetDateTimeStamp }}
+//=============================================================================================
+
+import (
+	"encoding/json"
+	"{{.AppPath}}/models"
+	"github.com/gorilla/mux"
+	"log"
+	"net/http"
+	"strconv"
+)
+
+{{/*  $pref is populated by a call to .GetLowerCasePrefixLetter which is a  */ -}}
+{{/*  method on the Entity struct in the main.go program file.              */ -}}
+{{ $pref := .GetLowerCasePrefixLetter -}}
+
+// {{.Header.Name}}Controller is the {{.Header.Value}} controller type for route binding
+type {{.Header.Name}}Controller struct {
+	{{$pref}}s models.{{.Header.Name}}Service
+}
+
+// New{{.Header.Name}}Controller creates a new {{.Header.Name}}Controller
+func New{{.Header.Name}}Controller({{$pref}}s models.{{.Header.Name}}Service) *{{.Header.Name}}Controller {
+	return &{{.Header.Name}}Controller{
+		{{$pref}}s: {{$pref}}s,
+	}
+}
+
+// Create facilitates the creation of a new {{.Header.Name}}.  This method is bound
+// to the gorilla.mux router in main.go.
+//
+// POST /{{.Header.Value}}
+func ({{$pref}}c *{{.Header.Name}}Controller) Create(w http.ResponseWriter, r *http.Request) {
+
+	var {{$pref}} models.{{.Header.Name}}
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&{{$pref}}); err != nil {
+		log.Println("{{.Header.Name}} Create:",err)
+		respondWithError(w, http.StatusBadRequest, "{{.Header.Value}}c: Invalid request payload")
+		return
+	}
+	defer r.Body.Close()
+
+	// fill the model
+	{{.Header.Value}} := models.{{.Header.Name}} {
+		{{range .Fields -}} 
+    	{{.Name}}:  {{$pref}}.{{.Name -}},
+		{{end}}
+	}
+
+	// build a base urlString for the JSON Body self-referencing Href tag
+	urlString := buildHrefStringFromCRUDReq(r, true)
+
+	// call the Create method on the {{.Header.Value}} model
+	err := {{$pref}}c.{{$pref}}s.Create(&{{.Header.Value}})
+	if err != nil {
+		log.Println("{{.Header.Name}} Create:",err)
+		respondWithError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	{{.Header.Value}}.Href = urlString + strconv.FormatUint(uint64({{.Header.Value}}.ID), 10)
+	respondWithJSON(w, http.StatusCreated, {{.Header.Value}})
+}
+
+// Update facilitates the update of an existing {{.Header.Name}}.  This method is bound
+// to the gorilla.mux router in main.go.
+//
+// PUT /{{.Header.Value}}:id
+func ({{$pref}}c *{{.Header.Name}}Controller) Update(w http.ResponseWriter, r *http.Request) {
+
+	// get the parameter(s)
+	vars := mux.Vars(r)
+	id, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		log.Println("{{.Header.Name}} Update:",err)
+		respondWithError(w, http.StatusBadRequest, "Invalid {{.Header.Value}} id")
+		return
+	}
+
+	var {{$pref}} models.{{.Header.Name}}
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&{{$pref}}); err != nil {
+		log.Println("{{.Header.Name}} Update:",err)				
+		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
+		return
+	}
+	defer r.Body.Close()
+
+	// fill the model
+	{{.Header.Value}} := models.{{.Header.Name}} {
+		{{range .Fields -}} 
+    	{{.Name}}:  {{$pref}}.{{.Name -}},
+		{{end}}
+	}
+
+	// build a base urlString for the JSON Body self-referencing Href tag
+	urlString := buildHrefStringFromCRUDReq(r, false)
+
+	{{/*  gorm specific DB table header field id is used.  this would need to  */ -}}
+	{{/*  change if the ORM was replaced with a native db interface            */ -}}
+	{{.Header.Value}}.ID = uint(id)
+
+	// call the update method on the model
+	err = {{$pref}}c.{{$pref}}s.Update(&{{.Header.Value}})
+	if err != nil {
+		log.Println("{{.Header.Name}} Update:",err)
+		respondWithError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	{{.Header.Value}}.Href = urlString
+	respondWithJSON(w, http.StatusCreated, {{.Header.Value}})
+}
+
+// Get facilitates the retrieval of an existing {{.Header.Name}}.  This method is bound
+// to the gorilla.mux router in main.go.
+//
+// GET /{{.Header.Value}}/:id
+func ({{$pref}}c *{{.Header.Name}}Controller) Get(w http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+	id, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		log.Println("{{.Header.Name}} Get:",err)
+		respondWithError(w, http.StatusBadRequest, "Invalid {{.Header.Value}} ID")
+		return
+	}
+
+	// build a base urlString for the JSON Body self-referencing Href tag
+	urlString := buildHrefStringFromCRUDReq(r, false)
+
+	var {{$pref}} models.{{.Header.Name}}
+	{{$pref}}.ID = uint(id)
+
+	retrieved{{.Header.Name}} := {{$pref}}c.{{$pref}}s.Get({{$pref}}.ID)
+	if retrieved{{.Header.Name}}.ID > 0 {
+		retrieved{{.Header.Name}}.Href = urlString
+		respondWithJSON(w, http.StatusOK, retrieved{{.Header.Name}})
+		return
+	}
+	respondWithJSON(w, http.StatusOK, "[]")
+}
+
+// Delete facilitates the deletion of an existing {{.Header.Name}}.  This method is bound
+// to the gorilla.mux router in main.go.
+//
+// DELETE /{{.Header.Value}}/:id
+func ({{$pref}}c *{{.Header.Name}}Controller) Delete(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		log.Println("{{.Header.Name}} Delete:",err)
+		respondWithError(w, http.StatusBadRequest, "Invalid {{.Header.Name}} ID")
+		return
+	}
+
+	err = {{$pref}}c.{{$pref}}s.Delete(uint(id))
+	if err != nil {
+		log.Println("{{.Header.Name}} Delete:",err)
+		respondWithError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	respondWithHeader(w, http.StatusAccepted)
+}
+
+// Get{{.Header.Name}}s facilitates the retrieval of all existing {{.Header.Name}}s.  This method is bound
+// to the gorilla.mux router in main.go.
+//
+// GET /{{.Header.Value}}s
+func ({{$pref}}c *{{.Header.Name}}Controller) Get{{.Header.Name}}s(w http.ResponseWriter, r *http.Request) {
+
+	// build base Href; common for each selected row
+	urlString := buildHrefStringFromCRUDReq(r, true)
+
+	{{.Header.Value}}s := {{$pref}}c.{{$pref}}s.Get{{.Header.Name}}s()
+	if {{.Header.Value}}s != nil {
+		for i, {{$pref}} := range {{.Header.Value}}s {
+			{{.Header.Value}}s[i].Href = urlString + strconv.FormatUint(uint64({{$pref}}.ID), 10)
+		}
+		respondWithJSON(w, http.StatusOK, {{.Header.Value}}s)
+		return
+	}
+	respondWithJSON(w, http.StatusOK, "[]")
+}
+
+
+{{/*  generate optional simple query support based on the Info.Selectable,  */ -}}
+{{/*  info.Value (type).                                                    */ -}}
+{{ $headerName := .Header.Name -}}
+{{ $headerValue := .Header.Value -}}
+{{range .Fields -}}
+{{if .Selectable -}}
+// Get{{$headerName}}sBy{{.Name}} facilitates the retrieval of existing 
+// {{$headerName}}s based on {{.Name}}.
+{{if .IsStringFieldType -}}
+// GET /{{$headerValue}}s/{{.SnakeCaseName}}(OP 'searchString')
+{{else}}
+// GET /{{$headerValue}}s/{{.SnakeCaseName}}(OP searchValue)
+{{end -}}
+func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}sBy{{.Name}} (w http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+	searchValue := vars["{{.SnakeCaseName}}"]
+	if searchValue == "" {
+		respondWithError(w, http.StatusBadRequest, "missing search criteria")
+		return
+	}
+
+	op, predicate, err := {{.GetQueryComponentFuncCall}} 
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, fmt.Sprintf(`{"Get{{$headerName}}sBy{{.Name}}": "%s"}`, err))
+		return
+	}
+
+	// build base Href; common for each selected row
+	urlString, err := buildHrefStringFromSimpleQueryReq(r, true)
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, fmt.Sprintf(`{"Get{{$headerName}}sBy{{.Name}}": "%s"}`, err))
+		return
+	}
+
+	{{$headerValue}}s := {{$pref}}c.{{$pref}}s.Get{{$headerName}}sBy{{.Name}}(op, predicate)
+	if {{$headerValue}}s != nil {
+
+		// add the base Href/{id}
+		for i, {{$pref}} := range {{$headerValue}}s {
+			{{$headerValue}}s[i].Href = urlString + strconv.FormatUint(uint64({{$pref}}.ID), 10)
+		}
+		respondWithJSON(w, http.StatusOK, {{$headerValue}}s)
+		return
+	}
+	respondWithJSON(w, http.StatusOK, "[]")
+}
+{{end -}}
+{{end -}}
+
+
+
+
+

@@ -1,0 +1,114 @@
+[
+    {
+        "type": "entity",
+        "typeName": "AccountHolder",
+        "properties": {
+            "name": {
+                "type": "string",
+                "format": "", 
+                "required": false,
+                "unique": false,
+                "index": "nonUnique",
+                "selectable": "eq,like"
+            },
+            "age": {
+                "type": "uint",
+                "format": "", 
+                "required": false,
+                "unique": false,
+                "index": "",
+                "selectable": "eq,lt,gt"
+            },
+            "weight": {
+                "type": "float64",
+                "format": "", 
+                "required": false,
+                "unique": false,
+                "index": "",
+                "selectable": "eq,lt,le,gt,ge"
+            },
+            "validLicense": {
+                "type": "bool",
+                "format": "", 
+                "required": false,
+                "unique": false,
+                "index": "nonUnique",
+                "selectable": "eq,ne"
+            }
+        },
+        "compositeIndexes": [ 
+            {"index": "validLicense, age"},
+            {"index": "age, name"}
+        ]
+    },
+    {
+        "type": "entity",
+        "typeName": "Account",
+        "properties": {
+            "AccountHolderID": {
+                "type": "uint",
+                "format": "", 
+                "required": false,
+                "index": "nonUnique",
+                "selectable": "eq"
+            },
+            "bankName": {
+                "type": "string",
+                "format": "", 
+                "required": true,
+                "index": "nonUnique",
+                "selectable": "eq,like"
+            },
+            "bankTransit": {
+                "type": "uint",
+                "format": "", 
+                "required": true,
+                "index": "nonUnique",
+                "selectable": "eq"
+            },
+            "street": {
+                "type": "string",
+                "dbType": "varchar(100)",
+                "format": "", 
+                "required": false,
+                "index": "nonUnique",
+                "selectable": "eq,like"
+            },
+            "streetNumber": {
+                "type": "string",
+                "format": "", 
+                "required": false,
+                "index": "",
+                "selectable": ""
+            },
+            "postCode": {
+                "type": "string",
+                "format": "", 
+                "required": false,
+                "index": "nonUnique",
+                "selectable": "eq,like"
+            },
+            "accountType": {
+                "type": "string",
+                "format": "", 
+                "required": true,
+                "index": "nonUnique",
+                "selectable": "eq,like"
+            },
+            "accountNumber": {
+                "type": "uint",
+                "format": "", 
+                "required": true,
+                "index": "nonUnique",
+                "selectable": "eq"
+            },
+            "accountBalance": {
+                "type": "float64",
+                "format": "", 
+                "required": false,
+                "index": "",
+                "selectable": "eq,lt,le,gt,ge,ne"
+            }
+        }
+    }
+]

@@ -1,0 +1,93 @@
+package models
+
+import (
+	"github.com/jinzhu/gorm"
+)
+
+// Services contains the set of services used by the application
+type Services struct {
+	User    UserService
+	db      *gorm.DB
+    {{range .Entities -}} 
+    {{.Header.Name}} {{.Header.Name}}Service
+    {{end -}}
+    // Product ProductService
+}
+
+// ServicesConfig function type
+type ServicesConfig func(*Services) error
+
+// WithUser creates a User service
+func WithUser(pepper string) ServicesConfig {
+	return func(s *Services) error {
+		s.User = NewUserService(s.db, pepper)
+		return nil
+	}
+}
+
+// WithGorm provides a function that will return a gorm services closure
+func WithGorm(dialect, connectionInfo string) ServicesConfig {
+	return func(s *Services) error {
+		db, err := gorm.Open(dialect, connectionInfo)
+		if err != nil {
+			return err
+		}
+		s.db = db
+		return nil
+	}
+}
+
+// WithLogMode sets the gorm log-mode (display SQL in stdout)
+func WithLogMode(mode bool) ServicesConfig {
+	return func(s *Services) error {
+		s.db.LogMode(mode)
+		return nil
+	}
+}
+
+{{range .Entities -}} 
+// With{{.Header.Name}} creates a {{.Header.Name}} service
+func With{{.Header.Name}}() ServicesConfig {
+	return func(s *Services) error {
+		s.{{.Header.Name}} = New{{.Header.Name}}Service(s.db)
+		return nil
+	}
+}
+    
+{{end -}}
+
+// NewServices creates a Services object using the dialect and connectionInfo
+// to create a db connection and share it across the set of services
+// in the Services object.  ServicesConfig == func(*Services) error
+func NewServices(cfgs ...ServicesConfig) (*Services, error) {
+
+	var s Services
+	for _, cfg := range cfgs {
+		if err := cfg(&s); err != nil {
+			return nil, err
+		}
+	}
+	return &s, nil
+}
+
+// Close the db connection
+func (s *Services) Close() error {
+	return s.db.Close()
+}
+
+// DestructiveReset - drop all tables immediately and rebuild them
+func (s *Services) DestructiveReset() error {
+    {{/*  $entity_list is populated by a call to .GetAddrConcatenatedEntities        */ -}}
+    {{/*  which is a method on the Static struct in the generator.go program file.   */ -}}
+    {{ $entity_list := .GetAddrConcatenatedEntities -}}
+    err := s.db.DropTableIfExists({{$entity_list}}).Error
+	if err != nil {
+		return err
+	}
+	return s.AutoMigrate()
+}
+
+// AutoMigrate all tables (Additive)
+func (s *Services) AutoMigrate() error {
+	return s.db.AutoMigrate({{$entity_list}}, &User{}).Error
+}
