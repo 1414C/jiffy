@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/1414C/glrestgen1/gen"
+	"github.com/1414C/rgen/gen"
 )
 
 func main() {

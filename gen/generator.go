@@ -1,7 +1,7 @@
 package gen
 
 import (
-	// "github.com/1414C/glrestgen1/gen"
+	// "github.com/1414C/rgen/gen"
 	// "encoding/json"
 	"fmt"
 	// "io/ioutil"

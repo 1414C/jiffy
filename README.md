@@ -29,17 +29,17 @@ In order to run the application generator, ensure the following:
     * go get -u github.com/dgrijalva/jwt-go
 
 2.  Install the application into your local $GOPATH/src directory:
-    * go get -u github.com/1414C/glrestgen1
+    * go get -u github.com/1414C/rgen
 
 3.  You will need access to a Postgres server, either locally or over the network.
     
 4.  The application can be started in two ways:
-    * From $GOPATH/src/github.com/1414C/glrestgen1 you may execute the application by typing:
+    * From $GOPATH/src/github.com/1414C/rgen you may execute the application by typing:
         * go run main.go     
-    * A binary can also be build from $GOPATH/src/github.com/1414C/glrestgen1 by typing the following:
+    * A binary can also be build from $GOPATH/src/github.com/1414C/rgen by typing the following:
         * go build .
         * The application can then be started feom the same directory by typing:
-            * ./glrestgen1
+            * ./rgen
 <br/>
 
 ## Flags

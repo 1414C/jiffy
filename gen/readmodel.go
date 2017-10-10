@@ -3,7 +3,7 @@ package gen
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/1414C/glrestgen1/util"
+	"github.com/1414C/rgen/util"
 	"io/ioutil"
 	"reflect"
 	"strings"
