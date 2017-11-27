@@ -24,12 +24,12 @@ type SessionData struct {
 	jwtToken     string
 	client       *http.Client
 	log          bool
-	ID         	 uint
+	ID         	 int
 	baseURL      string
 	testURL    	 string
 	testEndPoint string
-	userName     string
-	userID       uint
+	usrName      string
+	usrID        int
 }
 
 var (
@@ -63,8 +63,8 @@ func TestMain(m *testing.M) {
 		log.Fatalf("%s\n", err.Error())
 	}
 
-	// create test user
-	err = sessionData.createUser()
+	// create test usr
+	err = sessionData.createUsr()
 	if err != nil {
 		log.Fatalf("%s\n", err.Error())
 	}
@@ -77,8 +77,8 @@ func TestMain(m *testing.M) {
 
 	code := m.Run()
 
-	// delete test user
-	err = sessionData.deleteUser()
+	// delete test usr
+	err = sessionData.deleteUsr()
 	if err != nil {
 		log.Fatalf("%s\n", err.Error())
 	}
@@ -137,25 +137,25 @@ func (sd *SessionData) buildURL(useHttps bool, port string) error {
 	return nil
 }
 
-// createUser creates a test user for the application
+// createUsr creates a test usr for the application
 //
-// POST - /user
-func (sd *SessionData) createUser() error {
+// POST - /usr
+func (sd *SessionData) createUsr() error {
 
-	url := sd.baseURL + "/user"
+	url := sd.baseURL + "/usr"
 
-	// create unique user name
+	// create unique usr name
 	b := make([]byte, 16)
 	_, err := rand.Read(b)
 	if err != nil {
 		return err
 	}
-	sessionData.userName = fmt.Sprintf("%X%X%X%X%X", b[0:4], b[4:6], b[6:8], b[8:10], b[10:])
-	jsonStr := fmt.Sprintf("{\"email\":\"%s@1414c.io\",\"password\":\"woofwoof\"}", sessionData.userName)
+	sessionData.usrName = fmt.Sprintf("%X%X%X%X%X", b[0:4], b[4:6], b[6:8], b[8:10], b[10:])
+	jsonStr := fmt.Sprintf("{\"email\":\"%s@1414c.io\",\"password\":\"woofwoof\"}", sessionData.usrName)
 
-	// var jsonBody = []byte(`{"email":"testuser123@1414c.io", "password":"woofwoof"}`)
+	// var jsonBody = []byte(`{"email":"testusr123@1414c.io", "password":"woofwoof"}`)
 	var jsonBody = []byte(jsonStr)
-	fmt.Println("creating user:", string(jsonBody))
+	fmt.Println("creating usr:", string(jsonBody))
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonBody))
 	req.Close = true
 	req.Header.Set("Content-Type", "application/json")
@@ -169,13 +169,13 @@ func (sd *SessionData) createUser() error {
 	}
 	defer resp.Body.Close()
 
-	var user models.User
+	var usr models.Usr
 	decoder := json.NewDecoder(resp.Body)
-	if err := decoder.Decode(&user); err != nil {
+	if err := decoder.Decode(&usr); err != nil {
 		return err
 	}
 
-	sessionData.userID = user.ID
+	sessionData.usrID = usr.ID
 
 	if sd.log {
 		fmt.Println("response Status:", resp.Status)
@@ -186,15 +186,15 @@ func (sd *SessionData) createUser() error {
 	return nil
 }
 
-// deleteUser deletes the test user
+// deleteUsr deletes the test usr
 //
-// DELETE - /user/:id
-func (sd *SessionData) deleteUser() error {
+// DELETE - /usr/:id
+func (sd *SessionData) deleteUsr() error {
 
-	idStr := fmt.Sprint(sessionData.userID)
-	// url := "https://localhost:8080/user/" + idStr
-	fmt.Println("deleting user:", sessionData.userName, sessionData.userID)
-	url := sessionData.baseURL + "/user/" + idStr
+	idStr := fmt.Sprint(sessionData.usrID)
+	// url := "https://localhost:8080/usr/" + idStr
+	fmt.Println("deleting usr:", sessionData.usrName, sessionData.usrID)
+	url := sessionData.baseURL + "/usr/" + idStr
 	var jsonBody = []byte(`{}`)
 	req, err := http.NewRequest("DELETE", url, bytes.NewBuffer(jsonBody))
 	req.Close = true
@@ -209,13 +209,13 @@ func (sd *SessionData) deleteUser() error {
 
 	resp, err := sessionData.client.Do(req)
 	if err != nil {
-		fmt.Printf("Test was unable to DELETE /user/%d. Got %s.\n", sessionData.userID, err.Error())
+		fmt.Printf("Test was unable to DELETE /usr/%d. Got %s.\n", sessionData.usrID, err.Error())
 		return err
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusAccepted {
-		fmt.Printf("DELETE /user{:id} expected http status code of 201 - got %d", resp.StatusCode)
+		fmt.Printf("DELETE /usr{:id} expected http status code of 201 - got %d", resp.StatusCode)
 		return err
 	}
 	return nil
@@ -223,18 +223,18 @@ func (sd *SessionData) deleteUser() error {
 
 // getJWT authenticates and get JWT
 //
-// POST - /user/login
+// POST - /usr/login
 func (sd *SessionData) getJWT() error {
 
 	type jwtResponse struct {
 		Token string `json:"token"`
 	}
 
-	// url := "https://localhost:8080/user/login"
-	url := sessionData.baseURL + "/user/login"
+	// url := "https://localhost:8080/usr/login"
+	url := sessionData.baseURL + "/usr/login"
 	// var jsonStr = []byte(`{"email":"bunnybear10@1414c.io", "password":"woofwoof"}`)
-	jsonStr := fmt.Sprintf("{\"email\":\"%s@1414c.io\",\"password\":\"woofwoof\"}", sessionData.userName)
-	fmt.Println("using user:", jsonStr)
+	jsonStr := fmt.Sprintf("{\"email\":\"%s@1414c.io\",\"password\":\"woofwoof\"}", sessionData.usrName)
+	fmt.Println("using usr:", jsonStr)
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(jsonStr)))
 	req.Close = true
 	req.Header.Set("Content-Type", "application/json")

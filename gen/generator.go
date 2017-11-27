@@ -26,6 +26,7 @@ type Info struct {
 	Index               string // unique, not-unique, ""
 	Selectable          string // "eq,like,gt,lt,ge,le,ne"
 	RgenTagLine         string
+	JSONTagLine         string // `json:"field_name,omitempty"`
 	Relation            string
 	RelationField       string
 	RelationCardinality string // iota?
@@ -250,11 +251,12 @@ func (s *Static) GenerateStaticTemplates() (fNames []string, err error) {
 // Called from within readmodel.go/ReadModelFile()
 func (i *Info) GetRgenTagLine(b bool) string {
 
-	// set `not null`
+	// set `nullable:<true>/<false>`
 	if i.Required {
 		i.rgenTagLineExtend("nullable:false")
 	} else {
 		i.rgenTagLineExtend("nullable:true")
+		// i.Value = fmt.Sprintf("*%s", i.Value)
 	}
 
 	// set dbType if provided
