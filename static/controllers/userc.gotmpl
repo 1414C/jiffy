@@ -14,9 +14,9 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// UserController - the user controller type
-type UserController struct {
-	us        models.UserService
+// UsrController - the usr controller type
+type UsrController struct {
+	us        models.UsrService
 	signKey   *ecdsa.PrivateKey
 	verifyKey *ecdsa.PublicKey
 }
@@ -26,9 +26,9 @@ type Token struct {
 	Token string `json:"token"`
 }
 
-// NewUserController creates a new UserController
-func NewUserController(us models.UserService, signKey *ecdsa.PrivateKey, verifyKey *ecdsa.PublicKey) *UserController {
-	return &UserController{
+// NewUsrController creates a new UsrController
+func NewUsrController(us models.UsrService, signKey *ecdsa.PrivateKey, verifyKey *ecdsa.PublicKey) *UsrController {
+	return &UsrController{
 		us:        us,
 		signKey:   signKey,
 		verifyKey: verifyKey,
@@ -38,10 +38,10 @@ func NewUserController(us models.UserService, signKey *ecdsa.PrivateKey, verifyK
 // Login - used to verify the provided email address and password
 //
 // POST /login
-func (uc *UserController) Login(w http.ResponseWriter, r *http.Request) {
+func (uc *UsrController) Login(w http.ResponseWriter, r *http.Request) {
 
-	// parse the User data in JSON format from the incoming request
-	var u models.User
+	// parse the Usr data in JSON format from the incoming request
+	var u models.Usr
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&u); err != nil {
 		respondWithError(w, http.StatusBadRequest, "userc: Invalid request payload")
@@ -49,8 +49,8 @@ func (uc *UserController) Login(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	// fill the User model with the data needed for authentication only
-	user := models.User{
+	// fill the Usr model with the data needed for authentication only
+	usr := models.Usr{
 		Email:    u.Email,
 		Password: u.Password,
 	}
@@ -58,7 +58,7 @@ func (uc *UserController) Login(w http.ResponseWriter, r *http.Request) {
 	// attempt to authenticate the user.  note that writing to
 	// the response-writer in advance of setting the cookie will
 	// cause the call to http.SetCookie(&cookie) to silently fail.
-	authenticatedUser, err := uc.us.Authenticate(user.Email, user.Password)
+	authenticatedUsr, err := uc.us.Authenticate(usr.Email, usr.Password)
 	if err != nil {
 		switch err {
 		case models.ErrNotFound:
@@ -75,8 +75,8 @@ func (uc *UserController) Login(w http.ResponseWriter, r *http.Request) {
 	// token := jwt.New(jwt.SigningMethodRS256)
 	token := jwt.New(jwt.SigningMethodES384)
 	claims := make(jwt.MapClaims)
-	claims["email"] = authenticatedUser.Email
-	claims["id"] = authenticatedUser.ID
+	claims["email"] = authenticatedUsr.Email
+	claims["id"] = authenticatedUsr.ID
 	claims["exp"] = time.Now().Add(time.Hour * time.Duration(1)).Unix()
 	claims["iat"] = time.Now().Unix()
 	token.Claims = claims
@@ -99,44 +99,44 @@ func (uc *UserController) Login(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusOK, response)
 }
 
-// Create - process the signup when a user attempts to create a new user account.
-// It is debatable whether Create should be supported as a general user creation
+// Create - process the signup when a usr attempts to create a new usr account.
+// It is debatable whether Create should be supported as a general usr creation
 // mechanism.
 //
 // POST /signup
-func (uc *UserController) Create(w http.ResponseWriter, r *http.Request) {
+func (uc *UsrController) Create(w http.ResponseWriter, r *http.Request) {
 
-	// parse the User data in JSON format from the incoming request
-	var u models.User
+	// parse the Usr data in JSON format from the incoming request
+	var u models.Usr
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&u); err != nil {
-		respondWithError(w, http.StatusBadRequest, "userc: Invalid request payload")
+		respondWithError(w, http.StatusBadRequest, "usrc: Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
 
-	// fill the User model
-	user := models.User{
+	// fill the Usr model
+	usr := models.Usr{
 		Name:     u.Name,
 		Email:    u.Email,
 		Password: u.Password,
 	}
 
-	// call the create method on the user model
-	err := uc.us.Create(&user)
+	// call the create method on the usr model
+	err := uc.us.Create(&usr)
 	if err != nil {
 		log.Println(err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
-	respondWithJSON(w, http.StatusCreated, user)
+	respondWithJSON(w, http.StatusCreated, usr)
 }
 
-// Delete facilitates the deletion of an existing User.  This method is bound
+// Delete facilitates the deletion of an existing Usr.  This method is bound
 // to the gorilla.mux router in main.go.
 //
-// DELETE /user/:id
-func (uc *UserController) Delete(w http.ResponseWriter, r *http.Request) {
+// DELETE /usr/:id
+func (uc *UsrController) Delete(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
@@ -144,7 +144,11 @@ func (uc *UserController) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = uc.us.Delete(uint(id))
+	usr := models.Usr{
+		ID: id,
+	}
+
+	err = uc.us.Delete(&usr)
 	if err != nil {
 		if err != nil {
 			respondWithError(w, http.StatusBadRequest, err.Error())

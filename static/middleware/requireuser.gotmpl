@@ -15,17 +15,17 @@ import (
 // code generated on {{ .GetDateTimeStamp }}
 //=============================================================================================
 
-// RequireUser offers a closure that can be called with the requested page's
-// w,r in order to verify that the user is logged in prior to rendering the
+// RequireUsr offers a closure that can be called with the requested page's
+// w,r in order to verify that the usr is logged in prior to rendering the
 // requested page.
-type RequireUser struct {
-	User      models.UserService
+type RequireUsr struct {
+	Usr      models.UsrService
 	VerifyKey *ecdsa.PublicKey
 }
 
-// ApplyFn assumes that User middleware has already been run
+// ApplyFn assumes that Usr middleware has already been run
 // otherwise it will not work correctly.
-func (mw *RequireUser) ApplyFn(next http.HandlerFunc) http.HandlerFunc {
+func (mw *RequireUsr) ApplyFn(next http.HandlerFunc) http.HandlerFunc {
 
 	// http.HandlerFunc is casting the type of the closure here
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -51,9 +51,9 @@ func (mw *RequireUser) ApplyFn(next http.HandlerFunc) http.HandlerFunc {
 	})
 }
 
-// Apply assumes that User middleware has already been run
+// Apply assumes that Usr middleware has already been run
 // otherwise it will not work correctly.
-func (mw *RequireUser) Apply(next http.Handler) http.HandlerFunc {
+func (mw *RequireUsr) Apply(next http.Handler) http.HandlerFunc {
 	// log.Println("middleware: *RequireUser: Apply:", next)
 	return mw.ApplyFn(next.ServeHTTP)
 }

@@ -6,11 +6,14 @@ package controllers
 
 import (
 	"encoding/json"
-	"{{.AppPath}}/models"
-	"github.com/gorilla/mux"
+	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"strconv"
+
+	"{{.AppPath}}/models"
+	"github.com/gorilla/mux"
 )
 
 {{/*  $pref is populated by a call to .GetLowerCasePrefixLetter which is a  */ -}}
@@ -99,9 +102,9 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Update(w http.ResponseWriter, r *h
 	// build a base urlString for the JSON Body self-referencing Href tag
 	urlString := buildHrefStringFromCRUDReq(r, false)
 
-	{{/*  gorm specific DB table header field id is used.  this would need to  */ -}}
+	{{/*  sqac-specific DB table header field id is used.  this would need to  */ -}}
 	{{/*  change if the ORM was replaced with a native db interface            */ -}}
-	{{.Header.Value}}.ID = uint(id)
+	{{.Header.Value}}.ID = id
 
 	// call the update method on the model
 	err = {{$pref}}c.{{$pref}}s.Update(&{{.Header.Value}})
@@ -131,16 +134,18 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Get(w http.ResponseWriter, r *http
 	// build a base urlString for the JSON Body self-referencing Href tag
 	urlString := buildHrefStringFromCRUDReq(r, false)
 
-	var {{$pref}} models.{{.Header.Name}}
-	{{$pref}}.ID = uint(id)
+	{{.Header.Value}} := models.{{.Header.Name}}{
+		ID: id,
+	}
 
-	retrieved{{.Header.Name}} := {{$pref}}c.{{$pref}}s.Get({{$pref}}.ID)
-	if retrieved{{.Header.Name}}.ID > 0 {
-		retrieved{{.Header.Name}}.Href = urlString
-		respondWithJSON(w, http.StatusOK, retrieved{{.Header.Name}})
+	err = {{$pref}}c.{{$pref}}s.Get(&{{.Header.Value}})
+	if err != nil {
+		log.Println(err)
+		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
-	respondWithJSON(w, http.StatusOK, "[]")
+	{{.Header.Value}}.Href = urlString
+	respondWithJSON(w, http.StatusCreated, {{.Header.Value}})
 }
 
 // Delete facilitates the deletion of an existing {{.Header.Name}}.  This method is bound
@@ -156,7 +161,11 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Delete(w http.ResponseWriter, r *h
 		return
 	}
 
-	err = {{$pref}}c.{{$pref}}s.Delete(uint(id))
+	{{.Header.Value}} := models.{{.Header.Name}}{
+		ID: id,
+	}
+
+	err = {{$pref}}c.{{$pref}}s.Delete(&{{.Header.Value}})
 	if err != nil {
 		log.Println("{{.Header.Name}} Delete:",err)
 		respondWithError(w, http.StatusBadRequest, err.Error())

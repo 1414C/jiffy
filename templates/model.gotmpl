@@ -5,7 +5,9 @@ package models
 //=============================================================================================
 
 import (
-	"github.com/jinzhu/gorm"
+	"fmt"
+	"log"
+	"github.com/1414C/sqac"
 )
 
 {{/*  Entity struct fields for use inside pipelines */}}
@@ -20,12 +22,12 @@ import (
 {{/*  generate the Entity struct  */}}
 // {{.Header.Name}} structure
 type {{.Header.Name}} struct {{printf "%s" "{" }}
-	gorm.Model
-	Href         string  `gorm:"-"`
+	ID			 int     `json:"id" db:"id" rgen:"primary_key:inc"`
+	Href         string  `json:"href" db:"href" rgen:"-"`
 	{{range .Fields -}} 
-	{{/* $tagLine := .GetGormTagLine true */ -}}
+	{{/* $tagLine := .GetRgenTagLine true */ -}}
     {{/* .Name}}  {{.Value }} `{{$tagLine}}` */ -}}
-	{{.Name}}  {{.Value }} `{{.GormTagLine}}`
+	{{.Name}}  {{.Value }} `{{.RgenTagLine}}`
 	{{end -}}
 }
 
@@ -33,8 +35,8 @@ type {{.Header.Name}} struct {{printf "%s" "{" }}
 type {{.Header.Name}}DB interface {
 	Create({{.Header.Value}} *{{.Header.Name}}) error
 	Update({{.Header.Value}} *{{.Header.Name}}) error
-	Delete(id uint) error
-	Get(id uint) {{.Header.Name}}
+	Delete({{.Header.Value}} *{{.Header.Name}}) error
+	Get({{.Header.Value}} *{{.Header.Name}}) error
 	Get{{.Header.Name}}s() []{{.Header.Name}}
 {{/* iterate over .Fields (Info) to add support for selectable fields to the model's interface */ -}}
 {{range .Fields -}}
@@ -66,14 +68,12 @@ type {{.Header.Value}}Service struct {
 	{{.Header.Name}}DB
 }
 
-// {{.Header.Value}}Gorm is a gorm-based implementation of the {{.Header.Name}}DB interface.
-// consider that you could write {{.Header.Value}}SQL to implement {{.Header.Name}}DB via
-// native sql rather than via orm.
-type {{.Header.Value}}Gorm struct {
-	db *gorm.DB
+// {{.Header.Value}}Sqac is a sqac-based implementation of the {{.Header.Name}}DB interface.
+type {{.Header.Value}}Sqac struct {
+	handle sqac.PublicDB
 }
 
-var _ {{.Header.Name}}DB = &{{.Header.Value}}Gorm{}
+var _ {{.Header.Name}}DB = &{{.Header.Value}}Sqac{}
 
 // new{{.Header.Name}}Validator returns a new {{.Header.Value}}Validator
 func new{{.Header.Name}}Validator({{$pref}}db {{.Header.Name}}DB) *{{.Header.Value}}Validator {
@@ -99,11 +99,11 @@ func run{{.Header.Name}}ValFuncs({{.Header.Value}} *{{.Header.Name}}, fns ...{{.
 }
 
 // New{{.Header.Name}}Service needs some work:
-func New{{.Header.Name}}Service(db *gorm.DB) {{.Header.Name}}Service {
+func New{{.Header.Name}}Service(handle sqac.PublicDB) {{.Header.Name}}Service {
 
-	{{$pref}}g := &{{.Header.Value}}Gorm{db}
+	{{$pref}}s := &{{.Header.Value}}Sqac{handle}
 
-	{{$pref}}v := new{{.Header.Name}}Validator({{$pref}}g) // *db
+	{{$pref}}v := new{{.Header.Name}}Validator({{$pref}}s) // *db
 	return &{{.Header.Value}}Service{
 		{{.Header.Name}}DB: {{$pref}}v,
 	}
@@ -162,16 +162,16 @@ func ({{$pref}}v *{{.Header.Value}}Validator) Update({{.Header.Value}} *{{.Heade
 
 // Delete is passed through to the ORM with no real
 // validations.  id is checked in the controller.
-func ({{$pref}}v *{{.Header.Value}}Validator) Delete(id uint) error {
+func ({{$pref}}v *{{.Header.Value}}Validator) Delete({{.Header.Value}} *{{.Header.Name}}) error {
 
-	return {{$pref}}v.{{.Header.Name}}DB.Delete(id)
+	return {{$pref}}v.{{.Header.Name}}DB.Delete({{.Header.Value}})
 }
 
 // Get is passed through to the ORM with no real
 // validations.  id is checked in the controller.
-func ({{$pref}}v *{{.Header.Value}}Validator) Get(id uint) {{.Header.Name}} {
+func ({{$pref}}v *{{.Header.Value}}Validator) Get({{.Header.Value}} *{{.Header.Name}}) error {
 
-	return {{$pref}}v.{{.Header.Name}}DB.Get(id)
+	return {{$pref}}v.{{.Header.Name}}DB.Get({{.Header.Value}})
 }
 
 // Get{{.Header.Name}}s is passed through to the ORM with no validation
@@ -223,39 +223,30 @@ func ({{$pref}}v *{{$headerValue}}Validator) normval{{.Name}}({{$headerValue}} *
 //-------------------------------------------------------------------------------------------------------
 //
 // Create a new {{.Header.Name}} in the database via the ORM
-func ({{$pref}}g *{{.Header.Value}}Gorm) Create({{.Header.Value}} *{{.Header.Name}}) error {
-	return {{$pref}}g.db.Create({{.Header.Value}}).Error
+func ({{$pref}}s *{{.Header.Value}}Sqac) Create({{.Header.Value}} *{{.Header.Name}}) error {
+	return {{$pref}}s.handle.Create({{.Header.Value}})
 }
 
 // Update an existng {{.Header.Name}} in the database via the ORM
-func ({{$pref}}g *{{.Header.Value}}Gorm) Update({{.Header.Value}} *{{.Header.Name}}) error {
-	return {{$pref}}g.db.Save({{.Header.Value}}).Error
+func ({{$pref}}s *{{.Header.Value}}Sqac) Update({{.Header.Value}} *{{.Header.Name}}) error {
+	return {{$pref}}s.handle.Update({{.Header.Value}})
 }
 
 // Delete an existing {{.Header.Name}} in the database via the ORM
-func ({{$pref}}g *{{.Header.Value}}Gorm) Delete(id uint) error {
-
-	{{.Header.Value}} := {{.Header.Name}} {
-		Model: gorm.Model{
-			ID: id,
-		},
-	}
-	return {{$pref}}g.db.Delete(&{{.Header.Value}}).Error
+func ({{$pref}}s *{{.Header.Value}}Sqac) Delete({{.Header.Value}} *{{.Header.Name}}) error {
+	return {{$pref}}s.handle.Delete({{.Header.Value}})
 }
 
 // Get an existing {{.Header.Name}} from the database via the ORM
-func ({{$pref}}g *{{.Header.Value}}Gorm) Get(id uint) {{.Header.Name}} {
-
-	var {{.Header.Value}} {{.Header.Name}}
-	{{$pref}}g.db.First(&{{.Header.Value}}, id)
-	return {{.Header.Value}}
+func ({{$pref}}s *{{.Header.Value}}Sqac) Get({{.Header.Value}} *{{.Header.Name}}) error {
+    return {{$pref}}s.handle.GetEntity({{.Header.Value}})
 }
 
 // Get all existing {{.Header.Name}}s from the db via the ORM
-func ({{$pref}}g *{{.Header.Value}}Gorm) Get{{.Header.Name}}s() []{{.Header.Name}} {
+func ({{$pref}}s *{{.Header.Value}}Sqac) Get{{.Header.Name}}s() []{{.Header.Name}} {
 
 	var {{.Header.Value}}s []{{.Header.Name}}
-	{{$pref}}g.db.Find(&{{.Header.Value}}s)
+	// {{$pref}}g.db.Find(&{{.Header.Value}}s)
 	return {{.Header.Value}}s
 }
 
@@ -266,7 +257,7 @@ func ({{$pref}}g *{{.Header.Value}}Gorm) Get{{.Header.Name}}s() []{{.Header.Name
 {{range .Fields -}}
 	{{if .Selectable -}}
 		// Get all existing {{$headerName}}sBy{{.Name}} from the db via the ORM
-		func ({{$pref}}g *{{$headerValue}}Gorm) Get{{$headerName}}sBy{{.Name}}(op string, {{.Name}} {{.Value}}) []{{$headerName}} {
+		func ({{$pref}}s *{{$headerValue}}Sqac) Get{{$headerName}}sBy{{.Name}}(op string, {{.Name}} {{.Value}}) []{{$headerName}} {
 
 		var {{$headerValue}}s []{{$headerName}}
 		var c string
@@ -334,12 +325,16 @@ func ({{$pref}}g *{{.Header.Value}}Gorm) Get{{.Header.Name}}s() []{{.Header.Name
 				}
 		{{end -}}
 
-		db := {{$pref}}g.db.Where(c, {{.Name}}).Find(&{{$headerValue}}s)
-		if db.Error != nil {
+		qs := fmt.Sprintf("SELECT * FROM {{$headerValue}} WHERE %s;",c)
+		err := {{$pref}}s.handle.Select(&{{$headerValue}}s, qs, {{.Name}})
+		if err != nil {
+			log.Println("Get{{$headerName}}sBy{{.Name}}:", err)
 			return nil
 		}
-		log.Println("Get{{$headerName}}sBy{{.Name}} found:", {{$headerValue}}s)
-		log.Println("Get{{$headerName}}sBy{{.Name}} row count:", db.RowsAffected)
+
+		if {{$pref}}s.handle.IsLog() {
+			log.Printf("Get{{$headerName}}sBy{{.Name}} found: %v based on (%s %v)\n", {{$headerValue}}s, op, {{.Name}})
+		}
 		return {{$headerValue}}s
 	}
 

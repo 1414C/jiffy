@@ -12,8 +12,8 @@ import (
 
 func main() {
 
-	projectPath := flag.String("p", "/github.com/gen_test2", "project path starting in &GOPATH/src")
-	modelFile := flag.String("m", "./models.json", "model file relative to application base directory")
+	projectPath := flag.String("p", "/exp/sgen1", "project path starting in &GOPATH/src")
+	modelFile := flag.String("m", "./test_rel_model.json", "model file relative to application base directory")
 
 	flag.Parse()
 	if *projectPath == "" {
@@ -144,12 +144,13 @@ func main() {
 	}
 
 	// test default DB connection
-	dbConf := gen.PostgresConfig{
-		Host:     "localhost",
-		Port:     5432,
-		User:     "godev",
-		Password: "gogogo123",
-		Name:     "glrestgen",
+	dbConf := gen.DBConfig{
+		DBDialect: "postgres",
+		Host:      "localhost",
+		Port:      5432,
+		Usr:       "godev",
+		Password:  "gogogo123",
+		Name:      "glrestgen",
 	}
 
 	err = dbConf.Validate()

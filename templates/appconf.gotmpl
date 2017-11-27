@@ -7,38 +7,63 @@ import (
 	"os"
 )
 
-// PostgresConfig type hold pg config info
-type PostgresConfig struct {
-	Host     string `json:"host"`
-	Port     int    `json:"port"`
-	User     string `json:"User"`
-	Password string `json:"Password"`
-	Name     string `json:"name"`
+// DBConfig type hold pg config info
+type DBConfig struct {
+	DBDialect string `json:"db_dialect"`
+	Host      string `json:"host"`
+	Port      int    `json:"port"`
+	Usr      string `json:"Usr"`
+	Password  string `json:"Password"`
+	Name      string `json:"name"`
 }
 
-// ConnectionInfo returns a PostgresConfig string
-func (c PostgresConfig) ConnectionInfo() string {
+// ConnectionInfo returns a DBConfig string
+func (c DBConfig) ConnectionInfo() string {
 
-	if c.Password == "" {
-		return fmt.Sprintf("host=%s port=%d user=%s dbname=%s sslmode=disable", c.Host, c.Port, c.User, c.Name)
+	switch c.Dialect() {
+	case "postgres":
+		if c.Password == "" {
+			return fmt.Sprintf("host=%s port=%d user=%s dbname=%s sslmode=disable", c.Host, c.Port, c.Usr, c.Name)
+		}
+		return fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", c.Host, c.Port, c.Usr, c.Password, c.Name)
+
+	case "mssql":
+		// "sqlserver://SA:Bunny123!!@localhost:1401?database=sqlx")
+		return fmt.Sprintf("sqlserver://%s:%s@l%s:%d?database=%s", c.Usr, c.Password, c.Host, c.Port, c.Name)
+
+	case "hdb":
+		// "hdb://SMACLEOD:Blockhead1@clkhana01.lab.clockwork.ca:30047")
+		return fmt.Sprintf("hdb://%s:%s@%s:%d", c.Usr, c.Password, c.Host, c.Port)
+
+	case "sqlite":
+		// "sqlite3", "testdb.sqlite"
+		return fmt.Sprintf("%s", c.Name)
+
+	case "mysql":
+		// "stevem:gogogo123@tcp(192.168.1.50:3306)/sqlx?charset=utf8&parseTime=True&loc=Local")
+		return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local", c.Usr, c.Password, c.Host, c.Port, c.Name)
+
+	default:
+		panic(fmt.Errorf("dialect %s is not recognized", c.DBDialect))
+
 	}
-	return fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", c.Host, c.Port, c.User, c.Password, c.Name)
 }
 
 // Dialect returns the db type
-func (c PostgresConfig) Dialect() string {
-	return "postgres"
+func (c DBConfig) Dialect() string {
+	return c.DBDialect
 }
 
-// DefaultPostgresConfig provides a default pg config
+// DefaultDBConfig provides a default db config
 // for use in development testing
-func DefaultPostgresConfig() PostgresConfig {
-	return PostgresConfig{
-		Host:     "{{.Database.Host}}",
-		Port:     {{.Database.Port}},
-		User:     "{{.Database.User}}",
-		Password: "{{.Database.Password}}",
-		Name:     "{{.Database.Name}}",
+func DefaultDBConfig() DBConfig {
+	return DBConfig{
+		DBDialect:  "{{.Database.DBDialect}}",
+		Host:     	"{{.Database.Host}}",
+		Port:     	{{.Database.Port}},
+		Usr:     	"{{.Database.Usr}}",
+		Password: 	"{{.Database.Password}}",
+		Name:     	"{{.Database.Name}}",
 	}
 }
 
@@ -47,7 +72,7 @@ type Config struct {
 	Port           int            `json:"port"`
 	Env            string         `json:"env"`
 	Pepper         string         `json:"pepper"`
-	Database       PostgresConfig `json:"database"`
+	Database       DBConfig       `json:"database"`
 	CertFile       string         `json:"cert_file"`
 	KeyFile        string         `json:"key_file"`
 	JWTPrivKeyFile string         `json:"jwt_priv_key_file"`
@@ -76,7 +101,7 @@ func DefaultConfig() Config {
 		Port:           {{.Port}},
 		Env:            "{{.Env}}",
 		Pepper:         "{{.Pepper}}",
-		Database:       DefaultPostgresConfig(),
+		Database:       DefaultDBConfig(),
 		CertFile:       "{{.CertFile}}",
 		KeyFile:        "{{.KeyFile}}",
 		JWTPrivKeyFile: "{{.JWTPrivKeyFile}}",

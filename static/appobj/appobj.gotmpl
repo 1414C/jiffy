@@ -12,7 +12,6 @@ import (
 	"{{.AppPath}}/controllers"
 	"{{.AppPath}}/middleware"
 	"{{.AppPath}}/models"
-	// "{{.AppPath}}/util"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
 )
@@ -20,12 +19,12 @@ import (
 // AppObj is the one and only application object
 type AppObj struct {
 	cfg       Config
-	dbConfig  PostgresConfig
+	dbConfig  DBConfig
 	services  *models.Services
     {{range .Entities -}} 
     {{.Header.Value}}C *controllers.{{.Header.Name}}Controller
     {{end -}}
-	userC     *controllers.UserController
+	usrC     *controllers.UsrController
 	router    *mux.Router
 	verifyKey *ecdsa.PublicKey  // jwt support
 	signKey   *ecdsa.PrivateKey // jwt support
@@ -64,7 +63,7 @@ func (a *AppObj) Initialize(dev, prd, dr bool) {
 		a.cfg = LoadConfig(cDev)
 	}
 
-	// get the Postgres config
+	// get the DB config
 	a.dbConfig = a.cfg.Database
 
 	// create Services
@@ -98,7 +97,7 @@ func (a *AppObj) destructiveReset() {
 // automigrate the db tables to ensure positive changes in
 // the model structure have been applied.
 func (a *AppObj) automigrate() {
-	if err := a.services.AutoMigrate(); err != nil {
+	if err := a.services.AlterAllTables(); err != nil {
 		panic(err)
 	}
 }
@@ -107,9 +106,9 @@ func (a *AppObj) automigrate() {
 func (a *AppObj) createServices() {
 	var err error
 	a.services, err = models.NewServices(
-		models.WithGorm(a.dbConfig.Dialect(), a.dbConfig.ConnectionInfo()),
+		models.WithSqac(a.dbConfig.Dialect(), a.dbConfig.ConnectionInfo()),
 		models.WithLogMode(!a.cfg.IsProd()),
-		models.WithUser(a.cfg.Pepper),
+		models.WithUsr(a.cfg.Pepper),
         {{range .Entities -}} 
         models.With{{.Header.Name}}(),
         {{end -}}
@@ -142,7 +141,7 @@ func (a *AppObj) initializeJWTKeys() {
 
 // createControllers for each entity
 func (a *AppObj) createControllers() {
-    a.userC = controllers.NewUserController(a.services.User, a.signKey, a.verifyKey)
+    a.usrC = controllers.NewUsrController(a.services.Usr, a.signKey, a.verifyKey)
     {{range .Entities -}} 
     a.{{.Header.Value}}C = controllers.New{{.Header.Name}}Controller(a.services.{{.Header.Name}})
     {{end -}}
@@ -151,10 +150,10 @@ func (a *AppObj) createControllers() {
 // initializeRoutes creates routes and applies middleware
 func (a *AppObj) initializeRoutes() {
 
-	// create the RequireUser middleware to ensure page access
+	// create the RequireUsr middleware to ensure page access
 	// is secure.
-	requireUserMw := middleware.RequireUser{
-		User:      a.services.User,
+	requireUserMw := middleware.RequireUsr{
+		Usr:      a.services.Usr,
 		VerifyKey: a.verifyKey,
 	}
 
@@ -164,10 +163,10 @@ func (a *AppObj) initializeRoutes() {
 		panic("appobj: failed to initialize mux")
 	}
 
-	// add user routes
-	a.router.HandleFunc("/user", a.userC.Create).Methods("POST")
-	a.router.HandleFunc("/user/login", a.userC.Login).Methods("POST")
-	a.router.HandleFunc("/user/{id:[0-9]+}", a.userC.Delete).Methods("DELETE")
+	// add usr routes
+	a.router.HandleFunc("/usr", a.usrC.Create).Methods("POST")
+	a.router.HandleFunc("/usr/login", a.usrC.Login).Methods("POST")
+	a.router.HandleFunc("/usr/{id:[0-9]+}", a.usrC.Delete).Methods("DELETE")
 
     {{range .Entities -}} 
     // add {{.Header.Name}} protected routes for standard CRUD access and simple filtering

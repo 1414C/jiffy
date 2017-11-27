@@ -3,7 +3,7 @@ package gen
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/1414C/rgen/util"
+	"github.com/1414C/sqac/common"
 	"io/ioutil"
 	"reflect"
 	"strings"
@@ -56,13 +56,13 @@ func ReadModelFile(mf string) ([]Entity, error) {
 				return nil, err
 			}
 			for _, fr := range fieldRecs {
-				fr.GetGormTagLine(true)
+				fr.GetRgenTagLine(true)
 				// fmt.Println("fr.GetGormTagLine:", fr.GormTagLine)
 				e.Fields = append(e.Fields, fr)
 			}
 		}
 
-		// get the composite index definitionsa, and then augment
+		// get the composite index definitions, and then augment
 		// the GormTagLine values where required.
 		cmpIndexString := string(objmap["compositeIndexes"])
 		if cmpIndexString != "" {
@@ -128,7 +128,8 @@ func buildEntityColumns(colString string, colType ColType) ([]Info, error) {
 		case DataColumn:
 			info.IsKey = false
 			info.Name = strings.Title(info.Name)
-			info.SnakeCaseName = util.ToDBName(info.Name)
+			// info.SnakeCaseName = util.ToDBName(info.Name)
+			info.SnakeCaseName = common.CamelToSnake(info.Name)
 			info.Value, ok = extractString(attrObjMap["type"])
 			if !ok {
 				return nil, fmt.Errorf("incorrect element-type for entity \"type\" field")
@@ -181,8 +182,8 @@ func buildEntityColumns(colString string, colType ColType) ([]Info, error) {
 	return colInfo, nil
 }
 
-// buildCompositeIndexes adds the composite index gorm directives to
-// the Info.GormTagLine.
+// buildCompositeIndexes adds the composite index sqac directives to
+// the Info.SqacTagLine.
 func buildCompositeIndexes(cIdxString string, info []Info) ([]Info, error) {
 
 	var indexMap = make([]map[string]string, 0)
@@ -208,27 +209,27 @@ func buildCompositeIndexes(cIdxString string, info []Info) ([]Info, error) {
 		indexColumnNames := strings.SplitN(rawColumns, ",", 30)
 		for i := range indexColumnNames {
 			indexColumnNames[i] = superCleanString(indexColumnNames[i])
-			indexColumnNames[i] = util.ToDBName(indexColumnNames[i])
+			indexColumnNames[i] = common.CamelToSnake(indexColumnNames[i])
 			cIdxDirective = cIdxDirective + "_" + indexColumnNames[i]
 		}
 		// fmt.Println("indexColumnNames:", indexColumnNames)
 		// fmt.Println("cIdxDirective:", cIdxDirective)
 
-		// now finally update the GormTagLines.  for each column name in the
+		// now finally update the RgenTagLines.  for each column name in the
 		// index, read the list of fields in the entity ([]info).  when an
 		// index-column-name matches a field-name, add the composite index
 		// to that field's .GormTagLine.
 		for _, cn := range indexColumnNames {
 			for i, fr := range info {
 				if fr.SnakeCaseName == cn {
-					tl := fr.GormTagLine
+					tl := fr.RgenTagLine
 					switch len(tl) {
 					case 0:
-						info[i].GormTagLine = "gorm:\"" + cIdxDirective + "\""
+						info[i].RgenTagLine = "rgen:\"" + cIdxDirective + "\""
 
 					default:
-						fr.GormTagLine = strings.TrimSuffix(fr.GormTagLine, "\"")
-						info[i].GormTagLine = fr.GormTagLine + ";" + cIdxDirective + "\""
+						fr.RgenTagLine = strings.TrimSuffix(fr.RgenTagLine, "\"")
+						info[i].RgenTagLine = fr.RgenTagLine + ";" + cIdxDirective + "\""
 					}
 				}
 			}

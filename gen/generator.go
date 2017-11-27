@@ -1,10 +1,7 @@
 package gen
 
 import (
-	// "github.com/1414C/rgen/gen"
-	// "encoding/json"
 	"fmt"
-	// "io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -28,7 +25,7 @@ type Info struct {
 	Unique              bool
 	Index               string // unique, not-unique, ""
 	Selectable          string // "eq,like,gt,lt,ge,le,ne"
-	GormTagLine         string
+	RgenTagLine         string
 	Relation            string
 	RelationField       string
 	RelationCardinality string // iota?
@@ -248,54 +245,56 @@ func (s *Static) GenerateStaticTemplates() (fNames []string, err error) {
 // model generation functions
 //=============================================================================================
 
-// GetGormTagLine returns a string containing a set of gorm
+// GetRgenTagLine returns a string containing a set of rgen
 // directives for the column attributes.
 // Called from within readmodel.go/ReadModelFile()
-func (i *Info) GetGormTagLine(b bool) string {
+func (i *Info) GetRgenTagLine(b bool) string {
 
 	// set `not null`
 	if i.Required {
-		i.gormTagLineExtend("not null")
+		i.rgenTagLineExtend("nullable:false")
+	} else {
+		i.rgenTagLineExtend("nullable:true")
 	}
 
 	// set dbType if provided
 	// for example: type:varchar(100)
 	if i.DBType != "" {
-		i.gormTagLineExtend("type:" + i.DBType)
+		i.rgenTagLineExtend("type:" + i.DBType)
 	}
 
 	// set unique in column directive
 	if i.Unique {
-		i.gormTagLineExtend("unique")
+		i.rgenTagLineExtend("constraint:unique")
 	}
 
 	// if an index has been specified, add the relevant index directive
 	switch i.Index {
 	case "":
 	case "unique":
-		i.gormTagLineExtend("unique_index")
+		i.rgenTagLineExtend("index:unique")
 	case "nonUnique":
-		i.gormTagLineExtend("index")
+		i.rgenTagLineExtend("index:non-unique")
 	default:
 		// do nothing
 	}
 
-	if len(i.GormTagLine) > 0 {
-		i.GormTagLine = "gorm:" + i.GormTagLine
-		return i.GormTagLine
+	if len(i.RgenTagLine) > 0 {
+		i.RgenTagLine = "rgen:" + i.RgenTagLine
+		return i.RgenTagLine
 	}
 	return ""
 }
 
-// gormTagLineExtend is used to build-out the `gorm:"..."` model directive field
+// rgenTagLineExtend is used to build-out the `rgen:"..."` model directive field
 // Called from within a text/template.
-func (i *Info) gormTagLineExtend(s string) {
-	if len(i.GormTagLine) > 0 {
-		i.GormTagLine = strings.TrimSuffix(i.GormTagLine, "\"")
-		i.GormTagLine = i.GormTagLine + ";" + s + "\""
+func (i *Info) rgenTagLineExtend(s string) {
+	if len(i.RgenTagLine) > 0 {
+		i.RgenTagLine = strings.TrimSuffix(i.RgenTagLine, "\"")
+		i.RgenTagLine = i.RgenTagLine + ";" + s + "\""
 		return
 	}
-	i.GormTagLine = "\"" + s + "\""
+	i.RgenTagLine = "\"" + s + "\""
 }
 
 //=============================================================================================
@@ -631,6 +630,19 @@ func (s *Static) GetAddrConcatenatedEntities() string {
 	var result string
 	for _, e := range s.Entities {
 		result = result + "&" + e.Header.Name + "{}, "
+	}
+	result = strings.TrimSuffix(result, ", ")
+	return result
+}
+
+// GetConcatenatedEntities returns a string of concatenated entities
+// in the form of "Entity1{}, Entity2{}, Entityn{}...".  this is useful
+// for AutoMigrate and DestructiveReset purposes.
+// Called from within a text/template.
+func (s *Static) GetConcatenatedEntities() string {
+	var result string
+	for _, e := range s.Entities {
+		result = result + e.Header.Name + "{}, "
 	}
 	result = strings.TrimSuffix(result, ", ")
 	return result
