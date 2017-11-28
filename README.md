@@ -311,7 +311,6 @@ The generated server runs based on a generated JSON configuration file as shown 
     },
     'db_dialect' refers to the backend database type that will be used by the generated application.  Currently,
     the following db_dialects are supported:
-```
     
     |  Database               | JSON Value for db_dialect field    |
     |-------------------------|------------------------------------|
@@ -320,8 +319,8 @@ The generated server runs based on a generated JSON configuration file as shown 
     | SAP Hana                | "db_dialect": "hdb"                |
     | SQLite3                 | "db_dialect": "sqlite3"            |
     | MySQL / MariaDB         | "db_dialect": "mysql"              |
+    
 
-```code
     'database' is a JSON block holding the access information for the database.  At the moment, 
     only Postgres is implemented and it is assumed that the application will use the pg default
     scehema 'Public'.  Sqlite3 will be implemented as a proof-of-concept for multi-db-support,
