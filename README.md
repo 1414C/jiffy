@@ -319,7 +319,7 @@ The generated server runs based on a generated JSON configuration file as shown 
     | SAP Hana                | "db_dialect": "hdb"                |
     | SQLite3                 | "db_dialect": "sqlite3"            |
     | MySQL / MariaDB         | "db_dialect": "mysql"              |
-    
+
 
     'database' is a JSON block holding the access information for the database.  At the moment, 
     only Postgres is implemented and it is assumed that the application will use the pg default
@@ -369,10 +369,10 @@ The generated server runs based on a generated JSON configuration file as shown 
     "database": {
         "db_dialect": "postgres",
         "host":       "localhost",
-		"port":       5432,
-		"user":       "godev",
-		"password":   "gogogo123",
-		"name":       "glrestgen"
+        "port":       5432,
+        "user":       "godev",
+        "password":   "gogogo123",
+        "name":       "glrestgen"
     },
     "cert_file": "",
     "key_file": "",
@@ -399,10 +399,10 @@ The generated server runs based on a generated JSON configuration file as shown 
     "database": {
         "db_dialect": "postgres",
         "host":       "localhost",
-		"port":       5432,
-		"user":       "godev",
-		"password":   "gogogo123",
-		"name":       "glrestgen"
+        "port":       5432,
+        "user":       "godev",
+        "password":   "gogogo123",
+        "name":       "glrestgen"
     },
     "cert_file": "",
     "key_file": "",
@@ -431,10 +431,10 @@ The generated server runs based on a generated JSON configuration file as shown 
     "database": {
         "db_dialect": "postgres",
         "host":       "localhost",
-		"port":       5432,
-		"user":       "godev",
-		"password":   "gogogo123",
-		"name":       "glrestgen"
+        "port":       5432,
+        "user":       "godev",
+        "password":   "gogogo123",
+        "name":       "glrestgen"
     },
     "cert_file": "srvcert.cer",
     "key_file": "srvcert.key",
