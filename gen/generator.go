@@ -21,6 +21,7 @@ type Info struct {
 	DBType              string
 	IsKey               bool
 	Format              string
+	NoDB                bool // true = no persistence on the db
 	Required            bool
 	Unique              bool
 	Index               string // unique, not-unique, ""
@@ -254,10 +255,22 @@ func (s *Static) GenerateStaticTemplates() (fNames []string, err error) {
 func (i *Info) GetJSONTagLine() string {
 
 	i.JSONTagLine = fmt.Sprintf("json:\"%s", i.SnakeCaseName)
+
+	// if the field is marked as non-persistent, the zero-value should
+	// always be returned - not a nil pointer.
+	if i.NoDB == true {
+		i.JSONTagLine = fmt.Sprintf("%s\"", i.JSONTagLine)
+		return i.JSONTagLine
+	}
+
+	// if the field is persistent and marked as not required, it will
+	// be nil in the structure, so add the json omitempty tag.
 	if i.Required != true {
 		i.JSONTagLine = fmt.Sprintf("%s,omitempty\"", i.JSONTagLine)
 		return i.JSONTagLine
 	}
+
+	// default - just provide the snake_case_name for decoding
 	i.JSONTagLine = fmt.Sprintf("%s\"", i.JSONTagLine)
 	return i.JSONTagLine
 }
@@ -266,6 +279,12 @@ func (i *Info) GetJSONTagLine() string {
 // directives for the column attributes.
 // Called from within readmodel.go/ReadModelFile()
 func (i *Info) GetRgenTagLine(b bool) string {
+
+	// set the no_db tag if present
+	if i.NoDB {
+		i.RgenTagLine = "rgen:\"-\""
+		return i.RgenTagLine
+	}
 
 	// set `nullable:<true>/<false>`
 	if i.Required {
@@ -620,6 +639,13 @@ func (i *Info) IsIntFieldType() bool {
 // model structure members.
 // Called from within a text/template.
 func (i *Info) GetPtrIfNullable() string {
+
+	// if the field is not persisted, the default state will be
+	// the zero-value of the type, rather than a nil pointer.
+	if i.NoDB == true {
+		return ""
+	}
+
 	if i.Required == false {
 		return "*"
 	}
@@ -695,6 +721,10 @@ func (ent *Entity) BuildTestPostJSON(isUpdate bool) string {
 	result = result + "`{"
 	for _, f := range ent.Fields {
 
+		if f.NoDB == true {
+			continue
+		}
+
 		switch f.Value {
 		case "string":
 			result = result + fmt.Sprintf("\"%s\":\"%s\",\n", f.SnakeCaseName, getTestValue(isUpdate, f.Value))
@@ -721,30 +751,53 @@ func (ent *Entity) BuildTestPostJSON(isUpdate bool) string {
 
 // BuildTestValidationExpression is used to build a starter-validation
 // statement for each entity's Create / Update tests in main_test.go.
-func (ent *Entity) BuildTestValidationExpression(isUpdate bool) string {
+func (i *Info) BuildTestValidationExpression(isUpdate bool) string {
 
-	var result string
+	switch i.Value {
+	case "string":
+		if !i.Required && !i.NoDB {
+			return fmt.Sprintf("e.%s == nil || *e.%s != \"%s\"", i.Name, i.Name, getTestValue(isUpdate, i.Value))
+		}
+		if i.NoDB {
+			return fmt.Sprintf("e.%s != \"%s\"", i.Name, "")
+		}
+		return fmt.Sprintf("e.%s != \"%s\"", i.Name, getTestValue(isUpdate, i.Value))
 
-	for _, fi := range ent.Fields {
-		ind := ""
-		if !fi.Required {
-			ind = "*"
+	case "float32", "float64":
+		if !i.Required && !i.NoDB {
+			return fmt.Sprintf("e.%s == nil || *e.%s != %.2f", i.Name, i.Name, getTestValue(isUpdate, i.Value))
 		}
-		switch fi.Value {
-		case "string":
-			result = result + fmt.Sprintf("%se.%s != \"%s\" ||\n", ind, fi.Name, getTestValue(isUpdate, fi.Value))
-		case "float32", "float64":
-			result = result + fmt.Sprintf("%se.%s != %.2f ||\n", ind, fi.Name, getTestValue(isUpdate, fi.Value))
-		case "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32", "uint64":
-			result = result + fmt.Sprintf("%se.%s != %d ||\n", ind, fi.Name, getTestValue(isUpdate, fi.Value))
-		case "bool":
-			result = result + fmt.Sprintf("%se.%s != %t ||\n", ind, fi.Name, getTestValue(isUpdate, fi.Value))
-		default:
-			log.Printf("BuildTestValidationExpression was unable to process field-type %s for entity %s - got %s\n", fi.Name, ent.Header.Name, fi.Value)
+		if i.NoDB {
+			return fmt.Sprintf("e.%s != %.2f", i.Name, 0.0)
 		}
+		return fmt.Sprintf("e.%s != %.2f", i.Name, getTestValue(isUpdate, i.Value))
+
+	case "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32", "uint64":
+		if !i.Required && !i.NoDB {
+			return fmt.Sprintf("e.%s == nil || *e.%s != %d", i.Name, i.Name, getTestValue(isUpdate, i.Value))
+		}
+		if i.NoDB {
+			return fmt.Sprintf("e.%s != %d", i.Name, 0)
+		}
+		return fmt.Sprintf("e.%s != %d", i.Name, getTestValue(isUpdate, i.Value))
+
+	case "bool":
+		if !i.Required && !i.NoDB {
+			return fmt.Sprintf("e.%s == nil || *e.%s != %t", i.Name, i.Name, getTestValue(isUpdate, i.Value))
+		}
+		if i.NoDB {
+			return fmt.Sprintf("e.%s != %t", i.Name, false)
+		}
+		return fmt.Sprintf("e.%s != %t", i.Name, getTestValue(isUpdate, i.Value))
+
+	default:
+		log.Printf("BuildTestValidationExpression used default-typing for field %s with type %s\n", i.Name, i.Value)
+		if !i.Required && !i.NoDB {
+			return fmt.Sprintf("e.%s == nil || *e.%s != %v", i.Name, i.Name, getTestValue(isUpdate, i.Value))
+		}
+		// missing no_db case here - what to do?
+		return fmt.Sprintf("e.%s != %v", i.Name, getTestValue(isUpdate, i.Value))
 	}
-	result = strings.TrimSuffix(result, " ||\n")
-	return result
 }
 
 // get values for test and test validations - support Create and Update

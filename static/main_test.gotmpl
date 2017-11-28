@@ -300,6 +300,10 @@ func (sd *SessionData) testSelectableField(t *testing.T) {
 
 {{range .Entities -}} 
 
+{{/*  Entity struct fields for use inside pipelines */}}
+{{$headerName := .Header.Name -}}
+{{$headerValue := .Header.Value -}}
+
 // TestGet{{.Header.Name}}s attempts to read all {{.Header.Value}}s from the db
 //
 // GET /{{.Header.Value}}s
@@ -364,16 +368,23 @@ func TestCreate{{.Header.Name}}(t *testing.T) {
 	var e models.{{.Header.Name}}
 	decoder := json.NewDecoder(resp.Body)
 	if err := decoder.Decode(&e); err != nil {
-		t.Errorf("Test was unable to decode the result of POST /product. Got %s.\n", err.Error())
+		t.Errorf("Test was unable to decode the result of POST /{{$headerValue}}. Got %s.\n", err.Error())
 	}
 
 	//============================================================================================
-	// TODO: implement validation of the returned entity here
+	// TODO: implement validation of the created entity here
 	//============================================================================================
-	if {{.BuildTestValidationExpression $upd}} {
-		t.Errorf("inconsistency detected in POST /{{.Header.Value}}.")
-	} else {
+	{{range .Fields -}} 
+		if {{.BuildTestValidationExpression $upd}} {
+		  t.Errorf("inconsistency detected in POST /{{$headerValue}} field {{.Name}}.")
+		}
+
+    {{end -}}
+
+	if e.ID != 0 {
 		sessionData.ID = e.ID
+	} else {
+		log.Printf("ID value of 0 detected - subsequent test cases will run with ID == 0!")
 	}
 }
 
@@ -441,6 +452,28 @@ func TestUpdate{{.Header.Name}}(t *testing.T) {
 		t.Errorf("PUT /{{.Header.Value}}{:id} expected http status code of 201 - got %d", resp.StatusCode)
 	}
 	defer resp.Body.Close()
+
+	var e models.{{.Header.Name}}
+	decoder := json.NewDecoder(resp.Body)
+	if err := decoder.Decode(&e); err != nil {
+		t.Errorf("Test was unable to decode the result of PUT /{{$headerValue}}. Got %s.\n", err.Error())
+	}
+
+	//============================================================================================
+	// TODO: implement validation of the updated entity here
+	//============================================================================================
+	{{range .Fields -}} 
+		if {{.BuildTestValidationExpression $upd}} {
+		  t.Errorf("inconsistency detected in POST /{{$headerValue}} field {{.Name}}.")
+		}
+
+    {{end -}}
+
+	if e.ID != 0 {
+		sessionData.ID = e.ID
+	} else {
+		log.Printf("ID value of 0 detected - subsequent test cases will run with ID == 0!")
+	}
 }
 
 // TestDelete{{.Header.Name}} attempts to delete the new {{.Header.Name}} on the db

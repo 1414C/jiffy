@@ -6,8 +6,8 @@ A simple code generation utility to create RESTful services with a flexible DB b
 
 ## Work-In-Progress
 1.  Consider simply enforcing the use of ID & Href in the model definition as explicitly named fields.
-2.  Fully implement nullable / pointer support
-3.  Ensure that rune and byte types are fully accounted for
+2.  Ensure that rune and byte types are fully accounted for
+
 
 ## Features
 * login / session management via jwt
@@ -45,7 +45,7 @@ In order to run the application generator, ensure the following:
 4.  The application can be started in two ways:
     * From $GOPATH/src/github.com/1414C/rgen you may execute the application by typing:
         * go run main.go     
-    * A binary can also be build from $GOPATH/src/github.com/1414C/rgen by typing the following:
+    * A binary can also be built from $GOPATH/src/github.com/1414C/rgen by typing the following:
         * go build .
         * The application can then be started from the same directory by typing:
             * ./rgen
@@ -70,7 +70,7 @@ Flags are generally not used, as the configuration files (models.json) are easie
 <br/>
 
 ## Model Creation
-Create a model file containing the Entities, Indexes and Relations that you wish to generate services for.  Entity model defintion consists of an array of JSON objects, with each object being limited to a flat hierarchy and basic go-data-types.  By default, the generator expects a *models.json* file in the execution directory, but a correctly formatted JSON file can be loaded from any location by executing with the *-m* flag.  
+Create a model file containing the Entities, Indexes and Relations that you wish to generate services for.  Entity model defintion consists of an array of JSON objects, with each object being limited to a flat hierarchy and basic go-data-types, although this is easily extended.  By default, the generator expects a *models.json* file in the execution directory, but a correctly formatted JSON file can be loaded from any location by executing with the *-m* flag.  
 
  A sample models.json file is installed with the application and can be found in the root application folder, as shown below:
 
@@ -608,9 +608,14 @@ TODO: add steps describing how to test the generated server from a tool like Pos
 ___
 
 ## Pending Changes
+  - [x] fully implement nullable / pointer support
+  - [x] add support for single-field unique constraints
+  - [ ] add support for BLOB storage (S3?)
   - [ ] add service activation to the config
   - [x] add support for additional db platforms via the dialect
     - [ ] write a dialect for db2 community edition
+    - [ ] write a dialect for ASE
+    - [ ] write ASE driver
     - [x] write a dialect for hana as a relational-db
     - [ ] hana hybrid model(...)
   - [ ] use of claims as scopes in the middleware to dicate access to routes / actions

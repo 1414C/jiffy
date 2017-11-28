@@ -125,6 +125,7 @@ func buildEntityColumns(colString string, colType ColType) ([]Info, error) {
 			info.IsKey = true
 			info.Required = true
 			info.Name = strings.Title(info.Name)
+			info.SnakeCaseName = common.CamelToSnake(info.Name)
 
 		case DataColumn:
 			info.IsKey = false
@@ -146,6 +147,10 @@ func buildEntityColumns(colString string, colType ColType) ([]Info, error) {
 			info.Required, ok = extractBool(attrObjMap["required"])
 			if !ok {
 				return nil, fmt.Errorf("incorrect element-type for entity \"required\" field")
+			}
+			info.NoDB, ok = extractBool(attrObjMap["no_db"])
+			if !ok {
+				return nil, fmt.Errorf("incorrect element-type for entity \"no_db\" field")
 			}
 			info.Unique, ok = extractBool(attrObjMap["unique"])
 			if !ok {
