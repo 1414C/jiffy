@@ -1,7 +1,7 @@
 # rgen
 
 ## Overview
-A simple code generation utility to create RESTful services with a Postgres DB backend.
+A simple code generation utility to create RESTful services with a flexible DB backend.
 <br/>
 
 ## Work-In-Progress
@@ -313,14 +313,12 @@ The generated server runs based on a generated JSON configuration file as shown 
     the following db_dialects are supported:
     
     |  Database               | JSON Value for db_dialect field    |
-    |------------------------:|:----------------------------------:|
+    |-------------------------|------------------------------------|
     | Postgres                | "db_dialect": "postgres"           |   
     | MSSQL (2008+)           | "db_dialect": "mssql"              |
     | SAP Hana                | "db_dialect": "hdb"                |
     | SQLite3                 | "db_dialect": "sqlite3"            |
     | MySQL / MariaDB         | "db_dialect": "mysql"              |
-    |                         |                                    |
-    |                         |                                    |  
 
     'database' is a JSON block holding the access information for the database.  At the moment, 
     only Postgres is implemented and it is assumed that the application will use the pg default
