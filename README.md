@@ -4,23 +4,10 @@
 A simple code generation utility to create RESTful services with a Postgres DB backend.
 <br/>
 
-## Go Forward Options
-1.  Consider simply enforcing the use of ID, CreatedAt, UpdatedAt, DeletedAt in the model as explicitly named fields.
-    - rewrite the model file with these values
-    - no major code changes
-    - confusing for users
-    - field name collisions
-2.  Consider keeping gorm, but providing a model creation tool that enforces the use of gorm.Model?
-    - what would such a tool look like?
-    - what would the resulting model look like?
-    - would work best as as interactive tool (aka loopback)
-    - would require no changes to the existing code?
-3.  Consider dropping gorm for sqlx
-    - update model to support key definitions
-    - update model reader to understand primary_key
-    - code db-specific layer in the model (aka ORM-lite)
-    - heavy changes to codebase
-    - free hand with relationship definition in the model
+## Work-In-Progress
+1.  Consider simply enforcing the use of ID & Href in the model definition as explicitly named fields.
+2.  Fully implement nullable / pointer support
+3.  Ensure that rune and byte types are fully accounted for
 
 ## Features
 * login / session management via jwt
@@ -41,44 +28,49 @@ In order to run the application generator, ensure the following:
 
 1.  From $GOPATH/src, use go get to install the following:
     * go get -u github.com/gorilla/mux
-    * go get -u github.com/golang.org/x/crypto/bcrypt
-    * go get -u github.com/jinzhu/gorm
-    * go get -u github.com/lib/pq
     * go get -u github.com/dgrijalva/jwt-go
+    * go get -u github.com/golang.org/x/crypto/bcrypt
+    * go get -u github.com/1414C/sqac
+    * go get -u github.com/lib/pq
+    * go get -u github.com/SAP/go-hdb/driver
+    * go get -u github.com/go-sql-driver/mysql
+    * go get -u github.com/mattn/go-sqlite3
+    * go get -u github.com/MSSQL
 
 2.  Install the application into your local $GOPATH/src directory:
     * go get -u github.com/1414C/rgen
 
-3.  You will need access to a Postgres server, either locally or over the network.
+3.  You will need access to a Postgres, MySQL, MSSQL or SAP Hana database, either locally or over the network.  It is also possible to run tests with SQLite3.
     
 4.  The application can be started in two ways:
     * From $GOPATH/src/github.com/1414C/rgen you may execute the application by typing:
         * go run main.go     
     * A binary can also be build from $GOPATH/src/github.com/1414C/rgen by typing the following:
         * go build .
-        * The application can then be started feom the same directory by typing:
+        * The application can then be started from the same directory by typing:
             * ./rgen
 <br/>
 
 ## Flags
-Flags are generally not used, as the configuration file (models.json) is easier to deal with.  There are however, a few flags that can be appended to the execution command:
+Flags are generally not used, as the configuration files (models.json) are easier to deal with.  There are however, a few flags that can be appended to the execution command:
 * go run *.go -p
-	* The -p switch is used to specify the product directory relative to $GOPATH/src.
+	* The -p switch is used to specify the target directory for generated application source-code relative to $GOPATH/src.
 
-    $ go run main.go -p "github.com/footle.com/myrestfulsvc
+```bash
+
+    $ go run main.go -p "github.com/footle.com/myrestfulsvc"
+
+```
 
 * go run main.go -m "./my_model.json"
-    * The -m switch can be used to specify an alternate model file to use for the code generation.  By default, the application will attempt to use ./models.json, but inclusion of the -m flag permits the use of an alternate model file.
-    * The path of Model files in the application base directory must be prefaced with ./ .  If the model file is not located in the base directory of the application, the full path must be specified when using the -m flag.
-
-* go run main.go -d *dbname* (future)
-    * The default database target of the application is presently Postgres, but the -d switch will permit the use of any database for which the underlying ORM provides a dialect.  See the awesome gorm project docs at http://jinzhu.me/gorm/database.html for details regarding the currently supported database platforms.
+    * By default, the application will attempt to use ./models.json as the model source, but inclusion of the -m flag permits the use of an alternate model file.
+    * The path of model file in the application base directory must be prefaced with ./ .  If the model file is not located in the base directory of the application, the full path must be specified when using the -m flag.
 
 ---
 <br/>
 
 ## Model Creation
-Create a model file containing the Entities, Indexes and Relations that you wish to generate services for.  Entity model defintion consists of an array of JSON objects, with each object being limited to a flat hierarchy and basic go data types.  By default, the generator expects a *models.json* file in the execution directory, but a correctly formatted JSON file can be loaded from any location by executing with the *-m* flag.  
+Create a model file containing the Entities, Indexes and Relations that you wish to generate services for.  Entity model defintion consists of an array of JSON objects, with each object being limited to a flat hierarchy and basic go-data-types.  By default, the generator expects a *models.json* file in the execution directory, but a correctly formatted JSON file can be loaded from any location by executing with the *-m* flag.  
 
  A sample models.json file is installed with the application and can be found in the root application folder, as shown below:
 
@@ -310,12 +302,26 @@ The generated server runs based on a generated JSON configuration file as shown 
     This field has been deprecated.
 
     "database": {
-        "host":     "localhost",
-		"port":     5432,
-		"user":     "godev",
-		"password": "gogogo123",
-		"name":     "glrestgen"
+        "db_dialect": "postgres".
+        "host":       "localhost",
+		"port":       5432,
+		"user":       "godev",
+		"password":   "gogogo123",
+		"name":       "glrestgen"
     },
+    'db_dialect' refers to the backend database type that will be used by the generated application.  Currently,
+    the following db_dialects are supported:
+    
+    |  Database               | JSON Value for db_dialect field    |
+    |------------------------:|:----------------------------------:|
+    | Postgres                | "db_dialect": "postgres"           |   
+    | MSSQL (2008+)           | "db_dialect": "mssql"              |
+    | SAP Hana                | "db_dialect": "hdb"                |
+    | SQLite3                 | "db_dialect": "sqlite3"            |
+    | MySQL / MariaDB         | "db_dialect": "mysql"              |
+    |                         |                                    |
+    |                         |                                    |  
+
     'database' is a JSON block holding the access information for the database.  At the moment, 
     only Postgres is implemented and it is assumed that the application will use the pg default
     scehema 'Public'.  Sqlite3 will be implemented as a proof-of-concept for multi-db-support,
@@ -362,11 +368,12 @@ The generated server runs based on a generated JSON configuration file as shown 
     "pepper": "secret-pepper-key",  
     "hmac_Key": "secret-hmac-key",
     "database": {
-        "host":     "localhost",
-		"port":     5432,
-		"user":     "godev",
-		"password": "gogogo123",
-		"name":     "glrestgen"
+        "db_dialect": "postgres",
+        "host":       "localhost",
+		"port":       5432,
+		"user":       "godev",
+		"password":   "gogogo123",
+		"name":       "glrestgen"
     },
     "cert_file": "",
     "key_file": "",
@@ -391,11 +398,12 @@ The generated server runs based on a generated JSON configuration file as shown 
     "pepper": "secret-pepper-key",  
     "hmac_Key": "secret-hmac-key",
     "database": {
-        "host":     "localhost",
-		"port":     5432,
-		"user":     "godev",
-		"password": "gogogo123",
-		"name":     "glrestgen"
+        "db_dialect": "postgres",
+        "host":       "localhost",
+		"port":       5432,
+		"user":       "godev",
+		"password":   "gogogo123",
+		"name":       "glrestgen"
     },
     "cert_file": "",
     "key_file": "",
@@ -422,11 +430,12 @@ The generated server runs based on a generated JSON configuration file as shown 
     "pepper": "secret-pepper-key",  
     "hmac_Key": "secret-hmac-key",
     "database": {
-        "host":     "localhost",
-		"port":     5432,
-		"user":     "godev",
-		"password": "gogogo123",
-		"name":     "glrestgen"
+        "db_dialect": "postgres",
+        "host":       "localhost",
+		"port":       5432,
+		"user":       "godev",
+		"password":   "gogogo123",
+		"name":       "glrestgen"
     },
     "cert_file": "srvcert.cer",
     "key_file": "srvcert.key",
@@ -601,10 +610,9 @@ ___
 
 ## Pending Changes
   - [ ] add service activation to the config
-  - [ ] add support for sqlite3 via -d as a test
-  - [ ] add support for additional db platforms via the dialect
+  - [x] add support for additional db platforms via the dialect
     - [ ] write a dialect for db2 community edition
-    - [ ] write a dialect for hana as a relational-db
+    - [x] write a dialect for hana as a relational-db
     - [ ] hana hybrid model(...)
   - [ ] use of claims as scopes in the middleware to dicate access to routes / actions
   - [ ] add server-side user creation / disallow open user creation route
@@ -615,14 +623,13 @@ ___
   - [x] add Href to entities as a common self-referential field
   - [ ] add code to support the links via child-href
   - [ ] add code to support expansion of child-href
-    - [ ] 	Href string  `gorm:"-" json:"Href,omitempty"`
-	- [ ]   Test string  `gorm:"-" json:"Test,omitempty"`
+    - [ ] 	Href string  `rgen:"-" json:"Href,omitempty"`
+	- [ ]   Test string  `rgen:"-" json:"Test,omitempty"`
   - [ ] add code to support filtering of expansions
   - [ ] add scopes to config
     - [ ] use scopes in JWT to allow / disallow access
   - [x] update main_test.go to create and delete the test user
   - [x] replace custom model interpretation code with https://golang.org/pkg/encoding/json/#Unmarshal
-  - [ ] call standard gorm.util.Decode...
   - [ ] enhance model
     - [x] support single-field index creation via model attribute
     - [x] support not-nullable directive via model attribute
@@ -647,6 +654,5 @@ ___
   - [x] remove the gorilla csrf dependency; the use of JWT's in a stateless application obviates the need for CSRF protection. 
   - [x] run goimports on generated code  
   - [ ] add the capability of automatically running go get (look at go dep) for missing packages in the dependency list
-  - [ ] consider the db configuration more carefully; perhaps an interogative mode?
   - [ ] add capability to generate self-signed certs for local ssl testing
   - [ ] create github repo for gnerated code via https://godoc.org/github.com/google/go-github/github#RepositoriesService
