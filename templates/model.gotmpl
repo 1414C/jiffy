@@ -27,7 +27,7 @@ type {{.Header.Name}} struct {{printf "%s" "{" }}
 	{{range .Fields -}} 
 	{{/* $tagLine := .GetRgenTagLine true */ -}}
     {{/* .Name}}  {{.Value }} `{{$tagLine}}` */ -}}
-	{{.Name}}  {{.Value }} `db:"{{.SnakeCaseName}}" {{.RgenTagLine}}`
+	{{.Name}}  {{.GetPtrIfNullable}}{{.Value}} `{{.JSONTagLine}} db:"{{.SnakeCaseName}}" {{.RgenTagLine}}`
 	{{end -}}
 }
 

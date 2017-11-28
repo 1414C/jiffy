@@ -57,6 +57,7 @@ func ReadModelFile(mf string) ([]Entity, error) {
 			}
 			for _, fr := range fieldRecs {
 				fr.GetRgenTagLine(true)
+				fr.GetJSONTagLine()
 				// fmt.Println("fr.GetGormTagLine:", fr.GormTagLine)
 				e.Fields = append(e.Fields, fr)
 			}

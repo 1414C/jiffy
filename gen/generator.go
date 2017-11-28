@@ -17,7 +17,7 @@ type Info struct {
 	Name  string // field name from model
 	Value string // type
 	// LowerCaseName       string // field name in lower-case for query path - possibly deprecated
-	SnakeCaseName       string // field name in gorm database format (snake_case)
+	SnakeCaseName       string // field name in sqac database format (snake_case)
 	DBType              string
 	IsKey               bool
 	Format              string
@@ -63,6 +63,7 @@ const (
 	cU16Crt  uint16  = 500
 	cU32Crt  uint32  = 5000
 	cU64Crt  uint64  = 50000
+	cBoolCrt bool    = true
 
 	cStrUpd  string  = "upd_string"
 	cFl32Upd float32 = 8.88
@@ -77,6 +78,7 @@ const (
 	cU16Upd  uint16  = 999
 	cU32Upd  uint32  = 9999
 	cU64Upd  uint64  = 99999
+	cBoolUpd bool    = false
 )
 
 //=============================================================================================
@@ -245,6 +247,20 @@ func (s *Static) GenerateStaticTemplates() (fNames []string, err error) {
 //=============================================================================================
 // model generation functions
 //=============================================================================================
+
+// GetJSONTagLine returns a string containing the json tag
+// directives for the column.
+// Called from within readmodel.go/ReadModelFile()
+func (i *Info) GetJSONTagLine() string {
+
+	i.JSONTagLine = fmt.Sprintf("json:\"%s", i.SnakeCaseName)
+	if i.Required != true {
+		i.JSONTagLine = fmt.Sprintf("%s,omitempty\"", i.JSONTagLine)
+		return i.JSONTagLine
+	}
+	i.JSONTagLine = fmt.Sprintf("%s\"", i.JSONTagLine)
+	return i.JSONTagLine
+}
 
 // GetRgenTagLine returns a string containing a set of rgen
 // directives for the column attributes.
@@ -516,29 +532,11 @@ func (i *Info) GetQueryComponentFuncCall() string {
 	switch i.Value {
 	case "string":
 		return "buildStringQueryComponents(searchValue)"
-	case "int":
+	case "int", "int8", "int16", "int32", "int64":
 		return "buildIntQueryComponents(searchValue)"
-	case "int8":
-		return "buildIntQueryComponents(searchValue)"
-	case "int16":
-		return "buildIntQueryComponents(searchValue)"
-	case "int32":
-		return "buildIntQueryComponents(searchValue)"
-	case "int64":
-		return "buildIntQueryComponents(searchValue)"
-	case "uint":
+	case "uint", "uint8", "uint16", "uint32", "uint64":
 		return "buildUIntQueryComponents(searchValue)"
-	case "uint8":
-		return "buildUIntQueryComponents(searchValue)"
-	case "uint16":
-		return "buildUIntQueryComponents(searchValue)"
-	case "uint32":
-		return "buildUIntQueryComponents(searchValue)"
-	case "uint64":
-		return "buildUIntQueryComponents(searchValue)"
-	case "float32":
-		return "buildFloatQueryComponents(searchValue)"
-	case "float64":
+	case "float32", "float64":
 		return "buildFloatQueryComponents(searchValue)"
 	case "bool":
 		return "buildBoolQueryComponents(searchValue)"
@@ -617,6 +615,17 @@ func (i *Info) IsIntFieldType() bool {
 	return false
 }
 
+// GetPtrIfNullable is used to provide a pointer-glyph
+// (*) to the calling template as a preface to nullable
+// model structure members.
+// Called from within a text/template.
+func (i *Info) GetPtrIfNullable() string {
+	if i.Required == false {
+		return "*"
+	}
+	return ""
+}
+
 // GetDateTimeStamp returns a stringified date-time in
 // RFC822 format for use in template execution.
 // Called from within a text/template.
@@ -688,31 +697,21 @@ func (ent *Entity) BuildTestPostJSON(isUpdate bool) string {
 
 		switch f.Value {
 		case "string":
-			result = result + fmt.Sprintf("\"%s\":\"%s\",\n", strings.ToLower(f.Name), getTestValue(isUpdate, f.Value))
-		case "float32":
-			result = result + fmt.Sprintf("\"%s\":%.2f,\n", strings.ToLower(f.Name), getTestValue(isUpdate, f.Value))
-		case "float64":
-			result = result + fmt.Sprintf("\"%s\":%.2f,\n", strings.ToLower(f.Name), getTestValue(isUpdate, f.Value))
-		case "int":
-			result = result + fmt.Sprintf("\"%s\":%d,\n", strings.ToLower(f.Name), getTestValue(isUpdate, f.Value))
-		case "int8":
-			result = result + fmt.Sprintf("\"%s\":%d,\n", strings.ToLower(f.Name), getTestValue(isUpdate, f.Value))
-		case "int16":
-			result = result + fmt.Sprintf("\"%s\":%d,\n", strings.ToLower(f.Name), getTestValue(isUpdate, f.Value))
-		case "int32":
-			result = result + fmt.Sprintf("\"%s\":%d,\n", strings.ToLower(f.Name), getTestValue(isUpdate, f.Value))
-		case "int64":
-			result = result + fmt.Sprintf("\"%s\":%d,\n", strings.ToLower(f.Name), getTestValue(isUpdate, f.Value))
-		case "uint":
-			result = result + fmt.Sprintf("\"%s\":%d,\n", strings.ToLower(f.Name), getTestValue(isUpdate, f.Value))
-		case "uint8":
-			result = result + fmt.Sprintf("\"%s\":%d,\n", strings.ToLower(f.Name), getTestValue(isUpdate, f.Value))
-		case "uint16":
-			result = result + fmt.Sprintf("\"%s\":%d,\n", strings.ToLower(f.Name), getTestValue(isUpdate, f.Value))
-		case "uint32":
-			result = result + fmt.Sprintf("\"%s\":%d,\n", strings.ToLower(f.Name), getTestValue(isUpdate, f.Value))
-		case "uint64":
-			result = result + fmt.Sprintf("\"%s\":%d,\n", strings.ToLower(f.Name), getTestValue(isUpdate, f.Value))
+			result = result + fmt.Sprintf("\"%s\":\"%s\",\n", f.SnakeCaseName, getTestValue(isUpdate, f.Value))
+		case "float32", "float64":
+			result = result + fmt.Sprintf("\"%s\":%.2f,\n", f.SnakeCaseName, getTestValue(isUpdate, f.Value))
+			// result = result + fmt.Sprintf("\"%s\":%.2f,\n", strings.ToLower(f.Name), getTestValue(isUpdate, f.Value))
+		case "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32", "uint64":
+			result = result + fmt.Sprintf("\"%s\":%d,\n", f.SnakeCaseName, getTestValue(isUpdate, f.Value))
+		case "bool":
+			result = result + fmt.Sprintf("\"%s\":%t,\n", f.SnakeCaseName, getTestValue(isUpdate, f.Value))
+		case "rune":
+			result = result + fmt.Sprintf("\"%s\":%d,\n", f.SnakeCaseName, getTestValue(isUpdate, f.Value))
+		case "byte":
+			result = result + fmt.Sprintf("\"%s\":%d,\n", f.SnakeCaseName, getTestValue(isUpdate, f.Value))
+		default:
+			log.Printf("using default-typing for field %s in %s test case JSON - got type %v\n", f.SnakeCaseName, ent.Header.Name, f.Value)
+			result = result + fmt.Sprintf("\"%s\":%v,\n", f.SnakeCaseName, getTestValue(isUpdate, f.Value))
 		}
 	}
 	result = strings.TrimSuffix(result, ",\n")
@@ -727,33 +726,21 @@ func (ent *Entity) BuildTestValidationExpression(isUpdate bool) string {
 	var result string
 
 	for _, fi := range ent.Fields {
+		ind := ""
+		if !fi.Required {
+			ind = "*"
+		}
 		switch fi.Value {
 		case "string":
-			result = result + fmt.Sprintf("e.%s != \"%s\" ||\n", fi.Name, getTestValue(isUpdate, fi.Value))
-		case "float32":
-			result = result + fmt.Sprintf("e.%s != %.2f ||\n", fi.Name, getTestValue(isUpdate, fi.Value))
-		case "float64":
-			result = result + fmt.Sprintf("e.%s != %.2f ||\n", fi.Name, getTestValue(isUpdate, fi.Value))
-		case "int":
-			result = result + fmt.Sprintf("e.%s != %d ||\n", fi.Name, getTestValue(isUpdate, fi.Value))
-		case "int8":
-			result = result + fmt.Sprintf("e.%s != %d ||\n", fi.Name, getTestValue(isUpdate, fi.Value))
-		case "int16":
-			result = result + fmt.Sprintf("e.%s != %d ||\n", fi.Name, getTestValue(isUpdate, fi.Value))
-		case "int32":
-			result = result + fmt.Sprintf("e.%s != %d ||\n", fi.Name, getTestValue(isUpdate, fi.Value))
-		case "int64":
-			result = result + fmt.Sprintf("e.%s != %d ||\n", fi.Name, getTestValue(isUpdate, fi.Value))
-		case "uint":
-			result = result + fmt.Sprintf("e.%s != %d ||\n", fi.Name, getTestValue(isUpdate, fi.Value))
-		case "uint8":
-			result = result + fmt.Sprintf("e.%s != %d ||\n", fi.Name, getTestValue(isUpdate, fi.Value))
-		case "uint16":
-			result = result + fmt.Sprintf("e.%s != %d ||\n", fi.Name, getTestValue(isUpdate, fi.Value))
-		case "uint32":
-			result = result + fmt.Sprintf("e.%s != %d ||\n", fi.Name, getTestValue(isUpdate, fi.Value))
-		case "uint64":
-			result = result + fmt.Sprintf("e.%s != %d ||\n", fi.Name, getTestValue(isUpdate, fi.Value))
+			result = result + fmt.Sprintf("%se.%s != \"%s\" ||\n", ind, fi.Name, getTestValue(isUpdate, fi.Value))
+		case "float32", "float64":
+			result = result + fmt.Sprintf("%se.%s != %.2f ||\n", ind, fi.Name, getTestValue(isUpdate, fi.Value))
+		case "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32", "uint64":
+			result = result + fmt.Sprintf("%se.%s != %d ||\n", ind, fi.Name, getTestValue(isUpdate, fi.Value))
+		case "bool":
+			result = result + fmt.Sprintf("%se.%s != %t ||\n", ind, fi.Name, getTestValue(isUpdate, fi.Value))
+		default:
+			log.Printf("BuildTestValidationExpression was unable to process field-type %s for entity %s - got %s\n", fi.Name, ent.Header.Name, fi.Value)
 		}
 	}
 	result = strings.TrimSuffix(result, " ||\n")
@@ -830,6 +817,11 @@ func getTestValue(isUpdate bool, dataType string) interface{} {
 			return cU64Upd
 		}
 		return cU64Crt
+	case "bool":
+		if isUpdate {
+			return cBoolUpd
+		}
+		return cBoolCrt
 	default:
 		log.Printf("unknown data-type %s in test generation - please add support manually", dataType)
 		os.Exit(-1)
