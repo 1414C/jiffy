@@ -610,15 +610,15 @@ ___
 ## Pending Changes
   - [x] fully implement nullable / pointer support
   - [x] add support for single-field unique constraints
+  - [x] implement GetEntities to use the standard sqac.PublicDB interface
   - [ ] add support for BLOB storage (S3?)
   - [ ] add service activation to the config
   - [x] add support for additional db platforms via the dialect
     - [ ] write a dialect for db2 community edition
     - [ ] write a dialect for ASE
-    - [ ] write ASE driver
+    - [ ] write ASE driver?
     - [x] write a dialect for hana as a relational-db
     - [ ] hana hybrid model(...)
-  - [ ] use of claims as scopes in the middleware to dicate access to routes / actions
   - [ ] add server-side user creation / disallow open user creation route
     - [ ] web-based interface for API documentation?
   - [ ] add method-chaining to new 'cust' package to allow for code-regen
@@ -631,7 +631,7 @@ ___
 	- [ ]   Test string  `rgen:"-" json:"Test,omitempty"`
   - [ ] add code to support filtering of expansions
   - [ ] add scopes to config
-    - [ ] use scopes in JWT to allow / disallow access
+    - [ ] use scopes in JWT to allow / disallow access to routes / actions
   - [x] update main_test.go to create and delete the test user
   - [x] replace custom model interpretation code with https://golang.org/pkg/encoding/json/#Unmarshal
   - [ ] enhance model
