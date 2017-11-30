@@ -304,38 +304,6 @@ func (sd *SessionData) testSelectableField(t *testing.T) {
 {{$headerName := .Header.Name -}}
 {{$headerValue := .Header.Value -}}
 
-// TestGet{{.Header.Name}}s attempts to read all {{.Header.Value}}s from the db
-//
-// GET /{{.Header.Value}}s
-func TestGet{{.Header.Name}}s(t *testing.T) {
-
-	// url := "https://localhost:8080/{{.Header.Value}}s"
-	url := sessionData.baseURL + "/{{.Header.Value}}s"
-	jsonStr := []byte(`{}`)
-	req, err := http.NewRequest("GET", url, bytes.NewBuffer(jsonStr))
-	req.Close = true
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+sessionData.jwtToken)
-
-	if sessionData.log {
-		fmt.Println("GET /{{.Header.Value}}s request Headers:", req.Header)
-	}
-
-	// client := &http.Client{}
-	resp, err := sessionData.client.Do(req)
-	if err != nil {
-		t.Errorf("Test was unable to GET /{{.Header.Value}}s. Got %s.\n", err.Error())
-	}
-	defer resp.Body.Close()
-
-	if sessionData.log {
-		fmt.Println("GET /{{.Header.Value}}s response Status:", resp.Status)
-		fmt.Println("GET /{{.Header.Value}}s response Headers:", resp.Header)
-		body, _ := ioutil.ReadAll(resp.Body)
-		fmt.Println("GET /{{.Header.Value}}s response Body:", string(body))
-	}
-}
-
 // TestCreate{{.Header.Name}} attempts to create a new {{.Header.Name}} on the db
 //
 // POST /{{.Header.Value}}
@@ -385,6 +353,38 @@ func TestCreate{{.Header.Name}}(t *testing.T) {
 		sessionData.ID = e.ID
 	} else {
 		log.Printf("ID value of 0 detected - subsequent test cases will run with ID == 0!")
+	}
+}
+
+// TestGet{{.Header.Name}}s attempts to read all {{.Header.Value}}s from the db
+//
+// GET /{{.Header.Value}}s
+func TestGet{{.Header.Name}}s(t *testing.T) {
+
+	// url := "https://localhost:8080/{{.Header.Value}}s"
+	url := sessionData.baseURL + "/{{.Header.Value}}s"
+	jsonStr := []byte(`{}`)
+	req, err := http.NewRequest("GET", url, bytes.NewBuffer(jsonStr))
+	req.Close = true
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+sessionData.jwtToken)
+
+	if sessionData.log {
+		fmt.Println("GET /{{.Header.Value}}s request Headers:", req.Header)
+	}
+
+	// client := &http.Client{}
+	resp, err := sessionData.client.Do(req)
+	if err != nil {
+		t.Errorf("Test was unable to GET /{{.Header.Value}}s. Got %s.\n", err.Error())
+	}
+	defer resp.Body.Close()
+
+	if sessionData.log {
+		fmt.Println("GET /{{.Header.Value}}s response Status:", resp.Status)
+		fmt.Println("GET /{{.Header.Value}}s response Headers:", resp.Header)
+		body, _ := ioutil.ReadAll(resp.Body)
+		fmt.Println("GET /{{.Header.Value}}s response Body:", string(body))
 	}
 }
 
