@@ -182,6 +182,8 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Get{{.Header.Name}}s(w http.Respon
 
 	// build base Href; common for each selected row
 	urlString := buildHrefStringFromCRUDReq(r, true)
+	urlString = strings.TrimSuffix(urlString,"s/")
+	urlString = urlString + "/"
 
 	{{.Header.Value}}s := {{$pref}}c.{{$pref}}s.Get{{.Header.Name}}s()
 	if {{.Header.Value}}s != nil {

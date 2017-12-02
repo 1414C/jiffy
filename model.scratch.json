@@ -1,9 +1,9 @@
-[
-    {
-        "type": "entity",
-        "typeName": "AccountHolder",
-        "properties": {
-            "name": {
+{
+    "entities":  [
+        {
+            "typeName": "AccountHolder",
+            "properties": {
+                "name": {
                 "type": "string",
                 "format": "", 
                 "required": false,
@@ -95,7 +95,6 @@
         ]
     },
     {
-        "type": "entity",
         "typeName": "Account",
         "properties": {
             "accountHolderID": {
@@ -140,7 +139,7 @@
                 "required": false,
                 "index": "nonUnique",
                 "selectable": "eq,like"
-            },
+            },  
             "accountType": {
                 "type": "string",
                 "format": "", 
@@ -164,4 +163,23 @@
             }
         }
     }
-]
+    ],
+ "relations": [
+     {
+         "relName": "AccountToAccountHolder",
+         "properties": {
+             "entity": "Account", 
+             "type": "belongs_to",
+             "foriegnPK": "james"
+        }
+    },
+    {
+        "relName": "AccountHolderToAccount",
+        "properties": {
+            "entity": "AccountHolder", 
+            "type": "belongs_to",
+            "foriegnPK": "james"
+       }
+   }
+    ]
+}

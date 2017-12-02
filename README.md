@@ -612,6 +612,8 @@ ___
   - [x] fully implement nullable / pointer support
   - [x] add support for single-field unique constraints
   - [x] implement GetEntities to use the standard sqac.PublicDB interface
+  - [ ] implement self-documenting API 
+  - [ ] consider the use of db-views as entity sources
   - [ ] add support for BLOB storage (S3?)
   - [ ] add service activation to the config
   - [x] add support for additional db platforms via the dialect
