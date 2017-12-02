@@ -13,7 +13,8 @@ import (
 func main() {
 
 	projectPath := flag.String("p", "/exp/sgen1", "project path starting in &GOPATH/src")
-	modelFile := flag.String("m", "./test_rel_model.json", "model file relative to application base directory")
+	// modelFile := flag.String("m", "./test_rel_model.json", "model file relative to application base directory")
+	modelFile := flag.String("m", "./model.scratch.json", "model file relative to application base directory")
 
 	flag.Parse()
 	if *projectPath == "" {
@@ -29,7 +30,7 @@ func main() {
 	}
 
 	// read the JSON models file to get the Entity definitions
-	entities, err := gen.ReadModelFile(*modelFile) // gen.GetEntities()
+	entities, err := gen.ReadModelFile2(*modelFile) // gen.GetEntities()
 	if err != nil {
 		fmt.Println(err)
 	}

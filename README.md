@@ -8,6 +8,7 @@ A simple code generation utility to create RESTful services with a flexible DB b
 1.  Consider simply enforcing the use of ID & Href in the model definition as explicitly named fields.
 2.  Ensure that rune and byte types are fully accounted for
 3.  Consider relationship modeling in terms of end-point URL specification and response body
+4.  Update ReadModel to accept new model format
 
 
 ## Features
