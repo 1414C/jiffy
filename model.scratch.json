@@ -98,7 +98,7 @@
         "typeName": "Account",
         "properties": {
             "accountHolderID": {
-                "type": "uint",
+                "type": "uint64",
                 "format": "", 
                 "required": false,
                 "index": "nonUnique",
@@ -162,23 +162,64 @@
                 "selectable": "eq,lt,le,gt,ge,ne"
             }
         }
+    },
+    {
+        "typeName": "StreetAddress",
+        "properties": {
+            "city": {
+                "type": "string",
+                "format": "", 
+                "required": true,
+                "index": "nonUnique",
+                "selectable": "eq,like"
+            },
+            "street": {
+                "type": "string",
+                "format": "", 
+                "required": true,
+                "index": "nonUnique",
+                "selectable": "eq,like"
+            },
+            "houseNumber": {
+                "type": "string",
+                "format": "", 
+                "selectable": "eq,gt,lt"
+            },
+            "postCode":{
+                "type": "string",
+                "format": "", 
+                "index": "nonUnique",
+                "selectable": "eq,like"
+            }
+        }
     }
     ],
  "relations": [
+    {
+        "relName": "AccountHolderToStreetAddress",
+        "properties": {
+            "fromEntity": "AccountHolder", 
+            "type": "has_one",
+            "toEntity": "StreetAddress",
+            "foreignPK": "id"
+       }
+   },
      {
          "relName": "AccountToAccountHolder",
          "properties": {
-             "entity": "Account", 
+             "fromEntity": "Account", 
              "type": "belongs_to",
-             "foriegnPK": "james"
+             "toEntity": "AccountHolder",
+             "foreignPK": "id"
         }
     },
     {
         "relName": "AccountHolderToAccount",
         "properties": {
-            "entity": "AccountHolder", 
-            "type": "belongs_to",
-            "foriegnPK": "james"
+            "fromEntity": "AccountHolder", 
+            "type": "has_many",
+            "toEntity": "Account",
+            "foreignPK": "james"
        }
    }
     ]

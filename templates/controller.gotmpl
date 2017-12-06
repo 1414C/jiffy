@@ -76,7 +76,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Update(w http.ResponseWriter, r *h
 
 	// get the parameter(s)
 	vars := mux.Vars(r)
-	id, err := strconv.Atoi(vars["id"])
+	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
 		log.Println("{{.Header.Name}} Update:",err)
 		respondWithError(w, http.StatusBadRequest, "Invalid {{.Header.Value}} id")
@@ -124,7 +124,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Update(w http.ResponseWriter, r *h
 func ({{$pref}}c *{{.Header.Name}}Controller) Get(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
-	id, err := strconv.Atoi(vars["id"])
+	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
 		log.Println("{{.Header.Name}} Get:",err)
 		respondWithError(w, http.StatusBadRequest, "Invalid {{.Header.Value}} ID")
@@ -154,7 +154,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Get(w http.ResponseWriter, r *http
 // DELETE /{{.Header.Value}}/:id
 func ({{$pref}}c *{{.Header.Name}}Controller) Delete(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	id, err := strconv.Atoi(vars["id"])
+	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
 		log.Println("{{.Header.Name}} Delete:",err)
 		respondWithError(w, http.StatusBadRequest, "Invalid {{.Header.Name}} ID")

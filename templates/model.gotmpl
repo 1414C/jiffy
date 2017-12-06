@@ -22,7 +22,7 @@ import (
 {{/*  generate the Entity struct  */}}
 // {{.Header.Name}} structure
 type {{.Header.Name}} struct {{printf "%s" "{" }}
-	ID			 int     `json:"id" db:"id" rgen:"primary_key:inc"`
+	ID			 uint64  `json:"id" db:"id" rgen:"primary_key:inc"`
 	Href         string  `json:"href" db:"href" rgen:"-"`
 	{{range .Fields -}} 
 	{{/* $tagLine := .GetRgenTagLine true */ -}}
@@ -206,7 +206,7 @@ func ({{$pref}}v *{{$headerValue}}Validator) normval{{.Name}}({{$headerValue}} *
 // selectable in the <models>.json file.
 {{range .Fields -}}
 	{{if .Selectable -}}
-		// Get{{$headerName}}By{{.Name}} is passed through to the ORM with no validation.
+		// Get{{$headerName}}sBy{{.Name}} is passed through to the ORM with no validation.
 		func ({{$pref}}v *{{$headerValue}}Validator) Get{{$headerName}}sBy{{.Name}}(op string, {{.SnakeCaseName}} {{.Value}}) []{{$headerName}} {
 
 		// TODO: implement normalization and validation for the Get{{$headerName}}sBy{{.Name}} call.
@@ -252,10 +252,6 @@ func ({{$pref}}s *{{.Header.Value}}Sqac) Get{{.Header.Name}}s() []{{.Header.Name
 		return getEnts.ents
 	}
 	return getEnts.ents
-
-	// var {{.Header.Value}}s []{{.Header.Name}}
-	// {{$pref}}g.db.Find(&{{.Header.Value}}s)
-	// return {{.Header.Value}}s
 }
 
 //- - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

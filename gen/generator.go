@@ -551,12 +551,30 @@ func (i *Info) GetQueryComponentFuncCall() string {
 	switch i.Value {
 	case "string":
 		return "buildStringQueryComponents(searchValue)"
-	case "int", "int8", "int16", "int32", "int64":
-		return "buildIntQueryComponents(searchValue)"
-	case "uint", "uint8", "uint16", "uint32", "uint64":
-		return "buildUIntQueryComponents(searchValue)"
-	case "float32", "float64":
-		return "buildFloatQueryComponents(searchValue)"
+	case "int":
+		return "buildIntQueryComponent(searchValue)"
+	case "int8":
+		return "buildInt8QueryComponent(searchValue)"
+	case "int16":
+		return "buildInt16QueryComponent(searchValue)"
+	case "int32":
+		return "buildInt32QueryComponent(searchValue)"
+	case "int64":
+		return "buildInt64QueryComponent(searchValue)"
+	case "uint":
+		return "buildUIntQueryComponent(searchValue)"
+	case "uint8":
+		return "buildUInt8QueryComponent(searchValue)"
+	case "uint16":
+		return "buildUInt16QueryComponent(searchValue)"
+	case "uint32":
+		return "buildUInt32QueryComponent(searchValue)"
+	case "uint64":
+		return "buildUInt64QueryComponent(searchValue)"
+	case "float32":
+		return "buildFloat32QueryComponent(searchValue)"
+	case "float64":
+		return "buildFloat64QueryComponent(searchValue)"
 	case "bool":
 		return "buildBoolQueryComponents(searchValue)"
 	default:

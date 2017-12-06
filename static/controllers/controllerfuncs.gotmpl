@@ -142,10 +142,10 @@ func buildStringQueryComponents(searchString string) (op, predicate string, err 
 	return op, predicate, nil
 }
 
-// buildUIntQueryComponents separates the incoming simple query-string into its consituent
-// parts; namely operation and predicate.  This is used for all generated entity simple accessors
-// where the predicate field is of the uint, uint8, uint16, uint32 and uint64-type.
-func buildUIntQueryComponents(searchString string) (op string, predicate uint, err error) {
+// buildUIntQueryComponentGeneral separates the incoming simple query-string into its consituent
+// parts; namely operation and predicate.  This is used as the foundation for all generated entity
+// simple accessors where the predicate field is of the uint, uint8, uint16, uint32 and uint64-type.
+func buildUIntQueryComponentGeneral(searchString string) (op string, predicate uint, err error) {
 
 	searchString = strings.TrimPrefix(searchString, "(")
 	searchString = strings.TrimSuffix(searchString, ")")
@@ -166,10 +166,57 @@ func buildUIntQueryComponents(searchString string) (op string, predicate uint, e
 	return op, predicate, nil
 }
 
-// buildIntQueryComponents separates the incoming simple query-string into its consituent
-// parts; namely operation and predicate.  This is used for all generated entity simple accessors
-// where the predicate field is of the int, int8, int16, int32 and int64-type.
-func buildIntQueryComponents(searchString string) (op string, predicate int, err error) {
+// buildUIntQueryComponent returns a uint predicate for the search parameter
+func buildUIntQueryComponent(searchString string) (op string, predicate uint, err error) {
+
+	return buildUIntQueryComponentGeneral(searchString)
+}
+
+// buildUInt8QueryComponent returns a uint8 predicate for the search parameter
+func buildUInt8QueryComponent(searchString string) (op string, predicate uint8, err error) {
+
+	op, interimPredicate, err := buildUIntQueryComponentGeneral(searchString)
+	if err != nil {
+		return "", 0, err
+	}
+	return op, uint8(interimPredicate), nil
+}
+
+// buildUInt16QueryComponent returns a uint16 predicate for the search parameter
+func buildUInt16QueryComponent(searchString string) (op string, predicate uint16, err error) {
+
+	op, interimPredicate, err := buildUIntQueryComponentGeneral(searchString)
+	if err != nil {
+		return "", 0, err
+	}
+	return op, uint16(interimPredicate), nil
+}
+
+// buildUInt32QueryComponent returns a uint32 predicate for the search parameter
+func buildUInt32QueryComponent(searchString string) (op string, predicate uint32, err error) {
+
+	op, interimPredicate, err := buildUIntQueryComponentGeneral(searchString)
+	if err != nil {
+		return "", 0, err
+	}
+	return op, uint32(interimPredicate), nil
+}
+
+// buildUInt64QueryComponent returns a uint64 predicate for the search parameter
+func buildUInt64QueryComponent(searchString string) (op string, predicate uint64, err error) {
+
+	op, interimPredicate, err := buildUIntQueryComponentGeneral(searchString)
+	if err != nil {
+		return "", 0, err
+	}
+	return op, uint64(interimPredicate), nil
+}
+
+// buildIntQueryComponentGeneral separates the incoming simple query-string into its consituent
+// parts; namely operation and predicate.  This is used This is used as the foundation for all
+// generated entity simple accessors where the predicate field is of the int, int8, int16, int32
+// and int64-type.
+func buildIntQueryComponentGeneral(searchString string) (op string, predicate int, err error) {
 
 	searchString = strings.TrimPrefix(searchString, "(")
 	searchString = strings.TrimSuffix(searchString, ")")
@@ -189,8 +236,54 @@ func buildIntQueryComponents(searchString string) (op string, predicate int, err
 	return op, predicate, nil
 }
 
-// build simple query components for float64 search predicates
-func buildFloatQueryComponents(searchString string) (op string, predicate float64, err error) {
+// buildIntQueryComponent returns an int predicate for the search parameter
+func buildIntQueryComponent(searchString string) (op string, predicate int, err error) {
+
+	return buildIntQueryComponentGeneral(searchString)
+}
+
+// buildInt8QueryComponent returns an int8 predicate for the search parameter
+func buildInt8QueryComponent(searchString string) (op string, predicate int8, err error) {
+
+	op, interimPredicate, err := buildIntQueryComponentGeneral(searchString)
+	if err != nil {
+		return "", 0, err
+	}
+	return op, int8(interimPredicate), nil
+}
+
+// buildInt16QueryComponent returns an int16 predicate for the search parameter
+func buildInt16QueryComponent(searchString string) (op string, predicate int16, err error) {
+
+	op, interimPredicate, err := buildIntQueryComponentGeneral(searchString)
+	if err != nil {
+		return "", 0, err
+	}
+	return op, int16(interimPredicate), nil
+}
+
+// buildInt32QueryComponent returns an int32 predicate for the search parameter
+func buildInt32QueryComponent(searchString string) (op string, predicate int32, err error) {
+
+	op, interimPredicate, err := buildIntQueryComponentGeneral(searchString)
+	if err != nil {
+		return "", 0, err
+	}
+	return op, int32(interimPredicate), nil
+}
+
+// buildInt64QueryComponent returns an int64 predicate for the search parameter
+func buildInt64QueryComponent(searchString string) (op string, predicate int64, err error) {
+
+	op, interimPredicate, err := buildIntQueryComponentGeneral(searchString)
+	if err != nil {
+		return "", 0, err
+	}
+	return op, int64(interimPredicate), nil
+}
+
+// build simple query components for float search predicates
+func buildFloatQueryComponentGeneral(searchString string) (op string, predicate float64, err error) {
 
 	searchString = strings.TrimPrefix(searchString, "(")
 	searchString = strings.TrimSuffix(searchString, ")")
@@ -208,6 +301,26 @@ func buildFloatQueryComponents(searchString string) (op string, predicate float6
 		return "", 0, fmt.Errorf("unable to convert string %s to float64-value", sc[1])
 	}
 	return op, predicate, nil
+}
+
+// buildFloat32QueryComponent returns a float32 predicate for the search parameter
+func buildFloat32QueryComponent(searchString string) (op string, predicate float32, err error) {
+
+	op, interimPredicate, err := buildFloatQueryComponentGeneral(searchString)
+	if err != nil {
+		return "", 0, err
+	}
+	return op, float32(interimPredicate), nil
+}
+
+// buildFloat64QueryComponent returns a float64 predicate for the search parameter
+func buildFloat64QueryComponent(searchString string) (op string, predicate float64, err error) {
+
+	op, interimPredicate, err := buildFloatQueryComponentGeneral(searchString)
+	if err != nil {
+		return "", 0, err
+	}
+	return op, float64(interimPredicate), nil
 }
 
 // build simple query components for bool search predicates

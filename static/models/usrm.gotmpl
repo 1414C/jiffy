@@ -11,7 +11,7 @@ import (
 
 // Usr represents the signed-in usr
 type Usr struct {
-	ID           int    `db:"id" rgen:"primary_key:inc"`
+	ID           uint64 `db:"id" rgen:"primary_key:inc"`
 	Name         string `db:"name" rgen:"nullable:false"`
 	Email        string `db:"email" rgen:"nullable:false;index:unique"`
 	Password     string `db:"password" rgen:"-"` // "-" indicates that the field is not to be stored in the db
@@ -330,7 +330,7 @@ func (us *usrSqac) ByEmail(email string) (*Usr, error) {
 // 2 - nil, ErrNotFound
 // 3 - nil, otherError
 //
-func (us *usrSqac) ByID(id uint) (*Usr, error) {
+func (us *usrSqac) ByID(id uint64) (*Usr, error) {
 
 	var usr Usr
 	err := us.handle.Get(&usr, "SELECT * FROM usr WHERE id = ?;", id)
