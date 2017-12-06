@@ -30,7 +30,7 @@ func main() {
 	}
 
 	// read the JSON models file to get the Entity definitions
-	entities, err := gen.ReadModelFile2(*modelFile) // gen.GetEntities()
+	entities, err := gen.ReadModelFile(*modelFile) // gen.GetEntities()
 	if err != nil {
 		fmt.Println(err)
 	}

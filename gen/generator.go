@@ -33,10 +33,20 @@ type Info struct {
 	RelationCardinality string // iota?
 }
 
+// Relation definition
+type Relation struct {
+	RelName    string //  "AccountHolderToStreetAddress"
+	FromEntity string //  "AccountHolder"
+	RelType    string //  "hasOne; belongsTo; hasMany"
+	ToEntity   string //  "StreetAddress"
+	ForeignPK  string //  "id"
+}
+
 // Entity definition
 type Entity struct {
-	Header Info
-	Fields []Info
+	Header    Info
+	Fields    []Info
+	Relations []Relation
 	// CompositeIndexes []string  //
 	AppPath string
 }
@@ -146,7 +156,7 @@ func (ent *Entity) CreateControllerFile(tDir string) (fName string, err error) {
 		return "", err
 	}
 
-	// create the controller file path and create if required
+	// check the controller file path and create if required
 	tDir = tDir + "/controllers"
 	_, err = os.Stat(tDir)
 	if err != nil {
@@ -173,6 +183,52 @@ func (ent *Entity) CreateControllerFile(tDir string) (fName string, err error) {
 	err = ct.Execute(f, ent)
 	if err != nil {
 		log.Fatal("CreateControllerFile: ", err)
+		return "", err
+	}
+	log.Println("generated:", tfDir)
+	f.Close()
+	return tfDir, nil
+}
+
+// CreateControllerRelationsFile generates a controller file for
+// the Entity using the user-defined model.json file in conjunction
+// with the controller_relationships.gotmpl text/template.  Returns
+// the fully-qualified file-name / error.
+func (ent *Entity) CreateControllerRelationsFile(tDir string) (fName string, err error) {
+	ct := template.New("Entity controller relations template")
+	ct, err = template.ParseFiles("templates/controller_relation.gotmpl")
+	if err != nil {
+		log.Fatal("Parse: ", err)
+		return "", err
+	}
+
+	// check the controller file path and create if required
+	tDir = tDir + "/controllers"
+	_, err = os.Stat(tDir)
+	if err != nil {
+		os.Mkdir(tDir, 0755)
+	}
+
+	// create the controller_relations file
+	tfDir := tDir + "/" + ent.Header.Value + "_relationsc.go"
+	f, err := os.Create(tfDir)
+	if err != nil {
+		log.Fatal("CreateControllerRelationsFile: ", err)
+		return "", err
+	}
+	defer f.Close()
+
+	// set permissions
+	err = f.Chmod(0644)
+	if err != nil {
+		log.Fatal("CreateControllerRelationsFile: ", err)
+		return "", err
+	}
+
+	// execute the template using the new controller_relationsc.go file as a target
+	err = ct.Execute(f, ent)
+	if err != nil {
+		log.Fatal("CreateControllerRelationsFile: ", err)
 		return "", err
 	}
 	log.Println("generated:", tfDir)

@@ -22,6 +22,8 @@ func ReadModelFile(mf string) ([]Entity, error) {
 
 	var entities []Entity
 	var objmapSlice []map[string]json.RawMessage
+	var objMap map[string]json.RawMessage
+	var entMap map[string]json.RawMessage
 
 	// read the models.json file as []byte
 	raw, err := ioutil.ReadFile(mf)
@@ -30,24 +32,28 @@ func ReadModelFile(mf string) ([]Entity, error) {
 	}
 
 	// unmarshal the raw model json into a slice of map[string]json.RawMessage
-	err = json.Unmarshal(raw, &objmapSlice)
+	// err = json.Unmarshal(raw, &objmapSlice)
+	err = json.Unmarshal(raw, &objMap)
 	if err != nil {
 		return nil, err
 	}
 
-	var objmap map[string]json.RawMessage
+	// fmt.Println("objMap:", objMap) // entities[bytes],relations[bytes]
 
-	// iterate over the raw Entities - not good - does not order the struct fields reliably!
-	for _, objmap = range objmapSlice {
+	// deal with entities
+	err = json.Unmarshal(objMap["entities"], &objmapSlice) // typeName:string, properties: {}
+	if err != nil {
+		return nil, err
+	}
 
-		// get the Entity header information using the known json names
+	for _, entMap = range objmapSlice {
 		var e Entity
-		e.Header.Name = strings.Title(cleanString(string(objmap["typeName"])))
+		e.Header.Name = strings.Title(cleanString(string(entMap["typeName"])))
 		e.Header.Value = cleanString(strings.ToLower(e.Header.Name))
 
 		// parse the entity properties and use them to build out the
 		// content of the Entity's Info slice.
-		fieldString := string(objmap["properties"])
+		fieldString := string(entMap["properties"])
 		var fieldRecs []Info
 		if fieldString != "" {
 			fieldRecs, err = buildEntityColumns(fieldString, DataColumn)
@@ -58,14 +64,13 @@ func ReadModelFile(mf string) ([]Entity, error) {
 			for _, fr := range fieldRecs {
 				fr.GetRgenTagLine(true)
 				fr.GetJSONTagLine()
-				// fmt.Println("fr.GetGormTagLine:", fr.GormTagLine)
 				e.Fields = append(e.Fields, fr)
 			}
 		}
 
 		// get the composite index definitions, and then augment
-		// the GormTagLine values where required.
-		cmpIndexString := string(objmap["compositeIndexes"])
+		// the RgenTagLine values where required.
+		cmpIndexString := string(entMap["compositeIndexes"])
 		if cmpIndexString != "" {
 			e.Fields, err = buildCompositeIndexes(cmpIndexString, e.Fields)
 			if err != nil {
@@ -74,6 +79,37 @@ func ReadModelFile(mf string) ([]Entity, error) {
 		}
 
 		entities = append(entities, e)
+	}
+
+	// deal with relationships and foreign-keys
+	var relations []Relation
+	var relation Relation
+	var relmapSlice []map[string]json.RawMessage
+	err = json.Unmarshal(objMap["relations"], &relmapSlice) // typeName:string, properties: {}
+	if err != nil {
+		return nil, err
+	}
+
+	for _, relMap := range relmapSlice {
+
+		relation.RelName = cleanString(string(relMap["relName"]))
+		relString := string(relMap["properties"])
+		if relString != "" {
+			err = buildRelation(relString, &relation)
+			if err != nil {
+				return nil, err
+			}
+			relations = append(relations, relation)
+		}
+	}
+
+	// add the relations to their entity
+	for _, v := range relations {
+		for i := range entities {
+			if v.FromEntity != entities[i].Header.Name {
+				entities[i].Relations = append(entities[i].Relations, v)
+			}
+		}
 	}
 	return entities, nil
 }
@@ -244,6 +280,29 @@ func buildCompositeIndexes(cIdxString string, info []Info) ([]Info, error) {
 	return info, nil
 }
 
+// buildRelation reads relations information from the input string,
+// converts the string to a map, reads the map and populates the
+// relation struct.
+func buildRelation(relString string, relation *Relation) error {
+
+	relString = cleanString(relString)
+
+	// create a map of key_name: {key_attr1: value, key_attr2: value}
+	//var relObjMap map[string]json.RawMessage
+	// err := json.Unmarshal([]byte(relString), &relObjMap)
+	var relObjMap map[string]string
+	err := json.Unmarshal([]byte(relString), &relObjMap)
+	if err != nil {
+		return err
+	}
+
+	relation.FromEntity = relObjMap["fromEntity"]
+	relation.RelType = relObjMap["relType"]
+	relation.ToEntity = relObjMap["toEntity"]
+	relation.ForeignPK = relObjMap["foreignPK"]
+	return nil
+}
+
 // extractString attempts to read the interface parameter
 // as a string-type. if the type-assertion fails and parameter
 // i has a non-nil type, throw an error.  if the type-asserstion
@@ -266,6 +325,7 @@ func extractString(i interface{}) (string, bool) {
 	if ti == nil {
 		return "", true
 	}
+
 	return "", false
 }
 

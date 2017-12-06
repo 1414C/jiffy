@@ -470,7 +470,7 @@ it can be downloaded from https://www.openssl.org/source/ .  Follow the directio
 download and install the tool.
 <br/>
 
-### Generate a Private Certificate Authority (CA) Certificate
+### Generate a Private Certificate Authority (CA) Certificate Key
 
 Open a terminal session and execute the openssl command as shown:
 ```code
@@ -560,7 +560,7 @@ Verify that a file called "srvcert.cer" has been created.
 <br/>
 
 ### Ensure myCA.cer is Trusted Locally
-Ensure that myCA.cer is fully-trusted in your local certificate store.  The process to do this will differ per operating system, so look online for instructions regarding 'trusting a self-signed CA certificate'.
+Ensure that myCA.cer is fully-trusted in your local certificate store.  The process to do this will differ per operating system, so look online for instructions regarding 'trusting a self-signed CA certificate'.  You may also need to adjust the settings in test tools like Postman in order for them to accept self-signed certs.
 
 ### Add Certificates to the Configuration File
 In order to publish the generated services over https, add the "srvcert.cer" and "svrcert.key" files to the 'cert_file' and 'key_file' keys respectively in the appropriate configuration file.  Additionally, the myCA.key file must be placed in the same directory as the "srvcert.*" files in order for go's https (TLS) server to operate correctly.

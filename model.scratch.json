@@ -199,7 +199,7 @@
         "relName": "AccountHolderToStreetAddress",
         "properties": {
             "fromEntity": "AccountHolder", 
-            "type": "has_one",
+            "relType": "hasOne",
             "toEntity": "StreetAddress",
             "foreignPK": "id"
        }
@@ -208,7 +208,7 @@
          "relName": "AccountToAccountHolder",
          "properties": {
              "fromEntity": "Account", 
-             "type": "belongs_to",
+             "relType": "belongsTo",
              "toEntity": "AccountHolder",
              "foreignPK": "id"
         }
@@ -217,10 +217,10 @@
         "relName": "AccountHolderToAccount",
         "properties": {
             "fromEntity": "AccountHolder", 
-            "type": "has_many",
+            "relType": "hasMany",
             "toEntity": "Account",
-            "foreignPK": "james"
+            "foreignPK": "id"
        }
    }
-    ]
+]
 }
