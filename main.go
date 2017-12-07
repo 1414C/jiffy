@@ -52,6 +52,12 @@ func main() {
 			fmt.Println(err)
 		}
 		generatedFiles = append(generatedFiles, fn)
+
+		fn, err = ent.CreateControllerRelationsFile(*projectPath)
+		if err != nil {
+			fmt.Println(err)
+		}
+		generatedFiles = append(generatedFiles, fn)
 	}
 
 	// generate static model source files

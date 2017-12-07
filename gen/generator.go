@@ -35,11 +35,13 @@ type Info struct {
 
 // Relation definition
 type Relation struct {
-	RelName    string //  "AccountHolderToStreetAddress"
-	FromEntity string //  "AccountHolder"
-	RelType    string //  "hasOne; belongsTo; hasMany"
-	ToEntity   string //  "StreetAddress"
-	ForeignPK  string //  "id"
+	RelName      string //  "AccountHolderToStreetAddress"
+	FromEntity   string //  "AccountHolder"
+	FromEntityLC string //  "accountholder"
+	RelType      string //  "hasOne; belongsTo; hasMany"
+	ToEntity     string //  "StreetAddress"
+	ToEntityLC   string //  "streetaddress"
+	ForeignPK    string //  "id"
 }
 
 // Entity definition
@@ -196,7 +198,7 @@ func (ent *Entity) CreateControllerFile(tDir string) (fName string, err error) {
 // the fully-qualified file-name / error.
 func (ent *Entity) CreateControllerRelationsFile(tDir string) (fName string, err error) {
 	ct := template.New("Entity controller relations template")
-	ct, err = template.ParseFiles("templates/controller_relation.gotmpl")
+	ct, err = template.ParseFiles("templates/controller_relations.gotmpl")
 	if err != nil {
 		log.Fatal("Parse: ", err)
 		return "", err
@@ -724,6 +726,42 @@ func (i *Info) GetPtrIfNullable() string {
 		return "*"
 	}
 	return ""
+}
+
+// GetHasOne is used to provide a boolean response indicating whether
+// the relation is of relType 'hasOne'.
+// Called from within the controller_relations text/template.
+func (r *Relation) GetHasOne() bool {
+
+	s := strings.ToLower(r.RelType)
+	if cleanString(s) == "hasone" {
+		return true
+	}
+	return false
+}
+
+// GetHasMany is used to provide a boolean response indicating whether
+// the relation is of relType 'hasMany'.
+// Called from within the controller_relations text/template.
+func (r *Relation) GetHasMany() bool {
+
+	s := strings.ToLower(r.RelType)
+	if cleanString(s) == "hasmany" {
+		return true
+	}
+	return false
+}
+
+// GetBelongsTo is used to provide a boolean response indicating whether
+// the relation is of relType 'belongsTo'.
+// Called from within the controller_relations text/template.
+func (r *Relation) GetBelongsTo() bool {
+
+	s := strings.ToLower(r.RelType)
+	if cleanString(s) == "belongsto" {
+		return true
+	}
+	return false
 }
 
 // GetDateTimeStamp returns a stringified date-time in

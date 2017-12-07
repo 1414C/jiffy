@@ -7,8 +7,9 @@ A simple code generation utility to create RESTful services with a flexible DB b
 ## Work-In-Progress
 1.  Consider simply enforcing the use of ID & Href in the model definition as explicitly named fields.
 2.  Ensure that rune and byte types are fully accounted for
-3.  Consider relationship modeling in terms of end-point URL specification and response body
-4.  Update ReadModel to accept new model format
+3.  Add code to verify that entities and fields listed in the relations section of the model file are valid
+4.  Build controller_relations.gotmpl
+
 
 
 ## Features
@@ -629,6 +630,7 @@ ___
   - [ ] add opportunistic locking via etag concept
     - [ ] look at fast hash algorithms (murmur-2??)
   - [x] add Href to entities as a common self-referential field
+  - [x] update ReadModel() to accept new model format with relations
   - [ ] add code to support the links via child-href
   - [ ] add code to support expansion of child-href
     - [ ] 	Href string  `rgen:"-" json:"Href,omitempty"`

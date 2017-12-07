@@ -4,95 +4,103 @@
             "typeName": "AccountHolder",
             "properties": {
                 "name": {
-                "type": "string",
-                "format": "", 
-                "required": false,
-                "unique": false,
-                "index": "nonUnique",
-                "selectable": "eq,like"
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,like"
+                },
+                "socialSecurityNumber": {
+                    "type": "uint",
+                    "format": "", 
+                    "required": false,
+                    "unique": true,
+                    "index": "",
+                    "selectable": "eq,lt,gt"
+                },
+                "age": {
+                    "type": "uint",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "eq,lt,gt"
+                },
+                "weight": {
+                    "type": "float64",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "eq,lt,le,gt,ge"
+                },
+                "validLicense": {
+                    "type": "bool",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,ne"
+                },
+                "streetAddressID": {
+                    "type": "uint64",
+                    "format": "",
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,lt,le,gt,ge"
+                },
+                "notPersistedUint": {
+                    "type": "uint",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "",
+                    "no_db": true
+                },
+                "notPersistedFloat64": {
+                    "type": "float64",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "",
+                    "no_db": true
+                },
+                "notPersistedInt": {
+                    "type": "int",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "",
+                    "no_db": true
+                },
+                "notPersistedString": {
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "",
+                    "no_db": true
+                },
+                "notPersistedBool": {
+                    "type": "bool",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "",
+                    "no_db": true
+                }
             },
-            "socialSecurityNumber": {
-                "type": "uint",
-                "format": "", 
-                "required": false,
-                "unique": true,
-                "index": "",
-                "selectable": "eq,lt,gt"
-            },
-            "age": {
-                "type": "uint",
-                "format": "", 
-                "required": false,
-                "unique": false,
-                "index": "",
-                "selectable": "eq,lt,gt"
-            },
-            "weight": {
-                "type": "float64",
-                "format": "", 
-                "required": false,
-                "unique": false,
-                "index": "",
-                "selectable": "eq,lt,le,gt,ge"
-            },
-            "validLicense": {
-                "type": "bool",
-                "format": "", 
-                "required": false,
-                "unique": false,
-                "index": "nonUnique",
-                "selectable": "eq,ne"
-            },
-            "notPersistedUint": {
-                "type": "uint",
-                "format": "", 
-                "required": false,
-                "unique": false,
-                "index": "",
-                "selectable": "",
-                "no_db": true
-            },
-            "notPersistedFloat64": {
-                "type": "float64",
-                "format": "", 
-                "required": false,
-                "unique": false,
-                "index": "",
-                "selectable": "",
-                "no_db": true
-            },
-            "notPersistedInt": {
-                "type": "int",
-                "format": "", 
-                "required": false,
-                "unique": false,
-                "index": "",
-                "selectable": "",
-                "no_db": true
-            },
-            "notPersistedString": {
-                "type": "string",
-                "format": "", 
-                "required": false,
-                "unique": false,
-                "index": "",
-                "selectable": "",
-                "no_db": true
-            },
-            "notPersistedBool": {
-                "type": "bool",
-                "format": "", 
-                "required": false,
-                "unique": false,
-                "index": "",
-                "selectable": "",
-                "no_db": true
-            }
-        },
-        "compositeIndexes": [ 
-            {"index": "validLicense, age"},
-            {"index": "age, name"}
-        ]
+            "compositeIndexes": [ 
+                {"index": "validLicense, age"},
+                {"index": "age, name"}
+            ]
     },
     {
         "typeName": "Account",

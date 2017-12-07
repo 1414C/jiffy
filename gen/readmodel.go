@@ -106,7 +106,7 @@ func ReadModelFile(mf string) ([]Entity, error) {
 	// add the relations to their entity
 	for _, v := range relations {
 		for i := range entities {
-			if v.FromEntity != entities[i].Header.Name {
+			if v.FromEntity == entities[i].Header.Name {
 				entities[i].Relations = append(entities[i].Relations, v)
 			}
 		}
@@ -297,8 +297,10 @@ func buildRelation(relString string, relation *Relation) error {
 	}
 
 	relation.FromEntity = relObjMap["fromEntity"]
+	relation.FromEntityLC = strings.ToLower(relation.FromEntity)
 	relation.RelType = relObjMap["relType"]
 	relation.ToEntity = relObjMap["toEntity"]
+	relation.ToEntityLC = strings.ToLower(relation.ToEntity)
 	relation.ForeignPK = relObjMap["foreignPK"]
 	return nil
 }
