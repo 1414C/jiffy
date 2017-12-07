@@ -35,13 +35,14 @@ type Info struct {
 
 // Relation definition
 type Relation struct {
-	RelName      string //  "AccountHolderToStreetAddress"
-	FromEntity   string //  "AccountHolder"
-	FromEntityLC string //  "accountholder"
-	RelType      string //  "hasOne; belongsTo; hasMany"
-	ToEntity     string //  "StreetAddress"
-	ToEntityLC   string //  "streetaddress"
-	ForeignPK    string //  "id"
+	RelName        string //  "AccountHolderToStreetAddress"
+	FromEntity     string //  "AccountHolder"
+	FromEntityLC   string //  "accountholder"
+	FromEntityRefK string //  "streetAddressID" - default
+	RelType        string //  "hasOne; belongsTo; hasMany"
+	ToEntity       string //  "StreetAddress"
+	ToEntityLC     string //  "streetaddress"
+	ForeignPK      string //  "id"
 }
 
 // Entity definition

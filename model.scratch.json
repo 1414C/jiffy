@@ -207,6 +207,7 @@
         "relName": "AccountHolderToStreetAddress",
         "properties": {
             "fromEntity": "AccountHolder", 
+            "fromEntityRefKey": "",
             "relType": "hasOne",
             "toEntity": "StreetAddress",
             "foreignPK": "id"
@@ -216,6 +217,7 @@
          "relName": "AccountToAccountHolder",
          "properties": {
              "fromEntity": "Account", 
+             "fromEntityRefKey": "",
              "relType": "belongsTo",
              "toEntity": "AccountHolder",
              "foreignPK": "id"
@@ -225,6 +227,7 @@
         "relName": "AccountHolderToAccount",
         "properties": {
             "fromEntity": "AccountHolder", 
+            "fromEntityRefKey": "",
             "relType": "hasMany",
             "toEntity": "Account",
             "foreignPK": "id"
