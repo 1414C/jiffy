@@ -809,6 +809,10 @@ func (r *Relation) GetFromEntKeyField(info []Info) string {
 // an asterisk is required when performing field assignments using the key-field.
 func (r *Relation) GetFromEntKeyFieldIsOptional(fromEntKeyFieldName string, info []Info) string {
 
+	if fromEntKeyFieldName == "ID" {
+		return ""
+	}
+
 	for _, v := range info {
 		if v.Name == fromEntKeyFieldName {
 			if v.Required == true {

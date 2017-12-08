@@ -92,7 +92,7 @@
             "AccountHolderID": {
                 "type": "uint64",
                 "format": "", 
-                "required": false,
+                "required": true,
                 "index": "nonUnique",
                 "selectable": "eq"
             },
