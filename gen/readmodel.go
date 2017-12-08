@@ -78,39 +78,18 @@ func ReadModelFile(mf string) ([]Entity, error) {
 			}
 		}
 
-		entities = append(entities, e)
-	}
-
-	// deal with relationships and foreign-keys
-	var relations []Relation
-	var relation Relation
-	var relmapSlice []map[string]json.RawMessage
-	err = json.Unmarshal(objMap["relations"], &relmapSlice) // typeName:string, properties: {}
-	if err != nil {
-		return nil, err
-	}
-
-	for _, relMap := range relmapSlice {
-
-		relation.RelName = cleanString(string(relMap["relName"]))
-		relString := string(relMap["properties"])
+		// get the relationship definitions and append them to
+		// the current entity.
+		relString := string(entMap["relations"])
 		if relString != "" {
-			err = buildRelation(relString, &relation)
+			e.Relations, err = buildRelations(relString, e.Fields)
 			if err != nil {
 				return nil, err
 			}
-			relations = append(relations, relation)
 		}
+		entities = append(entities, e)
 	}
-
-	// add the relations to their entity
-	for _, v := range relations {
-		for i := range entities {
-			if v.FromEntity == entities[i].Header.Name {
-				entities[i].Relations = append(entities[i].Relations, v)
-			}
-		}
-	}
+	fmt.Println("entities:", entities)
 	return entities, nil
 }
 
@@ -254,8 +233,6 @@ func buildCompositeIndexes(cIdxString string, info []Info) ([]Info, error) {
 			indexColumnNames[i] = common.CamelToSnake(indexColumnNames[i])
 			cIdxDirective = cIdxDirective + "_" + indexColumnNames[i]
 		}
-		// fmt.Println("indexColumnNames:", indexColumnNames)
-		// fmt.Println("cIdxDirective:", cIdxDirective)
 
 		// now finally update the RgenTagLines.  for each column name in the
 		// index, read the list of fields in the entity ([]info).  when an
@@ -280,29 +257,43 @@ func buildCompositeIndexes(cIdxString string, info []Info) ([]Info, error) {
 	return info, nil
 }
 
-// buildRelation reads relations information from the input string,
-// converts the string to a map, reads the map and populates the
-// relation struct.
-func buildRelation(relString string, relation *Relation) error {
+// buildRelations reads relations information from the input string,
+// converts the string to a slice of maps, reads each map and populates
+// the relation struct.
+func buildRelations(relString string, info []Info) ([]Relation, error) {
+
+	var relations []Relation
+	var relation Relation
 
 	relString = cleanString(relString)
 
-	// create a map of key_name: {key_attr1: value, key_attr2: value}
-	//var relObjMap map[string]json.RawMessage
-	// err := json.Unmarshal([]byte(relString), &relObjMap)
-	var relObjMap map[string]string
-	err := json.Unmarshal([]byte(relString), &relObjMap)
+	var relMapSlice = make([]map[string]json.RawMessage, 0)
+	err := json.Unmarshal([]byte(relString), &relMapSlice)
 	if err != nil {
-		return err
+		fmt.Println("relations unmarshalling error:", err)
+		return nil, err
 	}
 
-	relation.FromEntity = relObjMap["fromEntity"]
-	relation.FromEntityLC = strings.ToLower(relation.FromEntity)
-	relation.RelType = relObjMap["relType"]
-	relation.ToEntity = relObjMap["toEntity"]
-	relation.ToEntityLC = strings.ToLower(relation.ToEntity)
-	relation.ForeignPK = relObjMap["foreignPK"]
-	return nil
+	for _, relMap := range relMapSlice {
+
+		relation.RelName = cleanString(string(relMap["relName"]))
+		relation.RelNameLC = strings.ToLower(relation.RelName)
+		relPropString := string(relMap["properties"])
+		if relString != "" {
+			var relPropMap map[string]string
+			err := json.Unmarshal([]byte(relPropString), &relPropMap)
+			if err != nil {
+				return nil, err
+			}
+			relation.RefKey = relPropMap["refKey"]
+			relation.RelType = relPropMap["relType"]
+			relation.ToEntity = relPropMap["toEntity"]
+			relation.ToEntityLC = strings.ToLower(relation.ToEntity)
+			relation.ForeignPK = relPropMap["foreignPK"]
+			relations = append(relations, relation)
+		}
+	}
+	return relations, nil
 }
 
 // extractString attempts to read the interface parameter

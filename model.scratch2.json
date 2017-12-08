@@ -3,7 +3,7 @@
         {
             "typeName": "AccountHolder",
             "properties": {
-                "name": {
+                "Name": {
                     "type": "string",
                     "format": "", 
                     "required": false,
@@ -11,7 +11,7 @@
                     "index": "nonUnique",
                     "selectable": "eq,like"
                 },
-                "socialSecurityNumber": {
+                "SocialSecurityNumber": {
                     "type": "uint",
                     "format": "", 
                     "required": false,
@@ -19,7 +19,7 @@
                     "index": "",
                     "selectable": "eq,lt,gt"
                 },
-                "age": {
+                "Age": {
                     "type": "uint",
                     "format": "", 
                     "required": false,
@@ -27,7 +27,7 @@
                     "index": "",
                     "selectable": "eq,lt,gt"
                 },
-                "weight": {
+                "Weight": {
                     "type": "float64",
                     "format": "", 
                     "required": false,
@@ -35,7 +35,7 @@
                     "index": "",
                     "selectable": "eq,lt,le,gt,ge"
                 },
-                "validLicense": {
+                "ValidLicense": {
                     "type": "bool",
                     "format": "", 
                     "required": false,
@@ -43,7 +43,7 @@
                     "index": "nonUnique",
                     "selectable": "eq,ne"
                 },
-                "streetAddressID": {
+                "StreetAddressID": {
                     "type": "uint64",
                     "format": "",
                     "required": false,
@@ -51,44 +51,8 @@
                     "index": "nonUnique",
                     "selectable": "eq,lt,le,gt,ge"
                 },
-                "notPersistedUint": {
+                "NotPersistedUint": {
                     "type": "uint",
-                    "format": "", 
-                    "required": false,
-                    "unique": false,
-                    "index": "",
-                    "selectable": "",
-                    "no_db": true
-                },
-                "notPersistedFloat64": {
-                    "type": "float64",
-                    "format": "", 
-                    "required": false,
-                    "unique": false,
-                    "index": "",
-                    "selectable": "",
-                    "no_db": true
-                },
-                "notPersistedInt": {
-                    "type": "int",
-                    "format": "", 
-                    "required": false,
-                    "unique": false,
-                    "index": "",
-                    "selectable": "",
-                    "no_db": true
-                },
-                "notPersistedString": {
-                    "type": "string",
-                    "format": "", 
-                    "required": false,
-                    "unique": false,
-                    "index": "",
-                    "selectable": "",
-                    "no_db": true
-                },
-                "notPersistedBool": {
-                    "type": "bool",
                     "format": "", 
                     "required": false,
                     "unique": false,
@@ -100,33 +64,53 @@
             "compositeIndexes": [ 
                 {"index": "validLicense, age"},
                 {"index": "age, name"}
-            ]
+            ],
+            "relations": [
+                    { 
+                    "relName": "StreetAddress",
+                        "properties": {
+                            "refKey": "",
+                            "relType": "hasOne",
+                            "toEntity": "StreetAddress",
+                            "foreignPK": ""
+                        }
+                    },
+                    { 
+                    "relName": "Account",
+                        "properties": {
+                            "refKey": "ID",
+                            "relType": "hasMany",
+                            "toEntity": "Account",
+                            "foreignPK": "AccountHolderID"
+                        }
+                    } 
+                ]
     },
     {
         "typeName": "Account",
         "properties": {
-            "accountHolderID": {
+            "AccountHolderID": {
                 "type": "uint64",
                 "format": "", 
                 "required": false,
                 "index": "nonUnique",
                 "selectable": "eq"
             },
-            "bankName": {
+            "BankName": {
                 "type": "string",
                 "format": "", 
                 "required": true,
                 "index": "nonUnique",
                 "selectable": "eq,like"
             },
-            "bankTransit": {
+            "BankTransit": {
                 "type": "uint",
                 "format": "", 
                 "required": true,
                 "index": "nonUnique",
                 "selectable": "eq"
             },
-            "street": {
+            "Street": {
                 "type": "string",
                 "dbType": "varchar(100)",
                 "format": "", 
@@ -134,35 +118,35 @@
                 "index": "nonUnique",
                 "selectable": "eq,like"
             },
-            "streetNumber": {
+            "StreetNumber": {
                 "type": "string",
                 "format": "", 
                 "required": false,
                 "index": "",
                 "selectable": ""
             },
-            "postCode": {
+            "PostCode": {
                 "type": "string",
                 "format": "", 
                 "required": false,
                 "index": "nonUnique",
                 "selectable": "eq,like"
             },  
-            "accountType": {
+            "AccountType": {
                 "type": "string",
                 "format": "", 
                 "required": true,
                 "index": "nonUnique",
                 "selectable": "eq,like"
             },
-            "accountNumber": {
+            "AccountNumber": {
                 "type": "uint",
                 "format": "", 
                 "required": true,
                 "index": "nonUnique",
                 "selectable": "eq"
             },
-            "accountBalance": {
+            "AccountBalance": {
                 "type": "float64",
                 "format": "", 
                 "required": false,
@@ -174,26 +158,26 @@
     {
         "typeName": "StreetAddress",
         "properties": {
-            "city": {
+            "City": {
                 "type": "string",
                 "format": "", 
                 "required": true,
                 "index": "nonUnique",
                 "selectable": "eq,like"
             },
-            "street": {
+            "Street": {
                 "type": "string",
                 "format": "", 
                 "required": true,
                 "index": "nonUnique",
                 "selectable": "eq,like"
             },
-            "houseNumber": {
+            "HouseNumber": {
                 "type": "string",
                 "format": "", 
                 "selectable": "eq,gt,lt"
             },
-            "postCode":{
+            "PostCode":{
                 "type": "string",
                 "format": "", 
                 "index": "nonUnique",
@@ -201,37 +185,5 @@
             }
         }
     }
-    ],
- "relations": [
-    {
-        "relName": "AccountHolderToStreetAddress",
-        "properties": {
-            "fromEntity": "AccountHolder", 
-            "fromEntityRefKey": "",
-            "relType": "hasOne",
-            "toEntity": "StreetAddress",
-            "foreignPK": ""
-       }
-   },
-     {
-         "relName": "AccountToAccountHolder",
-         "properties": {
-             "fromEntity": "Account", 
-             "fromEntityRefKey": "",
-             "relType": "belongsTo",
-             "toEntity": "AccountHolder",
-             "foreignPK": "id"
-        }
-    },
-    {
-        "relName": "AccountHolderToAccount",
-        "properties": {
-            "fromEntity": "AccountHolder", 
-            "fromEntityRefKey": "",
-            "relType": "hasMany",
-            "toEntity": "Account",
-            "foreignPK": "id"
-       }
-   }
-]
+    ]
 }

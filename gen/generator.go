@@ -35,14 +35,13 @@ type Info struct {
 
 // Relation definition
 type Relation struct {
-	RelName        string //  "AccountHolderToStreetAddress"
-	FromEntity     string //  "AccountHolder"
-	FromEntityLC   string //  "accountholder"
-	FromEntityRefK string //  "streetAddressID" - default
-	RelType        string //  "hasOne; belongsTo; hasMany"
-	ToEntity       string //  "StreetAddress"
-	ToEntityLC     string //  "streetaddress"
-	ForeignPK      string //  "id"
+	RelName    string //  "ToStreetAddress" || "StreetAddress" for example
+	RelNameLC  string //  "tostreetaddress" || "streetaddress" for example - used in mux route
+	RefKey     string //  "streetAddressID" - default key name in FromEntity
+	RelType    string //  "hasOne; belongsTo; hasMany"
+	ToEntity   string //  "StreetAddress"
+	ToEntityLC string //  "streetaddress"
+	ForeignPK  string //  "id"
 }
 
 // Entity definition
@@ -763,6 +762,61 @@ func (r *Relation) GetBelongsTo() bool {
 		return true
 	}
 	return false
+}
+
+// GetToEntKeyField is used to determine the name of the
+// key-field in the ToEntity of any relation.
+// Called from within the controller_relations text/template.
+func (r *Relation) GetToEntKeyField(info []Info) string {
+
+	if r.ForeignPK == "" {
+		return "ID"
+	}
+	return r.ForeignPK
+}
+
+// GetFromEntKeyField is used to determine the name of the
+// key-field in the FromEntity of any relation.
+// Called from within the controller_relations text/template.
+func (r *Relation) GetFromEntKeyField(info []Info) string {
+
+	if r.RefKey == "" {
+		refKey := r.ToEntity + "ID"
+		for _, v := range info {
+			if v.Name == refKey {
+				return refKey
+			}
+		}
+		panic(fmt.Errorf("unable to determine default relation key for relation %s - tried default of %s", r.RelName, refKey))
+	}
+
+	for _, v := range info {
+		if v.Name == r.RefKey {
+			return r.RefKey
+		}
+	}
+
+	r.RefKey = strings.ToUpper(r.RefKey)
+	if r.RefKey != "ID" {
+		panic(fmt.Errorf("relation key %s for relation %s does not exist in the FromEntity field-list", r.RefKey, r.RelName))
+	}
+	return r.RefKey
+}
+
+// GetFromEntKeyFieldIsOptional determines whether the fromEntKeyField in a relation
+// is an optional member in its entity definition. As optional fields are declared as
+// pointers in their model struct, the generation text/template must understand whether
+// an asterisk is required when performing field assignments using the key-field.
+func (r *Relation) GetFromEntKeyFieldIsOptional(fromEntKeyFieldName string, info []Info) string {
+
+	for _, v := range info {
+		if v.Name == fromEntKeyFieldName {
+			if v.Required == true {
+				return "" // field is not optional
+			}
+		}
+	}
+	return "*"
 }
 
 // GetDateTimeStamp returns a stringified date-time in
