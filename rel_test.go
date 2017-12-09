@@ -1,8 +1,9 @@
 package main_test
 
 import (
-	"github.com/1414C/rgen/gen"
 	"testing"
+
+	"github.com/1414C/rgen/gen"
 )
 
 // TestGetAreFromAndToKeysOpt
@@ -813,7 +814,6 @@ func TestGetIsFromKeyOptAndToKeyReq(t *testing.T) {
 	if bResult != false {
 		t.Errorf("rel.GetIsFromKeyOptAndToKeyReq expected false (0,0) - got %t", bResult)
 	}
-
 }
 
 // TestGetIsFromKeyReqAndToKeyOpt
@@ -1084,5 +1084,4 @@ func TestGetIsFromKeyReqAndToKeyOpt(t *testing.T) {
 	if bResult != false {
 		t.Errorf("rel.GetIsFromKeyReqAndToKeyOpt expected false (0,0) - got %t", bResult)
 	}
-
 }
