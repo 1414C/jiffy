@@ -38,9 +38,10 @@ func main() {
 	generatedFiles := make([]string, 0)
 
 	// iterate over the entities to create model and controller files
-	for _, ent := range entities {
+	for i, ent := range entities {
 
 		ent.AppPath = appPath
+		entities[i].AppPath = appPath
 		fn, err := ent.CreateModelFile(*projectPath)
 		if err != nil {
 			fmt.Println(err)
@@ -48,12 +49,6 @@ func main() {
 		generatedFiles = append(generatedFiles, fn)
 
 		fn, err = ent.CreateControllerFile(*projectPath)
-		if err != nil {
-			fmt.Println(err)
-		}
-		generatedFiles = append(generatedFiles, fn)
-
-		fn, err = ent.CreateControllerRelationsFile(*projectPath)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -84,6 +79,16 @@ func main() {
 		fmt.Println(err)
 	}
 	generatedFiles = append(generatedFiles, fs...)
+
+	// iterate over the entities to create their relations
+	// via the generation of entity-specific controllers.
+	for _, ent := range entities {
+		fn, err := ent.CreateControllerRelationsFile(*projectPath, entities)
+		if err != nil {
+			fmt.Println(err)
+		}
+		generatedFiles = append(generatedFiles, fn)
+	}
 
 	// generate static middleware source files
 	s = gen.Static{

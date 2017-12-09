@@ -41,6 +41,7 @@ type Relation struct {
 	RelType    string //  "hasOne; belongsTo; hasMany"
 	ToEntity   string //  "StreetAddress"
 	ToEntityLC string //  "streetaddress"
+	ToEntInfo  []Info //  ToEntity-field-meta-data
 	ForeignPK  string //  "id"
 }
 
@@ -193,10 +194,13 @@ func (ent *Entity) CreateControllerFile(tDir string) (fName string, err error) {
 }
 
 // CreateControllerRelationsFile generates a controller file for
-// the Entity using the user-defined model.json file in conjunction
-// with the controller_relationships.gotmpl text/template.  Returns
-// the fully-qualified file-name / error.
-func (ent *Entity) CreateControllerRelationsFile(tDir string) (fName string, err error) {
+// the Entity relations using the user-defined model.json file in
+// conjunction with the controller_relationships.gotmpl text/template.
+// The complete set of Entities is passed into the method in order to
+// facilitate the validation of the ToEntity field used in the
+// foreign-key definition.
+// Returns the fully-qualified file-name / error.
+func (ent *Entity) CreateControllerRelationsFile(tDir string, entities []Entity) (fName string, err error) {
 	ct := template.New("Entity controller relations template")
 	ct, err = template.ParseFiles("templates/controller_relations.gotmpl")
 	if err != nil {
@@ -765,14 +769,26 @@ func (r *Relation) GetBelongsTo() bool {
 }
 
 // GetToEntKeyField is used to determine the name of the
-// key-field in the ToEntity of any relation.
+// key-field in the ToEntity of any relation.  []info contains
+// the field-information related to the ToEntity.
 // Called from within the controller_relations text/template.
 func (r *Relation) GetToEntKeyField(info []Info) string {
 
+	// if the ForeignKey field has not been specified
+	// return 'ID'.
 	if r.ForeignPK == "" {
 		return "ID"
 	}
-	return r.ForeignPK
+
+	// ensure that the specified field exists as a member
+	// of the ToEntity fieldset.
+	for _, v := range info {
+		if v.Name == r.ForeignPK {
+			return r.ForeignPK
+		}
+	}
+	// validation failed - model is not consistent so terminate
+	panic(fmt.Errorf("failed while attempting to generate relation %s.  %s specified as ForeignPK is not a valid field in entity %s", r.RelName, r.ForeignPK, r.ToEntity))
 }
 
 // GetFromEntKeyField is used to determine the name of the
@@ -807,6 +823,7 @@ func (r *Relation) GetFromEntKeyField(info []Info) string {
 // is an optional member in its entity definition. As optional fields are declared as
 // pointers in their model struct, the generation text/template must understand whether
 // an asterisk is required when performing field assignments using the key-field.
+// Called from within the controller_relations text/template.
 func (r *Relation) GetFromEntKeyFieldIsOptional(fromEntKeyFieldName string, info []Info) string {
 
 	if fromEntKeyFieldName == "ID" {
@@ -821,6 +838,137 @@ func (r *Relation) GetFromEntKeyFieldIsOptional(fromEntKeyFieldName string, info
 		}
 	}
 	return "*"
+}
+
+// GetAreFromAndToKeysOpt returns true if the fromEntKey and toEntKey are both defined as optional.
+// Called from within the controller_relations text/template.
+func (r *Relation) GetAreFromAndToKeysOpt(fromEntKeyName, toEntKeyName string, fromInfo, toInfo []Info) bool {
+
+	// ID will always be required
+	if fromEntKeyName == "ID" {
+		return false
+	}
+	// if the from key is required, return false
+	for _, v := range fromInfo {
+		if fromEntKeyName == v.Name && v.Required == true {
+			return false
+		}
+	}
+	// at this point, the from key is deemed to be optional
+
+	// ID will always be required
+	if toEntKeyName == "ID" {
+		return false
+	}
+	// if the to key is required, return false
+	for _, v := range toInfo {
+		if toEntKeyName == v.Name && v.Required == true {
+			return false
+		}
+	}
+	return true
+}
+
+// GetIsFromKeyOptAndToKeyReq returns true if the fromEntKey has been defined as optional, the the toEntKey
+// has been defined as required.
+// Called from within the controller_relations text/template.
+func (r *Relation) GetIsFromKeyOptAndToKeyReq(fromEntKeyName, toEntKeyName string, fromInfo, toInfo []Info) bool {
+
+	// ID will always be required
+	if fromEntKeyName == "ID" {
+		return false
+	}
+	// if the from key is required, return false
+	for _, v := range fromInfo {
+		if fromEntKeyName == v.Name && v.Required == true {
+			return false
+		}
+	}
+	// at this point, the from key is deemed to be optional
+
+	// ID will always be required
+	if toEntKeyName == "ID" {
+		return true
+	}
+	// if the to key is required, return true
+	for _, v := range toInfo {
+		if toEntKeyName == v.Name && v.Required == true {
+			return true
+		}
+	}
+	return false
+}
+
+// GetIsFromKeyReqAndToKeyOpt returns true if the fromEntKey has been defined as required, the the toEntKey
+// has been defined as optional.
+// Called from within the controller_relations text/template.
+func (r *Relation) GetIsFromKeyReqAndToKeyOpt(fromEntKeyName, toEntKeyName string, fromInfo, toInfo []Info) bool {
+
+	bFrom := false
+
+	// ID will always be required
+	if fromEntKeyName == "ID" {
+		bFrom = true
+	} else {
+		// if the from key is not required, return false
+		for _, v := range fromInfo {
+			if fromEntKeyName == v.Name && v.Required == true {
+				bFrom = true
+			}
+		}
+	}
+	// at this point, if the from key is deemed to be optional, return false
+	if bFrom == false {
+		return false
+	}
+
+	// ID will always be required, so return false
+	if toEntKeyName == "ID" {
+		return false
+	}
+	// if the to key is not required, return true
+	for _, v := range toInfo {
+		if toEntKeyName == v.Name && v.Required != true {
+			return true
+		}
+	}
+	return false
+}
+
+// GetAreFromAndToKeysReq returns true if the fromEntKey and toEntKey are both defined as required.
+// Called from within the controller_relations text/template.
+func (r *Relation) GetAreFromAndToKeysReq(fromEntKeyName, toEntKeyName string, fromInfo, toInfo []Info) bool {
+
+	bFrom := false
+
+	// ID will always be required
+	if fromEntKeyName == "ID" {
+		bFrom = true
+	} else {
+		// is the fromKey required?
+		for _, v := range fromInfo {
+			if fromEntKeyName == v.Name && v.Required == true {
+				bFrom = true
+			}
+		}
+	}
+	// at this point, if the from key is deemed to be optional return false
+	if bFrom == false {
+		return false
+	}
+
+	// ID will always be required
+	if toEntKeyName == "ID" {
+		return true
+	}
+	// if the to key is required, return true
+	for _, v := range toInfo {
+		if toEntKeyName == v.Name && v.Required == true {
+			return true
+		}
+	}
+	// otherwise return false
+	return false
 }
 
 // GetDateTimeStamp returns a stringified date-time in

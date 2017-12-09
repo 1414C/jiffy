@@ -89,7 +89,24 @@ func ReadModelFile(mf string) ([]Entity, error) {
 		}
 		entities = append(entities, e)
 	}
-	fmt.Println("entities:", entities)
+
+	// for each entity-relationship , embed the ToEntity's []Info.
+	// This is used for validation of user-based key selection when
+	// generating the controllers for the relations.
+	for i := range entities {
+		for j := range entities[i].Relations {
+			for _, v := range entities {
+				if v.Header.Name == entities[i].Relations[j].ToEntity {
+					// prevent non-persisted fields from inclusio in []ToEntInfo
+					for _, f := range v.Fields {
+						if !f.NoDB {
+							entities[i].Relations[j].ToEntInfo = append(entities[i].Relations[j].ToEntInfo, f)
+						}
+					}
+				}
+			}
+		}
+	}
 	return entities, nil
 }
 

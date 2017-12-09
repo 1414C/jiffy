@@ -32,19 +32,11 @@ import (
 {{/*  2. function to determine which type of relation to create             */ -}}
 {{/*  3. support for GET 1 and GET Many                                     */ -}}
 {{/*  4. examine differences between hasOne, hasMany, belongsTo             */ -}}
-{{/*  4. examine differences between hasOne, hasMany, belongsTo             */ -}}
-{{/*  5. consider that the key fields (from and to) may have been defined   */ -}}
-{{/*     as optional.  This means that indirection must be accounted for    */ -}}
-{{/*     in the assignments.                                                */ -}}
 
 {{ range .Relations -}}
 
-{{/*  $toEntityFields contains the gen.[]Info field definitions for the     */ -}}
-{{/*  ToEntity.  This is required for the validation of user-based key      */ -}}
-{{/*  key selection (non-ID).                                               */ -}}
-{{$toEntityFields := .ToEntInfo -}}
-
-{{ $toEntKeyField := .GetToEntKeyField $toEntityFields -}}
+{{/* {{ $new_json := .BuildTestPostJSON $upd }}  */}}
+{{ $toEntKeyField := .GetToEntKeyField $fields -}}
 {{ $fromEntKeyField := .GetFromEntKeyField $fields -}}
 {{ $fromEntKeyFieldIsOptional := .GetFromEntKeyFieldIsOptional $fromEntKeyField $fields -}}
 

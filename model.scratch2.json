@@ -72,7 +72,7 @@
                             "refKey": "",
                             "relType": "hasOne",
                             "toEntity": "StreetAddress",
-                            "foreignPK": ""
+                            "foreignPK": "StreetAltKey"
                         }
                     },
                     { 
@@ -181,6 +181,12 @@
                 "type": "string",
                 "format": "", 
                 "index": "nonUnique",
+                "selectable": "eq,like"
+            },
+            "StreetAltKey":{
+                "type": "uint64",
+                "format": "", 
+                "index": "unique",
                 "selectable": "eq,like"
             }
         }
