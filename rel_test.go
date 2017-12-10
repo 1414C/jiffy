@@ -269,7 +269,7 @@ func TestGetAreFromAndToKeysOpt(t *testing.T) {
 	fromInfo = append(fromInfo, fromRow)
 	fromRow = gen.Info{}
 
-	// call with the key names/slices - expect false response
+	// call with the key names/slices - expect true response
 	bResult = rel.GetAreFromAndToKeysOpt("FromID", "AltToID", fromInfo, toInfo)
 	if bResult != true {
 		t.Errorf("rel.GetAreFromAndToKeysOpt expected false (0,0) - got %t", bResult)
@@ -331,7 +331,7 @@ func TestGetAreFromAndToKeysReq(t *testing.T) {
 	toInfo = append(toInfo, toRow)
 	toRow = gen.Info{}
 
-	// call with the key names/slices - expect false response
+	// call with the key names/slices - expect true response
 	bResult := rel.GetAreFromAndToKeysReq("ID", "ToID", fromInfo, toInfo)
 	if bResult != true {
 		t.Errorf("rel.GetAreFromAndToKeysReq expected true (1,1) - got %t", bResult)
@@ -705,7 +705,7 @@ func TestGetIsFromKeyOptAndToKeyReq(t *testing.T) {
 	fromInfo = append(fromInfo, fromRow)
 	fromRow = gen.Info{}
 
-	// call with the key names/slices - expect false response
+	// call with the key names/slices - expect true response
 	bResult = rel.GetIsFromKeyOptAndToKeyReq("FromID", "ID", fromInfo, toInfo)
 	if bResult != true {
 		t.Errorf("rel.GetIsFromKeyOptAndToKeyReq expected false (0,1) - got %t", bResult)
@@ -923,7 +923,7 @@ func TestGetIsFromKeyReqAndToKeyOpt(t *testing.T) {
 	toInfo = append(toInfo, toRow)
 	toRow = gen.Info{}
 
-	// call with the key names/slices - expect false response
+	// call with the key names/slices - expect true response
 	bResult = rel.GetIsFromKeyReqAndToKeyOpt("ID", "ToID", fromInfo, toInfo)
 	if bResult != true {
 		t.Errorf("rel.GetIsFromKeyReqAndToKeyOpt expected true (1,0) - got %t", bResult)
@@ -1027,7 +1027,7 @@ func TestGetIsFromKeyReqAndToKeyOpt(t *testing.T) {
 	fromInfo = append(fromInfo, fromRow)
 	fromRow = gen.Info{}
 
-	// call with the key names/slices - expect true response
+	// call with the key names/slices - expect false response
 	bResult = rel.GetIsFromKeyReqAndToKeyOpt("FromID", "AltToID", fromInfo, toInfo)
 	if bResult != false {
 		t.Errorf("rel.GetIsFromKeyReqAndToKeyOpt expected false (0,1) - got %t", bResult)
