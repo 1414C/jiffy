@@ -1,0 +1,73 @@
+{
+    "entities":  [
+        {
+            "typeName": "Person",
+            "properties": {
+                "Name": {
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,like"
+                },
+                "SocialSecurityNumber": {
+                    "type": "uint",
+                    "format": "", 
+                    "required": false,
+                    "unique": true,
+                    "index": "",
+                    "selectable": "eq,lt,gt"
+                },
+                "City": {
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "eq,lt,gt"
+                }
+            },
+            "compositeIndexes": [ 
+                {"index": "name, city"}
+            ],
+            "relations": [
+                    { 
+                    "relName": "Shirt",
+                        "properties": {
+                            "refKey": "",
+                            "relType": "hasMany",
+                            "toEntity": "Shirt",
+                            "foreignPK": ""
+                        }
+                    }
+                ]
+    },
+    {
+        "typeName": "Shirt",
+        "properties": {
+            "Size": {
+                "type": "string",
+                "format": "", 
+                "required": true,
+                "index": "nonUnique",
+                "selectable": "eq,like"
+            },
+            "Brand": {
+                "type": "string",
+                "format": "", 
+                "required": true,
+                "index": "nonUnique",
+                "selectable": "eq,like"
+            },
+            "PersonID": {
+                "type": "uint64",
+                "format": "", 
+                "required": true,
+                "index": "nonUnique",
+                "selectable": "eq,like"
+            }
+        }
+    }
+    ]
+}

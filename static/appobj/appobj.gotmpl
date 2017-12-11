@@ -169,7 +169,7 @@ func (a *AppObj) initializeRoutes() {
 	a.router.HandleFunc("/usr/{id:[0-9]+}", a.usrC.Delete).Methods("DELETE")
 
     {{range .Entities -}} 
-    // add {{.Header.Name}} protected routes for standard CRUD access and simple filtering
+    // ====================== {{.Header.Name}} protected routes for standard CRUD access ======================
     a.router.HandleFunc("/{{.Header.Value}}s", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Get{{.Header.Name}}s)).Methods("GET")
     a.router.HandleFunc("/{{.Header.Value}}", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Create)).Methods("POST")
     a.router.HandleFunc("/{{.Header.Value}}/{id:[0-9]+}", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Get)).Methods("GET")
@@ -179,26 +179,39 @@ func (a *AppObj) initializeRoutes() {
     {{$headerName := .Header.Name -}}
 	{{$headerValue := .Header.Value -}}
 
-	// add relations for {{.Header.Name}}
+	//====================================== {{.Header.Name}} Relations ======================================
 	{{range .Relations -}}
-		{{if .GetHasOne -}}
+		{{if or .GetHasOne -}}
 	// hasOne relation {{.RelName}} for {{$headerName}}
-			a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.ToEntity}})).Methods("GET")
-			a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}/{{ printf "%s" "{" }}{{.ToEntityLC}}_id:[0-9]+}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.ToEntity}})).Methods("GET")	
-				
+	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.ToEntity}})).Methods("GET")
+	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}/{{ printf "%s" "{" }}{{.ToEntityLC}}_id:[0-9]+}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.ToEntity}})).Methods("GET")	
+
 		{{end -}}
+
 		{{if .GetHasMany -}}
 	// hasMany relation {{.RelName}} for {{$headerName}}
 	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}s", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.ToEntity}}s)).Methods("GET")
 	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}/{{ printf "%s" "{" }}{{.ToEntityLC}}_id:[0-9]+}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.ToEntity}}s)).Methods("GET")
 
 		{{end -}}
-		{{if .GetBelongsTo -}}
+
+		{{if .GetBelongsToOne -}}
+	// belongsToOne relation {{.RelName}} for {{$headerName}}
+	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.ToEntity}})).Methods("GET")
+	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}/{{ printf "%s" "{" }}{{.ToEntityLC}}_id:[0-9]+}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.ToEntity}})).Methods("GET")	
+
+		{{end -}}
+
+		{{if .GetBelongsToMany -}}
+	// belongstoMany relation {{.RelName}} for {{$headerName}}
+	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}s", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.ToEntity}}s)).Methods("GET")
+	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}/{{ printf "%s" "{" }}{{.ToEntityLC}}_id:[0-9]+}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.ToEntity}}s)).Methods("GET")
 
 		{{end -}}
 
 	{{end -}}
 
+//=================================== {{.Header.Name}} Static Filters ===================================
 	{{range .Fields -}}
 		{{if .Selectable -}}
 			{{if .IsStringFieldType -}}

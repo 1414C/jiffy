@@ -35,14 +35,16 @@ type Info struct {
 
 // Relation definition
 type Relation struct {
-	RelName    string //  "ToStreetAddress" || "StreetAddress" for example
-	RelNameLC  string //  "tostreetaddress" || "streetaddress" for example - used in mux route
-	RefKey     string //  "streetAddressID" - default key name in FromEntity
-	RelType    string //  "hasOne; belongsTo; hasMany"
-	ToEntity   string //  "StreetAddress"
-	ToEntityLC string //  "streetaddress"
-	ToEntInfo  []Info //  ToEntity-field-meta-data
-	ForeignPK  string //  "id"
+	RelName      string //  "ToStreetAddress" || "StreetAddress" for example
+	RelNameLC    string //  "tostreetaddress" || "streetaddress" for example - used in mux route
+	RefKey       string //  "ID" - default key name in FromEntity
+	RelType      string //  "hasOne; belongsTo; hasMany"
+	FromEntity   string //  "Person"
+	FromEntityLC string // "person"
+	ToEntity     string //  "StreetAddress"
+	ToEntityLC   string //  "streetaddress"
+	ToEntInfo    []Info //  ToEntity-field-meta-data
+	ForeignPK    string //  "<FromEntity>ID"
 }
 
 // Entity definition
@@ -756,13 +758,25 @@ func (r *Relation) GetHasMany() bool {
 	return false
 }
 
-// GetBelongsTo is used to provide a boolean response indicating whether
-// the relation is of relType 'belongsTo'.
+// GetBelongsToOne is used to provide a boolean response indicating whether
+// the relation is of relType 'belongsToOne'.
 // Called from within the controller_relations text/template.
-func (r *Relation) GetBelongsTo() bool {
+func (r *Relation) GetBelongsToOne() bool {
 
 	s := strings.ToLower(r.RelType)
-	if cleanString(s) == "belongsto" {
+	if cleanString(s) == "belongstoone" {
+		return true
+	}
+	return false
+}
+
+// GetBelongsToMany is used to provide a boolean response indicating whether
+// the relation is of relType 'belongsToMany'.
+// Called from within the controller_relations text/template.
+func (r *Relation) GetBelongsToMany() bool {
+
+	s := strings.ToLower(r.RelType)
+	if cleanString(s) == "belongstomany" {
 		return true
 	}
 	return false
@@ -772,17 +786,17 @@ func (r *Relation) GetBelongsTo() bool {
 // key-field in the ToEntity of any relation.  []info contains
 // the field-information related to the ToEntity.
 // Called from within the controller_relations text/template.
-func (r *Relation) GetToEntKeyField(info []Info) string {
+func (r *Relation) GetToEntKeyField(toInfo []Info) string {
 
 	// if the ForeignKey field has not been specified
 	// return 'ID'.
 	if r.ForeignPK == "" {
-		return "ID"
+		return r.FromEntity + "ID"
 	}
 
 	// ensure that the specified field exists as a member
 	// of the ToEntity fieldset.
-	for _, v := range info {
+	for _, v := range toInfo {
 		if v.Name == r.ForeignPK {
 			return r.ForeignPK
 		}
@@ -794,19 +808,20 @@ func (r *Relation) GetToEntKeyField(info []Info) string {
 // GetFromEntKeyField is used to determine the name of the
 // key-field in the FromEntity of any relation.
 // Called from within the controller_relations text/template.
-func (r *Relation) GetFromEntKeyField(info []Info) string {
+func (r *Relation) GetFromEntKeyField(fromInfo []Info) string {
 
 	if r.RefKey == "" {
-		refKey := r.ToEntity + "ID"
-		for _, v := range info {
-			if v.Name == refKey {
-				return refKey
-			}
-		}
-		panic(fmt.Errorf("unable to determine default relation key for relation %s - tried default of %s", r.RelName, refKey))
+		return "ID"
+		// refKey := r.ToEntity + "ID"
+		// for _, v := range info {
+		// 	if v.Name == refKey {
+		// 		return refKey
+		// 	}
+		// }
+		// panic(fmt.Errorf("GetFromEntKeyField():unable to determine default relation key for relation %s - tried default of %s", r.RelName, refKey))
 	}
 
-	for _, v := range info {
+	for _, v := range fromInfo {
 		if v.Name == r.RefKey {
 			return r.RefKey
 		}

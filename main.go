@@ -35,6 +35,17 @@ func main() {
 		fmt.Println(err)
 	}
 
+	for _, e := range entities {
+		for _, r := range e.Relations {
+			fmt.Println("relation:", r.RelName)
+			fmt.Println("r.RelType:", r.RelType)
+			fmt.Println("r.RefKey:", r.RefKey)
+			fmt.Println("r.ForeignPK:", r.ForeignPK)
+			fmt.Println("")
+			fmt.Println("")
+		}
+	}
+
 	generatedFiles := make([]string, 0)
 
 	// iterate over the entities to create model and controller files

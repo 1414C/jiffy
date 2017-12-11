@@ -79,10 +79,13 @@ func ReadModelFile(mf string) ([]Entity, error) {
 		}
 
 		// get the relationship definitions and append them to
-		// the current entity.
+		// the current entity.  this is step one of two in the
+		// relations construction.  all entitites need to be
+		// created in order for the relations key/field info
+		// to be applied.
 		relString := string(entMap["relations"])
 		if relString != "" {
-			e.Relations, err = buildRelations(relString, e.Fields)
+			e.Relations, err = buildRelationsBase(e.Header.Name, relString, e.Fields)
 			if err != nil {
 				return nil, err
 			}
@@ -90,23 +93,12 @@ func ReadModelFile(mf string) ([]Entity, error) {
 		entities = append(entities, e)
 	}
 
-	// for each entity-relationship , embed the ToEntity's []Info.
-	// This is used for validation of user-based key selection when
-	// generating the controllers for the relations.
-	for i := range entities {
-		for j := range entities[i].Relations {
-			for _, v := range entities {
-				if v.Header.Name == entities[i].Relations[j].ToEntity {
-					// prevent non-persisted fields from inclusio in []ToEntInfo
-					for _, f := range v.Fields {
-						if !f.NoDB {
-							entities[i].Relations[j].ToEntInfo = append(entities[i].Relations[j].ToEntInfo, f)
-						}
-					}
-				}
-			}
-		}
+	// complete Relations construction now that all entities have been populated
+	err = completeRelations(entities)
+	if err != nil {
+		return nil, err
 	}
+
 	return entities, nil
 }
 
@@ -277,7 +269,7 @@ func buildCompositeIndexes(cIdxString string, info []Info) ([]Info, error) {
 // buildRelations reads relations information from the input string,
 // converts the string to a slice of maps, reads each map and populates
 // the relation struct.
-func buildRelations(relString string, info []Info) ([]Relation, error) {
+func buildRelationsBase(fromEntName, relString string, info []Info) ([]Relation, error) {
 
 	var relations []Relation
 	var relation Relation
@@ -304,6 +296,11 @@ func buildRelations(relString string, info []Info) ([]Relation, error) {
 			}
 			relation.RefKey = relPropMap["refKey"]
 			relation.RelType = relPropMap["relType"]
+			if relation.RelType != "hasOne" && relation.RelType != "hasMany" && relation.RelType != "belongsTo" {
+				return nil, fmt.Errorf("relations relationship-type error - %s is not a valid relationship type", relation.RelType)
+			}
+			relation.FromEntity = fromEntName
+			relation.FromEntityLC = strings.ToLower(relation.FromEntity)
 			relation.ToEntity = relPropMap["toEntity"]
 			relation.ToEntityLC = strings.ToLower(relation.ToEntity)
 			relation.ForeignPK = relPropMap["foreignPK"]
@@ -311,6 +308,98 @@ func buildRelations(relString string, info []Info) ([]Relation, error) {
 		}
 	}
 	return relations, nil
+}
+
+// completeRelations uses the completed entity definitions to
+// validate and populate relations keys.
+func completeRelations(entities []Entity) error {
+
+	// for each entity-relationship , embed the ToEntity's []Info.
+	// This is used for validation of user-based key selection when
+	// generating the controllers for the relations.
+	for i := range entities {
+		for j := range entities[i].Relations {
+			for _, v := range entities {
+				if v.Header.Name == entities[i].Relations[j].ToEntity {
+					// prevent non-persisted fields from inclusion in []ToEntInfo
+					for _, f := range v.Fields {
+						if !f.NoDB {
+							entities[i].Relations[j].ToEntInfo = append(entities[i].Relations[j].ToEntInfo, f)
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// examine each relation and determine the validity of the named keys,
+	// and/or set the default key names in the Relation to remove the need
+	// to perform the operation inside the text/template.
+	for i := range entities {
+		for j := range entities[i].Relations {
+			v := &entities[i].Relations[j]
+
+			// from side
+			if v.RefKey == "" {
+				switch v.RelType {
+				case "hasOne":
+					v.RefKey = "ID"
+
+				case "hasMany":
+					v.RefKey = "ID"
+
+				case "belongsTo":
+					v.RefKey = v.ToEntity + "ID"
+
+				default:
+					// RelType is previously checked - so hard stop here
+					panic(fmt.Errorf("unknown relationship type %s detected", v.RelType))
+				}
+			}
+			// validate from RefKey
+			bValid := false
+			if v.RefKey != "ID" {
+				for _, f := range entities[i].Fields {
+					if f.Name == v.RefKey {
+						bValid = true
+					}
+				}
+				if bValid == false {
+					return fmt.Errorf("RefKey %s is not a valid field-name in %s relationship %s", v.RefKey, entities[i].Header.Name, v.RelName)
+				}
+			}
+
+			// to side
+			if v.ForeignPK == "" {
+				switch v.RelType {
+				case "hasOne":
+					v.ForeignPK = v.FromEntity + "ID"
+
+				case "hasMany":
+					v.ForeignPK = v.FromEntity + "ID"
+
+				case "belongsTo":
+					v.ForeignPK = "ID"
+
+				default:
+					// RelType is previously checked - so hard stop here
+					panic(fmt.Errorf("unknown relationship type %s detected", v.RelType))
+				}
+			}
+			// validate to ForeignPK
+			if v.ForeignPK != "ID" {
+				for _, f := range v.ToEntInfo {
+					if f.Name == v.ForeignPK {
+						bValid = true
+					}
+				}
+				if bValid == false {
+					return fmt.Errorf("ForeignPK %s is not a valid field-name in %s relationship %s", v.ForeignPK, entities[i].Header.Name, v.RelName)
+				}
+			}
+		}
+	}
+	return nil
 }
 
 // extractString attempts to read the interface parameter
