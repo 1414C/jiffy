@@ -43,14 +43,18 @@ import (
 {{/*  ToEntity.  This is required for the validation of user-based key      */ -}}
 {{/*  key selection (non-ID).                                               */ -}}
 {{$toEntityFields := .ToEntInfo -}}
+{{$toEntKeyField := .GetToEntKeyField $toEntityFields -}}
+{{$toEntKeyFieldIsOptional := .GetEntFieldIsOptional $toEntKeyField $toEntityFields -}}
+ 
+{{$fromEntKeyField := .GetFromEntKeyField $fields -}}
+{{/* {{ $fromEntKeyFieldIsOptional := .GetFromEntKeyFieldIsOptional $fromEntKeyField $fields -}} */ -}}
+{{$fromEntKeyFieldIsOptional := .GetEntFieldIsOptional $fromEntKeyField $fields -}}
 
-{{ $toEntKeyField := .GetToEntKeyField $toEntityFields -}}
-{{ $fromEntKeyField := .GetFromEntKeyField $fields -}}
-{{ $fromEntKeyFieldIsOptional := .GetFromEntKeyFieldIsOptional $fromEntKeyField $fields -}}
-
+{{/*  Begin of the hasOne relations support                                 */ -}}
 	{{if .GetHasOne -}}
 // Get{{$headerName}}{{.ToEntity}} facilitates the retrieval of the {{.ToEntity}} related to {{$headerName}}.  
 // This method is bound to the gorilla.mux router in appobj.go.
+// 1:1
 //
 // GET /{{$headerName}}/:id/{{.RelName}}
 // GET /{{$headerName}}/:id/{{.RelName}}/:id
@@ -105,13 +109,32 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.ToEntity}} (w 
 		for _, v := range pathSlice {
 			switch v {
 			case "{{.ToEntityLC}}":
-				{{.ToEntityLC}}.{{$toEntKeyField}} = {{$fromEntKeyFieldIsOptional}}{{$headerValue}}.{{$fromEntKeyField}}
+				{{if .GetAreFromAndToKeysOpt $fromEntKeyField $toEntKeyField $fields $toEntityFields -}}
+				{{.ToEntityLC}}.{{$toEntKeyField}} = {{$headerValue}}.{{$fromEntKeyField}}
+				{{end -}}
+				{{if .GetAreFromAndToKeysReq $fromEntKeyField $toEntKeyField $fields $toEntityFields -}}
+				{{.ToEntityLC}}.{{$toEntKeyField}} = {{$headerValue}}.{{$fromEntKeyField}}
+				{{end -}}
+				{{if .GetIsFromKeyOptAndToKeyReq $fromEntKeyField $toEntKeyField $fields $toEntityFields -}}
+				{{.ToEntityLC}}.{{$toEntKeyField}} = &{{$headerValue}}.{{$fromEntKeyField}}
+				{{end -}}
+				{{if .GetIsFromKeyReqAndToKeyOpt $fromEntKeyField $toEntKeyField $fields $toEntityFields -}}
+				{{.ToEntityLC}}.{{$toEntKeyField}} = *{{$headerValue}}.{{$fromEntKeyField}}
+				{{end -}}
 			}
 		}
 	} else {
-		if {{.ToEntityLC}}ID == {{$fromEntKeyFieldIsOptional}}{{$headerValue}}.{{$fromEntKeyField}} {
+		{{if $fromEntKeyFieldIsOptional -}}
+		if {{.ToEntityLC}}ID == *{{$headerValue}}.{{$fromEntKeyField}} {
+		{{else -}}
+		if {{.ToEntityLC}}ID == {{$headerValue}}.{{$fromEntKeyField}} {
+		{{end -}}
 
+		{{if $toEntKeyFieldIsOptional -}}
+			{{.ToEntityLC}}.{{$toEntKeyField}} = &{{.ToEntityLC}}ID
+		{{else -}}
 			{{.ToEntityLC}}.{{$toEntKeyField}} = {{.ToEntityLC}}ID
+		{{end -}}
 		} else {
 
 			err := fmt.Errorf("bad request - keys in URL do not align")
@@ -130,15 +153,21 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.ToEntity}} (w 
 		urlString = "http://"
 	}
 
-	urlString = fmt.Sprintf("%s%s/{{.ToEntityLC}}/%d", urlString, r.Host, {{$fromEntKeyFieldIsOptional}}{{$headerValue}}.{{$fromEntKeyField}})
+	{{if $fromEntKeyFieldIsOptional -}}
+	urlString = fmt.Sprintf("%s%s/{{.ToEntityLC}}/%d", urlString, r.Host, *{{$headerValue}}.{{$fromEntKeyField}})
+	{{else -}}
+	urlString = fmt.Sprintf("%s%s/{{.ToEntityLC}}/%d", urlString, r.Host, {{$headerValue}}.{{$fromEntKeyField}})
+	{{end -}}
 	http.Redirect(w, r, urlString, http.StatusSeeOther)
 }
 	{{end -}}
 
 
+{{/*  Begin of the hasMany relations support                            */ -}}
 	{{if .GetHasMany -}}
-// Get{{$headerName}}{{.ToEntity}}s facilitates the retrieval of the {{.ToEntity}} related to {{$headerName}}.  
+// Get{{$headerName}}{{.ToEntity}}s facilitates the retrieval of {{.ToEntity}}s related to {{$headerName}}.  
 // This method is bound to the gorilla.mux router in appobj.go.
+// 1:N
 //
 // GET /{{$headerName}}/:id/{{.RelName}}s
 // GET /{{$headerName}}/:id/{{.RelName}}/:id
@@ -171,44 +200,6 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.ToEntity}}s (w
 		return
 	}
 
-	var {{.ToEntityLC}} models.{{.ToEntity}}	
-
-	// :{{.ToEntityLC}}_id was provided?
-	if {{.ToEntityLC}}ID == 0 {
-
-		relURI := strings.TrimPrefix(r.RequestURI, "/")
-		uriSlice := strings.Split(relURI, "/")
-		var pathSlice []string
-
-		for i := 0; i < len(uriSlice); i++ {
-			fmt.Printf("i:%d, uriSlice[i]: %s\n", i, uriSlice[i])
-			if i == 0 || i == 1 {
-				continue
-			}
-			pathSlice = append(pathSlice, uriSlice[i])
-		}
-		fmt.Println("pathSlice:", pathSlice)
-
-		// should only have {{.ToEntityLC}}<value>
-		for _, v := range pathSlice {
-			switch v {
-			case "{{.ToEntityLC}}":
-				{{.ToEntityLC}}.{{$toEntKeyField}} = {{$fromEntKeyFieldIsOptional}}{{$headerValue}}.{{$fromEntKeyField}}
-			}
-		}
-	} else {
-		if {{.ToEntityLC}}ID == {{$fromEntKeyFieldIsOptional}}{{$headerValue}}.{{$fromEntKeyField}} {
-
-			{{.ToEntityLC}}.{{$toEntKeyField}} = {{.ToEntityLC}}ID
-		} else {
-
-			err := fmt.Errorf("bad request - keys in URL do not align")
-			log.Println(err.Error())
-			respondWithError(w, http.StatusBadRequest, err.Error())
-			return
-		}
-	}
-
 	// build the target url for the navigation, and then redirect thereby reusing
 	// all the existing ConnectionState (TLS/transport/client etc.)
 	urlString = ""
@@ -218,9 +209,17 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.ToEntity}}s (w
 		urlString = "http://"
 	}
 
-	urlString = fmt.Sprintf("%s%s/{{.ToEntityLC}}/%d", urlString, r.Host, {{$fromEntKeyFieldIsOptional}}{{$headerValue}}.{{$fromEntKeyField}})
-	http.Redirect(w, r, urlString, http.StatusSeeOther)
+	if {{.ToEntityLC}}ID == 0 {
+		urlString = fmt.Sprintf("%s%s/{{.ToEntityLC}}s", urlString, r.Host)
+	} else {
+	{{if $fromEntKeyFieldIsOptional -}}
+		urlString = fmt.Sprintf("%s%s/{{.ToEntityLC}}/%d", urlString, r.Host)
+	{{else -}}
+		urlString = fmt.Sprintf("%s%s/{{.ToEntityLC}}/%d", urlString, r.Host, {{.ToEntityLC}}ID)
+	{{end -}}
 
+	}
+	http.Redirect(w, r, urlString, http.StatusSeeOther)
 }
 
 	{{end -}}

@@ -840,6 +840,28 @@ func (r *Relation) GetFromEntKeyFieldIsOptional(fromEntKeyFieldName string, info
 	return "*"
 }
 
+// GetEntFieldIsOptional determines whether the EntField in a relation  is an optional
+// member in its entity definition. As optional fields are declared as pointers in their
+// model struct, the generation text/template must understand whether an asterisk or
+// ampersand is required when performing field assignments using the field.  A field
+// name of 'ID' will always return as required (for now).
+// Called from within the controller_relations text/template.
+func (r *Relation) GetEntFieldIsOptional(entFieldName string, info []Info) bool {
+
+	if entFieldName == "ID" {
+		return false // not optional
+	}
+
+	for _, v := range info {
+		if v.Name == entFieldName {
+			if v.Required == true {
+				return false // not optional
+			}
+		}
+	}
+	return true
+}
+
 // GetAreFromAndToKeysOpt returns true if the fromEntKey and toEntKey are both defined as optional.
 // Called from within the controller_relations text/template.
 func (r *Relation) GetAreFromAndToKeysOpt(fromEntKeyName, toEntKeyName string, fromInfo, toInfo []Info) bool {
