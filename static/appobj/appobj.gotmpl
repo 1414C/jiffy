@@ -179,7 +179,9 @@ func (a *AppObj) initializeRoutes() {
     {{$headerName := .Header.Name -}}
 	{{$headerValue := .Header.Value -}}
 
+	{{if .Relations -}}
 	//====================================== {{.Header.Name}} Relations ======================================
+	{{end -}}
 	{{range .Relations -}}
 		{{if or .GetHasOne -}}
 	// hasOne relation {{.RelName}} for {{$headerName}}
@@ -195,17 +197,10 @@ func (a *AppObj) initializeRoutes() {
 
 		{{end -}}
 
-		{{if .GetBelongsToOne -}}
+		{{if .GetBelongsTo -}}
 	// belongsToOne relation {{.RelName}} for {{$headerName}}
 	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.ToEntity}})).Methods("GET")
 	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}/{{ printf "%s" "{" }}{{.ToEntityLC}}_id:[0-9]+}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.ToEntity}})).Methods("GET")	
-
-		{{end -}}
-
-		{{if .GetBelongsToMany -}}
-	// belongstoMany relation {{.RelName}} for {{$headerName}}
-	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}s", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.ToEntity}}s)).Methods("GET")
-	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}/{{ printf "%s" "{" }}{{.ToEntityLC}}_id:[0-9]+}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.ToEntity}}s)).Methods("GET")
 
 		{{end -}}
 

@@ -202,6 +202,22 @@ func ({{$pref}}v *{{$headerValue}}Validator) normval{{.Name}}({{$headerValue}} *
 {{printf "%s" "\n" -}}
 {{end}}
 
+{{range .Relations -}}
+
+//-------------------------------------------------------------------------------------------------------
+// internal {{$headerValue}} relations Validator funcs
+//-------------------------------------------------------------------------------------------------------
+
+// GetRel{{$headerName}}{{.RelName}} is passed through to the ORM with no validation.
+func ({{$pref}}v *{{$headerValue}}Validator) GetRel{{$headerName}}{{.RelName}}({{.ToEntityLC}} *{{.ToEntity}}) error {
+
+	// TODO: implement normalization and validation for the GetRel{{$headerName}}{{.RelName}} call.
+	// TODO: typically no modifications are required here.
+	return {{$pref}}v.{{$headerName}}DB.GetRel{{$headerName}}{{.RelName}}({{.ToEntityLC}})
+}
+
+{{end -}}
+
 //-------------------------------------------------------------------------------------------------------
 // internal {{$headerValue}} relations Validator funcs
 //-------------------------------------------------------------------------------------------------------
@@ -314,6 +330,20 @@ func (ge *{{.Header.Name}}GetEntitiesT) Exec(sqh sqac.PublicDB) error {
 	return nil
 }
 //- - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+{{if .Relations -}}
+//-------------------------------------------------------------------------------------------------------
+// ORM db relations selector access methods
+//-------------------------------------------------------------------------------------------------------
+//
+{{end -}}
+{{range .Relations -}}
+func ({{$pref}}s *{{$headerValue}}Sqac) GetRel{{$headerName}}{{.RelName}}({{.ToEntityLC}} *{{.ToEntity}}) error {
+
+	return nil
+}
+
+{{end -}}
 
 //-------------------------------------------------------------------------------------------------------
 // ORM db relations selector access methods

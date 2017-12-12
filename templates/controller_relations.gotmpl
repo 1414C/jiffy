@@ -127,14 +127,10 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 	{{end -}}
 
 
-{{/*  Begin of the hasMany and belongsToMany relations support             */ -}}
-	{{if or .GetHasMany .GetBelongsToMany -}}
+{{/*  Begin of the hasMany relations support                                 */ -}}
+	{{if .GetHasMany -}}
 // Get{{$headerName}}{{.ToEntity}}s facilitates the retrieval of {{.ToEntity}}s related to {{$headerName}}
-{{if .GetHasMany -}}
 // by way of modeled 'hasMany' relationship {{.RelName}}.   
-{{else -}}
-// by way of modeled 'belongsToMany' relationship {{.RelName}}. 
-{{end -}}  
 // This method is bound to the gorilla.mux router in appobj.go.
 // 1:N
 //
