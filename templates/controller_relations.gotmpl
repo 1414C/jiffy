@@ -51,7 +51,7 @@ import (
 {{$fromEntKeyFieldIsOptional := .GetEntFieldIsOptional $fromEntKeyField $fields -}}
 
 {{/*  Begin of the hasOne relations support               */ -}}
-	{{if or .GetHasOne -}}
+	{{if .GetHasOne -}}
 // Get{{$headerName}}{{.ToEntity}} facilitates the retrieval of the {{.ToEntity}} related to {{$headerName}}
 // by way of modeled 'hasOne' relationship {{.RelName}}.   
 // This method is bound to the gorilla.mux router in appobj.go.
@@ -97,7 +97,6 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 	}
 	
 	map{{.ToEntity}}Params["{{.ForeignPK}}"] = {{.FromEntityLC}}ID
-	// map{{.ToEntity}}Params["{{.FromEntity}}ID"] = {{.FromEntityLC}}ID
 
 	// call GetRel{{$headerName}}{{.RelName}} in the model
 	err = {{$pref}}c.{{$pref}}s.GetRel{{$headerName}}{{.RelName}}(&{{.ToEntityLC}}, map{{.ToEntity}}Params)
@@ -129,14 +128,18 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 
 {{/*  Begin of the hasMany relations support                                 */ -}}
 	{{if .GetHasMany -}}
-// Get{{$headerName}}{{.ToEntity}}s facilitates the retrieval of {{.ToEntity}}s related to {{$headerName}}
+// Get{{$headerName}}{{.RelName}} facilitates the retrieval of {{.ToEntity}}s related to {{$headerName}}
 // by way of modeled 'hasMany' relationship {{.RelName}}.   
 // This method is bound to the gorilla.mux router in appobj.go.
 // 1:N
 //
-// GET /{{$headerName}}/:id/{{.RelName}}s
+// GET /{{$headerName}}/:id/{{.RelName}}
 // GET /{{$headerName}}/:id/{{.RelName}}/:id
-func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.ToEntity}}s (w http.ResponseWriter, r *http.Request) {
+func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w http.ResponseWriter, r *http.Request) {
+
+	bSingle := false
+	{{.ToEntityLC}} := models.{{.ToEntity}}{}
+	{{.ToEntityLC}}s := []models.{{.ToEntity}}{}
 
 	vars := mux.Vars(r)
 	{{$headerValue}}ID, err := strconv.ParseUint(vars["{{$headerValue}}_id"], 10, 64)
@@ -150,6 +153,7 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.ToEntity}}s (w
 
 	// build a base urlString for the JSON Body self-referencing Href tag
 	urlString := buildHrefStringFromCRUDReq(r, false)
+	fmt.Println("urlString:",urlString)
 
 	// in all cases the {{$headerValue}} must be retrieved, as the validity of the
 	// the access-path must be verified.  Also consider that the {{.ToEntityLC}}
@@ -165,26 +169,46 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.ToEntity}}s (w
 		return
 	}
 
-	// build the target url for the navigation, and then redirect thereby reusing
-	// all the existing ConnectionState (TLS/transport/client etc.)
-	urlString = ""
+	// populate params for ToEntity in the generic map
+	map{{.ToEntity}}Params := make(map[string]interface{})
+	if {{.ToEntityLC}}ID != 0 {
+		map{{.ToEntity}}Params["ID"] = {{.ToEntityLC}}ID
+		bSingle = true
+	}
+	
+	map{{.ToEntity}}Params["{{.ForeignPK}}"] = {{.FromEntityLC}}ID
+
+	// call GetRel{{$headerName}}{{.RelName}} in the model
+	err = {{$pref}}c.{{$pref}}s.GetRel{{$headerName}}{{.RelName}}(&{{.ToEntityLC}}s, map{{.ToEntity}}Params)
+	if err != nil {
+		log.Println(err)
+		respondWithError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	// populate Href for each {{.ToEntity}}
+	baseHref := ""
 	if r.TLS != nil {
-		urlString = "https://"
+		baseHref = "https://"
 	} else {
-		urlString = "http://"
+		baseHref = "http://"
 	}
 
-	if {{.ToEntityLC}}ID == 0 {
-		urlString = fmt.Sprintf("%s%s/{{.ToEntityLC}}s", urlString, r.Host)
-	} else {
-	{{if $fromEntKeyFieldIsOptional -}}
-		urlString = fmt.Sprintf("%s%s/{{.ToEntityLC}}/%d", urlString, r.Host)
-	{{else -}}
-		urlString = fmt.Sprintf("%s%s/{{.ToEntityLC}}/%d", urlString, r.Host, {{.ToEntityLC}}ID)
-	{{end -}}
-
+	for i := range {{.ToEntityLC}}s {
+		{{.ToEntityLC}}s[i].Href = fmt.Sprintf("%s%s/{{.ToEntityLC}}/%d", baseHref, r.Host, {{.ToEntityLC}}s[i].ID)
 	}
-	http.Redirect(w, r, urlString, http.StatusSeeOther)
+
+	if bSingle {
+		if len({{.ToEntityLC}}s) > 0 {
+			{{.ToEntityLC}} = {{.ToEntityLC}}s[0]
+			respondWithJSON(w, http.StatusCreated, {{.ToEntityLC}})
+			return
+		}
+	} else {
+		respondWithJSON(w, http.StatusCreated, {{.ToEntityLC}}s)
+		return
+	}
+	respondWithJSON(w, http.StatusOK, "[]")
 }
 
 	{{end -}}

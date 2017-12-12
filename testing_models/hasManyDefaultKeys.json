@@ -1,28 +1,20 @@
 {
     "entities":  [
         {
-            "typeName": "Person",
+            "typeName": "Library",
             "properties": {
                 "Name": {
                     "type": "string",
                     "format": "", 
-                    "required": false,
+                    "required": true,
                     "unique": false,
                     "index": "nonUnique",
                     "selectable": "eq,like"
                 },
-                "SocialSecurityNumber": {
-                    "type": "uint",
-                    "format": "", 
-                    "required": false,
-                    "unique": true,
-                    "index": "",
-                    "selectable": "eq,lt,gt"
-                },
                 "City": {
                     "type": "string",
                     "format": "", 
-                    "required": false,
+                    "required": true,
                     "unique": false,
                     "index": "",
                     "selectable": "eq,lt,gt"
@@ -33,34 +25,41 @@
             ],
             "relations": [
                     { 
-                    "relName": "Shirt",
+                    "relName": "Books",
                         "properties": {
                             "refKey": "",
                             "relType": "hasMany",
-                            "toEntity": "Shirt",
+                            "toEntity": "Book",
                             "foreignPK": ""
                         }
                     }
                 ]
     },
     {
-        "typeName": "Shirt",
+        "typeName": "Book",
         "properties": {
-            "Size": {
+            "Title": {
                 "type": "string",
                 "format": "", 
                 "required": true,
                 "index": "nonUnique",
                 "selectable": "eq,like"
             },
-            "Brand": {
-                "type": "string",
+            "Hardcover": {
+                "type": "bool",
                 "format": "", 
                 "required": true,
-                "index": "nonUnique",
-                "selectable": "eq,like"
+                "index": "",
+                "selectable": "eq,ne"
             },
-            "PersonID": {
+            "Copies": {
+                "type": "uint64",
+                "format": "", 
+                "required": true,
+                "index": "",
+                "selectable": "eq,lt,gt"
+            },
+            "LibraryID": {
                 "type": "uint64",
                 "format": "", 
                 "required": true,

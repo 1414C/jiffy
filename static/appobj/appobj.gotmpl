@@ -192,7 +192,7 @@ func (a *AppObj) initializeRoutes() {
 
 		{{if .GetHasMany -}}
 	// hasMany relation {{.RelName}} for {{$headerName}}
-	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}s", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.ToEntity}}s)).Methods("GET")
+	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.ToEntity}}s)).Methods("GET")
 	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}/{{ printf "%s" "{" }}{{.ToEntityLC}}_id:[0-9]+}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.ToEntity}}s)).Methods("GET")
 
 		{{end -}}
