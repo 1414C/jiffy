@@ -6,10 +6,9 @@ A simple code generation utility to create RESTful services with a flexible DB b
 
 ## Work-In-Progress
 1.  Consider simply enforcing the use of ID & Href in the model definition as explicitly named fields.
-2.  Ensure that rune and byte types are fully accounted for
-3.  Add code to verify that entities and fields listed in the relations section of the model file are valid
-4.  Build controller_relations.gotmpl
-
+2.  Ensure that rune and byte types are fully accounted for.
+3.  Add code to verify that entities and fields listed in the relations section of the model file are valid.
+4.  Build controller_relations.gotmpl for BelongsTo.
 
 
 
