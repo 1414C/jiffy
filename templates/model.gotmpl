@@ -45,6 +45,11 @@ type {{.Header.Name}}DB interface {
 		Get{{$headerName}}sBy{{.Name}}(op string, {{.Name}} {{.Value}}) []{{$headerName}}
 	{{end -}}
 {{end -}}
+{{range .Relations -}}
+	{{if .GetHasOne -}}
+		GetRel{{$headerName}}{{.RelName}}({{.ToEntityLC}} *{{.ToEntity}}, mapParams map[string]interface{}) error
+	{{end -}}
+{{end -}}
 
 }
 
@@ -198,6 +203,21 @@ func ({{$pref}}v *{{$headerValue}}Validator) normval{{.Name}}({{$headerValue}} *
 {{end}}
 
 //-------------------------------------------------------------------------------------------------------
+// internal {{$headerValue}} relations Validator funcs
+//-------------------------------------------------------------------------------------------------------
+
+{{range .Relations -}}
+// GetRel{{.FromEntity}}{{.RelName}} is passed through to the ORM with no validation.
+func ({{$pref}}v *{{.FromEntityLC}}Validator) GetRel{{.FromEntity}}{{.RelName}}({{.ToEntityLC}} *{{.ToEntity}}, mapParams map[string]interface{}) error {
+
+	// TODO: implement normalization and validation for the GetRel{{.FromEntity}}{{.RelName}} call.
+	// TODO: typically no modifications are required here.
+	return {{$pref}}v.{{.FromEntity}}DB.GetRel{{.FromEntity}}{{.RelName}}({{.ToEntityLC}}, mapParams)
+}
+
+{{end -}}
+
+//-------------------------------------------------------------------------------------------------------
 // internal {{.Header.Value}} Simple Query Validator funcs
 //-------------------------------------------------------------------------------------------------------
 // Simple query normalization and validation occurs in the controller to an
@@ -294,6 +314,44 @@ func (ge *{{.Header.Name}}GetEntitiesT) Exec(sqh sqac.PublicDB) error {
 	return nil
 }
 //- - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+//-------------------------------------------------------------------------------------------------------
+// ORM db relations selector access methods
+//-------------------------------------------------------------------------------------------------------
+//
+{{range .Relations -}}
+	{{if .GetHasOne -}}
+func ({{$pref}}s *{{.FromEntityLC}}Sqac) GetRel{{.FromEntity}}{{.RelName}}({{.ToEntityLC}} *{{.ToEntity}}, mapParams map[string]interface{}) error {
+
+	var c string
+	var s string
+
+	for k, v := range mapParams {
+		switch reflect.TypeOf(v).String() {
+		case "string":
+			s = fmt.Sprintf("%s%s = '%v' AND ", c, common.CamelToSnake(k), v)
+		default:
+			s = fmt.Sprintf("%s%s = %v AND ", c, common.CamelToSnake(k), v)
+		}
+		c = s
+	}
+	c = strings.TrimSuffix(c, " AND ")
+
+	qs := fmt.Sprintf("SELECT * FROM {{.ToEntityLC}} WHERE %s;", c)
+	fmt.Println("qs:", qs)
+	err := {{$pref}}s.handle.Get({{.ToEntityLC}}, qs)
+	if err != nil {
+		log.Println("GetRel{{.FromEntity}}{{.RelName}}:", err)
+		return nil
+	}
+
+	if {{$pref}}s.handle.IsLog() {
+		log.Printf("GetRel{{.FromEntity}}{{.RelName}} found: %v \n", {{.ToEntityLC}})
+	}
+	return nil
+}
+	{{end -}}
+{{end -}}
 
 //-------------------------------------------------------------------------------------------------------
 // ORM db simple selector access methods

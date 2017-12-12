@@ -50,20 +50,16 @@ import (
 {{/* {{ $fromEntKeyFieldIsOptional := .GetFromEntKeyFieldIsOptional $fromEntKeyField $fields -}} */ -}}
 {{$fromEntKeyFieldIsOptional := .GetEntFieldIsOptional $fromEntKeyField $fields -}}
 
-{{/*  Begin of the hasOne and belongsToOne relations support               */ -}}
-	{{if or .GetHasOne .GetBelongsToOne -}}
+{{/*  Begin of the hasOne relations support               */ -}}
+	{{if or .GetHasOne -}}
 // Get{{$headerName}}{{.ToEntity}} facilitates the retrieval of the {{.ToEntity}} related to {{$headerName}}
-{{if .GetHasOne -}}
 // by way of modeled 'hasOne' relationship {{.RelName}}.   
-{{else -}}
-// by way of modeled 'belongsToOne' relationship {{.RelName}}. 
-{{end -}}
 // This method is bound to the gorilla.mux router in appobj.go.
 // 1:1
 //
 // GET /{{$headerName}}/:id/{{.RelName}}
 // GET /{{$headerName}}/:id/{{.RelName}}/:id
-func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.ToEntity}} (w http.ResponseWriter, r *http.Request) {
+func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
 	{{$headerValue}}ID, err := strconv.ParseUint(vars["{{$headerValue}}_id"], 10, 64)
@@ -77,6 +73,7 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.ToEntity}} (w 
 
 	// build a base urlString for the JSON Body self-referencing Href tag
 	urlString := buildHrefStringFromCRUDReq(r, false)
+	fmt.Println("urlString:",urlString)
 
 	// in all cases the {{$headerValue}} must be retrieved, as the validity of the
 	// the access-path must be verified.  Also consider that the {{.ToEntityLC}}
@@ -92,26 +89,39 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.ToEntity}} (w 
 		return
 	}
 
+	// populate params for ToEntity in the generic map
+	map{{.ToEntity}}Params := make(map[string]interface{})
+	{{.ToEntityLC}} := models.{{.ToEntity}}{}
+	if {{.ToEntityLC}}ID != 0 {
+		map{{.ToEntity}}Params["ID"] = {{.ToEntityLC}}ID
+	}
+	
+	map{{.ToEntity}}Params["{{.ForeignPK}}"] = {{.FromEntityLC}}ID
+	// map{{.ToEntity}}Params["{{.FromEntity}}ID"] = {{.FromEntityLC}}ID
+
+	// call GetRel{{$headerName}}{{.RelName}} in the model
+	err = {{$pref}}c.{{$pref}}s.GetRel{{$headerName}}{{.RelName}}(&{{.ToEntityLC}}, map{{.ToEntity}}Params)
+	if err != nil {
+		log.Println(err)
+		respondWithError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
 	// build the target url for the navigation, and then redirect thereby reusing
 	// all the existing ConnectionState (TLS/transport/client etc.)
-	urlString = ""
-	if r.TLS != nil {
-		urlString = "https://"
-	} else {
-		urlString = "http://"
-	}
+	{{.ToEntityLC}}.Href = ""
+	if {{.ToEntityLC}}.ID != 0 {
+		if r.TLS != nil {
+			{{.ToEntityLC}}.Href = "https://"
+		} else {
+			{{.ToEntityLC}}.Href = "http://"
+		}
 
-	if {{.ToEntityLC}}ID == 0 {
-		urlString = fmt.Sprintf("%s%s/{{.ToEntityLC}}s", urlString, r.Host)
-	} else {
-	{{if $fromEntKeyFieldIsOptional -}}
-		urlString = fmt.Sprintf("%s%s/{{.ToEntityLC}}/%d", urlString, r.Host)
-	{{else -}}
-		urlString = fmt.Sprintf("%s%s/{{.ToEntityLC}}/%d", urlString, r.Host, {{.ToEntityLC}}ID)
-	{{end -}}
-
+		{{.ToEntityLC}}.Href = fmt.Sprintf("%s%s/{{.ToEntityLC}}/%d", {{.ToEntityLC}}.Href, r.Host, {{.ToEntityLC}}.ID)
+		respondWithJSON(w, http.StatusCreated, {{.ToEntityLC}})
+		return
 	}
-	http.Redirect(w, r, urlString, http.StatusSeeOther)
+	respondWithJSON(w, http.StatusOK, "[]")
 }
 	
 	{{end -}}

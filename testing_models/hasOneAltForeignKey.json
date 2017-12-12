@@ -38,7 +38,7 @@
                             "refKey": "",
                             "relType": "hasOne",
                             "toEntity": "Car",
-                            "foreignPK": "" 
+                            "foreignPK": "AltOwnerID" 
                         }
                     }
                 ]
