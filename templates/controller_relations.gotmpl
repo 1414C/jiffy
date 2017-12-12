@@ -50,8 +50,8 @@ import (
 {{/* {{ $fromEntKeyFieldIsOptional := .GetFromEntKeyFieldIsOptional $fromEntKeyField $fields -}} */ -}}
 {{$fromEntKeyFieldIsOptional := .GetEntFieldIsOptional $fromEntKeyField $fields -}}
 
-{{/*  Begin of the hasOne and belongsToOne relations support               */ -}}
-	{{if or .GetHasOne .GetBelongsToOne -}}
+{{/*  Begin of the hasOne and belongsTo relations support                   */ -}}
+	{{if or .GetHasOne .GetBelongsTo -}}
 // Get{{$headerName}}{{.ToEntity}} facilitates the retrieval of the {{.ToEntity}} related to {{$headerName}}
 {{if .GetHasOne -}}
 // by way of modeled 'hasOne' relationship {{.RelName}}.   
@@ -92,39 +92,32 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.ToEntity}} (w 
 		return
 	}
 
-	// build the target url for the navigation, and then redirect thereby reusing
-	// all the existing ConnectionState (TLS/transport/client etc.)
-	urlString = ""
-	if r.TLS != nil {
-		urlString = "https://"
-	} else {
-		urlString = "http://"
+	// new Part 
+	{{.ToEntityLC}} := models.{{.ToEntity}}{}
+	if {{.ToEntityLC}}ID != 0 {
+		{{.ToEntityLC}}.ID = {{.ToEntityLC}}ID
+	}
+	{{.ToEntityLC}}.{{$headerName}}ID = {{$headerValue}}ID
+
+	err = {{$pref}}c.{{$pref}}s.GetRel{{$headerName}}{{.RelName}}(&{{.ToEntityLC}})
+	if err != nil {
+		log.Println(err)
+		respondWithError(w, http.StatusBadRequest, err.Error())
+		return
 	}
 
-	if {{.ToEntityLC}}ID == 0 {
-		urlString = fmt.Sprintf("%s%s/{{.ToEntityLC}}s", urlString, r.Host)
-	} else {
-	{{if $fromEntKeyFieldIsOptional -}}
-		urlString = fmt.Sprintf("%s%s/{{.ToEntityLC}}/%d", urlString, r.Host)
-	{{else -}}
-		urlString = fmt.Sprintf("%s%s/{{.ToEntityLC}}/%d", urlString, r.Host, {{.ToEntityLC}}ID)
-	{{end -}}
-
-	}
-	http.Redirect(w, r, urlString, http.StatusSeeOther)
+	car.Href = fmt.Sprintf("%s/car/%d", urlString, car.ID)
+	// car.Href = urlString + strconv.FormatUint(uint64(car.ID), 10)
+	respondWithJSON(w, http.StatusCreated, car)
 }
 	
 	{{end -}}
 
 
-{{/*  Begin of the hasMany and belongsToMany relations support             */ -}}
-	{{if or .GetHasMany .GetBelongsToMany -}}
+{{/*  Begin of the hasMany relations support                                 */ -}}
+	{{if .GetHasMany -}}
 // Get{{$headerName}}{{.ToEntity}}s facilitates the retrieval of {{.ToEntity}}s related to {{$headerName}}
-{{if .GetHasMany -}}
 // by way of modeled 'hasMany' relationship {{.RelName}}.   
-{{else -}}
-// by way of modeled 'belongsToMany' relationship {{.RelName}}. 
-{{end -}}  
 // This method is bound to the gorilla.mux router in appobj.go.
 // 1:N
 //

@@ -758,25 +758,13 @@ func (r *Relation) GetHasMany() bool {
 	return false
 }
 
-// GetBelongsToOne is used to provide a boolean response indicating whether
-// the relation is of relType 'belongsToOne'.
+// GetBelongsTo is used to provide a boolean response indicating whether
+// the relation is of relType 'belongsTo'.
 // Called from within the controller_relations text/template.
-func (r *Relation) GetBelongsToOne() bool {
+func (r *Relation) GetBelongsTo() bool {
 
 	s := strings.ToLower(r.RelType)
-	if cleanString(s) == "belongstoone" {
-		return true
-	}
-	return false
-}
-
-// GetBelongsToMany is used to provide a boolean response indicating whether
-// the relation is of relType 'belongsToMany'.
-// Called from within the controller_relations text/template.
-func (r *Relation) GetBelongsToMany() bool {
-
-	s := strings.ToLower(r.RelType)
-	if cleanString(s) == "belongstomany" {
+	if cleanString(s) == "belongsto" {
 		return true
 	}
 	return false
