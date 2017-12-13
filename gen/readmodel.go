@@ -344,9 +344,11 @@ func completeRelations(entities []Entity) error {
 				switch v.RelType {
 				case "hasOne":
 					v.RefKey = "ID"
+					v.RefKeyOptional = false
 
 				case "hasMany":
 					v.RefKey = "ID"
+					v.RefKeyOptional = false
 
 				case "belongsTo":
 					v.RefKey = v.ToEntity + "ID"
@@ -362,6 +364,7 @@ func completeRelations(entities []Entity) error {
 				for _, f := range entities[i].Fields {
 					if f.Name == v.RefKey {
 						bValid = true
+						entities[i].Relations[j].RefKeyOptional = !f.Required
 					}
 				}
 				if bValid == false {
@@ -380,6 +383,7 @@ func completeRelations(entities []Entity) error {
 
 				case "belongsTo":
 					v.ForeignPK = "ID"
+					v.ForeignPKOptional = false
 
 				default:
 					// RelType is previously checked - so hard stop here
@@ -391,6 +395,7 @@ func completeRelations(entities []Entity) error {
 				for _, f := range v.ToEntInfo {
 					if f.Name == v.ForeignPK {
 						bValid = true
+						entities[i].Relations[j].ForeignPKOptional = !f.Required
 					}
 				}
 				if bValid == false {

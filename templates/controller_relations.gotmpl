@@ -43,12 +43,8 @@ import (
 {{/*  ToEntity.  This is required for the validation of user-based key      */ -}}
 {{/*  key selection (non-ID).                                               */ -}}
 {{$toEntityFields := .ToEntInfo -}}
-{{$toEntKeyField := .GetToEntKeyField $toEntityFields -}}
-{{$toEntKeyFieldIsOptional := .GetEntFieldIsOptional $toEntKeyField $toEntityFields -}}
- 
-{{$fromEntKeyField := .GetFromEntKeyField $fields -}}
-{{/* {{ $fromEntKeyFieldIsOptional := .GetFromEntKeyFieldIsOptional $fromEntKeyField $fields -}} */ -}}
-{{$fromEntKeyFieldIsOptional := .GetEntFieldIsOptional $fromEntKeyField $fields -}}
+{{$toEntKeyFieldIsOptional := .ForeignPKOptional -}}
+{{$fromEntKeyFieldIsOptional := .RefKeyOptional -}}
 
 {{/*  Begin of the hasOne relations support               */ -}}
 	{{if .GetHasOne -}}
@@ -72,8 +68,7 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 	{{.ToEntityLC}}ID, err := strconv.ParseUint(vars["{{.ToEntityLC}}_id"], 10, 64)
 
 	// build a base urlString for the JSON Body self-referencing Href tag
-	urlString := buildHrefStringFromCRUDReq(r, false)
-	fmt.Println("urlString:",urlString)
+	// urlString := buildHrefStringFromCRUDReq(r, false)
 
 	// in all cases the {{$headerValue}} must be retrieved, as the validity of the
 	// the access-path must be verified.  Also consider that the {{.ToEntityLC}}
@@ -152,8 +147,8 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 	{{.ToEntityLC}}ID, err := strconv.ParseUint(vars["{{.ToEntityLC}}_id"], 10, 64)
 
 	// build a base urlString for the JSON Body self-referencing Href tag
-	urlString := buildHrefStringFromCRUDReq(r, false)
-	fmt.Println("urlString:",urlString)
+	// urlString := buildHrefStringFromCRUDReq(r, false)
+	// fmt.Println("urlString:",urlString)
 
 	// in all cases the {{$headerValue}} must be retrieved, as the validity of the
 	// the access-path must be verified.  Also consider that the {{.ToEntityLC}}
@@ -196,6 +191,98 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 
 	for i := range {{.ToEntityLC}}s {
 		{{.ToEntityLC}}s[i].Href = fmt.Sprintf("%s%s/{{.ToEntityLC}}/%d", baseHref, r.Host, {{.ToEntityLC}}s[i].ID)
+	}
+
+	if bSingle {
+		if len({{.ToEntityLC}}s) > 0 {
+			{{.ToEntityLC}} = {{.ToEntityLC}}s[0]
+			respondWithJSON(w, http.StatusCreated, {{.ToEntityLC}})
+			return
+		}
+	} else {
+		respondWithJSON(w, http.StatusCreated, {{.ToEntityLC}}s)
+		return
+	}
+	respondWithJSON(w, http.StatusOK, "[]")
+}
+
+	{{end -}}
+
+	{{/*  Begin of the belongsTo relations support                              */ -}}
+	{{if .GetBelongsTo -}}
+// GetRel{{$headerName}}{{.RelName}} facilitates the retrieval of {{.ToEntity}}s related to {{$headerName}}
+// by way of modeled 'belongsTo' relationship {{.RelName}}.   
+// This method is bound to the gorilla.mux router in appobj.go.
+// 1:N
+//
+// GET /{{$headerName}}/:id/{{.RelName}}
+// GET /{{$headerName}}/:id/{{.RelName}}/:id
+func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w http.ResponseWriter, r *http.Request) {
+
+	bSingle := false
+	mapParams := make(map[string]interface{})
+	{{.ToEntityLC}} := models.{{.ToEntity}}{}
+	{{.ToEntityLC}}s := []models.{{.ToEntity}}{}
+	vars := mux.Vars(r)
+
+	{{.FromEntityLC}}ID, err := strconv.ParseUint(vars["{{.FromEntityLC}}_id"], 10, 64)
+	if err != nil {
+		log.Println("{{.FromEntity}} Get:", err)
+		respondWithError(w, http.StatusBadRequest, "Invalid {{.FromEntityLC}} id")
+		return
+	}
+
+	{{.ToEntityLC}}ID, err := strconv.ParseUint(vars["{{.ToEntityLC}}_id"], 10, 64)
+
+	// build a base urlString for the JSON Body self-referencing Href tag
+	// urlString := buildHrefStringFromCRUDReq(r, false)
+	// fmt.Println("urlString:", urlString)
+
+	// in all cases the {{.FromEntityLC}} must be retrieved, as the validity of the
+	// the access-path must be verified.  Also consider that the {{.ToEntityLC}}_id
+	// may not have been provided.
+	{{.FromEntityLC}} := models.{{.FromEntity}}{
+		ID: {{.FromEntityLC}}ID,
+	}
+
+	err = dc.ds.Get(&{{.FromEntityLC}})
+	if err != nil {
+		log.Println(err)
+		respondWithError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	// was the {{.ToEntityLC}}_id provided?
+	if {{.ToEntityLC}}ID != 0 {
+		if {{.FromEntityLC}}.{{.RefKey}} == {{.ToEntityLC}}ID {
+			mapParams["{{.ForeignPK}}"] = {{.ToEntityLC}}ID
+		} else {
+			err := fmt.Errorf("bad request - keys in URL do not align")
+			log.Println(err.Error())
+			respondWithJSON(w, http.StatusBadRequest, "[]")
+			return
+		}
+	} else {
+		mapParams["{{.ForeignPK}}"] = {{.FromEntityLC}}.{{.RefKey}}
+	}
+
+	// call GetRel{{$headerName}}{{.RelName}} in the model
+	err = dc.ds.GetRel{{$headerName}}{{.RelName}}(&{{.ToEntityLC}}s, mapParams)
+	if err != nil {
+		log.Println(err)
+		respondWithError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	// populate Href for each {{.ToEntity}}
+	baseHref := ""
+	if r.TLS != nil {
+		baseHref = "https://"
+	} else {
+		baseHref = "http://"
+	}
+
+	for i := range {{.ToEntityLC}}s {
+		petowners[i].Href = fmt.Sprintf("%s%s/{{.ToEntityLC}}/%d", baseHref, r.Host, {{.ToEntityLC}}s[i].ID)
 	}
 
 	if bSingle {

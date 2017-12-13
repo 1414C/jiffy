@@ -7,9 +7,6 @@ A simple code generation utility to create RESTful services with a flexible DB b
 ## Work-In-Progress
 1.  Consider simply enforcing the use of ID & Href in the model definition as explicitly named fields.
 2.  Ensure that rune and byte types are fully accounted for.
-3.  Add code to verify that entities and fields listed in the relations section of the model file are valid.
-4.  Build controller_relations.gotmpl for BelongsTo.
-
 
 
 ## Features
@@ -21,6 +18,7 @@ A simple code generation utility to create RESTful services with a flexible DB b
 * built-in support for https
 * baked in normalization and validation
 * generates a working set of CRUD-type RESTful services based on the model file
+* supports hasOne, hasMany and belongsTo relationships between entities
 * generates working query end-points based on the model fie 
 * generates a comprehensive set of working tests (go test)
 * generated code is easily extended
@@ -631,10 +629,10 @@ ___
     - [ ] look at fast hash algorithms (murmur-2??)
   - [x] add Href to entities as a common self-referential field
   - [x] update ReadModel() to accept new model format with relations
-  - [ ] add code to support the links via child-href
+  - [x] add code to support the links via child-href
   - [ ] add code to support expansion of child-href
-    - [ ] 	Href string  `rgen:"-" json:"Href,omitempty"`
-	- [ ]   Test string  `rgen:"-" json:"Test,omitempty"`
+    - [x] 	Href string  `rgen:"-" json:"Href,omitempty"`
+	- [x]   Test string  `rgen:"-" json:"Test,omitempty"`
   - [ ] add code to support filtering of expansions
   - [ ] add scopes to config
     - [ ] use scopes in JWT to allow / disallow access to routes / actions

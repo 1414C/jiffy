@@ -198,7 +198,7 @@ func (a *AppObj) initializeRoutes() {
 		{{end -}}
 
 		{{if .GetBelongsTo -}}
-	// belongsToOne relation {{.RelName}} for {{$headerName}}
+	// belongsTo relation {{.RelName}} for {{$headerName}}
 	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.ToEntity}})).Methods("GET")
 	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}/{{ printf "%s" "{" }}{{.ToEntityLC}}_id:[0-9]+}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.ToEntity}})).Methods("GET")	
 

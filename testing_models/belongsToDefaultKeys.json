@@ -1,7 +1,7 @@
 {
     "entities":  [
         {
-            "typeName": "Person",
+            "typeName": "PetOwner",
             "properties": {
                 "Name": {
                     "type": "string",
@@ -10,14 +10,6 @@
                     "unique": false,
                     "index": "nonUnique",
                     "selectable": "eq,like"
-                },
-                "SocialSecurityNumber": {
-                    "type": "uint",
-                    "format": "", 
-                    "required": false,
-                    "unique": true,
-                    "index": "",
-                    "selectable": "eq,lt,gt"
                 },
                 "City": {
                     "type": "string",
@@ -49,7 +41,7 @@
                 "index": "nonUnique",
                 "selectable": "eq,like"
             },
-            "PersonID": {
+            "PetOwnerID": {
                 "type": "uint64",
                 "format": "", 
                 "required": true,
@@ -59,11 +51,11 @@
         },
         "relations": [
             { 
-            "relName": "Person",
+            "relName": "PetOwner",
                 "properties": {
                     "refKey": "",
                     "relType": "belongsTo",
-                    "toEntity": "Person",
+                    "toEntity": "PetOwner",
                     "foreignPK": ""
                 }
             }

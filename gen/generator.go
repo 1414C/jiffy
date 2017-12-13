@@ -35,16 +35,18 @@ type Info struct {
 
 // Relation definition
 type Relation struct {
-	RelName      string //  "ToStreetAddress" || "StreetAddress" for example
-	RelNameLC    string //  "tostreetaddress" || "streetaddress" for example - used in mux route
-	RefKey       string //  "ID" - default key name in FromEntity
-	RelType      string //  "hasOne; belongsTo; hasMany"
-	FromEntity   string //  "Person"
-	FromEntityLC string // "person"
-	ToEntity     string //  "StreetAddress"
-	ToEntityLC   string //  "streetaddress"
-	ToEntInfo    []Info //  ToEntity-field-meta-data
-	ForeignPK    string //  "<FromEntity>ID"
+	RelName           string //  "ToStreetAddress" || "StreetAddress" for example
+	RelNameLC         string //  "tostreetaddress" || "streetaddress" for example - used in mux route
+	RefKey            string //  "ID" - default key name in FromEntity
+	RefKeyOptional    bool   //  true/false
+	RelType           string //  "hasOne; belongsTo; hasMany"
+	FromEntity        string //  "Person"
+	FromEntityLC      string // "person"
+	ToEntity          string //  "StreetAddress"
+	ToEntityLC        string //  "streetaddress"
+	ToEntInfo         []Info //  ToEntity-field-meta-data
+	ForeignPK         string //  "<FromEntity>ID"
+	ForeignPKOptional bool   // true/false
 }
 
 // Entity definition
@@ -768,101 +770,6 @@ func (r *Relation) GetBelongsTo() bool {
 		return true
 	}
 	return false
-}
-
-// GetToEntKeyField is used to determine the name of the
-// key-field in the ToEntity of any relation.  []info contains
-// the field-information related to the ToEntity.
-// Called from within the controller_relations text/template.
-func (r *Relation) GetToEntKeyField(toInfo []Info) string {
-
-	// if the ForeignKey field has not been specified
-	// return 'ID'.
-	if r.ForeignPK == "" {
-		return r.FromEntity + "ID"
-	}
-
-	// ensure that the specified field exists as a member
-	// of the ToEntity fieldset.
-	for _, v := range toInfo {
-		if v.Name == r.ForeignPK {
-			return r.ForeignPK
-		}
-	}
-	// validation failed - model is not consistent so terminate
-	panic(fmt.Errorf("failed while attempting to generate relation %s.  %s specified as ForeignPK is not a valid field in entity %s", r.RelName, r.ForeignPK, r.ToEntity))
-}
-
-// GetFromEntKeyField is used to determine the name of the
-// key-field in the FromEntity of any relation.
-// Called from within the controller_relations text/template.
-func (r *Relation) GetFromEntKeyField(fromInfo []Info) string {
-
-	if r.RefKey == "" {
-		return "ID"
-		// refKey := r.ToEntity + "ID"
-		// for _, v := range info {
-		// 	if v.Name == refKey {
-		// 		return refKey
-		// 	}
-		// }
-		// panic(fmt.Errorf("GetFromEntKeyField():unable to determine default relation key for relation %s - tried default of %s", r.RelName, refKey))
-	}
-
-	for _, v := range fromInfo {
-		if v.Name == r.RefKey {
-			return r.RefKey
-		}
-	}
-
-	r.RefKey = strings.ToUpper(r.RefKey)
-	if r.RefKey != "ID" {
-		panic(fmt.Errorf("relation key %s for relation %s does not exist in the FromEntity field-list", r.RefKey, r.RelName))
-	}
-	return r.RefKey
-}
-
-// GetFromEntKeyFieldIsOptional determines whether the fromEntKeyField in a relation
-// is an optional member in its entity definition. As optional fields are declared as
-// pointers in their model struct, the generation text/template must understand whether
-// an asterisk is required when performing field assignments using the key-field.
-// Called from within the controller_relations text/template.
-func (r *Relation) GetFromEntKeyFieldIsOptional(fromEntKeyFieldName string, info []Info) string {
-
-	if fromEntKeyFieldName == "ID" {
-		return ""
-	}
-
-	for _, v := range info {
-		if v.Name == fromEntKeyFieldName {
-			if v.Required == true {
-				return "" // field is not optional
-			}
-		}
-	}
-	return "*"
-}
-
-// GetEntFieldIsOptional determines whether the EntField in a relation  is an optional
-// member in its entity definition. As optional fields are declared as pointers in their
-// model struct, the generation text/template must understand whether an asterisk or
-// ampersand is required when performing field assignments using the field.  A field
-// name of 'ID' will always return as required (for now).
-// Called from within the controller_relations text/template.
-func (r *Relation) GetEntFieldIsOptional(entFieldName string, info []Info) bool {
-
-	if entFieldName == "ID" {
-		return false // not optional
-	}
-
-	for _, v := range info {
-		if v.Name == entFieldName {
-			if v.Required == true {
-				return false // not optional
-			}
-		}
-	}
-	return true
 }
 
 // GetAreFromAndToKeysOpt returns true if the fromEntKey and toEntKey are both defined as optional.

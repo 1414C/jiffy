@@ -12,8 +12,7 @@ import (
 
 func main() {
 
-	projectPath := flag.String("p", "/exp/sgen5", "project path starting in &GOPATH/src")
-	// modelFile := flag.String("m", "./test_rel_model.json", "model file relative to application base directory")
+	projectPath := flag.String("p", "/exp/sgen1", "project path starting in &GOPATH/src")
 	modelFile := flag.String("m", "./model.scratch2.json", "model file relative to application base directory")
 
 	flag.Parse()
@@ -35,16 +34,16 @@ func main() {
 		fmt.Println(err)
 	}
 
-	for _, e := range entities {
-		for _, r := range e.Relations {
-			fmt.Println("relation:", r.RelName)
-			fmt.Println("r.RelType:", r.RelType)
-			fmt.Println("r.RefKey:", r.RefKey)
-			fmt.Println("r.ForeignPK:", r.ForeignPK)
-			fmt.Println("")
-			fmt.Println("")
-		}
-	}
+	// for _, e := range entities {
+	// 	for _, r := range e.Relations {
+	// 		fmt.Println("relation:", r.RelName)
+	// 		fmt.Println("r.RelType:", r.RelType)
+	// 		fmt.Println("r.RefKey:", r.RefKey)
+	// 		fmt.Println("r.ForeignPK:", r.ForeignPK)
+	// 		fmt.Println("")
+	// 		fmt.Println("")
+	// 	}
+	// }
 
 	generatedFiles := make([]string, 0)
 
