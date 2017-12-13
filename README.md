@@ -1,7 +1,7 @@
 # rgen
 
 ## Overview
-A simple code generation utility to create RESTful services with a flexible DB backend.
+A simple model-based application generator written in go.  Define a model file containing the application entities and relations, then run application generator to get a running set of CRUD-style services with a supporting database backend.
 <br/>
 
 ## Work-In-Progress
@@ -10,6 +10,7 @@ A simple code generation utility to create RESTful services with a flexible DB b
 
 
 ## Features
+* connects to Postgres, MSSQL, SAP Hana, SQLite or MariaDB
 * login / session management via jwt
 * built-in support for the creation of signing-keys for jwt
 * JSON configuration (model) file for Entity, Index and Relationship definitions
@@ -54,6 +55,7 @@ In order to run the application generator, ensure the following:
 
 ## Flags
 Flags are generally not used, as the configuration files (models.json) are easier to deal with.  There are however, a few flags that can be appended to the execution command:
+
 * go run *.go -p
 	* The -p switch is used to specify the target directory for generated application source-code relative to $GOPATH/src.
 
@@ -73,7 +75,155 @@ Flags are generally not used, as the configuration files (models.json) are easie
 ## Model Creation
 Create a model file containing the Entities, Indexes and Relations that you wish to generate services for.  Entity model defintion consists of an array of JSON objects, with each object being limited to a flat hierarchy and basic go-data-types, although this is easily extended.  By default, the generator expects a *models.json* file in the execution directory, but a correctly formatted JSON file can be loaded from any location by executing with the *-m* flag.  
 
- A sample models.json file is installed with the application and can be found in the root application folder, as shown below:
+Sample <models>.json files are installed with the application and can be found in the testing_models folder.  The sample models are used as the basis for the following sections.
+
+### Simple Single Entity Model
+
+simpleSingleEntityModel.json
+```JSON
+
+{
+    "entities":  [
+        {
+            "typeName": "Person",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "db_type": "",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,like"
+                },
+                "age": {
+                    "type": "uint",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "eq,lt,gt"
+                },
+                "weight": {
+                    "type": "float64",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "eq,lt,le,gt,ge"
+                },
+                "validLicense": {
+                    "type": "bool",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,ne"
+                }
+            }
+        }
+    ]
+}
+
+```
+
+The simpleSingleEntityModel structure is explained below:
+
+```code
+{
+    "entities": [
+    The 'entities' block contains an array of entities belonging to the application model.  Each entity can 
+    be considered to relate directly to a database table (or view).  Entities contain information that the 
+    application generator uses to create and update database artifacts such as tables, indexes, sequences 
+    and foreign-keys, as well as information informing the application runtime of the member field properties.
+    This is a mandatory model element.
+    {
+        "typeName": "Person"
+        Field 'typeName' refers to the name of an entity.  It should be capitalized and written in CamelCase.
+        An Entity given a typeName of "Person" will result in an internal model object of type Person and a 
+        database table called 'person'.
+        This is a mandatory model element.
+
+        "properties": {
+        The 'properties' block contains 1:n entity member field definitions.  Member fields should be defined
+        in camelCase and can start with a lower or upper-case character.  In the context of the "entity" with
+        a 'typeName' of 'Person', 'properties' refer to the data fields of the generated "Person" model 
+        structure.  'properties' are a collection of free-form name-tags, each with a child-block containing 
+        the 'property' attributes.
+        This is a mandatory model element.
+        
+        The "name" property block is described below:
+
+            "name": {
+                "type": "string",
+                Field 'type' in a 'properties'->'name' JSON-block refers to the go data-type associated
+                with the current 'property'.
+                'type' is a mandatory field in an "entity" 'property' block.
+
+                "dbtype": "varchar(100)",
+                Field 'dbtype' can be used to specify a native db-field-type for the current 'property'.
+                This is an optional field, and the cast to the DB-type is handled in the ORM layer.
+
+                "format": "", 
+                Field 'format' is not currently used, but is intended to deal with field conversion from
+                strings / floats to timestamp formats etc.
+                This is an optional field.
+
+                "required": false,
+                Field 'required' can be used to instruct the database that the current 'property' is a 
+                required field in its related db table column.
+                Allowed values include {true, false}.
+                This is a mandatory field.
+
+                "unique": false,
+                Field 'unique' can be used to instruct the database not to accept duplicate values in the
+                database column related to the current 'property'.  Setting this field to true will cause
+                a 'UNIQUE' constraint to be applied to the related database column.
+                Allowed values include {true, false}.
+                This is a mandatory field.
+
+                "index": "nonUnique",
+                Field 'index' can be used to instruct the database to create an index on the db table-column
+                related to the current 'property'. 
+                See the 'indexes' element in the type definition for the creation of compound indices.
+                Allowed values include {"unique", "nonUnique"}.
+                This is an optional field.
+
+                "selectable": "eq,like"
+                Field 'selectable' can be used to instruct the code-generator to create simple REST query 
+                accessor routes for the current 'property'.  The generator creates routes to permit GET
+                operations that can be called based on the entity 'typeName' and 'property' values.
+                Allowed values include {"EQ", "eq", "LT", "lt", "GT", "gt", "GE", "ge", "LIKE", "like", "NE", "ne"}
+                Additional restrictions are imposed based on the 'type' field value.  For example, a bool
+                type need not support LT or GT operators.
+                Sample routes for Person->Name selection with "eq,like" are shown:
+                    
+                    https://localhost:<port>/persons/name(EQ '<sel_string>')
+                    https://localhost:<port>/persons/name(LIKE '<sel_string>')
+
+                Note that this is not the same thing as filtering insofar as setting the selectable options 
+                results in the creation of parameterized static routes in the application mux.
+
+            },
+            "age": {
+                "type": "uint",
+                "format": "", 
+                "required": false,
+                "unique": false,
+                "index": "",
+                "selectable": "eq,lt,le,gt,ge,ne"
+            },
+            ...
+            ...
+        },
+    }
+    },    
+    {
+        ... next entity definition
+    }
+    ]
+}
+```
 
 models.json
 ```JSON
