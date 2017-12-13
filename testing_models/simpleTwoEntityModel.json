@@ -1,0 +1,41 @@
+{
+    "entities":  [
+        {
+            "typeName": "Person",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,like"
+                },
+                "age": {
+                    "type": "uint",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "eq,lt,gt"
+                },
+                "weight": {
+                    "type": "float64",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "eq,lt,le,gt,ge"
+                },
+                "validLicense": {
+                    "type": "bool",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,ne"
+                }
+            }
+        }
+    ]
+}

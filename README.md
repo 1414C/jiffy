@@ -79,7 +79,7 @@ Sample <models>.json files are installed with the application and can be found i
 
 ### Simple Single Entity Model
 
-simpleSingleEntityModel.json
+The following JSON illustrates the defintion of a simple single-entity model file.  In this case, a model entity called 'Person' will be created in the generated application, along with corresponding database table 'person'.  Table 'person' will be created (if it does not already exist) when the application is started for the first time.  See the application startup sequence section of this document for details regarding database artifact creation and updates.
 ```JSON
 
 {
@@ -126,8 +126,9 @@ simpleSingleEntityModel.json
 }
 
 ```
+Sample model simpleSingleEntityModel.json
 
-The simpleSingleEntityModel structure is explained below:
+The simpleSingleEntityModel.json file structure and content is explained below:
 
 ```code
 {
