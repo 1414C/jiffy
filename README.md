@@ -126,17 +126,17 @@ The following JSON illustrates the defintion of a simple single-entity model fil
 }
 
 ```
-Sample model simpleSingleEntityModel.json
+Sample model ![alt text](/testing_models/simpleSingleEntityModel.json "simpleSingleEntityModel.json")
 
 The simpleSingleEntityModel.json file structure and content is explained below:
 
 ```code
 {
     "entities": [
-    The 'entities' block contains an array of entities belonging to the application model.  Each entity can 
-    be considered to relate directly to a database table (or view).  Entities contain information that the 
-    application generator uses to create and update database artifacts such as tables, indexes, sequences 
-    and foreign-keys, as well as information informing the application runtime of the member field properties.
+    The 'entities' block contains an array of entities belonging to the application model.  Each entity relates
+    directly to a database table (or view).  Entities contain information that the application generator uses 
+    to create and update database artifacts such as tables, indexes, sequences and foreign-keys, as well as
+    information informing the application runtime of the member field properties.
     This is a mandatory model element.
     {
         "typeName": "Person"
@@ -162,8 +162,8 @@ The simpleSingleEntityModel.json file structure and content is explained below:
                 'type' is a mandatory field in an "entity" 'property' block.
 
                 "dbtype": "varchar(100)",
-                Field 'dbtype' can be used to specify a native db-field-type for the current 'property'.
-                This is an optional field, and the cast to the DB-type is handled in the ORM layer.
+                Field 'dbtype' can be used to specify a native db-field-type for the property.  This is an
+                optional field, and the cast to the DB-type is handled in the ORM layer.
 
                 "format": "", 
                 Field 'format' is not currently used, but is intended to deal with field conversion from
@@ -171,30 +171,30 @@ The simpleSingleEntityModel.json file structure and content is explained below:
                 This is an optional field.
 
                 "required": false,
-                Field 'required' can be used to instruct the database that the current 'property' is a 
-                required field in its related db table column.
+                Field 'required' is used to instruct the generator to set a 'NOT NULL' database constraint
+                on the column related to the property.  
                 Allowed values include {true, false}.
                 This is a mandatory field.
 
                 "unique": false,
-                Field 'unique' can be used to instruct the database not to accept duplicate values in the
-                database column related to the current 'property'.  Setting this field to true will cause
-                a 'UNIQUE' constraint to be applied to the related database column.
+                Field 'unique' is used to instruct the database not to accept duplicate values in the
+                database column related to the property.  Setting this field to true will cause a 'UNIQUE' 
+                constraint to be applied to the related database column.
                 Allowed values include {true, false}.
                 This is a mandatory field.
 
                 "index": "nonUnique",
-                Field 'index' can be used to instruct the database to create an index on the db table-column
-                related to the current 'property'. 
+                Field 'index' is used to instruct the database to create an index on the db table-column
+                related to the property. 
                 See the 'indexes' element in the type definition for the creation of compound indices.
-                Allowed values include {"unique", "nonUnique"}.
+                Allowed values include {"unique", "nonUnique", ""}.
                 This is an optional field.
 
                 "selectable": "eq,like"
                 Field 'selectable' can be used to instruct the code-generator to create simple REST query 
                 accessor routes for the current 'property'.  The generator creates routes to permit GET
                 operations that can be called based on the entity 'typeName' and 'property' values.
-                Allowed values include {"EQ", "eq", "LT", "lt", "GT", "gt", "GE", "ge", "LIKE", "like", "NE", "ne"}
+                Allowed values include {"EQ", "eq", "LT", "lt", "GT", "gt", "GE", "ge", "LIKE", "like", "NE", "ne", ""}
                 Additional restrictions are imposed based on the 'type' field value.  For example, a bool
                 type need not support LT or GT operators.
                 Sample routes for Person->Name selection with "eq,like" are shown:

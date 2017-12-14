@@ -36,6 +36,27 @@
                     "selectable": "eq,ne"
                 }
             }
+        },
+        {
+            "typeName": "Country",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,like"
+                },
+                "isoCode": {
+                    "type": "uint",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "unique",
+                    "selectable": "eq,lt,gt"
+                }
+            }
         }
     ]
 }
