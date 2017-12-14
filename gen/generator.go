@@ -17,20 +17,17 @@ type Info struct {
 	Name  string // field name from model
 	Value string // type
 	// LowerCaseName       string // field name in lower-case for query path - possibly deprecated
-	SnakeCaseName       string // field name in sqac database format (snake_case)
-	DBType              string
-	IsKey               bool
-	Format              string
-	NoDB                bool // true = no persistence on the db
-	Required            bool
-	Unique              bool
-	Index               string // unique, not-unique, ""
-	Selectable          string // "eq,like,gt,lt,ge,le,ne"
-	RgenTagLine         string
-	JSONTagLine         string // `json:"field_name,omitempty"`
-	Relation            string
-	RelationField       string
-	RelationCardinality string // iota?
+	SnakeCaseName string // field name in sqac database format (snake_case)
+	DBType        string
+	IsKey         bool
+	Format        string
+	NoDB          bool // true = no persistence on the db
+	Required      bool
+	Unique        bool
+	Index         string // unique, not-unique, ""
+	Selectable    string // "eq,like,gt,lt,ge,le,ne"
+	RgenTagLine   string
+	JSONTagLine   string // `json:"field_name,omitempty"`
 }
 
 // Relation definition
