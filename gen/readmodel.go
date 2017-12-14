@@ -3,10 +3,11 @@ package gen
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/1414C/sqac/common"
 	"io/ioutil"
 	"reflect"
 	"strings"
+
+	"github.com/1414C/sqac/common"
 )
 
 // ColType specifies which type of db item is being interpreted
@@ -191,19 +192,6 @@ func buildEntityColumns(colString string, colType ColType) ([]Info, error) {
 			if !ok {
 				return nil, fmt.Errorf("incorrect element-type for entity \"index\" field")
 			}
-			info.Relation, ok = extractString(attrObjMap["relation"])
-			if !ok {
-				return nil, fmt.Errorf("incorrect element-type for entity \"relation\" field")
-			}
-			info.RelationField, ok = extractString(attrObjMap["relationFld"])
-			if !ok {
-				return nil, fmt.Errorf("incorrect element-type for entity \"relationFld\" field")
-			}
-			info.RelationCardinality, ok = extractString(attrObjMap["relationCrd"])
-			if !ok {
-				return nil, fmt.Errorf("incorrect element-type for entity \"relationCrd\" field")
-			}
-
 		default:
 			// do nothing
 		}
