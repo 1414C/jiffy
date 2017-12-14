@@ -32,7 +32,6 @@ Rgen is a model-based application services generator written in go.  It was deve
 * generated code is easily extended
 <br/>
 
-
 #### What does an application look like?
 The generated application is not tied to a particular database, and can be pointed at the DBMS of your choice without the need to recompile the binary (architecture differences not withstanding).  This means that a developer can build a model, fully test it using SQLite and then redirect the appplication to a development MSSQL, SAP Hana, Postgres or MariaDB backend when they are back in the office.  This is achievable due to the ORM layer that the Rgen application is build upon.  The ORM is easily extendable to accomodate other databases if required (oracle, db2, SAP ASE are candidates here).
 
