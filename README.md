@@ -185,6 +185,7 @@ The following JSON illustrates the defintion of a simple single-entity model fil
                 "name": {
                     "type": "string",
                     "db_type": "",
+                    "no_db": false,
                     "format": "", 
                     "required": false,
                     "unique": false,
@@ -257,8 +258,23 @@ The simpleSingleEntityModel.json file structure and content is explained below:
                 'type' is a mandatory field in an "entity" 'property' block.
 
                 "dbtype": "varchar(100)",
-                Field 'dbtype' can be used to specify a native db-field-type for the property.  This is an
-                optional field, and the cast to the DB-type is handled in the ORM layer.
+                Field 'dbtype' can be used to specify a native db-field-type for the property.  This feature
+                can be useful if for example, the developer is confident that a string will never exceed 100
+                characters in length.  Care should be taken to ensure that the specified DB-Type is consistent
+                with the go-type that will be generated in the model.<Entity> defintion in the application.
+                Consider also that making use of this field to some extent limits the backend portability of 
+                the generated code.  For example, not all database systems have a TINYINT data-type, so
+                specifying a 'db_type' of TINYINT could be problematic if multiple database systems are 
+                being used for testing.
+                This is an optional field. 
+
+                "no_db":
+                Field 'no_db' can be used to instruct the generator to create the field as a member in the 
+                enitity struture, but to prevent the field from being persisted to the backend database.
+                Data like passwords for example should never be persisted to the database, but it handy to
+                have in the user entitiy definition to help with the login process.  Non-persisted fields
+                are not created in the database table schemas, and values passed into the application 
+                are wiped from their respective internal structures following use.
 
                 "format": "", 
                 Field 'format' is not currently used, but is intended to deal with field conversion from
@@ -633,19 +649,19 @@ Sample model ![hasManyDefaultKeys.json](/testing_models/hasManyDefaultKeys.json 
 
 ### BelongsTo Relationship
 
-BelongsTo relationships form the inverse of the HasOne and HasMany relations.  Consider the Library HasMany Books example; A Library has many books, but we can also say 'a Book belongs to a Library'; this is an example of a BelongsTo relationship.  
+BelongsTo relationships are used to form the inverse of the HasOne and HasMany relations.  Consider the Library HasMany Books example; A Library has many books, but we can also say 'a Book belongs to a Library'; this is an example of a BelongsTo relationship.  The JSON below extends the Library -> Book example by adding the BelongsTo relationship to the Book entity definition:
 
-```javascript
+```JSON
 
 {
     "entities":  [
         {
-            "typeName": "PetOwner",
+            "typeName": "Library",
             "properties": {
                 "Name": {
                     "type": "string",
                     "format": "", 
-                    "required": false,
+                    "required": true,
                     "unique": false,
                     "index": "nonUnique",
                     "selectable": "eq,like"
@@ -653,7 +669,7 @@ BelongsTo relationships form the inverse of the HasOne and HasMany relations.  C
                 "City": {
                     "type": "string",
                     "format": "", 
-                    "required": false,
+                    "required": true,
                     "unique": false,
                     "index": "",
                     "selectable": "eq,lt,gt"
@@ -663,35 +679,42 @@ BelongsTo relationships form the inverse of the HasOne and HasMany relations.  C
                 {"index": "name, city"}
             ],
             "relations": [
-                { 
-                "relName": "ToDogs",
-                    "properties": {
-                        "refKey": "",
-                        "relType": "hasMany",
-                        "toEntity": "Dog",
-                        "foreignPK": ""
+                    { 
+                    "relName": "ToBooks",
+                        "properties": {
+                            "refKey": "",
+                            "relType": "hasMany",
+                            "toEntity": "Book",
+                            "foreignPK": ""
+                        }
                     }
-                }
-            ]
+                ]
     },
     {
-        "typeName": "Dog",
+        "typeName": "Book",
         "properties": {
-            "Name": {
+            "Title": {
                 "type": "string",
                 "format": "", 
                 "required": true,
                 "index": "nonUnique",
                 "selectable": "eq,like"
             },
-            "Breed": {
-                "type": "string",
+            "Hardcover": {
+                "type": "bool",
                 "format": "", 
                 "required": true,
-                "index": "nonUnique",
-                "selectable": "eq,like"
+                "index": "",
+                "selectable": "eq,ne"
             },
-            "PetOwnerID": {
+            "Copies": {
+                "type": "uint64",
+                "format": "", 
+                "required": true,
+                "index": "",
+                "selectable": "eq,lt,gt"
+            },
+            "LibraryID": {
                 "type": "uint64",
                 "format": "", 
                 "required": true,
@@ -700,25 +723,28 @@ BelongsTo relationships form the inverse of the HasOne and HasMany relations.  C
             }
         },
         "relations": [
-            { 
-            "relName": "ToPetOwner",
-                "properties": {
-                    "refKey": "",
-                    "relType": "belongsTo",
-                    "toEntity": "PetOwner",
-                    "foreignPK": ""
-                }
-            }
-        ]
+                    { 
+                    "relName": "ToLibrary",
+                        "properties": {
+                            "refKey": "",
+                            "relType": "belongsTo",
+                            "toEntity": "Library",
+                            "foreignPK": ""
+                        }
+                    }
+                ]
     }
     ]
 }
 
 ```
 
+By relying on the default key determinations for the BelongsTo relationship, the generator determines that the Book.LibraryID field should be matched against field Library.ID.  If alternate keys are desired, they can be specified in the 'refKey' and 'foreignKey' property fields in the BelongsTo relation declaration.
 
 
+### What if more complex relationships are required?
 
+At the moment the generator only supports HasOne, HasMany and BelongsTo relations, as in practice these tend to be the most widely used.  The generated code can be extended to accomodate additional relationships and joins if need be.  There is a tentative plan to support more complex relations in the generator in the future.
 
 
 <br/>
