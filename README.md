@@ -369,11 +369,7 @@ Sample model ![twoEntityWithCompositeIndex.json](/testing_models/twoEntityWithCo
 
 ## Entity Relationships
 
-Relationships can be declared between entities in the application model file.  Relationships are based on resource id's by default, although it is possible to specify non-default key fields in the configuration, or implement complex joins directly by maintaining the entity's controller and model. 
-
-### HasOne Relationship
-
-HasOne relationships establish a one-to-one relationship between two model entities.  For the purposes of example, let's say that a car can have one owner.  If the car and owner were modelled as entities, we could declare a hasOne (1:1) relationship between them.  The relation would be added in the 'relations' block inside the Car entity definition.  This could look as follows:
+Relationships between entities can be decalred in the application model file  via the addition of a 'relations' block inside an entity's decalration.  Relationships are based on resource id's by default, although it is possible to specify non-default key fields in the configuration, or implement complex joins directly by maintaining the entity's controller and model.  'relations' blocks look as follows:
 
 ```JSON
 
@@ -390,7 +386,14 @@ HasOne relationships establish a one-to-one relationship between two model entit
                 ]
 
 ```
+The sample relations block illustrates the declaration of a HasOne relationship between Car and Owner making use of default-keys.
 
+
+### HasOne Relationship
+
+HasOne relationships establish a one-to-one relationship between two model entities.  For the purposes of example, let's say that a Car can have one Owner.  If the Car and Owner were modelled as entities, we could declare a hasOne (1:1) relationship between them.  The relation would be added in the 'relations' block inside the Car entity definition (as shown above).
+
+A break-down of the relations block fields is as follows:
 ```code
 {
     "relations": [
@@ -418,28 +421,100 @@ HasOne relationships establish a one-to-one relationship between two model entit
             "foreignPK":
             Field 'foreignPK' can be used to specify the field in the toEntity to which the containing entity will match the 'refKey'.  As such, both fields must be of the same go-type (uint64/*uint64).  By leaving this field empty, the application will attempt to use <ContainingEntityName>ID as the column to which the containing (from) entity will attempt to match its refKey to.  In the given example of Car -> Owner, the application will attempt to find the Car's Owner as shown in the following pseudo-code:
 
-            ```SQL
-
-            -- probably need a picture here instead
             SELECT * FROM owner WHERE owner.CarID = car.ID LIMIT 1;
 
-            ```
             }
     }
     ]      
 }
 ```
 
-
-
-Relationships are defined as a block within the 'from' entity.
-
-
 ### HasMany Relationship
 
+HasMay relationships establish a one-to-many relationship between two model entities.  For the purposes of example, let's say that a Libary can have many Books.  If Library and Book were modelled as entities, we could declare a HasMany (1:N) relationship between them.  The relation would be added in the 'relations' block inside the Library entity definition. 
+
+```JSON
+
+{
+    "entities":  [
+        {
+            "typeName": "Library",
+            "properties": {
+                "Name": {
+                    "type": "string",
+                    "format": "", 
+                    "required": true,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,like"
+                },
+                "City": {
+                    "type": "string",
+                    "format": "", 
+                    "required": true,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "eq,lt,gt"
+                }
+            },
+            "compositeIndexes": [ 
+                {"index": "name, city"}
+            ],
+            "relations": [
+                    { 
+                    "relName": "ToBooks",
+                        "properties": {
+                            "refKey": "",
+                            "relType": "hasMany",
+                            "toEntity": "Book",
+                            "foreignPK": ""
+                        }
+                    }
+                ]
+    },
+    {
+        "typeName": "Book",
+        "properties": {
+            "Title": {
+                "type": "string",
+                "format": "", 
+                "required": true,
+                "index": "nonUnique",
+                "selectable": "eq,like"
+            },
+            "Hardcover": {
+                "type": "bool",
+                "format": "", 
+                "required": true,
+                "index": "",
+                "selectable": "eq,ne"
+            },
+            "Copies": {
+                "type": "uint64",
+                "format": "", 
+                "required": true,
+                "index": "",
+                "selectable": "eq,lt,gt"
+            },
+            "LibraryID": {
+                "type": "uint64",
+                "format": "", 
+                "required": true,
+                "index": "nonUnique",
+                "selectable": "eq,like"
+            }
+        }
+    }
+    ]
+}
+
+```
+Sample model ![hasManyDefaultKeys.json](/testing_models/hasManyDefaultKeys.json "hasManyDefaultKeys.json")
 
 
 ### BelongsTo Relationship
+
+BelongsTo relationships form the inverse of the HasOne and HasMany relations.  Consider Library -> Books HasMany example; A Library has many books; a book belongs to a library.
 
 
 

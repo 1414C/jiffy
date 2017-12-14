@@ -11,7 +11,7 @@
                     "index": "nonUnique",
                     "selectable": "eq,like"
                 },
-                "SocialSecurityNumber": {
+                "RegistrationNumber": {
                     "type": "uint",
                     "format": "", 
                     "required": false,
@@ -30,51 +30,44 @@
             },
             "compositeIndexes": [ 
                 {"index": "name, city"}
-            ],
+            ]
+        },
+        {
+            "typeName": "Car",
+            "properties": {
+                "Model": {
+                    "type": "string",
+                    "format": "", 
+                    "required": true,
+                    "index": "nonUnique",
+                    "selectable": "eq,like"
+                },
+                "Make": {
+                    "type": "string",
+                    "format": "", 
+                    "required": true,
+                    "index": "nonUnique",
+                    "selectable": "eq,like"
+                },
+                "OwnerID": {
+                    "type": "uint64",
+                    "format": "", 
+                    "required": true,
+                    "index": "nonUnique",
+                    "selectable": "eq,like"
+                }
+            },
             "relations": [
-                    { 
-                    "relName": "Car",
-                        "properties": {
-                            "refKey": "",
-                            "relType": "hasOne",
-                            "toEntity": "Car",
-                            "foreignPK": "" 
-                        }
+                { 
+                "relName": "ToOwner",
+                    "properties": {
+                        "refKey": "",
+                        "relType": "hasOne",
+                        "toEntity": "Owner",
+                        "foreignPK": "" 
                     }
-                ]
-    },
-    {
-        "typeName": "Car",
-        "properties": {
-            "Model": {
-                "type": "string",
-                "format": "", 
-                "required": true,
-                "index": "nonUnique",
-                "selectable": "eq,like"
-            },
-            "Make": {
-                "type": "string",
-                "format": "", 
-                "required": true,
-                "index": "nonUnique",
-                "selectable": "eq,like"
-            },
-            "OwnerID": {
-                "type": "uint64",
-                "format": "", 
-                "required": true,
-                "index": "nonUnique",
-                "selectable": "eq,like"
-            },
-            "AltOwnerID": {
-                "type": "uint64",
-                "format": "", 
-                "required": false,
-                "index": "nonUnique",
-                "selectable": "eq,like"
-            }
+                }
+            ]
         }
-    }
     ]
 }
