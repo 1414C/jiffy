@@ -891,6 +891,7 @@ ___
     - [ ] look at fast hash algorithms (murmur-2??)
   - [x] add Href to entities as a common self-referential field
   - [x] update ReadModel() to accept new model format with relations
+  - [ ] update ReadModel() to handle multiple model files
   - [x] add code to support the links via child-href
   - [ ] add code to support expansion of child-href
     - [x] 	Href string  `rgen:"-" json:"Href,omitempty"`
