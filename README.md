@@ -3,7 +3,7 @@
 ## Overview and Features
 Rgen is a model-based application services generator written in go.  It was developed as an experiment to offer an alternative avenue when developing cloud native applications for SAP Hana.  The rgen application allows the developer to treat the data persistence layer as an abstraction, thereby removing the need to make use of CDS and the SAP XS libraries.  While this is not for everybody, it does reduce the mental cost of entry and allows deployment of a web-based application to SAP Hana with virtually no prior Hana knowledge.
 
-#### Why write in Go?  Go was chosen for a number of reasons:
+#### Why write in Go? 
 * Go has a very strong standard library, thereby keeping dependencies on public packages to a minimum
 * Go offers true concurrency via lightweight threads known as goroutines i.e. there is no blocking in the i/o 
 * goroutines will use all available cores to handle incoming requests
@@ -33,6 +33,7 @@ Rgen is a model-based application services generator written in go.  It was deve
 <br/>
 
 
+#### What does an application look like?
 The generated application is not tied to a particular database, and can be pointed at the DBMS of your choice without the need to recompile the binary (architecture differences not withstanding).  This means that a developer can build a model, fully test it using SQLite and then redirect the appplication to a development MSSQL, SAP Hana, Postgres or MariaDB backend when they are back in the office.  This is achievable due to the ORM layer that the Rgen application is build upon.  The ORM is easily extendable to accomodate other databases if required (oracle, db2, SAP ASE are candidates here).
 
 Applications are generated based on model files which are encoded as simple JSON.  The concept of entity and resource-id form the cornerstones upon which the model, application and RESTful end-points are built upon.
@@ -76,6 +77,31 @@ Additional routes can also be generated based on the model file, including custo
 
 
 This is just a sample of what the model files have to offer.  More details regarding application modlelling are contained in later sections of this file.
+
+#### Access Control
+Access to resources (entities) is controlled in three ways:
+
+1. Configuration based service activation
+2. Secure user authentication
+3. JWT tokens with claim inspection in middleware applied to the protected routes (end-points) 
+
+An internal service is created for each of the modelled entities in the application.  Services can be marked as active or inactive in the service configuration, thereby allowing a single application to be generated, but also allowing selective service deployment.  For example, there may be cases where it is desirable to route certain services to a particular server and another set of services to the rest of the pool.  In such a case, NGix could be configured to route the end-points appropriately, and the deployed service configurations would be adjusted accordingly.
+
+User authentication is conducted using a bcrypt in such a manner that passwords are never stored in the application database.  When a user is created, their user-id is stored in the backend database along with the salt/peppered bcrypt hash of their password.  This ensures that in the event of a breach no plain-text passwords can be obtained.  
+
+The bcrypt hashes are not very useful to would-be attackers for the following reasons:
+* bcrypt hashes are salt/peppered making rainbow tables useless
+* bcrypt is slow by design, making brute force reversal a time-consuming and expensive proposition
+* the hash itself is not used for authentication; it is the by-product of successful authentication
+
+When a user logs into the application the following steps occur:
+* the user-name and stored bcrypt hash is looked up in the back-end db
+* the provided password is hashed in memory using the standard lib Go bcrypt functions and the protected salt/pepper values
+* the computed bcrypt hash is compared to the stored hash for the user
+* if the hash values match, a JWT (token) is created using the ECDSA-384 elliptic curve
+* the JWT is passed back to the caller and must henceforth be included in the http header of all requests in the Authorization field
+* in addtion to fullfilling the authorization requirements, the JWT is also used as a CSRF equivalent
+* see the Authorization section for more details regarding the content and use of the JWT content/claims
 
 <br/>
 
