@@ -7,6 +7,7 @@ A simple model-based application generator written in go.  Define a model file c
 ## Work-In-Progress
 1.  Consider simply enforcing the use of ID & Href in the model definition as explicitly named fields.
 2.  Ensure that rune and byte types are fully accounted for.
+3.  NoDB example
 
 
 ## Features
@@ -568,8 +569,8 @@ The generated server runs based on a generated JSON configuration file as shown 
 		"password":   "gogogo123",
 		"name":       "glrestgen"
     },
-    'db_dialect' refers to the backend database type that will be used by the generated application.  Currently,
-    the following db_dialects are supported:
+    'db_dialect' refers to the backend database type that will be used by the generated application.
+    Currently, the following db_dialects are supported by the sqac ORM runtime:
     
     |  Database               | JSON Value for db_dialect field    |
     |-------------------------|------------------------------------|
@@ -580,10 +581,10 @@ The generated server runs based on a generated JSON configuration file as shown 
     | MySQL / MariaDB         | "db_dialect": "mysql"              |
 
 
-    'database' is a JSON block holding the access information for the database.  At the moment, 
-    only Postgres is implemented and it is assumed that the application will use the pg default
-    scehema 'Public'.  Sqlite3 will be implemented as a proof-of-concept for multi-db-support,
-    and the target database schema will be added to the JSON block at that time.
+    'database' is a JSON block holding the access information for the database system.  Fill in
+    what is needed for the type of database you are connecting to.  SQLite for example, does not
+    have any user-access control etc.  Sample database configuration blocks have been included in
+    file sample_configs.json.
 
     "cert_file": "",
     'cert_file' should point to the location of a self-signed or purchased certificate file and
@@ -613,7 +614,7 @@ The generated server runs based on a generated JSON configuration file as shown 
     $ go run main.go 
 
     This will run the program using a set of default configuration that has been compiled into the binary.  
-    Default configuration may be edited in the generated appobj/appconf.go file to suit local requirements.  
+    The default configuration may be edited in the generated appobj/appconf.go file to suit local requirements.  
     The default application settings are shown in the server configuration file format.  
     The default configuration publishes the end-points on port 3000 over http due to the absence of the 
     'cert_file' and 'key_file' values.
@@ -652,7 +653,7 @@ The generated server runs based on a generated JSON configuration file as shown 
 
 {
     "port": 3000,    
-    "env": "def",     
+    "env": "dev",     
     "pepper": "secret-pepper-key",  
     "hmac_Key": "secret-hmac-key",
     "database": {
@@ -827,7 +828,7 @@ ___
 
 ## Automated Testing
 Automated testing can be performed using the standard go test tooling.  Tests can be run using http
-or https, and run against any port that the application is presently serving on.  Remember, the 
+or https, and run against the port that the application is presently serving on.  Remember, the 
 application must be running prior to executing the test.
 
 The generated CRUD tests check the availability of the end-points, and attempt to perform CRUD
@@ -840,6 +841,8 @@ The generated simple selector tests check the availabilty of the end-points, and
 a GET for each of the selection operators specified in the Enitity->selectable field in the models.json
 file.  It is not neccessary to have values populated in the dataabase in order for the simple selector
  tests to run.
+
+ At the moment, relationships are not included in the generated tests.
 
 
 ### Run go test With https
