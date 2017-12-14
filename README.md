@@ -407,29 +407,53 @@ A break-down of the relations block fields is as follows:
 ```code
 {
     "relations": [
-    The 'entities' block contains an array of relations belonging to the containing entity definition.  Each relation is defined from the perspective of the containing entity having a relationship of the specified type (in this case hasOne), with the entity referenced in the declaration.  A Car has one Owner - in our example at least.
+    The 'entities' block contains an array of relations belonging to the containing entity definition.
+    Each relation is defined from the perspective of the containing entity having a relationship of 
+    the specified type (in this case hasOne), with the entity referenced in the declaration.  A Car
+    has one Owner - in our example at least.
     {
         "relName": "Owner"
-        Field 'relName' refers to the name the relationship will be known by inside the application and in the end-point definition in the mux routes.  It must be capitalized and written in CamelCase.  Any name may be chosen for this field, but keep in mind this name will be exposed to the service consumer via the URI, so something respecting the relationship enities and cardinaliy is best.  For the example, we have chosen a relName of 'ToOwner' to demonstrate the difference between the toEntity and relName fields.
+        Field 'relName' refers to the name the relationship will be known by inside the application 
+        and in the end-point definition in the mux routes.  It must be capitalized and written in 
+        CamelCase.  Any name may be chosen for this field, but keep in mind this name will be exposed
+        to the service consumer via the URI, so something respecting the relationship enities and 
+        cardinaliy is best.  For the example, we have chosen a relName of 'ToOwner' to demonstrate 
+        the difference between the toEntity and relName fields.
         relName is a mandatory field in a relations declaration.
             
             "properties": {
             The 'properties' block contains the details of the relationship.
 
             "refKey":
-            Field 'refKey' can be used to specify an non-default reference key belonging to the containing (from) entity.  By leaving this field empty, the default field of 'ID' will be used, which is what most relationships will use most of the time.  For those times where the default 'from' key cannot be 'ID', you may specify your own as long as the chosen field is an existing member in the containing (from) entity and is of go-type uint64 or *uint64.  The refKey will be matched in the selection of the toEntity when the relationship is accessed.
+            Field 'refKey' can be used to specify an non-default reference key belonging to the 
+            containing (from) entity.  By leaving this field empty, the default field of 'ID' will 
+            be used, which is what most relationships will use most of the time.  For those times 
+            where the default 'from' key cannot be 'ID', you may specify your own as long as the 
+            chosen field is an existing member in the containing (from) entity and is of go-type 
+            uint64 or *uint64.  The refKey will be matched in the selection of the toEntity when 
+            the relationship is accessed.
             This is an optional field.
 
             "relType":
-            Field 'relType' is used to indicate what sort of relationship is being declared between the containing (from) entity and the toEntity.  Valid values are {HasOne, HasMany and BelongsTo}.
+            Field 'relType' is used to indicate what sort of relationship is being declared between
+            the containing (from) entity and the toEntity.  Valid values are {HasOne, HasMany and 
+            BelongsTo}.
             This is a mandatory field.
 
             "toEntity":
-            Field 'toEntity' is used to specify the target entity in the relationship. The toEnity must be capitalized and provided in CamelCase that matches that used in the toEntity's declaration.  The toEntity need not appear prior to the containing entity in the model file or files.
+            Field 'toEntity' is used to specify the target entity in the relationship. The toEnity 
+            must be capitalized and provided in CamelCase that matches that used in the toEntity's 
+            declaration.  The toEntity need not appear prior to the containing entity in the model 
+            file or files.
             This is a mandatory field.
 
             "foreignPK":
-            Field 'foreignPK' can be used to specify the field in the toEntity to which the containing entity will match the 'refKey'.  As such, both fields must be of the same go-type (uint64/*uint64).  By leaving this field empty, the application will attempt to use <ContainingEntityName>ID as the column to which the containing (from) entity will attempt to match its refKey to.  In the given example of Car -> Owner, the application will attempt to find the Car's Owner as shown in the following pseudo-code:
+            Field 'foreignPK' can be used to specify the field in the toEntity to which the containing
+            entity will match the 'refKey'.  As such, both fields must be of the same go-type 
+            (uint64/*uint64).  By leaving this field empty, the application will attempt to use 
+            <ContainingEntityName>ID as the column to which the containing (from) entity will attempt
+            to match its refKey to.  In the given example of Car -> Owner, the application will attempt
+            to find the Car's Owner as shown in the following pseudo-code:
 
             SELECT * FROM owner WHERE owner.CarID = car.ID LIMIT 1;
 
@@ -623,8 +647,8 @@ The generated server runs based on a generated JSON configuration file as shown 
     $ go run main.go 
 
     This will run the program using a set of default configuration that has been compiled into the binary.  
-    The default configuration may be edited in the generated appobj/appconf.go file to suit local requirements.  
-    The default application settings are shown in the server configuration file format.  
+    The default configuration may be edited in the generated appobj/appconf.go file to suit local 
+    requirements.  The default application settings are shown in the server configuration file format.  
     The default configuration publishes the end-points on port 3000 over http due to the absence of the 
     'cert_file' and 'key_file' values.
 
