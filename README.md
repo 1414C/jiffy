@@ -24,7 +24,7 @@ A model-based application generator written in go.  Define model files containin
 * baked in normalization and validation
 * generates a working set of CRUD-type RESTful services based on the model file
 * supports and generates working end-points for hasOne, hasMany and belongsTo relationships between entities
-* generates working query and CRUD end-points based on the model fie 
+* generates working query end-points based on the model fie 
 * generates a comprehensive set of working tests (go test)
 * generated code is easily extended
 <br/>
