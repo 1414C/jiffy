@@ -1,10 +1,20 @@
 # rgen
 
 ## Overview and Features
-Rgen is a model-based application generator written in go.  Go is nice in that it has a very strong standard library, which helps keep dependencies on public packages to a minimum.  Go also presents a strong case when it comes to the handling of concurrency, as a goroutine (lightweight thread), is spawned for each incoming connection.  
+Rgen is a model-based application services generator written in go.  It was developed as an experiment to offer an alternative avenue to develop cloud native applications for SAP Hana.  The rgen application allows the application developer to treat the data persistence layer as an abstraction, thereby removing the need to make use of CDS and the SAP XS libraries.  While this is not for everybody, it does reduce the mental cost of entry and allows deployment of a web-based application to SAP Hana with virtually no prior Hana knowledge.
 
-* connects to Postgres, MSSQL, SAP Hana, SQLite or MariaDB
-* no database specific code is compiled into the binary; app can be pointed from SQLite to SAP Hana with no code changes
+Why write in Go?  Go was chosen for a number of reasons:
+* Go has a very strong standard library, thereby keeping dependencies on public packages to a minimum
+* Go offers true concurrency via lightweight threads known as goroutines i.e. there is no blocking in the i/o 
+* goroutines will use all available cores to handle incoming requests
+* Go it is a small language that offers type-safety
+* Go projects complile to a static single binary which simplifies deployments
+* Go cross-compiles to virtually any platform and architecture
+* Go is making inroads into areas that have been dominated by other languages and packages
+
+What does the Rgen application provide?
+* generated apps can be connecte to Postgres, MSSQL, SAP Hana, SQLite or MariaDB
+* no database specific code is compiled into the binary; an app can be pointed from SQLite to SAP Hana with no code changes
 * login / session management via jwt
 * built-in support for the creation of signing-keys for jwt
 * bcrypt salt/pepper based authentication scheme where passwords are never stored in the db
@@ -17,12 +27,13 @@ Rgen is a model-based application generator written in go.  Go is nice in that i
 * generates a working set of CRUD-type RESTful services based on the model file
 * supports and generates working end-points for hasOne, hasMany and belongsTo relationships between entities
 * generates working query end-points based on the model fie 
+* secured end-points by way of scope inspection (jwt claims) in the route handler middleware
 * generates a comprehensive set of working tests (go test)
 * generated code is easily extended
 <br/>
 
 
-The generated application is not tied to a particular database, and can be pointed at the DBMS of your choice without the need to recompile the binary (architeture differences not withstanding).  This means that a developer can build a model, fully test it using SQLite and then redirect the appplication to a development MSSQL, SAP Hana, Postgres or MariaDB backend when they are back in the office.  This is achievable due to the ORM layer that the Rgen application is build upon.  The ORM is easily extendable to accomodate other databases if required (oracle, db2, SAP ASE are candidates here).
+The generated application is not tied to a particular database, and can be pointed at the DBMS of your choice without the need to recompile the binary (architecture differences not withstanding).  This means that a developer can build a model, fully test it using SQLite and then redirect the appplication to a development MSSQL, SAP Hana, Postgres or MariaDB backend when they are back in the office.  This is achievable due to the ORM layer that the Rgen application is build upon.  The ORM is easily extendable to accomodate other databases if required (oracle, db2, SAP ASE are candidates here).
 
 Applications are generated based on model files which are encoded as simple JSON.  The concept of entity and resource-id form the cornerstones upon which the model, application and RESTful end-points are built upon.
 
