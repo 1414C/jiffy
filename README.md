@@ -229,7 +229,7 @@ The simpleSingleEntityModel.json file structure and content is explained below:
 
 ### Simple Two Entity Model
 
-The following JSON illustrates the defintion of a simple two-entity model file.  In this case, model entities 'Person' and 'Country' will be created in the generated application, along with corresponding database tables 'person' and 'country'.  No relationships have been defined between the two entities; this example simple illustrates how to add multiple entity definitions to the model file.
+The following JSON illustrates the defintion of a simple two-entity model file.  In this case, model entities 'Person' and 'Country' will be created in the generated application, along with corresponding database tables 'person' and 'country'.  No relationships have been defined between the two entities; this example simply illustrates how to add multiple entity definitions to the model file.
 
 models.json
 ```JSON
@@ -303,7 +303,7 @@ Sample model ![simpleTwoEntityModel.json](/testing_models/simpleTwoEntityModel.j
 
 ### Two Entity Model With Composite Index
 
-The following JSON illustrates the addition of a composite-index to an entity definition.  An index composed of the 'name' and 'province' fields has been declared in the 'Owner' entity.  This declaration will result in the creation of a non-unique b-tree index for columns 'name' and 'province' in the database.  Any number of composite indices may be declared for an entity.  No relationships have been defined between the two entities; this example simple illustrates how to declare a composite-index for an entity.  
+The following JSON illustrates the addition of a composite-index to an entity definition.  An index composed of the 'name' and 'province' fields has been declared in the 'Owner' entity.  This declaration will result in the creation of a non-unique b-tree index for columns 'name' and 'province' in the database.  Any number of composite indices may be declared for an entity.  No relationships have been defined between the two entities; this example simply illustrates how to declare a composite-index for an entity.  
 
 ```JSON
 
