@@ -8,6 +8,8 @@ A model-based application generator written in go.  Define model files containin
 1.  Consider simply enforcing the use of ID & Href in the model definition as explicitly named fields.
 2.  Ensure that rune and byte types are fully accounted for.
 3.  NoDB example
+4.  Build in SAML support
+5.  Add option for Foreign Key defintion / enforcement in relations
 
 
 ## Features
