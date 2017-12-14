@@ -1,7 +1,7 @@
 # rgen
 
 ## Overview and Features
-Rgen is a model-based application services generator written in go.  It was developed as an experiment to offer an alternative avenue when developing cloud native applications for SAP Hana.  The rgen application allows the developer to treat the data persistence layer as an abstraction, thereby removing the need to make use of CDS and the SAP XS libraries.  While this is not for everybody, it does reduce the mental cost of entry and allows deployment of a web-based application to SAP Hana with virtually no prior Hana knowledge.
+Rgen is a model-based application services generator written in go.  It was developed as an experiment to offer an alternative avenue when developing cloud native applications for SAP Hana.  The rgen application allows a developer to treat the data persistence layer as an abstraction, thereby removing the need to make use of CDS and the SAP XS libraries.  While this is not for everybody, it does reduce the mental cost of entry and allows deployment of a web-based application to SAP Hana with virtually no prior Hana knowledge.
 
 #### Why write in Go?
 * Go has a very strong standard library, thereby keeping dependencies on public packages to a minimum
@@ -9,7 +9,7 @@ Rgen is a model-based application services generator written in go.  It was deve
 * goroutines will use all available cores to handle incoming requests
 * Go it is a small language that offers type-safety
 * Go projects complile to a static single binary which simplifies deployments
-* Go cross-compiles to virtually any platform and architecture
+* Go cross-compiles to virtually any platform and architecture; write the app on a chromebook - deploy to z/OS
 * Go is making inroads into areas that have been dominated by other languages and packages
 
 #### What does the Rgen application provide?
@@ -23,11 +23,11 @@ Rgen is a model-based application services generator written in go.  It was deve
 * automatically creates backend database artifacts based on the model file (tables, indices)
 * supports single and composite index declarations via the model file
 * built-in support for https
-* baked in normalization and validation
-* generates a working set of CRUD-type RESTful services based on the model file
+* baked in normalization and validation in the model-layer
+* generates a working set of CRUD-type RESTful services for each entity based on the model file
 * supports and generates working end-points for hasOne, hasMany and belongsTo relationships between entities
 * generates working query end-points based on the model fie 
-* secured end-points by way of scope inspection (jwt claims) in the route handler middleware
+* end-points are secured by way of scope inspection (jwt claims) in the route handler middleware
 * generates a comprehensive set of working tests (go test)
 * generated code is easily extended
 <br/>
@@ -151,7 +151,7 @@ In order to run the application generator, ensure the following:
 ## Flags
 Flags are generally not used, as the configuration files (models.json) are easier to deal with.  There are however, a few flags that can e appended to the execution command:
 
-* go run *.go -p
+* go run *.go -p <target_dir>
 	* The -p switch is used to specify the target directory for generated application source-code relative to $GOPATH/src.
 
 ```bash
@@ -160,21 +160,28 @@ Flags are generally not used, as the configuration files (models.json) are easie
 
 ```
 
-* go run main.go -m "./my_model.json"
+* go run main.go -m <model_file>.json
     * By default, the application will attempt to use ./models.json as the model source, but inclusion of the -m flag permits the use of an alternate model file.
     * The path of model file in the application base directory must be prefaced with ./ .  If the model file is not located in the base directory of the application, the full path must be specified when using the -m flag.
+
+```bash
+
+    go run main.go -m "./my_model.json"
+
+```
 
 ---
 <br/>
 
 ## Model Creation
-Create a model file containing the Entities, Indexes and Relations that you wish to generate services for.  Entity model defintion consists of an array of JSON objects, with each object being limited to a flat hierarchy and basic go-data-types, although this is easily extended.  By default, the generator expects a *models.json* file in the execution directory, but a correctly formatted JSON file can be loaded from any location by executing with the *-m* flag.  
+Create a model file containing the Entities, Indexes and Relations that you wish to generate services for.  Entity model defintion consists of an array of JSON objects, with each object being limited to a flat hierarchy and basic go-data-types, although this is easily extended.  By default, the generator expects a *models.json* file in the execution directory, but a correctly formatted JSON file can be loaded from any location by executing with the *-m* flag. 
 
 Sample <models>.json files are installed with the application and can be found in the testing_models folder.  The sample models are used as the basis for the following sections.
 
 ### Simple Single Entity Model
 
 The following JSON illustrates the defintion of a simple single-entity model file.  In this case, a model entity called 'Person' will be created in the generated application, along with corresponding database table 'person'.  Table 'person' will be created (if it does not already exist) when the application is started for the first time.  See the application startup sequence section of this document for details regarding database artifact creation and updates.
+
 ```JSON
 
 {
@@ -336,6 +343,20 @@ The simpleSingleEntityModel.json file structure and content is explained below:
     ]
 }
 ```
+
+### Entity ID
+The ID field is visibly absent from the preceding entity declarations.  The original intent was to support any name for the primary key / resource identifier of an entity.  While it is possile to do this, it seems that ID is the universal 'non-standard' way of representing object identifiers in RESTful-type services, so we went with it.  As a result, ID is injected into the model defintion of every entity as a uint64 field and is marked as the primary-key in the database backend.  By default, the ID is created as an auto-incrementing column in the DBMS, but this functionality can be suppressed (future).  The ability to allow a specific starting point for the ID key range exists in the ORM, and is in the process of being added to the model file. 
+
+If the ID field really needs to be known as CustomerNumber for example, the generated code can be edited in a few locations to support the change.  It is worth mentioning that the number of edits required to rename 'ID' increases in direct relation to the numner and complexity of entity relations (both to and from).
+
+As an alternative to renaming ID, it is also conceivable that it can be ignored.  Ignoring the ID means that the generated CRUD controller/model/routes are not as useful as they could be, but they offer a great starting point for your own coding.  Entities can be defined with column constraints that mimic those of DBMS primary / complex keys, then the generated CRUD artifacts based on ID can be ignored, copied then ignored, or modified to accmodate the modelled entities.
+
+It is also possible to go completely custom and write your own models and controllers from scratch using a generated model as a reference template.  In addition to exposing a generic internal CRUD interface to the backend, the more interesting go/sql calls are exposed internally along with some lightly wrapped and super useful calls from jmoirons widely used sqlx package.
+
+https://github.com/jmoiron/sqlx
+http://jmoiron.github.io/sqlx/
+
+Although rgen eschews non-standard lib packages wherever possible, sqlx is worth making an exception for.
 
 
 ### Simple Two Entity Model
@@ -748,6 +769,15 @@ At the moment the generator only supports HasOne, HasMany and BelongsTo relation
 
 
 <br/>
+
+# What gets Generated?
+
+Running the application generator creates a set of files that comprise a basic working application.  Incoming requests are handled by a mux, which validates the request, and then matches it to a route.  The selected route passed the request to a controller specific to the entity-type, where the incoming information is mapped into a go struct matching the entity declaration.  The controller then calls the appropriate model function for the http operation / entity-type.  The model handler passes through a member-field validation layer, and then to the model's interface to the underlying sqac ORM.  The database request is handled by the ORM, and then the response is passed from the model back to the controller where it is packaged as a JSON payload and sent back in response-writer's body.
+
+![alt text](/md_images/app_layout/AppLayout1.jpeg "Application file structure")
+
+
+
 
 # Using the Generated Code
 

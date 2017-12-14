@@ -1,0 +1,83 @@
+{
+    "entities":  [
+        {
+            "typeName": "Library",
+            "properties": {
+                "Name": {
+                    "type": "string",
+                    "format": "", 
+                    "required": true,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,like"
+                },
+                "City": {
+                    "type": "string",
+                    "format": "", 
+                    "required": true,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "eq,lt,gt"
+                }
+            },
+            "compositeIndexes": [ 
+                {"index": "name, city"}
+            ],
+            "relations": [
+                    { 
+                    "relName": "ToBooks",
+                        "properties": {
+                            "refKey": "",
+                            "relType": "hasMany",
+                            "toEntity": "Book",
+                            "foreignPK": ""
+                        }
+                    }
+                ]
+    },
+    {
+        "typeName": "Book",
+        "properties": {
+            "Title": {
+                "type": "string",
+                "format": "", 
+                "required": true,
+                "index": "nonUnique",
+                "selectable": "eq,like"
+            },
+            "Hardcover": {
+                "type": "bool",
+                "format": "", 
+                "required": true,
+                "index": "",
+                "selectable": "eq,ne"
+            },
+            "Copies": {
+                "type": "uint64",
+                "format": "", 
+                "required": true,
+                "index": "",
+                "selectable": "eq,lt,gt"
+            },
+            "LibraryID": {
+                "type": "uint64",
+                "format": "", 
+                "required": true,
+                "index": "nonUnique",
+                "selectable": "eq,like"
+            }
+        },
+        "relations": [
+                    { 
+                    "relName": "ToLibrary",
+                        "properties": {
+                            "refKey": "",
+                            "relType": "belongsTo",
+                            "toEntity": "Library",
+                            "foreignPK": ""
+                        }
+                    }
+                ]
+    }
+    ]
+}
