@@ -873,6 +873,7 @@ ___
   - [x] fully implement nullable / pointer support
   - [x] add support for single-field unique constraints
   - [x] implement GetEntities to use the standard sqac.PublicDB interface
+  - [ ] SAML integration with usr/login
   - [ ] implement self-documenting API 
   - [ ] consider the use of db-views as entity sources
   - [ ] add support for BLOB storage (S3?)
