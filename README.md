@@ -1,9 +1,9 @@
 # rgen
 
 ## Overview and Features
-Rgen is a model-based application services generator written in go.  It was developed as an experiment to offer an alternative avenue to develop cloud native applications for SAP Hana.  The rgen application allows the application developer to treat the data persistence layer as an abstraction, thereby removing the need to make use of CDS and the SAP XS libraries.  While this is not for everybody, it does reduce the mental cost of entry and allows deployment of a web-based application to SAP Hana with virtually no prior Hana knowledge.
+Rgen is a model-based application services generator written in go.  It was developed as an experiment to offer an alternative avenue when developing cloud native applications for SAP Hana.  The rgen application allows the developer to treat the data persistence layer as an abstraction, thereby removing the need to make use of CDS and the SAP XS libraries.  While this is not for everybody, it does reduce the mental cost of entry and allows deployment of a web-based application to SAP Hana with virtually no prior Hana knowledge.
 
-Why write in Go?  Go was chosen for a number of reasons:
+####Why write in Go?  Go was chosen for a number of reasons:
 * Go has a very strong standard library, thereby keeping dependencies on public packages to a minimum
 * Go offers true concurrency via lightweight threads known as goroutines i.e. there is no blocking in the i/o 
 * goroutines will use all available cores to handle incoming requests
@@ -12,8 +12,8 @@ Why write in Go?  Go was chosen for a number of reasons:
 * Go cross-compiles to virtually any platform and architecture
 * Go is making inroads into areas that have been dominated by other languages and packages
 
-What does the Rgen application provide?
-* generated apps can be connecte to Postgres, MSSQL, SAP Hana, SQLite or MariaDB
+####What does the Rgen application provide?
+* generated apps can be connected to Postgres, MSSQL, SAP Hana, SQLite or MariaDB
 * no database specific code is compiled into the binary; an app can be pointed from SQLite to SAP Hana with no code changes
 * login / session management via jwt
 * built-in support for the creation of signing-keys for jwt
