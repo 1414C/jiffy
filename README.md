@@ -1,18 +1,8 @@
 # rgen
 
-## Overview
-A model-based application generator written in go.  Define model files containing the application entities and relations, then run the  application generator to get a working set of CRUD-style services with a supporting database backend.
-<br/>
+## Overview and Features
+Rgen is a model-based application generator written in go.  Go is nice in that it has a very strong standard library, which helps keep dependencies on public packages to a minimum.  Go also presents a strong case when it comes to the handling of concurrency, as a goroutine (lightweight thread), is spawned for each incoming connection.  
 
-## Work-In-Progress
-1.  Consider simply enforcing the use of ID & Href in the model definition as explicitly named fields.
-2.  Ensure that rune and byte types are fully accounted for.
-3.  NoDB example
-4.  Build in SAML support
-5.  Add option for Foreign Key defintion / enforcement in relations
-
-
-## Features
 * connects to Postgres, MSSQL, SAP Hana, SQLite or MariaDB
 * no database specific code is compiled into the binary; app can be pointed from SQLite to SAP Hana with no code changes
 * login / session management via jwt
@@ -29,6 +19,63 @@ A model-based application generator written in go.  Define model files containin
 * generates working query end-points based on the model fie 
 * generates a comprehensive set of working tests (go test)
 * generated code is easily extended
+<br/>
+
+
+The generated application is not tied to a particular database, and can be pointed at the DBMS of your choice without the need to recompile the binary (architeture differences not withstanding).  This means that a developer can build a model, fully test it using SQLite and then redirect the appplication to a development MSSQL, SAP Hana, Postgres or MariaDB backend when they are back in the office.  This is achievable due to the ORM layer that the Rgen application is build upon.  The ORM is easily extendable to accomodate other databases if required (oracle, db2, SAP ASE are candidates here).
+
+Applications are generated based on model files which are encoded as simple JSON.  The concept of entity and resource-id form the cornerstones upon which the model, application and RESTful end-points are built upon.
+
+Entities can be thought of anything that needs to be modelled; Order, Customer, Invoice, Truck, Oven, ..., ... Each entity is mandated to have an ID field, which is analagous to a primary-key or row-id in the backend database.  ID is used as the primary resource identifier for an entity, and should generally be setup as an auto-incrementing column in the database.  
+
+Accessing an entity via the generated CRUD interface is very simple.  For example, a customer could be defined in the model and then accessed via the application as follows:
+
+1.  Create a customer entity:
+    - https://servername:port/customer  + {JSON body}
+
+2.  Update a customer entity:
+    - https://servername:port/customer/:id  + {JSON body}
+
+3.  Read a customer entity:
+    - https://servername:port/customer/:id
+
+4.  Delete a customer entity:
+    - https://servername:port/customer/:id
+
+5.  Read all customer entities:
+    - https://servername:port/customers
+
+
+Additional routes can also be generated based on the model file, including custom filters for GET operations, static end-points for common GET operations, HasOne, HasMany and BelongsTo relationships:
+
+1.  Use a filter to Get customers where the last name is 'Smith':
+    - https://servername:port/customers/?last_name=Smith
+
+2.  Use a generated static end-point to Get customers where credit score is less than 4:
+    - https://servername:port/customers/credit_score(LT 4)
+
+3.  Use a generated relationship to retrieve all orders for a customer:
+    - https://servername:port/customer/10023/orders
+
+4.  Use a generated relationship to retrieve a specific order for a customer:
+    - https://servername:port/customer/10023/order/99000022
+
+5.  Use a generated relationship to retrieve the customer for a specific order:
+    - https://servername:port/order/99000022/customer
+
+
+This is just a sample of what the model files have to offer.  More details regarding application modlelling are contained in later sections of this file.
+
+<br/>
+
+## Work-In-Progress
+1.  Ensure that rune and byte types are fully accounted for.
+2.  NoDB example for non-persisted fields in an entity
+3.  Ensure that start range is supported for auto-incrementing ID
+4.  Build in SAML support
+5.  Add option for Foreign Key defintion / enforcement in relations
+6.  Droplet deployment
+7.  NGix
 <br/>
 
 ## Installation and Execution
