@@ -14,13 +14,15 @@ A simple model-based application generator written in go.  Define a model file c
 * connects to Postgres, MSSQL, SAP Hana, SQLite or MariaDB
 * login / session management via jwt
 * built-in support for the creation of signing-keys for jwt
+* bcrypt salt/pepper based authentication scheme where passwords are never stored in the db
 * JSON configuration (model) file for Entity, Index and Relationship definitions
+* models support persistent and non-persistent fields
 * automatically creates backend database artifacts based on the model file (tables, indices)
 * supports single and composite index declarations via the model file
 * built-in support for https
 * baked in normalization and validation
 * generates a working set of CRUD-type RESTful services based on the model file
-* supports hasOne, hasMany and belongsTo relationships between entities
+* supports and generates working end-points for hasOne, hasMany and belongsTo relationships between entities
 * generates working query and CRUD end-points based on the model fie 
 * generates a comprehensive set of working tests (go test)
 * generated code is easily extended
