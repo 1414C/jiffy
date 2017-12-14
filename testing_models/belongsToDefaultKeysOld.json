@@ -22,17 +22,6 @@
             },
             "compositeIndexes": [ 
                 {"index": "name, city"}
-            ],
-            "relations": [
-                { 
-                "relName": "ToDogs",
-                    "properties": {
-                        "refKey": "",
-                        "relType": "hasMany",
-                        "toEntity": "Dog",
-                        "foreignPK": ""
-                    }
-                }
             ]
     },
     {
@@ -62,7 +51,7 @@
         },
         "relations": [
             { 
-            "relName": "ToPetOwner",
+            "relName": "PetOwner",
                 "properties": {
                     "refKey": "",
                     "relType": "belongsTo",

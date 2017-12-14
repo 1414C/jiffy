@@ -3,7 +3,7 @@
 ## Overview and Features
 Rgen is a model-based application services generator written in go.  It was developed as an experiment to offer an alternative avenue when developing cloud native applications for SAP Hana.  The rgen application allows the developer to treat the data persistence layer as an abstraction, thereby removing the need to make use of CDS and the SAP XS libraries.  While this is not for everybody, it does reduce the mental cost of entry and allows deployment of a web-based application to SAP Hana with virtually no prior Hana knowledge.
 
-#### Why write in Go? 
+#### Why write in Go?
 * Go has a very strong standard library, thereby keeping dependencies on public packages to a minimum
 * Go offers true concurrency via lightweight threads known as goroutines i.e. there is no blocking in the i/o 
 * goroutines will use all available cores to handle incoming requests
@@ -33,11 +33,11 @@ Rgen is a model-based application services generator written in go.  It was deve
 <br/>
 
 #### What does an application look like?
-The generated application is not tied to a particular database, and can be pointed at the DBMS of your choice without the need to recompile the binary (architecture differences not withstanding).  This means that a developer can build a model, fully test it using SQLite and then redirect the appplication to a development MSSQL, SAP Hana, Postgres or MariaDB backend when they are back in the office.  This is achievable due to the ORM layer that the Rgen application is build upon.  The ORM is easily extendable to accomodate other databases if required (oracle, db2, SAP ASE are candidates here).
+The generated application can be pointed at the DBMS of your choice without the need to recompile the binary (architecture differences not withstanding).  This means that a developer can build a model, fully test it locally using SQLite and then redirect the appplication to a formal testing environment running SAP Hana, or any of the other supported database systems.  This is achievable due to the ORM layer that the Rgen application is built upon.  The ORM is easily extendable to accomodate other databases if required (oracle, db2, SAP ASE are candidates here).
 
-Applications are generated based on model files which are encoded as simple JSON.  The concept of entity and resource-id form the cornerstones upon which the model, application and RESTful end-points are built upon.
+Applications are generated based on model files which are encoded as simple JSON.  The concepts of entity and resource-id form the cornerstones upon which the model, application and RESTful end-points are built upon.
 
-Entities can be thought of anything that needs to be modelled; Order, Customer, Invoice, Truck, Oven, ..., ... Each entity is mandated to have an ID field, which is analagous to a primary-key or row-id in the backend database.  ID is used as the primary resource identifier for an entity, and should generally be setup as an auto-incrementing column in the database.  
+Entities can be thought of anything that needs to be modelled; Order, Customer, Invoice, Truck, Oven, ..., ... Each entity is mandated to have an ID field, which is analagous to a primary-key or row-id in the backend database.  ID is used as the primary resource identifier for an entity, and is generally be setup as an auto-incrementing column in the database.  
 
 Accessing an entity via the generated CRUD interface is very simple.  For example, a customer could be defined in the model and then accessed via the application as follows:
 
@@ -91,6 +91,7 @@ User authentication is conducted using bcrypt in such a manner that passwords ar
 The bcrypt hashes are not very useful to would-be attackers for the following reasons:
 * bcrypt hashes are salt/peppered making rainbow tables useless
 * bcrypt is slow by design, making brute force reversal a time-consuming and expensive proposition
+* as increased computing power becomes available, the bcrypt cost parameter can be increased (current = 14)
 * the hash itself is not used for authentication; it is the by-product of successful authentication
 
 When a user logs into the application the following steps occur:
@@ -108,6 +109,7 @@ When a user logs into the application the following steps occur:
 1.  Ensure that rune and byte types are fully accounted for.
 2.  NoDB example for non-persisted fields in an entity
 3.  Ensure that start range is supported for auto-incrementing ID
+4.  Extend claims support in the route middleware
 4.  Build in SAML support
 5.  Add option for Foreign Key defintion / enforcement in relations
 6.  Droplet deployment
@@ -631,9 +633,88 @@ Sample model ![hasManyDefaultKeys.json](/testing_models/hasManyDefaultKeys.json 
 
 ### BelongsTo Relationship
 
-BelongsTo relationships form the inverse of the HasOne and HasMany relations.  Consider the Library HasMany Books example; A Library has many books, but we can also say 'a Book belongs to a Library'.
+BelongsTo relationships form the inverse of the HasOne and HasMany relations.  Consider the Library HasMany Books example; A Library has many books, but we can also say 'a Book belongs to a Library'; this is an example of a BelongsTo relationship.  
 
+```javascript
 
+{
+    "entities":  [
+        {
+            "typeName": "PetOwner",
+            "properties": {
+                "Name": {
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,like"
+                },
+                "City": {
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "eq,lt,gt"
+                }
+            },
+            "compositeIndexes": [ 
+                {"index": "name, city"}
+            ],
+            "relations": [
+                { 
+                "relName": "ToDogs",
+                    "properties": {
+                        "refKey": "",
+                        "relType": "hasMany",
+                        "toEntity": "Dog",
+                        "foreignPK": ""
+                    }
+                }
+            ]
+    },
+    {
+        "typeName": "Dog",
+        "properties": {
+            "Name": {
+                "type": "string",
+                "format": "", 
+                "required": true,
+                "index": "nonUnique",
+                "selectable": "eq,like"
+            },
+            "Breed": {
+                "type": "string",
+                "format": "", 
+                "required": true,
+                "index": "nonUnique",
+                "selectable": "eq,like"
+            },
+            "PetOwnerID": {
+                "type": "uint64",
+                "format": "", 
+                "required": true,
+                "index": "nonUnique",
+                "selectable": "eq,like"
+            }
+        },
+        "relations": [
+            { 
+            "relName": "ToPetOwner",
+                "properties": {
+                    "refKey": "",
+                    "relType": "belongsTo",
+                    "toEntity": "PetOwner",
+                    "foreignPK": ""
+                }
+            }
+        ]
+    }
+    ]
+}
+
+```
 
 
 
