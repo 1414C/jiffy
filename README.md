@@ -887,7 +887,7 @@ ___
   - [ ] add server-side user creation / disallow open user creation route
     - [ ] web-based interface for API documentation?
   - [ ] add method-chaining to new 'cust' package to allow for code-regen
-  - [ ] add opportunistic locking via etag concept
+  - [ ] add opportunistic locking via etag concept / investigate rpc-based enqueue server
     - [ ] look at fast hash algorithms (murmur-2??)
   - [x] add Href to entities as a common self-referential field
   - [x] update ReadModel() to accept new model format with relations
