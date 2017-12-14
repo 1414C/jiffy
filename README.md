@@ -1,7 +1,7 @@
 # rgen
 
 ## Overview
-A simple model-based application generator written in go.  Define a model file containing the application entities and relations, then run application generator to get a running set of CRUD-style services with a supporting database backend.
+A model-based application generator written in go.  Define model files containing the application entities and relations, then run the  application generator to get a working set of CRUD-style services with a supporting database backend.
 <br/>
 
 ## Work-In-Progress
@@ -12,6 +12,7 @@ A simple model-based application generator written in go.  Define a model file c
 
 ## Features
 * connects to Postgres, MSSQL, SAP Hana, SQLite or MariaDB
+* no database specific code is compiled into the binary; app can be pointed from SQLite to SAP Hana with no code changes
 * login / session management via jwt
 * built-in support for the creation of signing-keys for jwt
 * bcrypt salt/pepper based authentication scheme where passwords are never stored in the db
@@ -61,7 +62,7 @@ In order to run the application generator, ensure the following:
 <br/>
 
 ## Flags
-Flags are generally not used, as the configuration files (models.json) are easier to deal with.  There are however, a few flags that can be appended to the execution command:
+Flags are generally not used, as the configuration files (models.json) are easier to deal with.  There are however, a few flags that can e appended to the execution command:
 
 * go run *.go -p
 	* The -p switch is used to specify the target directory for generated application source-code relative to $GOPATH/src.
