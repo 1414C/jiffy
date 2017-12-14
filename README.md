@@ -31,7 +31,9 @@ A simple model-based application generator written in go.  Define a model file c
 ## Installation and Execution
 In order to run the application generator, ensure the following:
 
-1.  From $GOPATH/src, use go get to install the following:
+1.  Make sure go has been installed on the test environment.  See http://www.golang.org for installation files and instructions.
+
+2.  From $GOPATH/src, use go get to install the following:
     * go get -u github.com/gorilla/mux
     * go get -u github.com/dgrijalva/jwt-go
     * go get -u github.com/golang.org/x/crypto/bcrypt
@@ -42,12 +44,14 @@ In order to run the application generator, ensure the following:
     * go get -u github.com/mattn/go-sqlite3
     * go get -u github.com/MSSQL
 
-2.  Install the application into your local $GOPATH/src directory:
+    ** godep will be incorporated in order to eliminate this installation step
+
+3.  Install the application into your local $GOPATH/src directory:
     * go get -u github.com/1414C/rgen
 
-3.  You will need access to a Postgres, MySQL, MSSQL or SAP Hana database, either locally or over the network.  It is also possible to run tests with SQLite3.
+4.  You will need access to a Postgres, MySQL, MSSQL or SAP Hana database, either locally or over the network.  It is also possible to run tests with SQLite3.
     
-4.  The application can be started in two ways:
+5.  The application can be started in two ways:
     * From $GOPATH/src/github.com/1414C/rgen you may execute the application by typing:
         * go run main.go     
     * A binary can also be built from $GOPATH/src/github.com/1414C/rgen by typing the following:
