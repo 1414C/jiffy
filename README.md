@@ -514,7 +514,7 @@ Sample model ![hasManyDefaultKeys.json](/testing_models/hasManyDefaultKeys.json 
 
 ### BelongsTo Relationship
 
-BelongsTo relationships form the inverse of the HasOne and HasMany relations.  Consider Library -> Books HasMany example; A Library has many books; a book belongs to a library.
+BelongsTo relationships form the inverse of the HasOne and HasMany relations.  Consider the Library HasMany Books example; A Library has many books, but we can also say 'a Book belongs to a Library'.
 
 
 
