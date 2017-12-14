@@ -1,0 +1,55 @@
+{
+    "entities":  [
+        {
+            "typeName": "Owner",
+            "properties": {
+                "Name": {
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,like"
+                },
+                "LicenseNumber": {
+                    "type": "uint",
+                    "format": "", 
+                    "required": false,
+                    "unique": true,
+                    "index": "",
+                    "selectable": "eq,lt,gt"
+                },
+                "Province": {
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "eq,lt,gt"
+                }
+            },
+            "compositeIndexes": [ 
+                {"index": "name, province"}
+            ]
+    },
+    {
+        "typeName": "Car",
+        "properties": {
+            "Model": {
+                "type": "string",
+                "format": "", 
+                "required": true,
+                "index": "nonUnique",
+                "selectable": "eq,like"
+            },
+            "Make": {
+                "type": "string",
+                "format": "", 
+                "required": true,
+                "index": "nonUnique",
+                "selectable": "eq,like"
+            }
+        }
+    }
+    ]
+}

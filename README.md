@@ -126,7 +126,7 @@ The following JSON illustrates the defintion of a simple single-entity model fil
 }
 
 ```
-Sample model ![alt text](/testing_models/simpleSingleEntityModel.json "simpleSingleEntityModel.json")
+Sample model ![simpleSingleEntityModel.json](/testing_models/simpleSingleEntityModel.json "simpleSingleEntityModel.json")
 
 The simpleSingleEntityModel.json file structure and content is explained below:
 
@@ -226,197 +226,165 @@ The simpleSingleEntityModel.json file structure and content is explained below:
 }
 ```
 
+
+### Simple Two Entity Model
+
+The following JSON illustrates the defintion of a simple two-entity model file.  In this case, model entities 'Person' and 'Country' will be created in the generated application, along with corresponding database tables 'person' and 'country'.  No relationships have been defined between the two entities; this example simple illustrates how to add multiple entity definitions to the model file.
+
 models.json
 ```JSON
-[
-    {
-        "type": "entity",
-        "typeName": "Person",
-        "properties": {
-            "name": {
-                "type": "string",
-                "format": "", 
-                "required": false,
-                "unique": false,
-                "index": "nonUnique",
-                "selectable": "eq,like"
-            },
-            "age": {
-                "type": "uint",
-                "format": "", 
-                "required": false,
-                "unique": false,
-                "index": "",
-                "selectable": "eq,lt,gt"
-            },
-            "weight": {
-                "type": "float64",
-                "format": "", 
-                "required": false,
-                "unique": false,
-                "index": "",
-                "selectable": "eq,lt,le,gt,ge"
-            },
-            "validLicense": {
-                "type": "bool",
-                "format": "", 
-                "required": false,
-                "unique": false,
-                "index": "nonUnique",
-                "selectable": "eq,ne"
-            },
-            "homeAddressID": {
-                "type": "uint",
-                "format": "", 
-                "required": false,
-                "unique": false,
-                "index": "nonUnique",
-                "selectable": "eq",
-                "relation": "Address",
-                "relationFld": "addressID",
-                "relationCrd": "1:1"
+
+{
+    "entities":  [
+        {
+            "typeName": "Person",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,like"
+                },
+                "age": {
+                    "type": "uint",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "eq,lt,gt"
+                },
+                "weight": {
+                    "type": "float64",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "eq,lt,le,gt,ge"
+                },
+                "validLicense": {
+                    "type": "bool",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,ne"
+                }
             }
         },
-        "compositeIndexes": [ 
-            {"index": "name, age"}, 
-            {"index": "validlicense, age"} 
-        ]
+        {
+            "typeName": "Country",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,like"
+                },
+                "isoCode": {
+                    "type": "uint",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "unique",
+                    "selectable": "eq,lt,gt"
+                }
+            }
+        }
+    ]
+}
+
+```
+Sample model ![simpleTwoEntityModel.json](/testing_models/simpleTwoEntityModel.json "simpleTwoEntityModel.json")
+
+
+### Two Entity Model With Composite Index
+
+The following JSON illustrates the addition of a composite-index to an entity definition.  An index composed of the 'name' and 'province' fields has been declared in the 'Owner' entity.  This declaration will result in the creation of a non-unique b-tree index for columns 'name' and 'province' in the database.  Any number of composite indices may be declared for an entity.  No relationships have been defined between the two entities; this example simple illustrates how to declare a composite-index for an entity.  
+
+```JSON
+
+{
+    "entities":  [
+        {
+            "typeName": "Owner",
+            "properties": {
+                "Name": {
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,like"
+                },
+                "LicenseNumber": {
+                    "type": "uint",
+                    "format": "", 
+                    "required": false,
+                    "unique": true,
+                    "index": "",
+                    "selectable": "eq,lt,gt"
+                },
+                "Province": {
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "eq,lt,gt"
+                }
+            },
+            "compositeIndexes": [ 
+                {"index": "name, province"}
+            ]
     },
     {
-        "type": "entity",
-        "typeName": "Address",
+        "typeName": "Car",
         "properties": {
-            "city": {
+            "Model": {
                 "type": "string",
                 "format": "", 
                 "required": true,
                 "index": "nonUnique",
                 "selectable": "eq,like"
             },
-            "street": {
-                "type": "string",
-                "dbType": "varchar(100)",
-                "format": "", 
-                "required": false,
-                "index": "nonUnique",
-                "selectable": "eq,like"
-            },
-            "streetNumber": {
+            "Make": {
                 "type": "string",
                 "format": "", 
-                "required": false,
-                "index": "",
-                "selectable": ""
-            },
-            "postCode": {
-                "type": "string",
-                "format": "", 
-                "required": false,
+                "required": true,
                 "index": "nonUnique",
                 "selectable": "eq,like"
             }
         }
     }
-]
+    ]
+}
+
 ```
+Sample model ![twoEntityWithCompositeIndex.json](/testing_models/twoEntityWithCompositeIndex.json "twoEntityWithCompositeIndex.json")
+
+
+## Entity Relationships
+
+Relationships can be declared between entities in the application model file.  Relationships are based on resource id's by default, although it is possible to specify non-default key fields in the configuration, or implement complex joins directly by maintaining the entity's controller and model.   
+
+### HasOne Relationship
+
+
+
+### HasMany Relationship
+
+
+
+### BelongsTo Relationship
+
+
+
+
 <br/>
-
-### Model Entity Components
-
-A subset of the sample Entity model is shown along with a description of each field.
-```code
-[
-    {
-        "type": "entity",
-        Field 'type' refers to the category of object the block of JSON represents.  
-        Valid values include {"entity", "relation" or "index"}.
-        This is a mandatory model element.
-
-        "typeName": "Person",
-        Field 'typeName' refers to the formal and common name of the object type specified in the 
-        current block's 'type' field.  An Entity given a typeName of "Person" will result in an 
-        internal model object of type Person.
-        This is a mandatory model element.
-        
-        "properties": {
-        Field 'properties' refers to the content of the 'type'-'typeName' combination.
-        In the context of the "Person" "entity" 'type', 'properties' refer the data fields of 
-        generated "Person" model structure.  'properties' are a collection of free-form name-tags,
-        each with a child-block containing the 'property' attributes.
-        This is a mandatory model element.
-
-        The "name" property block is described below:
-
-            "name": {
-                "type": "string",
-                Field 'type' in a 'properties'->'name' JSON-clock refers to the go data-type associated
-                with the current 'property'.
-                'type' is a mandatory field in an "entity" 'property' block.
-
-                "dbtype": "varchar(100)",
-                Field 'dbtype' can be used to specify a native db-field-type for the current 'property'.
-                This is an optional field, and the cast to the DB-type is handled in the ORM layer.
-
-                "format": "", 
-                Field 'format' is not currently used, but is intended to deal with field conversion from
-                strings / floats to timestamp formats etc.
-                This is an optional field.
-
-                "required": false,
-                Field 'required' can be used to instruct the database that the current 'property' is a 
-                required field in its related db table column.
-                Allowed values include {true, false}.
-                This is a mandatory field.
-
-                "unique": false,
-                Field 'unique' can be used to instruct the database not to accept duplicate values in the
-                database column related to the current 'property'.
-                Allowed values include {true, false}.
-                This is a mandatory field.
-
-                "index": "nonUnique",
-                Field 'index' can be used to instruct the database to create an index on the db table-column
-                related to the current 'property'.
-                See the 'indexes' element in the type definition for the creation of compound indices.
-                Allowed values include {"unique", "nonUnique"}.
-                This is an optional field.
-
-                "selectable": "eq,like"
-                Field 'selectable' can be used to instruct the code-generator to create simple REST query 
-                accessor routes for the current 'property'.  The generator creates routes to permit GET
-                operations that can be called based on the entity 'typeName' and 'property' values.
-                Allowed values include {"EQ", "eq", "LT", "lt", "GT", "gt", "GE", "ge", "LIKE", "like", "NE", "ne"}
-                Additional restrictions are imposed based on the 'type' field value.  For example, a bool
-                type need not support LT or GT operators.
-                Sample routes for Person->Name selection with "eq,like" are shown:
-                    
-                    https://localhost:<port>/persons/name(EQ '<sel_string>')
-                    https://localhost:<port>/persons/name(LIKE '<sel_string>')
-
-            },
-            "age": {
-                "type": "uint",
-                "format": "", 
-                "required": false,
-                "unique": false,
-                "index": "",
-                "selectable": "eq,lt,le,gt,ge,ne"
-            },
-            ...
-            ...
-        },
-        Composite indices for an Entity can be declared in the 'compositeIndexes' JSON array element.  Specify the 
-        column names in the order that they should appear in the composite index, making sure to match the case etc.
-        "compositeIndexes": [ 
-            {"index": "name, age"}, 
-            {"index": "validlicense, age"} 
-        ]
-    },    
-    {
-        ... next entity definition
-    }
-]
-```
 
 # Using the Generated Code
 
