@@ -87,7 +87,7 @@ Access to resources (entities) is controlled in three ways:
 
 An internal service is created for each of the modelled entities in the application.  Services can be marked as active or inactive in the service configuration, thereby allowing a single application to be generated, but also allowing selective service deployment.  For example, there may be cases where it is desirable to route certain services to a particular server and another set of services to the rest of the pool.  In such a case, NGix could be configured to route the end-points appropriately, and the deployed service configurations would be adjusted accordingly.
 
-User authentication is conducted using a bcrypt in such a manner that passwords are never stored in the application database.  When a user is created, their user-id is stored in the backend database along with the salt/peppered bcrypt hash of their password.  This ensures that in the event of a breach no plain-text passwords can be obtained.  
+User authentication is conducted using bcrypt in such a manner that passwords are never stored in the application database.  When a user is created, their user-id is stored in the backend database along with the salt/peppered bcrypt hash of their password.  This ensures that in the event of a breach no plain-text passwords can be obtained.  
 
 The bcrypt hashes are not very useful to would-be attackers for the following reasons:
 * bcrypt hashes are salt/peppered making rainbow tables useless
@@ -98,7 +98,7 @@ When a user logs into the application the following steps occur:
 * the user-name and stored bcrypt hash is looked up in the back-end db
 * the provided password is hashed in memory using the standard lib Go bcrypt functions and the protected salt/pepper values
 * the computed bcrypt hash is compared to the stored hash for the user
-* if the hash values match, a JWT (token) is created using the ECDSA-384 elliptic curve
+* if the hash values match, a JWT (token) is created using ECDSA-384
 * the JWT is passed back to the caller and must henceforth be included in the http header of all requests in the Authorization field
 * in addtion to fullfilling the authorization requirements, the JWT is also used as a CSRF equivalent
 * see the Authorization section for more details regarding the content and use of the JWT content/claims
