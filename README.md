@@ -119,7 +119,7 @@ When a user logs into the application the following steps occur:
 ## Installation and Execution
 In order to run the application generator, ensure the following:
 
-1.  Make sure go has been installed on the test environment.  See http://www.golang.org for installation files and instructions.
+1.  Make sure go has been installed in the test environment.  See http://www.golang.org for installation files and instructions.
 
 2.  From $GOPATH/src, use go get to install the following:
     * go get -u github.com/gorilla/mux
