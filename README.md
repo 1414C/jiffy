@@ -5,8 +5,10 @@ Rgen is a model-based application services generator written in go.  It was deve
 
 #### Why write in Go?
 * Go has a very strong standard library, thereby keeping dependencies on public packages to a minimum
-* Go offers true concurrency via lightweight threads known as goroutines i.e. there is no blocking in the i/o 
-* goroutines will use all available cores to handle incoming requests
+* Go offers true concurrency via lightweight threads known as goroutines 
+    - no blocking in the i/o layer during compute intensive tasks
+    - no 'lost' callback or 'broken' promises
+    - goroutines will use all available cores to handle incoming requests
 * Go it is a small language that offers type-safety
 * Go projects compile to a static single binary which simplifies deployments
 * Go cross-compiles to virtually any platform and architecture; write the app on a chromebook - deploy to z/OS
