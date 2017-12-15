@@ -57,7 +57,7 @@ func ReadModelFile(mf string) ([]Entity, error) {
 		// was a start value provided for the entity-id?
 		idString := string(entMap["id_properties"])
 		if idString != "" {
-			err = json.Unmarshal([]byte(idString), idMap)
+			err = json.Unmarshal([]byte(idString), &idMap)
 			if err != nil {
 				return nil, err
 			}

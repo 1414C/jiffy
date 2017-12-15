@@ -22,7 +22,7 @@ import (
 {{/*  generate the Entity struct  */}}
 // {{.Header.Name}} structure
 type {{.Header.Name}} struct {{printf "%s" "{" }}
-	{{if .HasStartValue -}}
+	{{if .GetHasStart -}}
 	ID			 uint64  `json:"id" db:"id" rgen:"primary_key:inc;start:{{.Header.Start}}"`
 	{{else -}}
 	ID			 uint64  `json:"id" db:"id" rgen:"primary_key:inc"`
