@@ -778,6 +778,7 @@ Running the rgen generator creates a set of files that comprise a basic working 
 There are more elegant ways to express certain aspects of the generated application.  The coding style has been deliberately kept as simple and straight-forward as possible in order to facilitate easier understanding and adjustment of the generated code.
 <br/>
 <br/>
+### The application folder
 
 ![alt text](/md_images/app_layout/AppLayout1.jpeg "Application file structure")
 <br/>
