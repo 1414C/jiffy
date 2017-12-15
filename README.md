@@ -802,17 +802,39 @@ When the generated application is started, AppObj.Run() is responsible for:
 - loading the specified config
 - creating the runtime services
 - performing auto-migration of database artifacts
-- initializing the JWT keys for ECDSA support
+- initializing the key for JWT/ECDSA support
 - instantiating controllers
 - initializting routes 
 - starting the mux
 
 #### appconf.go
-The code in appconf.go contains the functions used to load application configuration files, as well as functions containing so-called 'default' configuration.  It is possible to edit the DefaultConfig() function so that it contains values specific to the local test/development environment.  This prevents the need for maintaining a set of configuration files that the development staff need to keep in sync.
+The code in appconf.go contains the functions used to load application configuration files, as well as functions containing so-called 'default' configuration.  It is possible to edit the DefaultConfig() function so that it holds values specific to the local test/development environment.  This prevents the need for maintaining a set of configuration files that the development staff need to keep in sync.
 <br/>
 <br/>
 <br/>
+### The controllers folder 
 
+![alt text](/md_images/app_layout/AppLayout_controllers.jpeg "Application controllers folder content")
+<br/>
+The appobj folder contains the generated application's controllers.  A controller is created for each entity that has been declared in the model files, as well as a static controller that is used to handle the application's users.
+
+Controllers act as a bridge between an entity's routes and its model layer.  Each entity mux route is assigned a method in their respective controller based on the intent of that route.  For example, to create a new new Library entity the following POST could be made:
+
+```code
+
+https://servername:port/library {JSON body} + POST
+
+```  
+
+The route for this call is defined in appobj.go as follows, where 'a' is the one-and-only instance of the AppObj:
+
+```code
+
+a.router.HandleFunc("/library", requireUserMw.ApplyFn(a.libraryC.Create)).Methods("POST")
+
+```
+
+<br/>
 
 
 
