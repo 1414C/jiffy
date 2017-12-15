@@ -787,14 +787,14 @@ Following the execution of the application generator, a folder containing the ge
 
 ![alt text](/md_images/app_layout/AppLayout_appobj1.jpeg "Application appobj folder content")
 <br/>
-The appobj folder contains the genereated application's configuraion reader and the main application object.
+The appobj folder contains the generated application's configuraion loader and the main application object.
 <br/>
 
 
 #### appobj.go
-The entry point for go applications is always the main() function, but we seldom write the so-called 'main' part of the application is a monolithic function.  To that end, an AppObj struct is declared and the main thread of the application runs against it.  The content of main.go simply creates an AppObj struct parses some flags and calls the AppObj.Run() method.
+The entry point for go applications is always the main() function, but we seldom write the so-called 'main' part of the application in this monolithic function.  To that end, an AppObj struct is declared and the main thread of the application runs against it.  The content of main.go simply creates an AppObj struct, parses some flags and calls the AppObj.Run() method.
 
-When the generated application is started, the code in appobj.go is responsible for:
+When the generated application is started, AppObj.Run() is responsible for:
 - loading the specified config
 - creating the runtime services
 - performing auto-migration of database artifacts
