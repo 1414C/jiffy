@@ -773,12 +773,43 @@ At the moment the generator only supports HasOne, HasMany and BelongsTo relation
 # What gets generated?
 
 Running the application generator creates a set of files that comprise a basic working application.  Incoming requests are handled by a mux, which validates the request, and then matches it to a route.  The selected route passes the request to a controller specific to the entity-type, where the incoming information is mapped into a go struct matching the entity declaration.  The controller then calls the appropriate model function for the http operation and entity-type combination passing it the entity structure.  The model handler passes through a member-field validation layer, and then to the model's interface to the underlying sqac ORM.  The database request is handled by the ORM, and then the response is passed from the model back to the controller where it is packaged as a JSON payload and sent back to the caller in the response-writer's body.
+
+There are more elegant ways to express certain aspects of the generated application.  The coding style has been deliberately kept as simple and straight-forward as possible in order to facilitate easier understanding of the generated code.
 <br/>
 <br/>
 
 ![alt text](/md_images/app_layout/AppLayout1.jpeg "Application file structure")
 <br/>
 Following the execution of the application generator, a folder containing the generated app's files is created as shown.
+<br/>
+
+### appobj
+
+![alt text](/md_images/app_layout/AppLayout_appobj1.jpeg "Application appobj folder content")
+<br/>
+The appobj folder contains the genereated application's configuraion reader and the main application object.
+<br/>
+
+
+#### appobj.go
+The entry point for go applications is always the main() function, but we seldom write the so-called 'main' part of the application is a monolithic function.  To that end, an AppObj struct is declared and the main thread of the application runs against it.  The content of main.go simply creates an AppObj struct parses some flags and calls the AppObj.Run() method.
+
+When the generated application is started, the code in appobj.go is responsible for:
+- loading the specified config
+- creating the runtime services
+- performing auto-migration of database artifacts
+- initializing the JWT keys for ECDSA support
+- instantiating controllers
+- initializting routes 
+- starting the mux
+<br/>
+
+#### appconf.go
+The code in appconf.go contains the functions used to load application configuration files, as well as functions containing so-called 'default' configuration.  It is possible to edit the DefaultConfig() function to contain values specific to the local test/development environment.  This prevents the need for maintaining a set of configuration files that the development staff need to keep in sync.
+<br/>
+
+
+
 
 
 
