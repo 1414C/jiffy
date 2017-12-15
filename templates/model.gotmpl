@@ -23,15 +23,15 @@ import (
 // {{.Header.Name}} structure
 type {{.Header.Name}} struct {{printf "%s" "{" }}
 	{{if .GetHasStart -}}
-	ID			 uint64  `json:"id" db:"id" rgen:"primary_key:inc;start:{{.Header.Start}}"`
+	ID			 uint64  `json:"id" db:"id" sqac:"primary_key:inc;start:{{.Header.Start}}"`
 	{{else -}}
-	ID			 uint64  `json:"id" db:"id" rgen:"primary_key:inc"`
+	ID			 uint64  `json:"id" db:"id" sqac:"primary_key:inc"`
 	{{end -}}
-	Href         string  `json:"href" db:"href" rgen:"-"`
+	Href         string  `json:"href" db:"href" sqac:"-"`
 	{{range .Fields -}} 
-	{{/* $tagLine := .GetRgenTagLine true */ -}}
+	{{/* $tagLine := .GetSqacTagLine true */ -}}
     {{/* .Name}}  {{.Value }} `{{$tagLine}}` */ -}}
-	{{.Name}}  {{.GetPtrIfNullable}}{{.Value}} `{{.JSONTagLine}} db:"{{.SnakeCaseName}}" {{.RgenTagLine}}`
+	{{.Name}}  {{.GetPtrIfNullable}}{{.Value}} `{{.JSONTagLine}} db:"{{.SnakeCaseName}}" {{.SqacTagLine}}`
 	{{end -}}
 }
 
@@ -219,6 +219,7 @@ func ({{$pref}}v *{{$headerValue}}Validator) normval{{.Name}}({{$headerValue}} *
 {{range .Relations -}}
 // GetRel{{.FromEntity}}{{.RelName}} is passed through to the ORM with no validation.
 {{if .GetHasOne -}}
+// hasOne relationship 
 func ({{$pref}}v *{{.FromEntityLC}}Validator) GetRel{{.FromEntity}}{{.RelName}}({{.ToEntityLC}} *{{.ToEntity}}, mapParams map[string]interface{}) error {
 
 	// TODO: implement normalization and validation for the GetRel{{.FromEntity}}{{.RelName}} call.
@@ -228,6 +229,7 @@ func ({{$pref}}v *{{.FromEntityLC}}Validator) GetRel{{.FromEntity}}{{.RelName}}(
 
 {{end -}}
 {{if .GetHasMany -}}
+// hasMany relationship
 func ({{$pref}}v *{{.FromEntityLC}}Validator) GetRel{{.FromEntity}}{{.RelName}}({{.ToEntityLC}}s *[]{{.ToEntity}}, mapParams map[string]interface{}) error {
 
 	// TODO: implement normalization and validation for the GetRel{{.FromEntity}}{{.RelName}} call.
@@ -238,6 +240,7 @@ func ({{$pref}}v *{{.FromEntityLC}}Validator) GetRel{{.FromEntity}}{{.RelName}}(
 {{end -}}
 
 {{if .GetBelongsTo -}}
+// belongsTo relationship
 func ({{$pref}}v *{{.FromEntityLC}}Validator) GetRel{{.FromEntity}}{{.RelName}}({{.ToEntityLC}}s *[]{{.ToEntity}}, mapParams map[string]interface{}) error {
 
 	// TODO: implement normalization and validation for the GetRel{{.FromEntity}}{{.RelName}} call.
@@ -401,13 +404,13 @@ func ({{$pref}}s *{{.FromEntityLC}}Sqac) GetRel{{.FromEntity}}{{.RelName}}({{.To
 
 	qs := fmt.Sprintf("SELECT * FROM {{.ToEntityLC}} WHERE %s;", c)
 	fmt.Println("qs:", qs)
-	err := ls.handle.Select({{.ToEntityLC}}s, qs)
+	err := {{$pref}}s.handle.Select({{.ToEntityLC}}s, qs)
 	if err != nil {
 		log.Println("GetRel{{.FromEntity}}{{.RelName}}:", err)
 		return nil
 	}
 
-	if ls.handle.IsLog() {
+	if {{$pref}}s.handle.IsLog() {
 		log.Printf("GetRel{{.FromEntity}}{{.RelName}} found: %v \n", {{.ToEntityLC}}s)
 	}
 	return nil
@@ -432,13 +435,13 @@ func ({{$pref}}s *{{.FromEntityLC}}Sqac) GetRel{{.FromEntity}}{{.RelName}}({{.To
 
 	qs := fmt.Sprintf("SELECT * FROM {{.ToEntityLC}} WHERE %s;", c)
 	fmt.Println("qs:", qs)
-	err := ds.handle.Select({{.ToEntityLC}}s, qs)
+	err := {{$pref}}s.handle.Select({{.ToEntityLC}}s, qs)
 	if err != nil {
 		log.Println("GetRel{{.FromEntity}}{{.RelName}}:", err)
 		return nil
 	}
 
-	if ds.handle.IsLog() {
+	if {{$pref}}s.handle.IsLog() {
 		log.Printf("GetRelLibraryBooks found: %v \n", {{.ToEntityLC}}s)
 	}
 	return nil

@@ -24,12 +24,12 @@ type SessionData struct {
 	jwtToken     string
 	client       *http.Client
 	log          bool
-	ID         	 int
+	ID         	 uint64
 	baseURL      string
 	testURL    	 string
 	testEndPoint string
 	usrName      string
-	usrID        int
+	usrID        uint64
 }
 
 var (

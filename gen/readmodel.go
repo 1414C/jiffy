@@ -79,14 +79,14 @@ func ReadModelFile(mf string) ([]Entity, error) {
 				return nil, err
 			}
 			for _, fr := range fieldRecs {
-				fr.GetRgenTagLine(true)
+				fr.GetSqacTagLine(true)
 				fr.GetJSONTagLine()
 				e.Fields = append(e.Fields, fr)
 			}
 		}
 
 		// get the composite index definitions, and then augment
-		// the RgenTagLine values where required.
+		// the SqacTagLine values where required.
 		cmpIndexString := string(entMap["compositeIndexes"])
 		if cmpIndexString != "" {
 			e.Fields, err = buildCompositeIndexes(cmpIndexString, e.Fields)
@@ -247,21 +247,21 @@ func buildCompositeIndexes(cIdxString string, info []Info) ([]Info, error) {
 			cIdxDirective = cIdxDirective + "_" + indexColumnNames[i]
 		}
 
-		// now finally update the RgenTagLines.  for each column name in the
+		// now finally update the SqacTagLines.  for each column name in the
 		// index, read the list of fields in the entity ([]info).  when an
 		// index-column-name matches a field-name, add the composite index
 		// to that field's .GormTagLine.
 		for _, cn := range indexColumnNames {
 			for i, fr := range info {
 				if fr.SnakeCaseName == cn {
-					tl := fr.RgenTagLine
+					tl := fr.SqacTagLine
 					switch len(tl) {
 					case 0:
-						info[i].RgenTagLine = "rgen:\"" + cIdxDirective + "\""
+						info[i].SqacTagLine = "sqac:\"" + cIdxDirective + "\""
 
 					default:
-						fr.RgenTagLine = strings.TrimSuffix(fr.RgenTagLine, "\"")
-						info[i].RgenTagLine = fr.RgenTagLine + ";" + cIdxDirective + "\""
+						fr.SqacTagLine = strings.TrimSuffix(fr.SqacTagLine, "\"")
+						info[i].SqacTagLine = fr.SqacTagLine + ";" + cIdxDirective + "\""
 					}
 				}
 			}

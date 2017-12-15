@@ -11,11 +11,11 @@ import (
 
 // Usr represents the signed-in usr
 type Usr struct {
-	ID           uint64 `db:"id" rgen:"primary_key:inc"`
-	Name         string `db:"name" rgen:"nullable:false"`
-	Email        string `db:"email" rgen:"nullable:false;index:unique"`
-	Password     string `db:"password" rgen:"-"` // "-" indicates that the field is not to be stored in the db
-	PasswordHash string `db:"password_hash" rgen:"nullable:false"`
+	ID           uint64 `db:"id" sqac:"primary_key:inc"`
+	Name         string `db:"name" sqac:"nullable:false"`
+	Email        string `db:"email" sqac:"nullable:false;index:unique"`
+	Password     string `db:"password" sqac:"-"` // "-" indicates that the field is not to be stored in the db
+	PasswordHash string `db:"password_hash" sqac:"nullable:false"`
 }
 
 // UsrDB is an interface that outlines the methods that can be

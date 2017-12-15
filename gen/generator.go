@@ -27,7 +27,7 @@ type Info struct {
 	Unique        bool
 	Index         string // unique, not-unique, ""
 	Selectable    string // "eq,like,gt,lt,ge,le,ne"
-	RgenTagLine   string
+	SqacTagLine   string
 	JSONTagLine   string // `json:"field_name,omitempty"`
 }
 
@@ -339,63 +339,63 @@ func (i *Info) GetJSONTagLine() string {
 	return i.JSONTagLine
 }
 
-// GetRgenTagLine returns a string containing a set of rgen
+// GetSqacTagLine returns a string containing a set of sqac
 // directives for the column attributes.
 // Called from within readmodel.go/ReadModelFile()
-func (i *Info) GetRgenTagLine(b bool) string {
+func (i *Info) GetSqacTagLine(b bool) string {
 
 	// set the no_db tag if present
 	if i.NoDB {
-		i.RgenTagLine = "rgen:\"-\""
-		return i.RgenTagLine
+		i.SqacTagLine = "sqac:\"-\""
+		return i.SqacTagLine
 	}
 
 	// set `nullable:<true>/<false>`
 	if i.Required {
-		i.rgenTagLineExtend("nullable:false")
+		i.sqacTagLineExtend("nullable:false")
 	} else {
-		i.rgenTagLineExtend("nullable:true")
+		i.sqacTagLineExtend("nullable:true")
 		// i.Value = fmt.Sprintf("*%s", i.Value)
 	}
 
 	// set dbType if provided
 	// for example: type:varchar(100)
 	if i.DBType != "" {
-		i.rgenTagLineExtend("type:" + i.DBType)
+		i.sqacTagLineExtend("type:" + i.DBType)
 	}
 
 	// set unique in column directive
 	if i.Unique {
-		i.rgenTagLineExtend("constraint:unique")
+		i.sqacTagLineExtend("constraint:unique")
 	}
 
 	// if an index has been specified, add the relevant index directive
 	switch i.Index {
 	case "":
 	case "unique":
-		i.rgenTagLineExtend("index:unique")
+		i.sqacTagLineExtend("index:unique")
 	case "nonUnique":
-		i.rgenTagLineExtend("index:non-unique")
+		i.sqacTagLineExtend("index:non-unique")
 	default:
 		// do nothing
 	}
 
-	if len(i.RgenTagLine) > 0 {
-		i.RgenTagLine = "rgen:" + i.RgenTagLine
-		return i.RgenTagLine
+	if len(i.SqacTagLine) > 0 {
+		i.SqacTagLine = "sqac:" + i.SqacTagLine
+		return i.SqacTagLine
 	}
 	return ""
 }
 
-// rgenTagLineExtend is used to build-out the `rgen:"..."` model directive field
+// sqacTagLineExtend is used to build-out the `sqac:"..."` model directive field
 // Called from within a text/template.
-func (i *Info) rgenTagLineExtend(s string) {
-	if len(i.RgenTagLine) > 0 {
-		i.RgenTagLine = strings.TrimSuffix(i.RgenTagLine, "\"")
-		i.RgenTagLine = i.RgenTagLine + ";" + s + "\""
+func (i *Info) sqacTagLineExtend(s string) {
+	if len(i.SqacTagLine) > 0 {
+		i.SqacTagLine = strings.TrimSuffix(i.SqacTagLine, "\"")
+		i.SqacTagLine = i.SqacTagLine + ";" + s + "\""
 		return
 	}
-	i.RgenTagLine = "\"" + s + "\""
+	i.SqacTagLine = "\"" + s + "\""
 }
 
 //=============================================================================================

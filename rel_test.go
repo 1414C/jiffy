@@ -3,7 +3,7 @@ package main_test
 import (
 	"testing"
 
-	"github.com/1414C/rgen/gen"
+	"github.com/1414C/sqac/gen"
 )
 
 // TestGetAreFromAndToKeysOpt

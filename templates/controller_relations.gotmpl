@@ -48,7 +48,7 @@ import (
 
 {{/*  Begin of the hasOne relations support               */ -}}
 	{{if .GetHasOne -}}
-// Get{{$headerName}}{{.ToEntity}} facilitates the retrieval of the {{.ToEntity}} related to {{$headerName}}
+// Get{{$headerName}}{{.RelName}} facilitates the retrieval of the {{.ToEntity}} related to {{$headerName}}
 // by way of modeled 'hasOne' relationship {{.RelName}}.   
 // This method is bound to the gorilla.mux router in appobj.go.
 // 1:1
