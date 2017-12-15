@@ -783,7 +783,7 @@ There are more elegant ways to express certain aspects of the generated applicat
 Following the execution of the application generator, a folder containing the generated app's files is created as shown.
 <br/>
 
-### appobj
+### The appobj folder 
 
 ![alt text](/md_images/app_layout/AppLayout_appobj1.jpeg "Application appobj folder content")
 <br/>
