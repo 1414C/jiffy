@@ -502,7 +502,7 @@ Sample model ![twoEntityWithCompositeIndex.json](/testing_models/twoEntityWithCo
 
 ## Entity Relationships
 
-Relationships between entities can be decalred in the application model file  via the addition of a 'relations' block inside an entity's decalration.  Relationships are based on resource id's by default, although it is possible to specify non-default key fields in the configuration, or implement complex joins directly by maintaining the entity's controller and model.  'relations' blocks look as follows:
+Relationships between entities can be declared in the application model file  via the addition of a 'relations' block inside an entity's declaration.  Relationships are based on resource id's by default, although it is possible to specify non-default key fields in the configuration, or implement complex joins directly by maintaining the entity's controller and model.  'relations' blocks look as follows:
 
 ```JSON
 
@@ -524,7 +524,7 @@ The sample relations block illustrates the declaration of a HasOne relationship 
 
 ### HasOne Relationship
 
-HasOne relationships establish a one-to-one relationship between two model entities.  For the purposes of example, let's say that a Car can have one Owner.  If the Car and Owner were modelled as entities, we could declare a hasOne (1:1) relationship between them.  The relation would be added in the 'relations' block inside the Car entity definition (as shown above).
+HasOne relationships establish a one-to-one relationship between two model entities.  As an example, let's posit that a Car can have one Owner.  If the Car and Owner were modelled as entities, we could declare a HasOne (1:1) relationship between them.  The relation would be added in the 'relations' block inside the Car entity definition (as shown above).
 
 A break-down of the relations block fields is as follows:
 ```code
@@ -588,7 +588,7 @@ A break-down of the relations block fields is as follows:
 
 ### HasMany Relationship
 
-HasMay relationships establish a one-to-many relationship between two model entities.  For the purposes of example, let's say that a Libary can have many Books.  If Library and Book were modelled as entities, we could declare a HasMany (1:N) relationship between them.  The relation would be added in the 'relations' block inside the Library entity definition. 
+HasMany relationships establish a one-to-many relationship between two model entities.  As an example, let's posit that a Libary can have many Books.  If Library and Book were modelled as entities, we could declare a HasMany (1:N) relationship between them.  The relation would be added in the 'relations' block inside the Library entity definition: 
 
 ```JSON
 
@@ -671,7 +671,7 @@ Sample model ![hasManyDefaultKeys.json](/testing_models/hasManyDefaultKeys.json 
 
 ### BelongsTo Relationship
 
-BelongsTo relationships are used to form the inverse of the HasOne and HasMany relations.  Consider the Library HasMany Books example; A Library has many books, but we can also say 'a Book belongs to a Library'; this is an example of a BelongsTo relationship.  The JSON below extends the Library -> Book example by adding the BelongsTo relationship to the Book entity definition:
+BelongsTo relationships are used to form the inverse of the HasOne and HasMany relations.  Consider the Library HasMany Books example; A Library has many books, but we can also posit that 'a Book belongs to a Library'; this is an example of a BelongsTo relationship.  The JSON below extends the Library -> Book example by adding the BelongsTo relationship to the Book entity definition:
 
 ```JSON
 
@@ -773,9 +773,9 @@ At the moment the generator only supports HasOne, HasMany and BelongsTo relation
 
 # What gets generated?
 
-Running the application generator creates a set of files that comprise a basic working application.  Incoming requests are handled by a mux, which validates the request, and then matches it to a route.  The selected route passes the request to a controller specific to the entity-type, where the incoming information is mapped into a go struct matching the entity declaration.  The controller then calls the appropriate model function for the http operation and entity-type combination passing it the entity structure.  The model handler passes through a member-field validation layer, and then to the model's interface to the underlying sqac ORM.  The database request is handled by the ORM, and then the response is passed from the model back to the controller where it is packaged as a JSON payload and sent back to the caller in the response-writer's body.
+Running the rgen generator creates a set of files that comprise a basic working application.  Incoming requests are handled by a mux, which validates the request, and then matches it to a route.  The selected route passes the request to a controller specific to the entity-type, where the incoming information is mapped into a go struct matching the entity declaration.  The controller then calls the appropriate model function for the http operation and entity-type combination, passing it the entity structure.  The model handler passes the entity struct through a member-field validation layer, and then to the model's interface to the underlying sqac ORM.  The database request is handled by the ORM, and then the response is passed from the model back to the controller where it is packaged as a JSON payload and sent back to the caller in the response-writer's body.
 
-There are more elegant ways to express certain aspects of the generated application.  The coding style has been deliberately kept as simple and straight-forward as possible in order to facilitate easier understanding of the generated code.
+There are more elegant ways to express certain aspects of the generated application.  The coding style has been deliberately kept as simple and straight-forward as possible in order to facilitate easier understanding and adjustment of the generated code.
 <br/>
 <br/>
 
