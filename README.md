@@ -354,6 +354,7 @@ As an alternative to renaming ID, it is also conceivable that it can be ignored.
 It is also possible to go completely custom and write your own models and controllers from scratch using a generated model as a reference template.  In addition to exposing a generic internal CRUD interface to the backend, the more interesting go/sql calls are exposed internally along with some lightly wrapped and super useful calls from jmoirons widely used sqlx package.
 
 https://github.com/jmoiron/sqlx
+
 http://jmoiron.github.io/sqlx/
 
 Although rgen eschews non-standard lib packages wherever possible, sqlx is worth making an exception for.
