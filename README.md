@@ -924,7 +924,7 @@ The complete Library.Create(http.Handler) controller method is shown.  Each sect
 	    	City: l.City,
 	    }
 
-	    // build a base urlString for the JSON Body self-referencing Href tag
+        // build a base urlString for the JSON Body self-referencing Href tag
         urlString := buildHrefStringFromCRUDReq(r, true)
         
         // call the Create method on the library model.  each controller contains an
