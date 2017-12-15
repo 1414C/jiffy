@@ -828,7 +828,7 @@ https://servername:port/library {JSON body} + POST
 
 The route for this call is defined in appobj.go as follows, where 'a' is the one-and-only instance of the AppObj:
 
-```code
+```golang
 
 a.router.HandleFunc("/library", requireUserMw.ApplyFn(a.libraryC.Create)).Methods("POST")
 
