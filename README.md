@@ -787,7 +787,7 @@ Following the execution of the application generator, a folder containing the ge
 
 ![alt text](/md_images/app_layout/AppLayout_appobj1.jpeg "Application appobj folder content")
 <br/>
-The appobj folder contains the generated application's configuraion loader and the main application object.
+The appobj folder contains the generated application's configuration loader and the main application object.
 <br/>
 
 
