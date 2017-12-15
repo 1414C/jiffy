@@ -807,6 +807,10 @@ When the generated application is started, AppObj.Run() is responsible for:
 - initializting routes 
 - starting the mux
 
+The creation of the runtime services bears closer inspection before moving on.  Generated applications contain an internal 'service' for each entity declared in the source model files.  The AppObj is responsible for the instantiation of these services when the application is started via the AppObj.createServices() method.
+
+A Services object containing each of the entity runtime services is created on the one-and-only instance of the AppObj.  A runtime service is first created to support access to the backend DBMS via the sqac ORM, then a service is started for each entity.  Entity services contain a reference to the ORM access handle, as well as an instance of the entity's validator class which is contained in the model-layer.
+
 #### appconf.go
 The code in appconf.go contains the functions used to load application configuration files, as well as functions containing so-called 'default' configuration.  It is possible to edit the DefaultConfig() function so that it holds values specific to the local test/development environment.  This prevents the need for maintaining a set of configuration files that the development staff need to keep in sync.
 <br/>
@@ -881,6 +885,78 @@ This interface facilitates the passing of the incoming request header and body t
 	    library.Href = urlString + strconv.FormatUint(uint64(library.ID), 10)
 	    respondWithJSON(w, http.StatusCreated, library)
 }
+
+```
+The complete Library.Create(http.Handler) controller method is shown.  Each section of the method is broken down in the following subsets of commented code:
+
+
+```golang
+
+        // declare a local variable of struct type models.Library to hold the decoded 
+        // JSON body provided in the request.Body.
+    	var l models.Library
+
+        // create a new JSON decoder passing in the request.Body
+        decoder := json.NewDecoder(r.Body)
+        
+        // call the Decoder.Decode(interface{}) method passing a reference to the locally
+        // declared models.Library struct 'l'.  if the decoder is able to decode the JSON
+        // contained in the request.Body, the member fields of 'l' will be populated.  if
+        // the decoder fails to parse and map the incoming JSON to the models.Library 
+        // struct, it will return an error.  The problem will be logged to stdout (for now)
+        // on the server-instance, and a response conforming to the http.Handler interface
+        // will be constructed and passed back to the router.  if the JSON was parsed 
+        // successfully, a defer call is made to ensure that the request.Body will be 
+        // closed upon exit of the method.
+	    if err := decoder.Decode(&l); err != nil {
+	    	log.Println("Library Create:", err)
+	    	respondWithError(w, http.StatusBadRequest, "libraryc: Invalid request payload")
+	    	return
+        }
+        defer r.Body.Close()
+        
+        // fill the model with the parsed content of the JSON body.  this step looks 
+        // redundant, but can be thought of as a way to separate the incoming data 
+        // from the response.  going forward from this point, 'l' is ignored and 
+        // all data transformation occurs on the 'library' variable.
+	    library := models.Library{
+	    	Name: l.Name,
+	    	City: l.City,
+	    }
+
+	    // build a base urlString for the JSON Body self-referencing Href tag
+        urlString := buildHrefStringFromCRUDReq(r, true)
+        
+        // call the Create method on the library model.  each controller contains an
+        // instance of the Service for it's respective entity.  the Create method on 
+        // the service is called, passing a reference to the 'library' data structure.
+        // recall that the Service for an entity provides the link to that entity's 
+        // model-layer by way of the entity's validator.  lc.ls.Create(&library) will
+        // result in a call the model Validator Create() method for the Library 
+        // entity, and in-turn, call to the enitity's model.Create() method where 
+        // the data will be passed to the ORM-layer.  if the Create() call returns
+        // an error, the problem will be logged to stdout (for now) on the server-
+        // instance, and a response conforming to the http.Handler interface will be
+        // constructed and passed back to the router.
+	    err := lc.ls.Create(&library)
+	    if err != nil {
+		    log.Println("Library Create:", err)
+		    respondWithError(w, http.StatusBadRequest, err.Error())
+		    return
+        }
+        
+        // if the call to the model-layer was successful, it indicates that a new 
+        // Library entity was created in the DBMS.  the 'library' reference passsed
+        // to the Create() method(s) in the model-layer will now contiain the new 
+        // Library's information.  first, the ID for the new Library will be added
+        // to the urlString and assigned to the library struct's Href member field.
+        // Href is another injected field in the entity and fullfills the purpose
+        // of providing a direct URI for the returned entity.  finally the populated
+        // 'library' struct is formatted as a JSON response and passed back to the 
+        // router along with an http status-code indicating success. 
+        library.Href = urlString + strconv.FormatUint(uint64(library.ID), 10)
+        respondWithJSON(w, http.StatusCreated, library)
+    }
 
 ```
 
