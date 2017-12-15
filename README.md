@@ -774,9 +774,10 @@ At the moment the generator only supports HasOne, HasMany and BelongsTo relation
 
 Running the application generator creates a set of files that comprise a basic working application.  Incoming requests are handled by a mux, which validates the request, and then matches it to a route.  The selected route passes the request to a controller specific to the entity-type, where the incoming information is mapped into a go struct matching the entity declaration.  The controller then calls the appropriate model function for the http operation and entity-type combination passing it the entity structure.  The model handler passes through a member-field validation layer, and then to the model's interface to the underlying sqac ORM.  The database request is handled by the ORM, and then the response is passed from the model back to the controller where it is packaged as a JSON payload and sent back to the caller in the response-writer's body.
 <br/>
-
+<br/>
 
 ![alt text](/md_images/app_layout/AppLayout1.jpeg "Application file structure")
+<br/>
 Following the execution of the application generator, a folder containing the generated app's files is created as shown.
 
 
