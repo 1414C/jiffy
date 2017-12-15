@@ -887,9 +887,10 @@ This interface facilitates the passing of the incoming request header and body t
 }
 
 ```
-The complete Library.Create(http.Handler) controller method is shown.  Each section of the method is broken down in the following subsets of commented code:
+The complete Library.Create(http.Handler) controller method is shown exactly as it has been generated.
 
 
+Each section of the method is broken down in the following subsets of commented code:
 ```golang
 
         // declare a local variable of struct type models.Library to hold the decoded 
