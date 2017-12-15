@@ -8,7 +8,7 @@ Rgen is a model-based application services generator written in go.  It was deve
 * Go offers true concurrency via lightweight threads known as goroutines i.e. there is no blocking in the i/o 
 * goroutines will use all available cores to handle incoming requests
 * Go it is a small language that offers type-safety
-* Go projects complile to a static single binary which simplifies deployments
+* Go projects compile to a static single binary which simplifies deployments
 * Go cross-compiles to virtually any platform and architecture; write the app on a chromebook - deploy to z/OS
 * Go is making inroads into areas that have been dominated by other languages and packages
 
@@ -24,8 +24,8 @@ Rgen is a model-based application services generator written in go.  It was deve
 * supports single and composite index declarations via the model file
 * built-in support for https
 * baked in normalization and validation in the model-layer
-* generates a working set of CRUD-type RESTful services for each entity based on the model file
-* supports and generates working end-points for hasOne, hasMany and belongsTo relationships between entities
+* generates a working set of CRUD-type RESTful services for each entity in the model file
+* supports and generates working end-points for hasOne, hasMany and belongsTo entity relationships 
 * generates working query end-points based on the model fie 
 * end-points are secured by way of scope inspection (jwt claims) in the route handler middleware
 * generates a comprehensive set of working tests (go test)
