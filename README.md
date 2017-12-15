@@ -833,6 +833,56 @@ The route for this call is defined in appobj.go as follows, where 'a' is the one
 a.router.HandleFunc("/library", requireUserMw.ApplyFn(a.libraryC.Create)).Methods("POST")
 
 ```
+The '/library'-POST route is assigned a HandleFunc belonging to the instance of the LibraryController that has been created on the appobj.  a.libraryC.Create is called for the 'library' route when the http method equals 'POST'.  The route contains some additional code related to authentication and authorization of the requester but this can be ignored for now.  The handler function for a mux.route must conform to the standard go http.Handler interface:
+
+```golang
+
+    type Handler interface {
+        ServeHTTP(ResponseWriter, *Request)
+    }
+
+```
+
+This interface facilitates the passing of the incoming request header and body to the controller method, as well as the passing of the formatted response back to the router.  With this out of out the way, let's look at generated Controller method LibraryController.Create:
+
+```golang
+
+    // Create facilitates the creation of a new Library.  This method is bound
+    // to the gorilla.mux router in main.go.
+    //
+    // POST /library
+    func (lc *LibraryController) Create(w http.ResponseWriter, r *http.Request) {
+
+	    var l models.Library
+	    decoder := json.NewDecoder(r.Body)
+	    if err := decoder.Decode(&l); err != nil {
+	    	log.Println("Library Create:", err)
+	    	respondWithError(w, http.StatusBadRequest, "libraryc: Invalid request payload")
+	    	return
+	    }
+	    defer r.Body.Close()
+
+	    // fill the model
+	    library := models.Library{
+	    	Name: l.Name,
+	    	City: l.City,
+	    }
+
+	    // build a base urlString for the JSON Body self-referencing Href tag
+	    urlString := buildHrefStringFromCRUDReq(r, true)
+
+	    // call the Create method on the library model
+	    err := lc.ls.Create(&library)
+	    if err != nil {
+	    	log.Println("Library Create:", err)
+	    	respondWithError(w, http.StatusBadRequest, err.Error())
+	    	return
+	    }
+	    library.Href = urlString + strconv.FormatUint(uint64(library.ID), 10)
+	    respondWithJSON(w, http.StatusCreated, library)
+}
+
+```
 
 <br/>
 
