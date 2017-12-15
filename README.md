@@ -789,7 +789,6 @@ Following the execution of the application generator, a folder containing the ge
 <br/>
 The appobj folder contains the generated application's configuration loader and the main application object.
 <br/>
-<br/>
 
 
 #### appobj.go
