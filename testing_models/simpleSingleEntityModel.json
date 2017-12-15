@@ -2,6 +2,9 @@
     "entities":  [
         {
             "typeName": "Person",
+            "id_properties": {
+                "start": 10000000
+            },
             "properties": {
                 "name": {
                     "type": "string",

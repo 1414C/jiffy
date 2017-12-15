@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"reflect"
+	"strconv"
 	"strings"
 
 	"github.com/1414C/sqac/common"
@@ -25,6 +26,7 @@ func ReadModelFile(mf string) ([]Entity, error) {
 	var objmapSlice []map[string]json.RawMessage
 	var objMap map[string]json.RawMessage
 	var entMap map[string]json.RawMessage
+	var idMap map[string]json.RawMessage
 
 	// read the models.json file as []byte
 	raw, err := ioutil.ReadFile(mf)
@@ -51,6 +53,20 @@ func ReadModelFile(mf string) ([]Entity, error) {
 		var e Entity
 		e.Header.Name = strings.Title(cleanString(string(entMap["typeName"])))
 		e.Header.Value = cleanString(strings.ToLower(e.Header.Name))
+
+		// was a start value provided for the entity-id?
+		idString := string(entMap["id_properties"])
+		if idString != "" {
+			err = json.Unmarshal([]byte(idString), idMap)
+			if err != nil {
+				return nil, err
+			}
+			start, err := strconv.ParseUint(string(idMap["start"]), 10, 64)
+			if err != nil {
+				return nil, err
+			}
+			e.Header.Start = start
+		}
 
 		// parse the entity properties and use them to build out the
 		// content of the Entity's Info slice.

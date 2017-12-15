@@ -22,7 +22,11 @@ import (
 {{/*  generate the Entity struct  */}}
 // {{.Header.Name}} structure
 type {{.Header.Name}} struct {{printf "%s" "{" }}
+	{{if .HasStartValue -}}
+	ID			 uint64  `json:"id" db:"id" rgen:"primary_key:inc;start:{{.Header.Start}}"`
+	{{else -}}
 	ID			 uint64  `json:"id" db:"id" rgen:"primary_key:inc"`
+	{{end -}}
 	Href         string  `json:"href" db:"href" rgen:"-"`
 	{{range .Fields -}} 
 	{{/* $tagLine := .GetRgenTagLine true */ -}}

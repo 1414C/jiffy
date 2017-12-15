@@ -20,6 +20,7 @@ type Info struct {
 	SnakeCaseName string // field name in sqac database format (snake_case)
 	DBType        string
 	IsKey         bool
+	Start         uint64
 	Format        string
 	NoDB          bool // true = no persistence on the db
 	Required      bool
@@ -419,6 +420,16 @@ func (ent *Entity) GetLowerCasePrefixLetter() string {
 // Called from within a text/template.
 func (ent *Entity) GetDateTimeStamp() string {
 	return time.Now().Format(time.RFC822)
+}
+
+// GetHasStart returns a bool indicating whether or
+// not an entity has been provided with a start-value
+// for its id in the model file.
+func (ent *Entity) GetHasStart() bool {
+	if ent.Header.Start > 0 {
+		return true
+	}
+	return false
 }
 
 // GetQueryOps is used to obtain a slice of the required simple query operators
