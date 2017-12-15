@@ -109,7 +109,7 @@ When a user logs into the application the following steps occur:
 
 ## Work-In-Progress
 1.  [ ]Ensure that rune and byte types are fully accounted for
-2.  [ ]NoDB example for non-persisted fields in an entity
+2.  [x]NoDB example for non-persisted fields in an entity
 3.  [x]Ensure that start range is supported for auto-incrementing ID
 4.  [ ]Extend claims support in the route middleware
 4.  [ ]Build in SAML support

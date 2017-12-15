@@ -1,0 +1,29 @@
+{
+    "entities":  [
+        {
+            "typeName": "TestNodb",
+            "id_properties": {
+                "start": 10000000
+            },
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,like"
+                },
+                "notPersisted": {
+                    "type": "uint",
+                    "no_db": true,
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": ""
+                }
+            }
+        }
+    ]
+}
