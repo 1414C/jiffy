@@ -806,7 +806,7 @@ When the generated application is started, AppObj.Run() is responsible for:
 <br/>
 
 #### appconf.go
-The code in appconf.go contains the functions used to load application configuration files, as well as functions containing so-called 'default' configuration.  It is possible to edit the DefaultConfig() function to contain values specific to the local test/development environment.  This prevents the need for maintaining a set of configuration files that the development staff need to keep in sync.
+The code in appconf.go contains the functions used to load application configuration files, as well as functions containing so-called 'default' configuration.  It is possible to edit the DefaultConfig() function so that it contains values specific to the local test/development environment.  This prevents the need for maintaining a set of configuration files that the development staff need to keep in sync.
 <br/>
 
 
