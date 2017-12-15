@@ -111,11 +111,12 @@ When a user logs into the application the following steps occur:
 1.  [ ]Ensure that rune and byte types are fully accounted for
 2.  [x]NoDB example for non-persisted fields in an entity
 3.  [x]Ensure that start range is supported for auto-incrementing ID
-4.  [ ]Extend claims support in the route middleware
-4.  [ ]Build in SAML support
-5.  [ ]Add option for Foreign Key defintion / enforcement in relations
-6.  [ ]Droplet deployment
-7.  [ ]NGix
+4.  [ ]Convert rgen json tags to sqac tags
+5.  [ ]Extend claims support in the route middleware
+6.  [ ]Build in SAML support
+7.  [ ]Add option for Foreign Key defintion / enforcement in relations
+8.  [ ]Droplet deployment
+9.  [ ]NGix
 <br/>
 
 ## Installation and Execution
