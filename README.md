@@ -117,6 +117,7 @@ When a user logs into the application the following steps occur:
 7.  [ ]Add option for Foreign Key defintion / enforcement in relations
 8.  [ ]Droplet deployment
 9.  [ ]NGix
+10. [-]Complete service activations
 <br/>
 
 ## Installation and Execution
