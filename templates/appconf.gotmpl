@@ -17,6 +17,12 @@ type DBConfig struct {
 	Name      string `json:"name"`
 }
 
+// ServiceActivation struct
+type ServiceActivation struct {
+	ServiceName   string `json:"service_name"`
+	ServiceActive bool   `json:"service_active"`
+}
+
 // ConnectionInfo returns a DBConfig string
 func (c DBConfig) ConnectionInfo() string {
 
@@ -69,14 +75,15 @@ func DefaultDBConfig() DBConfig {
 
 // Config isProd := false
 type Config struct {
-	Port           int            `json:"port"`
-	Env            string         `json:"env"`
-	Pepper         string         `json:"pepper"`
-	Database       DBConfig       `json:"database"`
-	CertFile       string         `json:"cert_file"`
-	KeyFile        string         `json:"key_file"`
-	JWTPrivKeyFile string         `json:"jwt_priv_key_file"`
-	JWTPubKeyFile  string         `json:"jwt_pub_key_file"`
+	Port           		int            		`json:"port"`
+	Env            		string         		`json:"env"`
+	Pepper         		string         		`json:"pepper"`
+	Database       		DBConfig       		`json:"database"`
+	CertFile       		string         		`json:"cert_file"`
+	KeyFile        		string         		`json:"key_file"`
+	JWTPrivKeyFile 		string         		`json:"jwt_priv_key_file"`
+	JWTPubKeyFile  		string         		`json:"jwt_pub_key_file"`
+	ServiceActivations []ServiceActivation 	`json:"service_activations"`
 }
 
 // IsProd informs the app which environment it is running in
@@ -95,17 +102,31 @@ func (c Config) IsDev() bool {
 	return false
 }
 
+// DefaultServiceActivations returns the app's default service activations
+func DefaultServiceActivations() []ServiceActivation {
+	s := ServiceActivation{}
+	sa := []ServiceActivation{}
+	{{range .ServiceActivations -}}
+	s.ServiceName = "{{.ServiceName}}"
+	s.ServiceActive = true
+	sa = append(sa, s)
+
+	{{end -}}
+	return sa
+}
+
 // DefaultConfig returns the app's default config in a Config structure
 func DefaultConfig() Config {
 	return Config{
-		Port:           {{.Port}},
-		Env:            "{{.Env}}",
-		Pepper:         "{{.Pepper}}",
-		Database:       DefaultDBConfig(),
-		CertFile:       "{{.CertFile}}",
-		KeyFile:        "{{.KeyFile}}",
-		JWTPrivKeyFile: "{{.JWTPrivKeyFile}}",
-		JWTPubKeyFile:  "{{.JWTPubKeyFile}}",
+		Port:           	{{.Port}},
+		Env:            	"{{.Env}}",
+		Pepper:         	"{{.Pepper}}",
+		Database:       	DefaultDBConfig(),
+		CertFile:       	"{{.CertFile}}",
+		KeyFile:        	"{{.KeyFile}}",
+		JWTPrivKeyFile: 	"{{.JWTPrivKeyFile}}",
+		JWTPubKeyFile:  	"{{.JWTPubKeyFile}}",
+		ServiceActivations: DefaultServiceActivations(),
 	}
 }
 
@@ -137,5 +158,6 @@ func LoadConfig(configReq RunMode) Config {
 		panic(err)
 	}
 	log.Println("successfully loaded the config file...")
+	log.Println("config:", c)
 	return c
 }

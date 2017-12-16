@@ -12,7 +12,7 @@ import (
 
 func main() {
 
-	projectPath := flag.String("p", "/exp/tag_switch_test", "project path starting in &GOPATH/src")
+	projectPath := flag.String("p", "/exp/service_activation", "project path starting in &GOPATH/src")
 	modelFile := flag.String("m", "./model.scratch2.json", "model file relative to application base directory")
 
 	flag.Parse()
@@ -190,6 +190,14 @@ func main() {
 		KeyFile:        "", // https
 		JWTPrivKeyFile: "jwtkeys/private.pem",
 		JWTPubKeyFile:  "jwtkeys/public.pem",
+	}
+
+	// default the services to active
+	service := gen.ServiceActivation{}
+	for _, v := range entities {
+		service.ServiceName = v.Header.Name
+		service.ServiceActive = true
+		conf.ServiceActivations = append(conf.ServiceActivations, service)
 	}
 
 	fn, err := conf.GenerateAppConf(*projectPath + "/appobj")

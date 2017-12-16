@@ -1,6 +1,10 @@
+{{$lenSA := len .ServiceActivations -}}
+{{$loopCount := 0 -}}
+{{$cfg := . -}}
+
 {
     "port": 8080,    
-    "env": "prod",     
+    "env": "{{.Env}}",     
     "pepper": "secret-pepper-key",  
     "hmac_Key": "secret-hmac-key",
     "database": {
@@ -11,8 +15,26 @@
 		"password":   "gogogo123",
 		"name":       "glrestgen"
     },
+    {{if .GetIsProd -}}
     "cert_file": "mycert1.cer",
     "key_file": "mycert1.key",
+    {{else -}}
+    "cert_file": "",
+    "key_file": "",
+    {{end -}}
     "jwt_priv_key_file": "jwtkeys/private.pem",
-    "jwt_pub_key_file": "jwtkeys/public.pem"
+    "jwt_pub_key_file": "jwtkeys/public.pem",
+    "service_activations": [
+        {{range .ServiceActivations -}}
+        {
+            "service_name":   "{{.ServiceName}}",
+            "service_active": true
+        {{if $cfg.IsLastServiceActivationRec .ServiceName -}}
+        }
+        {{else -}}
+        },
+        {{end -}}
+        {{end -}}
+    ]
+
 }

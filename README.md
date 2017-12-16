@@ -111,7 +111,7 @@ When a user logs into the application the following steps occur:
 1.  [ ]Ensure that rune and byte types are fully accounted for
 2.  [x]NoDB example for non-persisted fields in an entity
 3.  [x]Ensure that start range is supported for auto-incrementing ID
-4.  [ ]Convert rgen json tags to sqac tags
+4.  [x]Convert rgen json tags to sqac tags
 5.  [ ]Extend claims support in the route middleware
 6.  [ ]Build in SAML support
 7.  [ ]Add option for Foreign Key defintion / enforcement in relations

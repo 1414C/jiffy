@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"text/template"
 
 	_ "github.com/SAP/go-hdb/driver"
@@ -24,17 +25,24 @@ type DBConfig struct {
 	Name      string `json:"name"`
 }
 
+// ServiceActivation struct
+type ServiceActivation struct {
+	ServiceName   string `json:"service_name"`
+	ServiceActive bool   `json:"service_active"`
+}
+
 // Config type holds the generated application's configuration info
 type Config struct {
-	Port           int      `json:"port"`
-	Env            string   `json:"env"`
-	Pepper         string   `json:"pepper"`
-	HMACKey        string   `json:"hmac_key"`
-	Database       DBConfig `json:"database"`
-	CertFile       string   `json:"cert_file"`
-	KeyFile        string   `json:"key_file"`
-	JWTPrivKeyFile string   `json:"jwt_priv_key_file"`
-	JWTPubKeyFile  string   `json:"jwt_pub_key_file"`
+	Port               int                 `json:"port"`
+	Env                string              `json:"env"`
+	Pepper             string              `json:"pepper"`
+	HMACKey            string              `json:"hmac_key"`
+	Database           DBConfig            `json:"database"`
+	CertFile           string              `json:"cert_file"`
+	KeyFile            string              `json:"key_file"`
+	JWTPrivKeyFile     string              `json:"jwt_priv_key_file"`
+	JWTPubKeyFile      string              `json:"jwt_pub_key_file"`
+	ServiceActivations []ServiceActivation `json:"service_activations"`
 }
 
 // ConnectionInfo returns a DBConfig string
@@ -106,6 +114,28 @@ func (c *DBConfig) Validate() error {
 	return nil
 }
 
+// GetIsProd returns a bool value indicating to the calling template that
+// the cfg struct is holding production configuration.
+func (cfg Config) GetIsProd() bool {
+	if strings.ToLower(cfg.Env) == "prod" {
+		return true
+	}
+	return false
+}
+
+// IsLastServiceActivationRec is used to determine whether the config.json.gotmpl
+// has processed the last ServiceActivation while building the .dec / .prd config
+// files.
+func (cfg Config) IsLastServiceActivationRec(name string) bool {
+
+	l := len(cfg.ServiceActivations) - 1
+	sa := cfg.ServiceActivations[l]
+	if sa.ServiceName == name {
+		return true
+	}
+	return false
+}
+
 // GenerateAppConf generates the default application configuration
 // source file appconf.go.
 func (cfg *Config) GenerateAppConf(dstDir string) (fName string, err error) {
@@ -139,7 +169,7 @@ func (cfg *Config) GenerateAppConf(dstDir string) (fName string, err error) {
 		return "", err
 	}
 
-	// execute the appconf.gotmpl template using new file appconf.go as a target
+	// execute the template and create the appconf.go
 	err = at.Execute(f, cfg)
 	if err != nil {
 		log.Fatal("GenerateAppObjFile: ", err)
@@ -174,8 +204,10 @@ func (cfg *Config) GenerateSampleConfig(dstDir string) error {
 		switch i {
 		case 0:
 			tfDir = dstDir + "/.dev.config.json"
+			cfg.Env = "dev"
 		case 1:
 			tfDir = dstDir + "/.prd.config.json"
+			cfg.Env = "prod"
 		default:
 
 		}
@@ -196,7 +228,8 @@ func (cfg *Config) GenerateSampleConfig(dstDir string) error {
 		}
 
 		// execute the config.json.gotmpl template using new file .xxx.config.json as a target
-		err = at.Execute(f, nil)
+		fmt.Println("cfg:", cfg)
+		err = at.Execute(f, cfg)
 		if err != nil {
 			log.Fatal("GenerateSampleConfig: ", err)
 			return err
