@@ -116,7 +116,6 @@ When a user logs into the application the following steps occur:
 6.  [ ]Add support for 'sqac:"default:xxxyyyzzz"' directive
     - default value
     - default (sqac) function (datetime defaults for example)
-6.  [ ]Build in SAML support
 7.  [ ]Add option for Foreign Key defintion / enforcement in relations
 8.  [ ]Droplet deployment
 9.  [ ]NGinx
