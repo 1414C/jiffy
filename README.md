@@ -110,7 +110,7 @@ When a user logs into the application the following steps occur:
 ## Work-In-Progress
 1.  [ ]Ensure that rune and byte types are fully accounted for
 2.  [ ]Extend claims support in the route middleware
-3.  [ ]Add support for 'sqac:"default:xxxyyyzzz"' directive
+3.  [ ]Add support for 'sqac:"default:xxxyyyzzz"' directives
     - default value
     - default (sqac) function (datetime defaults for example)
 4.  [ ]Add option for Foreign Key defintion / enforcement in relations
