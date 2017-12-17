@@ -109,17 +109,14 @@ When a user logs into the application the following steps occur:
 
 ## Work-In-Progress
 1.  [ ]Ensure that rune and byte types are fully accounted for
-2.  [x]NoDB example for non-persisted fields in an entity
-3.  [x]Ensure that start range is supported for auto-incrementing ID
-4.  [x]Convert rgen json tags to sqac tags
-5.  [ ]Extend claims support in the route middleware
-6.  [ ]Add support for 'sqac:"default:xxxyyyzzz"' directive
+2.  [ ]Extend claims support in the route middleware
+3.  [ ]Add support for 'sqac:"default:xxxyyyzzz"' directive
     - default value
     - default (sqac) function (datetime defaults for example)
-7.  [ ]Add option for Foreign Key defintion / enforcement in relations
-8.  [ ]Droplet deployment
-9.  [ ]NGinx
-10. [-]Complete service activations
+4.  [ ]Add option for Foreign Key defintion / enforcement in relations
+5.  [ ]Droplet deployment
+6.  [ ]NGinx
+7. [-]Complete service activations
  - config model files and file generation updated
 <br/>
 
