@@ -118,6 +118,7 @@ When a user logs into the application the following steps occur:
 8.  [ ]Droplet deployment
 9.  [ ]NGinx
 10. [-]Complete service activations
+ - config model files and file generation updated
 <br/>
 
 ## Installation and Execution
