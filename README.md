@@ -11,7 +11,7 @@ Rgen is a model-based application services generator written in go.  It was deve
     - goroutines will use all available cores to handle incoming requests
 * Go it is a small language that offers type-safety
 * Go projects compile to a static single binary which simplifies deployments
-* Go cross-compiles to virtually any platform and architecture; write the app on a chromebook - deploy to z/OS
+* Go cross-compiles to virtually any platform and architecture; write and test on a chromebook - deploy to z/OS
 * Go is making inroads into areas that have been dominated by other languages and packages
 
 #### What does the Rgen application provide?
@@ -113,6 +113,9 @@ When a user logs into the application the following steps occur:
 3.  [x]Ensure that start range is supported for auto-incrementing ID
 4.  [x]Convert rgen json tags to sqac tags
 5.  [ ]Extend claims support in the route middleware
+6.  [ ]Add support for 'sqac:"default:xxxyyyzzz"' directive
+    - default value
+    - default (sqac) function (datetime defaults for example)
 6.  [ ]Build in SAML support
 7.  [ ]Add option for Foreign Key defintion / enforcement in relations
 8.  [ ]Droplet deployment

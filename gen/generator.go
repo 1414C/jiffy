@@ -27,6 +27,8 @@ type Info struct {
 	Unique        bool
 	Index         string // unique, not-unique, ""
 	Selectable    string // "eq,like,gt,lt,ge,le,ne"
+	DefaultValue  string //
+	DefaultFunc   string // "now; bot; eot etc."
 	SqacTagLine   string
 	JSONTagLine   string // `json:"field_name,omitempty"`
 }
