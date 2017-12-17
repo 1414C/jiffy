@@ -116,7 +116,7 @@ When a user logs into the application the following steps occur:
 6.  [ ]Build in SAML support
 7.  [ ]Add option for Foreign Key defintion / enforcement in relations
 8.  [ ]Droplet deployment
-9.  [ ]NGix
+9.  [ ]NGinx
 10. [-]Complete service activations
 <br/>
 
