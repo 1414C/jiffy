@@ -7,29 +7,12 @@ package models
 //
 //=============================================================================================
 
-import (
-	"github.com/jinzhu/gorm"
-)
 
 //=============================================================================================
 // start of generated code: please do not modify this section 
 // code generated on {{ .GetDateTimeStamp }}
 //=============================================================================================
 
-// first - simple SQL equivalent to query using the provided
-// gorm.db and take the first item retrieved, then the result
-// will be returned via the dst interface (pointer!)
-func first(db *gorm.DB, dst interface{}) error {
-	err := db.First(dst).Error
-	switch err {
-	case nil:
-		return nil
-	case gorm.ErrRecordNotFound:
-		return ErrNotFound
-	default:
-		return err
-	}
-}
 
 //=============================================================================================
 // end of generated code

@@ -245,7 +245,7 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 		ID: {{.FromEntityLC}}ID,
 	}
 
-	err = dc.ds.Get(&{{.FromEntityLC}})
+	err = {{$pref}}c.{{$pref}}s.Get(&{{.FromEntityLC}})
 	if err != nil {
 		log.Println(err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
@@ -267,7 +267,7 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 	}
 
 	// call GetRel{{$headerName}}{{.RelName}} in the model
-	err = dc.ds.GetRel{{$headerName}}{{.RelName}}(&{{.ToEntityLC}}s, mapParams)
+	err = {{$pref}}c.{{$pref}}s.GetRel{{$headerName}}{{.RelName}}(&{{.ToEntityLC}}s, mapParams)
 	if err != nil {
 		log.Println(err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
@@ -282,7 +282,7 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 	}
 
 	for i := range {{.ToEntityLC}}s {
-		petowners[i].Href = fmt.Sprintf("%s%s/{{.ToEntityLC}}/%d", baseHref, r.Host, {{.ToEntityLC}}s[i].ID)
+		{{.ToEntityLC}}s[i].Href = fmt.Sprintf("%s%s/{{.ToEntityLC}}/%d", baseHref, r.Host, {{.ToEntityLC}}s[i].ID)
 	}
 
 	if bSingle {

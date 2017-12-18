@@ -1356,7 +1356,6 @@ ___
       - [x] add handlers following the CRUD handler processing (appobj.gotmpl)
     - [x] support compound index directive via model attribute
   - [x] disallow snake case in the ddlconfig element names
-  - [x] convert camelCase model field name to snake_case using the gorm conversion routine
   - [x] add a flag for model file i.e.   $ go run main.go -m "/Users/tomthedog/config/mymodel.json
   - [x] look at how gorilla.mux handles routes like  ../product?Attr1='foo'&&Attr2
     - *see https://stackoverflow.com/questions/45378566/gorilla-mux-optional-query-values*
@@ -1365,7 +1364,6 @@ ___
   - [x] add capability of generating keys for JWT via ecdsa256
   - [x] add automated default tests 
   - [x] run go fmt on each file immediately following generation?
-  - [x] extend model to support JSON-type tags for GORM etc.
   - [x] remove the gorilla csrf dependency; the use of JWT's in a stateless application obviates the need for CSRF protection. 
   - [x] run goimports on generated code  
   - [ ] add the capability of automatically running go get (look at go dep) for missing packages in the dependency list

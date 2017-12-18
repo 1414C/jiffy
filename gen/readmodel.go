@@ -89,7 +89,7 @@ func ReadModelFile(mf string) ([]Entity, error) {
 		// the SqacTagLine values where required.
 		cmpIndexString := string(entMap["compositeIndexes"])
 		if cmpIndexString != "" {
-			e.Fields, err = buildCompositeIndexes(cmpIndexString, e.Fields)
+			e.Fields, err = buildCompositeIndexes(cmpIndexString, e.Header.Value, e.Fields)
 			if err != nil {
 				return nil, err
 			}
@@ -218,8 +218,9 @@ func buildEntityColumns(colString string, colType ColType) ([]Info, error) {
 
 // buildCompositeIndexes adds the composite index sqac directives to
 // the Info.SqacTagLine.
-func buildCompositeIndexes(cIdxString string, info []Info) ([]Info, error) {
+func buildCompositeIndexes(cIdxString, tn string, info []Info) ([]Info, error) {
 
+	fmt.Println("cIdxString:", cIdxString)
 	var indexMap = make([]map[string]string, 0)
 	err := json.Unmarshal([]byte(cIdxString), &indexMap)
 	if err != nil {
@@ -231,7 +232,7 @@ func buildCompositeIndexes(cIdxString string, info []Info) ([]Info, error) {
 	// iterate over the composite index definitions in no
 	// particular order.
 	for _, v := range indexMap {
-		// fmt.Println("v:", v["index"])
+
 		rawColumns := v["index"]
 		if !strings.ContainsAny(rawColumns, ",") {
 			return nil, fmt.Errorf("composite index error: missing ','; have %s", rawColumns)
@@ -239,7 +240,7 @@ func buildCompositeIndexes(cIdxString string, info []Info) ([]Info, error) {
 
 		// split out the column names for the composite index, clean them and build
 		// the composite index directive string.
-		cIdxDirective := "index:idx"
+		cIdxDirective := fmt.Sprintf("index:idx_%s", tn)
 		indexColumnNames := strings.SplitN(rawColumns, ",", 30)
 		for i := range indexColumnNames {
 			indexColumnNames[i] = superCleanString(indexColumnNames[i])
@@ -247,10 +248,13 @@ func buildCompositeIndexes(cIdxString string, info []Info) ([]Info, error) {
 			cIdxDirective = cIdxDirective + "_" + indexColumnNames[i]
 		}
 
+		fmt.Println("indexColumnNames:", indexColumnNames)
+		fmt.Println("cIdxDirective:", cIdxDirective)
+
 		// now finally update the SqacTagLines.  for each column name in the
 		// index, read the list of fields in the entity ([]info).  when an
 		// index-column-name matches a field-name, add the composite index
-		// to that field's .GormTagLine.
+		// to that field's .SqacTagLine.
 		for _, cn := range indexColumnNames {
 			for i, fr := range info {
 				if fr.SnakeCaseName == cn {

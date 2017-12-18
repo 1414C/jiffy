@@ -12,7 +12,7 @@ import (
 
 func main() {
 
-	projectPath := flag.String("p", "/exp/service_activation", "project path starting in &GOPATH/src")
+	projectPath := flag.String("p", "/github.com/1414C/sqacgenref", "project path starting in &GOPATH/src")
 	modelFile := flag.String("m", "./model.scratch2.json", "model file relative to application base directory")
 
 	flag.Parse()
