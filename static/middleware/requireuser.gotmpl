@@ -21,7 +21,43 @@ import (
 type RequireUsr struct {
 	Usr      models.UsrService
 	VerifyKey *ecdsa.PublicKey
+	mapGA     map[string]map[string]bool // map[groupName]map[auth_name]bool
 }
+
+// InitMW is used to initialize the usr authorization middleware
+ func InitMW(Usr models.UsrService, VerifyKey *ecdsa.PublicKey, mapGroupAuths map[string]map[string]bool) (requireUser RequireUsr) {
+ 
+ 	requireUser.Usr = Usr
+ 	requireUser.VerifyKey = VerifyKey
+ 	requireUser.mapGA = mapGroupAuths
+ 	return requireUser
+ }
+
+ // CheckAuth verifies that the AuthName is contained in one of the supplied Groups
+ func (mw *RequireUsr) CheckAuth(authName string, groups []string) bool {
+ 
+ 	// no group auths setup - disallow all access
+ 	if len(mw.mapGA) == 0 {
+ 		return false
+ 	}
+ 
+ 	// iterate over the supplied group names and attempt to find
+ 	// a matching group-auth combination in mw.mapGA.
+ 	for _, g := range groups {
+ 
+ 		// nil here is odd but plausible
+ 		mapAuths := mw.mapGA[g]
+ 		if mapAuths == nil {
+ 			continue
+ 		}
+ 
+ 		auth := mapAuths[authName]
+ 		if auth == true {
+ 			return true
+ 		}
+ 	}
+ 	return false
+  }
 
 // ApplyFn assumes that Usr middleware has already been run
 // otherwise it will not work correctly.
