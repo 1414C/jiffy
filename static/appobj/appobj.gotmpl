@@ -193,7 +193,7 @@ func (a *AppObj) initializeRoutes() {
 	a.router.HandleFunc("/usrgroups/description{description:[(]+(?:EQ|eq|LIKE|like)+[ ']+[a-zA-Z0-9_]+[')]+}",
 		requireUserMw.ApplyFn(a.usrgroupC.GetUsrGroupsByDescription)).Methods("GET")
 
-	// authr CRUD routes
+	// auth CRUD routes
 	a.router.HandleFunc("/auths", requireUserMw.ApplyFn(a.authC.GetAuths)).Methods("GET").Name("auth.GET_SET")
 	a.router.HandleFunc("/auth", requireUserMw.ApplyFn(a.authC.Create)).Methods("POST").Name("auth.CREATE")
 	a.router.HandleFunc("/auth/{id:[0-9]+}", requireUserMw.ApplyFn(a.authC.Get)).Methods("GET").Name("auth.GET_ID")
