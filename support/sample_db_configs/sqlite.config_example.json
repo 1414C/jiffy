@@ -1,0 +1,28 @@
+{
+    "port": 8080,    
+    "env": "dev",     
+    "pepper": "secret-pepper-key",  
+    "hmac_Key": "secret-hmac-key",
+    "database": {
+        "db_dialect": "sqlite",
+        "host":       "127.0.0.1",
+		"port":       0,
+		"usr":        "",
+		"password":   "",
+		"name":       "twstdb.sqlite"
+    },
+    "cert_file": "",
+    "key_file": "",
+    "jwt_priv_key_file": "jwtkeys/private.pem",
+    "jwt_pub_key_file": "jwtkeys/public.pem",
+    "service_activations": [
+        {
+            "service_name":   "Library",
+            "service_active": true
+        },
+        {
+            "service_name":   "Book",
+            "service_active": true
+        }
+        ]
+}

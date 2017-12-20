@@ -18,16 +18,19 @@ import (
 
 // AppObj is the one and only application object
 type AppObj struct {
-	cfg       Config
-	dbConfig  DBConfig
-	services  *models.Services
+	cfg       	Config
+	dbConfig  	DBConfig
+	services  	*models.Services
     {{range .Entities -}} 
     {{.Header.Value}}C *controllers.{{.Header.Name}}Controller
     {{end -}}
-	usrC     *controllers.UsrController
-	router    *mux.Router
-	verifyKey *ecdsa.PublicKey  // jwt support
-	signKey   *ecdsa.PrivateKey // jwt support
+	usrC     	*controllers.UsrController
+	usrgroupC  	*controllers.UsrGroupController
+	authC      	*controllers.AuthController
+	groupauthC 	*controllers.GroupAuthController
+	router    	*mux.Router
+	verifyKey 	*ecdsa.PublicKey  // jwt support
+	signKey   	*ecdsa.PrivateKey // jwt support
 }
 
 // RunMode defines the two basic operation modes
@@ -109,6 +112,9 @@ func (a *AppObj) createServices() {
 		models.WithSqac(a.dbConfig.Dialect(), a.dbConfig.ConnectionInfo()),
 		models.WithLogMode(!a.cfg.IsProd()),
 		models.WithUsr(a.cfg.Pepper),
+		models.WithUsrGroup(),
+		models.WithAuth(),
+		models.WithGroupAuth(),
         {{range .Entities -}} 
         models.With{{.Header.Name}}(),
         {{end -}}
@@ -142,6 +148,9 @@ func (a *AppObj) initializeJWTKeys() {
 // createControllers for each entity
 func (a *AppObj) createControllers() {
     a.usrC = controllers.NewUsrController(a.services.Usr, a.signKey, a.verifyKey)
+	a.usrgroupC = controllers.NewUsrGroupController(a.services.UsrGroup)
+	a.authC = controllers.NewAuthController(a.services.Auth)
+	a.groupauthC = controllers.NewGroupAuthController(a.services.GroupAuth)
     {{range .Entities -}} 
     a.{{.Header.Value}}C = controllers.New{{.Header.Name}}Controller(a.services.{{.Header.Name}})
     {{end -}}
@@ -168,13 +177,65 @@ func (a *AppObj) initializeRoutes() {
 	a.router.HandleFunc("/usr/login", a.usrC.Login).Methods("POST")
 	a.router.HandleFunc("/usr/{id:[0-9]+}", a.usrC.Delete).Methods("DELETE")
 
+	// usrgroup CRUD routes
+	a.router.HandleFunc("/usrgroups", requireUserMw.ApplyFn(a.usrgroupC.GetUsrGroups)).Methods("GET").Name("usrgroup.GET_SET")
+	a.router.HandleFunc("/usrgroup", requireUserMw.ApplyFn(a.usrgroupC.Create)).Methods("POST").Name("usrgroup.CREATE")
+	a.router.HandleFunc("/usrgroup/{id:[0-9]+}", requireUserMw.ApplyFn(a.usrgroupC.Get)).Methods("GET").Name("usrgroup.GET_ID")
+	a.router.HandleFunc("/usrgroup/{id:[0-9]+}", requireUserMw.ApplyFn(a.usrgroupC.Update)).Methods("PUT").Name("usrgroup.CREATE")
+	a.router.HandleFunc("/usrgroup/{id:[0-9]+}", requireUserMw.ApplyFn(a.usrgroupC.Delete)).Methods("DELETE").Name("usrgroup.DELETE")
+
+	// usrgroup static filter routes
+	// http://127.0.0.1:<port>/usrgroups/group_name(EQ '<sel_string>')
+	a.router.HandleFunc("/usrgroups/group_name{group_name:[(]+(?:EQ|eq|LIKE|like)+[ ']+[a-zA-Z0-9_]+[')]+}",
+		requireUserMw.ApplyFn(a.usrgroupC.GetUsrGroupsByGroupName)).Methods("GET")
+
+	// http://127.0.0.1:<port>/usrgroups/description(EQ '<sel_string>')
+	a.router.HandleFunc("/usrgroups/description{description:[(]+(?:EQ|eq|LIKE|like)+[ ']+[a-zA-Z0-9_]+[')]+}",
+		requireUserMw.ApplyFn(a.usrgroupC.GetUsrGroupsByDescription)).Methods("GET")
+
+	// authr CRUD routes
+	a.router.HandleFunc("/auths", requireUserMw.ApplyFn(a.authC.GetAuths)).Methods("GET").Name("auth.GET_SET")
+	a.router.HandleFunc("/auth", requireUserMw.ApplyFn(a.authC.Create)).Methods("POST").Name("auth.CREATE")
+	a.router.HandleFunc("/auth/{id:[0-9]+}", requireUserMw.ApplyFn(a.authC.Get)).Methods("GET").Name("auth.GET_ID")
+	a.router.HandleFunc("/auth/{id:[0-9]+}", requireUserMw.ApplyFn(a.authC.Update)).Methods("PUT").Name("auth.UPDATE")
+	a.router.HandleFunc("/auth/{id:[0-9]+}", requireUserMw.ApplyFn(a.authC.Delete)).Methods("DELETE").Name("auth.DELETE")
+
+	// auth static filter routes
+	// http://127.0.0.1:<port>/auths/auth_name(EQ '<sel_string>')
+	a.router.HandleFunc("/auths/auth_name{auth_name:[(]+(?:EQ|eq|LIKE|like)+[ ']+[a-zA-Z0-9_]+[')]+}",
+		requireUserMw.ApplyFn(a.authC.GetAuthsByAuthName)).Methods("GET")
+
+	// http://127.0.0.1:<port>/auths/description(EQ '<sel_string>')
+	a.router.HandleFunc("/auths/description{description:[(]+(?:EQ|eq|LIKE|like)+[ ']+[a-zA-Z0-9_]+[')]+}",
+		requireUserMw.ApplyFn(a.authC.GetAuthsByDescription)).Methods("GET")
+
+	// groupauth CRUD routes
+	a.router.HandleFunc("/groupauths", requireUserMw.ApplyFn(a.groupauthC.GetGroupAuths)).Methods("GET").Name("groupauth.GET_SET")
+	a.router.HandleFunc("/groupauth", requireUserMw.ApplyFn(a.groupauthC.Create)).Methods("POST").Name("groupauth.CREATE")
+	a.router.HandleFunc("/groupauth/{id:[0-9]+}", requireUserMw.ApplyFn(a.groupauthC.Get)).Methods("GET").Name("groupauth.GET_ID")
+	a.router.HandleFunc("/groupauth/{id:[0-9]+}", requireUserMw.ApplyFn(a.groupauthC.Update)).Methods("PUT").Name("groupauth.UPDATE")
+	a.router.HandleFunc("/groupauth/{id:[0-9]+}", requireUserMw.ApplyFn(a.groupauthC.Delete)).Methods("DELETE").Name("groupauth.DELETE")
+
+	// groupauth static filter routes	
+	// http://127.0.0.1:<port>/groupauths/auth_name(EQ '<sel_string>')
+	a.router.HandleFunc("/groupauths/auth_name{auth_name:[(]+(?:EQ|eq|LIKE|like)+[ ']+[a-zA-Z0-9_]+[')]+}",
+		requireUserMw.ApplyFn(a.groupauthC.GetGroupAuthsByAuthName)).Methods("GET")
+
+	// http://127.0.0.1:<port>/groupauths/description(EQ '<sel_string>')
+	a.router.HandleFunc("/groupauths/description{description:[(]+(?:EQ|eq|LIKE|like)+[ ']+[a-zA-Z0-9_]+[')]+}",
+		requireUserMw.ApplyFn(a.groupauthC.GetGroupAuthsByDescription)).Methods("GET")
+
+	// http://127.0.0.1:<port>/groupauths/group_id(EQ '<sel_string>')
+	a.router.HandleFunc("/groupauths/group_id{group_id:[(]+(?:EQ|eq|LT|lt|GT|gt)+[ ']+[0-9]+[')]+}",
+		requireUserMw.ApplyFn(a.groupauthC.GetGroupAuthsByGroupID)).Methods("GET")
+
     {{range .Entities -}} 
     // ====================== {{.Header.Name}} protected routes for standard CRUD access ======================
-    a.router.HandleFunc("/{{.Header.Value}}s", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Get{{.Header.Name}}s)).Methods("GET")
-    a.router.HandleFunc("/{{.Header.Value}}", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Create)).Methods("POST")
-    a.router.HandleFunc("/{{.Header.Value}}/{id:[0-9]+}", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Get)).Methods("GET")
-    a.router.HandleFunc("/{{.Header.Value}}/{id:[0-9]+}", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Update)).Methods("PUT")
-    a.router.HandleFunc("/{{.Header.Value}}/{id:[0-9]+}", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Delete)).Methods("DELETE")
+    a.router.HandleFunc("/{{.Header.Value}}s", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Get{{.Header.Name}}s)).Methods("GET").Name("{{.Header.Value}}.GET_SET")
+    a.router.HandleFunc("/{{.Header.Value}}", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Create)).Methods("POST").Name("{{.Header.Value}}.CREATE")
+    a.router.HandleFunc("/{{.Header.Value}}/{id:[0-9]+}", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Get)).Methods("GET").Name("{{.Header.Value}}.GET_ID")
+    a.router.HandleFunc("/{{.Header.Value}}/{id:[0-9]+}", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Update)).Methods("PUT").Name("{{.Header.Value}}.UPDATE")
+    a.router.HandleFunc("/{{.Header.Value}}/{id:[0-9]+}", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Delete)).Methods("DELETE").Name("{{.Header.Value}}.DELETE")
 	
     {{$headerName := .Header.Name -}}
 	{{$headerValue := .Header.Value -}}

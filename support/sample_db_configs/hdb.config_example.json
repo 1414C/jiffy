@@ -1,0 +1,28 @@
+{
+    "port": 8080,    
+    "env": "dev",     
+    "pepper": "secret-pepper-key",  
+    "hmac_Key": "secret-hmac-key",
+    "database": {
+        "db_dialect": "hdb",
+        "host":       "clkhana01.lab.clockwork.ca",
+		"port":       30047,
+		"usr":        "SMACLEOD",
+		"password":   "Blockhead1",
+		"name":       ""
+    },
+    "cert_file": "",
+    "key_file": "",
+    "jwt_priv_key_file": "jwtkeys/private.pem",
+    "jwt_pub_key_file": "jwtkeys/public.pem",
+    "service_activations": [
+        {
+            "service_name":   "Library",
+            "service_active": true
+        },
+        {
+            "service_name":   "Book",
+            "service_active": true
+        }
+        ]
+}

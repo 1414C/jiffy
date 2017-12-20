@@ -1,5 +1,9 @@
 package models
 
+//=============================================================================================
+// Services model code generated on {{ .GetDateTimeStamp }}
+//=============================================================================================
+
 import (
 	"github.com/1414C/sqac"
 )
@@ -7,6 +11,9 @@ import (
 // Services contains the set of services used by the application
 type Services struct {
 	Usr    UsrService
+	UsrGroup  UsrGroupService
+	Auth      AuthService
+	GroupAuth GroupAuthService
     {{range .Entities -}} 
     {{.Header.Name}} {{.Header.Name}}Service
     {{end -}}
@@ -17,21 +24,12 @@ type Services struct {
 // ServicesConfig function type
 type ServicesConfig func(*Services) error
 
-// WithUsr creates a Usr service
-func WithUsr(pepper string) ServicesConfig {
-	return func(s *Services) error {
-		s.Usr = NewUsrService(s.handle, pepper)
-		return nil
-	}
-}
-
 // WithSqac provides a function that will return a sqac services closure
 func WithSqac(dialect, connectionInfo string) ServicesConfig {
 	return func(s *Services) error {
 		handle := sqac.Create(dialect, false, false, connectionInfo)
 
 		s.handle = handle
-		// fmt.Println("handle:", handle)
 		return nil
 	}
 }
@@ -40,6 +38,38 @@ func WithSqac(dialect, connectionInfo string) ServicesConfig {
 func WithLogMode(mode bool) ServicesConfig {
 	return func(s *Services) error {
 		s.handle.Log(mode)
+		return nil
+	}
+}
+
+// WithUsr creates a Usr service
+func WithUsr(pepper string) ServicesConfig {
+	return func(s *Services) error {
+		s.Usr = NewUsrService(s.handle, pepper)
+		return nil
+	}
+}
+
+// WithUsrGroup creates a UsrGroup service
+func WithUsrGroup() ServicesConfig {
+	return func(s *Services) error {
+		s.UsrGroup = NewUsrGroupService(s.handle)
+		return nil
+	}
+}
+
+// WithAuth creates a Auth service
+func WithAuth() ServicesConfig {
+	return func(s *Services) error {
+		s.Auth = NewAuthService(s.handle)
+		return nil
+	}
+}
+
+// WithGroupAuth creates a GroupAuth service
+func WithGroupAuth() ServicesConfig {
+	return func(s *Services) error {
+		s.GroupAuth = NewGroupAuthService(s.handle)
 		return nil
 	}
 }
@@ -84,5 +114,5 @@ func (s *Services) DestructiveReset() error {
 
 // AlterAllTables runs AlterTables for each listed entity.  Supports additive columns only.
 func (s *Services) AlterAllTables() error {
-	return s.handle.AlterTables({{$entity_list}}, Usr{})
+	return s.handle.AlterTables({{$entity_list}}, Usr{}, UsrGroup{}, Auth{}, GroupAuth{})
 }
