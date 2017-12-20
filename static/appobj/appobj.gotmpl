@@ -173,9 +173,9 @@ func (a *AppObj) initializeRoutes() {
 	}
 
 	// add usr routes
-	a.router.HandleFunc("/usr", a.usrC.Create).Methods("POST")
-	a.router.HandleFunc("/usr/login", a.usrC.Login).Methods("POST")
-	a.router.HandleFunc("/usr/{id:[0-9]+}", a.usrC.Delete).Methods("DELETE")
+	a.router.HandleFunc("/usr", a.usrC.Create).Methods("POST").Name("usr.CREATE")
+	a.router.HandleFunc("/usr/login", a.usrC.Login).Methods("POST").Name("usr.LOGIN")
+	a.router.HandleFunc("/usr/{id:[0-9]+}", a.usrC.Delete).Methods("DELETE").Name("usr.DELETE")
 
 	// usrgroup CRUD routes
 	a.router.HandleFunc("/usrgroups", requireUserMw.ApplyFn(a.usrgroupC.GetUsrGroups)).Methods("GET").Name("usrgroup.GET_SET")
@@ -187,11 +187,11 @@ func (a *AppObj) initializeRoutes() {
 	// usrgroup static filter routes
 	// http://127.0.0.1:<port>/usrgroups/group_name(EQ '<sel_string>')
 	a.router.HandleFunc("/usrgroups/group_name{group_name:[(]+(?:EQ|eq|LIKE|like)+[ ']+[a-zA-Z0-9_]+[')]+}",
-		requireUserMw.ApplyFn(a.usrgroupC.GetUsrGroupsByGroupName)).Methods("GET")
+		requireUserMw.ApplyFn(a.usrgroupC.GetUsrGroupsByGroupName)).Methods("GET").Name("usrgroup.STATICFLTR_ByGroupName")
 
 	// http://127.0.0.1:<port>/usrgroups/description(EQ '<sel_string>')
 	a.router.HandleFunc("/usrgroups/description{description:[(]+(?:EQ|eq|LIKE|like)+[ ']+[a-zA-Z0-9_]+[')]+}",
-		requireUserMw.ApplyFn(a.usrgroupC.GetUsrGroupsByDescription)).Methods("GET")
+		requireUserMw.ApplyFn(a.usrgroupC.GetUsrGroupsByDescription)).Methods("GET").Name("usrgroup.STATICFLTR_ByDescription")
 
 	// auth CRUD routes
 	// a.router.HandleFunc("/auths", requireUserMw.ApplyFn(a.authC.GetAuths)).Methods("GET").Queries("desc", "{desc}")
@@ -204,11 +204,11 @@ func (a *AppObj) initializeRoutes() {
 	// auth static filter routes
 	// http://127.0.0.1:<port>/auths/auth_name(EQ '<sel_string>')
 	a.router.HandleFunc("/auths/auth_name{auth_name:[(]+(?:EQ|eq|LIKE|like)+[ ']+[a-zA-Z0-9_]+[')]+}",
-		requireUserMw.ApplyFn(a.authC.GetAuthsByAuthName)).Methods("GET")
+		requireUserMw.ApplyFn(a.authC.GetAuthsByAuthName)).Methods("GET").Name("auth.STATICFLTR_ByAuthName")
 
 	// http://127.0.0.1:<port>/auths/description(EQ '<sel_string>')
 	a.router.HandleFunc("/auths/description{description:[(]+(?:EQ|eq|LIKE|like)+[ ']+[a-zA-Z0-9_]+[')]+}",
-		requireUserMw.ApplyFn(a.authC.GetAuthsByDescription)).Methods("GET")
+		requireUserMw.ApplyFn(a.authC.GetAuthsByDescription)).Methods("GET").Name("auth.STATICFLTR_ByDescription")
 
 	// groupauth CRUD routes
 	a.router.HandleFunc("/groupauths", requireUserMw.ApplyFn(a.groupauthC.GetGroupAuths)).Methods("GET").Name("groupauth.GET_SET")
@@ -217,18 +217,17 @@ func (a *AppObj) initializeRoutes() {
 	a.router.HandleFunc("/groupauth/{id:[0-9]+}", requireUserMw.ApplyFn(a.groupauthC.Update)).Methods("PUT").Name("groupauth.UPDATE")
 	a.router.HandleFunc("/groupauth/{id:[0-9]+}", requireUserMw.ApplyFn(a.groupauthC.Delete)).Methods("DELETE").Name("groupauth.DELETE")
 
-	// groupauth static filter routes	
 	// http://127.0.0.1:<port>/groupauths/auth_name(EQ '<sel_string>')
 	a.router.HandleFunc("/groupauths/auth_name{auth_name:[(]+(?:EQ|eq|LIKE|like)+[ ']+[a-zA-Z0-9_]+[')]+}",
-		requireUserMw.ApplyFn(a.groupauthC.GetGroupAuthsByAuthName)).Methods("GET")
+		requireUserMw.ApplyFn(a.groupauthC.GetGroupAuthsByAuthName)).Methods("GET").Name("groupauth.STATICFLTR_ByAuthName")
 
 	// http://127.0.0.1:<port>/groupauths/description(EQ '<sel_string>')
 	a.router.HandleFunc("/groupauths/description{description:[(]+(?:EQ|eq|LIKE|like)+[ ']+[a-zA-Z0-9_]+[')]+}",
-		requireUserMw.ApplyFn(a.groupauthC.GetGroupAuthsByDescription)).Methods("GET")
+		requireUserMw.ApplyFn(a.groupauthC.GetGroupAuthsByDescription)).Methods("GET").Name("groupauth.STATICFLTR_ByDescription")
 
 	// http://127.0.0.1:<port>/groupauths/group_id(EQ '<sel_string>')
 	a.router.HandleFunc("/groupauths/group_id{group_id:[(]+(?:EQ|eq|LT|lt|GT|gt)+[ ']+[0-9]+[')]+}",
-		requireUserMw.ApplyFn(a.groupauthC.GetGroupAuthsByGroupID)).Methods("GET")
+		requireUserMw.ApplyFn(a.groupauthC.GetGroupAuthsByGroupID)).Methods("GET").Name("groupauth.STATICFLTR_ByGroupID")
 
     {{range .Entities -}} 
     // ====================== {{.Header.Name}} protected routes for standard CRUD access ======================
