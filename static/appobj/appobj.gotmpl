@@ -247,22 +247,22 @@ func (a *AppObj) initializeRoutes() {
 	{{range .Relations -}}
 		{{if or .GetHasOne -}}
 	// hasOne relation {{.RelName}} for {{$headerName}}
-	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.RelName}})).Methods("GET")
-	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}/{{ printf "%s" "{" }}{{.ToEntityLC}}_id:[0-9]+}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.RelName}})).Methods("GET")	
+	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.RelName}})).Methods("GET").Name("{{.headerValue}}.REL_{{.RelNameLC}}")
+	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}/{{ printf "%s" "{" }}{{.ToEntityLC}}_id:[0-9]+}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.RelName}})).Methods("GET").Name("{{.headerValue}}.REL_{{.RelNameLC}}_id")	
 
 		{{end -}}
 
 		{{if .GetHasMany -}}
 	// hasMany relation {{.RelName}} for {{$headerName}}
-	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.RelName}})).Methods("GET")
-	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}/{{ printf "%s" "{" }}{{.ToEntityLC}}_id:[0-9]+}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.RelName}})).Methods("GET")
+	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.RelName}})).Methods("GET").Name("{{.headerValue}}.REL_{{.RelNameLC}}")
+	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}/{{ printf "%s" "{" }}{{.ToEntityLC}}_id:[0-9]+}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.RelName}})).Methods("GET").Name("{{.headerValue}}.REL_{{.RelNameLC}}_id")
 
 		{{end -}}
 
 		{{if .GetBelongsTo -}}
 	// belongsTo relation {{.RelName}} for {{$headerName}}
-	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.RelName}})).Methods("GET")
-	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}/{{ printf "%s" "{" }}{{.ToEntityLC}}_id:[0-9]+}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.RelName}})).Methods("GET")	
+	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.RelName}})).Methods("GET").Name("{{.headerValue}}.REL_{{.RelNameLC}}")
+	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}/{{ printf "%s" "{" }}{{.ToEntityLC}}_id:[0-9]+}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.RelName}})).Methods("GET").Name("{{.headerValue}}.REL_{{.RelNameLC}}_id")	
 
 		{{end -}}
 
@@ -275,14 +275,14 @@ func (a *AppObj) initializeRoutes() {
 				{{/*       [(]+(?:EQ|eq|NE|ne|LIKE|like)+[ ']+[a-zA-Z0-9_]+[')]+      */ -}}
 				// http://127.0.0.1:<port>/{{$headerValue}}s/{{.SnakeCaseName}}(EQ '<sel_string>')
 				a.router.HandleFunc("/{{$headerValue}}s/{{.SnakeCaseName}}{{ printf "%s" "{" }}{{.SnakeCaseName}}:{{.GetSelStringRegex}}{{ printf "%s" "}" }}", 
-	  			requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}sBy{{.Name}})).Methods("GET")
+	  			requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}sBy{{.Name}})).Methods("GET").Name("{{.headerValue}}.STATICFLTR_By{{.Name}}")
 
 			{{end -}}
 			{{if .IsBoolFieldType -}}
 				{{/*      [(]+(?:EQ|eq)+[ ']+(?:true|TRUE|false|FALSE)+[')]+          */ -}}
 				// http://127.0.0.1:<port>/{{$headerValue}}s/{{.SnakeCaseName}}(EQ TRUE)
 				a.router.HandleFunc("/{{$headerValue}}s/{{.SnakeCaseName}}{{ printf "%s" "{" }}{{.SnakeCaseName}}:{{.GetSelBoolRegex}}{{ printf "%s" "}" }}",
-					requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}sBy{{.Name}})).Methods("GET")
+					requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}sBy{{.Name}})).Methods("GET").Name("{{.headerValue}}.STATICFLTR_By{{.Name}}")
 
 			{{end -}}
 			{{if .IsNumberFieldType -}}
@@ -293,7 +293,7 @@ func (a *AppObj) initializeRoutes() {
 				// http://127.0.0.1:<port>/{{$headerValue}}s/{{.SnakeCaseName}}(LT 110)
 				// http://127.0.0.1:<port>/{{$headerValue}}s/{{.SnakeCaseName}}(GE -43)
 				a.router.HandleFunc("/{{$headerValue}}s/{{.SnakeCaseName}}{{ printf "%s" "{" }}{{.SnakeCaseName}}:{{.GetSelNumberRegex}}{{ printf "%s" "}" }}",
-					requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}sBy{{.Name}})).Methods("GET")
+					requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}sBy{{.Name}})).Methods("GET").Name("{{.headerValue}}.STATICFLTR_By{{.Name}}")
 
 			{{end -}}
 		{{end -}}
