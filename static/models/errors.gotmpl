@@ -47,6 +47,9 @@ const ErrNotFound modelError = "models: resource not found"
 // ErrEmailTaken - the email address has already been taken by another user
 const ErrEmailTaken modelError = "models: email address has been taken by another user"
 
+// ErrGroupRequired - at least one Group must be specified when creating or updating a user record
+const ErrGroupRequired modelError = "models: at least one Group must be specified when creating or updating a user record"
+
 // ErrInvalidPassword - used in the User model.
 const ErrInvalidPassword modelError = "models: the provided password is not valid"
 

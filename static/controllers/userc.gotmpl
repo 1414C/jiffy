@@ -72,6 +72,10 @@ func (uc *UsrController) Login(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	// groups
+	fmt.Println("Login()->user groups:", *authenticatedUsr.Groups)
+
+	// set standard claims - JWT valid for one hour
 	// token := jwt.New(jwt.SigningMethodRS256)
 	token := jwt.New(jwt.SigningMethodES384)
 	claims := make(jwt.MapClaims)
@@ -79,6 +83,9 @@ func (uc *UsrController) Login(w http.ResponseWriter, r *http.Request) {
 	claims["id"] = authenticatedUsr.ID
 	claims["exp"] = time.Now().Add(time.Hour * time.Duration(1)).Unix()
 	claims["iat"] = time.Now().Unix()
+	
+	// set custom claims; auth groups as ; separated string
+	claims["Groups"] = *authenticatedUsr.Groups
 	token.Claims = claims
 
 	if err != nil {
@@ -120,6 +127,7 @@ func (uc *UsrController) Create(w http.ResponseWriter, r *http.Request) {
 		Name:     u.Name,
 		Email:    u.Email,
 		Password: u.Password,
+		Groups:   u.Groups,
 	}
 
 	// call the create method on the usr model
@@ -133,6 +141,52 @@ func (uc *UsrController) Create(w http.ResponseWriter, r *http.Request) {
 	usr.PasswordHash = ""
 	respondWithJSON(w, http.StatusCreated, usr)
 }
+
+// Update facilitates the update of an existing Usr.  This method is bound
+// to the gorilla.mux router in main.go.
+//
+// PUT /usr:id
+func (uc *UsrController) Update(w http.ResponseWriter, r *http.Request) {
+
+	// get the parameter(s)
+	vars := mux.Vars(r)
+	id, err := strconv.ParseUint(vars["id"], 10, 64)
+	if err != nil {
+		log.Println("Usr Update:", err)
+		respondWithError(w, http.StatusBadRequest, "Invalid user id")
+		return
+	}
+
+	var u models.Usr
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&u); err != nil {
+		log.Println("User Update:", err)
+		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
+		return
+	}
+	defer r.Body.Close()
+
+	// fill the model
+	usr := models.Usr{
+		ID:     id,
+		Name:   u.Name,
+		Email:  u.Email,
+		Groups: u.Groups,
+	}
+
+	// build a base urlString for the JSON Body self-referencing Href tag
+	// urlString := buildHrefStringFromCRUDReq(r, false)
+
+	// call the update method on the model
+	err = uc.us.Update(&usr)
+	if err != nil {
+		log.Println("User Update:", err)
+		respondWithError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	respondWithJSON(w, http.StatusCreated, usr)
+}
+
 
 // Delete facilitates the deletion of an existing Usr.  This method is bound
 // to the gorilla.mux router in main.go.

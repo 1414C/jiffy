@@ -16,6 +16,7 @@ type Usr struct {
 	Email        string `db:"email" sqac:"nullable:false;index:unique"`
 	Password     string `db:"password" sqac:"-"` // "-" indicates that the field is not to be stored in the db
 	PasswordHash string `db:"password_hash" sqac:"nullable:false"`
+	Groups       *string `db:"groups" sqac:"nullable:true"` // {group1;group2;group3}
 }
 
 // UsrDB is an interface that outlines the methods that can be
@@ -141,6 +142,8 @@ func (uv *usrValidator) Create(usr *Usr) error {
 		uv.normalizeEmail,       // normalize content of usr.Email
 		uv.emailFormat,          // check the email format via regexp
 		uv.emailIsAvailable,     // check that the email address is available
+		uv.requireGroups,        // check that at least one group has been assigned to the user
+		uv.normalizeGroups,      // normalize the format of the Groups string
 	)
 
 	if err != nil {
@@ -160,6 +163,8 @@ func (uv *usrValidator) Update(usr *Usr) error {
 	// uv.requireEmail,         // check email address format
 	// uv.emailFormat,          // check the email format via regexp
 	// uv.emailIsAvailable,     // check that the email address is available
+	// uv.requireGroups,        // check that at least one group has been assigned to the user
+	// uv.normalizeGroups,      // normalize the format of the Groups string
 
 	if err != nil {
 		return err
@@ -293,6 +298,30 @@ func (uv *usrValidator) emailIsAvailable(usr *Usr) error {
 	}
 	return nil
 }
+
+// requireGroups checks that at least one Group has been provided
+func (uv *usrValidator) requireGroups(usr *Usr) error {
+
+	if *usr.Groups == "" {
+		return ErrGroupRequired
+	}
+	return nil
+}
+
+// normalizeGroups adjusts the format of the provided Groups string
+// input:  "Group 1 ; Group 2;Group 3 ; Group 4   "
+// output: "Group 1;Group 2;Group 3;Group 4"
+func (uv *usrValidator) normalizeGroups(usr *Usr) error {
+
+	sa := strings.Split(*usr.Groups, ";")
+	*usr.Groups = ""
+	for i := range sa {
+		*usr.Groups = fmt.Sprintf("%s%s;", *usr.Groups, strings.TrimSpace(sa[i]))
+	}
+	*usr.Groups = strings.TrimSuffix(*usr.Groups, ";")
+	return nil
+}
+
 
 //***************************************************************************
 //

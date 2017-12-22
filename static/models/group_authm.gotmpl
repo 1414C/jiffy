@@ -321,7 +321,7 @@ type GroupAuthGetEntitiesT struct {
 // GroupAuthGetEntitiesT struct's ents []GroupAuth field.
 func (ge *GroupAuthGetEntitiesT) Exec(sqh sqac.PublicDB) error {
 
-	sselQuery := `SELECT groupauth.id, groupauth.group_id, usrgroup.group_name, groupauth.auth_id, auth.auth_name, auth.auth_type, auth.description
+	selQuery := `SELECT groupauth.id, groupauth.group_id, usrgroup.group_name, groupauth.auth_id, auth.auth_name, auth.auth_type, auth.description
  	FROM groupauth INNER JOIN auth ON (groupauth.auth_id = auth.id) 
  				   INNER JOIN usrgroup ON (usrgroup.id = groupauth.group_id);`
 

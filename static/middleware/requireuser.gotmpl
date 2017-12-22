@@ -1,19 +1,21 @@
 package middleware
 
-import (
-	"crypto/ecdsa"
-	"fmt"
-	"net/http"
-
-	"{{.AppPath}}/models"
-	"github.com/dgrijalva/jwt-go"
-	"github.com/dgrijalva/jwt-go/request"
-)
-
 //=============================================================================================
 // start of generated code: please do not modify this section 
 // code generated on {{ .GetDateTimeStamp }}
 //=============================================================================================
+
+import (
+	"crypto/ecdsa"
+	"fmt"
+	"net/http"
+	"strings"
+
+	"{{.AppPath}}/models"
+	"github.com/gorilla/mux"
+	"github.com/dgrijalva/jwt-go"
+	"github.com/dgrijalva/jwt-go/request"
+)
 
 // RequireUsr offers a closure that can be called with the requested page's
 // w,r in order to verify that the usr is logged in prior to rendering the
@@ -43,14 +45,23 @@ type RequireUsr struct {
  
  	// iterate over the supplied group names and attempt to find
  	// a matching group-auth combination in mw.mapGA.
+	
+    // fmt.Println("groups:", groups)
+	// fmt.Println("mw.mapGA:", mw.mapGA)
+	// for k, v := range mw.mapGA {
+	//	fmt.Printf("k: %v v: %v\n", k, v)
+	// }
+
  	for _, g := range groups {
  
  		// nil here is odd but plausible
  		mapAuths := mw.mapGA[g]
- 		if mapAuths == nil {
+		// fmt.Printf("mw.mapGA[%s] got: %v\n", g, mapAuths)
+ 		if mapAuths == nil || len(mapAuths) == 0 {
  			continue
  		}
  
+		// fmt.Println("mapAuths:", mapAuths)
  		auth := mapAuths[authName]
  		if auth == true {
  			return true
@@ -59,23 +70,50 @@ type RequireUsr struct {
  	return false
   }
 
-// ApplyFn assumes that Usr middleware has already been run
-// otherwise it will not work correctly.
+// ApplyFn assumes that Usr middleware has already been run - i.e. the application
+// has attempted to authenticate the user in terms of their login credentials being 
+// valid.
+// Check to see whether the Authentication was successful.
+// Check to see whether the Usr has a Group assignment which permits access to the 
+// requested resource.
+// ApplyFn
 func (mw *RequireUsr) ApplyFn(next http.HandlerFunc) http.HandlerFunc {
+
+	// CustomClaims are used to facilitate access to application-specific
+	// claims that are not part of the JWT standard set.
+	type CustomClaims struct {
+		*jwt.StandardClaims
+		TokenType string
+		Groups    string
+	}
 
 	// http.HandlerFunc is casting the type of the closure here
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		// verify the JWT content
-		token, err := request.ParseFromRequest(r, request.AuthorizationHeaderExtractor,
+		token, err := request.ParseFromRequestWithClaims(r, request.AuthorizationHeaderExtractor, &CustomClaims{},
 			func(token *jwt.Token) (interface{}, error) {
 				return mw.VerifyKey, nil
 			})
 
 		if err == nil {
 			if token.Valid {
-				next(w, r)
-				return
+				claims := token.Claims.(*CustomClaims)
+
+				// fmt.Printf("checking auth: %s with groups: %v\n", mux.CurrentRoute(r).GetName(), claims.Groups)
+				
+				gps := strings.Split(claims.Groups, ";")
+				for i := range gps {
+					gps[i] = strings.TrimSpace(gps[i])
+				}
+				
+				// check the user's authorization for the route
+				if mw.CheckAuth(mux.CurrentRoute(r).GetName(), gps) {
+					next(w, r)
+					return
+				}
+				// next(w, r)
+				// return
 			}
 			w.WriteHeader(http.StatusUnauthorized)
 			fmt.Fprint(w, "Unauthorized access to this resource")
