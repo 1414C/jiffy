@@ -2,21 +2,25 @@ package models
 
 import (
 	"fmt"
-	"golang.org/x/crypto/bcrypt"
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/1414C/sqac"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // Usr represents the signed-in usr
 type Usr struct {
-	ID           uint64 `db:"id" sqac:"primary_key:inc"`
-	Name         string `db:"name" sqac:"nullable:false"`
-	Email        string `db:"email" sqac:"nullable:false;index:unique"`
-	Password     string `db:"password" sqac:"-"` // "-" indicates that the field is not to be stored in the db
-	PasswordHash string `db:"password_hash" sqac:"nullable:false"`
-	Groups       *string `db:"groups" sqac:"nullable:true"` // {group1;group2;group3}
+	ID           uint64     `db:"id" sqac:"primary_key:inc"`
+	Name         string     `db:"name" sqac:"nullable:false"`
+	Email        string     `db:"email" sqac:"nullable:false;index:unique"`
+	Password     string     `db:"password" sqac:"-"` // "-" indicates that the field is not to be stored in the db
+	PasswordHash string     `db:"password_hash" sqac:"nullable:false"`
+	CreatedOn    *time.Time `json:"created_on,omitempty" db:"created_on" sqac:"nullable:false;default:now()"`
+	UpdatedOn    *time.Time `json:"updated_on,omitempty" db:"updated_on" sqac:"nullable:false;default:now()"`
+	Active       bool       `db:"active" sqac:"nullable:false;default:false"`
+	Groups       *string    `json:"groups,omitempty" db:"groups" sqac:"nullable:true"` // try with inline{group1;group2;group3} for now
 }
 
 // UsrDB is an interface that outlines the methods that can be
@@ -29,6 +33,7 @@ type UsrDB interface {
 	Create(usr *Usr) error
 	Update(usr *Usr) error
 	Delete(usr *Usr) error
+	Get(usr *Usr) error
 
 	// methods for querying single Usr entities
 	ByEmail(email string) (*Usr, error)
@@ -73,6 +78,11 @@ func (us *usrService) Authenticate(email string, password string) (*Usr, error) 
 	foundUsr, err := us.ByEmail(email)
 	if err != nil {
 		return nil, err
+	}
+
+	// user is active?
+	if !foundUsr.Active {
+		return nil, ErrUserIsNotActive
 	}
 
 	// compare password + pepper with stored hash
@@ -170,6 +180,13 @@ func (uv *usrValidator) Update(usr *Usr) error {
 		return err
 	}
 	return uv.UsrDB.Update(usr)
+}
+
+// Get is passed through to the ORM with no real
+// validations.  id is checked in the controller.
+func (uv *usrValidator) Get(usr *Usr) error {
+
+	return uv.UsrDB.Get(usr)
 }
 
 // Delete validates the usr related to the specified ID
@@ -378,6 +395,11 @@ func (us *usrSqac) Create(usr *Usr) error {
 // Update an existing usr in the db
 func (us *usrSqac) Update(usr *Usr) error {
 	return us.handle.Update(usr)
+}
+
+// Get an existing Usr from the database via the ORM
+func (us *usrSqac) Get(usr *Usr) error {
+	return us.handle.GetEntity(usr)
 }
 
 // Delete the usr related to the specified ID

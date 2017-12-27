@@ -127,6 +127,7 @@ func (uc *UsrController) Create(w http.ResponseWriter, r *http.Request) {
 		Name:     u.Name,
 		Email:    u.Email,
 		Password: u.Password,
+		Active:   u.Active,
 		Groups:   u.Groups,
 	}
 
@@ -153,25 +154,42 @@ func (uc *UsrController) Update(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
 		log.Println("Usr Update:", err)
-		respondWithError(w, http.StatusBadRequest, "Invalid user id")
+		respondWithError(w, http.StatusBadRequest, "invalid request")
 		return
 	}
 
 	var u models.Usr
 	decoder := json.NewDecoder(r.Body)
+	defer r.Body.Close()
 	if err := decoder.Decode(&u); err != nil {
-		log.Println("User Update:", err)
-		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
+		log.Println("Usr Update:", err)
+		respondWithError(w, http.StatusBadRequest, "invalid request payload")
 		return
 	}
-	defer r.Body.Close()
+
+	// get the existing Usr record from the db - byID
+	staleUsr := models.Usr{
+		ID: u.ID,
+	}
+
+	err = uc.us.Get(&staleUsr)
+	if err != nil {
+		log.Println("Usr Update:", err)
+		respondWithError(w, http.StatusBadRequest, "invalid request")
+	}
 
 	// fill the model
+	uTime := time.Now()
+	// utcTime := uTime.UTC()
 	usr := models.Usr{
-		ID:     id,
-		Name:   u.Name,
-		Email:  u.Email,
-		Groups: u.Groups,
+		ID:           id,
+		Name:         u.Name,
+		Email:        u.Email,
+		PasswordHash: staleUsr.PasswordHash,
+		CreatedOn:    staleUsr.CreatedOn,
+		UpdatedOn:    &uTime,
+		Active:       u.Active,
+		Groups:       u.Groups,
 	}
 
 	// build a base urlString for the JSON Body self-referencing Href tag
@@ -184,9 +202,43 @@ func (uc *UsrController) Update(w http.ResponseWriter, r *http.Request) {
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
+
+	// remove the password info from the response data
+	usr.PasswordHash = ""
+	usr.PasswordHash = ""
 	respondWithJSON(w, http.StatusCreated, usr)
 }
 
+// Get facilitates the retrieval of an existing Usr.  This method is bound
+// to the gorilla.mux router in main.go.
+//
+// GET /usr/:id
+func (uc *UsrController) Get(w http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+	id, err := strconv.ParseUint(vars["id"], 10, 64)
+	if err != nil {
+		log.Println("Usr Get:", err)
+		respondWithError(w, http.StatusBadRequest, "invalid request")
+		return
+	}
+
+	// build a base urlString for the JSON Body self-referencing Href tag
+	// urlString := buildHrefStringFromCRUDReq(r, false)
+
+	usr := models.Usr{
+		ID: id,
+	}
+
+	err = uc.us.Get(&usr)
+	if err != nil {
+		log.Println(err)
+		respondWithError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	// usr.Href = urlString
+	respondWithJSON(w, http.StatusCreated, usr)
+}
 
 // Delete facilitates the deletion of an existing Usr.  This method is bound
 // to the gorilla.mux router in main.go.

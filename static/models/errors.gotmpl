@@ -41,6 +41,9 @@ const ErrEmailRequired modelError = "models: an email address is required"
 // regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,16}$`).
 const ErrEmailInvalid modelError = "models: the provided email address is not valid"
 
+// ErrUserIsNotActive - indicates that the user is currently locked
+ const ErrUserIsNotActive modelError = "models: user is currently locked"
+
 // ErrNotFound - the requested resource was not found in the db
 const ErrNotFound modelError = "models: resource not found"
 
