@@ -124,13 +124,13 @@ In addition to password authentication, generated applications provide the abili
    |
    --> Group 1
    |  |
-   |  --> Auth\_EndPoint\_A
-   |  --> Auth\_EndPoint\_B
-   |  --> Auth\_EndPoint\_C
+   |  --> Auth_EndPoint_A
+   |  --> Auth_EndPoint_B
+   |  --> Auth_EndPoint_C
    --> Group 2
       |
-      --> Auth\_EndPoint\_K
-      --> Auth\_EndPoint\_M
+      --> Auth_EndPoint_K
+      --> Auth_EndPoint_M
 
 ```
 
