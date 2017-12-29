@@ -274,6 +274,28 @@ func (uc *UsrController) Delete(w http.ResponseWriter, r *http.Request) {
 	respondWithHeader(w, http.StatusAccepted)
 }
 
+// GetUsrs facilitates the retrieval of all existing Usrs.  This method is
+// bound to the gorilla.mux router in main.go.
+//
+// GET /usrs
+func (uc *UsrController) GetUsrs(w http.ResponseWriter, r *http.Request) {
+
+	// build base Href; common for each selected row
+	urlString := buildHrefStringFromCRUDReq(r, true)
+	urlString = strings.TrimSuffix(urlString, "s/")
+	urlString = urlString + "/"
+
+	usrs := uc.us.GetUsrs()
+	if usrs != nil {
+		for i, u := range usrs {
+			usrs[i].Href = urlString + strconv.FormatUint(uint64(u.ID), 10)
+		}
+		respondWithJSON(w, http.StatusOK, usrs)
+		return
+	}
+	respondWithJSON(w, http.StatusOK, "[]")
+}
+
 func fatal(err error) {
 	if err != nil {
 		log.Fatal(err)

@@ -209,6 +209,7 @@ func (a *AppObj) initializeRoutes() {
 	}
 
 	// add usr routes
+	a.router.HandleFunc("/usrs", requireUserMw.ApplyFn(a.usrC.GetUsrs)).Methods("GET").Name("usr.GET_SET")
 	a.router.HandleFunc("/usr", a.usrC.Create).Methods("POST").Name("usr.CREATE")
 	a.router.HandleFunc("/usr/{id:[0-9]+}", requireUserMw.ApplyFn(a.usrC.Get)).Methods("GET").Name("usr.GET_ID")
 	a.router.HandleFunc("/usr/login", a.usrC.Login).Methods("POST").Name("usr.LOGIN")

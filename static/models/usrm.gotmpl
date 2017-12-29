@@ -196,6 +196,12 @@ func (uv *usrValidator) Delete(usr *Usr) error {
 	return uv.UsrDB.Delete(usr)
 }
 
+// GetUsrs is passed through to the ORM with no validation
+func (uv *usrValidator) GetUsrs() []Usr {
+
+	return uv.UsrDB.GetUsrs()
+}
+
 // ByEmail calls the normalization function(s) for the
 // usr.Email address, then calls the storage-layer
 // if the normalization was successful.
@@ -410,4 +416,57 @@ func (us *usrSqac) Get(usr *Usr) error {
 func (us *usrSqac) Delete(usr *Usr) error {
 
 	return us.handle.Delete(usr)
+}
+
+// Get all existing Usrs from the db via the ORM
+func (us *usrSqac) GetUsrs() []Usr {
+
+	getEnts := UsrGetEntitiesT{}
+
+	err := us.handle.GetEntities2(&getEnts)
+	if err != nil {
+		log.Println(err)
+		return getEnts.ents
+	}
+	return getEnts.ents
+}
+
+//- - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+//  Support for the sqac.GetEnt{} interface to support GetEntities2 calls
+//- - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// UsrGetEntitiesT is used to support the implmentation of the sqac.GetEnt{} interface.
+type UsrGetEntitiesT struct {
+	ents []Usr
+	sqac.GetEnt
+}
+
+// Exec implments the one and only method in the  sqac.GetEnt{} interface for UsrGroupGetEntitiesT.
+// An implemented interface is passed to sqac.GetEntities2 and the code contained withing the Exec()
+// method is executed to retrieve the entities from the DB.  Retrieved entities are stored in the
+// UsrGetEntitiesT struct's ents []Usr field.
+func (ge *UsrGetEntitiesT) Exec(sqh sqac.PublicDB) error {
+
+	selQuery := "SELECT * FROM usr;"
+
+	// read the table rows
+	rows, err := sqh.ExecuteQueryx(selQuery)
+	if err != nil {
+		log.Printf("GetEntities2 for table usr returned error: %v\n", err.Error())
+		return err
+	}
+
+	for rows.Next() {
+		var ent Usr
+		err = rows.StructScan(&ent)
+		if err != nil {
+			fmt.Printf("error reading rows: %v\n", err)
+			return err
+		}
+		ge.ents = append(ge.ents, ent)
+	}
+	if sqh.IsLog() {
+		fmt.Println("UsrGroupGetEntitiesT.Exec() got:", ge.ents)
+	}
+	return nil
 }
