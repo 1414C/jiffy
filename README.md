@@ -1,20 +1,23 @@
 # rgen
 
 ## Overview and Features
+
 Rgen is a model-based application services generator written in go.  It was developed as an experiment to offer an alternative avenue when developing cloud native applications for SAP Hana.  The rgen application allows a developer to treat the data persistence layer as an abstraction, thereby removing the need to make use of CDS and the SAP XS libraries.  While this is not for everybody, it does reduce the mental cost of entry and allows deployment of a web-based application to SAP Hana with virtually no prior Hana knowledge.
 
-#### Why write in Go?
+### Why write in Go?
+
 * Go has a very strong standard library, thereby keeping dependencies on public packages to a minimum
 * Go offers true concurrency via lightweight threads known as goroutines 
-    - no blocking in the i/o layer during compute intensive tasks
-    - no 'lost' callbacks or 'broken' promises
-    - goroutines will use all available cores to handle incoming requests
+  * no blocking in the i/o layer during compute intensive tasks
+  * no 'lost' callbacks or 'broken' promises
+  * goroutines will use all available cores to handle incoming requests
 * Go it is a small language that offers type-safety
 * Go projects compile to a static single binary which simplifies deployments
 * Go cross-compiles to virtually any platform and architecture; write and test on a chromebook - deploy to z/OS
 * Go is making inroads into areas that have been dominated by other languages and packages
 
-#### What does the Rgen application provide?
+### What does the Rgen application provide?
+
 * generated apps can be connected to Postgres, MSSQL, SAP Hana, SQLite or MariaDB
 * no database specific code is compiled into the binary; an app can be pointed from SQLite to SAP Hana with no code changes
 * login / session management via jwt
@@ -34,7 +37,8 @@ Rgen is a model-based application services generator written in go.  It was deve
 * generated code is easily extended
 <br/>
 
-#### What does an application look like?
+### What does an application look like?
+
 The generated application can be pointed at the DBMS of your choice without the need to recompile the binary (architecture differences not withstanding).  This means that a developer can build a model, fully test it locally using SQLite and then redirect the appplication to a formal testing environment running SAP Hana, or any of the other supported database systems.  This is achievable due to the ORM layer that the Rgen application is built upon.  The ORM is easily extendable to accomodate other databases if required (oracle, db2, SAP ASE are candidates here).
 
 Applications are generated based on model files which are encoded as simple JSON.  The concepts of entity and resource-id form the cornerstones upon which the model, application and RESTful end-points are built upon.
@@ -43,52 +47,53 @@ Entities can be thought of anything that needs to be modelled; Order, Customer, 
 
 Accessing an entity via the generated CRUD interface is very simple.  For example, a customer could be defined in the model and then accessed via the application as follows:
 
-1.  Create a customer entity:
+1. Create a customer entity:
     - https://servername:port/customer  + {JSON body}
 
-2.  Update a customer entity:
+2. Update a customer entity:
     - https://servername:port/customer/:id  + {JSON body}
 
-3.  Read a customer entity:
+3. Read a customer entity:
     - https://servername:port/customer/:id
 
-4.  Delete a customer entity:
+4. Delete a customer entity:
     - https://servername:port/customer/:id
 
-5.  Read all customer entities:
+5. Read all customer entities:
     - https://servername:port/customers
 
 
 Additional routes can also be generated based on the model file, including custom filters for GET operations, static end-points for common GET operations, HasOne, HasMany and BelongsTo relationships:
 
-1.  Use a filter to Get customers where the last name is 'Smith':
+1. Use a filter to Get customers where the last name is 'Smith':
     - https://servername:port/customers/?last_name=Smith
 
-2.  Use a generated static end-point to Get customers where credit score is less than 4:
+2. Use a generated static end-point to Get customers where credit score is less than 4:
     - https://servername:port/customers/credit_score(LT 4)
 
-3.  Use a generated relationship to retrieve all orders for a customer:
+3. Use a generated relationship to retrieve all orders for a customer:
     - https://servername:port/customer/10023/orders
 
-4.  Use a generated relationship to retrieve a specific order for a customer:
+4. Use a generated relationship to retrieve a specific order for a customer:
     - https://servername:port/customer/10023/order/99000022
 
-5.  Use a generated relationship to retrieve the customer for a specific order:
+5. Use a generated relationship to retrieve the customer for a specific order:
     - https://servername:port/order/99000022/customer
 
 
 This is just a sample of what the model files have to offer.  More details regarding application modlelling are contained in later sections of this file.
 
-#### Access Control
+### Access Control Overview
+
 Access to resources (entities) is controlled in three ways:
 
 1. Configuration based service activation
 2. Secure user authentication
 3. JWT tokens with claim inspection in middleware applied to the protected routes (end-points) 
 
-An internal service is created for each of the modelled entities in the application.  Services can be marked as active or inactive in the service configuration, thereby allowing a single application to be generated, but also allowing selective service deployment.  For example, there may be cases where it is desirable to route certain services to a particular server and another set of services to the rest of the pool.  In such a case, NGix could be configured to route the end-points appropriately, and the deployed service configurations would be adjusted accordingly.
+An internal service is created for each of the modelled entities in the application.  Services can be marked as active or inactive in the service configuration, thereby allowing a single application to be generated, but also allowing selective service deployment.  For example, there may be cases where it is desirable to route certain services to a particular application instance and another set of services to the rest of the pool.  In such a case, NGix could be configured to route the end-points appropriately, and the deployed service configurations would be adjusted accordingly.
 
-User authentication is conducted using bcrypt in such a manner that passwords are never stored in the application database.  When a user is created, their user-id is stored in the backend database along with the salt/peppered bcrypt hash of their password.  This ensures that in the event of a breach no plain-text passwords can be obtained.  
+User authentication is conducted using bcrypt in such a manner that passwords are never stored in the application database.  When a user is created, their user-id is stored in the backend database along with the salt/peppered bcrypt hash of their password.  This ensures that in the event of a breach no plain-text passwords can be obtained.
 
 The bcrypt hashes are not very useful to would-be attackers for the following reasons:
 * bcrypt hashes are salt/peppered making rainbow tables useless
@@ -103,21 +108,159 @@ When a user logs into the application the following steps occur:
 * if the hash values match, a JWT (token) is created using ECDSA-384
 * the JWT is passed back to the caller and must henceforth be included in the http header of all requests in the Authorization field
 * in addtion to fullfilling the authorization requirements, the JWT is also used as a CSRF equivalent
-* see the Authorization section for more details regarding the content and use of the JWT content/claims
+* see the Authorization and End-Point Security section for more details regarding the content and use of the JWT content/claims
+
+### Authorizations & End-Point Security
+
+In addition to password authentication, generated applications provide the ability to manage access to their end-points via an Authorization scheme.  At a high-level:
+
+* An Authorization is generated for each end-point
+* Authorizations are assigned to User Groups
+* User Groups are allocated to Users via a Groups field in the Usr master
+
+-> User
+   |
+   --> Group 1
+   |  |
+   |  --> Auth\_EndPoint\_A
+   |  --> Auth\_EndPoint\_B
+   |  --> Auth\_EndPoint\_C
+   --> Group 2
+      |
+      --> Auth\_EndPoint\_K
+      --> Auth\_EndPoint\_M
+
+
+#### Authorizations
+
+Application access can be restricted at the end-point level.  Each generated end-point is given a name based on its entity, http method and purpose.  The gorilla mux provides an easy way to assign names to end-points in the Route declaration, and these names are defined in the generated application as Authorizations or Auths.
+
+Authorizations are created per end-point and are therefore known to the router, which in turn allows the route middleware of the generated application to determine which Authorization is needed in order to permit the request to proceed.  Recall that an authenticated user is sent an (encrypted) JWT token that must be passed in the http header Authorization field of each request.  The generated router middleware decrypts the token and examines its Claims in order to determine whether the request should be allowed to proceed.  This level of checking can be thought of as the Authentication verification; does the requesting party have a valid access token for the system in general?
+
+Assuming that the requesting user has a valid access token, the next step is to determine whether the user has permission to access the requested end-point.  Each User is assigned to one or more User Groups and there are included as a Groups Claim in the JWT token when the User logs into the application.  As a result, the route middleware is able to examine the content of Groups Claim in order to help decide whether the User is permitted to access the requested end-point.  The route authorization check unfolds as follows:
+
+* Verify the requesting User has a valid access token (JWT)
+* Read the Groups Claim from the JWT token
+* Determine the 'Name' (Authorization) of the current route
+* Examine the read-only authorization map (initialized on application startup) for each group the User has been assigned to
+* If the required Authorization is found in any of the User Groups the User has been assigned to, the request is allowed to proceed
+
+The last bullet point is interesting, as it means that end-point access of protected routes is _denied by default_.  Unless access is specifically granted via Authorization -> User Group -> User assisgnment, the protected end-point is not accessible.
+
+#### Standard CRUD Authorizations
+
+Standard CRUD end-points for entity Library are generated as follows:
+
+```golang
+
+    // ====================== Library protected routes for standard CRUD access ======================
+    a.router.HandleFunc("/librarys", requireUserMw.ApplyFn(a.libraryC.GetLibrarys)).Methods("GET").Name("library.GET_SET")
+    a.router.HandleFunc("/library", requireUserMw.ApplyFn(a.libraryC.Create)).Methods("POST").Name("library.CREATE")
+    a.router.HandleFunc("/library/{id:[0-9]+}", requireUserMw.ApplyFn(a.libraryC.Get)).Methods("GET").Name("library.GET_ID")
+    a.router.HandleFunc("/library/{id:[0-9]+}", requireUserMw.ApplyFn(a.libraryC.Update)).Methods("PUT").Name("library.UPDATE")
+    a.router.HandleFunc("/library/{id:[0-9]+}", requireUserMw.ApplyFn(a.libraryC.Delete)).Methods("DELETE").Name("library.DELETE")
+
+```
+
+Notice that each end-point handler is assigned a name via the gorilla .Name("string" method).  The generated names follow the standard shown here, but in practice it is safe to change them to whatever works best for your implementation.  Duplicate names in the same router will cause the existing name-route combination to be overwritten by the latest name-route addition as per the gorilla API docs.  Avoid the use of duplicate names.  The set of generated Authorizations for the Library entitys CRUD end-points are:
+
+* library.GET\_SET
+* library.CREATE
+* library.GET\_ID
+* library.UPDATE
+* library.DELETE
+
+#### Static Filter Authorizations
+
+Static Filter end-points for entity Library follow the same rules as mentioned above and are generated as follows:
+
+```golang
+
+    //=================================== Library Static Filters ===================================
+    // http://127.0.0.1:<port>/librarys/name(EQ '<sel_string>')
+    a.router.HandleFunc("/librarys/name{name:[(]+(?:EQ|eq|LIKE|like)+[ ']+[a-zA-Z0-9_]+[')]+}",
+        requireUserMw.ApplyFn(a.libraryC.GetLibrarysByName)).Methods("GET").Name("library.STATICFLTR_ByName")
+
+    // http://127.0.0.1:<port>/librarys/city(EQ '<sel_string>')
+    a.router.HandleFunc("/librarys/city{city:[(]+(?:EQ|eq)+[ ']+[a-zA-Z0-9_]+[')]+}",
+        requireUserMw.ApplyFn(a.libraryC.GetLibrarysByCity)).Methods("GET").Name("library.STATICFLTR_ByCity")
+
+```
+The set of generated Authorizations for the Library entitys static filter end-points are:
+
+* library.STATICFLTR\_ByName
+* library.STATICFLTR\_ByCity
+
+#### Relation Authorizations
+
+Relation end-points for entity Library follow the same rules as mentioned above and are generated as follows:
+
+```golang
+
+    //====================================== Library Relations ======================================
+    // hasMany relation ToBooks for Library
+    a.router.HandleFunc("/library/{library_id:[0-9]+}/tobooks", 
+        requireUserMw.ApplyFn(a.libraryC.GetLibraryToBooks)).Methods("GET").Name("library.REL_tobooks")
+
+    a.router.HandleFunc("/library/{library_id:[0-9]+}/tobooks/{book_id:[0-9]+}", 
+        requireUserMw.ApplyFn(a.libraryC.GetLibraryToBooks)).Methods("GET").Name("library.REL_tobooks_id")
+
+```
+The set of generated Authorizations for the Library entitys relation end-points are:
+
+* library.REL\_tobooks
+* library.REL\_tobooks_id
+
+#### Authorization Generation
+
+Authorizations are assigned to end-points in the route declarations as described in the preceding sections.  They are also added to a table (_auth_) in the backing database, as are the User Groups (table _usrgroup_) and the assignment of Authorizations to the same (via table _groupauth_).
+
+At application start-up, a walk of the router is performed in order to obtain a complete list of Authorizations.  This is neccessary, as changes may have been made to the application since the last time it was run.  For example, a new entity may have been added; the Authorizations for the corresponding end-points need to be made available via the creation of new entries in the _auth_ table.  The creation of the new Authorizations in the _auth_ table does not add them to any User Groups, but simply makes them available for use.
+
+#### Authorization Maintenance
+
+The end-points related to Authorization, User Group and User maintenance are protected by default.  This means that in order to perform any activities (such as create Users) in the generated application, an initial User belonging to a User Group with sufficient Authorizations is required.  To this end, a User called 'admin' and a User Group called 'Super' are created by default the first time the application is run.  This unfolds as follows:
+
+* A complete list of the route Authorizations is obtained by walking the router as described above in the Authorization Generation section.
+* Table _usrgroup_ is checked for the existance of the 'Super' group.
+* If the 'Super' User Group is not found, it is created.
+* All existing Authorization allocations to the 'Super' User Group are deleted.
+* The list of route Authorizations is then used to allocate the Authorization for each end-point to the 'Super' User Group.
+* A check for the existance of the 'admin' user is executed against the _usr_ table.
+* If the 'admin' user does not exist, it is created as a member of the 'Super' User Group, with an initial password of 'initpass'.
+* As the User Group Authorizations are cached locally on the application server, the cache is re-initialized so that the 'Super' group is available.
+
+It is possible to force a rebuild of the 'Super' User Group's Authorization allocations by starting the generated application with the -rs (rebuild super) flag.  This will force the application to run through the preceding list of steps, resulting in a 'Super' User Group that contains a complete list of the Authorizations needed to access all end-points, as well as removing any end-point Authorizations that may no longer exist.  Only the 'Super' User Group may be updated in this manner.  Changes to existing User Groups must be carried out manually by an authorized user via the end-points related to User, User Group and Authorization maintenance.
+
+#### Considerations
+
+It is possible to scale the generated appliction horizontally via deployment in multiple VM's, containers etc.  Recall that each running instance of the application maintains its own local cache of the User Group Authorization allocations.  If changes are made to the application entities and/or end-points it follows that the User Group Authorization allocations will need to be updated in the 'Super' User Group (as a minimum) and potentially in other User Groups.
+
+The best way to accomplish this at the moment is to:
+
+1. Shut down each running instance of the generated application.
+2. Deploy/push the new version of the application into each execution environment.
+3. Start one application instance using the -rs flag in order to reuild the 'Super' User Group.
+4. Update other User Group Authorization allocations as required.
+5. Restart all application instances.
+
+There are more sophisticated ways of dealing with this caching of the User Group Authorization allocations; these may be added in a future release.
 
 <br/>
 
 ## Work-In-Progress
 1.  [ ]Ensure that rune and byte types are fully accounted for
-2.  [ ]Extend claims support in the route middleware
-3.  [ ]Add support for 'sqac:"default:xxxyyyzzz"' directives
-    - default value
-    - default (sqac) function (datetime defaults for example)
-4.  [ ]Add option for Foreign Key defintion / enforcement in relations
-5.  [ ]Droplet deployment
-6.  [ ]NGinx
-7. [-]Complete service activations
- - config model files and file generation updated
+2.  [ ]Create default Admin user
+3.  [ ]Generate Admin GroupAuth on every startup
+4.  [ ]Extend claims support in the route middleware
+5.  [ ]Add support for 'sqac:"default:xxxyyyzzz"' directives
+    * default value
+    * default (sqac) function (datetime defaults for example)
+6.  [ ]Add option for Foreign Key defintion / enforcement in relations
+7.  [ ]Droplet deployment
+8.  [ ]NGinx
+9. [-]Complete service activations
+
 <br/>
 
 ## Installation and Execution
@@ -142,10 +285,10 @@ In order to run the application generator, ensure the following:
     * go get -u github.com/1414C/rgen
 
 4.  You will need access to a Postgres, MySQL, MSSQL or SAP Hana database, either locally or over the network.  It is also possible to run tests with SQLite3.
-    
+
 5.  The application can be started in two ways:
     * From $GOPATH/src/github.com/1414C/rgen you may execute the application by typing:
-        * go run main.go     
+        * go run main.go
     * A binary can also be built from $GOPATH/src/github.com/1414C/rgen by typing the following:
         * go build .
         * The application can then be started from the same directory by typing:
@@ -156,7 +299,7 @@ In order to run the application generator, ensure the following:
 Flags are generally not used, as the configuration files (models.json) are easier to deal with.  There are however, a few flags that can e appended to the execution command:
 
 * go run *.go -p <target_dir>
-	* The -p switch is used to specify the target directory for generated application source-code relative to $GOPATH/src.
+  * The -p switch is used to specify the target directory for generated application source-code relative to $GOPATH/src.
 
 ```bash
 
@@ -165,8 +308,8 @@ Flags are generally not used, as the configuration files (models.json) are easie
 ```
 
 * go run main.go -m <model_file>.json
-    * By default, the application will attempt to use ./models.json as the model source, but inclusion of the -m flag permits the use of an alternate model file.
-    * The path of model file in the application base directory must be prefaced with ./ .  If the model file is not located in the base directory of the application, the full path must be specified when using the -m flag.
+  * By default, the application will attempt to use ./models.json as the model source, but inclusion of the -m flag permits the use of an alternate model file.
+  * The path of model file in the application base directory must be prefaced with ./ .  If the model file is not located in the base directory of the application, the full path must be specified when using the -m flag.
 
 ```bash
 
@@ -259,7 +402,7 @@ The simpleSingleEntityModel.json file structure and content is explained below:
         structure.  'properties' are a collection of free-form name-tags, each with a child-block containing 
         the 'property' attributes.
         This is a mandatory model element.
-        
+
         The "name" property block is described below:
 
             "name": {
@@ -320,7 +463,7 @@ The simpleSingleEntityModel.json file structure and content is explained below:
                 Additional restrictions are imposed based on the 'type' field value.  For example, a bool
                 type need not support LT or GT operators.
                 Sample routes for Person->Name selection with "eq,like" are shown:
-                    
+
                     https://localhost:<port>/persons/name(EQ '<sel_string>')
                     https://localhost:<port>/persons/name(LIKE '<sel_string>')
 
@@ -340,7 +483,7 @@ The simpleSingleEntityModel.json file structure and content is explained below:
             ...
         },
     }
-    },    
+    },
     {
         ... next entity definition
     }
@@ -440,7 +583,7 @@ Sample model ![simpleTwoEntityModel.json](/testing_models/simpleTwoEntityModel.j
 
 ### Two Entity Model With Composite Index
 
-The following JSON illustrates the addition of a composite-index to an entity definition.  An index composed of the 'name' and 'province' fields has been declared in the 'Owner' entity.  This declaration will result in the creation of a non-unique b-tree index for columns 'name' and 'province' in the database.  Any number of composite indices may be declared for an entity.  No relationships have been defined between the two entities; this example simply illustrates how to declare a composite-index for an entity.  
+The following JSON illustrates the addition of a composite-index to an entity definition.  An index composed of the 'name' and 'province' fields has been declared in the 'Owner' entity.  This declaration will result in the creation of a non-unique b-tree index for columns 'name' and 'province' in the database.  Any number of composite indices may be declared for an entity.  No relationships have been defined between the two entities; this example simply illustrates how to declare a composite-index for an entity.
 
 ```JSON
 
@@ -547,7 +690,7 @@ A break-down of the relations block fields is as follows:
         cardinaliy is best.  For the example, we have chosen a relName of 'ToOwner' to demonstrate 
         the difference between the toEntity and relName fields.
         relName is a mandatory field in a relations declaration.
-            
+
             "properties": {
             The 'properties' block contains the details of the relationship.
 
@@ -586,7 +729,7 @@ A break-down of the relations block fields is as follows:
 
             }
     }
-    ]      
+    ]
 }
 ```
 
@@ -775,7 +918,7 @@ At the moment the generator only supports HasOne, HasMany and BelongsTo relation
 
 <br/>
 
-# What gets generated?
+## What gets generated?
 
 Running the rgen generator creates a set of files that comprise a basic working application.  Incoming requests are handled by a mux, which validates the request, and then matches it to a route.  The selected route passes the request to a controller specific to the entity-type, where the incoming information is mapped into a go struct matching the entity declaration.  The controller then calls the appropriate model function for the http operation and entity-type combination, passing it the entity structure.  The model handler passes the entity struct through a member-field validation layer, and then to the model's interface to the underlying sqac ORM.  The database request is handled by the ORM, and then the response is passed from the model back to the controller where it is packaged as a JSON payload and sent back to the caller in the response-writer's body.
 
@@ -830,7 +973,7 @@ Controllers act as a bridge between an entity's routes and its model layer.  Eac
 
 https://servername:port/library {JSON body} + POST
 
-```  
+```
 
 The route for this call is defined in appobj.go as follows, where 'a' is the one-and-only instance of the AppObj:
 
@@ -859,49 +1002,48 @@ This interface facilitates the passing of the incoming request header and body t
     // POST /library
     func (lc *LibraryController) Create(w http.ResponseWriter, r *http.Request) {
 
-	    var l models.Library
-	    decoder := json.NewDecoder(r.Body)
-	    if err := decoder.Decode(&l); err != nil {
-	    	log.Println("Library Create:", err)
-	    	respondWithError(w, http.StatusBadRequest, "libraryc: Invalid request payload")
-	    	return
-	    }
-	    defer r.Body.Close()
+        var l models.Library
+        decoder := json.NewDecoder(r.Body)
+        if err := decoder.Decode(&l); err != nil {
+            log.Println("Library Create:", err)
+            respondWithError(w, http.StatusBadRequest, "libraryc: Invalid request payload")
+            return
+        }
+        defer r.Body.Close()
 
-	    // fill the model
-	    library := models.Library{
-	    	Name: l.Name,
-	    	City: l.City,
-	    }
+        // fill the model
+        library := models.Library{
+            Name: l.Name,
+            City: l.City,
+        }
 
-	    // build a base urlString for the JSON Body self-referencing Href tag
-	    urlString := buildHrefStringFromCRUDReq(r, true)
+        // build a base urlString for the JSON Body self-referencing Href tag
+        urlString := buildHrefStringFromCRUDReq(r, true)
 
-	    // call the Create method on the library model
-	    err := lc.ls.Create(&library)
-	    if err != nil {
-	    	log.Println("Library Create:", err)
-	    	respondWithError(w, http.StatusBadRequest, err.Error())
-	    	return
-	    }
-	    library.Href = urlString + strconv.FormatUint(uint64(library.ID), 10)
-	    respondWithJSON(w, http.StatusCreated, library)
+        // call the Create method on the library model
+        err := lc.ls.Create(&library)
+        if err != nil {
+            log.Println("Library Create:", err)
+            respondWithError(w, http.StatusBadRequest, err.Error())
+            return
+        }
+        library.Href = urlString + strconv.FormatUint(uint64(library.ID), 10)
+        respondWithJSON(w, http.StatusCreated, library)
 }
 
 ```
 The complete Library.Create(http.Handler) controller method is shown exactly as it has been generated.
-
 
 Each section of the method is broken down in the following subsets of commented code:
 ```golang
 
         // declare a local variable of struct type models.Library to hold the decoded 
         // JSON body provided in the request.Body.
-    	var l models.Library
+        var l models.Library
 
         // create a new JSON decoder passing in the request.Body
         decoder := json.NewDecoder(r.Body)
-        
+
         // call the Decoder.Decode(interface{}) method passing a reference to the locally
         // declared models.Library struct 'l'.  if the decoder is able to decode the JSON
         // contained in the request.Body, the member fields of 'l' will be populated.  if
@@ -911,25 +1053,25 @@ Each section of the method is broken down in the following subsets of commented 
         // will be constructed and passed back to the router.  if the JSON was parsed 
         // successfully, a defer call is made to ensure that the request.Body will be 
         // closed upon exit of the method.
-	    if err := decoder.Decode(&l); err != nil {
-	    	log.Println("Library Create:", err)
-	    	respondWithError(w, http.StatusBadRequest, "libraryc: Invalid request payload")
-	    	return
+        if err := decoder.Decode(&l); err != nil {
+            log.Println("Library Create:", err)
+            respondWithError(w, http.StatusBadRequest, "libraryc: Invalid request payload")
+            return
         }
         defer r.Body.Close()
-        
+
         // fill the model with the parsed content of the JSON body.  this step looks 
         // redundant, but can be thought of as a way to separate the incoming data 
         // from the response.  going forward from this point, 'l' is ignored and 
         // all data transformation occurs on the 'library' variable.
-	    library := models.Library{
-	    	Name: l.Name,
-	    	City: l.City,
-	    }
+        library := models.Library{
+            Name: l.Name,
+            City: l.City,
+        }
 
         // build a base urlString for the JSON Body self-referencing Href tag
         urlString := buildHrefStringFromCRUDReq(r, true)
-        
+
         // call the Create method on the library model.  each controller contains an
         // instance of the Service for it's respective entity.  the Create method on 
         // the service is called, passing a reference to the 'library' data structure.
@@ -941,13 +1083,13 @@ Each section of the method is broken down in the following subsets of commented 
         // an error, the problem will be logged to stdout (for now) on the server-
         // instance, and a response conforming to the http.Handler interface will be
         // constructed and passed back to the router.
-	    err := lc.ls.Create(&library)
-	    if err != nil {
-		    log.Println("Library Create:", err)
-		    respondWithError(w, http.StatusBadRequest, err.Error())
-		    return
+        err := lc.ls.Create(&library)
+        if err != nil {
+            log.Println("Library Create:", err)
+            respondWithError(w, http.StatusBadRequest, err.Error())
+            return
         }
-        
+
         // if the call to the model-layer was successful, it indicates that a new 
         // Library entity was created in the DBMS.  the 'library' reference passsed
         // to the Create() method(s) in the model-layer will now contiain the new 
@@ -964,11 +1106,6 @@ Each section of the method is broken down in the following subsets of commented 
 ```
 
 <br/>
-
-
-
-
-
 
 # Using the Generated Code
 
@@ -990,7 +1127,7 @@ The generated server runs based on a generated JSON configuration file as shown 
     "port": 3000,
     'port' is used to instruct the generated server which tcp port to publish the service end-points on.
 
-    "env": "def",     
+    "env": "def",
     'env' is used to inform the generated server which mode to run in.  The material difference
     between "dev", "def" and "prod" is slight; the "dev" and "def" modes run the ORM in debugging
     mode, thereby causing the generated SQL statements to be written as a log to stdout.
@@ -1008,14 +1145,14 @@ The generated server runs based on a generated JSON configuration file as shown 
     "database": {
         "db_dialect": "postgres".
         "host":       "localhost",
-		"port":       5432,
-		"user":       "godev",
-		"password":   "gogogo123",
-		"name":       "glrestgen"
+        "port":       5432,
+        "user":       "godev",
+        "password":   "gogogo123",
+        "name":       "glrestgen"
     },
     'db_dialect' refers to the backend database type that will be used by the generated application.
     Currently, the following db_dialects are supported by the sqac ORM runtime:
-    
+
     |  Database               | JSON Value for db_dialect field    |
     |-------------------------|------------------------------------|
     | Postgres                | "db_dialect": "postgres"           |   
@@ -1055,9 +1192,9 @@ The generated server runs based on a generated JSON configuration file as shown 
 <br/>
 
 ### Default Config
-    $ go run main.go 
+    $ go run main.go
 
-    This will run the program using a set of default configuration that has been compiled into the binary.  
+    This will run the program using a set of default configuration that has been compiled into the binary.
     The default configuration may be edited in the generated appobj/appconf.go file to suit local 
     requirements.  The default application settings are shown in the server configuration file format.  
     The default configuration publishes the end-points on port 3000 over http due to the absence of the 
@@ -1066,9 +1203,9 @@ The generated server runs based on a generated JSON configuration file as shown 
 ```JSON
 
 {
-    "port": 3000,    
-    "env": "def",     
-    "pepper": "secret-pepper-key",  
+    "port": 3000,
+    "env": "def",
+    "pepper": "secret-pepper-key",
     "hmac_Key": "secret-hmac-key",
     "database": {
         "db_dialect": "postgres",
@@ -1088,6 +1225,7 @@ The generated server runs based on a generated JSON configuration file as shown 
 <br/>
 
 ### Development Config
+
     $ go run main.go -dev
 
     The program will be executed using the configuration specified in the content of .dev.config.json.  
@@ -1096,9 +1234,9 @@ The generated server runs based on a generated JSON configuration file as shown 
 ```JSON
 
 {
-    "port": 3000,    
-    "env": "dev",     
-    "pepper": "secret-pepper-key",  
+    "port": 3000,
+    "env": "dev",
+    "pepper": "secret-pepper-key",
     "hmac_Key": "secret-hmac-key",
     "database": {
         "db_dialect": "postgres",
@@ -1118,6 +1256,7 @@ The generated server runs based on a generated JSON configuration file as shown 
 <br/>
 
 ### Production Config
+
     $ go run main.go -prod
 
     The program will be executed using the configuration specified in the content of .prd.config.json.
@@ -1128,9 +1267,9 @@ The generated server runs based on a generated JSON configuration file as shown 
 ```JSON
 
 {
-    "port": 8080,    
-    "env": "prod",     
-    "pepper": "secret-pepper-key",  
+    "port": 8080,
+    "env": "prod",
+    "pepper": "secret-pepper-key",
     "hmac_Key": "secret-hmac-key",
     "database": {
         "db_dialect": "postgres",
@@ -1147,14 +1286,15 @@ The generated server runs based on a generated JSON configuration file as shown 
 }
 
 ```
-___    
+___
 
 <br/>
 
 ## Generate Self-Signed Certs for https Testing
+
 If you wish to perform local https-based testing, it is possible to do so through the use of self-signed
 certificates.  Self-signed certificates can be easily created through the use of the openssl tool on 
-*nix systems.  
+*nix systems.
 <br/>
 
 ### Verify the OpenSSL Installation
@@ -1191,6 +1331,7 @@ Verify that a file called "myCA.key" has been created.
 
 Open a terminal session and execute the openssl command as shown:
 ```code
+
 $ openssl req -x509 -new -days 365 -key "myCA.key" -out "myCA.cer" -subj "/CN=\""MyCompanyName"\""
 
 ```
@@ -1201,6 +1342,7 @@ There is no ouput to this command, so verify that a file called "myCA.cer" has b
 
 Open a terminal session and execute the openssl command as shown:
 ```code
+
 $ openssl genrsa -out "srvcert.key" "2048"
 Generating RSA private key, 2048 bit long modulus
 ..............................................................................................+++
@@ -1252,6 +1394,7 @@ testing.  In this step, the CA certificate and private key files will be used in
 with the private server key and private server signing-request to generate a private server 
 certificate.
 ```code
+
 $ openssl x509 -req -in srvcert.csr -out srvcert.cer -CAkey myCA.key -CA myCA.cer -days 365 -CAcreateserial -CAserial 123456
 Signature ok
 subject=/C=CA/ST=AB/O=MyCompany
@@ -1262,15 +1405,18 @@ Verify that a file called "srvcert.cer" has been created.
 <br/>
 
 ### Ensure myCA.cer is Trusted Locally
+
 Ensure that myCA.cer is fully-trusted in your local certificate store.  The process to do this will differ per operating system, so look online for instructions regarding 'trusting a self-signed CA certificate'.  You may also need to adjust the settings in test tools like Postman in order for them to accept self-signed certs.
 
 ### Add Certificates to the Configuration File
+
 In order to publish the generated services over https, add the "srvcert.cer" and "svrcert.key" files to the 'cert_file' and 'key_file' keys respectively in the appropriate configuration file.  Additionally, the myCA.key file must be placed in the same directory as the "srvcert.*" files in order for go's https (TLS) server to operate correctly.
 
 ___
 <br/>
 
 ## Automated Testing
+
 Automated testing can be performed using the standard go test tooling.  Tests can be run using http
 or https, and run against the port that the application is presently serving on.  Remember, the 
 application must be running prior to executing the test.
@@ -1288,15 +1434,18 @@ file.  It is not neccessary to have values populated in the dataabase in order f
 
  At the moment, relationships are not included in the generated tests.
 
-
 ### Run go test With https
+
 ```code
+
     $ go test -v -https -port "8080"
 
 ```
 
 ### Run go test Without https
+
 ```code
+
     $go test -v -port "8080"
 
 ```
@@ -1306,6 +1455,7 @@ ___
 <br/>
 
 ## Discrete CRUD Testing
+
 TODO: add steps describing how to test the generated server from a tool like Postman
 
 
@@ -1314,58 +1464,59 @@ TODO: add steps describing how to test the generated server from a tool like Pos
 ___
 
 ## Pending Changes
-  - [x] fully implement nullable / pointer support
-  - [x] add support for single-field unique constraints
-  - [x] implement GetEntities to use the standard sqac.PublicDB interface
-  - [ ] SAML integration with usr/login
-  - [ ] implement self-documenting API 
-  - [ ] consider the use of db-views as entity sources
-  - [ ] add support for BLOB storage (S3?)
-  - [ ] add service activation to the config
-  - [x] add support for additional db platforms via the dialect
-    - [ ] write a dialect for db2 community edition
-    - [ ] write a dialect for ASE
-    - [ ] write ASE driver?
-    - [x] write a dialect for hana as a relational-db
-    - [ ] hana hybrid model(...)
-  - [ ] add server-side user creation / disallow open user creation route
-    - [ ] web-based interface for API documentation?
-  - [ ] add method-chaining to new 'cust' package to allow for code-regen
-  - [ ] add opportunistic locking via etag concept / investigate rpc-based enqueue server
-    - [ ] look at fast hash algorithms (murmur-2??)
-  - [x] add Href to entities as a common self-referential field
-  - [x] update ReadModel() to accept new model format with relations
-  - [ ] update ReadModel() to handle multiple model files
-  - [x] add code to support the links via child-href
-  - [ ] add code to support expansion of child-href
-    - [x] 	Href string  `rgen:"-" json:"Href,omitempty"`
-	- [x]   Test string  `rgen:"-" json:"Test,omitempty"`
-  - [ ] add code to support filtering of expansions
-  - [ ] add scopes to config
-    - [ ] use scopes in JWT to allow / disallow access to routes / actions
-  - [x] update main_test.go to create and delete the test user
-  - [x] replace custom model interpretation code with https://golang.org/pkg/encoding/json/#Unmarshal
-  - [ ] enhance model
-    - [x] support single-field index creation via model attribute
-    - [x] support not-nullable directive via model attribute
-    - [x] support native dbType column directive via model attribute
-    - [x] support selectable directive via model attribute
-      - [x] create a test handler for User{}ByID in the router
-      - [x] create template for single-field lookup based on User{}ByID()
-      - [x] call template following the CRUD method creations (controller.gotmpl & model.gotmpl)
-      - [x] add handlers following the CRUD handler processing (appobj.gotmpl)
-    - [x] support compound index directive via model attribute
-  - [x] disallow snake case in the ddlconfig element names
-  - [x] add a flag for model file i.e.   $ go run main.go -m "/Users/tomthedog/config/mymodel.json
-  - [x] look at how gorilla.mux handles routes like  ../product?Attr1='foo'&&Attr2
-    - *see https://stackoverflow.com/questions/45378566/gorilla-mux-optional-query-values*
-  - [x] add support for a dev config.json file
-  - [ ] add support for LetsEncrypt
-  - [x] add capability of generating keys for JWT via ecdsa256
-  - [x] add automated default tests 
-  - [x] run go fmt on each file immediately following generation?
-  - [x] remove the gorilla csrf dependency; the use of JWT's in a stateless application obviates the need for CSRF protection. 
-  - [x] run goimports on generated code  
-  - [ ] add the capability of automatically running go get (look at go dep) for missing packages in the dependency list
-  - [ ] add capability to generate self-signed certs for local ssl testing
-  - [ ] create github repo for gnerated code via https://godoc.org/github.com/google/go-github/github#RepositoriesService
+
+* [x] fully implement nullable / pointer support
+* [x] add support for single-field unique constraints
+* [x] implement GetEntities to use the standard sqac.PublicDB interface
+* [ ] SAML integration with usr/login
+* [ ] implement self-documenting API 
+* [ ] consider the use of db-views as entity sources
+* [ ] add support for BLOB storage (S3?)
+* [ ] add service activation to the config
+* [x] add support for additional db platforms via the dialect
+* [ ] write a dialect for db2 community edition
+* [ ] write a dialect for ASE
+* [ ] write ASE driver?
+* [x] write a dialect for hana as a relational-db
+* [ ] hana hybrid model(...)
+* [ ] add server-side user creation / disallow open user creation route
+* [ ] web-based interface for API documentation?
+* [ ] add method-chaining to new 'cust' package to allow for code-regen
+* [ ] add opportunistic locking via etag concept / investigate rpc-based enqueue server
+* [ ] look at fast hash algorithms (murmur-2??)
+* [x] add Href to entities as a common self-referential field
+* [x] update ReadModel() to accept new model format with relations
+* [ ] update ReadModel() to handle multiple model files
+* [x] add code to support the links via child-href
+* [ ] add code to support expansion of child-href
+* [x]     Href string  `rgen:"-" json:"Href,omitempty"`
+* [x]     Test string  `rgen:"-" json:"Test,omitempty"`
+* [ ] add code to support filtering of expansions
+* [ ] add scopes to config
+* [ ] use scopes in JWT to allow / disallow access to routes / actions
+* [x] update main_test.go to create and delete the test user
+* [x] replace custom model interpretation code with https://golang.org/pkg/encoding/json/#Unmarshal
+* [ ] enhance model
+* [x] support single-field index creation via model attribute
+* [x] support not-nullable directive via model attribute
+* [x] support native dbType column directive via model attribute
+* [x] support selectable directive via model attribute
+* [x] create a test handler for User{}ByID in the router
+* [x] create template for single-field lookup based on User{}ByID()
+* [x] call template following the CRUD method creations (controller.gotmpl & model.gotmpl)
+* [x] add handlers following the CRUD handler processing (appobj.gotmpl)
+* [x] support compound index directive via model attribute
+* [x] disallow snake case in the ddlconfig element names
+* [x] add a flag for model file i.e.   $ go run main.go -m "/Users/tomthedog/config/mymodel.json
+* [x] look at how gorilla.mux handles routes like  ../product?Attr1='foo'&&Attr2
+*   *see https://stackoverflow.com/questions/45378566/gorilla-mux-optional-query-values*
+* [x] add support for a dev config.json file
+* [ ] add support for LetsEncrypt
+* [x] add capability of generating keys for JWT via ecdsa256
+* [x] add automated default tests 
+* [x] run go fmt on each file immediately following generation?
+* [x] remove the gorilla csrf dependency; the use of JWT's in a stateless application obviates the need for CSRF protection. 
+* [x] run goimports on generated code  
+* [ ] add the capability of automatically running go get (look at go dep) for missing packages in the dependency list
+* [ ] add capability to generate self-signed certs for local ssl testing
+* [ ] create github repo for gnerated code via https://godoc.org/github.com/google/go-github/github#RepositoriesService

@@ -33,6 +33,8 @@ type GroupAuthDB interface {
 	GetGroupAuthsByAuthName(op string, AuthName string) []GroupAuth
 	GetGroupAuthsByDescription(op string, Description string) []GroupAuth
 	GetGroupAuthsByGroupID(op string, GroupID string) []GroupAuth
+	CreateGroupAuthDirect(GroupID, AuthID uint64) error
+	DeleteGroupAuthsByGroupID(GroupID string) error
 	// GetRelGroupAuthToUGResources(librarys *[]Library, mapParams map[string]interface{}) error
 }
 
@@ -479,4 +481,42 @@ func (gs *groupauthSqac) GetGroupAuthsByGroupID(op string, GroupID string) []Gro
 		log.Printf("GetGroupAuthsByGroupID found: %v based on (%s %v)\n", groupauths, op, GroupID)
 	}
 	return groupauths
+}
+
+// CreateGroupAuthDirect facilitates the creation of an Auth allocation to a UsrGroup
+// from a source other than an incoming http request.  For example, this method is called
+// as a part of the Super Group initialization on application startup.
+func (gs *groupauthSqac) CreateGroupAuthDirect(GroupID, AuthID uint64) error {
+
+	if GroupID == 0 || AuthID == 0 {
+		return fmt.Errorf("GroupID and AuthID must be specfied when allocating and Auth to a UsrGroup")
+	}
+
+	// fill the model
+	groupauth := GroupAuth{
+		GroupID: GroupID,
+		AuthID:  AuthID,
+	}
+
+	// call the Create method on the groupauth model
+	err := gs.Create(&groupauth)
+	if err != nil {
+		log.Println("Group Auth Create:", err)
+		return err
+	}
+	return nil
+}
+
+// DeleteGroupAuthsByGroupID performs the deletion of all assigned Auths
+// to the specified UsrGroup.
+func (gs *groupauthSqac) DeleteGroupAuthsByGroupID(GroupID string) error {
+
+	ds := fmt.Sprintf("DELETE FROM groupauth WHERE group_id = ?;")
+
+	// delete the requested rows
+	_, err := gs.handle.ExecuteQueryx(ds, GroupID)
+	if err != nil {
+		return err
+	}
+	return nil
 }

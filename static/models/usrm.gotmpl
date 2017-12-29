@@ -13,6 +13,7 @@ import (
 // Usr represents the signed-in usr
 type Usr struct {
 	ID           uint64     `db:"id" sqac:"primary_key:inc"`
+	Href        string `json:"href" db:"href" sqac:"-"`
 	Name         string     `db:"name" sqac:"nullable:false"`
 	Email        string     `db:"email" sqac:"nullable:false;index:unique"`
 	Password     string     `db:"password" sqac:"-"` // "-" indicates that the field is not to be stored in the db
@@ -287,8 +288,11 @@ func (uv *usrValidator) normalizeEmail(usr *Usr) error {
 // emailFormat checks the format of the email via a simple
 // regex-based pattern match.
 func (uv *usrValidator) emailFormat(usr *Usr) error {
-	if !uv.emailRegex.MatchString(usr.Email) {
-		return ErrEmailInvalid
+
+	if usr.Email != "admin" {
+		if !uv.emailRegex.MatchString(usr.Email) {
+			return ErrEmailInvalid
+		}
 	}
 	return nil
 }

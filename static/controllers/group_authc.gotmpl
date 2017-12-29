@@ -37,7 +37,7 @@ func (gc *GroupAuthController) Create(w http.ResponseWriter, r *http.Request) {
 	var g models.GroupAuth
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&g); err != nil {
-		log.Println("Group Resource Create:", err)
+		log.Println("Group Auth Create:", err)
 		respondWithError(w, http.StatusBadRequest, "GroupAuthc: Invalid request payload")
 		return
 	}
@@ -55,7 +55,7 @@ func (gc *GroupAuthController) Create(w http.ResponseWriter, r *http.Request) {
 	// call the Create method on the usrgroup model
 	err := gc.gs.Create(&groupauth)
 	if err != nil {
-		log.Println("Group Resource Create:", err)
+		log.Println("Group Auth Create:", err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -73,7 +73,7 @@ func (gc *GroupAuthController) Update(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
-		log.Println("Group Resource Update:", err)
+		log.Println("Group Auth Update:", err)
 		respondWithError(w, http.StatusBadRequest, "Invalid groupauth id")
 		return
 	}
@@ -81,7 +81,7 @@ func (gc *GroupAuthController) Update(w http.ResponseWriter, r *http.Request) {
 	var g models.GroupAuth
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&g); err != nil {
-		log.Println("Group Resource Update:", err)
+		log.Println("Group Auth Update:", err)
 		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
@@ -101,7 +101,7 @@ func (gc *GroupAuthController) Update(w http.ResponseWriter, r *http.Request) {
 	// call the update method on the model
 	err = gc.gs.Update(&groupauth)
 	if err != nil {
-		log.Println("Group Resource Update:", err)
+		log.Println("Group Auth Update:", err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -118,8 +118,8 @@ func (gc *GroupAuthController) Get(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
-		log.Println("Group Resource Get:", err)
-		respondWithError(w, http.StatusBadRequest, "Invalid group resource ID")
+		log.Println("Group Auth Get:", err)
+		respondWithError(w, http.StatusBadRequest, "Invalid group auth ID")
 		return
 	}
 
@@ -148,7 +148,7 @@ func (gc *GroupAuthController) Delete(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
-		log.Println("Group Resource Delete:", err)
+		log.Println("Group Auth Delete:", err)
 		respondWithError(w, http.StatusBadRequest, "Invalid GroupAuth ID")
 		return
 	}
@@ -159,7 +159,7 @@ func (gc *GroupAuthController) Delete(w http.ResponseWriter, r *http.Request) {
 
 	err = gc.gs.Delete(&groupauth)
 	if err != nil {
-		log.Println("Group Resource Delete:", err)
+		log.Println("Group Auth Delete:", err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -300,4 +300,25 @@ func (gc *GroupAuthController) GetGroupAuthsByGroupID(w http.ResponseWriter, r *
 		return
 	}
 	respondWithJSON(w, http.StatusOK, "[]")
+}
+
+// DeleteGroupAuthsByGroupID facilitates the deletion of all existing Auth assignments
+// to the specified Group.
+// DELETE /groupauths/group_id(OP :id)
+func (gc *GroupAuthController) DeleteGroupAuthsByGroupID(w http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+	groupID := vars["group_id"]
+	if groupID == "" {
+		respondWithError(w, http.StatusBadRequest, "missing group_id")
+		return
+	}
+
+	err := gc.gs.DeleteGroupAuthsByGroupID(groupID)
+	if err != nil {
+		log.Println("Group Auth DeleteGroupAuthsByGroupID error:", err)
+		respondWithError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	respondWithHeader(w, http.StatusAccepted)
 }
