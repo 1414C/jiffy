@@ -127,6 +127,7 @@ In addition to password authentication, generated applications provide the abili
    |  --> Auth_EndPoint_A
    |  --> Auth_EndPoint_B
    |  --> Auth_EndPoint_C
+   |
    --> Group 2
       |
       --> Auth_EndPoint_K
