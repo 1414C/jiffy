@@ -118,6 +118,8 @@ In addition to password authentication, generated applications provide the abili
 * Authorizations are assigned to User Groups
 * User Groups are allocated to Users via a Groups field in the Usr master
 
+```code
+
 -> User
    |
    --> Group 1
@@ -130,6 +132,7 @@ In addition to password authentication, generated applications provide the abili
       --> Auth\_EndPoint\_K
       --> Auth\_EndPoint\_M
 
+```
 
 #### Authorizations
 
