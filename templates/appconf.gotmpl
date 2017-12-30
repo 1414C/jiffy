@@ -35,7 +35,7 @@ func (c DBConfig) ConnectionInfo() string {
 
 	case "mssql":
 		// "sqlserver://SA:Bunny123!!@localhost:1401?database=sqlx")
-		return fmt.Sprintf("sqlserver://%s:%s@l%s:%d?database=%s", c.Usr, c.Password, c.Host, c.Port, c.Name)
+		return fmt.Sprintf("sqlserver://%s:%s@%s:%d?database=%s", c.Usr, c.Password, c.Host, c.Port, c.Name)
 
 	case "hdb":
 		// "hdb://SMACLEOD:Blockhead1@clkhana01.lab.clockwork.ca:30047")

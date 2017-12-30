@@ -35,6 +35,7 @@ type UsrDB interface {
 	Update(usr *Usr) error
 	Delete(usr *Usr) error
 	Get(usr *Usr) error
+	GetUsrs() []Usr
 
 	// methods for querying single Usr entities
 	ByEmail(email string) (*Usr, error)
