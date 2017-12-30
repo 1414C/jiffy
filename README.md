@@ -254,16 +254,13 @@ There are more sophisticated ways of dealing with this caching of the User Group
 
 ## Work-In-Progress
 1.  [ ]Ensure that rune and byte types are fully accounted for
-2.  [ ]Create default Admin user
-3.  [ ]Generate Admin GroupAuth on every startup
-4.  [ ]Extend claims support in the route middleware
-5.  [ ]Add support for 'sqac:"default:xxxyyyzzz"' directives
+2.  [ ]Add support for 'sqac:"default:xxxyyyzzz"' directives
     * default value
     * default (sqac) function (datetime defaults for example)
-6.  [ ]Add option for Foreign Key defintion / enforcement in relations
-7.  [ ]Droplet deployment
-8.  [ ]NGinx
-9. [-]Complete service activations
+3.  [ ]Add option for Foreign Key defintion / enforcement in relations
+4.  [ ]Droplet deployment
+5.  [ ]NGinx
+6. [-]Complete service activations
 
 <br/>
 
@@ -1483,7 +1480,6 @@ ___
 * [ ] write ASE driver?
 * [x] write a dialect for hana as a relational-db
 * [ ] hana hybrid model(...)
-* [ ] add server-side user creation / disallow open user creation route
 * [ ] web-based interface for API documentation?
 * [ ] add method-chaining to new 'cust' package to allow for code-regen
 * [ ] add opportunistic locking via etag concept / investigate rpc-based enqueue server
@@ -1496,8 +1492,9 @@ ___
 * [x]     Href string  `rgen:"-" json:"Href,omitempty"`
 * [x]     Test string  `rgen:"-" json:"Test,omitempty"`
 * [ ] add code to support filtering of expansions
-* [ ] add scopes to config
-* [ ] use scopes in JWT to allow / disallow access to routes / actions
+* [x] add scopes to config
+* [x] use scopes in JWT to allow / disallow access to routes / actions
+* [x] create default 'admin' user and 'Super' UsrGroup
 * [x] update main_test.go to create and delete the test user
 * [x] replace custom model interpretation code with https://golang.org/pkg/encoding/json/#Unmarshal
 * [ ] enhance model
@@ -1523,4 +1520,4 @@ ___
 * [x] run goimports on generated code  
 * [ ] add the capability of automatically running go get (look at go dep) for missing packages in the dependency list
 * [ ] add capability to generate self-signed certs for local ssl testing
-* [ ] create github repo for gnerated code via https://godoc.org/github.com/google/go-github/github#RepositoriesService
+* [ ] create github repo for generated code via https://godoc.org/github.com/google/go-github/github#RepositoriesService
