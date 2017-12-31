@@ -340,6 +340,9 @@ The following JSON illustrates the defintion of a simple single-entity model fil
     "entities":  [
         {
             "typeName": "Person",
+            "id_properties": {
+                "start": 10000000
+            },
             "properties": {
                 "name": {
                     "type": "string",
@@ -399,6 +402,16 @@ The simpleSingleEntityModel.json file structure and content is explained below:
         An Entity given a typeName of "Person" will result in an internal model object of type Person and a 
         database table called 'person'.
         This is a mandatory model element.
+        
+        "id_properties": {
+        The 'id_properties' block contains a single entry for now, and is used to provide guidance to the application
+        generator regarding the setup of the entity's ID field.
+        This is an optional model element.
+        
+          "start": 10000000,
+          Field 'start' can be used to provide a starting point for an entity's ID field.
+          This is a mandatory model element if the 'id_properties' block has been included in the model.
+        },
 
         "properties": {
         The 'properties' block contains 1:n entity member field definitions.  Member fields should be defined
