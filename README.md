@@ -46,7 +46,7 @@ The generated application can be pointed at the DBMS of your choice without the 
 
 Applications are generated based on model files which are encoded as simple JSON.  The concepts of entity and resource-id form the cornerstones upon which the model, application and RESTful end-points are built upon.
 
-Entities can be thought of anything that needs to be modelled; Order, Customer, Invoice, Truck, Oven, ..., ... Each entity is mandated to have an ID field, which is analagous to a primary-key or row-id in the backend database.  ID is used as the primary resource identifier for an entity, and is generally be setup as an auto-incrementing column in the database.  ID is implemented as go-type uint64.
+Entities can be thought of anything that needs to be modelled; Order, Customer, Invoice, Truck, ..., ... Each entity is mandated to have an ID field, which is analagous to a primary-key or row-id in the backend database.  ID is used as the primary resource identifier for an entity, and is setup by default as an auto-incrementing column in the database.  ID is implemented as go-type uint64 and is inserted into the model entity definition during application generation.
 
 Accessing an entity via the generated CRUD interface is very simple.  For example, a customer could be defined in the model and then accessed via the application as follows:
 
@@ -80,7 +80,7 @@ Additional routes can also be generated based on the model file, including custo
 4. Use a generated relationship to retrieve a specific order for a customer:
     - https://servername:port/customer/10023/order/99000022
 
-5. Use a generated relationship to retrieve the customer for a specific order:
+5. Use a generated belongsTo relationship to retrieve the customer for a specific order:
     - https://servername:port/order/99000022/customer
 
 
@@ -108,8 +108,8 @@ When a user logs into the application the following steps occur:
 * the user-name and stored bcrypt hash is looked up in the back-end db
 * the provided password is hashed in memory using the standard lib Go bcrypt functions and the protected salt/pepper values
 * the computed bcrypt hash is compared to the stored hash for the user
-* if the hash values match, a JWT (token) is created using ECDSA-384
-* the JWT is passed back to the caller and must henceforth be included in the http header of all requests in the Authorization field
+* if the hash values match, a JWT (token) is created using ECDSA-384 (adjustable to ECDSA-256 for increased performance)
+* the JWT is passed back to the caller and must henceforth be included in the http header of all requests using the Authorization field
 * in addtion to fullfilling the authorization requirements, the JWT is also used as a CSRF equivalent
 * see the Authorization and End-Point Security section for more details regarding the content and use of the JWT content/claims
 
@@ -140,11 +140,11 @@ In addition to password authentication, generated applications provide the abili
 
 #### Authorizations
 
-Application access can be restricted at the end-point level.  Each generated end-point is given a name based on its entity, http method and purpose.  The gorilla mux provides an easy way to assign names to end-points in the Route declaration, and these names are defined in the generated application as Authorizations or Auths.
+Application access can be restricted at the end-point level.  Each generated end-point is given a name based on its entity, http method and purpose.  The gorilla mux provides an easy way to assign names to end-points in the route declaration, and these names are defined in the generated application as Authorizations or Auths.
 
 Authorizations are created per end-point and are therefore known to the router, which in turn allows the route middleware of the generated application to determine which Authorization is needed in order to permit the request to proceed.  Recall that an authenticated user is sent an (encrypted) JWT token that must be passed in the http header Authorization field of each request.  The generated router middleware decrypts the token and examines its Claims in order to determine whether the request should be allowed to proceed.  This level of checking can be thought of as the Authentication verification; does the requesting party have a valid access token for the system in general?
 
-Assuming that the requesting user has a valid access token, the next step is to determine whether the user has permission to access the requested end-point.  Each User is assigned to one or more User Groups and there are included as a Groups Claim in the JWT token when the User logs into the application.  As a result, the route middleware is able to examine the content of Groups Claim in order to help decide whether the User is permitted to access the requested end-point.  The route authorization check unfolds as follows:
+Assuming that the requesting user has a valid access token, the next step is to determine whether the user has permission to access the requested end-point.  Each User is assigned to one or more User Groups and these are included as a Groups Claim in the JWT token when the User logs into the application.  As a result, the route middleware is able to examine the content of Groups Claim in order to determine whether the User is permitted to access the requested end-point.  The route authorization check unfolds as follows:
 
 * Verify the requesting User has a valid access token (JWT)
 * Read the Groups Claim from the JWT token
@@ -169,7 +169,7 @@ Standard CRUD end-points for entity Library are generated as follows:
 
 ```
 
-Notice that each end-point handler is assigned a name via the gorilla .Name("string" method).  The generated names follow the standard shown here, but in practice it is safe to change them to whatever works best for your implementation.  Duplicate names in the same router will cause the existing name-route combination to be overwritten by the latest name-route addition as per the gorilla API docs.  Avoid the use of duplicate names.  The set of generated Authorizations for the Library entitys CRUD end-points are:
+Notice that each end-point handler is assigned a name via the gorilla.mux.Route.Name("string") method.  The generated end-point names follow the standard shown here, but in practice it is safe to change them to whatever works best for your implementation.  Duplicate names in the same router will cause the existing name-route combination to be overwritten by the latest name-route addition as per the gorilla API docs.  Avoid the use of duplicate names.  The set of generated Authorizations for the Library entitys CRUD end-points are:
 
 * library.GET\_SET
 * library.CREATE
@@ -232,7 +232,7 @@ The end-points related to Authorization, User Group and User maintenance are pro
 * Table _usrgroup_ is checked for the existance of the 'Super' group.
 * If the 'Super' User Group is not found, it is created.
 * All existing Authorization allocations to the 'Super' User Group are deleted.
-* The list of route Authorizations is then used to allocate the Authorization for each end-point to the 'Super' User Group.
+* The list of route Authorizations is then used to allocate Authorization for each end-point to the 'Super' User Group.
 * A check for the existance of the 'admin' user is executed against the _usr_ table.
 * If the 'admin' user does not exist, it is created as a member of the 'Super' User Group, with an initial password of 'initpass'.
 * As the User Group Authorizations are cached locally on the application server, the cache is re-initialized so that the 'Super' group is available.
@@ -263,7 +263,8 @@ There are more sophisticated ways of dealing with this caching of the User Group
 3.  [ ]Add option for Foreign Key defintion / enforcement in relations
 4.  [ ]Droplet deployment
 5.  [ ]NGinx
-6. [-]Complete service activations
+6.  [ ]Cloud Foundry
+7.  [-]Complete service activations
 
 <br/>
 
@@ -312,7 +313,7 @@ Flags are generally not used, as the configuration files (models.json) are easie
 ```
 
 * go run main.go -m <model_file>.json
-  * By default, the application will attempt to use ./models.json as the model source, but inclusion of the -m flag permits the use of an alternate model file.
+  * By default, the application will attempt to use ./support/testing_models/models.json as the model source, but inclusion of the -m flag permits the use of an alternate model file.
   * The path of model file in the application base directory must be prefaced with ./ .  If the model file is not located in the base directory of the application, the full path must be specified when using the -m flag.
 
 ```bash
@@ -496,7 +497,7 @@ The simpleSingleEntityModel.json file structure and content is explained below:
 ```
 
 ### Entity ID
-The ID field is visibly absent from the preceding entity declarations.  The original intent was to support any name for the primary key / resource identifier of an entity.  While it is possile to do this, it seems that ID is the universal 'non-standard' way of representing object identifiers in RESTful-type services, so we went with it.  As a result, ID is injected into the model defintion of every entity as a uint64 field and is marked as the primary-key in the database backend.  By default, the ID is created as an auto-incrementing column in the DBMS, but this functionality can be suppressed (future).  The ability to allow a specific starting point for the ID key range exists in the ORM, and is in the process of being added to the model file. 
+The ID field is visibly absent from the preceding entity declarations.  The original intent was to support any name for the primary key / resource identifier of an entity.  While it is possile to do this, it seems that ID is the universal 'non-standard' way of representing object identifiers in RESTful-type services, so we went with it.  As a result, ID is injected into the model defintion of every entity as a uint64 field and is marked as the primary-key in the database backend.  By default, the ID is created as an auto-incrementing column in the DBMS, but this functionality can be suppressed (future).  The ability to allow a specific starting point for the ID key range is supported via the entity header-level "start" value.
 
 If the ID field really needs to be known as CustomerNumber for example, the generated code can be edited in a few locations to support the change.  It is worth mentioning that the number of edits required to rename 'ID' increases in direct relation to the number and complexity of entity relations (both to and from).
 
