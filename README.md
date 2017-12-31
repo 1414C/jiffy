@@ -2,7 +2,9 @@
 
 ## Overview and Features
 
-Rgen is a model-based application services generator written in go.  It was developed as an experiment to offer an alternative avenue when developing cloud native applications for SAP Hana.  The rgen application allows a developer to treat the data persistence layer as an abstraction, thereby removing the need to make use of CDS and the SAP XS libraries.  While this is not for everybody, it does reduce the mental cost of entry and allows deployment of a web-based application to SAP Hana with virtually no prior Hana knowledge.
+Rgen is a model-based application services generator written in go.  It was developed as an experiment to offer an alternative avenue when developing cloud native applications for SAP Hana.  The rgen application allows a developer to treat the data persistence layer as an abstraction, thereby removing the need to make use of CDS and the SAP XS libraries.  
+
+While this is not for everybody, it does reduce the mental cost of entry and allows deployment of a web-based application on SAP Hana with virtually no prior Hana knowledge.
 
 ### Why write in Go?
 
@@ -11,7 +13,8 @@ Rgen is a model-based application services generator written in go.  It was deve
   * no blocking in the i/o layer during compute intensive tasks
   * no 'lost' callbacks or 'broken' promises
   * goroutines will use all available cores to handle incoming requests
-* Go it is a small language that offers type-safety
+* Go offers type-safety
+* Go is a small language with a low cost of entry
 * Go projects compile to a static single binary which simplifies deployments
 * Go cross-compiles to virtually any platform and architecture; write and test on a chromebook - deploy to z/OS
 * Go is making inroads into areas that have been dominated by other languages and packages
@@ -43,7 +46,7 @@ The generated application can be pointed at the DBMS of your choice without the 
 
 Applications are generated based on model files which are encoded as simple JSON.  The concepts of entity and resource-id form the cornerstones upon which the model, application and RESTful end-points are built upon.
 
-Entities can be thought of anything that needs to be modelled; Order, Customer, Invoice, Truck, Oven, ..., ... Each entity is mandated to have an ID field, which is analagous to a primary-key or row-id in the backend database.  ID is used as the primary resource identifier for an entity, and is generally be setup as an auto-incrementing column in the database.  
+Entities can be thought of anything that needs to be modelled; Order, Customer, Invoice, Truck, Oven, ..., ... Each entity is mandated to have an ID field, which is analagous to a primary-key or row-id in the backend database.  ID is used as the primary resource identifier for an entity, and is generally be setup as an auto-incrementing column in the database.  ID is implemented as go-type uint64.
 
 Accessing an entity via the generated CRUD interface is very simple.  For example, a customer could be defined in the model and then accessed via the application as follows:
 
