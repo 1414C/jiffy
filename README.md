@@ -2,14 +2,14 @@
 
 ## Overview and Features
 
-Rgen is a model-based application services generator written in go.  It was developed as an experiment to offer an alternative avenue when developing cloud native applications for SAP Hana.  The rgen application allows a developer to treat the data persistence layer as an abstraction, thereby removing the need to make use of CDS and the SAP XS libraries.  
+Rgen is a model-based application services generator written in go.  It was developed as an experiment to offer an alternative avenue when developing cloud native applications for SAP Hana.  The rgen application allows a developer to treat the data persistence layer as an abstraction, thereby removing the need to make use of CDS and the SAP XS libraries.
 
 While this is not for everybody, it does reduce the mental cost of entry and allows deployment of a web-based application on SAP Hana with virtually no prior Hana knowledge.
 
 ### Why write in Go?
 
 * Go has a very strong standard library, thereby keeping dependencies on public packages to a minimum
-* Go offers true concurrency via lightweight threads known as goroutines 
+* Go offers true concurrency via lightweight threads known as goroutines
   * no blocking in the i/o layer during compute intensive tasks
   * no 'lost' callbacks or 'broken' promises
   * goroutines will use all available cores to handle incoming requests
@@ -34,10 +34,11 @@ While this is not for everybody, it does reduce the mental cost of entry and all
 * baked in normalization and validation in the model-layer
 * generates a working set of CRUD-type RESTful services for each entity in the model file
 * supports and generates working end-points for hasOne, hasMany and belongsTo entity relationships 
-* generates working query end-points based on the model fie 
+* generates working query end-points based on the model file
 * end-points are secured by way of scope inspection (jwt claims) in the route handler middleware
 * generates a comprehensive set of working tests (go test)
 * generated code is easily extended
+
 <br/>
 
 ### What does an application look like?
@@ -241,7 +242,7 @@ It is possible to force a rebuild of the 'Super' User Group's Authorization allo
 
 #### Considerations
 
-It is possible to scale the generated appliction horizontally via deployment in multiple VM's, containers etc.  Recall that each running instance of the application maintains its own local cache of the User Group Authorization allocations.  If changes are made to the application entities and/or end-points it follows that the User Group Authorization allocations will need to be updated in the 'Super' User Group (as a minimum) and potentially in other User Groups.
+It is possible to scale the generated application horizontally via deployment in multiple VM's, containers etc.  Recall that each running instance of the application maintains its own local cache of the User Group Authorization allocations.  If changes are made to the application entities and/or end-points it follows that the User Group Authorization allocations will need to be updated in the 'Super' User Group (as a minimum) and potentially in other User Groups.
 
 The best way to accomplish this at the moment is to:
 
@@ -983,7 +984,7 @@ The code in appconf.go contains the functions used to load application configura
 
 ![alt text](/md_images/app_layout/AppLayout_controllers.jpeg "Application controllers folder content")
 <br/>
-The appobj folder contains the generated application's controllers.  A controller is created for each entity that has been declared in the model files, as well as a static controller that is used to handle the application's users.
+A controller is created for each entity that has been declared in the model files, as well as a static controller that is used to handle the application's users.
 
 Controllers act as a bridge between an entity's routes and its model layer.  Each entity mux route is assigned a method in their respective controller based on the intent of that route.  For example, to create a new new Library entity the following POST could be made:
 
@@ -1124,6 +1125,56 @@ Each section of the method is broken down in the following subsets of commented 
 ```
 
 <br/>
+<br/>
+<br/>
+### The models folder
+
+A model is created for each entity that has been modelled in the <model>.json files as well as well as static models used to support user's and authorizations.
+
+Models define an entity's structure and member field characteristics such as type, required/not-required, db-type etc.  Each model has a corresponding controller that examines the request, parses the incoming JSON data into the model structure, and then calls the appropriate method in the entity-model based on the end-point / http method.  The model performs detailed field validations, then accesses the backend database via the ORM to perform the required actions.
+
+By default, a CRUD interface is generated for each entity.  Using the Library example, the generated code for the CRUD end-points look as follows:
+
+```golang
+
+    // ====================== Library protected routes for standard CRUD access ======================
+    a.router.HandleFunc("/librarys", requireUserMw.ApplyFn(a.libraryC.GetLibrarys)).Methods("GET").Name("library.GET_SET")
+    a.router.HandleFunc("/library", requireUserMw.ApplyFn(a.libraryC.Create)).Methods("POST").Name("library.CREATE")
+    a.router.HandleFunc("/library/{id:[0-9]+}", requireUserMw.ApplyFn(a.libraryC.Get)).Methods("GET").Name("library.GET_ID")
+    a.router.HandleFunc("/library/{id:[0-9]+}", requireUserMw.ApplyFn(a.libraryC.Update)).Methods("PUT").Name("library.UPDATE")
+    a.router.HandleFunc("/library/{id:[0-9]+}", requireUserMw.ApplyFn(a.libraryC.Delete)).Methods("DELETE").Name("library.DELETE")
+
+```
+
+The generated go struct for the Library model looks as follows:
+
+```golang
+
+    // Library structure
+    type Library struct {
+      ID   uint64 `json:"id" db:"id" sqac:"primary_key:inc"`
+      Href string `json:"href" db:"href" sqac:"-"`
+      Name string `json:"name" db:"name" sqac:"nullable:false;index:non-unique;index:idx_library_name_city"`
+      City string `json:"city" db:"city" sqac:"nullable:false;index:idx_library_name_city"`
+    }
+
+```
+
+The model structure and tags are explained:
+
+* ID 
+This is the generated key for the entity.  The sqac tag "primary_key:inc" instructs the ORM that this field is to be created as an auto-incrementing column in the backend DBMS.
+
+* Href - this is a read-only field generated at run-time The Href value provides a direct link to read, update or delete the represented entity.
+* Name - 
+
+Each entity mux route is assigned a method in their respective controller based on the intent of that route.  For example, to create a new new Library entity the following POST could be made:
+
+```code
+
+https://servername:port/library {JSON body} + POST
+
+```
 
 # Using the Generated Code
 
