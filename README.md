@@ -100,12 +100,14 @@ An internal service is created for each of the modelled entities in the applicat
 User authentication is conducted using bcrypt in such a manner that passwords are never stored in the application database.  When a user is created, their user-id is stored in the backend database along with the salt/peppered bcrypt hash of their password.  This ensures that in the event of a breach no plain-text passwords can be obtained.
 
 The bcrypt hashes are not very useful to would-be attackers for the following reasons:
+
 * bcrypt hashes are salt/peppered making rainbow tables useless
 * bcrypt is slow by design, making brute force reversal a time-consuming and expensive proposition
 * as increased computing power becomes available, the bcrypt cost parameter can be increased (current = 14)
 * the hash itself is not used for authentication; it is the by-product of successful authentication
 
 When a user logs into the application the following steps occur:
+
 * the user-name and stored bcrypt hash is looked up in the back-end db
 * the provided password is hashed in memory using the standard lib Go bcrypt functions and the protected salt/pepper values
 * the computed bcrypt hash is compared to the stored hash for the user
@@ -270,6 +272,7 @@ There are more sophisticated ways of dealing with this caching of the User Group
 <br/>
 
 ## Installation and Execution
+
 In order to run the application generator, ensure the following:
 
 1.  Make sure go has been installed in the test environment.  See http://www.golang.org for installation files and instructions.
@@ -327,6 +330,7 @@ Flags are generally not used, as the configuration files (models.json) are easie
 <br/>
 
 ## Model Creation
+
 Create a model file containing the Entities, Indexes and Relations that you wish to generate services for.  Entity model defintion consists of an array of JSON objects, with each object being limited to a flat hierarchy and basic go-data-types, although this is easily extended.  By default, the generator expects a *models.json* file in the execution directory, but a correctly formatted JSON file can be loaded from any location by executing with the *-m* flag. 
 
 Sample <models>.json files are installed with the application and can be found in the testing_models folder.  The sample models are used as the basis for the following sections.
@@ -393,7 +397,7 @@ The simpleSingleEntityModel.json file structure and content is explained below:
 {
     "entities": [
     The 'entities' block contains an array of entities belonging to the application model.  Each entity relates
-    directly to a database table (or view).  Entities contain information that the application generator uses 
+    directly to a database table (or view).  Entities contain information that the application generator uses
     to create and update database artifacts such as tables, indexes, sequences and foreign-keys, as well as
     information informing the application runtime of the member field properties.
     This is a mandatory model element.
@@ -403,12 +407,12 @@ The simpleSingleEntityModel.json file structure and content is explained below:
         An Entity given a typeName of "Person" will result in an internal model object of type Person and a 
         database table called 'person'.
         This is a mandatory model element.
-        
+
         "id_properties": {
         The 'id_properties' block contains a single entry for now, and is used to provide guidance to the application
         generator regarding the setup of the entity's ID field.
         This is an optional model element.
-        
+
           "start": 10000000,
           Field 'start' can be used to provide a starting point for an entity's ID field.
           This is a mandatory model element if the 'id_properties' block has been included in the model.
@@ -417,8 +421,8 @@ The simpleSingleEntityModel.json file structure and content is explained below:
         "properties": {
         The 'properties' block contains 1:n entity member field definitions.  Member fields should be defined
         in camelCase and can start with a lower or upper-case character.  In the context of the "entity" with
-        a 'typeName' of 'Person', 'properties' refer to the data fields of the generated "Person" model 
-        structure.  'properties' are a collection of free-form name-tags, each with a child-block containing 
+        a 'typeName' of 'Person', 'properties' refer to the data fields of the generated "Person" model
+        structure.  'properties' are a collection of free-form name-tags, each with a child-block containing
         the 'property' attributes.
         This is a mandatory model element.
 
@@ -435,18 +439,18 @@ The simpleSingleEntityModel.json file structure and content is explained below:
                 can be useful if for example, the developer is confident that a string will never exceed 100
                 characters in length.  Care should be taken to ensure that the specified DB-Type is consistent
                 with the go-type that will be generated in the model.<Entity> defintion in the application.
-                Consider also that making use of this field to some extent limits the backend portability of 
+                Consider also that making use of this field to some extent limits the backend portability of
                 the generated code.  For example, not all database systems have a TINYINT data-type, so
-                specifying a 'db_type' of TINYINT could be problematic if multiple database systems are 
+                specifying a 'db_type' of TINYINT could be problematic if multiple database systems are
                 being used for testing.
-                This is an optional field. 
+                This is an optional field.
 
                 "no_db":
-                Field 'no_db' can be used to instruct the generator to create the field as a member in the 
+                Field 'no_db' can be used to instruct the generator to create the field as a member in the
                 enitity struture, but to prevent the field from being persisted to the backend database.
                 Data like passwords for example should never be persisted to the database, but it handy to
                 have in the user entitiy definition to help with the login process.  Non-persisted fields
-                are not created in the database table schemas, and values passed into the application 
+                are not created in the database table schemas, and values passed into the application
                 are wiped from their respective internal structures following use.
 
                 "format": "", 
@@ -456,13 +460,13 @@ The simpleSingleEntityModel.json file structure and content is explained below:
 
                 "required": false,
                 Field 'required' is used to instruct the generator to set a 'NOT NULL' database constraint
-                on the column related to the property.  
+                on the column related to the property.
                 Allowed values include {true, false}.
                 This is a mandatory field.
 
                 "unique": false,
                 Field 'unique' is used to instruct the database not to accept duplicate values in the
-                database column related to the property.  Setting this field to true will cause a 'UNIQUE' 
+                database column related to the property.  Setting this field to true will cause a 'UNIQUE'
                 constraint to be applied to the related database column.
                 Allowed values include {true, false}.
                 This is a mandatory field.
@@ -486,7 +490,7 @@ The simpleSingleEntityModel.json file structure and content is explained below:
                     https://localhost:<port>/persons/name(EQ '<sel_string>')
                     https://localhost:<port>/persons/name(LIKE '<sel_string>')
 
-                Note that this is not the same thing as filtering insofar as setting the selectable options 
+                Note that this is not the same thing as filtering insofar as setting the selectable options
                 results in the creation of parameterized static routes in the application mux.
 
             },
@@ -697,16 +701,16 @@ A break-down of the relations block fields is as follows:
 {
     "relations": [
     The 'entities' block contains an array of relations belonging to the containing entity definition.
-    Each relation is defined from the perspective of the containing entity having a relationship of 
+    Each relation is defined from the perspective of the containing entity having a relationship of
     the specified type (in this case hasOne), with the entity referenced in the declaration.  A Car
     has one Owner - in our example at least.
     {
         "relName": "Owner"
-        Field 'relName' refers to the name the relationship will be known by inside the application 
-        and in the end-point definition in the mux routes.  It must be capitalized and written in 
+        Field 'relName' refers to the name the relationship will be known by inside the application
+        and in the end-point definition in the mux routes.  It must be capitalized and written in
         CamelCase.  Any name may be chosen for this field, but keep in mind this name will be exposed
-        to the service consumer via the URI, so something respecting the relationship enities and 
-        cardinaliy is best.  For the example, we have chosen a relName of 'ToOwner' to demonstrate 
+        to the service consumer via the URI, so something respecting the relationship enities and
+        cardinaliy is best.  For the example, we have chosen a relName of 'ToOwner' to demonstrate
         the difference between the toEntity and relName fields.
         relName is a mandatory field in a relations declaration.
 
@@ -714,32 +718,32 @@ A break-down of the relations block fields is as follows:
             The 'properties' block contains the details of the relationship.
 
             "refKey":
-            Field 'refKey' can be used to specify an non-default reference key belonging to the 
-            containing (from) entity.  By leaving this field empty, the default field of 'ID' will 
-            be used, which is what most relationships will use most of the time.  For those times 
-            where the default 'from' key cannot be 'ID', you may specify your own as long as the 
-            chosen field is an existing member in the containing (from) entity and is of go-type 
-            uint64 or *uint64.  The refKey will be matched in the selection of the toEntity when 
+            Field 'refKey' can be used to specify an non-default reference key belonging to the
+            containing (from) entity.  By leaving this field empty, the default field of 'ID' will
+            be used, which is what most relationships will use most of the time.  For those times
+            where the default 'from' key cannot be 'ID', you may specify your own as long as the
+            chosen field is an existing member in the containing (from) entity and is of go-type
+            uint64 or *uint64.  The refKey will be matched in the selection of the toEntity when
             the relationship is accessed.
             This is an optional field.
 
             "relType":
             Field 'relType' is used to indicate what sort of relationship is being declared between
-            the containing (from) entity and the toEntity.  Valid values are {HasOne, HasMany and 
+            the containing (from) entity and the toEntity.  Valid values are {HasOne, HasMany and
             BelongsTo}.
             This is a mandatory field.
 
             "toEntity":
-            Field 'toEntity' is used to specify the target entity in the relationship. The toEnity 
-            must be capitalized and provided in CamelCase that matches that used in the toEntity's 
-            declaration.  The toEntity need not appear prior to the containing entity in the model 
+            Field 'toEntity' is used to specify the target entity in the relationship. The toEnity
+            must be capitalized and provided in CamelCase that matches that used in the toEntity's
+            declaration.  The toEntity need not appear prior to the containing entity in the model
             file or files.
             This is a mandatory field.
 
             "foreignPK":
             Field 'foreignPK' can be used to specify the field in the toEntity to which the containing
-            entity will match the 'refKey'.  As such, both fields must be of the same go-type 
-            (uint64/*uint64).  By leaving this field empty, the application will attempt to use 
+            entity will match the 'refKey'.  As such, both fields must be of the same go-type
+            (uint64/*uint64).  By leaving this field empty, the application will attempt to use
             <ContainingEntityName>ID as the column to which the containing (from) entity will attempt
             to match its refKey to.  In the given example of Car -> Owner, the application will attempt
             to find the Car's Owner as shown in the following pseudo-code:
@@ -934,7 +938,6 @@ By relying on the default key determinations for the BelongsTo relationship, the
 
 At the moment the generator only supports HasOne, HasMany and BelongsTo relations, as in practice these tend to be the most widely used.  The generated code can be extended to accomodate additional relationships and joins if need be.  There is a tentative plan to support more complex relations in the generator in the future.
 
-
 <br/>
 
 ## What gets generated?
@@ -944,6 +947,7 @@ Running the rgen generator creates a set of files that comprise a basic working 
 There are more elegant ways to express certain aspects of the generated application.  The coding style has been deliberately kept as simple and straight-forward as possible in order to facilitate easier understanding and adjustment of the generated code.
 <br/>
 <br/>
+
 ### The application folder
 
 ![alt text](/md_images/app_layout/AppLayout1.jpeg "Application file structure")
@@ -958,24 +962,25 @@ Following the execution of the application generator, a folder containing the ge
 The appobj folder contains the generated application's configuration loader and the main application object.
 <br/>
 
-
 #### appobj.go
+
 The entry point for go applications is always the main() function, but we seldom write the so-called 'main' part of the application in this monolithic function.  To that end, an AppObj struct is declared and the main thread of the application runs against it.  The content of main.go simply creates an AppObj struct, parses some flags and calls the AppObj.Run() method.
 
 When the generated application is started, AppObj.Run() is responsible for:
-- loading the specified config
-- creating the runtime services
-- performing auto-migration of database artifacts
-- initializing the key for JWT/ECDSA support
-- instantiating controllers
-- initializting routes 
-- starting the mux
+
+* loading the specified config creating the runtime services
+* performing auto-migration of database artifacts
+* initializing the key for JWT/ECDSA support
+* instantiating controllers
+* initializting routes
+* starting the mux
 
 The creation of the runtime services bears closer inspection before moving on.  Generated applications contain an internal 'service' for each entity declared in the source model files.  The AppObj is responsible for the instantiation of these services when the application is started via the AppObj.createServices() method.
 
 A Services object containing each of the entity runtime services is created on the one-and-only instance of the AppObj.  A runtime service is first created to support access to the backend DBMS via the sqac ORM, then a service is started for each entity.  Entity services contain a reference to the ORM access handle, as well as an instance of the entity's validator class which is contained in the model-layer.
 
 #### appconf.go
+
 The code in appconf.go contains the functions used to load application configuration files, as well as functions containing so-called 'default' configuration.  It is possible to edit the DefaultConfig() function so that it holds values specific to the local test/development environment.  This prevents the need for maintaining a set of configuration files that the development staff need to keep in sync.
 <br/>
 <br/>
@@ -1175,15 +1180,15 @@ For a more complete explanation of the Sqac ORM tags and operation, see the READ
 
 1.  Edit the generated .prd.config.json file to define your production configuration.
 
-2.  Edit the generated .dev.config.json file to define your development / testing configuration.  
+2.  Edit the generated .dev.config.json file to define your development / testing configuration.
 
-3.  When using SSL to test locally, SSL certs will be needed.  See the SSL setup section below for 
+3.  When using SSL to test locally, SSL certs will be needed.  See the SSL setup section below for
     instructions regarding the generation of certificates suitable for *local testing* via go test.
 ___
 <br/>
 
 ## Execution
-The generated server runs based on a generated JSON configuration file as shown below.  
+The generated server runs based on a generated JSON configuration file as shown below.
 
 ```code
 
@@ -1203,7 +1208,7 @@ The generated server runs based on a generated JSON configuration file as shown 
     initial password.  Passwords are not kept anywhere in the system.
 
     "hmac_Key": "secret-hmac-key",
-    'hmac_key' is a legacy configuration option left over from the old CSRF implementation.  
+    'hmac_key' is a legacy configuration option left over from the old CSRF implementation.
     This field has been deprecated.
 
     "database": {
@@ -1219,7 +1224,7 @@ The generated server runs based on a generated JSON configuration file as shown 
 
     |  Database               | JSON Value for db_dialect field    |
     |-------------------------|------------------------------------|
-    | Postgres                | "db_dialect": "postgres"           |   
+    | Postgres                | "db_dialect": "postgres"           |
     | MSSQL (2008+)           | "db_dialect": "mssql"              |
     | SAP Hana                | "db_dialect": "hdb"                |
     | SQLite3                 | "db_dialect": "sqlite3"            |
@@ -1233,22 +1238,22 @@ The generated server runs based on a generated JSON configuration file as shown 
 
     "cert_file": "",
     'cert_file' should point to the location of a self-signed or purchased certificate file and
-    is used to support https.  Maintaining a 'cert_file' and 'key_file' in the configuration 
+    is used to support https.  Maintaining a 'cert_file' and 'key_file' in the configuration
     informs the generated server to publish via https.
 
     "key_file": "",
-    'key_file' should point to the location of the key-file for the self-signed or purchased 
+    'key_file' should point to the location of the key-file for the self-signed or purchased
     certificate file referenced in the 'key_file' configuration key.  Maintaining a 'cert_file'
     and 'key_file' in the configuration informs the generated server to publish via https.
 
     "jwt_priv_key_file": "jwtkeys/private.pem",
     "jwt_pub_key_file": "jwtkeys/public.pem"
     Application access is handled via claims embedded in JWT tokens.  JWT content is encrypted
-    via ECDSDA-384, thereby requiring a set of valid key-files to support the initial encryption 
-    for the login reponse, as well as the subsequent decryption of the 'Authorization' http 
-    header field for each incoming request.  The JWT key-files are automatically generated when 
-    the server codebase is created.  Leaving the default values in these fields is recommended; 
-    they have been included in the configuration in order to support their storage in an alternate 
+    via ECDSDA-384, thereby requiring a set of valid key-files to support the initial encryption
+    for the login reponse, as well as the subsequent decryption of the 'Authorization' http
+    header field for each incoming request.  The JWT key-files are automatically generated when
+    the server codebase is created.  Leaving the default values in these fields is recommended;
+    they have been included in the configuration in order to support their storage in an alternate
     location.
 }
 
@@ -1259,9 +1264,9 @@ The generated server runs based on a generated JSON configuration file as shown 
     $ go run main.go
 
     This will run the program using a set of default configuration that has been compiled into the binary.
-    The default configuration may be edited in the generated appobj/appconf.go file to suit local 
-    requirements.  The default application settings are shown in the server configuration file format.  
-    The default configuration publishes the end-points on port 3000 over http due to the absence of the 
+    The default configuration may be edited in the generated appobj/appconf.go file to suit local
+    requirements.  The default application settings are shown in the server configuration file format.
+    The default configuration publishes the end-points on port 3000 over http due to the absence of the
     'cert_file' and 'key_file' values.
 
 ```JSON
@@ -1292,7 +1297,7 @@ The generated server runs based on a generated JSON configuration file as shown 
 
     $ go run main.go -dev
 
-    The program will be executed using the configuration specified in the content of .dev.config.json.  
+    The program will be executed using the configuration specified in the content of .dev.config.json.
     The generated sample dev configuration file should be edited to match the local environment.
 
 ```JSON
@@ -1324,8 +1329,8 @@ The generated server runs based on a generated JSON configuration file as shown 
     $ go run main.go -prod
 
     The program will be executed using the configuration specified in the content of .prd.config.json.
-    The generated sample prd configuration file should be edited to match the local environment.  A 
-    sample .prd.config.json file is shown below.  This file will instruct the server to publish the 
+    The generated sample prd configuration file should be edited to match the local environment.  A
+    sample .prd.config.json file is shown below.  This file will instruct the server to publish the
     end-points on port 8080 using https.
 
 ```JSON
@@ -1357,7 +1362,7 @@ ___
 ## Generate Self-Signed Certs for https Testing
 
 If you wish to perform local https-based testing, it is possible to do so through the use of self-signed
-certificates.  Self-signed certificates can be easily created through the use of the openssl tool on 
+certificates.  Self-signed certificates can be easily created through the use of the openssl tool on
 *nix systems.
 <br/>
 
@@ -1370,9 +1375,9 @@ $ which -a openssl
 $
 
 ```
-If openssl is not shown in the 'which' command output, check your path to ensure you have access to /usr/bin 
-or /usr/local/bin.  If you have access to the ./bin directories, but still cannot find the openssl tool, 
-it can be downloaded from https://www.openssl.org/source/ .  Follow the directions on the site to correctly 
+If openssl is not shown in the 'which' command output, check your path to ensure you have access to /usr/bin
+or /usr/local/bin.  If you have access to the ./bin directories, but still cannot find the openssl tool,
+it can be downloaded from https://www.openssl.org/source/ .  Follow the directions on the site to correctly
 download and install the tool.
 <br/>
 
@@ -1420,9 +1425,9 @@ Verify that a file called "srvcert.key" has been created.
 
 ### Create a Private Server Certificate Signing Request
 
-This generates an intermediate certificate signing request file (.csr) based on the Private Server 
-Key created in the previous step.  The creation of the CSR is an interogative process, but for 
-self-signed testing, most of the inputs can safely be ignored.  Follow the prompts as per the 
+This generates an intermediate certificate signing request file (.csr) based on the Private Server
+Key created in the previous step.  The creation of the CSR is an interogative process, but for
+self-signed testing, most of the inputs can safely be ignored.  Follow the prompts as per the
 example shown below:
 ```code
 $ openssl req -new -key srvcert.key -out srvcert.csr
@@ -1454,8 +1459,8 @@ Verify that a file called "srvcert.crt" has been created.
 ### Create a Private Server Certificate
 
 This is the final step in getting the required certicate and key files to support local https
-testing.  In this step, the CA certificate and private key files will be used in conjunction 
-with the private server key and private server signing-request to generate a private server 
+testing.  In this step, the CA certificate and private key files will be used in conjunction
+with the private server key and private server signing-request to generate a private server
 certificate.
 ```code
 
@@ -1482,14 +1487,14 @@ ___
 ## Automated Testing
 
 Automated testing can be performed using the standard go test tooling.  Tests can be run using http
-or https, and run against the port that the application is presently serving on.  Remember, the 
+or https, and run against the port that the application is presently serving on.  Remember, the
 application must be running prior to executing the test.
 
 The generated CRUD tests check the availability of the end-points, and attempt to perform CRUD
 activities using representitive data for the field-types.  If customization has occurred in the
 model normalization and validation enhancement points, the field values used in the generated
-main_test.go file should be updated accordingly.  The generated CRUD tests are provided as a 
-starting point for your own testing. 
+main_test.go file should be updated accordingly.  The generated CRUD tests are provided as a
+starting point for your own testing.
 
 The generated simple selector tests check the availabilty of the end-points, and attempt to peform
 a GET for each of the selection operators specified in the Enitity->selectable field in the models.json
@@ -1577,10 +1582,10 @@ ___
 * [x] add support for a dev config.json file
 * [ ] add support for LetsEncrypt
 * [x] add capability of generating keys for JWT via ecdsa256
-* [x] add automated default tests 
+* [x] add automated default tests
 * [x] run go fmt on each file immediately following generation?
-* [x] remove the gorilla csrf dependency; the use of JWT's in a stateless application obviates the need for CSRF protection. 
-* [x] run goimports on generated code  
+* [x] remove the gorilla csrf dependency; the use of JWT's in a stateless application obviates the need for CSRF protection.
+* [x] run goimports on generated code
 * [ ] add the capability of automatically running go get (look at go dep) for missing packages in the dependency list
 * [ ] add capability to generate self-signed certs for local ssl testing
 * [ ] create github repo for generated code via https://godoc.org/github.com/google/go-github/github#RepositoriesService
