@@ -1162,6 +1162,13 @@ The generated go struct for the Library model looks as follows:
 
 The model structure and tags are explained:
 
+| Field Name  | Description                                                  |
+|-------------|--------------------------------------------------------------|
+|             |                                                              |
+|             |                                                              |
+|             |                                                              |
+|             |                                                              |
+
 * ID 
 This is the generated key for the entity.  The sqac tag "primary_key:inc" instructs the ORM that this field is to be created as an auto-incrementing column in the backend DBMS.
 
