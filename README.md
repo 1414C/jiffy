@@ -1164,24 +1164,12 @@ The model structure and tags are explained:
 
 | Field Name  | Description                                                  |
 |-------------|--------------------------------------------------------------|
-|     ID      | This is the generated key for the entity. The sqac tag "primary_key:inc" instructs the ORM that this field |is to be created as an auto-incrementing column in the backend DBMS.                   |
-|     Href    |                                                              |
-|     Name    |                                                              |
-|     City    |                                                              |
+|     ID      | This is the generated key for the entity. The sqac tag "primary_key:inc" instructs the ORM that this field is to be created as an auto-incrementing column in the backend DBMS. |
+|     Href    | Each entity has an Href field injected into its structure when the application is generated. The Href value provides a direct link to read, update or delete the represented entity. This can be useful if the entity was returned as part of a list, or via a relation-based request. Changes to entities must be carried out via the direct links rather than through relation-type requests.  Enforcement of this precludes the requirement of coding / executing additional checks during updates to makes sure that the relationship path is valid.  Authorization for end-point access is also simplified via this model.  Sqac tag "-" indicates that this field is not persisted on the database and is not included in the table schema. |
+|     Name    | Name is a field from the model file, and has the following attributes in the backend DBMS based on the sqac tag-values:  Not nullable, has a non-unique btree index, is part of a composite (non-unique) index consisting of the 'name' and 'city' table columns.|
+|     City    | City is a field from the model file, and has the following attributes in the backend DBMS based on the sqac tag-values:  Not nullable, is part of a composite (non-unique) index consisting of the 'name' and 'city' table columns.|
 
-* ID 
-This is the generated key for the entity.  The sqac tag "primary_key:inc" instructs the ORM that this field is to be created as an auto-incrementing column in the backend DBMS.
-
-* Href - this is a read-only field generated at run-time The Href value provides a direct link to read, update or delete the represented entity.
-* Name - 
-
-Each entity mux route is assigned a method in their respective controller based on the intent of that route.  For example, to create a new new Library entity the following POST could be made:
-
-```code
-
-https://servername:port/library {JSON body} + POST
-
-```
+For a more complete explanation of the Sqac ORM tags and operation, see the README.md of the sqac library at: https://github.com/1414C/sqac
 
 # Using the Generated Code
 
