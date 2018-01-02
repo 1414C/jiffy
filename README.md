@@ -1169,7 +1169,7 @@ The model structure and tags are explained:
 |     Name    | Name is a field from the model file, and has the following attributes in the backend DBMS based on the sqac tag-values:  Not nullable, has a non-unique btree index, is part of a composite (non-unique) index consisting of the 'name' and 'city' table columns.|
 |     City    | City is a field from the model file, and has the following attributes in the backend DBMS based on the sqac tag-values:  Not nullable, is part of a composite (non-unique) index consisting of the 'name' and 'city' table columns.|
 
-For a more complete explanation of the Sqac ORM tags and operation, see the README.md of the sqac library at: https://github.com/1414C/sqac
+For a more complete explanation of the Sqac ORM tags and operation, see the README.md of the sqac library at: https://github.com/1414C/sqac/README.md
 
 # Using the Generated Code
 
