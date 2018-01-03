@@ -17,20 +17,23 @@ type Info struct {
 	Name  string // field name from model
 	Value string // type
 	// LowerCaseName       string // field name in lower-case for query path - possibly deprecated
-	SnakeCaseName string // field name in sqac database format (snake_case)
-	DBType        string
-	IsKey         bool
-	Start         uint64
-	Format        string
-	NoDB          bool // true = no persistence on the db
-	Required      bool
-	Unique        bool
-	Index         string // unique, not-unique, ""
-	Selectable    string // "eq,like,gt,lt,ge,le,ne"
-	DefaultValue  string //
-	DefaultFunc   string // "now; bot; eot etc."
-	SqacTagLine   string
-	JSONTagLine   string // `json:"field_name,omitempty"`
+	SnakeCaseName    string // field name in sqac database format (snake_case)
+	DBType           string
+	IsKey            bool
+	Start            uint64
+	Format           string
+	NoDB             bool // true = no persistence on the db
+	Required         bool
+	Unique           bool
+	Index            string // unique, not-unique, ""
+	Selectable       string // "eq,like,gt,lt,ge,le,ne"
+	DefaultValue     string //
+	DefaultFunc      string // "now; bot; eot etc."
+	SqacTagLine      string
+	JSONTagLine      string // `json:"field_name,omitempty"`
+	GenControllerExt bool
+	GenValidatorExt  bool
+	GenModelExt      bool
 }
 
 // Relation definition
@@ -239,6 +242,52 @@ func (ent *Entity) CreateControllerRelationsFile(tDir string, entities []Entity)
 	err = ct.Execute(f, ent)
 	if err != nil {
 		log.Fatal("CreateControllerRelationsFile: ", err)
+		return "", err
+	}
+	log.Println("generated:", tfDir)
+	f.Close()
+	return tfDir, nil
+}
+
+// CreateControllerExtensionPointsFile generates a controller extension-
+// point implementation file for the Entity if the 'gen_controller' element
+// is set to true in the user-defined model.json file.
+// Returns the fully-qualified file-name / error.
+func (ent *Entity) CreateControllerExtensionPointsFile(tDir string) (fName string, err error) {
+	ct := template.New("Entity controller extension-point template")
+	ct, err = template.ParseFiles("templates/controller_ext.gotmpl")
+	if err != nil {
+		log.Fatal("Parse: ", err)
+		return "", err
+	}
+
+	// check the controller file path and create if required
+	tDir = tDir + "/controllers/ext"
+	_, err = os.Stat(tDir)
+	if err != nil {
+		os.Mkdir(tDir, 0755)
+	}
+
+	// create the controller extension-point file
+	tfDir := tDir + "/" + ent.Header.Value + "c_ext.go"
+	f, err := os.Create(tfDir)
+	if err != nil {
+		log.Fatal("CreateControllerExtensionPointsFile: ", err)
+		return "", err
+	}
+	defer f.Close()
+
+	// set permissions
+	err = f.Chmod(0644)
+	if err != nil {
+		log.Fatal("CreateControllerExtensionPointsFile: ", err)
+		return "", err
+	}
+
+	// execute the template using the new controller extension-point file as a target
+	err = ct.Execute(f, ent)
+	if err != nil {
+		log.Fatal("CreateControllerExtensionPointsFile: ", err)
 		return "", err
 	}
 	log.Println("generated:", tfDir)

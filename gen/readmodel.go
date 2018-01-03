@@ -107,6 +107,16 @@ func ReadModelFile(mf string) ([]Entity, error) {
 				return nil, err
 			}
 		}
+
+		// set the extension-point generation flags on the entity header
+		extString := string(entMap["ext_points"])
+		if extString != "" {
+			err = buildExtFlags(extString, &e.Header)
+			if err != nil {
+				fmt.Println("ext_points error:", err)
+				return nil, err
+			}
+		}
 		entities = append(entities, e)
 	}
 
@@ -117,6 +127,22 @@ func ReadModelFile(mf string) ([]Entity, error) {
 	}
 
 	return entities, nil
+}
+
+func buildExtFlags(extString string, eHeader *Info) error {
+
+	extString = cleanString(extString)
+
+	var extMap map[string]bool
+	err := json.Unmarshal([]byte(extString), &extMap)
+	if err != nil {
+		return err
+	}
+
+	eHeader.GenControllerExt = extMap["gen_controller"]
+	eHeader.GenValidatorExt = extMap["gen_validator"]
+	eHeader.GenModelExt = extMap["gen_model"]
+	return nil
 }
 
 // buildEntityColumns sets the entity field attributes in the Entity.[]Info

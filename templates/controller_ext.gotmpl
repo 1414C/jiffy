@@ -1,0 +1,129 @@
+package ext
+
+import (
+	"{{.AppPath}}/models"
+	// "fmt"
+	"net/http"
+	// "reflect"
+)
+//===================================================================================================
+// base {{.Header.Name}} entity controller extension-point code generated on {{ .GetDateTimeStamp }}
+//===================================================================================================
+
+{{/*  $pref is populated by a call to .GetLowerCasePrefixLetter which is a  */ -}}
+{{/*  method on the Entity struct in the main.go program file.              */ -}}
+{{ $pref := .GetLowerCasePrefixLetter -}}
+
+//------------------------------------------------------------------------------------------
+// ControllerCreateExt extension-point interface implementation for entity {{.Header.Name}}
+//------------------------------------------------------------------------------------------
+
+// CreateBeforeFirst extension-point implementation for entity {{.Header.Name}}
+// TODO: implement checks and document them here
+func CreateBeforeFirst(w http.ResponseWriter, r *http.Request) error {
+
+	return nil
+}
+
+// CreateAfterBodyDecode extension-point implementation for entity {{.Header.Name}}
+// TODO: implement application logic and document it here
+func CreateAfterBodyDecode(ent interface{}) error {
+
+	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
+	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
+	// {{$pref}} := ent.(*models.{{.Header.Name}})
+    //
+	// make changes / validate the content struct pointer ({{$pref}}) here
+	// {{$pref}}.<field_name> = "A new value"
+
+	return nil
+}
+
+// CreateBeforeResponse extension-point implementation for entity {{.Header.Name}}
+// TODO: implement application logic and document it here
+func CreateBeforeResponse(ent interface{}) error {
+
+	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
+	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
+	// {{$pref}} := ent.(*models.{{.Header.Name}})
+    //
+	// make changes / validate the content struct pointer ({{$pref}}) here
+	// {{$pref}}.<field_name> = {{$pref}}.<field_name> + "."
+
+	return nil
+}
+
+//------------------------------------------------------------------------------------------
+// ControllerGetExt extension-point interface implementation for entity {{.Header.Name}}
+//------------------------------------------------------------------------------------------
+
+// GetBeforeFirst extension-point implementation for entity {{.Header.Name}}
+// TODO: implement checks and document them here
+func GetBeforeFirst(w http.ResponseWriter, r *http.Request) error {
+
+	return nil
+}
+
+// GetBeforeModelCall extension-point implementation for entity {{.Header.Name}}
+// TODO: implement application logic and document it here
+func GetBeforeModelCall(ent interface{}) error {
+
+    // fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
+	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
+	// {{$pref}} := ent.(*models.{{.Header.Name}})
+    //
+	// make changes / validate the content struct pointer ({{$pref}}) here
+	// {{$pref}}.<field_name> = "A new value"
+
+	return nil
+}
+
+// GetBeforeResponse extension-point implementation for entity {{.Header.Name}}
+// TODO: implement application logic and document it here
+func GetBeforeResponse(ent interface{}) error {
+
+	// {{$pref}} := ent.(*models.{{.Header.Name}})
+    //
+    // make changes / validate the content struct pointer ({{$pref}}) here
+	// {{$pref}}.<field_name> = {{$pref}}.<field_name> + "."
+
+	return nil
+}
+
+//------------------------------------------------------------------------------------------
+// ControllerUpdateExt extension-point interface implementation for entity {{.Header.Name}}
+//------------------------------------------------------------------------------------------
+
+// UpdateBeforeFirst extension-point implementation for entity {{.Header.Name}}
+// TODO: implement checks and document them here
+func UpdateBeforeFirst(w http.ResponseWriter, r *http.Request) error {
+
+	return nil
+}
+
+// UpdateAfterBodyDecode extension-point implementation for entity {{.Header.Name}}
+// TODO: implement application logic and document it here
+func UpdateAfterBodyDecode(ent interface{}) error {
+
+	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
+	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
+	// {{$pref}} := ent.(*models.{{.Header.Name}})
+    //
+	// make changes / validate the content struct pointer ({{$pref}}) here
+	// {{$pref}}.<field_name> = "An updated value"
+	return nil
+}
+
+// UpdateBeforeResponse extension-point implementation for entity {{.Header.Name}}
+// TODO: implement application logic and document it here
+func UpdateBeforeResponse(ent interface{}) error {
+
+	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
+	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
+	// {{$pref}} := ent.(*models.{{.Header.Name}})
+    //
+	// make changes / validate the content struct pointer ({{$pref}}) here
+	// {{$pref}}.<field_name> = {{$pref}}.<field_name> + "."
+
+	return nil
+}

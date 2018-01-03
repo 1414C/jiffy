@@ -12,6 +12,9 @@ import (
 	"net/http"
 	"strconv"
 
+	{{if .Header.GenControllerExt -}}
+	"{{.AppPath}}/controllers/ext"
+	{{end -}}
 	"{{.AppPath}}/models"
 	"github.com/gorilla/mux"
 )
@@ -38,6 +41,17 @@ func New{{.Header.Name}}Controller({{$pref}}s models.{{.Header.Name}}Service) *{
 // POST /{{.Header.Value}}
 func ({{$pref}}c *{{.Header.Name}}Controller) Create(w http.ResponseWriter, r *http.Request) {
 
+	{{if .Header.GenControllerExt -}}
+	// TODO: implement extension-point if required
+	// TODO: safe to comment this block out if the extension-point is not needed
+	err := ext.CreateBeforeFirst(w, r)
+	if err != nil {
+		log.Println("{{.Header.Name}}Controller CreateBeforeFirst() error:", err)
+		respondWithError(w, http.StatusBadRequest, "{{.Header.Value}}c: Invalid request")
+		return
+	}
+	{{end -}}
+
 	var {{$pref}} models.{{.Header.Name}}
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&{{$pref}}); err != nil {
@@ -46,6 +60,17 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Create(w http.ResponseWriter, r *h
 		return
 	}
 	defer r.Body.Close()
+
+	{{if .Header.GenControllerExt -}}
+	// TODO: implement extension-point if required
+	// TODO: safe to comment this block out if the extension-point is not needed
+	err = ext.CreateAfterBodyDecode(&{{$pref}})
+	if err != nil {
+		log.Println("{{.Header.Name}}Controller CreateAfterBodyDecode() error:", err)
+		respondWithError(w, http.StatusBadRequest, "{{.Header.Value}}c: Invalid request payload")
+		return
+	}
+	{{end -}}
 
 	// fill the model
 	{{.Header.Value}} := models.{{.Header.Name}} {
@@ -58,13 +83,25 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Create(w http.ResponseWriter, r *h
 	urlString := buildHrefStringFromCRUDReq(r, true)
 
 	// call the Create method on the {{.Header.Value}} model
-	err := {{$pref}}c.{{$pref}}s.Create(&{{.Header.Value}})
+	err = {{$pref}}c.{{$pref}}s.Create(&{{.Header.Value}})
 	if err != nil {
 		log.Println("{{.Header.Name}} Create:",err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 	{{.Header.Value}}.Href = urlString + strconv.FormatUint(uint64({{.Header.Value}}.ID), 10)
+
+	{{if .Header.GenControllerExt -}}
+	// TODO: implement extension-point if required
+	// TODO: safe to comment this block out if the extension-point is not needed
+	err = ext.CreateBeforeResponse(&{{.Header.Value}})
+	if err != nil {
+		log.Println("{{.Header.Name}}Controller CreateBeforeResponse() error:", err)
+		respondWithError(w, http.StatusBadRequest, "{{.Header.Value}}c: Invalid request")
+		return
+	}
+	{{end -}}
+
 	respondWithJSON(w, http.StatusCreated, {{.Header.Value}})
 }
 

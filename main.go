@@ -12,7 +12,7 @@ import (
 
 func main() {
 
-	projectPath := flag.String("p", "/exp/usrgen", "project path starting in &GOPATH/src")
+	projectPath := flag.String("p", "/exp/usrgen2", "project path starting in &GOPATH/src")
 	modelFile := flag.String("m", "./model.scratch2.json", "model file relative to application base directory")
 
 	flag.Parse()
@@ -63,6 +63,12 @@ func main() {
 			fmt.Println(err)
 		}
 		generatedFiles = append(generatedFiles, fn)
+
+		fn, err = ent.CreateControllerExtensionPointsFile(*projectPath)
+		if err != nil {
+			fmt.Println(err)
+		}
+		generatedFiles = append(generatedFiles, fn)
 	}
 
 	// generate static model source files
@@ -82,6 +88,18 @@ func main() {
 	s = gen.Static{
 		SrcDir:  "static/controllers",
 		DstDir:  *projectPath + "/controllers",
+		AppPath: appPath,
+	}
+	fs, err = s.GenerateStaticTemplates()
+	if err != nil {
+		fmt.Println(err)
+	}
+	generatedFiles = append(generatedFiles, fs...)
+
+	// generate static controller extension-point source files
+	s = gen.Static{
+		SrcDir:  "static/controllers/ext",
+		DstDir:  *projectPath + "/controllers/ext",
 		AppPath: appPath,
 	}
 	fs, err = s.GenerateStaticTemplates()
