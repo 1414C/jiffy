@@ -1538,7 +1538,6 @@ ___
 * [x] add support for single-field unique constraints
 * [x] implement GetEntities to use the standard sqac.PublicDB interface
 * [ ] SAML integration with usr/login
-* [ ] implement self-documenting API 
 * [ ] consider the use of db-views as entity sources
 * [ ] add support for BLOB storage (S3?)
 * [ ] add service activation to the config
@@ -1549,7 +1548,9 @@ ___
 * [x] write a dialect for hana as a relational-db
 * [ ] hana hybrid model(...)
 * [ ] web-based interface for API documentation?
-* [ ] add method-chaining to new 'cust' package to allow for code-regen
+* [x] add extension-point support to controllers
+* [ ] add extension-point support to validators
+* [ ] add extension-point support to models
 * [ ] add opportunistic locking via etag concept / investigate rpc-based enqueue server
 * [ ] look at fast hash algorithms (murmur-2??)
 * [x] add Href to entities as a common self-referential field
@@ -1565,7 +1566,7 @@ ___
 * [x] create default 'admin' user and 'Super' UsrGroup
 * [x] update main_test.go to create and delete the test user
 * [x] replace custom model interpretation code with https://golang.org/pkg/encoding/json/#Unmarshal
-* [ ] enhance model
+* [x] enhance model
 * [x] support single-field index creation via model attribute
 * [x] support not-nullable directive via model attribute
 * [x] support native dbType column directive via model attribute
@@ -1578,7 +1579,7 @@ ___
 * [x] disallow snake case in the ddlconfig element names
 * [x] add a flag for model file i.e.   $ go run main.go -m "/Users/tomthedog/config/mymodel.json
 * [x] look at how gorilla.mux handles routes like  ../product?Attr1='foo'&&Attr2
-*   *see https://stackoverflow.com/questions/45378566/gorilla-mux-optional-query-values*
+*   see https://stackoverflow.com/questions/45378566/gorilla-mux-optional-query-values*
 * [x] add support for a dev config.json file
 * [ ] add support for LetsEncrypt
 * [x] add capability of generating keys for JWT via ecdsa256
