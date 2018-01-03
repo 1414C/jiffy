@@ -14,20 +14,54 @@ import (
 {{/*  method on the Entity struct in the main.go program file.              */ -}}
 {{ $pref := .GetLowerCasePrefixLetter -}}
 
+// CtrlCreateExt provides access to the ControllerCreateExt extension-point interface
+type CtrlCreateExt struct {
+	ControllerCreateExt
+}
+
+// CtrlGetExt provides access to the ControllerGetExt extension-point interface
+type CtrlGetExt struct {
+	ControllerGetExt
+}
+
+// CtrlUpdateExt provides access to the ControllerUpdateExt extension-point interface
+type CtrlUpdateExt struct {
+	ControllerUpdateExt
+}
+
+// {{.Header.Name}}CtrlExt provides access to the {{.Header.Name}} implementations of the following interfaces:
+//   CtrlCreateExt
+//   CtrlUpdateExt
+//   CtrlGetExt
+type {{.Header.Name}}CtrlExt struct {
+	CrtEp CtrlCreateExt
+	UpdEp CtrlUpdateExt
+	GetEp CtrlGetExt
+}
+
+var {{.Header.Value}}CtrlExp {{.Header.Name}}CtrlExt
+
+// Init{{.Header.Name}}CtrlExt initializes the {{.Header.Value}} entity's controller
+// extension-point interface implementations.
+func Init{{.Header.Name}}CtrlExt() *{{.Header.Name}}CtrlExt {
+	{{.Header.Value}}CtrlExp = {{.Header.Name}}CtrlExt{}
+	return &{{.Header.Value}}CtrlExp
+}
+
 //------------------------------------------------------------------------------------------
 // ControllerCreateExt extension-point interface implementation for entity {{.Header.Name}}
 //------------------------------------------------------------------------------------------
 
-// CreateBeforeFirst extension-point implementation for entity {{.Header.Name}}
+// BeforeFirst extension-point implementation for entity {{.Header.Name}}
 // TODO: implement checks and document them here
-func CreateBeforeFirst(w http.ResponseWriter, r *http.Request) error {
+func (crtEP *CtrlCreateExt) BeforeFirst(w http.ResponseWriter, r *http.Request) error {
 
 	return nil
 }
 
-// CreateAfterBodyDecode extension-point implementation for entity {{.Header.Name}}
+// AfterBodyDecode extension-point implementation for entity {{.Header.Name}}
 // TODO: implement application logic and document it here
-func CreateAfterBodyDecode(ent interface{}) error {
+func (crtEP *CtrlCreateExt) AfterBodyDecode(ent interface{}) error {
 
 	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
 	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
@@ -39,9 +73,9 @@ func CreateAfterBodyDecode(ent interface{}) error {
 	return nil
 }
 
-// CreateBeforeResponse extension-point implementation for entity {{.Header.Name}}
+// BeforeResponse extension-point implementation for entity {{.Header.Name}}
 // TODO: implement application logic and document it here
-func CreateBeforeResponse(ent interface{}) error {
+func (crtEP *CtrlCreateExt) BeforeResponse(ent interface{}) error {
 
 	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
 	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
@@ -57,16 +91,16 @@ func CreateBeforeResponse(ent interface{}) error {
 // ControllerGetExt extension-point interface implementation for entity {{.Header.Name}}
 //------------------------------------------------------------------------------------------
 
-// GetBeforeFirst extension-point implementation for entity {{.Header.Name}}
+// BeforeFirst extension-point implementation for entity {{.Header.Name}}
 // TODO: implement checks and document them here
-func GetBeforeFirst(w http.ResponseWriter, r *http.Request) error {
+func (getEP *CtrlGetExt) BeforeFirst(w http.ResponseWriter, r *http.Request) error {
 
 	return nil
 }
 
-// GetBeforeModelCall extension-point implementation for entity {{.Header.Name}}
+// BeforeModelCall extension-point implementation for entity {{.Header.Name}}
 // TODO: implement application logic and document it here
-func GetBeforeModelCall(ent interface{}) error {
+func (getEP *CtrlGetExt) BeforeModelCall(ent interface{}) error {
 
     // fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
 	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
@@ -78,9 +112,9 @@ func GetBeforeModelCall(ent interface{}) error {
 	return nil
 }
 
-// GetBeforeResponse extension-point implementation for entity {{.Header.Name}}
+// BeforeResponse extension-point implementation for entity {{.Header.Name}}
 // TODO: implement application logic and document it here
-func GetBeforeResponse(ent interface{}) error {
+func (getEP *CtrlGetExt) BeforeResponse(ent interface{}) error {
 
 	// {{$pref}} := ent.(*models.{{.Header.Name}})
     //
@@ -94,16 +128,16 @@ func GetBeforeResponse(ent interface{}) error {
 // ControllerUpdateExt extension-point interface implementation for entity {{.Header.Name}}
 //------------------------------------------------------------------------------------------
 
-// UpdateBeforeFirst extension-point implementation for entity {{.Header.Name}}
+// BeforeFirst extension-point implementation for entity {{.Header.Name}}
 // TODO: implement checks and document them here
-func UpdateBeforeFirst(w http.ResponseWriter, r *http.Request) error {
+func (updEP *CtrlUpdateExt) BeforeFirst(w http.ResponseWriter, r *http.Request) error {
 
 	return nil
 }
 
-// UpdateAfterBodyDecode extension-point implementation for entity {{.Header.Name}}
+// AfterBodyDecode extension-point implementation for entity {{.Header.Name}}
 // TODO: implement application logic and document it here
-func UpdateAfterBodyDecode(ent interface{}) error {
+func (updEP *CtrlUpdateExt) AfterBodyDecode(ent interface{}) error {
 
 	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
 	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
@@ -114,9 +148,9 @@ func UpdateAfterBodyDecode(ent interface{}) error {
 	return nil
 }
 
-// UpdateBeforeResponse extension-point implementation for entity {{.Header.Name}}
+// BeforeResponse extension-point implementation for entity {{.Header.Name}}
 // TODO: implement application logic and document it here
-func UpdateBeforeResponse(ent interface{}) error {
+func (updEP *CtrlUpdateExt) BeforeResponse(ent interface{}) error {
 
 	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
 	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))

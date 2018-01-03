@@ -31,41 +31,68 @@ import (
 // to be implemented within the Create method of an entity's controller.
 type ControllerCreateExt interface {
 
-	// CreateBeforeFirst is an extension-point that can be implemented in order
+	// BeforeFirst is an extension-point that can be implemented in order
 	// to examine and potentially reject a Create entity request. This extension-
 	// point is the first code executed in the controller's Create method. Authentication
 	// and Authorization checks should be performed upstream in the route middleware-
 	// layer and detailed checks of a request.Body should be carried out by the validator
 	// in the model-layer.
-	CreateBeforeFirst(w http.ResponseWriter, r *http.Request) error
+	BeforeFirst(w http.ResponseWriter, r *http.Request) error
 
-	// CreateAfterBodyDecode is an extension-point that can be implemented to perform
+	// AfterBodyDecode is an extension-point that can be implemented to perform
 	// preliminary checks and changes to the unmarshalled content of the request.Body.
 	// Detailed checks of the unmarshalled data from the request.Body should be carried
 	// out by the validator in the model-layer. This extension-point should only be
 	// used to carry out deal-breaker checks and perhaps to default data in the entity
 	// struct prior to calling the validator/normalization methods in the model-layer.
-	CreateAfterBodyDecode(ent interface{}) error
+	AfterBodyDecode(ent interface{}) error
 
-	// CreateBeforeResponse is an extension-point that can be implemented to perform
+	// BeforeResponse is an extension-point that can be implemented to perform
 	// checks following the return of the call to the model-layer. At this point,
 	// changes to the db will have been made, so failing the call should take this
 	// into consideration.
-	CreateBeforeResponse(ent interface{}) error
+	BeforeResponse(ent interface{}) error
+}
+
+// ControllerUpdateExt is an interface used to define the extension-points available
+// to be implemented within the Update method of an entity's controller.
+type ControllerUpdateExt interface {
+
+	// BeforeFirst is an extension-point that can be implemented in order
+	// to examine and potentially reject an Update entity request. This extension-
+	// point is the first code executed in the controller's Update method.
+	// Authentication and Authorization checks should be performed upstream in the
+	// route middleware-layer and detailed checks of a request.Body should be carried
+	// out by the validator in the model-layer.
+	BeforeFirst(w http.ResponseWriter, r *http.Request) error
+
+	// AfterBodyDecode is an extension-point that can be implemented to perform
+	// preliminary checks and changes to the unmarshalled content of the request.Body.
+	// Detailed checks of the unmarshalled data from the request.Body should be carried
+	// out by the validator in the model-layer. This extension-point should only be
+	// used to carry out deal-breaker checks and perhaps to default data in the entity
+	// struct prior to calling the validator/normalization methods in the model-layer.
+	AfterBodyDecode(ent interface{}) error
+
+	// BeforeResponse is an extension-point that can be implemented to perform
+	// checks following the return of the call to the model-layer. At this point,
+	// changes to the db will have been made, so failing the call should take this
+	// into consideration.
+	BeforeResponse(ent interface{}) error
 }
 
 // ControllerGetExt is an interface used to define the extension-points available
 // to be implemented within the Get method of an entity's controller.
 type ControllerGetExt interface {
 
-	// GetBeforeFirst is an extension-point that can be implemented in order
+	// BeforeFirst is an extension-point that can be implemented in order
 	// to examine and potentially reject a Get entity request. This extension-
 	// point is the first code executed in the controller's Create method.
 	// Authentication and Authorization checks should be performed upstream in
 	// the route middleware-layer.
-	GetBeforeFirst(w http.ResponseWriter, r *http.Request) error
+	BeforeFirst(w http.ResponseWriter, r *http.Request) error
 
-	// GetBeforeModelCall is an extension-point that can be implemented in order
+	// BeforeModelCall is an extension-point that can be implemented in order
 	// to make changes to the content of the entity structure prior to calling
 	// the model-layer. By default the controller's Get method will populate the
 	// ID field of the entity structure using the :id value provided in the request
@@ -74,40 +101,13 @@ type ControllerGetExt interface {
 	// to the DBMS is made. The added values would however be available for use in
 	// the validation/normalization and DBMS access methods prior to the call to
 	// the ORM.
-	GetBeforeModelCall(ent interface{}) error
+	BeforeModelCall(ent interface{}) error
 
-	// GetBeforeResponse is an extension-point that can be implemented to perform
+	// BeforeResponse is an extension-point that can be implemented to perform
 	// checks / changes following the return of the call to the model-layer. At this
 	// point, the db has been read and the populated entity structure is about to be
 	// marshalled into JSON and passed back to the router/mux.
-	GetBeforeResponse(ent interface{}) error
-}
-
-// ControllerUpdateExt is an interface used to define the extension-points available
-// to be implemented within the Update method of an entity's controller.
-type ControllerUpdateExt interface {
-
-	// UpdateBeforeFirst is an extension-point that can be implemented in order
-	// to examine and potentially reject an Update entity request. This extension-
-	// point is the first code executed in the controller's Update method.
-	// Authentication and Authorization checks should be performed upstream in the
-	// route middleware-layer and detailed checks of a request.Body should be carried
-	// out by the validator in the model-layer.
-	UpdateBeforeFirst(w http.ResponseWriter, r *http.Request) error
-
-	// UpdateAfterBodyDecode is an extension-point that can be implemented to perform
-	// preliminary checks and changes to the unmarshalled content of the request.Body.
-	// Detailed checks of the unmarshalled data from the request.Body should be carried
-	// out by the validator in the model-layer. This extension-point should only be
-	// used to carry out deal-breaker checks and perhaps to default data in the entity
-	// struct prior to calling the validator/normalization methods in the model-layer.
-	UpdateAfterBodyDecode(ent interface{}) error
-
-	// UpdateBeforeResponse is an extension-point that can be implemented to perform
-	// checks following the return of the call to the model-layer. At this point,
-	// changes to the db will have been made, so failing the call should take this
-	// into consideration.
-	UpdateBeforeResponse(ent interface{}) error
+	BeforeResponse(ent interface{}) error
 }
 
 // type ControllerDeleteExt interface {

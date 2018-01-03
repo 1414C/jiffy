@@ -1,0 +1,139 @@
+package models
+
+import (
+	// "fmt"
+	// "reflect"
+	"{{.AppPath}}/models/ext"
+)
+
+//===================================================================================================
+// base {{.Header.Name}} entity model extension-point code generated on {{ .GetDateTimeStamp }}
+//===================================================================================================
+
+{{/*  $pref is populated by a call to .GetLowerCasePrefixLetter which is a  */ -}}
+{{/*  method on the Entity struct in the main.go program file.              */ -}}
+{{ $pref := .GetLowerCasePrefixLetter -}}
+
+// MdlCreateExt provides access to the ModelCreateExt extension-point interface
+type MdlCreateExt struct {
+	ext.ModelCreateExt
+}
+
+// MdlUpdateExt provides access to the ControllerUpdateExt extension-point interface
+type MdlUpdateExt struct {
+	ext.ModelUpdateExt
+}
+
+// MdlGetExt provides access to the ControllerGetExt extension-point interface
+type MdlGetExt struct {
+	ext.ModelGetExt
+}
+
+// {{.Header.Name}}MdlExt provides access to the {{.Header.Name}} implementations of the following interfaces:
+//   MdlCreateExt
+//   MdlUpdateExt
+//   MdlGetExt
+type {{.Header.Name}}MdlExt struct {
+	CrtEp MdlCreateExt
+	UpdEp MdlUpdateExt
+	GetEp MdlGetExt
+}
+
+var {{.Header.Value}}MdlExp {{.Header.Name}}MdlExt
+
+// Init{{.Header.Name}}MdlExt initializes the {{.Header.Value}} entity's model
+// extension-point interface implementations.
+func Init{{.Header.Name}}MdlExt() *{{.Header.Name}}MdlExt {
+	{{.Header.Value}}MdlExp = {{.Header.Name}}MdlExt{}
+	return &{{.Header.Value}}MdlExp
+}
+
+//----------------------------------------------------------------------------
+// ModelCreateExt interface implementation for entity {{.Header.Name}}
+//----------------------------------------------------------------------------
+
+// BeforeDB model extension-point implementation for entity {{.Header.Name}}
+// TODO: implement pre-ORM call logic and document it here
+func (crtEP *MdlCreateExt) BeforeDB(ent interface{}) error {
+
+	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
+	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
+	// {{$pref}} := ent.(*models.{{.Header.Name}})
+
+	// make changes / validate the content struct pointer ({{$pref}}) here
+	// {{$pref}}.Name = "A new field value"
+	return nil
+}
+
+// AfterDB model extension-point implementation for entity {{.Header.Name}}
+// TODO: implement post-ORM call logic and document it here
+func (crtEP *MdlCreateExt) AfterDB(ent interface{}) error {
+
+	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
+	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
+	// {{$pref}} := ent.(*models.{{.Header.Name}})
+
+	// make changes / validate the content struct pointer ({{$pref}}) here
+	// {{$pref}}.Name = "A new field value"
+	return nil
+}
+
+//----------------------------------------------------------------------------
+// ModelUpdateExt interface implementation for entity {{.Header.Name}}
+//----------------------------------------------------------------------------
+
+// BeforeDB extension-point implementation for entity {{.Header.Name}}
+// TODO: implement pre-ORM call logic and document it here
+func (updEP *MdlUpdateExt) BeforeDB(ent interface{}) error {
+
+	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
+	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
+	// {{$pref}} := ent.(*models.{{.Header.Name}})
+
+	// make changes / validate the content struct pointer ({{$pref}}) here
+	// {{$pref}}.Name = "A new field value"
+	return nil
+}
+
+// AfterDB extension-point implementation for entity {{.Header.Name}}
+// TODO: implement post-ORM call logic and document it here
+func (updEP *MdlUpdateExt) AfterDB(ent interface{}) error {
+
+	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
+	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
+	// {{$pref}} := ent.(*models.{{.Header.Name}})
+
+	// make changes / validate the content struct pointer ({{$pref}}) here
+	// {{$pref}}.Name = "A new field value"
+	return nil
+}
+
+//----------------------------------------------------------------------------
+// ModelGetExt interface implementation for entity {{.Header.Name}}
+//----------------------------------------------------------------------------
+
+// BeforeDB extension-point implementation for entity {{.Header.Name}}
+// TODO: implement pre-ORM call logic and document it here
+func (getEP *MdlGetExt) BeforeDB(ent interface{}) error {
+
+	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
+	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
+	// {{$pref}} := ent.(*models.{{.Header.Name}})
+
+	// make changes / validate the content struct pointer ({{$pref}}) here
+	// {{$pref}}.Name = "A new field value"
+	return nil
+}
+
+// AfterDB extension-point implementation for entity {{.Header.Name}}
+// TODO: implement post-ORM call logic and document it here
+func (getEP *MdlGetExt) AfterDB(ent interface{}) error {
+
+	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
+	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
+	// {{$pref}} := ent.(*{{.Header.Name}})
+
+	// make changes / validate the content struct pointer ({{$pref}}) here
+	// {{$pref}}.Name = "A new field value"
+	return nil
+}

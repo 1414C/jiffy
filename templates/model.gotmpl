@@ -86,6 +86,9 @@ type {{.Header.Value}}Service struct {
 // {{.Header.Value}}Sqac is a sqac-based implementation of the {{.Header.Name}}DB interface.
 type {{.Header.Value}}Sqac struct {
 	handle sqac.PublicDB
+	{{if .Header.GenModelExt -}}
+	ep     {{.Header.Name}}MdlExt
+	{{end -}}
 }
 
 var _ {{.Header.Name}}DB = &{{.Header.Value}}Sqac{}
@@ -116,7 +119,12 @@ func run{{.Header.Name}}ValFuncs({{.Header.Value}} *{{.Header.Name}}, fns ...{{.
 // New{{.Header.Name}}Service needs some work:
 func New{{.Header.Name}}Service(handle sqac.PublicDB) {{.Header.Name}}Service {
 
-	{{$pref}}s := &{{.Header.Value}}Sqac{handle}
+	{{$pref}}s := &{{.Header.Value}}Sqac{
+		handle: handle,
+		{{if .Header.GenModelExt -}}
+		ep:     *Init{{.Header.Name}}MdlExt(),
+		{{end -}}
+	}
 
 	{{$pref}}v := new{{.Header.Name}}Validator({{$pref}}s) // *db
 	return &{{.Header.Value}}Service{
@@ -277,12 +285,58 @@ func ({{$pref}}v *{{.FromEntityLC}}Validator) GetRel{{.FromEntity}}{{.RelName}}(
 //
 // Create a new {{.Header.Name}} in the database via the ORM
 func ({{$pref}}s *{{.Header.Value}}Sqac) Create({{.Header.Value}} *{{.Header.Name}}) error {
+
+	{{if .Header.GenModelExt -}}
+	err := {{$pref}}s.ep.CrtEp.BeforeDB({{.Header.Value}})
+	if err != nil {
+		return err
+	}
+	{{end -}}
+
+	{{if .Header.GenModelExt -}}
+	err = {{$pref}}s.handle.Create({{.Header.Value}})
+	if err != nil {
+		return err
+	}
+	{{else -}}
 	return {{$pref}}s.handle.Create({{.Header.Value}})
+	{{end -}}
+
+	{{if .Header.GenModelExt -}}
+	err = {{$pref}}s.ep.CrtEp.AfterDB({{.Header.Value}})
+	if err != nil {
+		return err
+	}
+	return err
+	{{end -}}
 }
 
 // Update an existng {{.Header.Name}} in the database via the ORM
 func ({{$pref}}s *{{.Header.Value}}Sqac) Update({{.Header.Value}} *{{.Header.Name}}) error {
+
+	{{if .Header.GenModelExt -}}
+	err := {{$pref}}s.ep.UpdEp.BeforeDB({{.Header.Value}})
+	if err != nil {
+		return err
+	}
+	{{end -}}
+
+	{{if .Header.GenModelExt -}}
+	err = {{$pref}}s.handle.Update({{.Header.Value}})
+	if err != nil {
+		return err
+	}
+	{{else -}}
 	return {{$pref}}s.handle.Update({{.Header.Value}})
+	{{end -}}
+
+	{{if .Header.GenModelExt -}}
+	err = {{$pref}}s.ep.UpdEp.AfterDB({{.Header.Value}})
+	if err != nil {
+		return err
+	}
+	return err
+	{{end -}}
 }
 
 // Delete an existing {{.Header.Name}} in the database via the ORM
@@ -292,7 +346,30 @@ func ({{$pref}}s *{{.Header.Value}}Sqac) Delete({{.Header.Value}} *{{.Header.Nam
 
 // Get an existing {{.Header.Name}} from the database via the ORM
 func ({{$pref}}s *{{.Header.Value}}Sqac) Get({{.Header.Value}} *{{.Header.Name}}) error {
+
+	{{if .Header.GenModelExt -}}
+	err := {{$pref}}s.ep.GetEp.BeforeDB({{.Header.Value}})
+	if err != nil {
+		return err
+	}
+	{{end -}}
+
+	{{if .Header.GenModelExt -}}
+    err = {{$pref}}s.handle.GetEntity({{.Header.Value}})
+	if err != nil {
+		return err
+	}
+	{{else -}}
     return {{$pref}}s.handle.GetEntity({{.Header.Value}})
+	{{end -}}
+
+	{{if .Header.GenModelExt -}}
+	err = {{$pref}}s.ep.GetEp.AfterDB({{.Header.Value}})
+	if err != nil {
+		return err
+	}
+	return err
+	{{end -}}
 }
 
 // Get all existing {{.Header.Name}}s from the db via the ORM
@@ -304,6 +381,13 @@ func ({{$pref}}s *{{.Header.Value}}Sqac) Get{{.Header.Name}}s() []{{.Header.Name
 	if err != nil {
 		log.Println(err)
 		return getEnts.ents
+	}
+
+	for i := range getEnts.ents {
+		err = {{$pref}}s.ep.GetEp.AfterDB(&getEnts.ents[i])
+		if err != nil {
+			log.Println("{{.Header.Name}}Model Get{{.Header.Name}}s AfterDB() error:", err)
+		}
 	}
 	return getEnts.ents
 }

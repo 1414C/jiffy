@@ -295,6 +295,52 @@ func (ent *Entity) CreateControllerExtensionPointsFile(tDir string) (fName strin
 	return tfDir, nil
 }
 
+// CreateModelExtensionPointsFile generates a model extension-point
+// implementation file for the Entity if the 'gen_controller' element
+// is set to true in the user-defined model.json file.
+// Returns the fully-qualified file-name / error.
+func (ent *Entity) CreateModelExtensionPointsFile(tDir string) (fName string, err error) {
+	ct := template.New("Entity model extension-point template")
+	ct, err = template.ParseFiles("templates/model_ext.gotmpl")
+	if err != nil {
+		log.Fatal("Parse: ", err)
+		return "", err
+	}
+
+	// check the model file path and create if required
+	tDir = tDir + "/models"
+	_, err = os.Stat(tDir)
+	if err != nil {
+		os.Mkdir(tDir, 0755)
+	}
+
+	// create the controller extension-point file
+	tfDir := tDir + "/" + ent.Header.Value + "m_ext.go"
+	f, err := os.Create(tfDir)
+	if err != nil {
+		log.Fatal("CreateModelExtensionPointsFile: ", err)
+		return "", err
+	}
+	defer f.Close()
+
+	// set permissions
+	err = f.Chmod(0644)
+	if err != nil {
+		log.Fatal("CreateModelExtensionPointsFile: ", err)
+		return "", err
+	}
+
+	// execute the template using the new model extension-point file as a target
+	err = ct.Execute(f, ent)
+	if err != nil {
+		log.Fatal("CreateModelExtensionPointsFile: ", err)
+		return "", err
+	}
+	log.Println("generated:", tfDir)
+	f.Close()
+	return tfDir, nil
+}
+
 //=============================================================================================
 // static generation functions
 //=============================================================================================
