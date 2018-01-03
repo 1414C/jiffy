@@ -93,7 +93,7 @@ Access to resources (entities) is controlled in three ways:
 
 1. Configuration based service activation
 2. Secure user authentication
-3. JWT tokens with claim inspection in middleware applied to the protected routes (end-points) 
+3. JWT tokens with claim inspection in middleware applied to the protected routes (end-points)
 
 An internal service is created for each of the modelled entities in the application.  Services can be marked as active or inactive in the service configuration, thereby allowing a single application to be generated, but also allowing selective service deployment.  For example, there may be cases where it is desirable to route certain services to a particular application instance and another set of services to the rest of the pool.  In such a case, NGix could be configured to route the end-points appropriately, and the deployed service configurations would be adjusted accordingly.
 
