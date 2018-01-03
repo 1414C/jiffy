@@ -33,11 +33,11 @@ While this is not for everybody, it does reduce the mental cost of entry and all
 * built-in support for https
 * baked in normalization and validation in the model-layer
 * generates a working set of CRUD-type RESTful services for each entity in the model file
-* supports and generates working end-points for hasOne, hasMany and belongsTo entity relationships 
+* supports and generates working end-points for hasOne, hasMany and belongsTo entity relationships
 * generates working query end-points based on the model file
 * end-points are secured by way of scope inspection (jwt claims) in the route handler middleware
 * generates a comprehensive set of working tests (go test)
-* generated code is easily extended
+* generated code is easily extended either via direct editing, or through an extension-point concept
 
 <br/>
 
@@ -45,7 +45,7 @@ While this is not for everybody, it does reduce the mental cost of entry and all
 
 The generated application can be pointed at the DBMS of your choice without the need to recompile the binary (architecture differences not withstanding).  This means that a developer can build a model, fully test it locally using SQLite and then redirect the appplication to a formal testing environment running SAP Hana, or any of the other supported database systems.  This is achievable due to the ORM layer that the Rgen application is built upon.  The ORM is easily extendable to accomodate other databases if required (oracle, db2, SAP ASE are candidates here).
 
-Applications are generated based on model files which are encoded as simple JSON.  The concepts of entity and resource-id form the cornerstones upon which the model, application and RESTful end-points are built upon.
+Applications are generated based on model files which are encoded as simple JSON.  The concepts of entity and resource-id form the cornerstones upon which the model, application and RESTful end-points are built.
 
 Entities can be thought of anything that needs to be modelled; Order, Customer, Invoice, Truck, ..., ... Each entity is mandated to have an ID field, which is analagous to a primary-key or row-id in the backend database.  ID is used as the primary resource identifier for an entity, and is setup by default as an auto-incrementing column in the database.  ID is implemented as go-type uint64 and is inserted into the model entity definition during application generation.
 
