@@ -1550,7 +1550,7 @@ ___
 * [ ] web-based interface for API documentation?
 * [x] add extension-point support to controllers
 * [ ] add extension-point support to validators
-* [ ] add extension-point support to models
+* [x] add extension-point support to models
 * [ ] add opportunistic locking via etag concept / investigate rpc-based enqueue server
 * [ ] look at fast hash algorithms (murmur-2??)
 * [x] add Href to entities as a common self-referential field
