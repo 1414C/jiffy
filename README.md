@@ -1130,14 +1130,85 @@ Each section of the method is broken down in the following subsets of commented 
 
 ```
 
+The controllers folder also contains an 'ext' sub-directory which is used to hold the interface definitions for controller extension-points as well as the associated empty implementation for each entity.  See the 'Extension Points' section of this document for more details.
+
 <br/>
 <br/>
 <br/>
 ### The models folder
 
-A model is created for each entity that has been modelled in the <model>.json files as well as well as static models used to support user's and authorizations.
+A model is created for each entity that has been modelled in the <model>.json files as well as well as the static models used to support users and authorizations.
 
-Models define an entity's structure and member field characteristics such as type, required/not-required, db-type etc.  Each model has a corresponding controller that examines the request, parses the incoming JSON data into the model structure, and then calls the appropriate method in the entity-model based on the end-point / http method.  The model performs detailed field validations, then accesses the backend database via the ORM to perform the required actions.
+Models define an entity's structure and member field characteristics such as type, required/not-required, db-type etc.  Each model has a corresponding controller that examines the request, parses the incoming JSON data into the model structure, and then calls the appropriate method in the entity-model based on the end-point / http method.  The model provides a validator, which can be used to perform detailed checks and normalizations on the entity data prior to making the call to the ORM.
+
+Empty model validations are generated for each entity field, and are designed to be extended by the application developer.  Validation methods are generated for each entity field and added to the model's entity validator.  For example, the model source file for entity 'Library' (./models/librarym.go), contains a 'libraryValidator' type.  Validation methods for each of the library entitys fields are attached to this type.
+
+The validator type also contains methods matching the public interface (LibraryDB) of the model's service definition.  The model's service declaration includes a validator member, and due to the manner of the declaration, it is the validator that is passed back to the caller (controller) when model access is needed.
+
+```golang
+
+    // newLibraryValidator returns a new libraryValidator
+    func newLibraryValidator(ldb LibraryDB) *libraryValidator {
+        return &libraryValidator{
+        LibraryDB: ldb,
+        }
+    }
+
+    // NewLibraryService declaration
+    func NewLibraryService(handle sqac.PublicDB) LibraryService {
+
+        ls := &librarySqac{handle}
+
+        lv := newLibraryValidator(ls) // *db
+        return &libraryService{
+            LibraryDB: lv,
+        }
+    }
+
+```
+
+In the NewLibraryService function, see that two members are declared:
+
+* ls contains an implementation of the generated LibraryDB interface which is used to call the ORM layer following successful execution of the model's validations
+* lv contains an implementation of the generated LibraryDB interface, as well as the set of empty generated field validation methods
+
+Using the creation of a new Library entity as an example, the controller will parse the JSON body of the incoming request into a Library entity struct.  The controller will then call the entity's model.Create method.  The 'libraryValidator.Create' method (on lv) will execute the implemented field validations, then call the service's model.Create() method (on ls)which will in-turn make the required call to the ORM.
+
+```golang
+
+    // Create validates and normalizes data used in the library creation.
+    // Create then calls the creation code contained in LibraryService.
+    func (lv *libraryValidator) Create(library *Library) error {
+
+        // perform normalization and validation -- comment out checks that are not required
+        // note that the check calls are generated as a straight enumeration of the entity
+        // structure.  It may be neccessary to adjust the calling order depending on the
+        // relationships between the fields in the entity structure.
+        err := runLibraryValFuncs(library,
+            lv.normvalName,
+            lv.normvalCity,
+        )
+
+        if err != nil {
+            return err
+        }
+
+        // use method-chaining to call the library service Create method
+        return lv.LibraryDB.Create(library)
+    }
+
+```
+
+The last line of the method is the most interesting, as it demonstrates something known as method-chaining which allows the call to implicitly access the 'ls' methods.  Look carefully at the code in this area so you understand what is happening, and perhaps lookup 'method-chaining' as it pertains to golang.
+
+Note that at the moment, validations are intended to be coded directly in the body of the generated model code.  This is in contrast with the extension-point technique implemented in the controller and at the sqacService level in the model file (see Extension Points in this document).  The reasons for this are as follows:
+
+* It is expected that no validations will be coded until the model has been stabilized.
+* It is generally desirable to get an application working (or mostly working), then start worrying about validations.
+* Extension points exist as a convenience in the case where data needs pre or post processing.
+* For most entitys, some sort of validation will be required on the majority of fields.  We treat these as first-class citizens in the application rather than extension-points.
+* By treating validations as first-class citizens we do not need to use type assertion and reflection in the validation layer when performing the checks.
+* If there is a concern regarding the over-writing of coded validations due to application regeneration, it is simple for an application developer to implement their own sub-package with methods or functions containing the check code.  The Rgen application will not over-write files that it is not responsible for during a regeneration of an application.
 
 By default, a CRUD interface is generated for each entity.  Using the Library example, the generated code for the CRUD end-points look as follows:
 
@@ -1177,18 +1248,27 @@ The model structure and tags are explained:
 
 For a more complete explanation of the Sqac ORM tags and operation, see the README.md of the sqac library at: https://github.com/1414C/sqac
 
-# Using the Generated Code
+The models folder also contains an 'ext' sub-directory which is used to hold the interface definitions for model extension-points.  See the 'Extension Points' section of this document for more details.
 
-1.  Edit the generated .prd.config.json file to define your production configuration.
+### The middleware folder
 
-2.  Edit the generated .dev.config.json file to define your development / testing configuration.
+The middleware folder contains all of the code related to the application the of Authentication and Authorization concepts discussed in the 'Access Control Overview' and 'Authorizations & End-Point Security' sections of this document.
 
-3.  When using SSL to test locally, SSL certs will be needed.  See the SSL setup section below for
+### The jwtkeys folder
+
+The jwtkewys folder contains the public and private keys that are generated in order to support the use of ECDSA-384 in the creation and reading of the JWT token.
+
+## Using the Generated Code
+
+1. Edit the generated .prd.config.json file to define your production configuration.
+2. Edit the generated .dev.config.json file to define your development / testing configuration.
+3. When using SSL to test locally, SSL certs will be needed.  See the SSL setup section below for
     instructions regarding the generation of certificates suitable for *local testing* via go test.
 ___
 <br/>
 
-## Execution
+### Execution
+
 The generated server runs based on a generated JSON configuration file as shown below.
 
 ```code
