@@ -268,6 +268,7 @@ There are more sophisticated ways of dealing with this caching of the User Group
 5.  [ ]NGinx
 6.  [ ]Cloud Foundry
 7.  [-]Complete service activations
+8.  [ ]Enforce UTC date-time storage
 
 <br/>
 
