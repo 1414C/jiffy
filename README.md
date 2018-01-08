@@ -1273,12 +1273,7 @@ File ./myapp/controllers/ext/<entity\_name>c_ext.go is generated for each entity
 
 #### Controller Extension-Point Interfaces
 
-* Interface ControllerCreateExt
-
-| Interface ControllerCreateExt Methods                                      |
-|----------------------------------------------------------------------------|
-|BeforeFirst(w http.ResponseWriter, r *http.Request) error
-   BeforeFirst is an extension-point that can be implemented in order to examine and potentially reject a Create entity request. This extension-point is the first code executed in the controller's Create method. Authentication and Authorization checks should be performed upstream in the route middleware-layer and detailed checks of a request.Body should be carried out by the validator in the model-layer.  |
+##### Interface ControllerCreateExt
 
     BeforeFirst(w http.ResponseWriter, r *http.Request) error
 
@@ -1292,7 +1287,7 @@ File ./myapp/controllers/ext/<entity\_name>c_ext.go is generated for each entity
 
     BeforeResponse is an extension-point that can be implemented to perform checks following the return of the call to the model-layer. At this point, changes to the db will have been made, so failing the call should take this into consideration.
 
-* ControllerUpdateExt
+##### Interface ControllerUpdateExt
 
     BeforeFirst(w http.ResponseWriter, r *http.Request) error
 
@@ -1305,7 +1300,7 @@ File ./myapp/controllers/ext/<entity\_name>c_ext.go is generated for each entity
     BeforeResponse(ent interface{}) error
     BeforeResponse is an extension-point that can be implemented to perform checks following the return of the call to the model-layer. At this point, changes to the db will have been made, so failing the call should take this into consideration.
 
-* ControllerGetExt
+##### Interface ControllerGetExt
 
     BeforeFirst(w http.ResponseWriter, r *http.Request) error
 
