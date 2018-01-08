@@ -1273,7 +1273,7 @@ File ./myapp/controllers/ext/<entity\_name>c_ext.go is generated for each entity
 
 #### Controller Extension-Point Interfaces
 
-* _Interface ControllerCreateExt_
+Interface ControllerCreateExt
 
     **BeforeFirst(w http.ResponseWriter, r *http.Request) error**
 
