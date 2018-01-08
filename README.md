@@ -1132,9 +1132,8 @@ Each section of the method is broken down in the following subsets of commented 
 
 The controllers folder also contains an 'ext' sub-directory which is used to hold the interface definitions for controller extension-points as well as the associated empty implementation for each entity.  See the 'Extension Points' section of this document for more details.
 
-<br/>
-<br/>
-<br/>
+
+
 ### The models folder
 
 A model is created for each entity that has been modelled in the <model>.json files as well as well as the static models used to support users and authorizations.
