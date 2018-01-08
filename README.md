@@ -1285,11 +1285,6 @@ File ./myapp/controllers/ext/<entity\_name>c_ext.go is generated for each entity
 
 <table style="width:100%">
   <tr>
-    <th>Firstname</th>
-    <th>Lastname</th> 
-    <th>Age</th>
-  </tr>
-  <tr>
     <td>Jill</td>
     <td>Smith</td> 
     <td>50</td>
