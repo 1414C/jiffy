@@ -1272,6 +1272,7 @@ File ./myapp/controllers/ext/extc_interfaces.go contains the generated entity co
 File ./myapp/controllers/ext/<entity\_name>c_ext.go is generated for each entity with empty extension-point interface implementations.  This file may be edited by the application developer to add custom application logic.
 
 #### Controller Extension-Point Interfaces
+
 <table style="width:100%">
   <tr>
     <td><h5>Interface ControllerCreateExt</h5></td>
@@ -1338,9 +1339,66 @@ File ./myapp/controllers/ext/<entity\_name>c_ext.go is generated for each entity
 </table>
 <br>
 
-### Model Extension Points
+### Model Extension-Points
+
+Model extension-points exist for the Create, Update and Get CRUD operations.  Each operation has a related extension-point interface, for which an empty implementation is created when the application is generated.  If the generator sees that the extension-point implementation file for an entity has alredy been created, it will not over-write or create a new version.
+
+File ./myapp/models/ext/extm_interfaces.go contains the generated entity model extension-point interface declarations.  Each interface and interface method is documented in this file.
+
+File ./myapp/controllers/<entity\_name>m_ext.go is generated for each entity with empty extension-point interface implementations.  This file may be edited by the application developer to add custom application logic.
 
 
+#### Model Extension-Point Interfaces
+
+<table style="width:100%">
+  <tr>
+    <td><h5>Interface ModelCreateExt</h5></td>
+  </tr>
+  <tr>
+    <td><h6>BeforeDB(ent interface{}) error</h6>
+    BeforeDB is an extension-point that can be implemented in order to examine and potentially make changes to the values in the entity structure immediately before the insertion request is made to the ORM. This extension-point is the first code executed in the model's Create method. Authentication and Authorization checks should be performed upstream in the route middleware-layer and detailed checks of an entity's data should be carried out in the validator-layer.
+    </td>
+  </tr>
+  <tr>
+    <td><h6>AfterDB(ent interface{}) error</h6>
+    CreateAfterDB is an extension-point that can be implemented in order to examine and potentially make changes to the values in the entity structure immediately following the return of the ORM insertion request. This extension-point is the last code executed in the model's Create method. As the insertion will have already occurred at this point, care should be taken when deciding whether to issue an error in this extension-point.  Augmentation of the of the Create result may be carried out in this method in order to calculate non-persistent entity values for example.
+    </td>
+  </tr>
+</table>
+<br>
+
+<table style="width:100%">
+  <tr>
+    <td><h5>Interface ModelUpdateExt</h5></td>
+  </tr>
+  <tr>
+    <td><h6>BeforeDB(ent interface{}) error</h6>
+    BeforeDB is an extension-point that can be implemented in order to examine and potentially make changes to the values in the entity structure immediately before the update request is made to the ORM.  This extension-point is the first code executed in the model's Update method. Authentication and Authorization checks should be performed upstream in the route middleware-layer and detailed checks and normalization of the entity's data should be carried out in the validator-layer.
+    </td>
+  </tr>
+  <tr>
+    <td><h6>AfterDB(ent interface{}) error</h6>
+    AfterDB is an extension-point that can be implemented in order to examine and potentially make changes to the values in the entity structure immediately following the return of the ORM update request. This extension-point is the last code executed in the model's Update method. As the update will have already occurred at this point, care should be taken when deciding whether to issue an error in this extension-point.  Augmentation of the of the Update result may be carried out in this method in order to calculate non-persistent entity values for example.
+    </td>
+  </tr>
+</table>
+<br>
+
+<table style="width:100%">
+  <tr>
+    <td><h5>Interface ModelGetExt</h5></td>
+  </tr>
+  <tr>
+    <td><h6>BeforeDB(ent interface{}) error</h6>
+    BeforeDB is an extension-point that can be implemented in order to examine and potentially make changes to the values in the entity structure immediately before the read-entity request is made to the ORM. This extension-point is the first code executed in the model's Get method. Authentication and Authorization checks should be performed upstream in the route middleware-layer and detailed checks of an entity's data should be carried out in the validator-layer.
+  </tr>
+  <tr>
+    <td><h6>AfterDB(ent interface{}) error</h6>
+    AfterDB is an extension-point that can be implemented in order to examine and potentially make changes to the values in the entity structure immediately following the return of the ORM read-entity request. This extension-point is the last code executed in the model's Get method. As the read will have already occurred at this point, care should be taken when deciding whether to issue an error in this extension-point.  Augmentation of the of the Get result may be carried out in this method in order to calculate non-persistent entity values for example.
+
+    Note that the AfterDB(ent interface{}) method is called after the single and set Get CRUD operations for an entity.
+  </tr>
+</table>
 
 ## Using the Generated Code
 
