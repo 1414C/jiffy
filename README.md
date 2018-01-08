@@ -1300,7 +1300,7 @@ File ./myapp/controllers/ext/<entity\_name>c_ext.go is generated for each entity
     <td><h5>Interface ControllerUpdateExt</h5></td>
   </tr>
   <tr>
-    <td><h6>BeforeFirst(w http.ResponseWriter, r *http.Request) error<h6>
+    <td><h6>BeforeFirst(w http.ResponseWriter, r *http.Request) error</h6>
     BeforeFirst is an extension-point that can be implemented in order to examine and potentially reject an Update entity request. This extension-point is the first code executed in the controller's Update method. Authentication and Authorization checks should be performed upstream in the route middleware-layer and detailed checks of a request.Body should be carried out by the validator in the model-layer.
     </td>
   </tr>
