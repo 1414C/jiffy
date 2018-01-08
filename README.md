@@ -1391,6 +1391,7 @@ File ./myapp/controllers/<entity\_name>m_ext.go is generated for each entity wit
   <tr>
     <td><h6>BeforeDB(ent interface{}) error</h6>
     BeforeDB is an extension-point that can be implemented in order to examine and potentially make changes to the values in the entity structure immediately before the read-entity request is made to the ORM. This extension-point is the first code executed in the model's Get method. Authentication and Authorization checks should be performed upstream in the route middleware-layer and detailed checks of an entity's data should be carried out in the validator-layer.<p>
+    </td>
   </tr>
   <tr>
     <td><h6>AfterDB(ent interface{}) error</h6>
