@@ -1280,7 +1280,7 @@ File ./myapp/controllers/ext/<entity\_name>c_ext.go is generated for each entity
     BeforeFirst is an extension-point that can be implemented in order to examine and potentially reject a Create entity request. This extension-point is the first code executed in the controller's Create method. Authentication and Authorization checks should be performed upstream in the route middleware-layer and detailed checks of a request.Body should be carried out by the validator in the model-layer.
 
     AfterBodyDecode(ent interface{}) error
-    
+
     AfterBodyDecode is an extension-point that can be implemented to perform preliminary checks and changes to the unmarshalled content of the request.Body. Detailed checks of the unmarshalled data from the request.Body should be carried out by the validator in the model-layer. This extension-point should only be used to carry out deal-breaker checks and perhaps to default data in the entity struct prior to calling the validator/normalization methods in the model-layer.
 
     BeforeResponse(ent interface{}) error
