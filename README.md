@@ -1395,7 +1395,7 @@ File ./myapp/controllers/<entity\_name>m_ext.go is generated for each entity wit
   </tr>
   <tr>
     <td><h6>AfterDB(ent interface{}) error</h6>
-    AfterDB is an extension-point that can be implemented in order to examine and potentially make changes to the values in the entity structure immediately following the return of the ORM read-entity request. This extension-point is the last code executed in the model's Get method. As the read will have already occurred at this point, care should be taken when deciding whether to issue an error in this extension-point.  Augmentation of the of the Get result may be carried out in this method in order to calculate non-persistent entity values for example.<br>
+    AfterDB is an extension-point that can be implemented in order to examine and potentially make changes to the values in the entity structure immediately following the return of the ORM read-entity request. This extension-point is the last code executed in the model's Get method. As the read will have already occurred at this point, care should be taken when deciding whether to issue an error in this extension-point.  Augmentation of the of the Get result may be carried out in this method in order to calculate non-persistent entity values for example.<p>
     Note that the AfterDB(ent interface{}) method is called after the single and set Get CRUD operations for an entity.<p>
     </td>
   </tr>
