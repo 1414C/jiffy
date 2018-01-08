@@ -1258,6 +1258,61 @@ The middleware folder contains all of the code related to the application the of
 
 The jwtkewys folder contains the public and private keys that are generated in order to support the use of ECDSA-384 in the creation and reading of the JWT token.
 
+## Extension-Points
+
+The Rgen application generates a working web-services application based on the provided model files.  While the generated application should be runnable immediately following generation, there is often a need to perform validation and normalization on the incoming data.  This is best coded in the model-layer within the generated validation methods, but sometimes this is not sufficient.
+
+There may be a need to inspect the request details immediately once the request has been passed to the controller.  There may be a need to perform crucial validations in the controller layer prior to calling the model-layer (i.e. in advance of the validator).  There may be a need to influence the value of an entity's fields prior to returning the read or created entity back to the caller.  For reasons such as these, so-called 'extension-points' have been embedded in the model and controller layers of the code.
+
+Each extension-point offers the developer the ability to code their own method in a re-generation protected code-body in order to perform checks or data maniupulations.  Consider that regeneration of an application will overwrite the current controller and model files if the same target destination is used.  If an application developer were to extend the controller or model directly in the generated code, their additions would be lost if the application were to be regenerated.  By introducing the extension-point concept and separating the related code from the generated code the application developers enhancements are protected from being over-written by an inadverent application regeneration.
+
+### Controller Extension-Points
+
+Controller extension-points exist for the Create, Update and Get CRUD operations.  Each operation has a related extension-point interface, for which an empty implementation is created when the application is generated.  If the generator sees that the extension-point implementation file for an entity has alredy been created, it will not over-write or create a new version.
+
+File ./myapp/controllers/ext/extc_interfaces.go contains the generated entity controller extension-point interface declarations.  Each interface and interface method is documented in this file.
+
+File ./myapp/controllers/ext/<entity\_name>c_ext.go is generated for each entity with empty extension-point interface implementations.  This file may be edited by the application developer to add custom application logic.
+
+#### Controller Extension-Point Interfaces
+
+* Interface ControllerCreateExt
+
+    BeforeFirst(w http.ResponseWriter, r *http.Request) error
+    BeforeFirst is an extension-point that can be implemented in order to examine and potentially reject a Create entity request. This extension-point is the first code executed in the controller's Create method. Authentication and Authorization checks should be performed upstream in the route middleware-layer and detailed checks of a request.Body should be carried out by the validator in the model-layer.
+
+    AfterBodyDecode(ent interface{}) error
+    AfterBodyDecode is an extension-point that can be implemented to perform preliminary checks and changes to the unmarshalled content of the request.Body. Detailed checks of the unmarshalled data from the request.Body should be carried out by the validator in the model-layer. This extension-point should only be used to carry out deal-breaker checks and perhaps to default data in the entity struct prior to calling the validator/normalization methods in the model-layer.
+
+    BeforeResponse(ent interface{}) error
+    BeforeResponse is an extension-point that can be implemented to perform checks following the return of the call to the model-layer. At this point, changes to the db will have been made, so failing the call should take this into consideration.
+
+* ControllerUpdateExt
+
+    BeforeFirst(w http.ResponseWriter, r *http.Request) error
+    BeforeFirst is an extension-point that can be implemented in order to examine and potentially reject an Update entity request. This extension-point is the first code executed in the controller's Update method. Authentication and Authorization checks should be performed upstream in the route middleware-layer and detailed checks of a request.Body should be carried out by the validator in the model-layer.
+
+    AfterBodyDecode(ent interface{}) error
+    AfterBodyDecode is an extension-point that can be implemented to perform preliminary checks and changes to the unmarshalled content of the request.Body.  Detailed checks of the unmarshalled data from the request.Body should be carried out by the validator in the model-layer. This extension-point should only be used to carry out deal-breaker checks and perhaps to default data in the entity struct prior to calling the validator/normalization methods in the model-layer.
+
+    BeforeResponse(ent interface{}) error
+    BeforeResponse is an extension-point that can be implemented to perform checks following the return of the call to the model-layer. At this point, changes to the db will have been made, so failing the call should take this into consideration.
+
+* ControllerGetExt
+
+    BeforeFirst(w http.ResponseWriter, r *http.Request) error
+    BeforeFirst is an extension-point that can be implemented in order to examine and potentially reject a Get entity request. This extension-point is the first code executed in the controller's Create method.  Authentication and Authorization checks should be performed upstream in the route middleware-layer.
+
+    BeforeModelCall(ent interface{}) error
+    BeforeModelCall is an extension-point that can be implemented in order to make changes to the content of the entity structure prior to calling the model-layer. By default the controller's Get method will populate the ID field of the entity structure using the :id value provided in the request URL. The use of this extension-point would be seemingly rare and any values added to the struct would be over-written in the model-layer when the call to the DBMS is made. The added values would however be available for use in the validation/normalization and DBMS access methods prior to the call to the ORM.
+
+    BeforeResponse(ent interface{}) error
+    BeforeResponse is an extension-point that can be implemented to perform checks / changes following the return of the call to the model-layer. At this point, the db has been read and the populated entity structure is about to be marshalled into JSON and passed back to the router/mux.
+
+### Model Extension Points
+
+
+
 ## Using the Generated Code
 
 1. Edit the generated .prd.config.json file to define your production configuration.
