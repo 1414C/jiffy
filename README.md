@@ -1294,6 +1294,7 @@ File ./myapp/controllers/ext/<entity\_name>c_ext.go is generated for each entity
     </td>
   </tr>
 </table>
+<br>
 
 <table style="width:100%">
   <tr>
@@ -1315,6 +1316,7 @@ File ./myapp/controllers/ext/<entity\_name>c_ext.go is generated for each entity
     </td>
   </tr>
 </table>
+<br>
 
 <table style="width:100%">
   <tr>
@@ -1336,6 +1338,7 @@ File ./myapp/controllers/ext/<entity\_name>c_ext.go is generated for each entity
     </td>
   </tr>
 </table>
+<br>
 
 ### Model Extension Points
 
