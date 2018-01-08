@@ -1,5 +1,11 @@
 # rgen
 
+## Immediate fixes
+
+* adjust the extension-point templates
+* retest with single file
+* test with -mf flag
+
 ## Overview and Features
 
 Rgen is a model-based application services generator written in go.  It was developed as an experiment to offer an alternative avenue when developing cloud native applications for SAP Hana.  The rgen application allows a developer to treat the data persistence layer as an abstraction, thereby removing the need to make use of CDS and the SAP XS libraries.

@@ -1,0 +1,49 @@
+{
+    "entities":  [
+        {
+            "typeName": "Automobile",
+            "id_properties": {
+                "start": 90000000
+            },
+            "properties": {
+                "brand": {
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,like"
+                },
+                "model": {
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "eq,like"
+                },
+                "year": {
+                    "type": "uint64",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "eq,lt,le,gt,ge"
+                },
+                "vin": {
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,like"
+                }
+            },
+            "ext_points": {
+                "gen_controller": true,
+                "gen_validator": true,
+                "gen_model": true
+            }
+        }
+    ]
+}

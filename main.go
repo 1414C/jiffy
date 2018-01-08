@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"go/build"
+	"io/ioutil"
+	"log"
 	"os"
 	"strings"
 
@@ -12,12 +14,13 @@ import (
 
 func main() {
 
-	projectPath := flag.String("p", "/exp/usrgen4", "project path starting in &GOPATH/src")
-	modelFile := flag.String("m", "./model.scratch2.json", "model file relative to application base directory")
+	projectPath := flag.String("p", "/exp/usrgen5", "project path starting in &GOPATH/src")
+	modelFile := flag.String("m", "", "model file relative to application base directory")
+	modelDirectory := flag.String("md", "", "process all model files in the specified directory")
 
 	flag.Parse()
 	if *projectPath == "" {
-		os.Exit(-1)
+		log.Fatal("project path must be provided via the -p flag.  exiting...")
 	}
 
 	// verify that the project path exists under $GOPATH/src/
@@ -28,10 +31,62 @@ func main() {
 		os.Mkdir(*projectPath, 0755)
 	}
 
-	// read the JSON models file to get the Entity definitions
-	entities, err := gen.ReadModelFile(*modelFile) // gen.GetEntities()
-	if err != nil {
-		fmt.Println(err)
+	// check that -m and -md have not both been included in the arg list
+	if *modelFile != "" && *modelDirectory != "" {
+		log.Fatal("the m and md flag are mutually exclusive. exiting...")
+	}
+
+	// read the JSON models file to get the Entity definitions if a single
+	// model file has been specified via the -m flag
+	var entities []gen.Entity
+	if *modelFile != "" {
+		entities, err = gen.ReadModelFile(*modelFile) // gen.GetEntities()
+		if err != nil {
+			log.Fatal(err, "exiting...")
+		}
+	}
+
+	// stat the modelDirectory, then read all of the JSON files if multiple
+	// model files have been specified via the -md flag
+	if *modelDirectory != "" {
+		_, err = os.Stat(*modelDirectory)
+		if err != nil {
+			log.Fatal(err, "exiting...")
+		}
+
+		files, err := ioutil.ReadDir(*modelDirectory)
+		if err != nil {
+			log.Fatal(err, "exiting...")
+		}
+
+		for _, mf := range files {
+			if strings.HasSuffix(strings.ToUpper(mf.Name()), "JSON") {
+				fEntities, err := gen.ReadModelFile(*modelDirectory + "/" + mf.Name())
+				if err != nil {
+					log.Fatal(err, "exiting...")
+				}
+
+				for _, v := range fEntities {
+					entities = append(entities, v)
+				}
+				fEntities = nil
+			}
+		}
+	}
+
+	// perform a cursory check for duplicate entity names
+	mapEntities := make(map[string]bool)
+	for _, v := range entities {
+		mapEntities[v.Header.Name] = false
+	}
+
+	for _, v := range entities {
+		b := mapEntities[v.Header.Name]
+		if b == false {
+			mapEntities[v.Header.Name] = true
+		} else {
+			log.Fatalf("duplicate entity %s found in model files.  please check the model sources and try again.  exiting...\n", v.Header.Name)
+		}
 	}
 
 	// for _, e := range entities {

@@ -268,8 +268,18 @@ func (ent *Entity) CreateControllerExtensionPointsFile(tDir string) (fName strin
 		os.Mkdir(tDir, 0755)
 	}
 
-	// create the controller extension-point file
+	// does an extension-point implementation file already exist for the entity's controller?
+	// if so, return the fully qualified file-name.  if not, proceed and create a new controller
+	// extension-point file for the entity containing the empty interface implementations.
 	tfDir := tDir + "/" + ent.Header.Value + "c_ext.go"
+	fInfo, err := os.Stat(tfDir)
+	if err == nil && fInfo != nil {
+		log.Println("found existing extension-point implementation file:", tfDir)
+		return tfDir, nil
+	}
+
+	// create the controller extension-point file
+	// tfDir := tDir + "/" + ent.Header.Value + "c_ext.go"
 	f, err := os.Create(tfDir)
 	if err != nil {
 		log.Fatal("CreateControllerExtensionPointsFile: ", err)
@@ -314,8 +324,17 @@ func (ent *Entity) CreateModelExtensionPointsFile(tDir string) (fName string, er
 		os.Mkdir(tDir, 0755)
 	}
 
-	// create the controller extension-point file
+	// does an extension implementation file already exist for the entity? if so, return
+	// the fully qualified file-name.  if not, proceed and create a new model extension-
+	// point file for the entity containing the empty interface implementations.
 	tfDir := tDir + "/" + ent.Header.Value + "m_ext.go"
+	fInfo, err := os.Stat(tfDir)
+	if err == nil && fInfo != nil {
+		log.Println("found existing extension-point implementation file:", tfDir)
+		return tfDir, nil
+	}
+
+	// create the model extension-point file
 	f, err := os.Create(tfDir)
 	if err != nil {
 		log.Fatal("CreateModelExtensionPointsFile: ", err)
