@@ -1272,8 +1272,6 @@ File ./myapp/controllers/ext/extc_interfaces.go contains the generated entity co
 File ./myapp/controllers/ext/<entity\_name>c_ext.go is generated for each entity with empty extension-point interface implementations.  This file may be edited by the application developer to add custom application logic.
 
 #### Controller Extension-Point Interfaces
-
-#### Interface ControllerCreateExt
 <table style="width:100%">
   <tr>
     <td><h5>Interface ControllerCreateExt</h5></td>
