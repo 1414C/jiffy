@@ -1276,7 +1276,7 @@ File ./myapp/controllers/ext/<entity\_name>c_ext.go is generated for each entity
 #### Interface ControllerCreateExt
 <table style="width:100%">
   <tr>
-    <td><h5>Interface ControllerCreateExt</h5></td>
+    <th><h5>Interface ControllerCreateExt</h5></th>
   </tr>
   <tr>  
     <td><h6>BeforeFirst(w http.ResponseWriter, r *http.Request) error</h6>
