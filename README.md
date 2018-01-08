@@ -1265,7 +1265,7 @@ Each extension-point offers the developer the ability to code their own method i
 
 ### Controller Extension-Points
 
-Controller extension-points exist for the Create, Update and Get CRUD operations.  Each operation has a related extension-point interface, for which an empty implementation is created when the application is generated.  If the generator sees that the extension-point implementation file for an entity has alredy been created, it will not over-write or create a new version.
+Controller extension-points exist for the Create, Update and Get CRUD operations.  Each operation has a related extension-point interface, for which an empty implementation is created when the application is generated.  If the generator sees that the extension-point implementation file for an entity has already been created, it will not over-write or create a new version.
 
 File ./myapp/controllers/ext/extc_interfaces.go contains the generated entity controller extension-point interface declarations.  Each interface and interface method is documented in this file.
 
@@ -1341,7 +1341,7 @@ File ./myapp/controllers/ext/<entity\_name>c_ext.go is generated for each entity
 
 ### Model Extension-Points
 
-Model extension-points exist for the Create, Update and Get CRUD operations.  Each operation has a related extension-point interface, for which an empty implementation is created when the application is generated.  If the generator sees that the extension-point implementation file for an entity has alredy been created, it will not over-write or create a new version.
+Model extension-points exist for the Create, Update and Get CRUD operations.  Each operation has a related extension-point interface, for which an empty implementation is created when the application is generated.  If the generator sees that the extension-point implementation file for an entity has already been created, it will not over-write or create a new version.
 
 File ./myapp/models/ext/extm_interfaces.go contains the generated entity model extension-point interface declarations.  Each interface and interface method is documented in this file.
 
