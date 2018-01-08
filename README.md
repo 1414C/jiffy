@@ -1400,6 +1400,7 @@ File ./myapp/controllers/<entity\_name>m_ext.go is generated for each entity wit
     </td>
   </tr>
 </table>
+<br>
 
 ## Using the Generated Code
 
@@ -1420,7 +1421,7 @@ The generated server runs based on a generated JSON configuration file as shown 
     "port": 3000,
     'port' is used to instruct the generated server which tcp port to publish the service end-points on.
 
-    "env": "def",
+    "env": "dev",
     'env' is used to inform the generated server which mode to run in.  The material difference
     between "dev", "def" and "prod" is slight; the "dev" and "def" modes run the ORM in debugging
     mode, thereby causing the generated SQL statements to be written as a log to stdout.
