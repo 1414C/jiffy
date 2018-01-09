@@ -14,18 +14,18 @@ import (
 {{/*  method on the Entity struct in the main.go program file.              */ -}}
 {{ $pref := .GetLowerCasePrefixLetter -}}
 
-// CtrlCreateExt provides access to the ControllerCreateExt extension-point interface
-type CtrlCreateExt struct {
+// Ctrl{{.Header.Name}}CreateExt provides access to the ControllerCreateExt extension-point interface
+type Ctrl{{.Header.Name}}CreateExt struct {
 	ControllerCreateExt
 }
 
-// CtrlGetExt provides access to the ControllerGetExt extension-point interface
-type CtrlGetExt struct {
+// Ctrl{{.Header.Name}}GetExt provides access to the ControllerGetExt extension-point interface
+type Ctrl{{.Header.Name}}GetExt struct {
 	ControllerGetExt
 }
 
-// CtrlUpdateExt provides access to the ControllerUpdateExt extension-point interface
-type CtrlUpdateExt struct {
+// Ctrl{{.Header.Name}}UpdateExt provides access to the ControllerUpdateExt extension-point interface
+type Ctrl{{.Header.Name}}UpdateExt struct {
 	ControllerUpdateExt
 }
 
@@ -34,9 +34,9 @@ type CtrlUpdateExt struct {
 //   CtrlUpdateExt
 //   CtrlGetExt
 type {{.Header.Name}}CtrlExt struct {
-	CrtEp CtrlCreateExt
-	UpdEp CtrlUpdateExt
-	GetEp CtrlGetExt
+	CrtEp Ctrl{{.Header.Name}}CreateExt
+	UpdEp Ctrl{{.Header.Name}}UpdateExt
+	GetEp Ctrl{{.Header.Name}}GetExt
 }
 
 var {{.Header.Value}}CtrlExp {{.Header.Name}}CtrlExt
@@ -54,14 +54,14 @@ func Init{{.Header.Name}}CtrlExt() *{{.Header.Name}}CtrlExt {
 
 // BeforeFirst extension-point implementation for entity {{.Header.Name}}
 // TODO: implement checks and document them here
-func (crtEP *CtrlCreateExt) BeforeFirst(w http.ResponseWriter, r *http.Request) error {
+func (crtEP *Ctrl{{.Header.Name}}CreateExt) BeforeFirst(w http.ResponseWriter, r *http.Request) error {
 
 	return nil
 }
 
 // AfterBodyDecode extension-point implementation for entity {{.Header.Name}}
 // TODO: implement application logic and document it here
-func (crtEP *CtrlCreateExt) AfterBodyDecode(ent interface{}) error {
+func (crtEP *Ctrl{{.Header.Name}}CreateExt) AfterBodyDecode(ent interface{}) error {
 
 	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
 	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
@@ -75,7 +75,45 @@ func (crtEP *CtrlCreateExt) AfterBodyDecode(ent interface{}) error {
 
 // BeforeResponse extension-point implementation for entity {{.Header.Name}}
 // TODO: implement application logic and document it here
-func (crtEP *CtrlCreateExt) BeforeResponse(ent interface{}) error {
+func (crtEP *Ctrl{{.Header.Name}}CreateExt) BeforeResponse(ent interface{}) error {
+
+	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
+	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
+	// {{$pref}} := ent.(*models.{{.Header.Name}})
+    //
+	// make changes / validate the content struct pointer ({{$pref}}) here
+	// {{$pref}}.<field_name> = {{$pref}}.<field_name> + "."
+
+	return nil
+}
+
+//------------------------------------------------------------------------------------------
+// ControllerUpdateExt extension-point interface implementation for entity {{.Header.Name}}
+//------------------------------------------------------------------------------------------
+
+// BeforeFirst extension-point implementation for entity {{.Header.Name}}
+// TODO: implement checks and document them here
+func (updEP *Ctrl{{.Header.Name}}UpdateExt) BeforeFirst(w http.ResponseWriter, r *http.Request) error {
+
+	return nil
+}
+
+// AfterBodyDecode extension-point implementation for entity {{.Header.Name}}
+// TODO: implement application logic and document it here
+func (updEP *Ctrl{{.Header.Name}}UpdateExt) AfterBodyDecode(ent interface{}) error {
+
+	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
+	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
+	// {{$pref}} := ent.(*models.{{.Header.Name}})
+    //
+	// make changes / validate the content struct pointer ({{$pref}}) here
+	// {{$pref}}.<field_name> = "An updated value"
+	return nil
+}
+
+// BeforeResponse extension-point implementation for entity {{.Header.Name}}
+// TODO: implement application logic and document it here
+func (updEP *Ctrl{{.Header.Name}}UpdateExt) BeforeResponse(ent interface{}) error {
 
 	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
 	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
@@ -93,14 +131,14 @@ func (crtEP *CtrlCreateExt) BeforeResponse(ent interface{}) error {
 
 // BeforeFirst extension-point implementation for entity {{.Header.Name}}
 // TODO: implement checks and document them here
-func (getEP *CtrlGetExt) BeforeFirst(w http.ResponseWriter, r *http.Request) error {
+func (getEP *Ctrl{{.Header.Name}}GetExt) BeforeFirst(w http.ResponseWriter, r *http.Request) error {
 
 	return nil
 }
 
 // BeforeModelCall extension-point implementation for entity {{.Header.Name}}
 // TODO: implement application logic and document it here
-func (getEP *CtrlGetExt) BeforeModelCall(ent interface{}) error {
+func (getEP *Ctrl{{.Header.Name}}GetExt) BeforeModelCall(ent interface{}) error {
 
     // fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
 	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
@@ -114,49 +152,11 @@ func (getEP *CtrlGetExt) BeforeModelCall(ent interface{}) error {
 
 // BeforeResponse extension-point implementation for entity {{.Header.Name}}
 // TODO: implement application logic and document it here
-func (getEP *CtrlGetExt) BeforeResponse(ent interface{}) error {
+func (getEP *Ctrl{{.Header.Name}}GetExt) BeforeResponse(ent interface{}) error {
 
 	// {{$pref}} := ent.(*models.{{.Header.Name}})
     //
     // make changes / validate the content struct pointer ({{$pref}}) here
-	// {{$pref}}.<field_name> = {{$pref}}.<field_name> + "."
-
-	return nil
-}
-
-//------------------------------------------------------------------------------------------
-// ControllerUpdateExt extension-point interface implementation for entity {{.Header.Name}}
-//------------------------------------------------------------------------------------------
-
-// BeforeFirst extension-point implementation for entity {{.Header.Name}}
-// TODO: implement checks and document them here
-func (updEP *CtrlUpdateExt) BeforeFirst(w http.ResponseWriter, r *http.Request) error {
-
-	return nil
-}
-
-// AfterBodyDecode extension-point implementation for entity {{.Header.Name}}
-// TODO: implement application logic and document it here
-func (updEP *CtrlUpdateExt) AfterBodyDecode(ent interface{}) error {
-
-	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
-	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
-	// {{$pref}} := ent.(*models.{{.Header.Name}})
-    //
-	// make changes / validate the content struct pointer ({{$pref}}) here
-	// {{$pref}}.<field_name> = "An updated value"
-	return nil
-}
-
-// BeforeResponse extension-point implementation for entity {{.Header.Name}}
-// TODO: implement application logic and document it here
-func (updEP *CtrlUpdateExt) BeforeResponse(ent interface{}) error {
-
-	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
-	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
-	// {{$pref}} := ent.(*models.{{.Header.Name}})
-    //
-	// make changes / validate the content struct pointer ({{$pref}}) here
 	// {{$pref}}.<field_name> = {{$pref}}.<field_name> + "."
 
 	return nil

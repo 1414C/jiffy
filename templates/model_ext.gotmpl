@@ -14,18 +14,18 @@ import (
 {{/*  method on the Entity struct in the main.go program file.              */ -}}
 {{ $pref := .GetLowerCasePrefixLetter -}}
 
-// MdlCreateExt provides access to the ModelCreateExt extension-point interface
-type MdlCreateExt struct {
+// Mdl{{.Header.Name}}CreateExt provides access to the ModelCreateExt extension-point interface
+type Mdl{{.Header.Name}}CreateExt struct {
 	ext.ModelCreateExt
 }
 
-// MdlUpdateExt provides access to the ControllerUpdateExt extension-point interface
-type MdlUpdateExt struct {
+// Mdl{{.Header.Name}}UpdateExt provides access to the ControllerUpdateExt extension-point interface
+type Mdl{{.Header.Name}}UpdateExt struct {
 	ext.ModelUpdateExt
 }
 
-// MdlGetExt provides access to the ControllerGetExt extension-point interface
-type MdlGetExt struct {
+// Mdl{{.Header.Name}}GetExt provides access to the ControllerGetExt extension-point interface
+type Mdl{{.Header.Name}}GetExt struct {
 	ext.ModelGetExt
 }
 
@@ -34,9 +34,9 @@ type MdlGetExt struct {
 //   MdlUpdateExt
 //   MdlGetExt
 type {{.Header.Name}}MdlExt struct {
-	CrtEp MdlCreateExt
-	UpdEp MdlUpdateExt
-	GetEp MdlGetExt
+	CrtEp Mdl{{.Header.Name}}CreateExt
+	UpdEp Mdl{{.Header.Name}}UpdateExt
+	GetEp Mdl{{.Header.Name}}GetExt
 }
 
 var {{.Header.Value}}MdlExp {{.Header.Name}}MdlExt
@@ -54,7 +54,7 @@ func Init{{.Header.Name}}MdlExt() *{{.Header.Name}}MdlExt {
 
 // BeforeDB model extension-point implementation for entity {{.Header.Name}}
 // TODO: implement pre-ORM call logic and document it here
-func (crtEP *MdlCreateExt) BeforeDB(ent interface{}) error {
+func (crtEP *Mdl{{.Header.Name}}CreateExt) BeforeDB(ent interface{}) error {
 
 	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
 	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
@@ -67,7 +67,7 @@ func (crtEP *MdlCreateExt) BeforeDB(ent interface{}) error {
 
 // AfterDB model extension-point implementation for entity {{.Header.Name}}
 // TODO: implement post-ORM call logic and document it here
-func (crtEP *MdlCreateExt) AfterDB(ent interface{}) error {
+func (crtEP *Mdl{{.Header.Name}}CreateExt) AfterDB(ent interface{}) error {
 
 	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
 	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
@@ -84,7 +84,7 @@ func (crtEP *MdlCreateExt) AfterDB(ent interface{}) error {
 
 // BeforeDB extension-point implementation for entity {{.Header.Name}}
 // TODO: implement pre-ORM call logic and document it here
-func (updEP *MdlUpdateExt) BeforeDB(ent interface{}) error {
+func (updEP *Mdl{{.Header.Name}}UpdateExt) BeforeDB(ent interface{}) error {
 
 	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
 	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
@@ -97,7 +97,7 @@ func (updEP *MdlUpdateExt) BeforeDB(ent interface{}) error {
 
 // AfterDB extension-point implementation for entity {{.Header.Name}}
 // TODO: implement post-ORM call logic and document it here
-func (updEP *MdlUpdateExt) AfterDB(ent interface{}) error {
+func (updEP *Mdl{{.Header.Name}}UpdateExt) AfterDB(ent interface{}) error {
 
 	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
 	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
@@ -114,7 +114,7 @@ func (updEP *MdlUpdateExt) AfterDB(ent interface{}) error {
 
 // BeforeDB extension-point implementation for entity {{.Header.Name}}
 // TODO: implement pre-ORM call logic and document it here
-func (getEP *MdlGetExt) BeforeDB(ent interface{}) error {
+func (getEP *Mdl{{.Header.Name}}GetExt) BeforeDB(ent interface{}) error {
 
 	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
 	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))
@@ -127,7 +127,7 @@ func (getEP *MdlGetExt) BeforeDB(ent interface{}) error {
 
 // AfterDB extension-point implementation for entity {{.Header.Name}}
 // TODO: implement post-ORM call logic and document it here
-func (getEP *MdlGetExt) AfterDB(ent interface{}) error {
+func (getEP *Mdl{{.Header.Name}}GetExt) AfterDB(ent interface{}) error {
 
 	// fmt.Println("TypeOf ent:", reflect.TypeOf(ent))
 	// fmt.Println("ValueOf ent:", reflect.ValueOf(ent))

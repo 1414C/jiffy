@@ -1,10 +1,6 @@
 # rgen
 
-## Immediate fixes
-
-* adjust the extension-point templates
-* retest with single file
-* test with -mf flag
+* add extension-points to all GETs
 
 ## Overview and Features
 

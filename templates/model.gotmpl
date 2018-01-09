@@ -13,6 +13,7 @@ import (
 {{/*  Entity struct fields for use inside pipelines */}}
 {{$headerName := .Header.Name -}}
 {{$headerValue := .Header.Value -}}
+{{$headerGenModelExt := .Header.GenModelExt -}}
 
 {{/*  $pref is populated by a call to .GetLowerCasePrefixLetter which is a  */ -}}
 {{/*  method on the Entity struct in the main.go program file.              */ -}}
@@ -383,12 +384,15 @@ func ({{$pref}}s *{{.Header.Value}}Sqac) Get{{.Header.Name}}s() []{{.Header.Name
 		return getEnts.ents
 	}
 
+    {{if .Header.GenModelExt -}}
+	// call the extension-point
 	for i := range getEnts.ents {
 		err = {{$pref}}s.ep.GetEp.AfterDB(&getEnts.ents[i])
 		if err != nil {
 			log.Println("{{.Header.Name}}Model Get{{.Header.Name}}s AfterDB() error:", err)
 		}
 	}
+	{{end -}}
 	return getEnts.ents
 }
 
@@ -429,6 +433,7 @@ func (ge *{{.Header.Name}}GetEntitiesT) Exec(sqh sqac.PublicDB) error {
 	if sqh.IsLog() {
 		fmt.Println("{{.Header.Name}}GetEntitiesT.Exec() got:", ge.ents)
 	}
+
 	return nil
 }
 //- - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -466,6 +471,16 @@ func ({{$pref}}s *{{.FromEntityLC}}Sqac) GetRel{{.FromEntity}}{{.RelName}}({{.To
 	if {{$pref}}s.handle.IsLog() {
 		log.Printf("GetRel{{.FromEntity}}{{.RelName}} found: %v \n", {{.ToEntityLC}})
 	}
+
+	{{if $headerGenModelExt -}}
+	// call the extension-point
+	err = {{$pref}}s.ep.GetEp.AfterDB({{.ToEntityLC}})
+	if err != nil {
+		return err
+	}
+	return err
+	{{end -}}
+
 	return nil
 }
 	{{end -}}
@@ -493,10 +508,20 @@ func ({{$pref}}s *{{.FromEntityLC}}Sqac) GetRel{{.FromEntity}}{{.RelName}}({{.To
 		log.Println("GetRel{{.FromEntity}}{{.RelName}}:", err)
 		return nil
 	}
-
 	if {{$pref}}s.handle.IsLog() {
 		log.Printf("GetRel{{.FromEntity}}{{.RelName}} found: %v \n", {{.ToEntityLC}}s)
 	}
+
+	{{if $headerGenModelExt -}}
+	// call the extension-point
+	for i := range {{.ToEntityLC}}s {
+	  	err = {{$pref}}s.ep.GetEp.AfterDB(&{{.ToEntityLC}}s[i])
+	  	if err != nil {
+	    	log.Println("{{$headerName}}Model Get AfterDB() error:", err)
+	  	}
+	}
+	{{end -}}
+
 	return nil
 }
 	{{end -}}
@@ -528,6 +553,17 @@ func ({{$pref}}s *{{.FromEntityLC}}Sqac) GetRel{{.FromEntity}}{{.RelName}}({{.To
 	if {{$pref}}s.handle.IsLog() {
 		log.Printf("GetRelLibraryBooks found: %v \n", {{.ToEntityLC}}s)
 	}
+
+	{{if $headerGenModelExt -}}
+	// call the extension-point
+	for i := range {{.ToEntityLC}}s {
+	  	err = {{$pref}}s.ep.GetEp.AfterDB(&{{.ToEntityLC}}s[i])
+	  	if err != nil {
+	    	log.Println("{{$headerName}}Model Get AfterDB() error:", err)
+	  	}
+	}
+	{{end -}}
+
 	return nil
 }
 	{{end -}}
@@ -618,6 +654,17 @@ func ({{$pref}}s *{{.FromEntityLC}}Sqac) GetRel{{.FromEntity}}{{.RelName}}({{.To
 		if {{$pref}}s.handle.IsLog() {
 			log.Printf("Get{{$headerName}}sBy{{.Name}} found: %v based on (%s %v)\n", {{$headerValue}}s, op, {{.Name}})
 		}
+
+        {{if $headerGenModelExt -}}
+		// call the extension-point
+		for i := range {{$headerValue}}s {
+	  		err = {{$pref}}s.ep.GetEp.AfterDB(&{{$headerValue}}s[i])
+	  		if err != nil {
+	    		log.Println("{{$headerName}}Model Get{{$headerValue}}s AfterDB() error:", err)
+	  		}
+		}
+		{{end -}}
+
 		return {{$headerValue}}s
 	}
 
