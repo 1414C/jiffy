@@ -33,7 +33,12 @@
                             "foreignPK": ""
                         }
                     }
-                ]
+                ],
+                "ext_points": {
+                    "gen_controller": true,
+                    "gen_validator": true,
+                    "gen_model": true
+                }
     },
     {
         "typeName": "Book",
