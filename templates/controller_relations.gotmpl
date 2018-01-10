@@ -174,10 +174,16 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 	map{{.ToEntity}}Params["{{.ForeignPK}}"] = {{.FromEntityLC}}ID
 
 	// call GetRel{{$headerName}}{{.RelName}} in the model
-	err = {{$pref}}c.{{$pref}}s.GetRel{{$headerName}}{{.RelName}}(&{{.ToEntityLC}}s, map{{.ToEntity}}Params)
+	{{.ToEntityLC}}s, err = {{$pref}}c.{{$pref}}s.GetRel{{$headerName}}{{.RelName}}(map{{.ToEntity}}Params)
 	if err != nil {
 		log.Println(err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	// if nothing was found, return an empty body
+	if {{.ToEntityLC}}s == nil || len({{.ToEntityLC}}s) == 0 {
+		respondWithJSON(w, http.StatusOK, "[]")
 		return
 	}
 
@@ -267,12 +273,19 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 	}
 
 	// call GetRel{{$headerName}}{{.RelName}} in the model
-	err = {{$pref}}c.{{$pref}}s.GetRel{{$headerName}}{{.RelName}}(&{{.ToEntityLC}}s, mapParams)
+	{{.ToEntityLC}}s, err = {{$pref}}c.{{$pref}}s.GetRel{{$headerName}}{{.RelName}}(mapParams)
 	if err != nil {
 		log.Println(err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
+
+	// if nothing was found, return an empty body
+	if {{.ToEntityLC}}s == nil || len({{.ToEntityLC}}s) == 0 {
+		respondWithJSON(w, http.StatusOK, "[]")
+		return
+	}
+
 	// populate Href for each {{.ToEntity}}
 	baseHref := ""
 	if r.TLS != nil {

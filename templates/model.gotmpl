@@ -55,10 +55,10 @@ type {{.Header.Name}}DB interface {
 		GetRel{{$headerName}}{{.RelName}}({{.ToEntityLC}} *{{.ToEntity}}, mapParams map[string]interface{}) error
 	{{end -}}
 	{{if .GetHasMany -}}
-		GetRel{{$headerName}}{{.RelName}}({{.ToEntityLC}}s *[]{{.ToEntity}}, mapParams map[string]interface{}) error
+		GetRel{{$headerName}}{{.RelName}}(mapParams map[string]interface{}) ([]{{.ToEntity}},error)
 	{{end -}}
 	{{if .GetBelongsTo -}}
-		GetRel{{$headerName}}{{.RelName}}({{.ToEntityLC}}s *[]{{.ToEntity}}, mapParams map[string]interface{}) error
+		GetRel{{$headerName}}{{.RelName}}(mapParams map[string]interface{}) ([]{{.ToEntity}},error)
 	{{end -}}
 {{end -}}
 
@@ -239,22 +239,22 @@ func ({{$pref}}v *{{.FromEntityLC}}Validator) GetRel{{.FromEntity}}{{.RelName}}(
 {{end -}}
 {{if .GetHasMany -}}
 // hasMany relationship
-func ({{$pref}}v *{{.FromEntityLC}}Validator) GetRel{{.FromEntity}}{{.RelName}}({{.ToEntityLC}}s *[]{{.ToEntity}}, mapParams map[string]interface{}) error {
+func ({{$pref}}v *{{.FromEntityLC}}Validator) GetRel{{.FromEntity}}{{.RelName}}(mapParams map[string]interface{}) ([]{{.ToEntity}},error) {
 
 	// TODO: implement normalization and validation for the GetRel{{.FromEntity}}{{.RelName}} call.
 	// TODO: typically no modifications are required here.
-	return {{$pref}}v.{{.FromEntity}}DB.GetRel{{.FromEntity}}{{.RelName}}({{.ToEntityLC}}s, mapParams)
+	return {{$pref}}v.{{.FromEntity}}DB.GetRel{{.FromEntity}}{{.RelName}}(mapParams)
 }
 
 {{end -}}
 
 {{if .GetBelongsTo -}}
 // belongsTo relationship
-func ({{$pref}}v *{{.FromEntityLC}}Validator) GetRel{{.FromEntity}}{{.RelName}}({{.ToEntityLC}}s *[]{{.ToEntity}}, mapParams map[string]interface{}) error {
+func ({{$pref}}v *{{.FromEntityLC}}Validator) GetRel{{.FromEntity}}{{.RelName}}(mapParams map[string]interface{}) ([]{{.ToEntity}},error) {
 
 	// TODO: implement normalization and validation for the GetRel{{.FromEntity}}{{.RelName}} call.
 	// TODO: typically no modifications are required here.
-	return {{$pref}}v.{{.FromEntity}}DB.GetRel{{.FromEntity}}{{.RelName}}({{.ToEntityLC}}s, mapParams)
+	return {{$pref}}v.{{.FromEntity}}DB.GetRel{{.FromEntity}}{{.RelName}}(mapParams)
 }
 
 {{end -}}
@@ -485,10 +485,11 @@ func ({{$pref}}s *{{.FromEntityLC}}Sqac) GetRel{{.FromEntity}}{{.RelName}}({{.To
 }
 	{{end -}}
 	{{if .GetHasMany -}}
-func ({{$pref}}s *{{.FromEntityLC}}Sqac) GetRel{{.FromEntity}}{{.RelName}}({{.ToEntityLC}}s *[]{{.ToEntity}}, mapParams map[string]interface{}) error {
+func ({{$pref}}s *{{.FromEntityLC}}Sqac) GetRel{{.FromEntity}}{{.RelName}}(mapParams map[string]interface{}) ([]{{.ToEntity}},error) {
 
 	var c string
 	var s string
+	var {{.ToEntityLC}}s []{{.ToEntity}}
 
 	for k, v := range mapParams {
 		switch reflect.TypeOf(v).String() {
@@ -503,10 +504,10 @@ func ({{$pref}}s *{{.FromEntityLC}}Sqac) GetRel{{.FromEntity}}{{.RelName}}({{.To
 
 	qs := fmt.Sprintf("SELECT * FROM {{.ToEntityLC}} WHERE %s;", c)
 	fmt.Println("qs:", qs)
-	err := {{$pref}}s.handle.Select({{.ToEntityLC}}s, qs)
+	err := {{$pref}}s.handle.Select(&{{.ToEntityLC}}s, qs)
 	if err != nil {
 		log.Println("GetRel{{.FromEntity}}{{.RelName}}:", err)
-		return nil
+		return nil, nil
 	}
 	if {{$pref}}s.handle.IsLog() {
 		log.Printf("GetRel{{.FromEntity}}{{.RelName}} found: %v \n", {{.ToEntityLC}}s)
@@ -522,14 +523,15 @@ func ({{$pref}}s *{{.FromEntityLC}}Sqac) GetRel{{.FromEntity}}{{.RelName}}({{.To
 	}
 	{{end -}}
 
-	return nil
+	return {{.ToEntityLC}}s, nil
 }
 	{{end -}}
 	{{if .GetBelongsTo -}}
-func ({{$pref}}s *{{.FromEntityLC}}Sqac) GetRel{{.FromEntity}}{{.RelName}}({{.ToEntityLC}}s *[]{{.ToEntity}}, mapParams map[string]interface{}) error {
+func ({{$pref}}s *{{.FromEntityLC}}Sqac) GetRel{{.FromEntity}}{{.RelName}}(mapParams map[string]interface{}) ([]{{.ToEntity}},error) {
 
 	var c string
 	var s string
+	var {{.ToEntityLC}}s []{{.ToEntity}}
 
 	for k, v := range mapParams {
 		switch reflect.TypeOf(v).String() {
@@ -544,10 +546,10 @@ func ({{$pref}}s *{{.FromEntityLC}}Sqac) GetRel{{.FromEntity}}{{.RelName}}({{.To
 
 	qs := fmt.Sprintf("SELECT * FROM {{.ToEntityLC}} WHERE %s;", c)
 	fmt.Println("qs:", qs)
-	err := {{$pref}}s.handle.Select({{.ToEntityLC}}s, qs)
+	err := {{$pref}}s.handle.Select(&{{.ToEntityLC}}s, qs)
 	if err != nil {
 		log.Println("GetRel{{.FromEntity}}{{.RelName}}:", err)
-		return nil
+		return nil, nil
 	}
 
 	if {{$pref}}s.handle.IsLog() {
@@ -564,7 +566,7 @@ func ({{$pref}}s *{{.FromEntityLC}}Sqac) GetRel{{.FromEntity}}{{.RelName}}({{.To
 	}
 	{{end -}}
 
-	return nil
+	return {{.ToEntityLC}}s, nil
 }
 	{{end -}}
 {{end -}}

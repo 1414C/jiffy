@@ -47,10 +47,12 @@ func New{{.Header.Name}}Controller({{$pref}}s models.{{.Header.Name}}Service) *{
 // POST /{{.Header.Value}}
 func ({{$pref}}c *{{.Header.Name}}Controller) Create(w http.ResponseWriter, r *http.Request) {
 
+    var err error
+
 	{{if .Header.GenControllerExt -}}
 	// TODO: implement extension-point if required
 	// TODO: safe to comment this block out if the extension-point is not needed
-	err := {{$pref}}c.ep.CrtEp.BeforeFirst(w, r)
+	err = {{$pref}}c.ep.CrtEp.BeforeFirst(w, r)
 	if err != nil {
 		log.Println("{{.Header.Name}}Controller CreateBeforeFirst() error:", err)
 		respondWithError(w, http.StatusBadRequest, "{{.Header.Value}}c: Invalid request")
@@ -117,10 +119,12 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Create(w http.ResponseWriter, r *h
 // PUT /{{.Header.Value}}:id
 func ({{$pref}}c *{{.Header.Name}}Controller) Update(w http.ResponseWriter, r *http.Request) {
 
+	var err error
+
 	{{if .Header.GenControllerExt -}}
 	// TODO: implement extension-point if required
 	// TODO: safe to comment this block out if the extension-point is not needed
-	err := {{$pref}}c.ep.UpdEp.BeforeFirst(w, r)
+	err = {{$pref}}c.ep.UpdEp.BeforeFirst(w, r)
 	if err != nil {
 		log.Println("{{.Header.Name}}Controller UpdateBeforeFirst() error:", err)
 		respondWithError(w, http.StatusBadRequest, "{{.Header.Value}}c: Invalid request")
@@ -200,10 +204,12 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Update(w http.ResponseWriter, r *h
 // GET /{{.Header.Value}}/:id
 func ({{$pref}}c *{{.Header.Name}}Controller) Get(w http.ResponseWriter, r *http.Request) {
 
+	var err error
+
 	{{if .Header.GenControllerExt -}}
 	// TODO: implement extension-point if required
 	// TODO: safe to comment this block out if the extension-point is not needed
-	err := {{$pref}}c.ep.GetEp.BeforeFirst(w, r)
+	err = {{$pref}}c.ep.GetEp.BeforeFirst(w, r)
 	if err != nil {
 		log.Println("{{.Header.Name}}Controller GetBeforeFirst() error:", err)
 		respondWithError(w, http.StatusBadRequest, "{{.Header.Value}}c: Invalid request")
