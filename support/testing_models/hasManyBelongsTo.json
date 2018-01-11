@@ -17,7 +17,7 @@
                     "required": true,
                     "unique": false,
                     "index": "",
-                    "selectable": "eq,lt,gt"
+                    "selectable": "eq,lt,gt,like"
                 }
             },
             "compositeIndexes": [ 
