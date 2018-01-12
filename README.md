@@ -2,6 +2,37 @@
 
 * add extension-points to all GETs
 
+## API
+
+* need a single end-point to query for API description (static)
+* understandable by human in browser
+* machine readable (easy to read too)
+* How do you get the model def's from the binary
+* reflection...
+* relations
+* static-filter
+
+func bldAPI(model interface{}) []byte {
+
+    return bytes
+}
+
+
+json = bldAPI(&models.Library)
+
+struct Library {
+    f1 int64 `json:"f1" sqac:"nullable:false;required:true;default:this is cool"`
+}
+
+## Meta requests 
+
+* count
+* top
+* skip
+* ...
+* ...
+
+
 ## Overview and Features
 
 Rgen is a model-based application services generator written in go.  It was developed as an experiment to offer an alternative avenue when developing cloud native applications for SAP Hana.  The rgen application allows a developer to treat the data persistence layer as an abstraction, thereby removing the need to make use of CDS and the SAP XS libraries.
