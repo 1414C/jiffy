@@ -26,6 +26,7 @@ struct Library {
 
 ## Meta requests 
 
+* a.router.HandleFunc("/librarys/{cmd:[$]+[a-zA-Z0-9_$=]+}", requireUserMw.ApplyFn(a.libraryC.GetLibrarys)).Methods("GET").Name("library.GET_SET") // .GET_SET_CMD
 * count
 * top
 * skip
