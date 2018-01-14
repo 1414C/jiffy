@@ -42,7 +42,7 @@ type {{.Header.Name}}DB interface {
 	Update({{.Header.Value}} *{{.Header.Name}}) error
 	Delete({{.Header.Value}} *{{.Header.Name}}) error
 	Get({{.Header.Value}} *{{.Header.Name}}) error
-	Get{{.Header.Name}}s() []{{.Header.Name}}
+	Get{{.Header.Name}}s(cmdMap map[string]interface{}) ([]{{.Header.Name}}, uint64) // uint64 holds $count result
 {{/* iterate over .Fields (Info) to add support for selectable fields to the model's interface */ -}}
 {{range .Fields -}}
 	{{if .Selectable -}}
@@ -199,9 +199,9 @@ func ({{$pref}}v *{{.Header.Value}}Validator) Get({{.Header.Value}} *{{.Header.N
 }
 
 // Get{{.Header.Name}}s is passed through to the ORM with no validation
-func ({{$pref}}v *{{.Header.Value}}Validator) Get{{.Header.Name}}s() []{{.Header.Name}} {
+func ({{$pref}}v *{{.Header.Value}}Validator) Get{{.Header.Name}}s(cmdMap map[string]interface{}) ([]{{.Header.Name}}, uint64) {
 
-	return {{$pref}}v.{{.Header.Name}}DB.Get{{.Header.Name}}s()
+	return {{$pref}}v.{{.Header.Name}}DB.Get{{.Header.Name}}s(cmdMap)
 }
 
 //-------------------------------------------------------------------------------------------------------
@@ -374,69 +374,47 @@ func ({{$pref}}s *{{.Header.Value}}Sqac) Get({{.Header.Value}} *{{.Header.Name}}
 }
 
 // Get all existing {{.Header.Name}}s from the db via the ORM
-func ({{$pref}}s *{{.Header.Value}}Sqac) Get{{.Header.Name}}s() []{{.Header.Name}} {
+func ({{$pref}}s *{{.Header.Value}}Sqac) Get{{.Header.Name}}s(cmdMap map[string]interface{}) ([]{{.Header.Name}}, uint64) {
 
-	getEnts := {{.Header.Name}}GetEntitiesT{}
+    var err error
 
-	err := {{$pref}}s.handle.GetEntities2(&getEnts)
+	// create a slice to read into
+	{{.Header.Value}}s := []{{.Header.Name}}{}
+
+	// call the ORM
+	result, err := {{$pref}}s.handle.GetEntitiesWithCommands({{.Header.Value}}s, cmdMap)
 	if err != nil {
-		log.Println(err)
-		return getEnts.ents
+		log.Println("{{.Header.Name}}Model Get{{.Header.Name}}s() error:", err)
+		return nil, 0
 	}
 
-    {{if .Header.GenModelExt -}}
-	// call the extension-point
-	for i := range getEnts.ents {
-		err = {{$pref}}s.ep.GetEp.AfterDB(&getEnts.ents[i])
-		if err != nil {
-			log.Println("{{.Header.Name}}Model Get{{.Header.Name}}s AfterDB() error:", err)
+	// check to see what was returned
+	switch result.(type) {
+	case []{{.Header.Name}}:
+		{{.Header.Value}}s = result.([]{{.Header.Name}})
+
+    	{{if .Header.GenModelExt -}}
+		// call the extension-point
+		for i := range {{.Header.Value}}s {
+			err = {{$pref}}s.ep.GetEp.AfterDB(&{{.Header.Value}}s[i])
+			if err != nil {
+				log.Println("{{.Header.Name}}Model Get{{.Header.Name}}s AfterDB() error:", err)
+			}
 		}
+		{{end -}}
+		return {{.Header.Value}}s, 0
+
+	case int64:
+		return nil, uint64(result.(int64))
+
+	case uint64:
+		return nil, result.(uint64)
+
+	default:
+		return nil, 0
+
 	}
-	{{end -}}
-	return getEnts.ents
 }
-
-//- - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-//  Implement support for the sqac.GetEnt{} interface to support GetEntities2 calls
-//- - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-// {{.Header.Name}}GetEntitiesT is used to support the implmentation of the sqac.GetEnt{} interface.
-type {{.Header.Name}}GetEntitiesT struct {
-	ents []{{.Header.Name}}
-	sqac.GetEnt
-}
-
-// Exec implments the one and only method in the  sqac.GetEnt{} interface for {{.Header.Name}}GetEntitiesT.
-// An implemented interface is passed to sqac.GetEntities2 and the code contained withing the Exec() 
-// method is executed to retrieve the entities from the DB.  Retrieved entities are stored in the
-// {{.Header.Name}}GetEntitiesT struct's ents []{{.Header.Name}} field.
-func (ge *{{.Header.Name}}GetEntitiesT) Exec(sqh sqac.PublicDB) error {
-
-	selQuery := "SELECT * FROM {{.Header.Value}};"
-
-	// read the table rows
-	rows, err := sqh.ExecuteQueryx(selQuery)
-	if err != nil {
-		log.Printf("GetEntities2 for table {{.Header.Value}} returned error: %v\n", err.Error())
-		return err
-	}
-
-	for rows.Next() {
-		var ent {{.Header.Name}}
-		err = rows.StructScan(&ent)
-		if err != nil {
-			fmt.Printf("error reading rows: %v\n", err)
-			return err
-		}
-		ge.ents = append(ge.ents, ent)
-	}
-	if sqh.IsLog() {
-		fmt.Println("{{.Header.Name}}GetEntitiesT.Exec() got:", ge.ents)
-	}
-
-	return nil
-}
-//- - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 //-------------------------------------------------------------------------------------------------------
 // ORM db relations selector access methods

@@ -298,19 +298,60 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Delete(w http.ResponseWriter, r *h
 // GET /{{.Header.Value}}s
 func ({{$pref}}c *{{.Header.Name}}Controller) Get{{.Header.Name}}s(w http.ResponseWriter, r *http.Request) {
 
-	// build base Href; common for each selected row
-	urlString := buildHrefStringFromCRUDReq(r, true)
-	urlString = strings.TrimSuffix(urlString,"s/")
-	urlString = urlString + "/"
+	var mapCommands map[string]interface{}
+	var err error
+	var urlString string
+	var {{.Header.Value}}s []models.{{.Header.Name}}
+	var count uint64
+	countReq := false
 
-	{{.Header.Value}}s := {{$pref}}c.{{$pref}}s.Get{{.Header.Name}}s()
-	if {{.Header.Value}}s != nil {
-		for i, {{$pref}} := range {{.Header.Value}}s {
-			{{.Header.Value}}s[i].Href = urlString + strconv.FormatUint(uint64({{$pref}}.ID), 10)
+	// check for mux.vars
+	vars := mux.Vars(r)
+	
+	// parse commands ($cmd) if any
+	if len(vars) > 0 && vars != nil {
+		mapCommands, err = parseRequestCommands(vars)
+		if err != nil {
+			respondWithError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+	}
+
+	// build base Href; common for each selected row
+	if mapCommands != nil {
+
+		// was count requested?
+		_, ok := mapCommands["count"]
+		if ok {
+			countReq = true
+		}
+		urlString = buildHrefStringFromCRUDReq(r, true)
+		p := strings.Split(urlString, "s/$")
+		urlString = p[0] + "/"
+		{{.Header.Value}}s, count = {{$pref}}c.{{$pref}}s.Get{{.Header.Name}}s(mapCommands)
+	} else {
+		urlString = buildHrefStringFromCRUDReq(r, true)
+		urlString = strings.TrimSuffix(urlString, "s/")
+		urlString = urlString + "/"
+		{{.Header.Value}}s, count = {{$pref}}c.{{$pref}}s.Get{{.Header.Name}}s(nil)
+	}
+
+	// retrieved []{{.Header.Name}} and not asked to $count
+	if {{.Header.Value}}s != nil && countReq == false {
+		for i, l := range {{.Header.Value}}s {
+			{{.Header.Value}}s[i].Href = urlString + strconv.FormatUint(uint64(l.ID), 10)
 		}
 		respondWithJSON(w, http.StatusOK, {{.Header.Value}}s)
 		return
+	}	
+
+	// $count was requested, which trumps all other commands
+	if countReq == true {
+		respondWithCount(w, http.StatusOK, count)
+		return
 	}
+
+	// fallthrough and return nothing
 	respondWithJSON(w, http.StatusOK, "[]")
 }
 

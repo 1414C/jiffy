@@ -274,6 +274,7 @@ func (a *AppObj) initializeRoutes() {
     {{range .Entities -}} 
     // ====================== {{.Header.Name}} protected routes for standard CRUD access ======================
     a.router.HandleFunc("/{{.Header.Value}}s", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Get{{.Header.Name}}s)).Methods("GET").Name("{{.Header.Value}}.GET_SET")
+	a.router.HandleFunc("/{{.Header.Value}}s/{cmd:[$]+[a-zA-Z0-9_$=]+}", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Get{{.Header.Name}}s)).Methods("GET").Name("{{.Header.Value}}.GET_SET_CMD")
     a.router.HandleFunc("/{{.Header.Value}}", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Create)).Methods("POST").Name("{{.Header.Value}}.CREATE")
     a.router.HandleFunc("/{{.Header.Value}}/{id:[0-9]+}", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Get)).Methods("GET").Name("{{.Header.Value}}.GET_ID")
     a.router.HandleFunc("/{{.Header.Value}}/{id:[0-9]+}", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Update)).Methods("PUT").Name("{{.Header.Value}}.UPDATE")

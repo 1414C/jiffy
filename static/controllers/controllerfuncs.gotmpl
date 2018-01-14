@@ -38,11 +38,57 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	w.Write(response)
 }
 
+// send a count
+func respondWithCount(w http.ResponseWriter, code int, count uint64) {
+
+	w.Header().Set("Content-Type", "application/text")
+	w.WriteHeader(code)
+	cs := strconv.FormatUint(count, 10)
+	w.Write([]byte(cs))
+}
+
 // send a http-header-only response
 func respondWithHeader(w http.ResponseWriter, code int) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
 	w.Write(nil)
+}
+
+// parseRequestCommands accepts the value of mux.Vars() from the calling
+// entity-controller looks for a "cmd" key in the map, and then attempts
+// to validate the cmd content (map value) and parse it into a command map.
+//
+// valid commands are as follows:
+// $count               :return a count of records
+// $top=n               :return the top n records (like DB limit)
+// $skip=n              :skip the first n records in the selected set
+// $limit=n             :set limit n for record retrieval
+// $orderby=field_name  :orderby the db field name (default is id)
+// $asc                 :sort selected records in ascending order based on key (ID? need to think about this one)
+// $desc                :sort selected records in descending order based on key (ID? need to think about this one)
+func parseRequestCommands(vars map[string]string) (map[string]interface{}, error) {
+
+	strCmds := vars["cmd"]
+	if strCmds == "" {
+		// this feels like an error condition
+		return nil, fmt.Errorf("bad request")
+	}
+
+	commands := strings.Split(strCmds, "$")
+	mapCommands := make(map[string]interface{})
+
+	for _, v := range commands {
+		fmt.Printf("command: %v\n", v)
+		if v != "" {
+			if strings.ContainsAny(v, "=") {
+				p := strings.Split(v, "=")
+				mapCommands[p[0]] = p[1]
+			} else {
+				mapCommands[v] = nil
+			}
+		}
+	}
+	return mapCommands, nil
 }
 
 //---------------------------------------------------------------------------------------------
