@@ -332,6 +332,10 @@ func (a *AppObj) initializeRoutes() {
 				a.router.HandleFunc("/{{$headerValue}}s/{{.SnakeCaseName}}{{ printf "%s" "{" }}{{.SnakeCaseName}}:{{.GetSelBoolRegex}}{{ printf "%s" "}" }}",
 					requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}sBy{{.Name}})).Methods("GET").Name("{{$headerValue}}.STATICFLTR_By{{.Name}}")
 
+				// http://127.0.0.1:<port>/{{$headerValue}}s/{{.SnakeCaseName}}(EQ TRUE)/$count |$limit=n $offset=n ($desc|$asc) $orderby=<col_name>
+				a.router.HandleFunc("/{{$headerValue}}s/{{.SnakeCaseName}}{{ printf "%s" "{" }}{{.SnakeCaseName}}:{{.GetSelBoolRegex}}{{ printf "%s" "}" }}/{{ printf "%s" "{" }}cmd:[$]+[a-zA-Z0-9_$=]+}",
+					requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}sBy{{.Name}})).Methods("GET").Name("{{$headerValue}}.STATICFLTR_CMD_By{{.Name}}")
+
 			{{end -}}
 			{{if .IsNumberFieldType -}}
 				{{/*   float-types:   [(]+(?:EQ|eq|LT|lt|LE|le|GT|gt|GE|ge)+[ ]+[0-9._]+[)]+      */ -}}
@@ -342,6 +346,12 @@ func (a *AppObj) initializeRoutes() {
 				// http://127.0.0.1:<port>/{{$headerValue}}s/{{.SnakeCaseName}}(GE -43)
 				a.router.HandleFunc("/{{$headerValue}}s/{{.SnakeCaseName}}{{ printf "%s" "{" }}{{.SnakeCaseName}}:{{.GetSelNumberRegex}}{{ printf "%s" "}" }}",
 					requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}sBy{{.Name}})).Methods("GET").Name("{{$headerValue}}.STATICFLTR_By{{.Name}}")
+
+				// http://127.0.0.1:<port>/{{$headerValue}}s/{{.SnakeCaseName}}(EQ 72.43)/$count |$limit=n $offset=n ($desc|$asc) $orderby=<col_name>    
+				// http://127.0.0.1:<port>/{{$headerValue}}s/{{.SnakeCaseName}}(LT 110)/$count |$limit=n $offset=n ($desc|$asc) $orderby=<col_name>
+				// http://127.0.0.1:<port>/{{$headerValue}}s/{{.SnakeCaseName}}(GE -43)/$count |$limit=n $offset=n ($desc|$asc) $orderby=<col_name>
+				a.router.HandleFunc("/{{$headerValue}}s/{{.SnakeCaseName}}{{ printf "%s" "{" }}{{.SnakeCaseName}}:{{.GetSelNumberRegex}}{{ printf "%s" "}" }}/{{ printf "%s" "{" }}cmd:[$]+[a-zA-Z0-9_$=]+}",
+					requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}sBy{{.Name}})).Methods("GET").Name("{{$headerValue}}.STATICFLTR_CMD_By{{.Name}}")
 
 			{{end -}}
 		{{end -}}

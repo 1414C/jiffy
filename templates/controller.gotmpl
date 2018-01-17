@@ -354,6 +354,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) get{{.Header.Name}}Set(w http.Resp
 // to the gorilla.mux router in main.go.
 //
 // GET /{{.Header.Value}}s
+// GET /{{.Header.Value}}s/$count | $limit=n $offset=n $orderby=<field_name> ($asc|$desc)
 func ({{$pref}}c *{{.Header.Name}}Controller) Get{{.Header.Name}}s(w http.ResponseWriter, r *http.Request) {
 
 	var {{.Header.Value}}s []models.{{.Header.Name}}
@@ -400,8 +401,10 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Get{{.Header.Name}}s(w http.Respon
 // {{$headerName}}s based on {{.Name}}.
 {{if .IsStringFieldType -}}
 // GET /{{$headerValue}}s/{{.SnakeCaseName}}(OP 'searchString')
+// GET /{{$headerValue}}s/{{.SnakeCaseName}}(OP 'searchString')/$count | $limit=n $offset=n $orderby=<field_name> ($asc|$desc)
 {{else}}
 // GET /{{$headerValue}}s/{{.SnakeCaseName}}(OP searchValue)
+// GET /{{$headerValue}}s/{{.SnakeCaseName}}(OP searchValue)/$count | $limit=n $offset=n $orderby=<field_name> ($asc|$desc)
 {{end -}}
 func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}sBy{{.Name}} (w http.ResponseWriter, r *http.Request) {
 

@@ -128,6 +128,7 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 // 1:N
 //
 // GET /{{$headerName}}/:id/{{.RelName}}
+// GET /{{$headerName}}/:id/{{.RelName}}/$count | $limit=n $offset=n $orderby=<field_name> ($asc|$desc)
 // GET /{{$headerName}}/:id/{{.RelName}}/:id
 func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w http.ResponseWriter, r *http.Request) {
 
