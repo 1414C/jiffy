@@ -5,14 +5,13 @@ package controllers
 //=============================================================================================
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"strconv"
 
 	"{{.AppPath}}/models"
+	"github.com/1414C/sqac/common"
 	"github.com/gorilla/mux"
 )
 
@@ -132,11 +131,15 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 // GET /{{$headerName}}/:id/{{.RelName}}/:id
 func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w http.ResponseWriter, r *http.Request) {
 
+	var mapCommands map[string]interface{}
+	var bookID uint64
 	bSingle := false
-	{{.ToEntityLC}} := models.{{.ToEntity}}{}
 	{{.ToEntityLC}}s := []models.{{.ToEntity}}{}
+	countReq := false
 
 	vars := mux.Vars(r)
+
+	// check that a {{$headerValue}}_id has been provided (root entity id)
 	{{$headerValue}}ID, err := strconv.ParseUint(vars["{{$headerValue}}_id"], 10, 64)
 	if err != nil {
 		log.Println("{{$headerName}} Get:", err)
@@ -144,11 +147,16 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 		return
 	}
 
-	{{.ToEntityLC}}ID, err := strconv.ParseUint(vars["{{.ToEntityLC}}_id"], 10, 64)
-
-	// build a base urlString for the JSON Body self-referencing Href tag
-	// urlString := buildHrefStringFromCRUDReq(r, false)
-	// fmt.Println("urlString:",urlString)
+	// check to see if a {{.ToEntityLC}}_id was provided
+	_, ok := vars["{{.ToEntityLC}}_id"]
+	if ok {
+		{{.ToEntityLC}}ID, err = strconv.ParseUint(vars["{{.ToEntityLC}}_id"], 10, 64)
+		if err != nil {
+			respondWithError(w, http.StatusBadRequest, "Invalid {{.ToEntityLC}}ID")
+			return
+		}
+		bSingle = true
+	}
 
 	// in all cases the {{$headerValue}} must be retrieved, as the validity of the
 	// the access-path must be verified.  Also consider that the {{.ToEntityLC}}
@@ -157,6 +165,7 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 		ID: {{$headerValue}}ID,
 	}
 
+	// retrieve the root entity
 	err = {{$pref}}c.{{$pref}}s.Get(&{{$headerValue}})
 	if err != nil {
 		log.Println(err)
@@ -164,51 +173,83 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 		return
 	}
 
-	// populate params for ToEntity in the generic map
-	map{{.ToEntity}}Params := make(map[string]interface{})
-	if {{.ToEntityLC}}ID != 0 {
-		map{{.ToEntity}}Params["ID"] = {{.ToEntityLC}}ID
-		bSingle = true
-	}
-	
-	map{{.ToEntity}}Params["{{.ForeignPK}}"] = {{.FromEntityLC}}ID
-
-	// call GetRel{{$headerName}}{{.RelName}} in the model
-	{{.ToEntityLC}}s, err = {{$pref}}c.{{$pref}}s.GetRel{{$headerName}}{{.RelName}}(map{{.ToEntity}}Params)
-	if err != nil {
-		log.Println(err)
-		respondWithError(w, http.StatusBadRequest, err.Error())
-		return
+	// parse commands ($cmd) for the toMany selection
+	if vars != nil {
+		_, ok := vars["cmd"]
+		if ok {
+			mapCommands, err = parseRequestCommands(vars)
+			if err != nil {
+				respondWithError(w, http.StatusBadRequest, err.Error())
+				return
+			}
+		}
 	}
 
-	// if nothing was found, return an empty body
-	if {{.ToEntityLC}}s == nil || len({{.ToEntityLC}}s) == 0 {
-		respondWithJSON(w, http.StatusOK, "[]")
-		return
+	// was $count requested?
+	_, ok = mapCommands["count"]
+	if ok {
+		countReq = true
 	}
 
-	// populate Href for each {{.ToEntity}}
-	baseHref := ""
-	if r.TLS != nil {
-		baseHref = "https://"
+	// add the root entity-key to the selection parameter list
+	{{.ToEntityLC}}Params := []common.GetParam{}
+	{{.ToEntityLC}}Param := common.GetParam{
+		FieldName:    "{{$headerName}}ID",
+		Operand:      "=",
+		ParamValue:   {{$headerValue}}ID,
+		NextOperator: "",
+	}
+
+	// if the child-entity-key was not provided, append the selection
+	// parameter to the parameter list and then call the GET.
+	// if the child-entity-key was provide, set the NextOperator to
+	// 'AND', then add the child-entity-key to the parameter-list.
+	if {{.ToEntityLC}}ID == 0 {
+		{{.ToEntityLC}}Params = append({{.ToEntityLC}}Params, {{.ToEntityLC}}Param)
 	} else {
-		baseHref = "http://"
+		{{.ToEntityLC}}Param.NextOperator = "AND"
+		{{.ToEntityLC}}Params = append({{.ToEntityLC}}Params, {{.ToEntityLC}}Param)
+
+		{{.ToEntityLC}}Param = common.GetParam{
+			FieldName:    "ID",
+			Operand:      "=",
+			ParamValue:   {{.ToEntityLC}}ID,
+			NextOperator: "",
+		}
+		{{.ToEntityLC}}Params = append({{.ToEntityLC}}Params, {{.ToEntityLC}}Param)
 	}
 
-	for i := range {{.ToEntityLC}}s {
-		{{.ToEntityLC}}s[i].Href = fmt.Sprintf("%s%s/{{.ToEntityLC}}/%d", baseHref, r.Host, {{.ToEntityLC}}s[i].ID)
-	}
+	// build the root href for each {{.ToEntityLC}}
+	urlString := buildHrefBasic(r, true)
+	fmt.Println("urlString:", urlString)
+	urlString = urlString + "{{.ToEntityLC}}/"
 
-	if bSingle {
-		if len({{.ToEntityLC}}s) > 0 {
-			{{.ToEntityLC}} = {{.ToEntityLC}}s[0]
-			respondWithJSON(w, http.StatusCreated, {{.ToEntityLC}})
+	// call the ORM to retrieve the {{.ToEntityLC}}s or count
+	{{.ToEntityLC}}s, count := lc.svcs.{{.ToEntity}}.Get{{.ToEntity}}s({{.ToEntityLC}}Params, mapCommands)
+	fmt.Println("mapCommands:", mapCommands)
+	fmt.Println("countReq:", countReq)
+	// retrieved []{{.ToEntity}} and not asked to $count
+	if {{.ToEntityLC}}s != nil && countReq == false {
+		for i, l := range {{.ToEntityLC}}s {
+			{{.ToEntityLC}}s[i].Href = urlString + strconv.FormatUint(uint64(l.ID), 10)
+		}
+
+		// send the result(s)
+		if bSingle {
+			respondWithJSON(w, http.StatusOK, {{.ToEntityLC}}s[0])
 			return
 		}
-	} else {
-		respondWithJSON(w, http.StatusCreated, {{.ToEntityLC}}s)
+		respondWithJSON(w, http.StatusOK, {{.ToEntityLC}}s)
 		return
 	}
+
+	// $count was requested, which trumps all other commands
+	if countReq == true {
+		respondWithCount(w, http.StatusOK, count)
+		return
+	}
+
+	// fallthrough and return nothing
 	respondWithJSON(w, http.StatusOK, "[]")
 }
 

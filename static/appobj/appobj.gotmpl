@@ -171,7 +171,7 @@ func (a *AppObj) createControllers() {
 	a.authC = controllers.NewAuthController(a.services.Auth)
 	a.groupauthC = controllers.NewGroupAuthController(a.services.GroupAuth)
     {{range .Entities -}} 
-    a.{{.Header.Value}}C = controllers.New{{.Header.Name}}Controller(a.services.{{.Header.Name}})
+    a.{{.Header.Value}}C = controllers.New{{.Header.Name}}Controller(a.services.{{.Header.Name}}, *a.services)
     {{end -}}
 }
 
@@ -297,6 +297,8 @@ func (a *AppObj) initializeRoutes() {
 		{{if .GetHasMany -}}
 	// hasMany relation {{.RelName}} for {{$headerName}}
 	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.RelName}})).Methods("GET").Name("{{$headerValue}}.REL_{{.RelNameLC}}")
+	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}/{{ printf "%s" "{" }}cmd:[$]+[a-zA-Z0-9_$=]+}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.RelName}})).Methods("GET").Name("{{$headerValue}}.REL_CMD_{{.RelNameLC}}")
+	
 	a.router.HandleFunc("/{{$headerValue}}/{{ printf "%s" "{" }}{{$headerValue}}_id:[0-9]+}/{{.RelNameLC}}/{{ printf "%s" "{" }}{{.ToEntityLC}}_id:[0-9]+}", requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}{{.RelName}})).Methods("GET").Name("{{$headerValue}}.REL_{{.RelNameLC}}_id")
 
 		{{end -}}
@@ -318,6 +320,10 @@ func (a *AppObj) initializeRoutes() {
 				// http://127.0.0.1:<port>/{{$headerValue}}s/{{.SnakeCaseName}}(EQ '<sel_string>')
 				a.router.HandleFunc("/{{$headerValue}}s/{{.SnakeCaseName}}{{ printf "%s" "{" }}{{.SnakeCaseName}}:{{.GetSelStringRegex}}{{ printf "%s" "}" }}", 
 	  			requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}sBy{{.Name}})).Methods("GET").Name("{{$headerValue}}.STATICFLTR_By{{.Name}}")
+
+				// http://127.0.0.1:<port>/{{$headerValue}}s/{{.SnakeCaseName}}(EQ '<sel_string>')/$count |$limit=n $offset=n ($desc|$asc) $orderby=<col_name>
+				a.router.HandleFunc("/{{$headerValue}}s/{{.SnakeCaseName}}{{ printf "%s" "{" }}{{.SnakeCaseName}}:{{.GetSelStringRegex}}{{ printf "%s" "}" }}/{{ printf "%s" "{" }}cmd:[$]+[a-zA-Z0-9_$=]+}", 
+	  			requireUserMw.ApplyFn(a.{{$headerValue}}C.Get{{$headerName}}sBy{{.Name}})).Methods("GET").Name("{{$headerValue}}.STATICFLTR_CMD_By{{.Name}}")
 
 			{{end -}}
 			{{if .IsBoolFieldType -}}

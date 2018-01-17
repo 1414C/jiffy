@@ -12,17 +12,11 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"net/url"
-	"reflect"
 	"strconv"
 	"strings"
-	"time"
-
-	"github.com/1414C/sqac/common"
 )
-
 
 // send a generic err response in JSON
 func respondWithError(w http.ResponseWriter, code int, message string) {
@@ -70,8 +64,8 @@ func parseRequestCommands(vars map[string]string) (map[string]interface{}, error
 
 	strCmds := vars["cmd"]
 	if strCmds == "" {
-		// this feels like an error condition
-		return nil, fmt.Errorf("bad request")
+		// this feels like an error condition, but it can't be
+		return nil, nil
 	}
 
 	commands := strings.Split(strCmds, "$")
@@ -94,6 +88,23 @@ func parseRequestCommands(vars map[string]string) (map[string]interface{}, error
 //---------------------------------------------------------------------------------------------
 // support functions for Href creation
 //---------------------------------------------------------------------------------------------
+// buildHrefBasic builds a base URL string with no entity or path information
+func buildHrefBasic(r *http.Request, withSuffix bool) string {
+
+	// fill the urlString for the response Href
+	var urlString string
+	if r.TLS != nil {
+		urlString = "https://"
+	} else {
+		urlString = "http://"
+	}
+
+	if withSuffix {
+		return urlString + r.Host + "/"
+	}
+	return urlString + r.Host
+}
+
 // buildHrefStringFromCRUDReq builds a rawURLString from data in a CRUD request
 func buildHrefStringFromCRUDReq(r *http.Request, withSuffix bool) string {
 
@@ -168,6 +179,8 @@ func buildStringQueryComponents(searchString string) (op, predicate string, err 
 	predicate = sc[1]
 
 	switch op {
+	case "NE":
+		// do not modify predicate
 	case "EQ":
 		// do not modify predicate
 	case "LIKE":
@@ -188,6 +201,31 @@ func buildStringQueryComponents(searchString string) (op, predicate string, err 
 	return op, predicate, nil
 }
 
+// convert the model ops into sql operands
+func convertOp(op string) (string, error) {
+
+	switch op {
+	case "NE":
+		op = "!="
+	case "EQ":
+		op = "="
+	case "LIKE":
+		op = "LIKE"
+	case "LT":
+		op = "<"
+	case "LE":
+		op = "<="
+	case "GT":
+		op = ">"
+	case "GE":
+		op = ">="
+	default:
+		// unknown operand - error
+		return "", fmt.Errorf("error: %s is an unknown selection operand", op)
+	}
+	return op, nil
+}
+
 // buildUIntQueryComponentGeneral separates the incoming simple query-string into its consituent
 // parts; namely operation and predicate.  This is used as the foundation for all generated entity
 // simple accessors where the predicate field is of the uint, uint8, uint16, uint32 and uint64-type.
@@ -203,11 +241,16 @@ func buildUIntQueryComponentGeneral(searchString string) (op string, predicate u
 		return "", 0, fmt.Errorf("bad query construction")
 	}
 
-	op = sc[0]
+	op, err = convertOp(sc[0])
+	if err != nil {
+		return "", 0, err
+	}
+
 	p, err := strconv.ParseUint(sc[1], 10, 0)
 	if err != nil {
 		return "", 0, fmt.Errorf("unable to convert string %s to uint-value", sc[1])
 	}
+
 	predicate = uint(p)
 	return op, predicate, nil
 }
@@ -274,7 +317,11 @@ func buildIntQueryComponentGeneral(searchString string) (op string, predicate in
 		return "", 0, fmt.Errorf("bad query construction")
 	}
 
-	op = sc[0]
+	op, err = convertOp(sc[0])
+	if err != nil {
+		return "", 0, err
+	}
+
 	predicate, err = strconv.Atoi(sc[1])
 	if err != nil {
 		return "", 0, fmt.Errorf("unable to convert string %s to int-value", sc[1])
@@ -341,7 +388,11 @@ func buildFloatQueryComponentGeneral(searchString string) (op string, predicate 
 		return "", 0, fmt.Errorf("bad query construction")
 	}
 
-	op = sc[0]
+	op, err = convertOp(sc[0])
+	if err != nil {
+		return "", 0, err
+	}
+
 	predicate, err = strconv.ParseFloat(sc[1], 64)
 	if err != nil {
 		return "", 0, fmt.Errorf("unable to convert string %s to float64-value", sc[1])
@@ -390,7 +441,10 @@ func buildBoolQueryComponents(searchString string) (op string, predicate bool, e
 		return "", false, fmt.Errorf("unable to convert string %s to bool value", searchString)
 	}
 
-	op = sc[0]
+	op, err = convertOp(sc[0])
+	if err != nil {
+		return "", false, err
+	}
 
 	if sc[1] == "TRUE" {
 		predicate = true

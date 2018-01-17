@@ -82,7 +82,12 @@
                             "foreignPK": ""
                         }
                     }
-                ]
+                ],
+                "ext_points": {
+                    "gen_controller": true,
+                    "gen_validator": false,
+                    "gen_model": true
+                }
     }
     ]
 }
