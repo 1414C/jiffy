@@ -258,99 +258,138 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 
 	{{/*  Begin of the belongsTo relations support                              */ -}}
 	{{if .GetBelongsTo -}}
-// GetRel{{$headerName}}{{.RelName}} facilitates the retrieval of {{.ToEntity}}s related to {{$headerName}}
+// Get{{$headerName}}{{.RelName}} facilitates the retrieval of {{.ToEntity}}s related to {{$headerName}}
 // by way of modeled 'belongsTo' relationship {{.RelName}}.   
 // This method is bound to the gorilla.mux router in appobj.go.
-// 1:N
+// 1:1 by default...
 //
 // GET /{{$headerName}}/:id/{{.RelName}}
 // GET /{{$headerName}}/:id/{{.RelName}}/:id
 func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w http.ResponseWriter, r *http.Request) {
 
-	bSingle := false
-	mapParams := make(map[string]interface{})
-	{{.ToEntityLC}} := models.{{.ToEntity}}{}
+	var mapCommands map[string]interface{}
+	var {{.ToEntityLC}}ID uint64
+	bHaveTargetKey := false
 	{{.ToEntityLC}}s := []models.{{.ToEntity}}{}
+	countReq := false
+
+	// read the mux vars
 	vars := mux.Vars(r)
 
-	{{.FromEntityLC}}ID, err := strconv.ParseUint(vars["{{.FromEntityLC}}_id"], 10, 64)
+	// check that a {{$headerValue}}id has been provided
+	{{$headerValue}}ID, err := strconv.ParseUint(vars["{{$headerValue}}_id"], 10, 64)
 	if err != nil {
-		log.Println("{{.FromEntity}} Get:", err)
-		respondWithError(w, http.StatusBadRequest, "Invalid {{.FromEntityLC}} id")
+		log.Println("{{$headerName}} Get:", err)
+		respondWithError(w, http.StatusBadRequest, "Invalid {{$headerValue}} id")
 		return
 	}
 
-	{{.ToEntityLC}}ID, err := strconv.ParseUint(vars["{{.ToEntityLC}}_id"], 10, 64)
-
-	// build a base urlString for the JSON Body self-referencing Href tag
-	// urlString := buildHrefStringFromCRUDReq(r, false)
-	// fmt.Println("urlString:", urlString)
-
-	// in all cases the {{.FromEntityLC}} must be retrieved, as the validity of the
-	// the access-path must be verified.  Also consider that the {{.ToEntityLC}}_id
-	// may not have been provided.
-	{{.FromEntityLC}} := models.{{.FromEntity}}{
-		ID: {{.FromEntityLC}}ID,
+	// check to see if a {{.ToEntityLC}}_id was provided 
+	_, ok := vars["{{.ToEntityLC}}_id"]
+	if ok {
+		{{.ToEntityLC}}ID, err = strconv.ParseUint(vars["{{.ToEntityLC}}_id"], 10, 64)
+		if err != nil {
+			respondWithError(w, http.StatusBadRequest, "Invalid {{.ToEntityLC}}ID")
+			return
+		}
+		bHaveTargetKey = true
 	}
 
-	err = {{$pref}}c.{{$pref}}s.Get(&{{.FromEntityLC}})
+	// in all cases the {{$headerValue}} must be retrieved, as the validity of the
+	// the access-path must be verified.  Also consider that the {{.ToEntityLC}}_id
+	// may not have been provided.
+	{{$headerValue}} := models.{{$headerName}}{
+		ID: {{$headerValue}}ID,
+	}
+
+	// retrieve the root entity
+	err = {{$pref}}c.{{$pref}}s.Get(&{{$headerValue}})
 	if err != nil {
 		log.Println(err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	// was the {{.ToEntityLC}}_id provided?
-	if {{.ToEntityLC}}ID != 0 {
-		if {{.FromEntityLC}}.{{.RefKey}} == {{.ToEntityLC}}ID {
-			mapParams["{{.ForeignPK}}"] = {{.ToEntityLC}}ID
-		} else {
-			err := fmt.Errorf("bad request - keys in URL do not align")
-			log.Println(err.Error())
-			respondWithJSON(w, http.StatusBadRequest, "[]")
+	// if the parent-entity was provided, check it against the
+	// value contained in {{$headerValue}}.  From this point on,
+	// {{.ToEntityLC}}ID is used as the target-entity's key.
+	if bHaveTargetKey {
+		if {{.ToEntityLC}}ID != {{$headerValue}}.{{.ToEntity}}ID {
+			respondWithError(w, http.StatusBadRequest, "Invalid {{.ToEntityLC}}ID")
 			return
 		}
 	} else {
-		mapParams["{{.ForeignPK}}"] = {{.FromEntityLC}}.{{.RefKey}}
+		{{.ToEntityLC}}ID = {{$headerValue}}.{{.ToEntity}}ID
 	}
 
-	// call GetRel{{$headerName}}{{.RelName}} in the model
-	{{.ToEntityLC}}s, err = {{$pref}}c.{{$pref}}s.GetRel{{$headerName}}{{.RelName}}(mapParams)
-	if err != nil {
-		log.Println(err)
-		respondWithError(w, http.StatusBadRequest, err.Error())
-		return
-	}
+	//// parse commands ($cmd) for the belongsTo selection
+	//if vars != nil {
+	//	_, ok := vars["cmd"]
+	//	if ok {
+	//		mapCommands, err = parseRequestCommands(vars)
+	//		if err != nil {
+	//			respondWithError(w, http.StatusBadRequest, err.Error())
+	//			return
+	//		}
+	//	}
+	//}
+	//
+	//// was $count requested?
+	//_, ok = mapCommands["count"]
+	//if ok {
+	//	countReq = true
+	//}
 
-	// if nothing was found, return an empty body
-	if {{.ToEntityLC}}s == nil || len({{.ToEntityLC}}s) == 0 {
+	// if there is no relationship-key, return nothing
+	if {{.ToEntityLC}}ID  == 0 {
+		// fallthrough and return nothing
 		respondWithJSON(w, http.StatusOK, "[]")
 		return
 	}
 
-	// populate Href for each {{.ToEntity}}
-	baseHref := ""
-	if r.TLS != nil {
-		baseHref = "https://"
-	} else {
-		baseHref = "http://"
+	{{.ToEntityLC}}Params := []common.GetParam{}
+	{{.ToEntityLC}}Param := common.GetParam{
+		FieldName:    "ID",
+		Operand:      "=",
+		ParamValue:   {{.ToEntityLC}}ID,
+		NextOperator: "",
 	}
+	{{.ToEntityLC}}Params = append({{.ToEntityLC}}Params, {{.ToEntityLC}}Param)
 
-	for i := range {{.ToEntityLC}}s {
-		{{.ToEntityLC}}s[i].Href = fmt.Sprintf("%s%s/{{.ToEntityLC}}/%d", baseHref, r.Host, {{.ToEntityLC}}s[i].ID)
-	}
+	// build the root href for each {{$headerValue}}
+	urlString := buildHrefBasic(r, true)
+	fmt.Println("urlString:", urlString)
+	urlString = urlString + "{{.ToEntityLC}}/"
 
-	if bSingle {
-		if len({{.ToEntityLC}}s) > 0 {
-			{{.ToEntityLC}} = {{.ToEntityLC}}s[0]
-			respondWithJSON(w, http.StatusCreated, {{.ToEntityLC}})
+	// call the ORM to retrieve the {{.ToEntityLC}}s or count
+	{{.ToEntityLC}}s, count := bc.svcs.{{.ToEntity}}.Get{{.ToEntity}}s({{.ToEntityLC}}Params, mapCommands)
+	fmt.Println("mapCommands:", mapCommands)
+	fmt.Println("countReq:", countReq)
+
+	// retrieved []{{.ToEntity}} and not asked to $count
+	if {{.ToEntityLC}}s != nil && countReq == false {
+		for i, l := range {{.ToEntityLC}}s {
+			{{.ToEntityLC}}s[i].Href = urlString + strconv.FormatUint(uint64(l.ID), 10)
+		}
+
+		// send the result -
+		if bHaveTargetKey || len(librarys) == 1 {
+			respondWithJSON(w, http.StatusOK, {{.ToEntityLC}}s[0])
 			return
 		}
-	} else {
-		respondWithJSON(w, http.StatusCreated, {{.ToEntityLC}}s)
+		respondWithJSON(w, http.StatusOK, {{.ToEntityLC}}s)
 		return
 	}
+
+	// $count was requested, which trumps all other commands
+	if countReq == true {
+		respondWithCount(w, http.StatusOK, count)
+		return
+	}
+
+	// fallthrough and return nothing
 	respondWithJSON(w, http.StatusOK, "[]")
+
 }
 
 	{{end -}}

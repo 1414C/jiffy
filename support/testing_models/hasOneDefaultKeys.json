@@ -30,7 +30,23 @@
             },
             "compositeIndexes": [ 
                 {"index": "name, city"}
-            ]
+            ],
+            "relations": [
+                { 
+                "relName": "ToCar",
+                    "properties": {
+                        "refKey": "",
+                        "relType": "hasOne",
+                        "toEntity": "Car",
+                        "foreignPK": "" 
+                    }
+                }
+            ],
+            "ext_points": {
+                "gen_controller": true,
+                "gen_validator": false,
+                "gen_model": true
+            }
         },
         {
             "typeName": "Car",
@@ -52,22 +68,17 @@
                 "OwnerID": {
                     "type": "uint64",
                     "format": "", 
-                    "required": true,
+                    "required": false,
+                    "unique": false,
                     "index": "nonUnique",
-                    "selectable": "eq,like"
+                    "selectable": "eq,lt,gt"
                 }
             },
-            "relations": [
-                { 
-                "relName": "ToOwner",
-                    "properties": {
-                        "refKey": "",
-                        "relType": "hasOne",
-                        "toEntity": "Owner",
-                        "foreignPK": "" 
-                    }
-                }
-            ]
+            "ext_points": {
+                "gen_controller": true,
+                "gen_validator": false,
+                 "gen_model": true
+            }
         }
     ]
 }
