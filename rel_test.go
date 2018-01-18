@@ -1,9 +1,8 @@
 package main_test
 
 import (
+	"github.com/1414C/rgen/gen"
 	"testing"
-
-	"github.com/1414C/sqac/gen"
 )
 
 // TestGetAreFromAndToKeysOpt

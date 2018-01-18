@@ -643,6 +643,14 @@ func (i *Info) GetSelStringRegex() string {
 			qOps = qOps + "NE|ne|"
 		case "LIKE":
 			qOps = qOps + "LIKE|like|"
+		case "LT":
+			qOps = qOps + "LT|lt|"
+		case "LE":
+			qOps = qOps + "LE|le|"
+		case "GT":
+			qOps = qOps + "GT|gt|"
+		case "GE":
+			qOps = qOps + "GE|ge|"
 		default:
 			// ignore all others
 		}
