@@ -270,6 +270,7 @@ func (ge *UsrGroupGetEntitiesT) Exec(sqh sqac.PublicDB) error {
 		log.Printf("GetEntities2 for table usrgroup returned error: %v\n", err.Error())
 		return err
 	}
+	defer rows.Close()
 
 	for rows.Next() {
 		var ent UsrGroup

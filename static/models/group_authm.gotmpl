@@ -260,6 +260,7 @@ func (gs *groupauthSqac) Get(groupauth *GroupAuth) error {
 		log.Printf("Get for table groupauth returned error: %v\n", err.Error())
 		return err
 	}
+	defer rows.Close()
 
 	for rows.Next() {
 		err = rows.StructScan(groupauth)
@@ -291,6 +292,7 @@ func (gs *groupauthSqac) GetGroupAuths() []GroupAuth {
 		log.Printf("Get for table groupauth returned error: %v\n", err.Error())
 		return nil
 	}
+	defer rows.Close()
 
 	for rows.Next() {
 		err = rows.StructScan(&groupauth)
@@ -333,6 +335,7 @@ func (ge *GroupAuthGetEntitiesT) Exec(sqh sqac.PublicDB) error {
 		log.Printf("GetAuthEntitiesT for table groupauth returned error: %v\n", err.Error())
 		return err
 	}
+	defer rows.Close()
 
 	for rows.Next() {
 		var ent GroupAuth
