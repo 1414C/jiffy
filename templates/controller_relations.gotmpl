@@ -56,6 +56,9 @@ import (
 // GET /{{$headerName}}/:id/{{.RelName}}/:id
 func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w http.ResponseWriter, r *http.Request) {
 
+	var mapCommands map[string]interface{}
+	var carID uint64
+
 	vars := mux.Vars(r)
 	{{$headerValue}}ID, err := strconv.ParseUint(vars["{{$headerValue}}_id"], 10, 64)
 	if err != nil {
@@ -64,10 +67,15 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 		return
 	}
 
-	{{.ToEntityLC}}ID, err := strconv.ParseUint(vars["{{.ToEntityLC}}_id"], 10, 64)
-
-	// build a base urlString for the JSON Body self-referencing Href tag
-	// urlString := buildHrefStringFromCRUDReq(r, false)
+	// check to see if a {{.ToEntityLC}}_id was provided
+	_, ok := vars["{{.ToEntityLC}}_id"]
+	if ok {
+		{{.ToEntityLC}}ID, err = strconv.ParseUint(vars["{{.ToEntityLC}}_id"], 10, 64)
+		if err != nil {
+			respondWithError(w, http.StatusBadRequest, "Invalid {{.ToEntityLC}}ID")
+			return
+		}
+	}
 
 	// in all cases the {{$headerValue}} must be retrieved, as the validity of the
 	// the access-path must be verified.  Also consider that the {{.ToEntityLC}}
@@ -76,6 +84,7 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 		ID: {{$headerValue}}ID,
 	}
 
+	// retrieve the root entity
 	err = {{$pref}}c.{{$pref}}s.Get(&{{$headerValue}})
 	if err != nil {
 		log.Println(err)
@@ -83,38 +92,69 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 		return
 	}
 
-	// populate params for ToEntity in the generic map
-	map{{.ToEntity}}Params := make(map[string]interface{})
-	{{.ToEntityLC}} := models.{{.ToEntity}}{}
-	if {{.ToEntityLC}}ID != 0 {
-		map{{.ToEntity}}Params["ID"] = {{.ToEntityLC}}ID
-	}
-	
-	map{{.ToEntity}}Params["{{.ForeignPK}}"] = {{.FromEntityLC}}ID
-
-	// call GetRel{{$headerName}}{{.RelName}} in the model
-	err = {{$pref}}c.{{$pref}}s.GetRel{{$headerName}}{{.RelName}}(&{{.ToEntityLC}}, map{{.ToEntity}}Params)
-	if err != nil {
-		log.Println(err)
-		respondWithError(w, http.StatusBadRequest, err.Error())
-		return
+	// parse commands ($cmd) for the for the hasOne selection (if any)
+	if vars != nil {
+		_, ok := vars["cmd"]
+		if ok {
+			mapCommands, err = parseRequestCommands(vars)
+			if err != nil {
+				respondWithError(w, http.StatusBadRequest, err.Error())
+				return
+			}
+		}
 	}
 
-	// build the target url for the navigation, and then redirect thereby reusing
-	// all the existing ConnectionState (TLS/transport/client etc.)
-	{{.ToEntityLC}}.Href = ""
-	if {{.ToEntityLC}}.ID != 0 {
-		if r.TLS != nil {
-			{{.ToEntityLC}}.Href = "https://"
-		} else {
-			{{.ToEntityLC}}.Href = "http://"
+	// add the root entity-key to the selection parameter list
+	{{.ToEntityLC}}Params := []common.GetParam{}
+	{{.ToEntityLC}}Param := common.GetParam{
+		FieldName:    "{{$headerName}}ID",
+		Operand:      "=",
+		ParamValue:   {{$headerValue}}ID,
+		NextOperator: "",
+	}
+
+	// if the child-entity-key was not provided, append the selection
+	// parameter to the parameter list and then call the GET.
+	// if the child-entity-key was provide, set the NextOperator to
+	// 'AND', then add the child-entity-key to the parameter-list.
+	if {{.ToEntityLC}}ID == 0 {
+		{{.ToEntityLC}}Params = append({{.ToEntityLC}}Params, {{.ToEntityLC}}Param)
+	} else {
+		{{.ToEntityLC}}Param.NextOperator = "AND"
+		{{.ToEntityLC}}Params = append({{.ToEntityLC}}Params, {{.ToEntityLC}}Param)
+
+		{{.ToEntityLC}}Param = common.GetParam{
+			FieldName:    "ID",
+			Operand:      "=",
+			ParamValue:   {{.ToEntityLC}}ID,
+			NextOperator: "",
+		}
+		{{.ToEntityLC}}Params = append({{.ToEntityLC}}Params, {{.ToEntityLC}}Param)
+	}
+
+	// build the root href for the {{.ToEntityLC}} entity
+	urlString := buildHrefBasic(r, true)
+	fmt.Println("urlString:", urlString)
+	urlString = urlString + "{{.ToEntityLC}}/"
+
+	// call the ORM to retrieve the {{.ToEntityLC}} - call the set for
+	// increased flexibility later.
+	{{.ToEntityLC}}s, _ := {{$pref}}c.svcs.{{.ToEntity}}.Get{{.ToEntity}}s({{.ToEntityLC}}Params, mapCommands)
+
+	// retrieved []Car
+	if {{.ToEntityLC}}s != nil && len({{.ToEntityLC}}s) > 0 {
+		for i, l := range {{.ToEntityLC}}s {
+			{{.ToEntityLC}}s[i].Href = urlString + strconv.FormatUint(uint64(l.ID), 10)
 		}
 
-		{{.ToEntityLC}}.Href = fmt.Sprintf("%s%s/{{.ToEntityLC}}/%d", {{.ToEntityLC}}.Href, r.Host, {{.ToEntityLC}}.ID)
-		respondWithJSON(w, http.StatusCreated, {{.ToEntityLC}})
+		// send the result(s)
+		respondWithJSON(w, http.StatusOK, {{.ToEntityLC}}s[0])
 		return
 	}
+
+	// fallthrough and return nothing
 	respondWithJSON(w, http.StatusOK, "[]")
+
 }
 	
 	{{end -}}
