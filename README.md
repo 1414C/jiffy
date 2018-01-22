@@ -67,6 +67,7 @@ While this is not for everybody, it does reduce the mental cost of entry and all
 * built-in support for https
 * baked in normalization and validation in the model-layer
 * generates a working set of CRUD-type RESTful services for each entity in the model file
+* get-set type end-points support /$count, $limit=n, $offset=n, $orderby=field_name ($asc|$desc)
 * supports and generates working end-points for hasOne, hasMany and belongsTo entity relationships
 * generates working query end-points based on the model file
 * end-points are secured by way of scope inspection (jwt claims) in the route handler middleware
@@ -117,6 +118,37 @@ Additional routes can also be generated based on the model file, including custo
 
 5. Use a generated belongsTo relationship to retrieve the customer for a specific order:
     - https://servername:port/order/99000022/customer
+
+
+A set of commands can be appended to an operation's URL to perform some common activities.  The commands can be appended to the URL in any order.
+
+1. Get a count of all customer entities:
+    - https://servername:port/customer/$count
+
+2. Limit the number of returned customer entities to 3.  The default sorting for this example would be ascending based on the entity ID field.
+    - https://servername:port/customer/$limit=3
+
+3. Offset the database selection by 2 records top-down using the default sorting order (ascending based on the entity ID field):
+    - https://servername:port/customer/$offset=2
+
+4. Order the selected records in descending order using the default sorting order (ascending based on the entity ID field):
+    - https://servername:port/customer/$desc
+
+5. Order the selected records in descending order using the customer name field as the sort criteria:
+    - https://servername:port/customer/$orderby=name$desc
+
+6. Limit the number of selected records to 3 and sort in descending order based on the entity ID field:
+    - https://servername:port/customer/$limit=3/$desc
+
+7. Limit the number of selected records to 3 and order the selected records in ascending order using the customer name field as the sort criteria:
+    - https://servername:port/customer/$limit=3;$orderby=name$asc
+
+8. Limit the number of selected records to 3 with an offset of 2 and order the selected records in ascending order using the customer name field as the sort criteria:
+    - https://servername:port/customer/$limit=3$offset=2$orderby=name$asc
+
+9. Limit the return of a static filter end-point to 3 records:
+    - https://servername:port/customers/credit_score(LT 4)/$limit=3
+
 
 
 This is just a sample of what the model files have to offer.  More details regarding application modlelling are contained in later sections of this file.
@@ -1793,6 +1825,7 @@ ___
 
 ## Pending Changes
 
+* [ ] correct -rs flag operation to fully clean auths and groupauths
 * [x] fully implement nullable / pointer support
 * [x] add support for single-field unique constraints
 * [x] implement GetEntities to use the standard sqac.PublicDB interface
