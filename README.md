@@ -1844,6 +1844,8 @@ ___
 * [x] fully implement nullable / pointer support
 * [x] add support for single-field unique constraints
 * [x] implement GetEntities to use the standard sqac.PublicDB interface
+* [x] implement support for common restful get-set-type commands ($count, $orderby, $desc|$asc, $limit, $offset)
+* [ ] add support in readmodel/generator for foreign-key declarations
 * [ ] SAML integration with usr/login
 * [ ] consider the use of db-views as entity sources
 * [ ] add support for BLOB storage (S3?)

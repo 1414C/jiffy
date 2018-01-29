@@ -1,0 +1,108 @@
+{
+    "entities":  [
+        {
+            "typeName": "Person",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,like"
+                },
+                "age": {
+                    "type": "uint",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "eq,lt,gt"
+                },
+                "weight": {
+                    "type": "float64",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "",
+                    "selectable": "eq,lt,le,gt,ge"
+                },
+                "validLicense": {
+                    "type": "bool",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,ne"
+                },
+                "licenseClass": {
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,ne,like",
+                    "ref_entity": "LicenseClass",
+                    "ref_field": "ClassCode"
+                }
+            },
+            "ext_points": {
+                "gen_controller": true,
+                "gen_validator": false,
+                "gen_model": true
+            }
+        },
+        {
+            "typeName": "Country",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,like"
+                },
+                "isoCode": {
+                    "type": "uint",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "unique",
+                    "selectable": "eq,lt,gt"
+                }
+            },
+            "ext_points": {
+                "gen_controller": true,
+                "gen_validator": false,
+                "gen_model": true
+            }
+        },
+        {
+            "typeName": "LicenseClass",
+            "properties": {
+                "classCode": {
+                    "type": "string",
+                    "format": "", 
+                    "required": true,
+                    "unique": true,
+                    "index": "unique",
+                    "selectable": "eq,like"
+                },
+                "className": {
+                    "type": "string",
+                    "format": "", 
+                    "required": false,
+                    "unique": false,
+                    "index": "nonUnique",
+                    "selectable": "eq,lt,gt"
+                }
+            },
+            "ext_points": {
+                "gen_controller": true,
+                "gen_validator": false,
+                "gen_model": true
+            }
+        }
+    ]
+}

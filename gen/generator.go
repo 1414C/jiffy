@@ -10,6 +10,8 @@ import (
 	"strings"
 	"text/template"
 	"time"
+
+	"github.com/1414C/sqac/common"
 )
 
 // Info is used to hold name-value-pairs for Entity definitions
@@ -29,6 +31,8 @@ type Info struct {
 	Selectable       string // "eq,like,gt,lt,ge,le,ne"
 	DefaultValue     string //
 	DefaultFunc      string // "now; bot; eot etc."
+	RefEntity        string // foreign-key reference entity for field
+	RefField         string // foreign-key reference field
 	SqacTagLine      string
 	JSONTagLine      string // `json:"field_name,omitempty"`
 	GenControllerExt bool
@@ -494,6 +498,13 @@ func (i *Info) GetSqacTagLine(b bool) string {
 		i.sqacTagLineExtend("index:non-unique")
 	default:
 		// do nothing
+	}
+
+	// if a foreign-key has been specified for the column include it
+	if len(i.RefEntity) > 0 {
+		re := strings.ToLower(i.RefEntity)
+		rf := common.CamelToSnake(i.RefField)
+		i.sqacTagLineExtend(fmt.Sprintf("fkey:%s(%s)", re, rf))
 	}
 
 	if len(i.SqacTagLine) > 0 {

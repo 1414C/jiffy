@@ -234,6 +234,20 @@ func buildEntityColumns(colString string, colType ColType) ([]Info, error) {
 			if !ok {
 				return nil, fmt.Errorf("incorrect element-type for entity \"index\" field")
 			}
+			info.RefEntity, ok = extractString(attrObjMap["ref_entity"])
+			if !ok {
+				return nil, fmt.Errorf("incorrect element-type for entity \"ref_entity\" field")
+			}
+			info.RefField, ok = extractString(attrObjMap["ref_field"])
+			if !ok {
+				return nil, fmt.Errorf("incorrect element-type for entity \"ref_field\" field")
+			}
+			if len(info.RefEntity) > 0 && len(info.RefField) == 0 {
+				return nil, fmt.Errorf("ref_entity and ref_field must both be provided in the model in order to define a foreign-key")
+			}
+			if len(info.RefEntity) == 0 && len(info.RefField) > 0 {
+				return nil, fmt.Errorf("ref_entity and ref_field must both be provided in the model in order to define a foreign-key")
+			}
 		default:
 			// do nothing
 		}
