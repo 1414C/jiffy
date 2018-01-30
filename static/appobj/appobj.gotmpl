@@ -202,6 +202,14 @@ func (a *AppObj) initializeRoutes() {
 	// create the RequireUsr middleware to ensure page access is secure.
 	requireUserMw := middleware.InitMW(a.services.Usr, a.verifyKey, mapGroupAuths)
 
+	// construct a map of local service activations
+	svcActv := make(map[string]bool)
+	if a.cfg.ServiceActivations != nil && len(a.cfg.ServiceActivations) > 0 {
+		for i := range a.cfg.ServiceActivations {
+			svcActv[a.cfg.ServiceActivations[i].ServiceName] = a.cfg.ServiceActivations[i].ServiceActive
+		}
+	}
+
 	// get a gorilla router and create controllers
 	a.router = mux.NewRouter()
 	if a.router == nil {
@@ -271,8 +279,12 @@ func (a *AppObj) initializeRoutes() {
 	// http://127.0.0.1:<port>/groupauths/group_id:
 	a.router.HandleFunc("/groupauths/{group_id:[0-9]+}", requireUserMw.ApplyFn(a.groupauthC.DeleteGroupAuthsByGroupID)).Methods("DELETE").Name("groupauth.DELETE_ByGroupID")
 
+	var pActive, ok bool
+
     {{range .Entities -}} 
     // ====================== {{.Header.Name}} protected routes for standard CRUD access ======================
+	pActive, ok = svcActv["{{.Header.Name}}"]
+	if ok && pActive {
     a.router.HandleFunc("/{{.Header.Value}}s", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Get{{.Header.Name}}s)).Methods("GET").Name("{{.Header.Value}}.GET_SET")
 	a.router.HandleFunc("/{{.Header.Value}}s/{cmd:[$]+[a-zA-Z0-9_$=]+}", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Get{{.Header.Name}}s)).Methods("GET").Name("{{.Header.Value}}.GET_SET_CMD")
     a.router.HandleFunc("/{{.Header.Value}}", requireUserMw.ApplyFn(a.{{.Header.Value}}C.Create)).Methods("POST").Name("{{.Header.Value}}.CREATE")
@@ -356,6 +368,7 @@ func (a *AppObj) initializeRoutes() {
 			{{end -}}
 		{{end -}}
     {{end -}}
+	}
 {{end -}}
 }
 
