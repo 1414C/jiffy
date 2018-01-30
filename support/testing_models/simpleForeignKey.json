@@ -64,7 +64,7 @@
                     "selectable": "eq,like"
                 },
                 "isoCode": {
-                    "type": "uint",
+                    "type": "string",
                     "format": "", 
                     "required": false,
                     "unique": false,
