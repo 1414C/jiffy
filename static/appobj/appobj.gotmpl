@@ -47,7 +47,7 @@ const (
 // prd indicates run with the prod profile
 // dr indicates run a destructive reset and exit
 // rs indicates a requested rebuild of the Auth allocations to the Super UsrGroup
-func (a *AppObj) Initialize(dev, prd, dr, rs bool) {
+func (a *AppObj) Initialize(dev, prd, dr, rs, al, dl bool) {
 
 	// retrieve the app config based on production/test setting
 	if prd && dev {
@@ -74,7 +74,7 @@ func (a *AppObj) Initialize(dev, prd, dr, rs bool) {
 	a.dbConfig = a.cfg.Database
 
 	// create Services
-	a.createServices()
+	a.createServices(al, dl)
 
 	// perform destructive reset of db table content?
 	if dr {
@@ -125,11 +125,11 @@ func (a *AppObj) automigrate() {
 }
 
 // createServices creates new services for the application object
-func (a *AppObj) createServices() {
+func (a *AppObj) createServices(appLog, dbLog bool) {
 	var err error
 	a.services, err = models.NewServices(
-		models.WithSqac(a.dbConfig.Dialect(), a.dbConfig.ConnectionInfo()),
-		models.WithLogMode(!a.cfg.IsProd()),
+		models.WithSqac(a.dbConfig.Dialect(), a.dbConfig.ConnectionInfo(), dbLog),
+		models.WithLogMode(appLog),
 		models.WithUsr(a.cfg.Pepper),
 		models.WithUsrGroup(),
 		models.WithAuth(),
