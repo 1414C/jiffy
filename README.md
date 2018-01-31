@@ -374,8 +374,8 @@ In order to run the application generator, ensure the following:
             * ./rgen
 <br/>
 
-## Flags
-Flags are generally not used, as the configuration files (models.json) are easier to deal with.  There are however, a few flags that can e appended to the execution command:
+## Generation Flags
+Flags are generally not used, as the configuration files (models.json) are easier to deal with.  There are however, a few flags that can be appended to the execution command:
 
 * go run *.go -p <target_dir>
   * The -p switch is used to specify the target directory for generated application source-code relative to $GOPATH/src.
@@ -1561,6 +1561,24 @@ The generated server runs based on a generated JSON configuration file as shown 
     the server codebase is created.  Leaving the default values in these fields is recommended;
     they have been included in the configuration in order to support their storage in an alternate
     location.
+
+    "service_activations": [
+    When an application is generated based on the model file(s), all service aspects of the complete
+    set of entities will be created.  There may be scenarios where it is appropriate to limit the
+    set of activated services on a running instance of an application server.  This can be acheived
+    by maintaining the activation status of each modelled entity in the service_activations list.
+
+    "service_name": Service name is simply the entity name in CamelCase matching that of the entity's
+    definition in its respective model file.
+
+    "service_activation": A boolean value (true\false) describing whether the entity's services are
+    active on the application server.  Care must be taken with service activations, as relationships
+    between entities must be considered.  Disabling an entity that has a 'belongsTo' relation with
+    an active entity can lead to problems.  In such a case, the expectation is that another instance
+    of the application server is running with the required services active.  While the generated 
+    application server does not handle the rereouting or request forwarding in such a case, it should
+    be possible to direct requests to the correct server based on NGinx config (for example).
+    ]
 }
 
 ```
@@ -1593,7 +1611,17 @@ The generated server runs based on a generated JSON configuration file as shown 
     "cert_file": "",
     "key_file": "",
     "jwt_priv_key_file": "jwtkeys/private.pem",
-    "jwt_pub_key_file": "jwtkeys/public.pem"
+    "jwt_pub_key_file": "jwtkeys/public.pem",
+    "service_activations": [
+        {
+            "service_name":   "Library",
+            "service_active": true
+        },
+        {
+            "service_name":   "Book",
+            "service_active": true
+        }
+        ]
 }
 
 ```
@@ -1624,7 +1652,17 @@ The generated server runs based on a generated JSON configuration file as shown 
     "cert_file": "",
     "key_file": "",
     "jwt_priv_key_file": "jwtkeys/private.pem",
-    "jwt_pub_key_file": "jwtkeys/public.pem"
+    "jwt_pub_key_file": "jwtkeys/public.pem",
+    "service_activations": [
+        {
+            "service_name":   "Library",
+            "service_active": true
+        },
+        {
+            "service_name":   "Book",
+            "service_active": true
+        }
+        ]
 }
 
 ```
@@ -1657,10 +1695,58 @@ The generated server runs based on a generated JSON configuration file as shown 
     "cert_file": "srvcert.cer",
     "key_file": "srvcert.key",
     "jwt_priv_key_file": "jwtkeys/private.pem",
-    "jwt_pub_key_file": "jwtkeys/public.pem"
+    "jwt_pub_key_file": "jwtkeys/public.pem",
+    "service_activations": [
+        {
+            "service_name":   "Library",
+            "service_active": true
+        },
+        {
+            "service_name":   "Book",
+            "service_active": true
+        }
+        ]
 }
 
 ```
+
+## Application Server Flags
+Flags are generally not used, as the configuration files (models.json) are easier to deal with.  There are however, a few flags that can be used when starting the server:
+
+* -dr 
+  * The -dr switch is used to perform a destructive reset of the application's data tables.  This flag causes the application tables to be dropped and recreated, but does not affect the user, user-group, or authorization tables.
+
+```bash
+
+    $ go run main.go -dev -dr
+
+```
+
+* -rs
+  * The -rs switch is used to add new auths detected in the route and add them to the Super user-group.  It is a good idea to run with this flag in changing environments.
+
+```bash
+
+    $ go run main.go -dev -rs
+
+```
+
+* -al
+  * The -al switch is used to instruct the application to write debugging information to stdout.  This is not very useful at the moment.
+
+```bash
+
+    $ go run main.go -dev -al
+
+```
+
+* -dl
+  * The -dl switch is used to instruct the ORM to write SQL DDL/DML statements to stdout.  The written statements are in various states of assembly and in many cases are approximations of what was or will be sent to the database.
+
+```bash
+
+    $ go run main.go -dev -dl
+
 ___
 
 <br/>

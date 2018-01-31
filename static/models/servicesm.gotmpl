@@ -25,9 +25,9 @@ type Services struct {
 type ServicesConfig func(*Services) error
 
 // WithSqac provides a function that will return a sqac services closure
-func WithSqac(dialect, connectionInfo string) ServicesConfig {
+func WithSqac(dialect, connectionInfo string, dbLog bool) ServicesConfig {
 	return func(s *Services) error {
-		handle := sqac.Create(dialect, false, false, connectionInfo)
+		handle := sqac.Create(dialect, false, dbLog, connectionInfo)
 
 		s.handle = handle
 		return nil
