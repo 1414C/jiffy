@@ -72,7 +72,6 @@ func parseRequestCommands(vars map[string]string) (map[string]interface{}, error
 	mapCommands := make(map[string]interface{})
 
 	for _, v := range commands {
-		fmt.Printf("command: %v\n", v)
 		if v != "" {
 			if strings.ContainsAny(v, "=") {
 				p := strings.Split(v, "=")
