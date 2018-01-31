@@ -332,8 +332,6 @@ func ({{$pref}}s *{{.Header.Value}}Sqac) Get{{.Header.Name}}s(params []common.Ge
 	// create a slice to read into
 	{{.Header.Value}}s := []{{.Header.Name}}{}
 
-	fmt.Println("got params:", params)
-
 	// call the ORM
 	result, err := {{$pref}}s.handle.GetEntitiesWithCommands({{.Header.Value}}s, params, cmdMap)
 	if err != nil {
