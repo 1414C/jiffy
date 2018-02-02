@@ -762,10 +762,8 @@ Relationships between entities can be declared in the application model file  vi
                     { 
                     "relName": "ToOwner",
                         "properties": {
-                            "refKey": "",
                             "relType": "hasOne",
-                            "toEntity": "Owner",
-                            "foreignPK": "" 
+                            "toEntity": "Owner"
                         }
                     }
                 ]
@@ -799,16 +797,6 @@ A break-down of the relations block fields is as follows:
             "properties": {
             The 'properties' block contains the details of the relationship.
 
-            "refKey":
-            Field 'refKey' can be used to specify an non-default reference key belonging to the
-            containing (from) entity.  By leaving this field empty, the default field of 'ID' will
-            be used, which is what most relationships will use most of the time.  For those times
-            where the default 'from' key cannot be 'ID', you may specify your own as long as the
-            chosen field is an existing member in the containing (from) entity and is of go-type
-            uint64 or *uint64.  The refKey will be matched in the selection of the toEntity when
-            the relationship is accessed.
-            This is an optional field.
-
             "relType":
             Field 'relType' is used to indicate what sort of relationship is being declared between
             the containing (from) entity and the toEntity.  Valid values are {HasOne, HasMany and
@@ -821,16 +809,6 @@ A break-down of the relations block fields is as follows:
             declaration.  The toEntity need not appear prior to the containing entity in the model
             file or files.
             This is a mandatory field.
-
-            "foreignPK":
-            Field 'foreignPK' can be used to specify the field in the toEntity to which the containing
-            entity will match the 'refKey'.  As such, both fields must be of the same go-type
-            (uint64/*uint64).  By leaving this field empty, the application will attempt to use
-            <ContainingEntityName>ID as the column to which the containing (from) entity will attempt
-            to match its refKey to.  In the given example of Car -> Owner, the application will attempt
-            to find the Car's Owner as shown in the following pseudo-code:
-
-            SELECT * FROM owner WHERE owner.CarID = car.ID LIMIT 1;
 
             }
     }
@@ -873,10 +851,8 @@ HasMany relationships establish a one-to-many relationship between two model ent
                     { 
                     "relName": "ToBooks",
                         "properties": {
-                            "refKey": "",
                             "relType": "hasMany",
-                            "toEntity": "Book",
-                            "foreignPK": ""
+                            "toEntity": "Book"
                         }
                     }
                 ]
@@ -956,10 +932,8 @@ BelongsTo relationships are used to form the inverse of the HasOne and HasMany r
                     { 
                     "relName": "ToBooks",
                         "properties": {
-                            "refKey": "",
                             "relType": "hasMany",
-                            "toEntity": "Book",
-                            "foreignPK": ""
+                            "toEntity": "Book"
                         }
                     }
                 ]
@@ -1000,10 +974,8 @@ BelongsTo relationships are used to form the inverse of the HasOne and HasMany r
                     { 
                     "relName": "ToLibrary",
                         "properties": {
-                            "refKey": "",
                             "relType": "belongsTo",
-                            "toEntity": "Library",
-                            "foreignPK": ""
+                            "toEntity": "Library"
                         }
                     }
                 ]
@@ -1018,7 +990,7 @@ By relying on the default key determinations for the BelongsTo relationship, the
 
 ### What if more complex relationships are required?
 
-At the moment the generator only supports HasOne, HasMany and BelongsTo relations, as in practice these tend to be the most widely used.  The generated code can be extended to accomodate additional relationships and joins if need be.  There is a tentative plan to support more complex relations in the generator in the future.
+At the moment the generator only supports HasOne, HasMany and BelongsTo relations, as in practice these tend to be the most widely used.  The generated code can be extended to accomodate additional relationships and joins if need be.  There is a tentative plan to support more complex relations in the generator in the future.  Most of the supporting code is in place, but the controller_rel templates would need to be enhanced to support it.  In the meanitime, a combination of foreign-feys and static filters can be employed as an alternative to formally defined relationships in cases where the entity-id model is not sufficient.
 
 <br/>
 
@@ -1934,6 +1906,8 @@ ___
 * [x] add support in readmodel/generator for foreign-key declarations
 * [ ] disable foreign-key checks in generated service testing code
 * [ ] SAML integration with usr/login
+* [ ] add missing content to README.md
+* [ ] create tutorials
 * [ ] consider the use of db-views as entity sources
 * [ ] add support for BLOB storage (S3?)
 * [ ] add service activation to the config

@@ -35,10 +35,8 @@
                 { 
                 "relName": "ToCar",
                     "properties": {
-                        "refKey": "",
                         "relType": "hasOne",
-                        "toEntity": "Car",
-                        "foreignPK": "" 
+                        "toEntity": "Car"
                     }
                 }
             ],

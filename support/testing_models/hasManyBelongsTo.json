@@ -27,10 +27,8 @@
                     { 
                     "relName": "ToBooks",
                         "properties": {
-                            "refKey": "",
                             "relType": "hasMany",
-                            "toEntity": "Book",
-                            "foreignPK": ""
+                            "toEntity": "Book"
                         }
                     }
                 ],
@@ -76,10 +74,8 @@
                     { 
                     "relName": "ToLibrary",
                         "properties": {
-                            "refKey": "",
                             "relType": "belongsTo",
-                            "toEntity": "Library",
-                            "foreignPK": ""
+                            "toEntity": "Library"
                         }
                     }
                 ],

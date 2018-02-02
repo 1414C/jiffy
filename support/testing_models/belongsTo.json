@@ -1,12 +1,12 @@
 {
     "entities":  [
         {
-            "typeName": "Library",
+            "typeName": "PetOwner",
             "properties": {
                 "Name": {
                     "type": "string",
                     "format": "", 
-                    "required": true,
+                    "required": false,
                     "unique": false,
                     "index": "nonUnique",
                     "selectable": "eq,like"
@@ -14,7 +14,7 @@
                 "City": {
                     "type": "string",
                     "format": "", 
-                    "required": true,
+                    "required": false,
                     "unique": false,
                     "index": "",
                     "selectable": "eq,lt,gt"
@@ -24,49 +24,49 @@
                 {"index": "name, city"}
             ],
             "relations": [
-                    { 
-                    "relName": "Books",
-                        "properties": {
-                            "refKey": "",
-                            "relType": "hasMany",
-                            "toEntity": "Book",
-                            "foreignPK": ""
-                        }
+                { 
+                "relName": "ToDogs",
+                    "properties": {
+                        "relType": "hasMany",
+                        "toEntity": "Dog"
                     }
-                ]
+                }
+            ]
     },
     {
-        "typeName": "Book",
+        "typeName": "Dog",
         "properties": {
-            "Title": {
+            "Name": {
                 "type": "string",
                 "format": "", 
                 "required": true,
                 "index": "nonUnique",
                 "selectable": "eq,like"
             },
-            "Hardcover": {
-                "type": "bool",
+            "Breed": {
+                "type": "string",
                 "format": "", 
                 "required": true,
-                "index": "",
-                "selectable": "eq,ne"
+                "index": "nonUnique",
+                "selectable": "eq,like"
             },
-            "Copies": {
-                "type": "uint64",
-                "format": "", 
-                "required": true,
-                "index": "",
-                "selectable": "eq,lt,gt"
-            },
-            "LibraryID": {
+            "PetOwnerID": {
                 "type": "uint64",
                 "format": "", 
                 "required": true,
                 "index": "nonUnique",
                 "selectable": "eq,like"
             }
-        }
+        },
+        "relations": [
+            { 
+            "relName": "ToPetOwner",
+                "properties": {
+                    "relType": "belongsTo",
+                    "toEntity": "PetOwner"
+                }
+            }
+        ]
     }
     ]
 }

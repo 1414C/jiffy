@@ -28,8 +28,8 @@ type {{.Header.Name}}Controller struct {
 	{{$pref}}s models.{{.Header.Name}}Service
 	{{if .Header.GenControllerExt -}}
 	ep ext.{{.Header.Name}}CtrlExt
-	svcs models.Services
 	{{end -}}
+	svcs models.Services
 }
 
 // New{{.Header.Name}}Controller creates a new {{.Header.Name}}Controller
