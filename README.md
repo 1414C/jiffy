@@ -331,12 +331,11 @@ There are more sophisticated ways of dealing with this caching of the User Group
 ## Work-In-Progress
 1.  [ ]Ensure that rune and byte types are fully accounted for
 2.  [ ]Consider the handling of binary-objects (images etc.)
-3.  [ ]Add option for Foreign Key defintion / enforcement in relations
-4.  [ ]Droplet deployment
-5.  [ ]NGinx
-6.  [ ]Cloud Foundry
-7.  [ ]Verify UTC date-time storage
-8.  [ ]Consider self-documenting the API via a $metadata end-point
+3.  [ ]Droplet deployment
+4.  [ ]NGinx
+5.  [ ]Cloud Foundry
+6.  [ ]Verify UTC date-time storage
+7.  [ ]Consider self-documenting the API via a $metadata end-point
 
 <br/>
 
@@ -1903,13 +1902,14 @@ ___
 * [x] implement GetEntities to use the standard sqac.PublicDB interface
 * [x] implement support for common restful get-set-type commands ($count, $orderby, $desc|$asc, $limit, $offset)
 * [x] add support in readmodel/generator for foreign-key declarations
+* [x] limit user-defined db_type in sqac model when column is primary-key:inc
 * [ ] disable foreign-key checks in generated service testing code
 * [ ] SAML integration with usr/login
 * [ ] add missing content to README.md
 * [ ] create tutorials
 * [ ] consider the use of db-views as entity sources
 * [ ] add support for BLOB storage (S3?)
-* [ ] add service activation to the config
+* [x] add service activation to the config
 * [x] add support for additional db platforms via the dialect
 * [ ] write a dialect for db2 community edition
 * [ ] write a dialect for ASE
