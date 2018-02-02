@@ -50,7 +50,7 @@ func New{{.Header.Name}}Controller({{$pref}}s models.{{.Header.Name}}Service, sv
 func ({{$pref}}c *{{.Header.Name}}Controller) Create(w http.ResponseWriter, r *http.Request) {
 
     var err error
-	var {{$pref}} models.{{.Header.Name}}
+	var {{$pref}}m models.{{.Header.Name}}
 
 	{{if .Header.GenControllerExt -}}
 	// TODO: implement extension-point if required
@@ -75,7 +75,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Create(w http.ResponseWriter, r *h
 	{{if .Header.GenControllerExt -}}
 	// TODO: implement extension-point if required
 	// TODO: safe to comment this block out if the extension-point is not needed
-	err = {{$pref}}c.ep.CrtEp.AfterBodyDecode(&{{$pref}})
+	err = {{$pref}}c.ep.CrtEp.AfterBodyDecode(&{{$pref}}m)
 	if err != nil {
 		log.Println("{{.Header.Name}}Controller CreateAfterBodyDecode() error:", err)
 		respondWithError(w, http.StatusBadRequest, "{{.Header.Value}}c: Invalid request payload")
@@ -87,7 +87,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Create(w http.ResponseWriter, r *h
 	// fill the model
 	{{.Header.Value}} := models.{{.Header.Name}} {
 		{{range .Fields -}} 
-    	{{.Name}}:  {{$pref}}.{{.Name -}},
+    	{{.Name}}:  {{$pref}}m.{{.Name -}},
 		{{end}}
 	}
 
@@ -124,7 +124,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Create(w http.ResponseWriter, r *h
 func ({{$pref}}c *{{.Header.Name}}Controller) Update(w http.ResponseWriter, r *http.Request) {
 
 	var err error
-	var {{$pref}} models.{{.Header.Name}}
+	var {{$pref}}m models.{{.Header.Name}}
 
 	{{if .Header.GenControllerExt -}}
 	// TODO: implement extension-point if required
@@ -148,7 +148,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Update(w http.ResponseWriter, r *h
 	}
 
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&{{$pref}}); err != nil {
+	if err := decoder.Decode(&{{$pref}}m); err != nil {
 		log.Println("{{.Header.Name}} Update:",err)				
 		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
 		return
@@ -158,7 +158,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Update(w http.ResponseWriter, r *h
 	{{if .Header.GenControllerExt -}}
 	// TODO: implement extension-point if required
 	// TODO: safe to comment this block out if the extension-point is not needed
-	err = {{$pref}}c.ep.UpdEp.AfterBodyDecode(&{{$pref}})
+	err = {{$pref}}c.ep.UpdEp.AfterBodyDecode(&{{$pref}}m)
 	if err != nil {
 		log.Println("{{.Header.Name}}Controller UpdateAfterBodyDecode() error:", err)
 		respondWithError(w, http.StatusBadRequest, "{{.Header.Value}}c: Invalid request payload")
@@ -170,7 +170,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Update(w http.ResponseWriter, r *h
 	// fill the model
 	{{.Header.Value}} := models.{{.Header.Name}} {
 		{{range .Fields -}} 
-    	{{.Name}}:  {{$pref}}.{{.Name -}},
+    	{{.Name}}:  {{$pref}}m.{{.Name -}},
 		{{end}}
 	}
 
