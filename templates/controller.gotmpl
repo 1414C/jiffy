@@ -65,7 +65,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Create(w http.ResponseWriter, r *h
 	{{end -}}
 	
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&{{$pref}}); err != nil {
+	if err := decoder.Decode(&{{$pref}}m); err != nil {
 		log.Println("{{.Header.Name}} Create:",err)
 		respondWithError(w, http.StatusBadRequest, "{{.Header.Value}}c: Invalid request payload")
 		return
