@@ -329,13 +329,14 @@ There are more sophisticated ways of dealing with this caching of the User Group
 <br/>
 
 ## Work-In-Progress
-1.  [ ]Ensure that rune and byte types are fully accounted for
-2.  [ ]Consider the handling of binary-objects (images etc.)
-3.  [ ]Droplet deployment
-4.  [ ]NGinx
-5.  [ ]Cloud Foundry
-6.  [ ]Verify UTC date-time storage
-7.  [ ]Consider self-documenting the API via a $metadata end-point
+
+1. [ ]Ensure that rune and byte types are fully accounted for
+2. [ ]Consider the handling of binary-objects (images etc.)
+3. [ ]Droplet deployment
+4. [ ]NGinx
+5. [ ]Cloud Foundry
+6. [ ]Verify UTC date-time storage
+7. [ ]Consider self-documenting the API via a $metadata end-point
 
 <br/>
 
