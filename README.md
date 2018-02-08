@@ -1,8 +1,8 @@
-# rocket
+# jiffy
 
 ## Overview and Features
 
-Rocket is a model-based RESTful application services generator written in go.  It was developed as an experiment to offer an alternative avenue when developing cloud native applications for SAP Hana.  The rocket application allows a developer to treat the data persistence layer as an abstraction, thereby removing the need to make use of CDS and the SAP XS libraries.
+Jiffy is a model-based RESTful application services generator written in go.  It was developed as an experiment to offer an alternative avenue when developing cloud native applications for SAP Hana.  The jiffy application allows a developer to treat the data persistence layer as an abstraction, thereby removing the need to make use of CDS and the SAP XS libraries.
 
 While this is not for everybody, it does reduce the mental cost of entry and allows deployment of a web-based application on SAP Hana with virtually no prior Hana knowledge.
 
@@ -19,7 +19,7 @@ While this is not for everybody, it does reduce the mental cost of entry and all
 * Go cross-compiles to virtually any platform and architecture; write and test on a chromebook - deploy to z/OS
 * Go is making inroads into areas that have been dominated by other languages and packages
 
-### What does the Rocket application provide?
+### What does the Jiffy application provide?
 
 * generated apps can be connected to Postgres, MSSQL, SAP Hana, SQLite or MariaDB
 * no database specific code is compiled into the binary; an app can be pointed from SQLite to SAP Hana with no code changes
@@ -81,7 +81,7 @@ struct Library {
 
 ### What does a generated application look like?
 
-The generated application can be pointed at the DBMS of your choice without the need to recompile the binary (architecture differences not withstanding).  This means that a developer can build a model, fully test it locally using SQLite and then redirect the appplication to a formal testing environment running SAP Hana, or any of the other supported database systems.  This is achievable due to the ORM layer that the Rocket application is built upon.  The ORM is easily extendable to accomodate other databases if required (oracle, db2, SAP ASE are candidates here).
+The generated application can be pointed at the DBMS of your choice without the need to recompile the binary (architecture differences not withstanding).  This means that a developer can build a model, fully test it locally using SQLite and then redirect the appplication to a formal testing environment running SAP Hana, or any of the other supported database systems.  This is achievable due to the ORM layer that the Jiffy application is built upon.  The ORM is easily extendable to accomodate other databases if required (oracle, db2, SAP ASE are candidates here).
 
 Applications are generated based on model files which are encoded as simple JSON.  The concepts of entity and resource-id form the cornerstones upon which the model, application and RESTful end-points are built.
 
@@ -360,17 +360,17 @@ In order to run the application generator, ensure the following:
     ** godep will be incorporated in order to eliminate this installation step
 
 3.  Install the application into your local $GOPATH/src directory:
-    * go get -u github.com/1414C/rocket
+    * go get -u github.com/1414C/jiffy
 
 4.  You will need access to a Postgres, MySQL, MSSQL or SAP Hana database, either locally or over the network.  It is also possible to run tests with SQLite3.
 
 5.  The application can be started in two ways:
-    * From $GOPATH/src/github.com/1414C/rocket you may execute the application by typing:
+    * From $GOPATH/src/github.com/1414C/jiffy you may execute the application by typing:
         * go run main.go
-    * A binary can also be built from $GOPATH/src/github.com/1414C/rocket by typing the following:
+    * A binary can also be built from $GOPATH/src/github.com/1414C/jiffy by typing the following:
         * go build .
         * The application can then be started from the same directory by typing:
-            * ./rocket
+            * ./jiffy
 <br/>
 
 ## Generation Flags
@@ -608,7 +608,7 @@ https://github.com/jmoiron/sqlx
 
 http://jmoiron.github.io/sqlx/
 
-Although Rocket eschews non-standard lib packages wherever possible, sqlx is worth making an exception for.
+Although Jiffy eschews non-standard lib packages wherever possible, sqlx is worth making an exception for.
 
 
 ### Simple Two Entity Model
@@ -995,7 +995,7 @@ At the moment the generator only supports HasOne, HasMany and BelongsTo relation
 
 ## What gets generated?
 
-Running the Rocket generator creates a set of files that comprise a basic working application.  Incoming requests are handled by a mux, which validates / authenticates the request, and then matches it to a route.  The selected route passes the request to a controller specific to the entity-type, where the incoming information is mapped into a go struct matching the entity declaration.  The controller then calls the appropriate model function for the http operation and entity-type combination, passing it the entity structure.  The model handler passes the entity struct through a member-field validation layer, and then to the model's interface to the underlying sqac ORM.  The database request is handled by the ORM, and then the response is passed from the model back to the controller where it is packaged as a JSON payload and sent back to the caller in the response-writer's body.
+Running the Jiffy generator creates a set of files that comprise a basic working application.  Incoming requests are handled by a mux, which validates / authenticates the request, and then matches it to a route.  The selected route passes the request to a controller specific to the entity-type, where the incoming information is mapped into a go struct matching the entity declaration.  The controller then calls the appropriate model function for the http operation and entity-type combination, passing it the entity structure.  The model handler passes the entity struct through a member-field validation layer, and then to the model's interface to the underlying sqac ORM.  The database request is handled by the ORM, and then the response is passed from the model back to the controller where it is packaged as a JSON payload and sent back to the caller in the response-writer's body.
 
 There are more elegant ways to express certain aspects of the generated application.  The coding style has been deliberately kept as simple and straight-forward as possible in order to facilitate easier understanding and adjustment of the generated code.
 <br/>
@@ -1257,7 +1257,7 @@ Note that at the moment, validations are intended to be coded directly in the bo
 * Extension points exist as a convenience in the case where data needs pre or post processing.
 * For most entitys, some sort of validation will be required on the majority of fields.  We treat these as first-class citizens in the application rather than extension-points.
 * By treating validations as first-class citizens we do not need to use type assertion and reflection in the validation layer when performing the checks.
-* If there is a concern regarding the over-writing of coded validations due to application regeneration, it is simple for an application developer to implement their own sub-package with methods or functions containing the check code.  The Rocket application will not over-write files that it is not responsible for during a regeneration of an application.
+* If there is a concern regarding the over-writing of coded validations due to application regeneration, it is simple for an application developer to implement their own sub-package with methods or functions containing the check code.  The Jiffy application will not over-write files that it is not responsible for during a regeneration of an application.
 
 By default, a CRUD interface is generated for each entity.  Using the Library example, the generated code for the CRUD end-points look as follows:
 
@@ -1309,7 +1309,7 @@ The jwtkewys folder contains the public and private keys that are generated in o
 
 ## Extension-Points
 
-The Rocket application generates a working web services application based on the provided model files.  While the generated application should be runnable immediately following generation, there is often a need to perform validation and normalization on the incoming data.  This is best coded in the model-layer within the generated validation methods, but sometimes this is not sufficient.
+The Jiffy application generates a working web services application based on the provided model files.  While the generated application should be runnable immediately following generation, there is often a need to perform validation and normalization on the incoming data.  This is best coded in the model-layer within the generated validation methods, but sometimes this is not sufficient.
 
 There may be a need to inspect the request details immediately once the request has been passed to the controller.  There may be a need to perform crucial validations of the request-body in the controller layer prior to calling the model-layer (i.e. in advance of the validator).  There may be a need to influence the value of an entity's fields prior to returning the read or created entity back to the caller.  For reasons such as these, so-called 'extension-points' have been embedded in the model and controller layers of the code.
 

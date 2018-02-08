@@ -9,7 +9,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/1414C/rocket/gen"
+	"github.com/1414C/jiffy/gen"
 )
 
 func main() {

@@ -1,7 +1,7 @@
 package main_test
 
 import (
-	"github.com/1414C/rocket/gen"
+	"github.com/1414C/jiffy/gen"
 	"testing"
 )
 
