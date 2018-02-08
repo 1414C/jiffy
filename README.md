@@ -2,7 +2,7 @@
 
 ## Overview and Features
 
-Jiffy is a model-based RESTful application services generator written in go.  It was developed as an experiment to offer an alternative avenue when developing cloud native applications for SAP Hana.  The jiffy application allows a developer to treat the data persistence layer as an abstraction, thereby removing the need to make use of CDS and the SAP XS libraries.
+Jiffy is a model-based RESTful application services generator written in go.  It was developed as an experiment to offer an alternative avenue when developing native applications for SAP Hana.  The jiffy application allows a developer to treat the data persistence layer as an abstraction, thereby removing the need to make use of CDS and the SAP XS libraries.
 
 While this is not for everybody, it does reduce the mental cost of entry and allows deployment of a web-based application on SAP Hana with virtually no prior Hana knowledge.
 
