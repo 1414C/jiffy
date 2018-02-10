@@ -71,6 +71,8 @@ type Static struct {
 	DstDir   string
 	AppPath  string
 	Entities []Entity
+	ECDSA    []string
+	RSA      []string
 }
 
 // constants

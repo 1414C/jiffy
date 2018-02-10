@@ -74,6 +74,9 @@ func DefaultDBConfig() DBConfig {
 }
 
 // Config isProd := false
+// likely don't need ther private-keys beyond what you use in Login() to 
+// generate the jwt-token in cases where the access token was not created
+// by an IDP.
 type Config struct {
 	Port           		int            		`json:"port"`
 	Env            		string         		`json:"env"`
@@ -81,8 +84,18 @@ type Config struct {
 	Database       		DBConfig       		`json:"database"`
 	CertFile       		string         		`json:"cert_file"`
 	KeyFile        		string         		`json:"key_file"`
-	JWTPrivKeyFile 		string         		`json:"jwt_priv_key_file"`
-	JWTPubKeyFile  		string         		`json:"jwt_pub_key_file"`
+	RSA256PrivKeyFile   string              `json:"rsa256_priv_key_file"`
+	RSA256PubKeyFile    string              `json:"rsa256_pub_key_file"`
+	RSA384PrivKeyFile   string              `json:"rsa384_priv_key_file"`
+	RSA384PubKeyFile    string              `json:"rsa384_pub_key_file"`
+	RSA512PrivKeyFile   string              `json:"rsa512_priv_key_file"`
+	RSA512PubKeyFile    string              `json:"rsa512_pub_key_file"`
+	ECDSA256PrivKeyFile string              `json:"ecdsa256_priv_key_file"`
+	ECDSA256PubKeyFile  string              `json:"ecdsa256_pub_key_file"`
+	ECDSA384PrivKeyFile string              `json:"ecdsa384_priv_key_file"`
+	ECDSA384PubKeyFile  string              `json:"ecdsa384_pub_key_file"`
+	ECDSA521PrivKeyFile string              `json:"ecdsa521_priv_key_file"`
+	ECDSA521PubKeyFile  string              `json:"ecdsa521_pub_key_file"`
 	ServiceActivations []ServiceActivation 	`json:"service_activations"`
 }
 
@@ -118,14 +131,25 @@ func DefaultServiceActivations() []ServiceActivation {
 // DefaultConfig returns the app's default config in a Config structure
 func DefaultConfig() Config {
 	return Config{
-		Port:           	{{.Port}},
-		Env:            	"{{.Env}}",
-		Pepper:         	"{{.Pepper}}",
-		Database:       	DefaultDBConfig(),
-		CertFile:       	"{{.CertFile}}",
-		KeyFile:        	"{{.KeyFile}}",
-		JWTPrivKeyFile: 	"{{.JWTPrivKeyFile}}",
-		JWTPubKeyFile:  	"{{.JWTPubKeyFile}}",
+		Port:           		{{.Port}},
+		Env:            		"{{.Env}}",
+		Pepper:         		"{{.Pepper}}",
+		Database:       		DefaultDBConfig(),
+		CertFile:       		"{{.CertFile}}",    // https
+		KeyFile:        		"{{.KeyFile}}",     // https
+		RSA256PrivKeyFile:   	"",
+		RSA256PubKeyFile:    	"",
+		RSA384PrivKeyFile:   	"",
+		RSA384PubKeyFile:    	"",
+		RSA512PrivKeyFile:   	"",
+		RSA512PubKeyFile:    	"",
+		ECDSA256PrivKeyFile: 	"",
+		ECDSA256PubKeyFile:  	"",
+		ECDSA384PrivKeyFile: 	"{{.JWTPrivKeyFile}}",
+		ECDSA384PubKeyFile:  	"{{.JWTPubKeyFile}}",
+		ECDSA521PrivKeyFile: 	"",
+		ECDSA521PubKeyFile:  	"",
+		
 		ServiceActivations: DefaultServiceActivations(),
 	}
 }

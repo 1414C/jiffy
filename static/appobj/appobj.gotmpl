@@ -2,6 +2,7 @@ package appobj
 
 import (
 	"crypto/ecdsa"
+	"crypto/rsa"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -24,13 +25,17 @@ type AppObj struct {
     {{range .Entities -}} 
     {{.Header.Value}}C *controllers.{{.Header.Name}}Controller
     {{end -}}
-	usrC     	*controllers.UsrController
-	usrgroupC  	*controllers.UsrGroupController
-	authC      	*controllers.AuthController
-	groupauthC 	*controllers.GroupAuthController
-	router    	*mux.Router
-	verifyKey 	*ecdsa.PublicKey  // jwt support
-	signKey   	*ecdsa.PrivateKey // jwt support
+	usrC  			*controllers.UsrController
+	usrgroupC      	*controllers.UsrGroupController
+	authC          	*controllers.AuthController
+	groupauthC     	*controllers.GroupAuthController
+	router         	*mux.Router
+	// jwt support
+	jwtKeyMap      	map[string]interface{}
+	rsaVerifyKey   	*rsa.PublicKey    
+	rsaSignKey     	*rsa.PrivateKey   
+	ecdsaVerifyKey 	*ecdsa.PublicKey  
+	ecdsaSignKey   	*ecdsa.PrivateKey
 }
 
 // RunMode defines the two basic operation modes
@@ -148,25 +153,63 @@ func (a *AppObj) createServices(appLog, dbLog bool) {
 // initialize the jwt keys
 func (a *AppObj) initializeJWTKeys() {
 
-	fmt.Println("JWTPrivKeyFile:", a.cfg.JWTPrivKeyFile)
-	fmt.Println("JWTPubKeyFile:", a.cfg.JWTPubKeyFile)
+	// add the jwtKeyMap
+	a.jwtKeyMap = make(map[string]interface{})
 
-	signBytes, err := ioutil.ReadFile(a.cfg.JWTPrivKeyFile)
-	fatal(err)
+	{{range .ECDSA -}}
+	log.Println("ECDSA{{.}}PrivKeyFile:", a.cfg.ECDSA{{.}}PrivKeyFile)
+	log.Println("ECDSA{{.}}PubKeyFile:", a.cfg.ECDSA{{.}}PubKeyFile)
+	if a.cfg.ECDSA{{.}}PrivKeyFile != "" {
+		signBytes, err := ioutil.ReadFile(a.cfg.ECDSA{{.}}PrivKeyFile)
+		fatal(err)
 
-	a.signKey, err = jwt.ParseECPrivateKeyFromPEM(signBytes)
-	fatal(err)
+		signKey, err := jwt.ParseECPrivateKeyFromPEM(signBytes)
+		fatal(err)
 
-	verifyBytes, err := ioutil.ReadFile(a.cfg.JWTPubKeyFile)
-	fatal(err)
+		a.jwtKeyMap["ES{{.}}SignKey"] = signKey
+	}
 
-	a.verifyKey, err = jwt.ParseECPublicKeyFromPEM(verifyBytes)
-	fatal(err)
+	if a.cfg.ECDSA{{.}}PubKeyFile != "" {
+		verifyBytes, err := ioutil.ReadFile(a.cfg.ECDSA{{.}}PubKeyFile)
+		fatal(err)
+
+		verifyKey, err := jwt.ParseECPublicKeyFromPEM(verifyBytes)
+		fatal(err)
+
+		a.jwtKeyMap["ES{{.}}VerifyKey"] = verifyKey
+	}
+
+	{{end -}}
+
+	{{range .RSA -}}
+	fmt.Println("RSA{{.}}rivKeyFile:", a.cfg.RSA{{.}}PrivKeyFile)
+	fmt.Println("RSA{{.}}PubKeyFile:", a.cfg.RSA{{.}}PubKeyFile)
+	if a.cfg.RSA{{.}}PrivKeyFile != "" {
+		signBytes, err := ioutil.ReadFile(a.cfg.RSA{{.}}PrivKeyFile)
+		fatal(err)
+
+		signKey, err := jwt.ParseRSAPrivateKeyFromPEM(signBytes)
+		fatal(err)
+
+		a.jwtKeyMap["RS{{.}}SignKey"] = signKey
+	}
+
+	if a.cfg.RSA{{.}}PubKeyFile != "" {
+		verifyBytes, err := ioutil.ReadFile(a.cfg.RSA{{.}}PubKeyFile)
+		fatal(err)
+
+		verifyKey, err := jwt.ParseRSAPublicKeyFromPEM(verifyBytes)
+		fatal(err)
+
+		a.jwtKeyMap["RS{{.}}VerifyKey"] = verifyKey
+	}
+
+	{{end -}}
 }
 
 // createControllers for each entity
 func (a *AppObj) createControllers() {
-    a.usrC = controllers.NewUsrController(a.services.Usr, a.signKey, a.verifyKey)
+    a.usrC = controllers.NewUsrController(a.services.Usr, a.jwtKeyMap)
 	a.usrgroupC = controllers.NewUsrGroupController(a.services.UsrGroup)
 	a.authC = controllers.NewAuthController(a.services.Auth)
 	a.groupauthC = controllers.NewGroupAuthController(a.services.GroupAuth)
@@ -200,7 +243,7 @@ func (a *AppObj) initializeRoutes() {
 	}
 
 	// create the RequireUsr middleware to ensure page access is secure.
-	requireUserMw := middleware.InitMW(a.services.Usr, a.verifyKey, mapGroupAuths)
+	requireUserMw := middleware.InitMW(a.services.Usr, a.jwtKeyMap, mapGroupAuths)
 
 	// construct a map of local service activations
 	svcActv := make(map[string]bool)

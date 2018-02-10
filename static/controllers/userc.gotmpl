@@ -17,8 +17,7 @@ import (
 // UsrController - the usr controller type
 type UsrController struct {
 	us        models.UsrService
-	signKey   *ecdsa.PrivateKey
-	verifyKey *ecdsa.PublicKey
+	jwtKeyMap map[string]interface{}
 }
 
 // Token is the jwt return type
@@ -27,11 +26,10 @@ type Token struct {
 }
 
 // NewUsrController creates a new UsrController
-func NewUsrController(us models.UsrService, signKey *ecdsa.PrivateKey, verifyKey *ecdsa.PublicKey) *UsrController {
+func NewUsrController(us models.UsrService, jwtKeyMap map[string]interface{}) *UsrController {
 	return &UsrController{
 		us:        us,
-		signKey:   signKey,
-		verifyKey: verifyKey,
+		jwtKeyMap: jwtKeyMap,
 	}
 }
 
@@ -94,8 +92,14 @@ func (uc *UsrController) Login(w http.ResponseWriter, r *http.Request) {
 		fatal(err)
 	}
 
-	tokenString, err := token.SignedString(uc.signKey)
+	// the key should be parameterized in the generator
+	signKey, ok := uc.jwtKeyMap["ES384SignKey"].(*ecdsa.PrivateKey)
+	if !ok {
+		log.Println("error: could not read signKey in Login()")
+		respondWithJSON(w, http.StatusForbidden, "")
+	}
 
+	tokenString, err := token.SignedString(signKey)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprintln(w, "Error while signing the token")

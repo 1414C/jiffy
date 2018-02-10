@@ -7,6 +7,7 @@ package middleware
 
 import (
 	"crypto/ecdsa"
+	"crypto/rsa"
 	"fmt"
 	"net/http"
 	"strings"
@@ -21,16 +22,41 @@ import (
 // w,r in order to verify that the usr is logged in prior to rendering the
 // requested page.
 type RequireUsr struct {
-	Usr      models.UsrService
-	VerifyKey *ecdsa.PublicKey
+	Usr               models.UsrService
+	ECDSA256VerifyKey *ecdsa.PublicKey
+	ECDSA384VerifyKey *ecdsa.PublicKey
+	ECDSA521VerifyKey *ecdsa.PublicKey
+	RSA256VerifyKey   *rsa.PublicKey
+	RSA384VerifyKey   *rsa.PublicKey
+	RSA512VerifyKey   *rsa.PublicKey
 	mapGA     map[string]map[string]bool // map[groupName]map[auth_name]bool
 }
 
 // InitMW is used to initialize the usr authorization middleware
- func InitMW(Usr models.UsrService, VerifyKey *ecdsa.PublicKey, mapGroupAuths map[string]map[string]bool) (requireUser RequireUsr) {
- 
- 	requireUser.Usr = Usr
- 	requireUser.VerifyKey = VerifyKey
+func InitMW(Usr models.UsrService, jwtKeyMap map[string]interface{}, mapGroupAuths map[string]map[string]bool) (requireUser RequireUsr) {
+ 	
+	var esVerifyKey *ecdsa.PublicKey
+	var rsVerifyKey *rsa.PublicKey
+	var ok bool
+
+	{{range .ECDSA -}}
+ 	esVerifyKey, ok = jwtKeyMap["ES{{.}}VerifyKey"].(*ecdsa.PublicKey)
+	if ok {
+		requireUser.ECDSA{{.}}VerifyKey = esVerifyKey
+		esVerifyKey = nil
+	}
+
+	{{end -}}
+
+	{{range .RSA -}}
+	rsVerifyKey, ok = jwtKeyMap["RS{{.}}VerifyKey"].(*rsa.PublicKey)
+	if ok {
+		requireUser.RSA{{.}}VerifyKey = rsVerifyKey
+		rsVerifyKey = nil
+	}
+
+	{{end -}}
+	requireUser.Usr = Usr
  	requireUser.mapGA = mapGroupAuths
  	return requireUser
  }
@@ -85,15 +111,45 @@ func (mw *RequireUsr) ApplyFn(next http.HandlerFunc) http.HandlerFunc {
 		*jwt.StandardClaims
 		TokenType string
 		Groups    string
+		UID       uint64
 	}
 
 	// http.HandlerFunc is casting the type of the closure here
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
+		noKey := false
+
 		// verify the JWT content
 		token, err := request.ParseFromRequestWithClaims(r, request.AuthorizationHeaderExtractor, &CustomClaims{},
 			func(token *jwt.Token) (interface{}, error) {
-				return mw.VerifyKey, nil
+				switch token.Header["alg"] {
+				{{range .ECDSA -}}
+				case "ES{{.}}":
+					if mw.ECDSA{{.}}VerifyKey != nil {
+						return mw.ECDSA{{.}}VerifyKey, nil
+					} 
+					noKey = true
+
+				{{end -}}
+				{{range .RSA -}}
+				case "RS{{.}}":
+					if mw.RSA{{.}}VerifyKey != nil {
+						return mw.RSA{{.}}VerifyKey, nil
+					}
+					noKey = true
+
+				{{end -}}
+
+				case "HS256":
+					return nil, fmt.Errorf("hmac signed jwt's are not accepted")
+
+				default:
+					if noKey {
+						return nil, fmt.Errorf("unable to verify access token for %v signing algorithm", token.Header["alg"])
+					}
+					return nil, fmt.Errorf("unknown 'alg': %v in JWT header", token.Header["alg"])
+				}
+				return nil, fmt.Errorf("unknown error validating access token")
 			})
 
 		if err == nil {
@@ -101,6 +157,16 @@ func (mw *RequireUsr) ApplyFn(next http.HandlerFunc) http.HandlerFunc {
 				claims := token.Claims.(*CustomClaims)
 
 				// fmt.Printf("checking auth: %s with groups: %v\n", mux.CurrentRoute(r).GetName(), claims.Groups)
+				// fmt.Println("token.Header:", token.Header)
+				// fmt.Println("claims.IssuedAt", claims.IssuedAt)
+				// fmt.Println("claims.ExpiresAt", claims.ExpiresAt)
+				// fmt.Println("claims.NotBefore", claims.NotBefore)
+				// fmt.Println("claims.Issuer", claims.Issuer)
+				// fmt.Println("claims.Subject", claims.Subject)
+				// fmt.Println("claims.TokenType", claims.TokenType)
+				// fmt.Println("claims.Groups", claims.Groups)
+				// fmt.Println("claims.Id", claims.Id)
+				// fmt.Println("claims.UID:", claims.UID)
 				
 				gps := strings.Split(claims.Groups, ";")
 				for i := range gps {
@@ -116,7 +182,7 @@ func (mw *RequireUsr) ApplyFn(next http.HandlerFunc) http.HandlerFunc {
 				// return
 			}
 			w.WriteHeader(http.StatusUnauthorized)
-			fmt.Fprint(w, "Unauthorized access to this resource")
+			fmt.Fprint(w, "Unauthorized access to this resource" + err.Error())
 			return
 		}
 		w.WriteHeader(http.StatusUnauthorized)

@@ -14,7 +14,7 @@ import (
 
 func main() {
 
-	projectPath := flag.String("p", "/exp/usrgenHasOne", "project path starting in &GOPATH/src")
+	projectPath := flag.String("p", "/exp/JWT01", "project path starting in &GOPATH/src")
 	modelFile := flag.String("m", "", "model file relative to application base directory")
 	modelDirectory := flag.String("md", "", "process all model files in the specified directory")
 
@@ -196,6 +196,8 @@ func main() {
 		SrcDir:  "static/middleware",
 		DstDir:  *projectPath + "/middleware",
 		AppPath: appPath,
+		ECDSA:   []string{"256", "384", "521"},
+		RSA:     []string{"256", "384", "512"},
 	}
 	fs, err = s.GenerateStaticTemplates()
 	if err != nil {
@@ -209,9 +211,10 @@ func main() {
 		DstDir:   *projectPath + "/appobj",
 		AppPath:  appPath,
 		Entities: entities,
+		ECDSA:    []string{"256", "384", "521"},
+		RSA:      []string{"256", "384", "512"},
 	}
 	fs, err = s.GenerateStaticTemplates()
-	// err = s.GenerateAppObjFile()
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -225,7 +228,7 @@ func main() {
 		AppPath:  appPath,
 		Entities: entities,
 	}
-	// err = s.GenerateMain()
+
 	fs, err = s.GenerateStaticTemplates()
 	if err != nil {
 		fmt.Println(err)
