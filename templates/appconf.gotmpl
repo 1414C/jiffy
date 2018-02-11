@@ -74,9 +74,7 @@ func DefaultDBConfig() DBConfig {
 }
 
 // Config isProd := false
-// likely don't need ther private-keys beyond what you use in Login() to 
-// generate the jwt-token in cases where the access token was not created
-// by an IDP.
+// likely don't need the private-keys beyond what is used in Login()
 type Config struct {
 	Port           		int            		`json:"port"`
 	Env            		string         		`json:"env"`
@@ -149,7 +147,6 @@ func DefaultConfig() Config {
 		ECDSA384PubKeyFile:  	"{{.JWTPubKeyFile}}",
 		ECDSA521PrivKeyFile: 	"",
 		ECDSA521PubKeyFile:  	"",
-		
 		ServiceActivations: DefaultServiceActivations(),
 	}
 }
