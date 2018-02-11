@@ -186,6 +186,16 @@ When a user logs into the application the following steps occur:
 * by default, the generated JWT has a validity of one-hour
 * see the Authorization and End-Point Security section for more details regarding the content and use of the JWT content/claims
 
+{{<mermaid align="center">}}
+    graph TD
+A[Christmas] -->|Get money| B(Go shopping)
+B --> C{Let me think}
+C -->|One| D[Laptop]
+C -->|Two| E[iPhone]
+C -->|Three| F[Car]
+{{< /mermaid >}}
+<br/>
+
 ### Authorizations & End-Point Security
 
 In addition to password authentication, generated applications provide the ability to manage access to their end-points via an authorization scheme.  At a high-level:
