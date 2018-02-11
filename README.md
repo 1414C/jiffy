@@ -168,9 +168,9 @@ An internal service is created for each of the modelled entities in the applicat
 
 User authentication is conducted using bcrypt in such a manner that passwords are never stored in the application database.  When a user is created, their user-id is stored in the backend database along with the salt/peppered bcrypt hash of their password.  This ensures that in the event of a breach no plain-text passwords can be obtained.
 
-The bcrypt hashes are not very useful to would-be attackers for the following reasons:
+Bcrypt was chosen for the following reasons:
 
-* bcrypt hashes are salt/peppered making to mitigate rainbow table attacks
+* bcrypt hashes are salt/peppered to mitigate rainbow table attacks
 * bcrypt is slow by design, making brute force reversal a time-consuming and expensive proposition
 * as increased computing power becomes available, the bcrypt cost parameter can be increased (current = 14)
 * the password hash itself is not used for authentication; it is the by-product of successful authentication
