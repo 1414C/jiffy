@@ -180,7 +180,7 @@ When a user logs into the application the following steps occur:
 * a lookup of the user-name and stored bcrypt hash is executed against the back-end db
 * the user provided password is hashed in memory using the Go standard lib bcrypt functions and the protected salt/pepper values
 * the computed bcrypt hash is compared to the stored hash value for the user
-* if the hash values match, a JWT (token) is created using ECDSA-384 (adjustable to ECDSA-256 for increased performance)
+* if the hash values match, a JWT (token) is created and signed using ECDSA-384 (adjustable to ECDSA-256 or ECDSA-521)
 * the JWT is passed back to the caller and must henceforth be included in the http header of all requests using the Authorization field
 * in addtion to fullfilling the authorization requirements, the JWT is also used as a CSRF equivalent
 * by default, the generated JWT has a validity of one-hour
@@ -215,11 +215,11 @@ In addition to password authentication, generated applications provide the abili
 
 Application access can be restricted at the end-point level.  Each generated end-point is given a name based on its entity, http method and purpose.  The gorilla mux provides an easy way to assign names to end-points in the route declaration, and these names are defined in the generated application as Authorizations or Auths.
 
-Authorizations are created per end-point and are therefore known to the router, which in turn allows the route middleware of the generated application to determine which Authorization is needed in order to permit the request to proceed.  Recall that an authenticated user is sent an (encrypted) JWT token that must be passed in the http header Authorization field of each request.  The generated router middleware decrypts the token and examines its Claims in order to determine whether the request should be allowed to proceed.  This level of checking can be thought of as the Authentication verification; does the requesting party have a valid access token for the system in general?
+Authorizations are created per end-point and are therefore known to the router, which in turn allows the route middleware of the generated application to determine which Authorization is needed in order to permit the request to proceed.  Recall that an authenticated user is sent a signed base64-encoded JWT token that must be passed in the http header Authorization field of each request.  The generated router middleware validates the signature, decodes the token, and then examines its Claims in order to determine whether the request should be allowed to proceed.  This level of checking can be thought of as the Authentication verification; does the requesting party have a valid access token for the system in general?
 
 Assuming that the requesting user has a valid access token, the next step is to determine whether the user has permission to access the requested end-point.  Each User is assigned to one or more User Groups and these are included as a Groups Claim in the JWT token when the User logs into the application.  As a result, the route middleware is able to examine the content of the Groups Claim in order to determine whether the User is permitted to access the requested end-point.  The route authorization check unfolds as follows:
 
-* Verify the requesting user has a valid access token (JWT); can it be decrypted?  is the JWT still valid?
+* Verify the requesting user has a valid access token (JWT); can the signature be verified?  Is the JWT still valid?
 * Read the Groups Claim from the JWT token
 * Determine the 'Name' (Authorization) of the current route
 * Examine the read-only authorization cache (map initialized on application startup) for each group the user has been assigned to
