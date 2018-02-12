@@ -16,8 +16,9 @@ import (
 
 // UsrController - the usr controller type
 type UsrController struct {
-	us        models.UsrService
-	jwtKeyMap map[string]interface{}
+	us        		models.UsrService
+	jwtKeyMap 		map[string]interface{}
+	jwtSignMethod 	string
 }
 
 // Token is the jwt return type
@@ -26,10 +27,11 @@ type Token struct {
 }
 
 // NewUsrController creates a new UsrController
-func NewUsrController(us models.UsrService, jwtKeyMap map[string]interface{}) *UsrController {
+func NewUsrController(us models.UsrService, jwtKeyMap map[string]interface{}, jwtSignMethod string) *UsrController {
 	return &UsrController{
 		us:        us,
 		jwtKeyMap: jwtKeyMap,
+		jwtSignMethod: jwtSignMethod,
 	}
 }
 
@@ -73,41 +75,109 @@ func (uc *UsrController) Login(w http.ResponseWriter, r *http.Request) {
 	// groups
 	fmt.Println("Login()->user groups:", *authenticatedUsr.Groups)
 
-	// set standard claims - JWT valid for one hour
-	// token := jwt.New(jwt.SigningMethodRS256)
-	token := jwt.New(jwt.SigningMethodES384)
+	var tokenString string
+	var httpStatus int
+
+	// prepare claims for the token
 	claims := make(jwt.MapClaims)
 	claims["email"] = authenticatedUsr.Email
 	claims["id"] = authenticatedUsr.ID
 	claims["exp"] = time.Now().Add(time.Hour * time.Duration(1)).Unix()
 	claims["iat"] = time.Now().Unix()
-	
 	// set custom claims; auth groups as ; separated string
 	claims["Groups"] = *authenticatedUsr.Groups
-	token.Claims = claims
+	claims["uid"] = authenticatedUsr.ID
 
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintln(w, "Error extracting the key")
-		fatal(err)
+	switch uc.jwtSignMethod {
+	case "ES256", "ES384", "ES512":
+		tokenString, httpStatus, err = uc.signECDSA(claims)
+
+	case "RS256", "RS384", "RS512":
+		tokenString, httpStatus, err = uc.signRSA(claims)
+
+	case "HS256": // not supported
+
+	default:
+		respondWithError(w, http.StatusBadRequest, "authentication failure")
+		return
 	}
 
-	// the key should be parameterized in the generator
-	signKey, ok := uc.jwtKeyMap["ES384SignKey"].(*ecdsa.PrivateKey)
-	if !ok {
-		log.Println("error: could not read signKey in Login()")
-		respondWithJSON(w, http.StatusForbidden, "")
-	}
-
-	tokenString, err := token.SignedString(signKey)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintln(w, "Error while signing the token")
-		fatal(err)
+		respondWithError(w, httpStatus, err.Error())
+		return
 	}
 
 	response := Token{tokenString}
 	respondWithJSON(w, http.StatusOK, response)
+}
+
+// signECDSA creates a jwt.Token, set the claims and the signs via the specified curve
+func (uc *UsrController) signECDSA(claims jwt.MapClaims) (tokenString string, httpStatus int, err error) {
+
+	var token *jwt.Token
+	var signKey *ecdsa.PrivateKey
+	var ok bool
+
+	switch uc.jwtSignMethod {
+	case "ES256":
+		token = jwt.New(jwt.SigningMethodES256)
+		signKey, ok = uc.jwtKeyMap["ES256SignKey"].(*ecdsa.PrivateKey)
+	case "ES384":
+		token = jwt.New(jwt.SigningMethodES384)
+		signKey, ok = uc.jwtKeyMap["ES384SignKey"].(*ecdsa.PrivateKey)
+	case "ES521":
+		token = jwt.New(jwt.SigningMethodES512)
+		signKey, ok = uc.jwtKeyMap["ES521SignKey"].(*ecdsa.PrivateKey)
+	default:
+		return "", http.StatusForbidden, fmt.Errorf("error: unknown ECDSA signing-method %v", uc.jwtSignMethod)
+	}
+	if !ok {
+		return "", http.StatusForbidden, fmt.Errorf("error: could not read signKey in Login()")
+	}
+
+	token.Claims = claims
+	tokenString, err = token.SignedString(signKey)
+	if err != nil {
+		return "", http.StatusInternalServerError, fmt.Errorf("error: failed to sign jwt with ECDSA signing-method %v", uc.jwtSignMethod)
+	}
+	return tokenString, http.StatusOK, nil
+}
+
+// signRSA creates a jwt.Token, set the claims and the signs via the specified hash
+func (uc *UsrController) signRSA(claims jwt.MapClaims) (tokenString string, httpStatus int, err error) {
+
+	var token *jwt.Token
+	var signKey *rsa.PrivateKey
+	var ok bool
+
+	switch uc.jwtSignMethod {
+	case "RS256":
+		token = jwt.New(jwt.SigningMethodRS256)
+		signKey, ok = uc.jwtKeyMap["RS256SignKey"].(*rsa.PrivateKey)
+	case "RS384":
+		token = jwt.New(jwt.SigningMethodRS384)
+		signKey, ok = uc.jwtKeyMap["RS384SignKey"].(*rsa.PrivateKey)
+	case "RS512":
+		token = jwt.New(jwt.SigningMethodRS512)
+		signKey, ok = uc.jwtKeyMap["RS512SignKey"].(*rsa.PrivateKey)
+	default:
+		return "", http.StatusForbidden, fmt.Errorf("error: unknown RSA signing-method %v", uc.jwtSignMethod)
+	}
+	if !ok {
+		return "", http.StatusForbidden, fmt.Errorf("error: could not read signKey in Login()")
+	}
+
+	token.Claims = claims
+	tokenString, err = token.SignedString(signKey)
+	if err != nil {
+		return "", http.StatusInternalServerError, fmt.Errorf("error: failed to sign jwt with RSA signing-method %v", uc.jwtSignMethod)
+	}
+	return tokenString, http.StatusOK, nil
+}
+
+// signHMac will one day create a jwt.Token, set the claims and the sign via the shared-secret
+func (uc *UsrController) signHmac() {
+
 }
 
 // Create - process the signup when a usr attempts to create a new usr account.

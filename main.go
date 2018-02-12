@@ -14,9 +14,11 @@ import (
 
 func main() {
 
-	projectPath := flag.String("p", "/exp/JWT01", "project path starting in &GOPATH/src")
+	projectPath := flag.String("p", "/exp/JWT02", "project path starting in &GOPATH/src")
 	modelFile := flag.String("m", "", "model file relative to application base directory")
 	modelDirectory := flag.String("md", "", "process all model files in the specified directory")
+
+	rsaBits := flag.Uint("rb", 2048, "length of generated RSA keys")
 
 	flag.Parse()
 	if *projectPath == "" {
@@ -249,12 +251,16 @@ func main() {
 
 	// JWT key generation
 	keyConf := gen.KeyConfig{
-		RSABits:    0,
-		ECDSACurve: "P384",
-		TargetDir:  *projectPath + "/jwtkeys",
+		RSABits: *rsaBits,
+		// ECDSACurve: "P384", // deprecated
+		ECDSA:     []string{"256", "384", "521"},
+		RSA:       []string{"256", "384", "512"},
+		TargetDir: *projectPath + "/jwtkeys",
 	}
 
-	err = keyConf.GenerateJWTKeys()
+	// need to pass the generated key info back to this level in order to populate the initial config file
+	conf := gen.Config{}
+	err = keyConf.GenerateJWTKeys(&conf)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -274,17 +280,16 @@ func main() {
 		fmt.Println(err)
 	}
 
-	// generate the initial app configuration
-	conf := gen.Config{
-		Port:           3000,
-		Env:            "def",
-		Pepper:         "secret-pepper-key",
-		Database:       dbConf,
-		CertFile:       "", // https
-		KeyFile:        "", // https
-		JWTPrivKeyFile: "jwtkeys/private.pem",
-		JWTPubKeyFile:  "jwtkeys/public.pem",
-	}
+	// complete the initial app configuration
+	conf.Port = 3000
+	conf.Env = "def"
+	conf.Pepper = "secret-pepper-key"
+	conf.Database = dbConf
+	conf.CertFile = "" // https
+	conf.KeyFile = ""  // https
+	conf.JWTSignMethod = "ES384"
+	conf.ECDSA384PrivKeyFile = "jwtkeys/ecdsa/ec384.priv.pem"
+	conf.ECDSA384PubKeyFile = "jwtkeys/ecdsa/ec384.pub.pem"
 
 	// default the services to active
 	service := gen.ServiceActivation{}

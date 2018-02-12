@@ -96,6 +96,7 @@ type Config struct {
 	ECDSA384PubKeyFile  string              `json:"ecdsa384_pub_key_file"`
 	ECDSA521PrivKeyFile string              `json:"ecdsa521_priv_key_file"`
 	ECDSA521PubKeyFile  string              `json:"ecdsa521_pub_key_file"`
+	JWTSignMethod       string              `json:"jwt_sign_method"`
 	ServiceActivations []ServiceActivation 	`json:"service_activations"`
 }
 
@@ -145,11 +146,11 @@ func DefaultConfig() Config {
 		RSA512PubKeyFile:    	"",
 		ECDSA256PrivKeyFile: 	"",
 		ECDSA256PubKeyFile:  	"",
-		ECDSA384PrivKeyFile: 	"{{.JWTPrivKeyFile}}",
-		ECDSA384PubKeyFile:  	"{{.JWTPubKeyFile}}",
+		ECDSA384PrivKeyFile: 	"{{.ECDSA384PrivKeyFile}}",
+		ECDSA384PubKeyFile:  	"{{.ECDSA384PrivKeyFile}}",
 		ECDSA521PrivKeyFile: 	"",
 		ECDSA521PubKeyFile:  	"",
-		
+		JWTSignMethod:          "{{.JWTSignMethod}}",
 		ServiceActivations: DefaultServiceActivations(),
 	}
 }

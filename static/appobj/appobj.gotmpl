@@ -32,10 +32,10 @@ type AppObj struct {
 	router         	*mux.Router
 	// jwt support
 	jwtKeyMap      	map[string]interface{}
-	rsaVerifyKey   	*rsa.PublicKey    
-	rsaSignKey     	*rsa.PrivateKey   
-	ecdsaVerifyKey 	*ecdsa.PublicKey  
-	ecdsaSignKey   	*ecdsa.PrivateKey
+	// rsaVerifyKey   	*rsa.PublicKey    
+	// rsaSignKey     	*rsa.PrivateKey   
+	// ecdsaVerifyKey 	*ecdsa.PublicKey  
+	// ecdsaSignKey   	*ecdsa.PrivateKey
 }
 
 // RunMode defines the two basic operation modes
@@ -182,7 +182,7 @@ func (a *AppObj) initializeJWTKeys() {
 	{{end -}}
 
 	{{range .RSA -}}
-	fmt.Println("RSA{{.}}rivKeyFile:", a.cfg.RSA{{.}}PrivKeyFile)
+	fmt.Println("RSA{{.}}PrivKeyFile:", a.cfg.RSA{{.}}PrivKeyFile)
 	fmt.Println("RSA{{.}}PubKeyFile:", a.cfg.RSA{{.}}PubKeyFile)
 	if a.cfg.RSA{{.}}PrivKeyFile != "" {
 		signBytes, err := ioutil.ReadFile(a.cfg.RSA{{.}}PrivKeyFile)
@@ -209,7 +209,7 @@ func (a *AppObj) initializeJWTKeys() {
 
 // createControllers for each entity
 func (a *AppObj) createControllers() {
-    a.usrC = controllers.NewUsrController(a.services.Usr, a.jwtKeyMap)
+    a.usrC = controllers.NewUsrController(a.services.Usr, a.jwtKeyMap, a.cfg.JWTSignMethod)
 	a.usrgroupC = controllers.NewUsrGroupController(a.services.UsrGroup)
 	a.authC = controllers.NewAuthController(a.services.Auth)
 	a.groupauthC = controllers.NewGroupAuthController(a.services.GroupAuth)

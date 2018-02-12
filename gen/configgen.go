@@ -33,15 +33,28 @@ type ServiceActivation struct {
 
 // Config type holds the generated application's configuration info
 type Config struct {
-	Port               int                 `json:"port"`
-	Env                string              `json:"env"`
-	Pepper             string              `json:"pepper"`
-	HMACKey            string              `json:"hmac_key"`
-	Database           DBConfig            `json:"database"`
-	CertFile           string              `json:"cert_file"`
-	KeyFile            string              `json:"key_file"`
-	JWTPrivKeyFile     string              `json:"jwt_priv_key_file"`
-	JWTPubKeyFile      string              `json:"jwt_pub_key_file"`
+	Port                int      `json:"port"`
+	Env                 string   `json:"env"`
+	Pepper              string   `json:"pepper"`
+	HMACKey             string   `json:"hmac_key"`
+	Database            DBConfig `json:"database"`
+	CertFile            string   `json:"cert_file"`
+	KeyFile             string   `json:"key_file"`
+	RSA256PrivKeyFile   string   `json:"rsa256_priv_key_file"`
+	RSA256PubKeyFile    string   `json:"rsa256_pub_key_file"`
+	RSA384PrivKeyFile   string   `json:"rsa384_priv_key_file"`
+	RSA384PubKeyFile    string   `json:"rsa384_pub_key_file"`
+	RSA512PrivKeyFile   string   `json:"rsa512_priv_key_file"`
+	RSA512PubKeyFile    string   `json:"rsa512_pub_key_file"`
+	ECDSA256PrivKeyFile string   `json:"ecdsa256_priv_key_file"`
+	ECDSA256PubKeyFile  string   `json:"ecdsa256_pub_key_file"`
+	ECDSA384PrivKeyFile string   `json:"ecdsa384_priv_key_file"`
+	ECDSA384PubKeyFile  string   `json:"ecdsa384_pub_key_file"`
+	ECDSA521PrivKeyFile string   `json:"ecdsa521_priv_key_file"`
+	ECDSA521PubKeyFile  string   `json:"ecdsa521_pub_key_file"`
+	JWTSignMethod       string   `json:"jwt_sign_method"` // {EC256|EC384|EC521|RS256|RS384|RS312}
+	// JWTPrivKeyFile     string              `json:"jwt_priv_key_file"`
+	// JWTPubKeyFile      string              `json:"jwt_pub_key_file"`
 	ServiceActivations []ServiceActivation `json:"service_activations"`
 }
 
@@ -228,7 +241,7 @@ func (cfg *Config) GenerateSampleConfig(dstDir string) error {
 		}
 
 		// execute the config.json.gotmpl template using new file .xxx.config.json as a target
-		fmt.Println("cfg:", cfg)
+		// fmt.Println("cfg:", cfg)
 		err = at.Execute(f, cfg)
 		if err != nil {
 			log.Fatal("GenerateSampleConfig: ", err)
