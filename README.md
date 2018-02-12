@@ -8,16 +8,15 @@ While this is not for everybody, it does reduce the mental cost of entry and all
 
 ### Why write in Go?
 
-* Go has a very strong standard library, thereby keeping dependencies on public packages to a minimum
+* Go has a strong standard library, thereby keeping dependencies on public packages to a minimum
 * Go offers true concurrency via lightweight threads known as goroutines
   * no blocking in the i/o layer during compute intensive tasks
   * no lost callbacks or broken promises
   * goroutines will use all available cores to handle incoming requests
-* Go offers type-safety; interface{} is a type -- right?
+* Go offers type-safety
 * Go is a small language
 * Go projects compile to a static single binary which simplifies deployments
 * Go cross-compiles to virtually any platform and architecture; write and test on a chromebook - deploy to z/OS
-* Go is making inroads into areas that have been dominated by other languages and packages
 
 ### What does the Jiffy application provide?
 
@@ -31,8 +30,8 @@ While this is not for everybody, it does reduce the mental cost of entry and all
 * automatically creates backend database artifacts based on the model file (tables, indices, sequences etc.)
 * supports single and composite index declarations via the model file
 * built-in support for https
-* baked in normalization and validation in the model-layer
-* each entity's correspsonding service can be enabled and disabled on a per-app-server basis based on config
+* built-in normalization and validation in the model-layer
+* each entity's corresponding service can be enabled and disabled on a per-app-server basis based on config
 * generates a working set of CRUD-type RESTful services for each entity in the model file
 * get-set type end-points support /$count, $limit=n, $offset=n, $orderby=field_name ($asc|$desc)
 * supports and generates working end-points for hasOne, hasMany and belongsTo entity relationships
@@ -66,11 +65,11 @@ struct Library {
     f1 int64 `json:"f1" sqac:"nullable:false;required:true;default:this is text"`
 }
 
-### Meta requests 
+### Meta requests
 
 * sortby (app-server-side-sort) could be added to the get-set-type controllers, but Go does not seem great at dynamic slice-sorts... 
 
-### Object Storage 
+### Object Storages
 
 * S3?
 * Azure?
@@ -158,6 +157,24 @@ This is just a sample of what the model files have to offer.  More details regar
 
 ### Access Control Overview
 
+#### Access Control TODO
+
+* [ ]check for user-revocation
+* [ ]we need to carefully check the user-id, not just assume that a 'valid' jwt is okay to allow access (test with junk user-id)
+* [ ]add capability to lock the user via addition of
+
+```golang
+  type Usr struct {
+      ...
+      Locked   bool
+      LockedOn *time.Time
+  }
+
+```
+
+* [ ]in multi-app server scenarios, a local middleware cache will not suffice for fast lookups
+* [ ]look at what others have done re: cross-app-server cache / cross-container cache
+
 Access to resources (entities) is controlled in three ways:
 
 1. Configuration based service activation
@@ -180,7 +197,7 @@ When a user logs into the application the following steps occur:
 * a lookup of the user-name and stored bcrypt hash is executed against the back-end db
 * the user provided password is hashed in memory using the Go standard lib bcrypt functions and the protected salt/pepper values
 * the computed bcrypt hash is compared to the stored hash value for the user
-* if the hash values match, a JWT (token) is created and signed using ECDSA-384 (adjustable to ECDSA-256 or ECDSA-521)
+* if the hash values match, a JWT (token) is created and signed using ECDSA-256 (adjustable to ECDSA-384, ECDSA-521, RSA256, RSA384, RSA512)
 * the JWT is passed back to the caller and must henceforth be included in the http header of all requests using the Authorization field
 * in addtion to fullfilling the authorization requirements, the JWT is also used as a CSRF equivalent
 * by default, the generated JWT has a validity of one-hour
