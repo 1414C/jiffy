@@ -44,7 +44,6 @@ While this is not for everybody, it does reduce the mental cost of entry and all
 ## General TODO
 ### Generated applications should be able to provide their API information in a manner similar to OData $metadata 
 
-* support for mixed/multipart
 * need a single end-point to query for API description (static)
 * understandable by human in browser
 * machine readable (easy to read too)
@@ -1917,6 +1916,7 @@ ___
 
 ## Pending Changes
 
+* [ ]implement Etag
 * [x] correct -rs flag operation to fully clean auths and groupauths
 * [x] fully implement nullable / pointer support
 * [x] add support for single-field unique constraints
