@@ -182,8 +182,8 @@ func (a *AppObj) initializeJWTKeys() {
 	{{end -}}
 
 	{{range .RSA -}}
-	fmt.Println("RSA{{.}}PrivKeyFile:", a.cfg.RSA{{.}}PrivKeyFile)
-	fmt.Println("RSA{{.}}PubKeyFile:", a.cfg.RSA{{.}}PubKeyFile)
+	log.Println("RSA{{.}}PrivKeyFile:", a.cfg.RSA{{.}}PrivKeyFile)
+	log.Println("RSA{{.}}PubKeyFile:", a.cfg.RSA{{.}}PubKeyFile)
 	if a.cfg.RSA{{.}}PrivKeyFile != "" {
 		signBytes, err := ioutil.ReadFile(a.cfg.RSA{{.}}PrivKeyFile)
 		fatal(err)

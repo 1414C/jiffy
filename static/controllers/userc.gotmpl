@@ -28,6 +28,7 @@ type Token struct {
 
 // NewUsrController creates a new UsrController
 func NewUsrController(us models.UsrService, jwtKeyMap map[string]interface{}, jwtSignMethod string) *UsrController {
+	log.Printf("Login() signing jwt's with %s\n", jwtSignMethod)
 	return &UsrController{
 		us:        us,
 		jwtKeyMap: jwtKeyMap,
