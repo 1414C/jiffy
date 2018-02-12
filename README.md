@@ -174,6 +174,8 @@ This is just a sample of what the model files have to offer.  More details regar
 
 * [ ]in multi-app server scenarios, a local middleware cache will not suffice for fast lookups
 * [ ]look at what others have done re: cross-app-server cache / cross-container cache
+* [ ]write tests for access control
+* [ ]write tests for jwtkeys
 
 Access to resources (entities) is controlled in three ways:
 
