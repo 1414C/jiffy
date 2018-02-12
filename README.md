@@ -41,9 +41,10 @@ While this is not for everybody, it does reduce the mental cost of entry and all
 * generates a comprehensive set of working tests (go test)
 * generated code is easily extended either via direct editing, or through an extension-point concept in the model and controller-layers
 
-## Things to look at
+## General TODO
 ### Generated applications should be able to provide their API information in a manner similar to OData $metadata 
 
+* support for mixed/multipart
 * need a single end-point to query for API description (static)
 * understandable by human in browser
 * machine readable (easy to read too)
