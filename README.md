@@ -159,18 +159,9 @@ This is just a sample of what the model files have to offer.  More details regar
 
 #### Access Control TODO
 
-* [ ]check for user-revocation
-* [ ]we need to carefully check the user-id, not just assume that a 'valid' jwt is okay to allow access (test with junk user-id)
-* [ ]add capability to lock the user via addition of
-
-```golang
-  type Usr struct {
-      ...
-      Locked   bool
-      LockedOn *time.Time
-  }
-
-```
+* [ ]consider checks for user-revocation
+* [ ]in JWT's where the UID field is filled, we need to carefully check the user-id, not just assume that a 'valid' jwt is okay to allow access.  check against cache.
+* [ ]jiffy-applications do not support an empty UID field - a user has to login to the system directly at least once.  This simplifies revocation from a jiffy perspective, as the UID would be revoked via the new UsrLock end-point I just thought of.
 
 * [ ]in multi-app server scenarios, a local middleware cache will not suffice for fast lookups
 * [ ]look at what others have done re: cross-app-server cache / cross-container cache

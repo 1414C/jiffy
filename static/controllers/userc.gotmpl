@@ -255,6 +255,7 @@ func (uc *UsrController) Update(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println("Usr Update:", err)
 		respondWithError(w, http.StatusBadRequest, "invalid request")
+		return
 	}
 
 	// fill the model
