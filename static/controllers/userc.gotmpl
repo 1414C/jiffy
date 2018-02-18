@@ -246,9 +246,17 @@ func (uc *UsrController) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// when a user-id is provided in the body, make sure that
+	// it matches the user-id sent in the request params
+	if u.ID != 0 && u.ID != id {
+		log.Printf("usr update target %d had a non-zero and non-matching user-id in the request body\n", id)
+		respondWithError(w, http.StatusBadRequest, "invalid request")
+		return
+	}
+
 	// get the existing Usr record from the db - byID
 	staleUsr := models.Usr{
-		ID: u.ID,
+		ID: id,
 	}
 
 	err = uc.us.Get(&staleUsr)
