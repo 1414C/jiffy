@@ -215,6 +215,10 @@ func buildEntityColumns(colString string, colType ColType) ([]Info, error) {
 			if !ok {
 				return nil, fmt.Errorf("incorrect element-type for entity \"required\" field")
 			}
+			info.DefaultValue, ok = extractString(attrObjMap["default"])
+			if !ok {
+				return nil, fmt.Errorf("incorrect element-type for entity \"default\" field")
+			}
 			info.NoDB, ok = extractBool(attrObjMap["no_db"])
 			if !ok {
 				return nil, fmt.Errorf("incorrect element-type for entity \"no_db\" field")
