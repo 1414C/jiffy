@@ -231,10 +231,6 @@ func buildEntityColumns(colString string, colType ColType) ([]Info, error) {
 				// this is bit janky considering what was done for bool
 				info.DefaultValue = fmt.Sprintf("%v", (attrObjMap["default"]))
 			}
-			info.DefaultValue, ok = extractString(attrObjMap["default"])
-			if !ok {
-				return nil, fmt.Errorf("incorrect element-type for entity \"default\" field")
-			}
 			info.NoDB, ok = extractBool(attrObjMap["no_db"])
 			if !ok {
 				return nil, fmt.Errorf("incorrect element-type for entity \"no_db\" field")
