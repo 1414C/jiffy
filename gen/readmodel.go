@@ -228,10 +228,8 @@ func buildEntityColumns(colString string, colType ColType) ([]Info, error) {
 					return nil, fmt.Errorf("incorrect element-type for entity \"no_db\" field")
 				}
 			default:
-				info.DefaultValue, ok = extractNumber(attrObjMap["default"])
-				if !ok {
-					return nil, fmt.Errorf("incorrect element-type for entity \"default\" field")
-				}
+				// this is bit janky considering what was done for bool
+				info.DefaultValue = fmt.Sprintf("%v", (attrObjMap["default"]))
 			}
 			info.DefaultValue, ok = extractString(attrObjMap["default"])
 			if !ok {
@@ -525,29 +523,4 @@ func extractBool(i interface{}) (bool, bool) {
 		return false, true
 	}
 	return false, false
-}
-
-// extractNumber attempts to read the interface parameter
-// as a non-string-type. if the string type-assertion fails and
-// parameter i has a non-nil type, throw an error.  if the type-
-// assertion fails and parameter i has a nil-value, set the default
-// value for a string and indicate success.
-func extractNumber(i interface{}) (string, bool) {
-
-	var result string
-
-	result = string(i.(string))
-	if result != "" {
-		result = cleanString(result)
-		return result, true
-	}
-
-	// check to see what was acually passed; if nil, set the
-	// initial value for the type ("") and indicate success
-	ti := reflect.TypeOf(i)
-	if ti == nil {
-		return "", true
-	}
-
-	return "", false
 }
