@@ -45,6 +45,7 @@
                 "type": "string",
                 "format": "", 
                 "required": true,
+                "default": "unknown title",
                 "index": "nonUnique",
                 "selectable": "eq,like"
             },

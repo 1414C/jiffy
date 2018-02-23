@@ -480,6 +480,11 @@ func (i *Info) GetSqacTagLine(b bool) string {
 		// i.Value = fmt.Sprintf("*%s", i.Value)
 	}
 
+	// set the default
+	if i.DefaultValue != "" {
+		i.sqacTagLineExtend(fmt.Sprintf("default:%v", i.DefaultValue))
+	}
+
 	// set dbType if provided
 	// for example: type:varchar(100)
 	if i.DBType != "" {
