@@ -72,14 +72,14 @@ In progress.  JWT revocation in jiffy should be predicated on the need to restri
 No matter how this is dealt with, a cross process cache is required to warehouse user and/or jwt information.
 
 * implement Bully-type leadership election algorithm via websockets 
-* election protocol will be unencrypted and will therefore need to bound to a subnet that is not routable
+* election protocol will be unencrypted and will therefore need to be bound to a subnet that is not routable
 * examine SWIM-type cross process group membership dissemintion
-* examine simple clockwise Ping-Ack with Doorbell/Join group membershop dissemination
+* examine simple clockwise Ping-Ack with Doorbell/Join group membership dissemination
 * run cache and election protocols on the same subnet?  (probably)
 
 ### Cache replacement
 
-Implement the new scheme on top of the JWT token revocation solution.  
+Implement the new scheme on top of the JWT token revocation solution  
 
 * set frame size to be flexible via the configuration file
 * test with large BLOB objects
@@ -101,7 +101,7 @@ Implement the new scheme on top of the JWT token revocation solution.
 
 ### Generated application test codebase
 
-* addition of relationships creates a possible break sitution
+* addition of relationships creates a break sitution in the test executions
 * add relationship evaluation to the test generator to anticipate and deal with relational depenencies
 
 ### What does a generated application look like?
