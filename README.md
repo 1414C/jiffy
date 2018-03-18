@@ -65,11 +65,32 @@ struct Library {
     f1 int64 `json:"f1" sqac:"nullable:false;required:true;default:this is text"`
 }
 
+### JWT Token Revocation
+
+In progress.  JWT revocation in jiffy should be predicated on the need to restrict a user's access to the generated application, either by diabling or deleting their jiffy user-id.  While jiffy uses JWT's for authentication, it does not implement the concept of renewal tokens, nor does it (currently) buffer active/last-seen tokens in a central location.
+
+No matter how this is dealt with, a cross process cache is required to warehouse user and/or jwt information.
+
+* implement Bully-type leadership election algorithm via websockets 
+* election protocol will be unencrypted and will therefore need to bound to a subnet that is not routable
+* examine SWIM-type cross process group membership dissemintion
+* examine simple clockwise Ping-Ack with Doorbell/Join group membershop dissemination
+* run cache and election protocols on the same subnet?  (probably)
+
+### Cache replacement
+
+Implement the new scheme on top of the JWT token revocation solution.  
+
+* set frame size to be flexible via the configuration file
+* test with large BLOB objects
+* update cache API to normalize key-structure via murmur3 or some other fast-hash
+
+
 ### Meta requests
 
 * sortby (app-server-side-sort) could be added to the get-set-type controllers, but Go does not seem great at dynamic slice-sorts... 
 
-### Object Storages
+### Object Storage (multipart/mixed)
 
 * S3?
 * Azure?
@@ -77,6 +98,11 @@ struct Library {
 * Postgres JSONB?
 
 <br/>
+
+### Generated application test codebase
+
+* addition of relationships creates a possible break sitution
+* add relationship evaluation to the test generator to anticipate and deal with relational depenencies
 
 ### What does a generated application look like?
 
