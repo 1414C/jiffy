@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>My New Hugo Site</title>
-    <link>http://example.org/</link>
+    <link>http://1414C.github.io/</link>
     <description>Recent content on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	<atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://1414C.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Credits</title>
-      <link>http://example.org/credits/</link>
+      <link>http://1414C.github.io/credits/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/credits/</guid>
+      <guid>http://1414C.github.io/credits/</guid>
       <description> Contributors Thanks to them  for making Open Source Software a better place !
 Packages and libraries  sqlx jwt-go go-sql-driver/mysql lib/pq go-sqlite3 go-mssqldb go-hdb  Tooling  Hugo Hugo Learn Theme  </description>
     </item>
