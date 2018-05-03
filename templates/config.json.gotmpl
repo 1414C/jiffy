@@ -3,8 +3,11 @@
 {{$cfg := . -}}
 
 {
-    "port": 8080,    
-    "env": "{{.Env}}",     
+    "external_address": "{{.ExternalAddress}}",
+    "internal_address": "{{.InternalAddress}}" ,
+    "env": "{{.Env}}",
+    "ping_cycle": {{.PingCycle}},
+    "failure_threshold": {{.FailureThreshold}},     
     "pepper": "secret-pepper-key",  
     "hmac_Key": "secret-hmac-key",
     "database": {
@@ -47,5 +50,4 @@
         {{end -}}
         {{end -}}
     ]
-
 }

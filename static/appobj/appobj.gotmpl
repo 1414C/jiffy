@@ -11,6 +11,8 @@ import (
 	"strconv"
 
 	"{{.AppPath}}/controllers"
+	"{{.AppPath}}/group/gmcom"
+	"{{.AppPath}}/group/gmsrv"
 	"{{.AppPath}}/middleware"
 	"{{.AppPath}}/models"
 	"github.com/dgrijalva/jwt-go"
@@ -32,10 +34,7 @@ type AppObj struct {
 	router         	*mux.Router
 	// jwt support
 	jwtKeyMap      	map[string]interface{}
-	// rsaVerifyKey   	*rsa.PublicKey    
-	// rsaSignKey     	*rsa.PrivateKey   
-	// ecdsaVerifyKey 	*ecdsa.PublicKey  
-	// ecdsaSignKey   	*ecdsa.PrivateKey
+	actUsrs   		*gmcom.ActUsrs
 }
 
 // RunMode defines the two basic operation modes
@@ -94,6 +93,10 @@ func (a *AppObj) Initialize(dev, prd, dr, rs, al, dl bool) {
 
 	// create Controllers
 	a.createControllers()
+
+	// initialize active usr buffer
+	a.initializeActiveUsrs()
+	// a.actUsrs.ActiveUsrs["admin"] = false
 
 	// initialize Routes
 	a.initializeRoutes()
@@ -209,13 +212,26 @@ func (a *AppObj) initializeJWTKeys() {
 
 // createControllers for each entity
 func (a *AppObj) createControllers() {
-    a.usrC = controllers.NewUsrController(a.services.Usr, a.jwtKeyMap, a.cfg.JWTSignMethod)
+    a.usrC = controllers.NewUsrController(a.services.Usr, a.jwtKeyMap, a.cfg.JWTSignMethod, a.cfg.InternalAddress)
 	a.usrgroupC = controllers.NewUsrGroupController(a.services.UsrGroup)
 	a.authC = controllers.NewAuthController(a.services.Auth)
 	a.groupauthC = controllers.NewGroupAuthController(a.services.GroupAuth)
     {{range .Entities -}} 
     a.{{.Header.Value}}C = controllers.New{{.Header.Name}}Controller(a.services.{{.Header.Name}}, *a.services)
     {{end -}}
+}
+
+// initialize the list of active usrs
+func (a *AppObj) initializeActiveUsrs() {
+
+	a.usrC.ActUsrs = &gmcom.ActUsrs{}
+	a.usrC.ActUsrs.ActiveUsrs = make(map[uint64]bool)
+	u := a.services.Usr.GetUsrs()
+	for _, v := range u {
+		if v.Active == true {
+			a.usrC.ActUsrs.ActiveUsrs[v.ID] = true
+		}
+	}
 }
 
 // initializeRoutes creates routes and applies middleware
@@ -243,7 +259,7 @@ func (a *AppObj) initializeRoutes() {
 	}
 
 	// create the RequireUsr middleware to ensure page access is secure.
-	requireUserMw := middleware.InitMW(a.services.Usr, a.jwtKeyMap, mapGroupAuths)
+	requireUserMw := middleware.InitMW(a.services.Usr, a.jwtKeyMap, mapGroupAuths, a.usrC.ActUsrs)
 
 	// construct a map of local service activations
 	svcActv := make(map[string]bool)
@@ -568,28 +584,35 @@ func (a *AppObj) initializeAdminUsr() {
 		panic("Terminating...")
 	}
 	log.Printf("admin user created with ID: %v and initial password of %v\n", usrAdmin.ID, "initpass")
+
+	// add the admin usr to the local cache
+	a.actUsrs.Lock()
+	a.actUsrs.ActiveUsrs[usrAdmin.ID] = true
+	a.actUsrs.Unlock()
 }
 
 // Run the application
-func (a *AppObj) Run() {
+func (a *AppObj) Run(lsg gmcom.GMLeaderSetterGetter) {
+
+	// start the group-membership server
+	gv := &gmsrv.GMServ{}
+	go gv.Serve(a.cfg.InternalAddress, lsg, a.usrC.ActUsrs, true, a.cfg.PingCycle, a.cfg.FailureThreshold)
 
 	// close db connection later
 	defer a.services.Close()
 
-	port := ":" + strconv.Itoa(a.cfg.Port)
-
 	if a.cfg.IsProd() {
 		fmt.Println("Production settings selected...")
-		fmt.Println("Starting https server on port", port)
-		log.Fatal(http.ListenAndServeTLS(port, a.cfg.CertFile, a.cfg.KeyFile, a.router))
+		fmt.Println("Starting https server on:", a.cfg.ExternalAddress)
+		log.Fatal(http.ListenAndServeTLS(a.cfg.ExternalAddress, a.cfg.CertFile, a.cfg.KeyFile, a.router))
 	} else {
 		if a.cfg.IsDev() {
 			fmt.Println("Development settings selected...")
 		} else {
 			fmt.Println("Default settings selected...")
 		}
-		fmt.Println("Starting http server on port... ", a.cfg.Port)
-		log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", a.cfg.Port), a.router))
+		fmt.Println("Starting http server on:", a.cfg.ExternalAddress)
+		log.Fatal(http.ListenAndServe(fmt.Sprintf("%s", a.cfg.ExternalAddress), a.router))
 	}
 }
 

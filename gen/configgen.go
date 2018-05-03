@@ -33,8 +33,11 @@ type ServiceActivation struct {
 
 // Config type holds the generated application's configuration info
 type Config struct {
-	Port                int      `json:"port"`
+	ExternalAddress     string   `json:"external_address"`
+	InternalAddress     string   `json:"internal_address"`
 	Env                 string   `json:"env"`
+	PingCycle           uint     `json:"ping_cycle"`
+	FailureThreshold    uint64   `json:"failure_threshold"`
 	Pepper              string   `json:"pepper"`
 	HMACKey             string   `json:"hmac_key"`
 	Database            DBConfig `json:"database"`

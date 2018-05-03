@@ -207,6 +207,50 @@ func main() {
 	}
 	generatedFiles = append(generatedFiles, fs...)
 
+	// ensure the group folder exists
+	d := *projectPath + "/group"
+	_, err = os.Stat(d)
+	fmt.Println("err:", err)
+	if err != nil {
+		os.Mkdir(d, 0755)
+	}
+
+	// generate static group-membership client files
+	s = gen.Static{
+		SrcDir:  "static/group/gmcl",
+		DstDir:  *projectPath + "/group/gmcl",
+		AppPath: appPath,
+	}
+	fs, err = s.GenerateStaticTemplates()
+	if err != nil {
+		fmt.Println(err)
+	}
+	generatedFiles = append(generatedFiles, fs...)
+
+	// generate static group-membership common files
+	s = gen.Static{
+		SrcDir:  "static/group/gmcom",
+		DstDir:  *projectPath + "/group/gmcom",
+		AppPath: appPath,
+	}
+	fs, err = s.GenerateStaticTemplates()
+	if err != nil {
+		fmt.Println(err)
+	}
+	generatedFiles = append(generatedFiles, fs...)
+
+	// generate static group-membership server files
+	s = gen.Static{
+		SrcDir:  "static/group/gmsrv",
+		DstDir:  *projectPath + "/group/gmsrv",
+		AppPath: appPath,
+	}
+	fs, err = s.GenerateStaticTemplates()
+	if err != nil {
+		fmt.Println(err)
+	}
+	generatedFiles = append(generatedFiles, fs...)
+
 	// generate static main application source files
 	s = gen.Static{
 		SrcDir:   "static/appobj",
@@ -281,8 +325,11 @@ func main() {
 	}
 
 	// complete the initial app configuration
-	conf.Port = 3000
+	conf.ExternalAddress = "127.0.0.1:3000"
+	conf.InternalAddress = "127.0.0.1:4444"
 	conf.Env = "def"
+	conf.PingCycle = 1        // seconds
+	conf.FailureThreshold = 5 // suspect status counts
 	conf.Pepper = "secret-pepper-key"
 	conf.Database = dbConf
 	conf.CertFile = "" // https

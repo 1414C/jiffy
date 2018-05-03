@@ -4,6 +4,9 @@ import (
 	"flag"
 
 	"{{.AppPath}}/appobj"
+	"{{.AppPath}}/group/gmcom"
+	"github.com/1414C/sluggo/wscl"
+	
 	_ "github.com/SAP/go-hdb/driver"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
@@ -24,5 +27,43 @@ func main() {
 
 	a := appobj.AppObj{}
 	a.Initialize(*devFlag, *prodFlag, *drFlag, *rsFlag, *alFlag, *dlFlag)
-	a.Run()
+	
+	lsg := &LeadSetGet{}
+	a.Run(lsg)
+}
+
+// LeadSetGet provides a sample implementation of the GMLeaderSetterGetter interface in order
+// to support persistence of the current group-leader information.  re-implement these methods
+// as you see fit to facilitate storage and retrieval of the leader information to and from
+// the persistent storage.  This example uses a quick and dirty web-socket-based cache to
+// handle the persistence.  It works well enough for testing, but you should use something
+// more robust like a database, redis etc.  The methods in the GMLeaderSetterGetter interface
+// are called when a new process is attempting to join the group and also when a new leader
+// is selected via the coordinator process.
+// For testing with the delivered interface implentation, go get -u github.com/1414C/sluggo
+//
+// Execute sluggo from the command-line as follows:
+// go run main.go -a <ipaddress:port>
+// For example:
+// $ go run main.go -a 192.168.1.40:5050
+//
+type LeadSetGet struct {
+	gmcom.GMLeaderSetterGetter
+}
+
+// GetDBLeader retrieves the current leader information from the persistence layer.
+func (sg *LeadSetGet) GetDBLeader() (*gmcom.GMLeader, error) {
+
+	// access the database here to read the current leader
+	l := &gmcom.GMLeader{}
+	wscl.GetCacheEntry("LEADER", l, "192.168.1.40:7070")
+	return l, nil
+}
+
+// SetDBLeader stores the current leader information in the persistence layer.
+func (sg *LeadSetGet) SetDBLeader(l gmcom.GMLeader) error {
+
+	// access the database here to set a new current leader
+	wscl.AddUpdCacheEntry("LEADER", &l, "192.168.1.40:7070")
+	return nil
 }

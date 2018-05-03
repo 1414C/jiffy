@@ -9,6 +9,8 @@ import (
 	"strconv"
 	"time"
     
+	"{{.AppPath}}/group/gmcl"
+	"{{.AppPath}}/group/gmcom"
 	"{{.AppPath}}/models"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
@@ -19,6 +21,8 @@ type UsrController struct {
 	us        		models.UsrService
 	jwtKeyMap 		map[string]interface{}
 	jwtSignMethod 	string
+	internalAddress string
+	ActUsrs         *gmcom.ActUsrs
 }
 
 // Token is the jwt return type
@@ -27,12 +31,13 @@ type Token struct {
 }
 
 // NewUsrController creates a new UsrController
-func NewUsrController(us models.UsrService, jwtKeyMap map[string]interface{}, jwtSignMethod string) *UsrController {
+func NewUsrController(us models.UsrService, jwtKeyMap map[string]interface{}, jwtSignMethod string, internalAddress string) *UsrController {
 	log.Printf("Login() signing jwt's with %s\n", jwtSignMethod)
 	return &UsrController{
-		us:        us,
-		jwtKeyMap: jwtKeyMap,
-		jwtSignMethod: jwtSignMethod,
+		us:              us,
+		jwtKeyMap:       jwtKeyMap,
+		jwtSignMethod:   jwtSignMethod,
+		internalAddress: internalAddress,
 	}
 }
 
@@ -79,6 +84,8 @@ func (uc *UsrController) Login(w http.ResponseWriter, r *http.Request) {
 	var tokenString string
 	var httpStatus int
 
+	fmt.Println("AUTHENTICATED USR:", authenticatedUsr)
+
 	// prepare claims for the token
 	claims := make(jwt.MapClaims)
 	claims["email"] = authenticatedUsr.Email
@@ -110,6 +117,10 @@ func (uc *UsrController) Login(w http.ResponseWriter, r *http.Request) {
 
 	response := Token{tokenString}
 	respondWithJSON(w, http.StatusOK, response)
+
+	// update the local process's Usr cache and then forward the information
+	// to all other group-members presently in a non-failed state.
+	uc.disseminateUsrChange(authenticatedUsr.ID, true, authenticatedUsr.Active)
 }
 
 // signECDSA creates a jwt.Token, set the claims and the signs via the specified curve
@@ -220,6 +231,9 @@ func (uc *UsrController) Create(w http.ResponseWriter, r *http.Request) {
 	usr.PasswordHash = ""
 	usr.Href = urlString + "/" + strconv.FormatUint(uint64(usr.ID), 10)
 	respondWithJSON(w, http.StatusCreated, usr)
+
+	// disseminate the new user info to self and group-members if any
+	uc.disseminateUsrChange(usr.ID, true, usr.Active)
 }
 
 // Update facilitates the update of an existing Usr.  This method is bound
@@ -296,6 +310,9 @@ func (uc *UsrController) Update(w http.ResponseWriter, r *http.Request) {
 	usr.PasswordHash = ""
 	usr.Href = urlString
 	respondWithJSON(w, http.StatusCreated, usr)
+
+	// disseminate the updated user info to self and group-members if any
+	uc.disseminateUsrChange(usr.ID, true, usr.Active)
 }
 
 // Get facilitates the retrieval of an existing Usr.  This method is bound
@@ -356,6 +373,9 @@ func (uc *UsrController) Delete(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	respondWithHeader(w, http.StatusAccepted)
+
+	// disseminate the user deletion info to self and group-members if any.
+	uc.disseminateUsrChange(usr.ID, true, false)
 }
 
 // GetUsrs facilitates the retrieval of all existing Usrs.  This method is
@@ -383,5 +403,27 @@ func (uc *UsrController) GetUsrs(w http.ResponseWriter, r *http.Request) {
 func fatal(err error) {
 	if err != nil {
 		log.Fatal(err)
+	}
+}
+
+// disseminateUsrChange updates the local UsrController's ActUsrs cache directly,
+// and then forwards the updated Usr information to all other group-members that
+// are in a non-failed status.
+func (uc *UsrController) disseminateUsrChange(id uint64, fwd, active bool) {
+
+	// make sure the usr info is in the local and group caches
+	au := gmcom.ActUsr{
+		Forward: fwd,
+		ID:      id,
+		Active:  active,
+	}
+
+	uc.ActUsrs.Lock()
+	uc.ActUsrs.ActiveUsrs[id] = active
+	uc.ActUsrs.Unlock()
+
+	err := gmcl.AddUpdUsrCache(au, uc.internalAddress)
+	if err != nil {
+		log.Println("UsrController.Create cache update error message:", err)
 	}
 }

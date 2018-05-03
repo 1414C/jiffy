@@ -13,6 +13,7 @@ import (
 	"strings"
 
 	"{{.AppPath}}/models"
+	"{{.AppPath}}/group/gmcom"
 	"github.com/gorilla/mux"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/dgrijalva/jwt-go/request"
@@ -30,10 +31,12 @@ type RequireUsr struct {
 	RSA384VerifyKey   *rsa.PublicKey
 	RSA512VerifyKey   *rsa.PublicKey
 	mapGA     map[string]map[string]bool // map[groupName]map[auth_name]bool
+	mapActiveUsrs     map[string]bool            // ref to a.activeUsrs!
+	ActUsrs           *gmcom.ActUsrs
 }
 
 // InitMW is used to initialize the usr authorization middleware
-func InitMW(Usr models.UsrService, jwtKeyMap map[string]interface{}, mapGroupAuths map[string]map[string]bool) (requireUser RequireUsr) {
+func InitMW(Usr models.UsrService, jwtKeyMap map[string]interface{}, mapGroupAuths map[string]map[string]bool, actUsrs *gmcom.ActUsrs) (requireUser RequireUsr) {
  	
 	var esVerifyKey *ecdsa.PublicKey
 	var rsVerifyKey *rsa.PublicKey
@@ -58,20 +61,29 @@ func InitMW(Usr models.UsrService, jwtKeyMap map[string]interface{}, mapGroupAut
 	{{end -}}
 	requireUser.Usr = Usr
  	requireUser.mapGA = mapGroupAuths
+	requireUser.ActUsrs = actUsrs
  	return requireUser
  }
 
  // CheckAuth verifies that the AuthName is contained in one of the supplied Groups
- func (mw *RequireUsr) CheckAuth(authName string, groups []string) bool {
+func (mw *RequireUsr) CheckAuth(authName string, groups []string, id uint64) bool {
  
  	// no group auths setup - disallow all access
  	if len(mw.mapGA) == 0 {
  		return false
  	}
+
+	// is the user active?
+	active := mw.ActUsrs.ActiveUsrs[id]
+	fmt.Println("==============================================================")
+	fmt.Println("mw.ActUsrs.ActiveUsrs:", mw.ActUsrs.ActiveUsrs)
+	fmt.Println("==============================================================")
+	if !active {
+		return false
+	}
  
  	// iterate over the supplied group names and attempt to find
  	// a matching group-auth combination in mw.mapGA.
-	
     // fmt.Println("groups:", groups)
 	// fmt.Println("mw.mapGA:", mw.mapGA)
 	// for k, v := range mw.mapGA {
@@ -112,6 +124,7 @@ func (mw *RequireUsr) ApplyFn(next http.HandlerFunc) http.HandlerFunc {
 		TokenType string
 		Groups    string
 		UID       uint64
+		Email     string
 	}
 
 	// http.HandlerFunc is casting the type of the closure here
@@ -167,6 +180,7 @@ func (mw *RequireUsr) ApplyFn(next http.HandlerFunc) http.HandlerFunc {
 				// fmt.Println("claims.Groups", claims.Groups)
 				// fmt.Println("claims.Id", claims.Id)
 				// fmt.Println("claims.UID:", claims.UID)
+				// fmt.Println("claims.Email:", claims.Email)
 				
 				gps := strings.Split(claims.Groups, ";")
 				for i := range gps {
@@ -174,19 +188,17 @@ func (mw *RequireUsr) ApplyFn(next http.HandlerFunc) http.HandlerFunc {
 				}
 				
 				// check the user's authorization for the route
-				if mw.CheckAuth(mux.CurrentRoute(r).GetName(), gps) {
+				if mw.CheckAuth(mux.CurrentRoute(r).GetName(), gps, claims.UID) {
 					next(w, r)
 					return
 				}
-				// next(w, r)
-				// return
 			}
 			w.WriteHeader(http.StatusUnauthorized)
-			fmt.Fprint(w, "Unauthorized access to this resource" + err.Error())
+			fmt.Fprint(w, "Unauthorized access to this resource")
 			return
 		}
 		w.WriteHeader(http.StatusUnauthorized)
-		fmt.Fprint(w, "Unauthorized access to this resource")
+		fmt.Fprint(w, "Unauthorized access to this resource "+err.Error())
 		return
 	})
 }

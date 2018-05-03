@@ -48,12 +48,12 @@ type Relation struct {
 	RefKeyOptional    bool   //  true/false
 	RelType           string //  "hasOne; belongsTo; hasMany"
 	FromEntity        string //  "Person"
-	FromEntityLC      string // "person"
+	FromEntityLC      string //  "person"
 	ToEntity          string //  "StreetAddress"
 	ToEntityLC        string //  "streetaddress"
 	ToEntInfo         []Info //  ToEntity-field-meta-data
 	ForeignPK         string //  "<FromEntity>ID"
-	ForeignPKOptional bool   // true/false
+	ForeignPKOptional bool   //  true/false
 }
 
 // Entity definition
@@ -112,10 +112,8 @@ const (
 // public Entity generation functions
 //=============================================================================================
 
-// CreateModelFile generates a model file for the Entity
-// using the user-defined model.json file in conjunction
-// with the model.gotmpl text/template.  Returns the fully-qualified
-// file-name / error.
+// CreateModelFile generates a model file for the Entity using the user-defined model.json file in conjunction
+// with the model.gotmpl text/template.  Returns the fully-qualified file-name / error.
 func (ent *Entity) CreateModelFile(tDir string) (fName string, err error) {
 
 	// https://medium.com/@IndianGuru/understanding-go-s-template-package-c5307758fab0

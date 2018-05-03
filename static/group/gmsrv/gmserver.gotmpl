@@ -1,0 +1,1012 @@
+package gmsrv
+
+//=============================================================================================
+// start of generated code: please do not modify this section 
+// code generated on {{ .GetDateTimeStamp }}
+//=============================================================================================
+
+import (
+	"bytes"
+	"encoding/gob"
+	"{{.AppPath}}/group/gmcl"
+	"{{.AppPath}}/group/gmcom"
+	"fmt"
+	"log"
+	"math/rand"
+	"net/http"
+	"os"
+	"regexp"
+	"sync"
+	"time"
+
+	"golang.org/x/net/websocket"
+)
+
+// GMServInt outlines the core group membership interface.
+type GMServInt interface {
+	processCmdChannel()
+	Serve(myIPAddress string, lsg gmcom.GMLeaderSetterGetter, actUsrs *gmcom.ActUsrs, logging bool, evlCycle uint, failureThreshold uint64)
+}
+
+// GMServHandlerInt outlines the group-membership related web-socket handlers.
+type GMServHandlerInt interface {
+	PingHandler(ws *websocket.Conn)
+	JoinHandler(ws *websocket.Conn)
+	CoordinatorHandler(ws *websocket.Conn)
+	UsrUpdateHandler(ws *websocket.Conn)
+}
+
+// GMServSenderInt outlines the message senders.  These methods mostly push messages into the group-membership serialization channels.
+type GMServSenderInt interface {
+	SendGetDBLeader(m *gmcom.GMMessage)
+	SendSetDBLeader(m *gmcom.GMMessage)
+	SendSetLeader(m *gmcom.GMMessage)
+	SendGetLocalLeader(m *gmcom.GMMessage)
+	SendJoin(l *gmcom.GMLeader) error
+	SendPing()
+	SendFailure(f gmcom.GMMessage)
+	SendCoordinator(c gmcom.GMMessage) error
+}
+
+// GMServTxRxInt outlines the common message TxRx and message Tx only methods.
+type GMServTxRxInt interface {
+	TxRxGMMessage(m gmcom.GMMessage) (*gmcom.GMMessage, error)
+	TxGMMessage(m gmcom.GMMessage) error
+}
+
+// GMServUsrCacheSupportInt outlines convenience methods for the Usr cache
+// to get information regarding the state of the group processes.
+type GMServUsrCacheSupportInt interface {
+	SendGetLocalDetails() *gmcom.GMMessage
+}
+
+// GMServ is the server access struct
+type GMServ struct {
+	Log              bool
+	memberMap        *gmcom.OMap
+	Leader           gmcom.GMLeader
+	MyID             uint
+	MyIPAddress      string
+	MyIncarnation    uint
+	FailureThreshold uint32
+	chin             chan gmcom.GMMessage
+	chout            chan gmcom.GMMessage
+	count            int
+	HTTPServer       *http.Server
+	LSG              gmcom.GMLeaderSetterGetter
+	ActUsrs          *gmcom.ActUsrs
+	InElection       bool // true/false
+	GMServInt
+	GMServHandlerInt
+	GMServSenderInt
+	GMServTxRxInt
+}
+
+// ensure consistency against interfaces
+var _ GMServInt = &GMServ{}
+var _ GMServTxRxInt = &GMServ{}
+var _ GMServSenderInt = &GMServ{}
+var _ GMServHandlerInt = &GMServ{}
+
+// init an empty gm server
+func (gm *GMServ) initialize(myIPAddress string, lsg gmcom.GMLeaderSetterGetter, actUsrs *gmcom.ActUsrs, logging bool, failureThreshold uint32) error {
+
+	//log.SetFlags(0)
+
+	// check that a port was included in myIPAddress (1-255.0-255.0-255.0.255:10-99999)
+	match, _ := regexp.MatchString("(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(:{1})([1-9][0-9]|[1-9][0-9]{2}|[1-9][0-9]{3}||[1-9][0-9]{4})$", myIPAddress)
+	if !match {
+		return fmt.Errorf("supplied IPv4 address:port combination is illegal - got: %s", myIPAddress)
+	}
+
+	// this is the number of aggregate SUSPECT notifications the process (Pi) gets for another process (Pj)
+	// this will likely change to something like (failureThreshold * number of active processes) -1
+	if failureThreshold == 0 {
+		gm.FailureThreshold = 30
+	} else {
+		gm.FailureThreshold = failureThreshold
+	}
+
+	// initialize the local server attributes
+	gm.MyID = 0
+	gm.MyIPAddress = myIPAddress
+	gm.MyIncarnation = 1
+	gm.LSG = lsg
+	gm.Log = logging
+	gm.ActUsrs = actUsrs
+
+	// initialize the members ordered map
+	if gm.memberMap == nil {
+		gm.memberMap = &gmcom.OMap{}
+		gm.memberMap.Init()
+	}
+
+	// initialize the command/serialization channel
+	gm.chin = make(chan gmcom.GMMessage)
+	gm.chout = make(chan gmcom.GMMessage)
+
+	// start blocking on the command/serialization channel
+	go gm.processCmdChannel()
+	return nil
+}
+
+// processCmdChannel is used to process commands from the command/serialization channel.
+// operations on gmsrv artifacts are considered goroutine/race safe.
+func (gm *GMServ) processCmdChannel() {
+
+	// block on the channel
+	for v := range gm.chin {
+		gm.count++
+		log.Println("gm.count:", gm.count)
+
+		switch v.Type {
+		case gmcom.CJoin:
+			log.Println("JOIN received by processCmdChannel()")
+			rm := gm.processPing(v)
+			gm.chout <- rm
+
+		case gmcom.CJoinAck:
+			log.Println("JOIN has been accepted")
+			jm := gmcom.GMMember{
+				ID:                v.TargetID,
+				IPAddress:         v.TargetIPAddress,
+				Status:            gmcom.CStatusAlive, //v.TargetStatus,
+				StatusCount:       1,                  // v.TargetStatusCount,
+				IncarnationNumber: v.TargetIncarnationNumber,
+			}
+			gm.memberMap.Add(v.TargetID, jm)
+			gm.MyID = v.TargetID
+			gm.chout <- v
+
+		case gmcom.CLeave:
+		// 	// if the get finds nothing, clear the key to prevent match-checking error
+		// 	v, ok := gm.cacheMap[v.Key]
+		// 	if !ok {
+		// 		v.Key = ""
+		// 	}
+		// 	gm.chout <- v
+
+		case gmcom.CFailure:
+			log.Println("FAILURE received")
+			ok := gm.memberMap.Delete(v.TargetID)
+			if !ok {
+				log.Println("failed to delete failed process-id:", v.TargetID)
+			}
+
+		case gmcom.CPing:
+			log.Println("PING received from process-id:", v.SrcID)
+			rm := gm.processPing(v)
+			gm.chout <- rm
+
+		case gmcom.CAck:
+			log.Println("ACK received from process-id:", v.SrcID)
+			// log.Println("ACK received")
+			// log.Println("v.SrcID:", v.SrcID)
+			// log.Println("v.SrcIPAddress:", v.SrcIPAddress)
+			// log.Println("v.SrcStatus:", v.SrcStatus)
+			// log.Println("v.SrcIncarnationNumber:", v.SrcIncarnationNumber)
+			// log.Println("v.TargetID:", v.TargetID)
+			// log.Println("v.TargetIPAddress:", v.TargetIPAddress)
+			// log.Println("v.TargetStatus:", v.TargetStatus)
+			// log.Println("v.TargetIncarnationNumber:", v.TargetIncarnationNumber)
+			if v.SrcID != 0 {
+				am := gmcom.GMMember{
+					ID:                v.SrcID,
+					IPAddress:         v.SrcIPAddress,
+					Status:            v.SrcStatus,
+					StatusCount:       v.SrcStatusCount,
+					IncarnationNumber: v.SrcIncarnationNumber,
+				}
+				gm.memberMap.Add(v.SrcID, am)
+				// log.Println("post ACK memberMap:", gm.memberMap)
+			}
+			gm.chout <- v
+
+		case gmcom.CinNoAck:
+			log.Println("NoACK received for process-id:", v.TargetID)
+			// log.Println("No ACK received for PING")
+			// log.Println("v.SrcID:", v.SrcID)
+			// log.Println("v.SrcIPAddress:", v.SrcIPAddress)
+			// log.Println("v.TargetID:", v.TargetID)
+			// log.Println("v.TargetIPAddress:", v.TargetIPAddress)
+			// log.Println("v.TargetStatus:", v.TargetStatus)
+			// log.Println("v.TargetIncarnationNumber:", v.TargetIncarnationNumber)
+
+			// update the local member list
+			tm := gmcom.GMMember{
+				ID:                v.TargetID,
+				IPAddress:         v.TargetIPAddress,
+				Status:            v.TargetStatus,
+				StatusCount:       v.TargetStatusCount,
+				IncarnationNumber: v.TargetIncarnationNumber,
+			}
+
+			if tm.IncarnationNumber == 0 {
+				tm.IncarnationNumber = 1
+			}
+			gm.memberMap.Add(v.TargetID, tm)
+
+			// log.Println("post-SUSPECT gm.memberMap update for process-id:", v.TargetID)
+			// for _, z := range gm.memberMap.IDMap {
+			// 	log.Println("local membermap post-NoAck processing:", z.ID, z.Status, z.StatusCount)
+			// }
+			gm.chout <- v
+
+		case gmcom.CinDoSendPrep:
+
+			// first increment failure status counts and flush failed processes that have been
+			// disseminated ((gm.memberMap.Count()*4)-1) times.  this is overkill, as 2n-1 is
+			// gives two rounds of pinging, but it doesn't cost much to do it a few extra times.
+			// failed processes are updated or deleted from the local membermap here.
+			err := gm.memberMap.UpdFailedProcesses()
+			if err != nil {
+				// TODO: log
+				log.Println("error: gm.memberMap.UpdFailedProcesses() got:", err)
+			}
+
+			// populate the dissemination membermap with a deep-copy of the local membermap in order
+			// to avoid goroutine contention during the encoding of the outgoing message.
+			v.MemberMap = new(gmcom.OMap)
+			v.MemberMap.Init()
+			for k, mb := range gm.memberMap.IDMap {
+				v.MemberMap.Add(k, mb)
+			}
+
+			// don't include failed processes in the ping list, (but include them in the membermap)
+			c := gm.memberMap.Count()
+			for i := 0; i < c; i++ {
+				m, _ := gm.memberMap.ReadByIndex(i)
+				if m.Status != gmcom.CStatusFailed {
+					v.SrcID = gm.MyID
+					v.SrcIPAddress = gm.MyIPAddress
+					v.SrcIncarnationNumber = gm.MyIncarnation
+					v.TargetID = m.ID
+					v.TargetIPAddress = m.IPAddress
+					v.TargetStatus = m.Status
+					v.TargetStatusCount = m.StatusCount
+					v.TargetIncarnationNumber = m.IncarnationNumber
+					gm.chout <- v
+				}
+			}
+			// don't want to close the channel, so send an invalid target-id for transmission in order to
+			// inform the reader that this is the last msg (for now).
+			v.TargetID = 0
+			v.TargetIPAddress = ""
+			gm.chout <- v
+
+		case gmcom.CinGetMySrcInfo:
+			v.SrcID = gm.MyID
+			v.SrcIPAddress = gm.MyIPAddress
+			v.SrcIncarnationNumber = gm.MyIncarnation
+			gm.chout <- v
+
+		case gmcom.CinGetMyTargetInfo:
+			v.TargetID = gm.MyID
+			v.TargetIPAddress = gm.MyIPAddress
+			v.TargetIncarnationNumber = gm.MyIncarnation
+			gm.chout <- v
+
+		case gmcom.CinGetDBLeader:
+			leader, err := gm.LSG.GetDBLeader()
+			if err != nil {
+				// if logging is enabled drop a message to stderr.
+				// TODO_LOG
+				// send unchanged message back to caller
+				gm.chout <- v
+			} else {
+				rm := v
+				rm.TargetID = leader.LeaderID
+				rm.TargetIPAddress = leader.LeaderIPAddress
+				gm.chout <- rm
+			}
+
+		case gmcom.CinSetDBLeader:
+
+			gm.Leader.LeaderID = v.TargetID
+			gm.Leader.LeaderIPAddress = v.TargetIPAddress
+
+			err := gm.LSG.SetDBLeader(gm.Leader)
+			if err != nil {
+				log.Println(err)
+			}
+			log.Printf("db and local leader set to %d, %s\n", v.TargetID, v.TargetIPAddress)
+			gm.chout <- v
+
+		case gmcom.CinSetLeader:
+			gm.Leader.LeaderID = v.TargetID
+			gm.Leader.LeaderIPAddress = v.TargetIPAddress
+			gm.InElection = v.InElection // should be false
+			log.Printf("local leader set to %d, %s\n", v.TargetID, v.TargetIPAddress)
+			gm.chout <- v
+
+		case gmcom.CinGetLocalLeader:
+			v.TargetID = gm.Leader.LeaderID
+			v.TargetIPAddress = gm.Leader.LeaderIPAddress
+			gm.chout <- v
+
+		case gmcom.CinStartElection:
+			log.Println("ELECTION: in gmcom.CinStartElection")
+			gm.chout <- v
+
+		case gmcom.CinRunElection:
+			// set the InElection flag in the GMServ struct
+			if gm.InElection == true {
+				// log.Println("ELECTION: CinRunElection detected active election and will exit")
+				v.InElection = true
+				v.ErrCode = gmcom.CElectComplete // election is running, so don't continue
+				gm.chout <- v
+				continue
+			}
+			gm.InElection = true
+
+			// read the details of the largest non-failed ID from the local memberMap
+			topMember := gm.memberMap.ReadMaxActiveID()
+			if topMember == nil { // || (topMember.ID == gm.MyID && topMember.IPAddress == gm.MyIPAddress) {
+
+				// local process will become the leader
+				log.Println("COORDINATOR: no topMember found in memberMap.  Adding local process-id to local memberMap.")
+				gm.MyIncarnation++
+				gm.memberMap.Add(gm.MyID, gmcom.GMMember{
+					ID:                gm.MyID,
+					IPAddress:         gm.MyIPAddress,
+					Status:            gmcom.CStatusAlive,
+					StatusCount:       1,
+					IncarnationNumber: gm.MyIncarnation,
+				})
+
+				log.Printf("COORDINATOR: local process setting local process-id %d as leader in persistent store\n", gm.MyID)
+				err := gm.LSG.SetDBLeader(gmcom.GMLeader{
+					LeaderID:        gm.MyID,
+					LeaderIPAddress: gm.MyIPAddress,
+				})
+				if err != nil {
+					panic("failed calling gm.LSG.SetDBLeader() in gmcom.CinRunElection")
+				}
+				gm.Leader.LeaderID = gm.MyID
+				gm.Leader.LeaderIPAddress = gm.MyIPAddress
+				gm.InElection = false
+				v.ErrCode = gmcom.CElectComplete
+				gm.chout <- v
+				continue
+			}
+			log.Println("COORDINATOR: found topMember:", topMember.ID)
+
+			// if the local process has the highest active ID in the local memberMap,
+			// make an attempt to become the leader
+			if topMember.ID == gm.MyID {
+				log.Println("COORDINATOR: topMember.ID == gm.MyID ==", gm.MyID)
+				log.Printf("COORDINATOR: local process setting local process-id %d as leader in persistent store\n", gm.MyID)
+				log.Printf("COORDINATOR: local process %d will send coordinator message to group\n", gm.MyID)
+				gm.MyIncarnation++
+				gm.memberMap.Add(gm.MyID, gmcom.GMMember{
+					ID:                gm.MyID,
+					IPAddress:         gm.MyIPAddress,
+					Status:            gmcom.CStatusAlive,
+					StatusCount:       1,
+					IncarnationNumber: gm.MyIncarnation,
+				})
+
+				log.Printf("COORDINATOR: local process setting local process-id %d as leader in persistent store\n", gm.MyID)
+				err := gm.LSG.SetDBLeader(gmcom.GMLeader{
+					LeaderID:        gm.MyID,
+					LeaderIPAddress: gm.MyIPAddress,
+				})
+				if err != nil {
+					panic("failed calling gm.LSG.SetDBLeader() in gmcom.CinRunElection")
+				}
+
+				gm.Leader.LeaderID = gm.MyID
+				gm.Leader.LeaderIPAddress = gm.MyIPAddress
+				gm.InElection = false
+
+				log.Println("COORDINATOR: sending coordinator messages to group members")
+				c := gmcom.GMMessage{
+					Type:                 gmcom.CCoordinator,
+					SrcID:                gm.MyID,
+					SrcIPAddress:         gm.MyIPAddress,
+					SrcIncarnationNumber: gm.MyIncarnation,
+					SubjectID:            gm.MyID,
+					SubjectIPAddress:     gm.MyIPAddress,
+				}
+				// send coordinator messages to all non-failed processes with lower-ids than that of the local process.
+				for i := 0; i < gm.memberMap.Count(); i++ {
+					m, ok := gm.memberMap.ReadByIndex(i)
+					if ok && m.Status != gmcom.CStatusFailed && m.ID != gm.MyID {
+						c.TargetID = m.ID
+						c.TargetIPAddress = m.IPAddress
+						err = gm.SendCoordinator(c)
+						if err != nil {
+							log.Printf("COORDINATOR: send of coordinator message to process-id %d with %d as leader failed.  got: %s", c.TargetID, c.SubjectID, err)
+						} else {
+							log.Printf("COORDINATOR: send coordinator message to process-id %d with %d as leader\n", c.TargetID, c.SubjectID)
+						}
+					}
+				}
+				v.ErrCode = gmcom.CElectComplete
+				gm.chout <- v
+				log.Println("COORDINATOR: COMPLETE - set leader-id:", topMember.ID)
+				continue
+			}
+
+			if topMember.ID > gm.MyID {
+				// do nothing here.
+				gm.chout <- v
+			}
+			// // local process-id is lower than the highest active ID in the local memberMap,
+			// // so trigger an election by sending Election messages to all higher non-failed
+			// // process-id's.
+			// if topMember.ID > gm.MyID {
+			// 	log.Printf("ELECTION: local process-id %d is lower than topMember.ID %d\n", gm.MyID, topMember.ID)
+			// 	log.Println("ELECTION: triggering election via Election message dispatch")
+			// 	e := gmcom.GMMessage{
+			// 		Type:                 gmcom.CElection,
+			// 		SrcID:                gm.MyID,
+			// 		SrcIPAddress:         gm.MyIPAddress,
+			// 		SrcIncarnationNumber: gm.MyIncarnation,
+			// 		SubjectID:            gm.MyID,
+			// 		SubjectIPAddress:     gm.MyIPAddress,
+			// 	}
+			// 	// send election messages to all non-failed processes with higher-ids than that of the local process.
+			// 	// there are three possibilities here; i) OK ii) Ack iii) no response
+			// 	for i := 0; i < gm.memberMap.Count(); i++ {
+			// 		m, ok := gm.memberMap.ReadByIndex(i)
+			// 		if ok && m.Status != gmcom.CStatusFailed && m.ID > gm.MyID {
+			// 			e.TargetID = m.ID
+			// 			e.TargetIPAddress = m.IPAddress
+			// 			err := gm.SendElection(&e) // SendElection should return COK, CAck, CNoACK?
+			// 			if err != nil {
+			// 				log.Printf("ELECTION: send of election message to process-id %d with %d as proposed leader failed.  got: %s", e.TargetID, e.SubjectID, err)
+			// 				continue
+			// 			}
+			// 			log.Printf("ELECTION: sent election message to process-id %d with %d as proposed leader\n", e.TargetID, e.SubjectID)
+			// 			log.Printf("ELECTION: got response code of %s from process-id %d in response to propsal of process-id %d as leader\n", e.ErrCode, e.TargetID, e.SubjectID)
+			// 			switch e.ErrCode {
+			// 			case gmcom.CElectOK:
+			// 				continue
+
+			// 			case gmcom.CElectNR:
+			// 				topMember = gm.memberMap.ReadMaxActiveID()
+			// 				if topMember != nil && topMember.ID == gm.MyID {
+			// 					// set local process-id as leader in persistent store
+			// 					// send coordinator messages
+			// 					// unset election flag
+			// 					log.Printf("ELECTION: local process setting local process-id %d as leader in persistent store\n", gm.MyID)
+			// 					err := gm.LSG.SetDBLeader(gmcom.GMLeader{
+			// 						LeaderID:        gm.MyID,
+			// 						LeaderIPAddress: gm.MyIPAddress,
+			// 					})
+			// 					if err != nil {
+			// 						panic("failed calling gm.LSG.SetDBLeader() in gmcom.CinRunElection")
+			// 					}
+			// 					gm.Leader.LeaderID = gm.MyID
+			// 					gm.Leader.LeaderIPAddress = gm.MyIPAddress
+			// 					gm.InElection = false
+
+			// 					log.Println("ELECTION: sending coordinator messages to group members")
+			// 					c := gmcom.GMMessage{
+			// 						Type:                 gmcom.CCoordinator,
+			// 						SrcID:                gm.MyID,
+			// 						SrcIPAddress:         gm.MyIPAddress,
+			// 						SrcIncarnationNumber: gm.MyIncarnation,
+			// 						SubjectID:            gm.MyID,
+			// 						SubjectIPAddress:     gm.MyIPAddress,
+			// 					}
+			// 					// send coordinator messages to all non-failed processes with lower-ids than that of the local process.
+			// 					for i := 0; i < gm.memberMap.Count(); i++ {
+			// 						m, ok := gm.memberMap.ReadByIndex(i)
+			// 						if ok && m.Status != gmcom.CStatusFailed && m.ID != gm.MyID {
+			// 							c.TargetID = m.ID
+			// 							c.TargetIPAddress = m.IPAddress
+			// 							err = gm.SendCoordinator(c)
+			// 							if err != nil {
+			// 								log.Printf("ELECTION: send of coordinator message to process-id %d with %d as leader failed.  got: %s", c.TargetID, c.SubjectID, err)
+			// 							} else {
+			// 								log.Printf("ELECTION: send coordinator message to process-id %d with %d as leader\n", c.TargetID, c.SubjectID)
+			// 							}
+			// 						}
+			// 					}
+			// 					v.ErrCode = gmcom.CElectComplete
+			// 					gm.chout <- v
+			// 				} else {
+			// 					// restart election via recursive call?
+			// 					v.ErrCode = gmcom.CElectIncomplete
+			// 					gm.chout <- v
+			// 				}
+			// 			default:
+
+			// 			}
+			// 		}
+			// 	}
+			// 	gm.chout <- v
+			// }
+
+		case gmcom.CinSetElectionState:
+			gm.InElection = v.InElection
+
+		case gmcom.CinGetElectionState:
+			v.InElection = gm.InElection
+			gm.chout <- v
+
+		case gmcom.CinGetLocalDetails:
+			v.TargetID = gm.MyID
+			v.TargetIPAddress = gm.MyIPAddress
+
+			// deep-copy / race mitigation
+			v.MemberMap = new(gmcom.OMap)
+			v.MemberMap.Init()
+			for k, mb := range gm.memberMap.IDMap {
+				v.MemberMap.Add(k, mb)
+			}
+			gm.chout <- v
+
+		default:
+			// do nothing
+		}
+	}
+}
+
+// Serve starts the group membership server
+func (gm *GMServ) Serve(myIPAddress string, lsg gmcom.GMLeaderSetterGetter, actUsrs *gmcom.ActUsrs, logging bool, evlCycle uint, failureThreshold uint64) {
+	ft := uint32(failureThreshold) // 64-bit atomic alignment mitigation for 32-bit ARM
+	err := gm.initialize(myIPAddress, lsg, actUsrs, logging, ft)
+	if err != nil {
+		panic("Serve()" + err.Error())
+	}
+
+	mux := http.NewServeMux()
+
+	// failure detector handlers
+	mux.Handle("/ping", websocket.Handler(gm.PingHandler))
+	mux.Handle("/join", websocket.Handler(gm.JoinHandler))
+	mux.Handle("/coordinator", websocket.Handler(gm.CoordinatorHandler))
+
+	mux.Handle("/updateusrcache", websocket.Handler(gm.UsrUpdateHandler))
+	mux.Handle("/set", websocket.Handler(gm.SetHandler))
+
+	wg := sync.WaitGroup{}
+	wg.Add(1)
+	defer wg.Done()
+
+	log.Printf("listening for ws traffic on %s\n", gm.MyIPAddress)
+
+	// create the ws server - this can be stopped by calling cs.httpServer.Shutdown(...)
+	gm.HTTPServer = &http.Server{
+		Addr:    myIPAddress,
+		Handler: mux,
+	}
+
+	go func() {
+		err := gm.HTTPServer.ListenAndServe()
+		if err != nil {
+			// this will write something in a Shutdown scenario too
+			log.Printf("cs.httpServer.ListenAndServe() error - got: %s", err)
+		}
+	}()
+
+	// exagerated wait for httpserver spinup
+	time.Sleep(2 * time.Second)
+
+	// initialization
+	// 1.  Get Leader from DB
+	// 2.    succecss == continue
+	// 3.    fail     == I am leader?
+	// 4.  Contact leader (Ping without ID)
+	// 5.    success  == Ack with ID
+	// 5b.   success  == Leader sends Join message with current membership list
+	// 6.    fail     == back, retry (x2)
+	// 7.    fail     == I am leader?
+	lastJoinErr := &gmcom.JoinError{}
+	lm := gmcom.GMMessage{}
+	rand.Seed(time.Now().UnixNano())
+
+	// initialization loops
+	// try to join 4 times - here there be dragons
+	for z := 0; z < 4; z++ {
+
+		// cleanup last error
+		lastJoinErr.Clear()
+
+		// try to read the leader from the persistent store 3 times per join attempt
+		for i := 1; i < 4; i++ {
+
+			// 1. get leader from db - 3 attempts
+			gm.SendGetDBLeader(&lm)
+			if lm.TargetID == 0 || lm.TargetIPAddress == "" {
+				log.Println("get db leader attempt:", i)
+				time.Sleep(time.Duration(rand.Intn(1000)) * time.Millisecond)
+				continue
+			}
+			break
+		}
+
+		// is my ip address the same as that of the leader that was read from the persistent
+		// store?  this can happen in scenarios where the leader is the last process standing
+		// and then terminates without warning.  the persistent store retains the last leader
+		// information (Pi) resulting in a successful leader-ping if the first process to restart
+		// in the group happens to hold the same ip-address as that of the old leader.  a successful
+		// ping (Pi->Pi) looks like there is a functioning leader, so if the joining process sees
+		// it's own ip-address in the leader slot within the persistent store, it is best to act
+		// like there is no current leader and wipe the read (leader) information clean.
+		// i.e. {inGetDBLeader 0 192.168.1.42:5050 0  0 1 192.168.1.42:5050 0   0 0  true <nil>}
+		// see if the persisted leader is contactable or not...
+		if lm.TargetID != 0 && lm.TargetIPAddress != "" && lm.TargetIPAddress != myIPAddress {
+			log.Println("JOIN: leader read from persistent store:", lm)
+			gm.SendSetLeader(&lm)
+
+			// try to join (really just a ping)
+			l := gmcom.GMLeader{
+				LeaderID:        lm.TargetID,
+				LeaderIPAddress: lm.TargetIPAddress,
+			}
+			// need a better way of determining how the join failed - need to be certain that it is
+			// okay to attempt to seize leadership here.
+			// 1. could not contact leader (i.e. leader in persistent store is incorrect/in transition)
+			// 2. leader is okay, but the addresss is in use by an active or suspect(most likely) process-id
+			err = gm.SendJoin(&l)
+			if err, ok := err.(*gmcom.JoinError); ok {
+				log.Println(err.ErrCode, err.Err)
+				lastJoinErr = err
+				log.Printf("JOIN: failed to join with leader process-id %d at %s - error code: %s", lm.TargetID, lm.TargetIPAddress, lastJoinErr.ErrorCode())
+				switch lastJoinErr.ErrorCode() {
+				case gmcom.CerrJoinNoContact, gmcom.CerrJoinNotLeader:
+					time.Sleep(time.Duration(rand.Intn(1000)) * time.Millisecond)
+					continue
+
+				case gmcom.CerrJoinAddrInUse:
+					time.Sleep(5 * time.Second)
+					continue
+
+				case gmcom.CerrJoinUnknownErr:
+					time.Sleep(5 * time.Second)
+					continue
+
+				default:
+
+				}
+			}
+			break
+		}
+
+		// if the local process-id was read from the persistent store, wait a bit and check again
+		// before deciding to become the real leader.
+		if lm.TargetID != 0 && lm.TargetIPAddress == myIPAddress {
+			lastJoinErr.ErrCode = gmcom.CerrJoinNoContact
+			time.Sleep(time.Duration(rand.Intn(1000)) * time.Millisecond)
+		}
+
+		// if no leader-id was read from the db, try to become the leader
+		if lm.TargetID == 0 && lm.TargetIPAddress == "" {
+			lastJoinErr.ErrCode = gmcom.CerrJoinNoContact
+			break
+		}
+	}
+
+	switch lastJoinErr.ErrorCode() {
+	case gmcom.CerrJoinNoContact:
+		log.Println("JOIN: no leader detected - setting myID = 1 as leader")
+		gm.MyID = 1
+		lm.TargetID = gm.MyID
+		lm.TargetIPAddress = gm.MyIPAddress
+		lm.Type = gmcom.CinSetDBLeader
+		lm.ExpectResponse = true
+
+		// add local server to the memberMap
+		mb := gmcom.GMMember{
+			ID:                gm.MyID,
+			IPAddress:         gm.MyIPAddress,
+			Status:            gmcom.CStatusAlive,
+			StatusCount:       1,
+			IncarnationNumber: gm.MyIncarnation,
+		}
+		gm.memberMap.Add(gm.MyID, mb)
+
+		// set gm.MyID as leader locally and in the persistent store
+		gm.SendSetDBLeader(&lm)
+
+	case gmcom.CerrJoinNotLeader:
+		log.Println(lastJoinErr.ErrorSummary())
+		os.Exit(-1)
+
+	case gmcom.CerrJoinAddrInUse:
+		log.Println(lastJoinErr.ErrorSummary())
+		os.Exit(-1)
+
+	case gmcom.CerrJoinUnknownErr:
+		log.Println(lastJoinErr.ErrorSummary())
+		os.Exit(-1)
+
+	default:
+
+	}
+
+	// ensure there is a pause in the failure detector evl
+	if evlCycle == 0 {
+		evlCycle = 5
+	}
+
+	// start failure detector event loop
+	go func() {
+		evl := true
+		for evl {
+			time.Sleep(time.Duration(evlCycle) * time.Second)
+			log.Println("PING CYCLE: starting ping cycle...")
+			gm.SendPing()
+			log.Println("PING CYCLE: ping cycle complete.")
+		}
+	}()
+
+	// start whatever thing you are planning to actually run in the server
+	// go func() {
+	// run what you like in here?
+	// }()
+
+	log.Println("initialization complete...")
+	log.Println("leader info is:", gm.Leader)
+	wg.Wait()
+}
+
+// GetDBLeaderHandler is used to access the persisted leader information, which
+// may be stored in any accessible medium.
+func (gm *GMServ) getDBLeader(ws *websocket.Conn) {
+
+	// call function
+	leader, err := gm.LSG.GetDBLeader()
+	if err != nil {
+		log.Println("getDBLeader() error - got:", err)
+		return
+	}
+	if leader != nil {
+		log.Println("getDBLeader() got leader", leader)
+	}
+}
+
+// SetDBLeaderHandler is used to set the persisted leader information, which
+// may be stored in any accessible medium.  It is up to the developer to decide
+// what to put in here (accept closure etc.?)
+func (gm *GMServ) SetDBLeaderHandler(ws *websocket.Conn) {
+
+	// call function
+}
+
+// PingHandler deals with incoming failure detector ping reqests.  Ping messages
+// are decoded and then fed into the inbound GMMessage channel for processing.
+// Message Type == Ping
+func (gm *GMServ) PingHandler(ws *websocket.Conn) {
+
+	// decode the incoming PING message and feed to inbound channel
+	m, err := gmcom.DecodeGMMessage(ws)
+	if err == nil {
+
+		// process the ping and wait for the outbound channel to provide a ACK message
+		gm.chin <- *m
+		m2 := <-gm.chout
+		log.Println("PingHandler() channel result:", m2)
+
+		// the inclusion of the MemberMap in m2 is problematic as the reference to the
+		// map is common with gm.  IDMap/MemberMap access is synchronized via the
+		// serialization channels (gm.chin/gm.chout), but calling EncodeGMMessage(m2)
+		// forces an unsynchronized read of the m2.MemeberMap to occur. If conditions
+		// are right, this will result in a data-race, notably when dealing with the
+		// disappearance of (Pj) where (Pj) is pinging (Pi). The value of the outgoing
+		// MemberMap is negligable, as dissemination occurs via the PING message only,
+		// so for now m2.MemberMap is set to nil in all response messages.
+		// If you need it for some reason, the best thing to do would be to create a
+		// copy of the map in the upstream PingHandler processor.
+		m2.MemberMap = nil
+
+		// check for incorrect receiver problem
+		if m2.ErrCode == gmcom.CerrPingIncorrectReceiver {
+			return // do not send ACK
+		}
+
+		// gob-encode the ACK message for transmission
+		rawM2, err := gmcom.EncodeGMMessage(m2)
+		if err != nil {
+			// timeout the ws connection and drop a log message to stderr
+			log.Println("PingHandler() gobEncodeError:", err)
+		} else {
+			_, err = ws.Write(rawM2)
+			if err != nil {
+				log.Println("PingHandler() ws.Write(rawM2) got error:", err)
+				// did the sender disappear?  if so, this is suspicious,
+				// but the sender's pinger should pickup on the fact that
+				// the process is not responding.  if logging is enabled
+				// drop a message to stderr.
+			}
+		}
+
+		// is there a need to trigger an elelection?
+		if !m2.CheckElection {
+			return
+		}
+
+		log.Println("ELECTION: PingHandler() starting election evaluation...")
+		log.Println("ELECTION: unsafe access to gm.InElection returns:", gm.InElection)
+
+		// maybe do all of the following in new CinRunElection?
+		s := gmcom.GMMessage{
+			Type: gmcom.CinRunElection,
+		}
+		// for s.ErrCode != gmcom.CElectComplete {
+		gm.chin <- s
+		s = <-gm.chout
+		//	log.Println("ELECTION: election not completed.  Waiting 500ms for restart...")
+		//	time.Sleep(500 * time.Millisecond)
+		// }
+
+		log.Println("PingHandler() complete")
+		return
+	}
+}
+
+// CoordinatorHandler deals with incoming coordinator messages sent by processes
+// stating that they are the new leader.
+func (gm *GMServ) CoordinatorHandler(ws *websocket.Conn) {
+	log.Println("COORDINATOR: in gm.CoordinatorHandler")
+
+	// decode the incoming COORDINATOR message and feed to inbound channel
+	c, err := gmcom.DecodeGMMessage(ws)
+	if err != nil {
+		log.Println("COORDINATOR: received /coordinator call with unreadable payload")
+		return
+	}
+
+	// check that the incoming message-type is correct
+	if c.Type != gmcom.CCoordinator {
+		log.Println("COORDINATOR: received /coordinator call with incorrect message-type.  got:", c.Type)
+		return
+	}
+
+	// set the new leader info in the GMServ struct and clear the InElection status
+	l := gmcom.GMMessage{
+		Type:            gmcom.CinSetLeader,
+		TargetID:        c.SubjectID,
+		TargetIPAddress: c.SubjectIPAddress,
+		InElection:      false,
+	}
+	gm.chin <- l
+	l = <-gm.chout
+}
+
+// JoinHandler deals with join websocket requests that have been accepted by the router.
+// It is implied that the caller is attempting to join the group by contacting the leader.
+// What to do if the local service is no longer the leader?
+func (gm *GMServ) JoinHandler(ws *websocket.Conn) {
+
+	// decode the incoming JOIN message and feed to inbound channel
+	m, err := gmcom.DecodeGMMessage(ws)
+	if err == nil {
+		gm.chin <- *m
+
+		// wait for the outbound channel to provide a ACK message
+		m2 := <-gm.chout
+
+		// gob-encode the ACK message for transmission
+		log.Println("JoinHandler() response GMMessage:", m2)
+		rawM2, err := gmcom.EncodeGMMessage(m2)
+		if err != nil {
+			// timeout the ws connection and drop a log message to stderr
+			log.Println("JoinHandler():", err)
+		} else {
+			_, err = ws.Write(rawM2)
+			if err != nil {
+				// did the sender disappear?  if so, this is suspicious,
+				// but the sender's pinger should pickup on the fact that
+				// the process is not responding.  if logging is enabled
+				// drop a message to stderr.
+				log.Println("JoinHandler() ws.Write response error:", err)
+			}
+		}
+	} else {
+		log.Println("JoinHandler error:", err)
+	}
+}
+
+// UsrUpdateHandler handles incoming traffic from other group-members containing information regarding
+// changes to the status of application Usr entities.
+func (gm *GMServ) UsrUpdateHandler(ws *websocket.Conn) {
+	log.Println("In UsrUpdateHandler!")
+
+	// gob decoding
+	var u gmcom.ActUsr
+	var msg = make([]byte, 1024)
+	l, err := ws.Read(msg)
+	if err != nil {
+		log.Printf("UsrUpdateHandler() ws.Read() error: %s", err)
+		return
+	}
+	raw := msg[0:l]
+	decBuf := bytes.NewBuffer(raw)
+	err = gob.NewDecoder(decBuf).Decode(&u)
+	if err != nil {
+		log.Printf("UsrUpdateHandler() gob.Decode() error: %s", err)
+		return
+	}
+
+	// update the local server's ActiveUsrs cache (map)
+	gm.ActUsrs.Lock()
+	gm.ActUsrs.ActiveUsrs[u.ID] = u.Active
+	gm.ActUsrs.Unlock()
+
+	// send to other group members?
+	if !u.Forward {
+		ws.Write([]byte("true"))
+		return
+	}
+	u.Forward = false
+
+	// send the update to all non-failed processes in the process group
+	// get a list of the active processes (this is inherently stale)
+	m := gm.SendGetLocalDetails()
+	if m == nil {
+		log.Println("Failed to read usr cache group server details in SendGetLocalDetails()")
+		ws.Write([]byte("false"))
+	}
+
+	// send process-id/article-key to group members
+	r := m.MemberMap.ReadActiveProcessList()
+	for _, g := range r {
+		if g.ID == gm.MyID {
+			continue
+		}
+		log.Printf("CS: SENDING %v to %s\n", u, g.IPAddress)
+		err := gmcl.AddUpdUsrCache(u, g.IPAddress) //TODO go()
+		if err != nil {
+			log.Println("wscl.AddUpdUsrCache() error:", err)
+		}
+	}
+	ws.Write([]byte("true"))
+}
+
+// LeaveHandler handles the announced departure of a process, thereby
+// facilitating its graceful exit from the membership group.  the
+// LeaveHandler must ensure that all processes are aware that the
+// process in question (Pj) has left the group.
+// Message Type == Leave
+func (gm *GMServ) LeaveHandler(ws *websocket.Conn) {
+
+	// gm.leaveHandler(...)
+}
+
+// SetHandler pushes the AU Article into the serialization channel
+func (gm *GMServ) SetHandler(ws *websocket.Conn) {
+
+	// decode the incoming Ping message and feed to the inbound
+	// GMMessage channel for processing.
+	m, err := gmcom.DecodeGMMessage(ws)
+	if err == nil {
+		gm.chin <- *m
+
+		// wait the outbound channel to provide a Ack message
+		// and then gob-encode it for transmission.
+		// m2 := <-gm.chout
+
+	}
+
+	m2 := <-gm.chout
+	rawM2, err := gmcom.EncodeGMMessage(m2)
+	if err != nil {
+		// timeout the ws connection
+		time.Sleep(2 * time.Second)
+	} else {
+		_, err = ws.Write(rawM2)
+		if err != nil {
+			// did the sender disappear?
+			// this is suspicious, but the sender's pinger should
+			// pickup on the fact that they are not responding?  if
+			// logging is enabled you may want to drop a message to
+			// stderr.
+		}
+	}
+}
+
+// ==== internal handler code
+// getPingTarget returns the salient attributes of process Pj
+func (gm *GMServ) getPingTarget() (*gmcom.GMMember, bool) {
+
+	m, ok := gm.memberMap.ReadCWNeighbour(gm.MyID)
+	if !ok {
+		return nil, ok
+	}
+	return &m, true
+}

@@ -78,8 +78,11 @@ func DefaultDBConfig() DBConfig {
 // generate the jwt-token in cases where the access token was not created
 // by an IDP.
 type Config struct {
-	Port           		int            		`json:"port"`
+	ExternalAddress     string              `json:"external_address"`
+	InternalAddress     string              `json:"internal_address"`
 	Env            		string         		`json:"env"`
+	PingCycle           uint                `json:"ping_cycle"`
+	FailureThreshold    uint64              `json:"failure_threshold"`
 	Pepper         		string         		`json:"pepper"`
 	Database       		DBConfig       		`json:"database"`
 	CertFile       		string         		`json:"cert_file"`
@@ -132,8 +135,11 @@ func DefaultServiceActivations() []ServiceActivation {
 // DefaultConfig returns the app's default config in a Config structure
 func DefaultConfig() Config {
 	return Config{
-		Port:           		{{.Port}},
+		ExternalAddress:        "{{.ExternalAddress}}",
+		InternalAddress:        "{{.InternalAddress}}",
 		Env:            		"{{.Env}}",
+		PingCycle:              {{.PingCycle}},
+		FailureThreshold:       {{.FailureThreshold}},
 		Pepper:         		"{{.Pepper}}",
 		Database:       		DefaultDBConfig(),
 		CertFile:       		"{{.CertFile}}",    // https

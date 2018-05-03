@@ -1,0 +1,119 @@
+package gmsrv
+
+//=============================================================================================
+// start of generated code: please do not modify this section 
+// code generated on {{ .GetDateTimeStamp }}
+//=============================================================================================
+
+import (
+	"bytes"
+	"encoding/gob"
+	"{{.AppPath}}/group/gmcom"
+	"fmt"
+	"golang.org/x/net/websocket"
+	"log"
+	"net"
+	"time"
+)
+
+// TxRxGMMessage sends message m to the target process (Pj) and
+// returns a pointer to the message response.  If no response message
+// is expected (for example gmcom.Coordinator), the response message
+// pointer and error == nil.  If an error occurs, the error return
+// parameter will be populated and the response message pointer will
+// == nil.
+func (gm *GMServ) TxRxGMMessage(m gmcom.GMMessage) (*gmcom.GMMessage, error) {
+
+	// set origin and target
+	origin := "http://" + gm.MyIPAddress
+	url := "ws://" + m.TargetIPAddress + m.TargetPath
+
+	// encode the source message as bytes
+	raw, err := gmcom.EncodeGMMessage(m)
+	if err != nil {
+		panic(fmt.Errorf("gmcl.TxRxGMMessage error: %s", err))
+	}
+
+	// connect to the target
+	log.Printf("websocket.Dial: %s\n", url)
+	config, _ := websocket.NewConfig(url, origin)
+	config.Dialer = &net.Dialer{
+		// Deadline: time.Now().Add(-time.Minute),
+		Deadline: time.Now().Add(5 * time.Second),
+	}
+
+	ws, err := websocket.DialConfig(config)
+	if err != nil {
+		log.Println("gm.TxRxGMMessage() ws connection failed - got:", err)
+		if ws != nil {
+			ws.Close()
+		}
+		return nil, err
+	}
+	defer ws.Close()
+	log.Printf("websocket.Dial: %s complete\n", url)
+
+	// send the encoded GMMessage
+	_, err = ws.Write(raw)
+	if err != nil {
+		log.Println("gm.TxRxGMMessage() ws.Write error - got:", err)
+		return nil, err
+	}
+
+	var msg = make([]byte, 2048)
+	raw = raw[:0]
+
+	// single read from the ws is okay here
+	l, err := ws.Read(msg)
+	if err != nil {
+		log.Println("gm.TxRxGMMessage() ws.Read error - got:", err)
+		return nil, err
+	}
+
+	// decode the returned message
+	rm := gmcom.GMMessage{}
+	raw = msg[0:l]
+	decBuf := bytes.NewBuffer(raw)
+	err = gob.NewDecoder(decBuf).Decode(&rm)
+	if err != nil {
+		log.Println("gm.TxRxGMMessage() gob.Decode() error - got:", err)
+		return nil, err
+	}
+	return &rm, nil
+}
+
+// TxGMMessage sends message m to the target process (Pj) and
+// returns an error occurs if there is a technical issue.
+func (gm *GMServ) TxGMMessage(m gmcom.GMMessage) error {
+
+	// set origin and target
+	origin := "http://" + gm.MyIPAddress
+	url := "ws://" + m.TargetIPAddress + m.TargetPath
+
+	// encode the source message as bytes
+	raw, err := gmcom.EncodeGMMessage(m)
+	if err != nil {
+		panic(fmt.Errorf("gm.TxGMMessage error: %s", err))
+	}
+
+	// connect to the target
+	log.Printf("websocket.Dial: %s\n", url)
+	ws, err := websocket.Dial(url, "", origin)
+	if err != nil {
+		log.Println("gm.TxGMMessage() ws connection failed - got:", err)
+		if ws != nil {
+			ws.Close()
+		}
+		return err
+	}
+	defer ws.Close()
+	log.Printf("websocket.Dial: %s complete\n", url)
+
+	// send the encoded GMMessage - successful write is enough validation
+	_, err = ws.Write(raw)
+	if err != nil {
+		log.Println("gm.TxGMMessage() ws.Write error - got:", err)
+		return err
+	}
+	return nil
+}
