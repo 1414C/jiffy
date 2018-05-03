@@ -8,7 +8,7 @@ While this is not for everybody, it does reduce the mental cost of entry and all
 
 ### Why write in Go?
 
-* Go has a strong standard library, thereby keeping dependencies on public packages to a minimum
+* Go has a good standard library, thereby keeping dependencies on public packages to a minimum
 * Go offers concurrency via lightweight threads known as goroutines
   * no blocking in the i/o layer during compute intensive tasks
   * no lost callbacks or broken promises
@@ -16,7 +16,7 @@ While this is not for everybody, it does reduce the mental cost of entry and all
 * Go offers type-safety
 * Go is a small language
 * Go projects compile to a static single binary which simplifies deployments
-* Go cross-compiles to virtually any platform and architecture; write and test on a chromebook - deploy to z/OS
+* Go cross-compiles to virtually any platform and architecture; write and test on a chromebook - deploy to ppc64/arm64/s390
 
 ### What does the Jiffy application provide?
 
@@ -1945,7 +1945,7 @@ ___
 * [ ] add extension-point support to validators
 * [x] add extension-point support to models
 * [ ] add opportunistic locking via etag concept / investigate rpc-based enqueue server
-* [ ] look at fast hash algorithms (murmur-2??)
+* [x] look at fast hash algorithms (murmur-2??) - xxhash
 * [x] add Href to entities as a common self-referential field
 * [x] update ReadModel() to accept new model format with relations
 * [ ] update ReadModel() to handle multiple model files
@@ -1980,22 +1980,22 @@ ___
 * [x] run go fmt on each file immediately following generation?
 * [x] remove the gorilla csrf dependency; the use of JWT's in a stateless application obviates the need for CSRF protection.
 * [x] run goimports on generated code
-* [ ] add the capability of automatically running go get (look at go dep) for missing packages in the dependency list
 * [ ] add capability to generate self-signed certs for local ssl testing
 * [ ] create github repo for generated code via https://godoc.org/github.com/google/go-github/github#RepositoriesService
 * [x] Bully-type leadership election algorithm via websockets
 * [x] election protocol will be unencrypted and will therefore need to be bound to a subnet that is not routable
 * [x] implement SWIM-type cross process group membership dissemintion
 * [x] examine simple clockwise Ping-Ack with Doorbell/Join group membership dissemination - rejeccted in favor of SWIM-type
-* [x]run cache and election protocols on the same subnet? - yes
-* [ ]set frame size to be flexible via the configuration file
-* [ ]test with large BLOB objects
-* [x]in JWT's where the UID field is filled, we need to carefully check the user-id, not just assume that a 'valid' jwt is okay to allow access.  check against cache.
-* [x]update cache API to normalize key-structure via murmur3 or some other fast-hash - rejected - simplified cache only handles usr in jiffy
-* [ ]Ensure that rune and byte types are fully accounted for
-* [ ]Consider the handling of binary-objects (images etc.)
-* [ ]Droplet deployment
-* [ ]NGinx
-* [ ]Cloud Foundry
-* [ ]Verify UTC date-time storage
-* [ ]Consider self-documenting the API via a $metadata end-point
+* [x] run cache and election protocols on the same subnet? - yes
+* [ ] set frame size to be flexible via the configuration file
+* [ ] test with large BLOB objects
+* [x] in JWT's where the UID field is filled, we need to carefully check the user-id, not just assume that a 'valid' jwt is okay to allow access.
+* [ ] cache usrgroup information in the same manner as usr
+* [x] update cache API to normalize key-structure via murmur3 or some other fast-hash - rejected - simplified cache only handles usr in jiffy
+* [ ] Ensure that rune and byte types are fully accounted for
+* [ ] Consider the handling of binary-objects (images etc.)
+* [ ] Droplet deployment
+* [ ] NGinx
+* [ ] Cloud Foundry
+* [ ] Verify UTC date-time storage
+* [ ] Consider self-documenting the API via a $metadata end-point
