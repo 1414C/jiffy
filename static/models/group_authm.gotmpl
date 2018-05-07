@@ -273,6 +273,10 @@ func (gs *groupauthSqac) Get(groupauth *GroupAuth) error {
 	if gs.handle.IsLog() {
 		fmt.Println("Get for table groupauth got:", groupauth)
 	}
+
+	if groupauth.GroupID == 0 || groupauth.AuthID == 0 {
+		return fmt.Errorf("groupauth %d not found", groupauth.ID)
+	}
 	return nil
 }
 

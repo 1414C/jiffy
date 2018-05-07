@@ -10,7 +10,6 @@ import (
 	"encoding/gob"
 	"fmt"
 	"log"
-	"sync"
 
 	"golang.org/x/net/websocket"
 )
@@ -111,19 +110,6 @@ type GMTarget struct {
 type GMLeaderSetterGetter interface {
 	GetDBLeader() (*GMLeader, error)
 	SetDBLeader(l GMLeader) error
-}
-
-// ActUsrs is used to support the active usr cache.
-type ActUsrs struct {
-	sync.RWMutex
-	ActiveUsrs map[uint64]bool
-}
-
-// ActUsr is a carrier structure for sending USRUPDATE messages to group-members.
-type ActUsr struct {
-	Forward bool
-	ID      uint64
-	Active  bool
 }
 
 // EncodeGMMessage is used to gob-encode a GMMessage for transmission

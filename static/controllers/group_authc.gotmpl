@@ -12,6 +12,8 @@ import (
 	"strconv"
 	"strings"
 
+	"{{.AppPath}}/group/gmcl"
+	"{{.AppPath}}/group/gmcom"
 	"{{.AppPath}}/models"
 	"github.com/gorilla/mux"
 )
@@ -19,12 +21,15 @@ import (
 // GroupAuthController is the GroupAuth controller type for route binding
 type GroupAuthController struct {
 	gs models.GroupAuthService
+	internalAddress string
+	GroupAuthsH     *gmcom.GroupAuthsH // cache
 }
 
 // NewGroupAuthController creates a new GroupAuthController
-func NewGroupAuthController(gs models.GroupAuthService) *GroupAuthController {
+func NewGroupAuthController(gs models.GroupAuthService, internalAddress string) *GroupAuthController {
 	return &GroupAuthController{
 		gs: gs,
+		internalAddress: internalAddress,
 	}
 }
 
@@ -61,6 +66,23 @@ func (gc *GroupAuthController) Create(w http.ResponseWriter, r *http.Request) {
 	}
 	groupauth.Href = urlString + strconv.FormatUint(uint64(groupauth.ID), 10)
 	respondWithJSON(w, http.StatusCreated, groupauth)
+
+	// make sure the groupauth info is in the local and group caches
+	// get the groupName and authNames
+	gu := gmcom.GroupAuthD{
+		Forward:   true,
+		ID:        g.ID,
+		GroupName: g.GroupName, // empty
+		AuthName:  g.AuthName,  // empty
+		GroupID:   g.GroupID,
+		AuthID:    g.AuthID,
+		Op:        gmcom.COpCreate,
+	}
+
+	err = gmcl.AddUpdGroupAuthCache(gu, gc.internalAddress)
+	if err != nil {
+		log.Println("GroupAuthController cache update error message:", err)
+	}
 }
 
 // Update facilitates the update of an existing GroupAuth.  This method is bound
@@ -107,6 +129,23 @@ func (gc *GroupAuthController) Update(w http.ResponseWriter, r *http.Request) {
 	}
 	groupauth.Href = urlString
 	respondWithJSON(w, http.StatusCreated, groupauth)
+
+	// update the groupauth info in the local and group caches
+	// get the groupName and authNames
+	gu := gmcom.GroupAuthD{
+		Forward:   true,
+		ID:        g.ID,
+		GroupName: g.GroupName, // empty
+		AuthName:  g.AuthName,  // empty
+		GroupID:   g.GroupID,
+		AuthID:    g.AuthID,
+		Op:        gmcom.COpUpdate,
+	}
+
+	err = gmcl.AddUpdGroupAuthCache(gu, gc.internalAddress)
+	if err != nil {
+		log.Println("GroupAuthController cache update error message:", err)
+	}
 }
 
 // Get facilitates the retrieval of an existing GroupAuth.  This method is bound
@@ -164,6 +203,19 @@ func (gc *GroupAuthController) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	respondWithHeader(w, http.StatusAccepted)
+
+	// make sure the groupauth info is in the local and group caches
+	// get the groupName and authNames
+	gu := gmcom.GroupAuthD{
+		Forward: true,
+		ID:      groupauth.ID,
+		Op:      gmcom.COpDelete,
+	}
+
+	err = gmcl.AddUpdGroupAuthCache(gu, gc.internalAddress)
+	if err != nil {
+		log.Println("GroupAuthController.Create cache update error message:", err)
+	}
 }
 
 // GetGroupAuths facilitates the retrieval of all existing GroupAuths.  This method is

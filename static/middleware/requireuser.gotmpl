@@ -30,14 +30,17 @@ type RequireUsr struct {
 	RSA256VerifyKey   *rsa.PublicKey
 	RSA384VerifyKey   *rsa.PublicKey
 	RSA512VerifyKey   *rsa.PublicKey
-	mapGA     map[string]map[string]bool // map[groupName]map[auth_name]bool
-	mapActiveUsrs     map[string]bool            // ref to a.activeUsrs!
-	ActUsrs           *gmcom.ActUsrs
+	// mapGA             map[string]map[string]bool // map[groupName]map[auth_name]bool
+	// mapActiveUsrs     map[string]bool            // ref to a.activeUsrs!
+	ActUsrsH    *gmcom.ActUsrsH
+	GroupAuthsH *gmcom.GroupAuthsH
+	AuthsH      *gmcom.AuthsH
+	UsrGroupsH  *gmcom.UsrGroupsH
 }
 
 // InitMW is used to initialize the usr authorization middleware
-func InitMW(Usr models.UsrService, jwtKeyMap map[string]interface{}, mapGroupAuths map[string]map[string]bool, actUsrs *gmcom.ActUsrs) (requireUser RequireUsr) {
- 	
+func InitMW(Usr models.UsrService, jwtKeyMap map[string]interface{}, groupAuths *gmcom.GroupAuthsH, actUsrs *gmcom.ActUsrsH, auths *gmcom.AuthsH, usrGroups *gmcom.UsrGroupsH) (requireUser RequireUsr) {
+	
 	var esVerifyKey *ecdsa.PublicKey
 	var rsVerifyKey *rsa.PublicKey
 	var ok bool
@@ -60,8 +63,10 @@ func InitMW(Usr models.UsrService, jwtKeyMap map[string]interface{}, mapGroupAut
 
 	{{end -}}
 	requireUser.Usr = Usr
- 	requireUser.mapGA = mapGroupAuths
-	requireUser.ActUsrs = actUsrs
+	requireUser.GroupAuthsH = groupAuths
+	requireUser.ActUsrsH = actUsrs
+	requireUser.AuthsH = auths
+	requireUser.UsrGroupsH = usrGroups
  	return requireUser
  }
 
@@ -69,31 +74,29 @@ func InitMW(Usr models.UsrService, jwtKeyMap map[string]interface{}, mapGroupAut
 func (mw *RequireUsr) CheckAuth(authName string, groups []string, id uint64) bool {
  
  	// no group auths setup - disallow all access
- 	if len(mw.mapGA) == 0 {
+ 	if len(mw.GroupAuthsH.GroupAuths) == 0 {
  		return false
  	}
 
 	// is the user active?
-	active := mw.ActUsrs.ActiveUsrs[id]
+	active := mw.ActUsrsH.ActiveUsrs[id]
 	fmt.Println("==============================================================")
-	fmt.Println("mw.ActUsrs.ActiveUsrs:", mw.ActUsrs.ActiveUsrs)
+	fmt.Println("mw.ActUsrsH.ActiveUsrs:", mw.ActUsrsH.ActiveUsrs)
+	fmt.Println("==============================================================")
+	fmt.Println("mw.GroupAuthsH.GroupAuths:", mw.GroupAuthsH.GroupAuths["Test Group 3"])
+	fmt.Println("==============================================================")
+	fmt.Println("mw.AuthsH.Auths:", mw.AuthsH.Auths)
+	fmt.Println("==============================================================")
+	fmt.Println("mw.UsrGroups.UsrGroupsH", mw.UsrGroupsH.GroupNames)
 	fmt.Println("==============================================================")
 	if !active {
 		return false
 	}
- 
- 	// iterate over the supplied group names and attempt to find
- 	// a matching group-auth combination in mw.mapGA.
-    // fmt.Println("groups:", groups)
-	// fmt.Println("mw.mapGA:", mw.mapGA)
-	// for k, v := range mw.mapGA {
-	//	fmt.Printf("k: %v v: %v\n", k, v)
-	// }
 
  	for _, g := range groups {
  
  		// nil here is odd but plausible
- 		mapAuths := mw.mapGA[g]
+ 		mapAuths := mw.GroupAuthsH.GroupAuths[g]
 		// fmt.Printf("mw.mapGA[%s] got: %v\n", g, mapAuths)
  		if mapAuths == nil || len(mapAuths) == 0 {
  			continue

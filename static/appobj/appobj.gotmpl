@@ -34,7 +34,6 @@ type AppObj struct {
 	router         	*mux.Router
 	// jwt support
 	jwtKeyMap      	map[string]interface{}
-	actUsrs   		*gmcom.ActUsrs
 }
 
 // RunMode defines the two basic operation modes
@@ -94,21 +93,30 @@ func (a *AppObj) Initialize(dev, prd, dr, rs, al, dl bool) {
 	// create Controllers
 	a.createControllers()
 
-	// initialize active usr buffer
-	a.initializeActiveUsrs()
+	// initialize active usr cache/buffer
+	a.initializeCachedActiveUsrs()
 	// a.actUsrs.ActiveUsrs["admin"] = false
+
+	// initialize the auths cache/buffer
+	a.initializeCachedAuths()
+
+	a.initializeCachedUsrGroups()
+
+	// intitialize the group auths cache/buffer
+	a.initializeCachedGroupAuths()
 
 	// initialize Routes
 	a.initializeRoutes()
 
 	// validate Auths against registered end-points
- 	auths := a.initializeAuths()
+	auths := a.initializeAuthsByRoute()
 	if auths == nil || len(auths) == 0 {
 		log.Println("Auth initialization did not return the current list of route authorizations.  The Super UsrGroup will not be updated...")
 	} else {
 		// assign all current Auths to the Super UsrGroup / rebuild Super UsrGroup Auths?
 		a.initializeSuperGroup(auths, rs)
 		if rs {
+			a.initializeCachedGroupAuths()
 			a.initializeRoutes()
 		}
 	}
@@ -213,53 +221,100 @@ func (a *AppObj) initializeJWTKeys() {
 // createControllers for each entity
 func (a *AppObj) createControllers() {
     a.usrC = controllers.NewUsrController(a.services.Usr, a.jwtKeyMap, a.cfg.JWTSignMethod, a.cfg.InternalAddress)
-	a.usrgroupC = controllers.NewUsrGroupController(a.services.UsrGroup)
-	a.authC = controllers.NewAuthController(a.services.Auth)
-	a.groupauthC = controllers.NewGroupAuthController(a.services.GroupAuth)
+	a.usrgroupC = controllers.NewUsrGroupController(a.services.UsrGroup, a.cfg.InternalAddress)
+	a.authC = controllers.NewAuthController(a.services.Auth, a.cfg.InternalAddress)
+	a.groupauthC = controllers.NewGroupAuthController(a.services.GroupAuth, a.cfg.InternalAddress)
     {{range .Entities -}} 
     a.{{.Header.Value}}C = controllers.New{{.Header.Name}}Controller(a.services.{{.Header.Name}}, *a.services)
     {{end -}}
 }
 
-// initialize the list of active usrs
-func (a *AppObj) initializeActiveUsrs() {
+// initialize the list of cached active usrs
+func (a *AppObj) initializeCachedActiveUsrs() {
 
-	a.usrC.ActUsrs = &gmcom.ActUsrs{}
-	a.usrC.ActUsrs.ActiveUsrs = make(map[uint64]bool)
+	if a.usrC.ActUsrsH != nil {
+		a.usrC.ActUsrsH.Lock()
+		defer a.usrC.ActUsrsH.Unlock()
+	}
+	a.usrC.ActUsrsH = &gmcom.ActUsrsH{}
+	a.usrC.ActUsrsH.ActiveUsrs = make(map[uint64]bool)
 	u := a.services.Usr.GetUsrs()
 	for _, v := range u {
 		if v.Active == true {
-			a.usrC.ActUsrs.ActiveUsrs[v.ID] = true
+			a.usrC.ActUsrsH.ActiveUsrs[v.ID] = true
 		}
 	}
 }
 
-// initializeRoutes creates routes and applies middleware
-func (a *AppObj) initializeRoutes() {
+// initialize the list of cached auths
+func (a *AppObj) initializeCachedAuths() {
 
-	// retrieve the group auth assignments for storage in the middleware cache
-	groupAuths := a.services.GroupAuth.GetGroupAuths()
-	mapGroupAuths := make(map[string]map[string]bool) // [groupName][authName]true
-	for _, v := range groupAuths {
+	// use mutex as a precautionary measure in case the method is called in a running process
+	if a.authC.AuthsH != nil {
+		a.authC.AuthsH.Lock()
+		defer a.authC.AuthsH.Unlock()
+	}
+	a.authC.AuthsH = &gmcom.AuthsH{}
+	a.authC.AuthsH.Auths = make(map[uint64]string)
+	at := a.services.Auth.GetAuths()
+	for _, v := range at {
+		a.authC.AuthsH.Auths[v.ID] = v.AuthName
+	}
+}
 
-		// if the groupName does not exist in the top-level map, create
-		// a new authMap for that group, then add the group and the auth
+// initialize the list of cached usrgroups
+func (a *AppObj) initializeCachedUsrGroups() {
+
+	// use mutex as a precautionary measure in case the method is called in a running process
+	if a.usrgroupC.UsrGroupsH != nil {
+		a.usrgroupC.UsrGroupsH.Lock()
+		defer a.usrgroupC.UsrGroupsH.Unlock()
+	}
+	a.usrgroupC.UsrGroupsH = &gmcom.UsrGroupsH{}
+	a.usrgroupC.UsrGroupsH.GroupNames = make(map[uint64]string)
+	ug := a.services.UsrGroup.GetUsrGroups()
+	for _, v := range ug {
+		a.usrgroupC.UsrGroupsH.GroupNames[v.ID] = v.GroupName
+	}
+}
+
+// initialize the list of cached groupauths
+func (a *AppObj) initializeCachedGroupAuths() {
+
+	// use mutex as a precautionary measure in case the method is called in a running process
+	if a.groupauthC.GroupAuthsH != nil {
+		a.groupauthC.GroupAuthsH.Lock()
+		defer a.groupauthC.GroupAuthsH.Unlock()
+	}
+	a.groupauthC.GroupAuthsH = &gmcom.GroupAuthsH{}
+	a.groupauthC.GroupAuthsH.GroupAuths = make(map[string]map[string]bool)
+	a.groupauthC.GroupAuthsH.GroupAuthsID = make(map[uint64]gmcom.GroupAuthNames) // deletion support
+	g := a.services.GroupAuth.GetGroupAuths()
+	for _, v := range g {
+		// create a new authMap for the group, then add the group and the auth
 		// to mapGroupAuths
-		mapAuth := mapGroupAuths[v.GroupName]
+		mapAuth := a.groupauthC.GroupAuthsH.GroupAuths[v.GroupName]
 		if mapAuth == nil {
 			mapAuth = make(map[string]bool)
 			mapAuth[v.AuthName] = true
-			mapGroupAuths[v.GroupName] = mapAuth
+			a.groupauthC.GroupAuthsH.GroupAuths[v.GroupName] = mapAuth
 			continue
 		}
 
 		// if the groupName does exist in the top-level map, add the auth to
 		// the group's auth map
 		mapAuth[v.AuthName] = true
+
+		// add the groupauth to the ID-based cache map
+		a.groupauthC.GroupAuthsH.GroupAuthsID[v.ID] = gmcom.GroupAuthNames{GroupName: v.GroupName, AuthName: v.AuthName}
 	}
+}
+
+// initializeRoutes creates routes and applies middleware
+func (a *AppObj) initializeRoutes() {
 
 	// create the RequireUsr middleware to ensure page access is secure.
-	requireUserMw := middleware.InitMW(a.services.Usr, a.jwtKeyMap, mapGroupAuths, a.usrC.ActUsrs)
+	requireUserMw := middleware.InitMW(a.services.Usr, a.jwtKeyMap, a.groupauthC.GroupAuthsH, a.usrC.ActUsrsH, a.authC.AuthsH, a.usrgroupC.UsrGroupsH)
 
 	// construct a map of local service activations
 	svcActv := make(map[string]bool)
@@ -452,12 +507,12 @@ func (a *AppObj) getRouteNames() (authNames []string) {
 	return authNames
 }
 
-// initializeAuths loads the existing Auths from the db, then
+// initializeAuthsByRoute loads the existing Auths from the db, then
 // examines the current set of routes (route.Names).  Missing
 // Auths are then created.  Auths that are no longer required
 // could be reported to stdout at this point, but for now they
 // are ignored.
-func (a *AppObj) initializeAuths() map[string]uint64 {
+func (a *AppObj) initializeAuthsByRoute() map[string]uint64 {
 
 	var pendingAuths []string
 
@@ -586,9 +641,9 @@ func (a *AppObj) initializeAdminUsr() {
 	log.Printf("admin user created with ID: %v and initial password of %v\n", usrAdmin.ID, "initpass")
 
 	// add the admin usr to the local cache
-	a.actUsrs.Lock()
-	a.actUsrs.ActiveUsrs[usrAdmin.ID] = true
-	a.actUsrs.Unlock()
+	a.usrC.ActUsrsH.Lock()
+	a.usrC.ActUsrsH.ActiveUsrs[usrAdmin.ID] = true
+	a.usrC.ActUsrsH.Unlock()
 }
 
 // Run the application
@@ -596,7 +651,7 @@ func (a *AppObj) Run(lsg gmcom.GMLeaderSetterGetter) {
 
 	// start the group-membership server
 	gv := &gmsrv.GMServ{}
-	go gv.Serve(a.cfg.InternalAddress, lsg, a.usrC.ActUsrs, true, a.cfg.PingCycle, a.cfg.FailureThreshold)
+	go gv.Serve(a.cfg.InternalAddress, lsg, a.usrC.ActUsrsH, a.groupauthC.GroupAuthsH, a.authC.AuthsH, a.usrgroupC.UsrGroupsH, true, a.cfg.PingCycle, a.cfg.FailureThreshold)
 
 	// close db connection later
 	defer a.services.Close()

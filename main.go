@@ -210,7 +210,6 @@ func main() {
 	// ensure the group folder exists
 	d := *projectPath + "/group"
 	_, err = os.Stat(d)
-	fmt.Println("err:", err)
 	if err != nil {
 		os.Mkdir(d, 0755)
 	}

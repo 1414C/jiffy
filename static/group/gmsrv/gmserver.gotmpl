@@ -25,7 +25,7 @@ import (
 // GMServInt outlines the core group membership interface.
 type GMServInt interface {
 	processCmdChannel()
-	Serve(myIPAddress string, lsg gmcom.GMLeaderSetterGetter, actUsrs *gmcom.ActUsrs, logging bool, evlCycle uint, failureThreshold uint64)
+	Serve(myIPAddress string, lsg gmcom.GMLeaderSetterGetter, actUsrs *gmcom.ActUsrsH, groupAuths *gmcom.GroupAuthsH, auths *gmcom.AuthsH, usrGroups *gmcom.UsrGroupsH, logging bool, evlCycle uint, failureThreshold uint64)
 }
 
 // GMServHandlerInt outlines the group-membership related web-socket handlers.
@@ -74,7 +74,10 @@ type GMServ struct {
 	count            int
 	HTTPServer       *http.Server
 	LSG              gmcom.GMLeaderSetterGetter
-	ActUsrs          *gmcom.ActUsrs
+	ActUsrsH         *gmcom.ActUsrsH
+	GroupAuthsH      *gmcom.GroupAuthsH
+	AuthsH           *gmcom.AuthsH
+	UsrGroupsH       *gmcom.UsrGroupsH
 	InElection       bool // true/false
 	GMServInt
 	GMServHandlerInt
@@ -89,7 +92,7 @@ var _ GMServSenderInt = &GMServ{}
 var _ GMServHandlerInt = &GMServ{}
 
 // init an empty gm server
-func (gm *GMServ) initialize(myIPAddress string, lsg gmcom.GMLeaderSetterGetter, actUsrs *gmcom.ActUsrs, logging bool, failureThreshold uint32) error {
+func (gm *GMServ) initialize(myIPAddress string, lsg gmcom.GMLeaderSetterGetter, actUsrs *gmcom.ActUsrsH, groupAuths *gmcom.GroupAuthsH, auths *gmcom.AuthsH, usrGroups *gmcom.UsrGroupsH, logging bool, failureThreshold uint32) error {
 
 	//log.SetFlags(0)
 
@@ -113,7 +116,10 @@ func (gm *GMServ) initialize(myIPAddress string, lsg gmcom.GMLeaderSetterGetter,
 	gm.MyIncarnation = 1
 	gm.LSG = lsg
 	gm.Log = logging
-	gm.ActUsrs = actUsrs
+	gm.ActUsrsH = actUsrs
+	gm.GroupAuthsH = groupAuths
+	gm.AuthsH = auths
+	gm.UsrGroupsH = usrGroups
 
 	// initialize the members ordered map
 	if gm.memberMap == nil {
@@ -546,9 +552,9 @@ func (gm *GMServ) processCmdChannel() {
 }
 
 // Serve starts the group membership server
-func (gm *GMServ) Serve(myIPAddress string, lsg gmcom.GMLeaderSetterGetter, actUsrs *gmcom.ActUsrs, logging bool, evlCycle uint, failureThreshold uint64) {
+func (gm *GMServ) Serve(myIPAddress string, lsg gmcom.GMLeaderSetterGetter, actUsrs *gmcom.ActUsrsH, groupAuths *gmcom.GroupAuthsH, auths *gmcom.AuthsH, usrGroups *gmcom.UsrGroupsH, logging bool, evlCycle uint, failureThreshold uint64) {
 	ft := uint32(failureThreshold) // 64-bit atomic alignment mitigation for 32-bit ARM
-	err := gm.initialize(myIPAddress, lsg, actUsrs, logging, ft)
+	err := gm.initialize(myIPAddress, lsg, actUsrs, groupAuths, auths, usrGroups, logging, ft)
 	if err != nil {
 		panic("Serve()" + err.Error())
 	}
@@ -561,6 +567,9 @@ func (gm *GMServ) Serve(myIPAddress string, lsg gmcom.GMLeaderSetterGetter, actU
 	mux.Handle("/coordinator", websocket.Handler(gm.CoordinatorHandler))
 
 	mux.Handle("/updateusrcache", websocket.Handler(gm.UsrUpdateHandler))
+	mux.Handle("/updategroupauthcache", websocket.Handler(gm.GroupAuthUpdateHandler))
+	mux.Handle("/updateauthcache", websocket.Handler(gm.AuthUpdateHandler))
+	mux.Handle("/updateusrgroupcache", websocket.Handler(gm.UsrGroupUpdateHandler))
 	mux.Handle("/set", websocket.Handler(gm.SetHandler))
 
 	wg := sync.WaitGroup{}
@@ -908,7 +917,7 @@ func (gm *GMServ) UsrUpdateHandler(ws *websocket.Conn) {
 	log.Println("In UsrUpdateHandler!")
 
 	// gob decoding
-	var u gmcom.ActUsr
+	var u gmcom.ActUsrD
 	var msg = make([]byte, 1024)
 	l, err := ws.Read(msg)
 	if err != nil {
@@ -924,9 +933,9 @@ func (gm *GMServ) UsrUpdateHandler(ws *websocket.Conn) {
 	}
 
 	// update the local server's ActiveUsrs cache (map)
-	gm.ActUsrs.Lock()
-	gm.ActUsrs.ActiveUsrs[u.ID] = u.Active
-	gm.ActUsrs.Unlock()
+	gm.ActUsrsH.Lock()
+	gm.ActUsrsH.ActiveUsrs[u.ID] = u.Active
+	gm.ActUsrsH.Unlock()
 
 	// send to other group members?
 	if !u.Forward {
@@ -957,6 +966,228 @@ func (gm *GMServ) UsrUpdateHandler(ws *websocket.Conn) {
 	}
 	ws.Write([]byte("true"))
 }
+
+// GroupAuthUpdateHandler handles incoming traffic from other group-members containing information regarding
+// changes to GroupAuth entities.
+func (gm *GMServ) GroupAuthUpdateHandler(ws *websocket.Conn) {
+	log.Println("In GroupAuthUpdateHandler!")
+
+	// gob decoding
+	var ga gmcom.GroupAuthD
+	var msg = make([]byte, 1024)
+	l, err := ws.Read(msg)
+	if err != nil {
+		log.Printf("GroupAuthUpdateHandler() ws.Read() error: %s", err)
+		return
+	}
+	raw := msg[0:l]
+	decBuf := bytes.NewBuffer(raw)
+	err = gob.NewDecoder(decBuf).Decode(&ga)
+	if err != nil {
+		log.Printf("GroupAuthUpdateHandler() gob.Decode() error: %s", err)
+		return
+	}
+
+	// lookup the groupName and authName
+	ga.GroupName = gm.UsrGroupsH.GroupNames[ga.GroupID]
+	ga.AuthName = gm.AuthsH.Auths[ga.AuthID]
+	if ga.GroupName == "" || ga.AuthName == "" {
+		log.Printf("GroupAuthUpdateHandler() could not update with GroupName: %s and AuthName: %s", ga.GroupName, ga.AuthName)
+		return
+	}
+
+	// update the local server's GroupAuths cache (map)
+	switch ga.Op {
+	case gmcom.COpCreate, gmcom.COpUpdate:
+		// do the local cache update
+		gm.GroupAuthsH.Lock()
+		mapAuth := gm.GroupAuthsH.GroupAuths[ga.GroupName]
+		if mapAuth == nil {
+			mapAuth = make(map[string]bool)
+			mapAuth[ga.AuthName] = true
+			gm.GroupAuthsH.GroupAuths[ga.GroupName] = mapAuth
+		} else {
+			// if the groupName does exist in the top-level map, add the auth to
+			// the group's auth map.
+			mapAuth[ga.AuthName] = true
+		}
+
+		gm.GroupAuthsH.GroupAuthsID[ga.ID] = gmcom.GroupAuthNames{GroupName: ga.GroupName, AuthName: ga.AuthName}
+		gm.GroupAuthsH.Unlock()
+
+	case gmcom.COpDelete:
+		gm.GroupAuthsH.Lock()
+		mapAuth := gm.GroupAuthsH.GroupAuths[ga.GroupName]
+		if mapAuth != nil {
+			delete(mapAuth, ga.AuthName)
+		}
+		delete(gm.GroupAuthsH.GroupAuthsID, ga.ID)
+		gm.GroupAuthsH.Unlock()
+
+	default:
+		// do nothing
+	}
+
+	// send to other group members?
+	if !ga.Forward {
+		ws.Write([]byte("true"))
+		return
+	}
+	ga.Forward = false
+
+	// send the update to all non-failed processes in the process group
+	// get a list of the active processes (this is inherently stale)
+	m := gm.SendGetLocalDetails()
+	if m == nil {
+		log.Println("Failed to read groupauth cache group server details in SendGetLocalDetails()")
+		ws.Write([]byte("false"))
+	}
+
+	// send process-id/article-key to group members
+	r := m.MemberMap.ReadActiveProcessList()
+	for _, g := range r {
+		if g.ID == gm.MyID {
+			continue
+		}
+		log.Printf("CS: SENDING %v to %s\n", ga, g.IPAddress)
+		err := gmcl.AddUpdGroupAuthCache(ga, g.IPAddress) //TODO go()
+		if err != nil {
+			log.Println("wscl.AddUpdGroupAuthCache() error:", err)
+		}
+	}
+	ws.Write([]byte("true"))
+}
+
+// AuthUpdateHandler handles incoming traffic from other group-members containing information regarding
+// changes to the status of application Auth entities.
+func (gm *GMServ) AuthUpdateHandler(ws *websocket.Conn) {
+	log.Println("In AuthUpdateHandler!")
+
+	// gob decoding
+	var a gmcom.AuthD
+	var msg = make([]byte, 1024)
+	l, err := ws.Read(msg)
+	if err != nil {
+		log.Printf("AuthUpdateHandler() ws.Read() error: %s", err)
+		return
+	}
+	raw := msg[0:l]
+	decBuf := bytes.NewBuffer(raw)
+	err = gob.NewDecoder(decBuf).Decode(&a)
+	if err != nil {
+		log.Printf("AuthUpdateHandler() gob.Decode() error: %s", err)
+		return
+	}
+
+	// update the local server's ActiveUsrs cache (map)
+	switch a.Op {
+	case gmcom.COpCreate, gmcom.COpUpdate:
+		gm.AuthsH.Lock()
+		gm.AuthsH.Auths[a.ID] = a.AuthName
+		gm.AuthsH.Unlock()
+	case gmcom.COpDelete:
+		gm.AuthsH.Lock()
+		delete(gm.AuthsH.Auths, a.ID)
+		gm.AuthsH.Unlock()
+	default:
+		// do nothing
+	}
+
+	// send to other group members?
+	if !a.Forward {
+		ws.Write([]byte("true"))
+		return
+	}
+	a.Forward = false
+
+	// send the update to all non-failed processes in the process group
+	// get a list of the active processes (this is inherently stale)
+	m := gm.SendGetLocalDetails()
+	if m == nil {
+		log.Println("Failed to read auth cache group server details in SendGetLocalDetails()")
+		ws.Write([]byte("false"))
+	}
+
+	// send process-id/article-key to group members
+	r := m.MemberMap.ReadActiveProcessList()
+	for _, g := range r {
+		if g.ID == gm.MyID {
+			continue
+		}
+		log.Printf("CS: SENDING %v to %s\n", a, g.IPAddress)
+		err := gmcl.AddUpdAuthCache(a, g.IPAddress) //TODO go()
+		if err != nil {
+			log.Println("wscl.AddUpdAuthCache() error:", err)
+		}
+	}
+	ws.Write([]byte("true"))
+}
+
+// UsrGroupUpdateHandler handles incoming traffic from other group-members containing information regarding
+// changes to the status of application UsrGroup entities.
+func (gm *GMServ) UsrGroupUpdateHandler(ws *websocket.Conn) {
+	log.Println("In UsrGroupUpdateHandler!")
+
+	// gob decoding
+	var ug gmcom.UsrGroupD
+	var msg = make([]byte, 1024)
+	l, err := ws.Read(msg)
+	if err != nil {
+		log.Printf("UsrGroupUpdateHandler() ws.Read() error: %s", err)
+		return
+	}
+	raw := msg[0:l]
+	decBuf := bytes.NewBuffer(raw)
+	err = gob.NewDecoder(decBuf).Decode(&ug)
+	if err != nil {
+		log.Printf("UsrGroupUpdateHandler() gob.Decode() error: %s", err)
+		return
+	}
+
+	// update the local server's UsrGroup cache (map)
+	switch ug.Op {
+	case gmcom.COpCreate, gmcom.COpUpdate:
+		gm.UsrGroupsH.Lock()
+		gm.UsrGroupsH.GroupNames[ug.ID] = ug.GroupName
+		gm.UsrGroupsH.Unlock()
+	case gmcom.COpDelete:
+		gm.UsrGroupsH.Lock()
+		delete(gm.UsrGroupsH.GroupNames, ug.ID)
+		gm.UsrGroupsH.Unlock()
+	default:
+		// do nothing
+	}
+
+	// send to other group members?
+	if !ug.Forward {
+		ws.Write([]byte("true"))
+		return
+	}
+	ug.Forward = false
+
+	// send the update to all non-failed processes in the process group
+	// get a list of the active processes (this is inherently stale)
+	m := gm.SendGetLocalDetails()
+	if m == nil {
+		log.Println("Failed to read usrgroup cache group server details in SendGetLocalDetails()")
+		ws.Write([]byte("false"))
+	}
+
+	// send process-id/article-key to group members
+	r := m.MemberMap.ReadActiveProcessList()
+	for _, g := range r {
+		if g.ID == gm.MyID {
+			continue
+		}
+		log.Printf("CS: SENDING %v to %s\n", ug, g.IPAddress)
+		err := gmcl.AddUpdUsrGroupCache(ug, g.IPAddress) //TODO go()
+		if err != nil {
+			log.Println("wscl.AddUpdUsrGroupCache() error:", err)
+		}
+	}
+	ws.Write([]byte("true"))
+}
+
 
 // LeaveHandler handles the announced departure of a process, thereby
 // facilitating its graceful exit from the membership group.  the

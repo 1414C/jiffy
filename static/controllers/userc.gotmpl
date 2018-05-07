@@ -22,7 +22,7 @@ type UsrController struct {
 	jwtKeyMap 		map[string]interface{}
 	jwtSignMethod 	string
 	internalAddress string
-	ActUsrs         *gmcom.ActUsrs
+	ActUsrsH         *gmcom.ActUsrsH //cache
 }
 
 // Token is the jwt return type
@@ -412,18 +412,14 @@ func fatal(err error) {
 func (uc *UsrController) disseminateUsrChange(id uint64, fwd, active bool) {
 
 	// make sure the usr info is in the local and group caches
-	au := gmcom.ActUsr{
+	au := gmcom.ActUsrD{
 		Forward: fwd,
 		ID:      id,
 		Active:  active,
 	}
 
-	uc.ActUsrs.Lock()
-	uc.ActUsrs.ActiveUsrs[id] = active
-	uc.ActUsrs.Unlock()
-
 	err := gmcl.AddUpdUsrCache(au, uc.internalAddress)
 	if err != nil {
-		log.Println("UsrController.Create cache update error message:", err)
+		log.Println("UsrController cache update error message:", err)
 	}
 }

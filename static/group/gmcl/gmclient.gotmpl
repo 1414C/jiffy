@@ -62,8 +62,8 @@ func GetErrorTest() error {
 
 // AddUpdUsrCache adds or updates an entry in the local usr cache, resulting
 // in a cascaded dispatch of the same call to all non-failed group-members.
-// err := AddUpdUsrCache(gmcom.ActUsr{Email:test@test.com, Active:true}, "192.168.1.66:4444")
-func AddUpdUsrCache(u gmcom.ActUsr, address string) error {
+// err := AddUpdUsrCache(gmcom.ActUsrD{Email:test@test.com, Active:true}, "192.168.1.66:4444")
+func AddUpdUsrCache(u gmcom.ActUsrD, address string) error {
 
 	// gob encode the Usr data
 	encBuf := new(bytes.Buffer)
@@ -105,6 +105,154 @@ func AddUpdUsrCache(u gmcom.ActUsr, address string) error {
 		// cw <- na
 	} else {
 		return fmt.Errorf("AddUpdUsrCache() appeared to fail - got %v(raw),%v(string)", msg[:n], string(msg[:n]))
+	}
+	return nil
+}
+
+
+// AddUpdGroupAuthCache adds or updates an entry in the local group-auth cache, resulting
+// in a cascaded dispatch of the same call to all non-failed group-members.
+// err := AddUpdGroupAuthCache(gmcom.ActUsr{Email:test@test.com, Active:true}, "192.168.1.66:4444")
+func AddUpdGroupAuthCache(g gmcom.GroupAuthD, address string) error {
+
+	// gob encode the GroupAuth data
+	encBuf := new(bytes.Buffer)
+	err := gob.NewEncoder(encBuf).Encode(g)
+	if err != nil {
+		log.Println("failed to gob-encode GroupAuth - got:", err)
+		return err
+	}
+	encGA := encBuf.Bytes()
+
+	// connect to remote cache server
+	origin := "http://localhost/"
+	url := "ws://" + address + "/updategroupauthcache"
+	ws, err := websocket.Dial(url, "", origin)
+	if err != nil {
+		log.Println("AddUpdGroupAuthCache() ws connection failed - got:", err)
+		return err
+	}
+	defer ws.Close()
+
+	// push the encoded (reduced) GroupAuth
+	_, err = ws.Write(encGA)
+	if err != nil {
+		log.Println("AddUpdGroupAuthCache() ws.Write error - got:", err)
+		return err
+	}
+
+	var msg = make([]byte, 64)
+
+	// single read from the ws is okay here
+	n, err := ws.Read(msg)
+	if err != nil {
+		log.Println("AddUpdGroupAuthCache() ws.Read error - got:", err)
+		return err
+	}
+
+	// if update is confirmed do a little dance =)
+	if string(msg[:n]) == "true" {
+		// cw <- na
+	} else {
+		return fmt.Errorf("AddUpdGroupAuthCache() appeared to fail - got %v(raw),%v(string)", msg[:n], string(msg[:n]))
+	}
+	return nil
+}
+
+// AddUpdAuthCache adds or updates an entry in the local auth cache, resulting
+// in a cascaded dispatch of the same call to all non-failed group-members.
+// err := AddUpdUsrCache(gmcom.ActUsr{Email:test@test.com, Active:true}, "192.168.1.66:4444")
+func AddUpdAuthCache(a gmcom.AuthD, address string) error {
+
+	// gob encode the Usr data
+	encBuf := new(bytes.Buffer)
+	err := gob.NewEncoder(encBuf).Encode(a)
+	if err != nil {
+		log.Println("failed to gob-encode Usr - got:", err)
+		return err
+	}
+	encAuth := encBuf.Bytes()
+
+	// connect to remote cache server
+	origin := "http://localhost/"
+	url := "ws://" + address + "/updateauthcache"
+	ws, err := websocket.Dial(url, "", origin)
+	if err != nil {
+		log.Println("AddUpdAuthCache() ws connection failed - got:", err)
+		return err
+	}
+	defer ws.Close()
+
+	// push the encoded Auth
+	_, err = ws.Write(encAuth)
+	if err != nil {
+		log.Println("AddUpdAuthCache() ws.Write error - got:", err)
+		return err
+	}
+
+	var msg = make([]byte, 64)
+
+	// single read from the ws is okay here
+	n, err := ws.Read(msg)
+	if err != nil {
+		log.Println("AddUpdAuthCache() ws.Read error - got:", err)
+		return err
+	}
+
+	// if update is confirmed do a little dance =)
+	if string(msg[:n]) == "true" {
+		// cw <- na
+	} else {
+		return fmt.Errorf("AddUpdAuthCache() appeared to fail - got %v(raw),%v(string)", msg[:n], string(msg[:n]))
+	}
+	return nil
+}
+
+// AddUpdUsrGroupCache adds or updates an entry in the local usrgroup cache, resulting
+// in a cascaded dispatch of the same call to all non-failed group-members.
+// err := AddUpdUsrGroupCache(gmcom.ActUsr{Email:test@test.com, Active:true}, "192.168.1.66:4444")
+func AddUpdUsrGroupCache(a gmcom.UsrGroupD, address string) error {
+
+	// gob encode the UsrGroup data
+	encBuf := new(bytes.Buffer)
+	err := gob.NewEncoder(encBuf).Encode(a)
+	if err != nil {
+		log.Println("failed to gob-encode Usr - got:", err)
+		return err
+	}
+	encAuth := encBuf.Bytes()
+
+	// connect to remote cache server
+	origin := "http://localhost/"
+	url := "ws://" + address + "/updateusrgroupcache"
+	ws, err := websocket.Dial(url, "", origin)
+	if err != nil {
+		log.Println("AddUpdUsrGroupCache() ws connection failed - got:", err)
+		return err
+	}
+	defer ws.Close()
+
+	// push the encoded UsrGroup
+	_, err = ws.Write(encAuth)
+	if err != nil {
+		log.Println("AddUpdUsrGroupdCache() ws.Write error - got:", err)
+		return err
+	}
+
+	var msg = make([]byte, 64)
+
+	// single read from the ws is okay here
+	n, err := ws.Read(msg)
+	if err != nil {
+		log.Println("AddUpdUsrGroupCache() ws.Read error - got:", err)
+		return err
+	}
+
+	// if update is confirmed do a little dance =)
+	if string(msg[:n]) == "true" {
+		// cw <- na
+	} else {
+		return fmt.Errorf("AddUpdUsrGroupCache() appeared to fail - got %v(raw),%v(string)", msg[:n], string(msg[:n]))
 	}
 	return nil
 }

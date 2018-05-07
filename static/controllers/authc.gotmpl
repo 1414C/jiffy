@@ -12,6 +12,8 @@ import (
 	"strconv"
 	"strings"
 
+	"{{.AppPath}}/group/gmcl"
+	"{{.AppPath}}/group/gmcom"
 	"{{.AppPath}}/models"
 	"github.com/gorilla/mux"
 )
@@ -19,12 +21,15 @@ import (
 // AuthController is the Auth controller type for route binding
 type AuthController struct {
 	as models.AuthService
+	internalAddress string
+	AuthsH          *gmcom.AuthsH // cache
 }
 
 // NewAuthController creates a new AuthController
-func NewAuthController(as models.AuthService) *AuthController {
+func NewAuthController(as models.AuthService, internalAddress string) *AuthController {
 	return &AuthController{
 		as: as,
+		internalAddress: internalAddress,
 	}
 }
 
@@ -62,6 +67,9 @@ func (ac *AuthController) Create(w http.ResponseWriter, r *http.Request) {
 	}
 	auth.Href = urlString + strconv.FormatUint(uint64(auth.ID), 10)
 	respondWithJSON(w, http.StatusCreated, auth)
+
+	// disseminate the new auth info to self and group-members if any
+	ac.disseminateAuthChange(auth.ID, true, auth.AuthName, gmcom.COpCreate)
 }
 
 // Update facilitates the update of an existing Auth.  This method is bound
@@ -109,6 +117,9 @@ func (ac *AuthController) Update(w http.ResponseWriter, r *http.Request) {
 	}
 	auth.Href = urlString
 	respondWithJSON(w, http.StatusCreated, auth)
+
+	// disseminate the updated auth info to self and group-members if any
+	ac.disseminateAuthChange(auth.ID, true, auth.AuthName, gmcom.COpUpdate)
 }
 
 // Get facilitates the retrieval of an existing Auth.  This method is bound
@@ -166,6 +177,9 @@ func (ac *AuthController) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	respondWithHeader(w, http.StatusAccepted)
+
+	// disseminate the deleted auth info to self and group-members if any
+	ac.disseminateAuthChange(auth.ID, true, auth.AuthName, gmcom.COpDelete)
 }
 
 // GetAuths facilitates the retrieval of all existing Auths.  This method is
@@ -264,5 +278,24 @@ func (ac *AuthController) GetAuthsByDescription(w http.ResponseWriter, r *http.R
 		return
 	}
 	respondWithJSON(w, http.StatusOK, "[]")
+}
+
+// disseminateAuthChange updates the local AuthController's Auths cache directly,
+// and then forwards the updated Auth information to all other group-members that
+// are in a non-failed status.
+func (ac *AuthController) disseminateAuthChange(id uint64, fwd bool, authName string, op gmcom.OpType) {
+
+	// make sure the auth info is in the local and group caches
+	aa := gmcom.AuthD{
+		Forward:  fwd,
+		ID:       id,
+		AuthName: authName,
+		Op:       op,
+	}
+
+	err := gmcl.AddUpdAuthCache(aa, ac.internalAddress)
+	if err != nil {
+		log.Println("AuthController cache update error message:", err)
+	}
 }
 

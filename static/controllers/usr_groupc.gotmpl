@@ -12,6 +12,8 @@ import (
 	"strconv"
 	"strings"
 
+	"{{.AppPath}}/group/gmcl"
+	"{{.AppPath}}/group/gmcom"
 	"{{.AppPath}}/models"
 	"github.com/gorilla/mux"
 )
@@ -19,12 +21,15 @@ import (
 // UsrGroupController is the usrGroup controller type for route binding
 type UsrGroupController struct {
 	us models.UsrGroupService
+	internalAddress string
+	UsrGroupsH      *gmcom.UsrGroupsH // cache
 }
 
 // NewUsrGroupController creates a new UsrGroupController
-func NewUsrGroupController(us models.UsrGroupService) *UsrGroupController {
+func NewUsrGroupController(us models.UsrGroupService, internalAddress string) *UsrGroupController {
 	return &UsrGroupController{
 		us: us,
+		internalAddress: internalAddress,
 	}
 }
 
@@ -63,6 +68,9 @@ func (uc *UsrGroupController) Create(w http.ResponseWriter, r *http.Request) {
 	}
 	usrgroup.Href = urlString + strconv.FormatUint(uint64(usrgroup.ID), 10)
 	respondWithJSON(w, http.StatusCreated, usrgroup)
+
+	// disseminate the new usrgroup info to self and group-members if any
+	uc.disseminateUsrGroupChange(usrgroup.ID, true, usrgroup.GroupName, gmcom.COpCreate)
 }
 
 // Update facilitates the update of an existing UsrGroup.  This method is bound
@@ -109,6 +117,9 @@ func (uc *UsrGroupController) Update(w http.ResponseWriter, r *http.Request) {
 	}
 	usrgroup.Href = urlString
 	respondWithJSON(w, http.StatusCreated, usrgroup)
+
+	// disseminate the updated usrgroup info to self and group-members if any
+	uc.disseminateUsrGroupChange(usrgroup.ID, true, usrgroup.GroupName, gmcom.COpUpdate)
 }
 
 // Get facilitates the retrieval of an existing UsrGroup.  This method is bound
@@ -166,6 +177,9 @@ func (uc *UsrGroupController) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	respondWithHeader(w, http.StatusAccepted)
+
+	// disseminate the deleted usrgroup info to self and group-members if any
+	uc.disseminateUsrGroupChange(usrgroup.ID, true, usrgroup.GroupName, gmcom.COpDelete)
 }
 
 // GetUsrGroups facilitates the retrieval of all existing UsrGroups.  This method is bound
@@ -264,5 +278,25 @@ func (uc *UsrGroupController) GetUsrGroupsByDescription(w http.ResponseWriter, r
 		return
 	}
 	respondWithJSON(w, http.StatusOK, "[]")
+}
+
+
+// disseminateUsrGroupChange updates the local UsrGroupController's Groups cache directly,
+// and then forwards the updated UsrGroup information to all other group-members that
+// are in a non-failed status.
+func (uc *UsrGroupController) disseminateUsrGroupChange(id uint64, fwd bool, groupName string, op gmcom.OpType) {
+
+	// make sure the usrgroup info is in the local and group caches
+	aa := gmcom.UsrGroupD{
+		Forward:   fwd,
+		ID:        id,
+		GroupName: groupName,
+		Op:        op,
+	}
+
+	err := gmcl.AddUpdUsrGroupCache(aa, uc.internalAddress)
+	if err != nil {
+		log.Println("UsrGroupController cache update error message:", err)
+	}
 }
 
