@@ -24,6 +24,7 @@ While this is not for everybody, it does reduce the mental cost of entry and all
 * no database specific code is compiled into the binary; an app can be pointed from SQLite to SAP Hana with no code changes
 * login / session management via jwt
 * built-in support for the creation of signing-keys for jwt
+* configurable jwt expiry (exp claim)
 * bcrypt salt/pepper based authentication scheme where passwords are never stored in the db
 * JSON configuration (model) file(s) for Entity, Index and Relationship definitions
 * models support persistent and non-persistent fields
@@ -196,7 +197,7 @@ When a user logs into the application the following steps occur:
 
 Jiffy applications do not support the revocation or automatic renewal of JWT tokens.  Instead, a cross-process cache of user information is maintained via a group-membership service.  The service ensures that changes to user information (create/update/delete) are disseminated to all running instances of the jiffy generated application.  Consequently, in jiffy-based applications it makes sense to discuss user access revocation from the perspective of an administrator making a call to the user-API to perform general user deletion or deactivation.
 
-It would be possible to alter jiffy to create self-renewing JWT's, but then the client developer would need to examine the Authorization field in the response header.  It is possible to set the token-expiry for an arbitrary length of time - say 12 hours instead.
+It would be possible to alter jiffy to create self-renewing JWT's, but then the client developer would need to examine the Authorization field in the response header.  It is possible to set the token-expiry for an arbitrary length of time - say 12 hours via the 'jwt_lifetime' configuration key.
 
 ### Authorizations & End-Point Security
 
@@ -775,6 +776,7 @@ HasOne relationships establish a one-to-one relationship between two model entit
 
 A break-down of the relations block fields is as follows:
 ```code
+
 {
     "relations": [
     The 'entities' block contains an array of relations belonging to the containing entity definition.
@@ -811,6 +813,7 @@ A break-down of the relations block fields is as follows:
     }
     ]
 }
+
 ```
 
 ### HasMany Relationship
@@ -994,6 +997,13 @@ At the moment the generator only supports HasOne, HasMany and BelongsTo relation
 ## What gets generated?
 
 Running the Jiffy generator creates a set of files that comprise a basic working application.  Incoming requests are handled by a mux, which validates / authenticates the request, and then matches it to a route.  The selected route passes the request to a controller specific to the entity-type, where the incoming information is mapped into a go struct matching the entity declaration.  The controller then calls the appropriate model function for the http operation and entity-type combination, passing it the entity structure.  The model handler passes the entity struct through a member-field validation layer, and then to the model's interface to the underlying sqac ORM.  The database request is handled by the ORM, and then the response is passed from the model back to the controller where it is packaged as a JSON payload and sent back to the caller in the response-writer's body.
+
+Jiffy applications contain an embedded leader-based group-membership sub-system that is used for interprocess communication when the generated jiffy application is deployed as multiple processes.
+
+1. When a jiffy application is deployed as more than one process, there is a need for changes to users, auths, groups and group/auth associations to be communicated to all running instances.  These common application entities are cached locally on each running instance in order to avoid accessing the database uneccessarily.  An internal subsystem was chosen in order to avoid dependencies on external solutions like redis/memcached etc.
+2. Given that there is interprocess communication for the cache updates, the status of the group members must be tracked.  The subsytem uses a SWIM (Scalable Weakly-Consistent Infection-Style Process-Membership) protocol to check and disseminate the statues of the group's processes.  A <ping>-<ack> is sent from each process to every other known process in the group in random order once per ping-cycle.  The <ping> message contains a piggybacked process-map containing the pinging processes view of the world in terms of process status.  Processes may have one of the following three statuses (ALIVE, SUSPECT, FAILED) as well as a status count indicating how many times the pinging process has noted that a process is in a particular state.
+
+See the Group Membership section of this document for a detailed overview of the group-membership subsystem.
 
 There are more elegant ways to express certain aspects of the generated application.  The coding style has been deliberately kept as simple and straight-forward as possible in order to facilitate easier understanding and adjustment of the generated code.
 <br/>
@@ -1305,7 +1315,7 @@ The middleware folder contains all of the code related to the application the of
 
 The jwtkewys folder contains the public and private keys that are generated in order to support the use of ECDSA-384 in the creation and reading of the JWT token.  At the moment, the JWT keys need to be deployed to each app-server, and a key is read for each execution of the route middleware.  There is a tentative plan to load the keys into an app server buffer at time of start-up, which would allow for central storage (nfs?) and a one-time read at app-server startup.
 
-## Extension-Points
+## Extension-Points (ext folders)
 
 The Jiffy application generates a working web services application based on the provided model files.  While the generated application should be runnable immediately following generation, there is often a need to perform validation and normalization on the incoming data.  This is best coded in the model-layer within the generated validation methods, but sometimes this is not sufficient.
 
@@ -1452,6 +1462,137 @@ File ./myapp/controllers/<entity\_name>m_ext.go is generated for each entity wit
 </table>
 <br>
 
+### The group/gmcl folder
+
+The group/gmcl folder contains the source files for the usr, auth, usrgroup and groupauth cache clients.  This is for internal use only.
+
+### The group/gmcom folder
+
+The group/gmcom folder contains source files holding artifacts that are needed by the groups/... packages and those of the generated jiffy application.
+
+### The group/gmsrv folder
+
+The group/gmsrv folder contains the source files for the group-membership service, the failure detector and the leader-election mechanism.  This is for internal use only.
+
+## Group Membership Service
+
+- Jiffy-generated applications run a distributed group-membership service.
+- A group is defined as a running set of group-membership instances.
+- Each running instance of the group-membership service can be thought of as a process.
+- Each process has a uint id (pid) that is assigned by the *group-leader* upon joining the group.
+- Each process knows the pid and maintains a local status of every other process in the group.
+- Each process maintains a status-count for every other process in the group.
+- At any point in time, the group has an elected leader.  The group-leader information must be made available via an external persistent store.
+- An interface is provided (gmcom.GMLeaderSetterGetter) in order to support the passing of implementation-specific persistent store accessors to the process.  This allows the implementer to store the persisted leader information in any accessible medium (ie. redis, db, flat-file etc.)
+
+## Group Membership Failure Detector
+
+- Processes may fail.
+- Processes exist with one of three publicly disseminated well-known states: {ACTIVE; SUSPECT; FAILED}
+- Processes exist with a publicly (within the group) disseminated incarnation number.
+- Process liveness is checked at selectable intervals (ping-cycle time) via a ping-ack mechanism.
+- Each process pings all other processes in the group once per ping-cycle in a random order. This means that each process is guaranteed to ping every other process in the group in (2n-1) pings, where n is the number of non-failed processes in the process-list.
+- Processes failing a ping-ack exchange are not immediately failed but are moved into the SUSPECT state.
+- The failure-threshold outlining the number of failed ping-ack exchanges for a SUSPECT process is configurable.
+- The local status-count of the SUSPECT process is incremented once for each failed ping or notification of a failed ping from another process in the group.
+- Process status is disseminated across all processes by way of a gossip-based infection-style piggybacking of process information on top of a process's  outgoing Ping messages.  Pinging process (Pi) sends a Ping containing it's local group-membership list to a target process (Pj).  Process Pj receives the Ping, takes note of the included group-membership list from Pi, updates its own group-membership list, then sends an Ack message back to Pi.  Ping status scenarios are broken out in a subseqent section.
+- Once a SUSPECT process (Pj) reaches the failure-threshold in any pinging process (Pi), process Pi moves process Pj from the SUSPECT to the FAILED state in its local group-membership list.
+
+### Process Status Scenarios
+
+Consider a group-membership of {P1; P2; P3} where failure-threshold == 3:
+
+P1 Ping-Cycle
+- (P1-Ping) -> (P2)
+- (P2-Ack) -> (P1)
+- (P1-Ping) -> (P3)
+- (P3-Ack) -> (P1)
+- (P1-Ping) -> (P1)
+- (P1-Ack) -> (P1)
+-------------------------
+P2 Ping-Cycle
+- (P2-Ping) -> (P1>
+- (P1-Ack) -> (P2)
+- (P2-Ping) -> (P3)
+- (P3-Ack) -> (P2)
+- (P2-Ping) -> (P2)
+- (P2-Ack) -> (P2)
+-------------------------
+P3 Ping-Cycle
+- (P3-Ping) -> (P1)
+- (P1-Ack) -> (P3)
+- (P3-Ping) -> (P2)
+- (P2-Ack) -> (P3)
+- (P3-Ping) -> (P3)
+- (P3-Ack) -> (P3)
+
+#### Example 1
+
+(P1-Ping-1) -> (P2)
+
+(P2-NoAck)
+
+P1 moves P2's status to SUSPECT in the local P1 group-membership list and sets the P2 status-count back to 1.
+
+... ping cycle completes
+
+--------------------------
+(P1-Ping-2) -> (P2)
+
+(P2-NoAck)
+
+P1 leaves P2's status as SUSPECT in the local P1 group-membership list and increments the P2 status-count by 1 (==2).
+
+... ping cycle completes
+
+--------------------------
+(P1-Ping-3) -> (P2)
+
+(P2-NoAck)
+
+P1 moves P2's status to FAILED in the local P1 group-membership list and increments the P2 status-count by 1 (==3).
+
+... ping cycle completes
+
+
+As P1's group-membership list is being updated with the P2 ping failures, P1 is disseminating that information to the other processes in the group.  It is likely that other processes in the group have also noticed that P2 is not responding, so these processes are also disseminating the P2 SUSPECT status to all other processes in the group - including P1.  As a result, failing processes will accrue SUSPECT status counts rapidly in each process's group-membership list; the failure threshold value should be computed as a product of the number of running processes in the group (TODO).
+
+#### Example 2
+
+(P1-Ping-1) -> (P2)
+
+(P2-NoAck)
+
+P1 moves P2's status to SUSPECT in the local P1 group-membership list and sets the P2 status-count back to 1.
+
+... ping cycle completes
+
+--------------------------
+(P1-Ping-2) -> (P2)
+
+(P2-NoAck)
+
+P1 leaves P2's status as SUSPECT in the local P1 group-membership list and increments the P2 status-count by 1 (==2).
+
+... ping cycle completes
+
+--------------------------
+(P1-Ping-3) -> (P2)
+
+(P2-Ack) -> (P1)
+
+P1 *may* set P2's status back to ALIVE in the local P1 group-membership list and reset the P2 status-count back to 1).
+
+... ping cycle completes
+
+
+Why would P1 not guarantee the reset of P2's status to the ALIVE state after receiving an Ack for last Ping message?
+
+As the ping-cycles run, the possibility exists that if P2 were to come back online it may receive a Ping message containing a group-membership list where it (P2) is in a SUSPECT state.  If P2 sees that it is SUSPECT, it reacts by incrementing it's incarnation-number which is then relayed to the group-memnbers via P2's ping messages.  When a process (let's say P1), sees that SUSPECT process P2 has sent a Ping, it checks the embedded incarnation-number to see if it is greater than the P2 incarnation-number presently stored in P1's local group-membership list.  If the incarnation-number contained in the Ping is greater, P1 updates it's group-membership list to indicate that P2 is ALIVE with a new incarnation number.  If the incarnation-number in the (P2-Ping) is lower or the same as that of the P2 record in the local P1 group-membership list, the Ping is discarded.
+
+P2 can still send the Ack's in response to Pings coming from other processes, and due to the wonders of concurrency it may well send a Ping to the other group-members (P1 for example) in time to prevent itself from being failed, but this is an unavoidable edge-case.  When a SUSPECT process recovers to the extent that it is reachable again, and one or more group-members are very close to reaching the failure-threshold for the process in question, there is a chance that the recovered process will be failed anyway.
+
+
 ## Using the Generated Code
 
 1. Edit the generated .prd.config.json file to define your production configuration.
@@ -1557,7 +1698,7 @@ The generated server runs based on a generated JSON configuration file as shown 
     the value set in the 'jwt_sign_method'.
 
     Look in the <appfolder>/jwtkeys folder to see the public-private keys generated by Jiffy.
-    
+
     If you have an external system that signs JWT's with RSA256, you could provide the jiffy
     application with the public-private key-pair by setting their locations and names in the
     'rsa256_priv_key_file' and 'rsa256_pub_key_file'.  This would allow the external
