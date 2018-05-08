@@ -56,6 +56,7 @@ type Config struct {
 	ECDSA521PrivKeyFile string   `json:"ecdsa521_priv_key_file"`
 	ECDSA521PubKeyFile  string   `json:"ecdsa521_pub_key_file"`
 	JWTSignMethod       string   `json:"jwt_sign_method"` // {EC256|EC384|EC521|RS256|RS384|RS312}
+	JWTLifetime         uint     `json:"jwt_lifetime"`    // minutes
 	// JWTPrivKeyFile     string              `json:"jwt_priv_key_file"`
 	// JWTPubKeyFile      string              `json:"jwt_pub_key_file"`
 	ServiceActivations []ServiceActivation `json:"service_activations"`

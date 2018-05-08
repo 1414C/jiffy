@@ -334,6 +334,7 @@ func main() {
 	conf.CertFile = "" // https
 	conf.KeyFile = ""  // https
 	conf.JWTSignMethod = "ES384"
+	conf.JWTLifetime = 120 // minutes
 	conf.ECDSA384PrivKeyFile = "jwtkeys/ecdsa/ec384.priv.pem"
 	conf.ECDSA384PubKeyFile = "jwtkeys/ecdsa/ec384.pub.pem"
 

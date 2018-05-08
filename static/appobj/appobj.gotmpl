@@ -220,7 +220,7 @@ func (a *AppObj) initializeJWTKeys() {
 
 // createControllers for each entity
 func (a *AppObj) createControllers() {
-    a.usrC = controllers.NewUsrController(a.services.Usr, a.jwtKeyMap, a.cfg.JWTSignMethod, a.cfg.InternalAddress)
+    a.usrC = controllers.NewUsrController(a.services.Usr, a.jwtKeyMap, a.cfg.JWTSignMethod, a.cfg.JWTLifetime, a.cfg.InternalAddress)
 	a.usrgroupC = controllers.NewUsrGroupController(a.services.UsrGroup, a.cfg.InternalAddress)
 	a.authC = controllers.NewAuthController(a.services.Auth, a.cfg.InternalAddress)
 	a.groupauthC = controllers.NewGroupAuthController(a.services.GroupAuth, a.cfg.InternalAddress)

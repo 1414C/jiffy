@@ -4,7 +4,7 @@
 
 {
     "external_address": "{{.ExternalAddress}}",
-    "internal_address": "{{.InternalAddress}}" ,
+    "internal_address": "{{.InternalAddress}}",
     "env": "{{.Env}}",
     "ping_cycle": {{.PingCycle}},
     "failure_threshold": {{.FailureThreshold}},     
@@ -38,6 +38,7 @@
     "ecdsa521_priv_key_file": "",
     "ecdsa521_pub_key_file": "",
     "jwt_sign_method": "ES384",
+    "jwt_lifetime": {{.JWTLifetime}},
     "service_activations": [
         {{range .ServiceActivations -}}
         {

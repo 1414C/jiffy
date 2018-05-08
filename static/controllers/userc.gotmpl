@@ -21,6 +21,7 @@ type UsrController struct {
 	us        		models.UsrService
 	jwtKeyMap 		map[string]interface{}
 	jwtSignMethod 	string
+	jwtLifetime     uint
 	internalAddress string
 	ActUsrsH         *gmcom.ActUsrsH //cache
 }
@@ -31,12 +32,13 @@ type Token struct {
 }
 
 // NewUsrController creates a new UsrController
-func NewUsrController(us models.UsrService, jwtKeyMap map[string]interface{}, jwtSignMethod string, internalAddress string) *UsrController {
+func NewUsrController(us models.UsrService, jwtKeyMap map[string]interface{}, jwtSignMethod string, jwtLifetime uint, internalAddress string) *UsrController {
 	log.Printf("Login() signing jwt's with %s\n", jwtSignMethod)
 	return &UsrController{
 		us:              us,
 		jwtKeyMap:       jwtKeyMap,
 		jwtSignMethod:   jwtSignMethod,
+		jwtLifetime:     jwtLifetime,
 		internalAddress: internalAddress,
 	}
 }
@@ -90,8 +92,13 @@ func (uc *UsrController) Login(w http.ResponseWriter, r *http.Request) {
 	claims := make(jwt.MapClaims)
 	claims["email"] = authenticatedUsr.Email
 	claims["id"] = authenticatedUsr.ID
-	claims["exp"] = time.Now().Add(time.Hour * time.Duration(1)).Unix()
 	claims["iat"] = time.Now().Unix()
+	if uc.jwtLifetime == 0 {
+		claims["exp"] = time.Now().Add(time.Hour * time.Duration(1)).Unix()
+	} else {
+		claims["exp"] = time.Now().Add(time.Minute * time.Duration(uc.jwtLifetime)).Unix()
+	}
+	
 	// set custom claims; auth groups as ; separated string
 	claims["Groups"] = *authenticatedUsr.Groups
 	claims["uid"] = authenticatedUsr.ID

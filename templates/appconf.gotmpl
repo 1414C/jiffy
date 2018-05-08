@@ -100,6 +100,7 @@ type Config struct {
 	ECDSA521PrivKeyFile string              `json:"ecdsa521_priv_key_file"`
 	ECDSA521PubKeyFile  string              `json:"ecdsa521_pub_key_file"`
 	JWTSignMethod       string              `json:"jwt_sign_method"`
+	JWTLifetime         uint                `json:"jwt_lifetime"`
 	ServiceActivations []ServiceActivation 	`json:"service_activations"`
 }
 
@@ -157,6 +158,7 @@ func DefaultConfig() Config {
 		ECDSA521PrivKeyFile: 	"",
 		ECDSA521PubKeyFile:  	"",
 		JWTSignMethod:          "{{.JWTSignMethod}}",
+		JWTLifetime:            {{.JWTLifetime}},
 		ServiceActivations: DefaultServiceActivations(),
 	}
 }
