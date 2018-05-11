@@ -13,17 +13,19 @@
     <title>Jiffy Development Steps :: My New Hugo Site</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1526065957" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1526065957" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1526065957" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1526065957" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1526065957" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1526065957" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1526065957" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1526065957" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1526072050" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1526072050" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1526072050" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1526072050" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1526072050" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1526072050" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1526072050" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1526072050" rel="stylesheet">
+    
+      <link href="/jiffy/css/theme-blue.css?1526072050" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1526065957"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1526072050"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -68,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1526065957"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1526065957"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1526072050"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1526072050"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1526065957"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1526072050"></script>
 
     
   </div>
@@ -611,9 +613,9 @@
 <ul>
 <li>
 <ul>
-<li><a href="#jiffy-pre-generation-workflow">Jiffy pre-generation workflow</a>
+<li><a href="#jiffy-pre-generation-workflow">Jiffy Pre-Generation Workflow</a>
 <ul>
-<li><a href="#design">Design</a></li>
+<li><a href="#design-steps">Design Steps</a></li>
 <li><a href="#development">Development</a></li>
 <li><a href="#deployment">Deployment</a></li>
 <li><a href="#considerations-for-deployment">Considerations for deployment</a></li>
@@ -641,11 +643,11 @@
 
 
 
-<h3 id="jiffy-pre-generation-workflow">Jiffy pre-generation workflow</h3>
+<h3 id="jiffy-pre-generation-workflow">Jiffy Pre-Generation Workflow</h3>
 
-<p>Jiffy is intended to generate a clean, straight-forward and secure application services platform just like the one you would write by hand.  Jiffy originally started as a few go templates I used to generate the boiler-plate code that I do not like to type.  Generation is a lot nicer than cut-and-paste.  There are places in the generated code where things could be more elegant, but the code is intended to be easy to work on even if one is not familliar with it.</p>
+<p>Jiffy is intended to generate a clean, straight-forward and secure application services platform just like the one you would write by hand.  Jiffy originally started as a few go templates I used to generate boiler-plate code that I do not like to type.  Generation is a lot nicer than cut-and-paste.  There are places in the generated code where things could be more elegant, but the code is intended to be easy to work on even if one is not familliar with it.  File and folder names are somewhat subjective; I have tried to be descriptive and organized.</p>
 
-<h4 id="design">Design</h4>
+<h4 id="design-steps">Design Steps</h4>
 
 <ol>
 <li><p>You are building a back-end of some sort where you need to reliably read and write data.  Before you start messing around with a real Jiffy model of your application, try some of demo models to get a feel for what Jiffy is and what it isn&rsquo;t.  Its a lot easier to design if you know what the platform provides, and what it does not.</p></li>
@@ -660,9 +662,9 @@
 
 <li><p>Jiffy model files are simple JSON and at the moment need to be coded up by hand.  Taking a copy of one of the sample model-files is the best way to start.  Short of creating a graphical model file generator, maintaining the models via direct file maintenance is the most direct and transparent way to edit them.  Remember that you do not have to put your entire model in one file.  Jiffy is quite happy to accept any number of model files for your project with the entities defined in any order.  The generator will sort it all out.</p></li>
 
-<li><p>Check your model files as best as possible before feeding them into Jiffy.  If you get an error, don&rsquo;t worry; we get them all the time too.  Look at the error message, then check the model-file for problems.  If you can&rsquo;t see anything wrong, log an issue and we will take a look.  Usual suspects for errors are missing double-quotes on field-names or string-values, missing closing parentheses on a list, missing brace on struct or sub-struct, putting quotes on a bool value, putting quotes on an int or dec value etc.</p></li>
+<li><p>Check your model files as best as possible before feeding them into Jiffy.  If you get an error, don&rsquo;t worry; I get them all the time too.  Look at the error message, then check the model-file for problems.  If you can&rsquo;t see anything wrong, log an issue and I will take a look.  Usual suspects for errors are missing double-quotes on field-names or string-values, missing closing parentheses on a list, missing brace on struct or sub-struct, putting quotes on a bool value, putting quotes on an int or dec value etc.</p></li>
 
-<li><p>Again, don&rsquo;t worry too much about formal inter-entity rules in the beginning.  The idea is to get something up and running fast so you can try out the services.  You can generate your application many times over without touching anything but the model-file / model-files.  Generation is fast - less than 5 seconds for most models.</p></li>
+<li><p>Again, don&rsquo;t worry too much about formal inter-entity rules in the beginning.  The idea is to get something up and running fast so you can try out the services.  You can generate your application many times over without touching anything but the model-file / model-files.  Generation is fast - less than 2 seconds for most models.</p></li>
 
 <li><p>Generate a version of your application and start it up.  Try it out with a tool like Postman.  See the Quickstart for an overview of application generation through to application testing, or go to the formal section dealing with each of the appliation creation steps.</p></li>
 
@@ -690,7 +692,7 @@
 
 <li><p>Implement extension-points in the controller and model go source as per your requirements.  Implemented extension-points will not be over-written should you need to regenerate the application.  Test often.</p></li>
 
-<li><p>Implement normalization and validation at the field-level in the generated entity model go source file.  This part is slightly contentious, as field normalization and validiation is performed directly in the generated code, rather than off to the side like extension-points.  We suggest that if you are worried about over-writing your normalization and validation code with an accidental regeneration, you create a <em>model_normalization</em> package for each model and implement field-level normalizations and checks there.  Of course, you are free to ignore the provided field-level normalization and validation methods and perform all checks in one of the model extension-points.  Its up to you, and it will make more sense once you take a look through one of the generated files.</p></li>
+<li><p>Implement normalization and validation at the field-level in the generated entity model go source file.  This part is slightly contentious, as field normalization and validiation is performed directly in the generated code, rather than off to the side in extension-points.  We suggest that if you are worried about over-writing your normalization and validation code with an accidental regeneration, you create a <em>model_normalization</em> package for each model and implement field-level normalizations and checks there.  Of course, you are free to ignore the provided field-level normalization and validation methods and perform all checks in one of the model extension-points.  Its up to you, and it will make more sense once you take a look through one of the generated files.</p></li>
 
 <li><p>When you are happy with the way things are working, think about user access.  Sketch out user-groups and assign end-points to them until you have something that you like.  Use Postman to create UserGroups and assign Auths to them, then create new users and allocate the relevant UserGroups to their ID.  That is all you need to do; the Jiffy middleware will take care of the rest.  See the Authentication and Authorization section for a detailed discussion of how users are authenticated and authorized.</p></li>
 </ol>
@@ -705,6 +707,7 @@
 <li>On a blade running the os of your choice</li>
 <li>On a VM (xen etc.)</li>
 <li>Docker image / Droplet / Cloud Foundry etc.</li>
+<li>Across a collection of the above</li>
 </ul>
 
 <p>At the software level, the Jiffy generated application can be deployed as:</p>
@@ -721,38 +724,13 @@
 <li>SSL certificates</li>
 <li>Do you need to support JWT&rsquo;s from other SSO providers?  If so, you will need their public-keys.</li>
 <li>JWT expiration policy</li>
-<li>You have tested your user-access revocation?  Jiffy makes provisions for the revocation of user-access in spite of what some say about JWT.</li>
+<li>You have tested your user-access revocation?  Jiffy makes provisions for the revocation of user-access based on the user master.  If a user is deleted or marked as inactive, even a valid JWT for that user will not permit access.</li>
 <li>Data migration; have you run real test migrations with the key relationships etc. in place?</li>
 <li>If you disabled certain database features for migration, have you turned them back on again?  Looking at you foreign-keys&hellip;</li>
-<li>User access;  users have been defined/create/update/delete end-points are locked down in accordance with your use-cases?</li>
+<li>User access;  users have been assigned to Groups and the create/update/delete end-points are locked down in accordance with your use-cases?</li>
 <li>Do you need a reverse-proxy / is there a need to route traffic based on expected load?</li>
 <li>Service activations; is there a need to route traffic based on expected load?</li>
 <li>If you need to scale horizontally or vertically do you have a plan?</li>
-</ul>
-
-<p>Jiffy approaches the API from a services perspective.  Each entity has a corresponding service that can be started when the application initializes.  The Usr, UsrGroup, Auth and GroupAuth services are always generated by default when creating a Jiffy application.  Additional services are generated based on the content of your project&rsquo;s model files.</p>
-
-<p>Generated application services can be broken down into five high-level areas:
-<br/></p>
-
-<p><div class="mermaid" align="center">
-graph TD;
-    subgraph 
-    A(End-Points)-->B(Middleware)
-    B-->C(Controllers)
-    C-->D(Models)
-    D-->E(Database)
-    end
-</div>
-
-<br/></p>
-
-<ul>
-<li><strong>End-Points</strong> expose the service API&rsquo;s to the consumer such as a web-app or another server.  End-points may be customized by way of the application model files.</li>
-<li><strong>Middleware</strong> provides user authentication / authorization services and is tightly-coupled to the end-point definitions.  The middleware offers comprehensive services such as authorization via JWT claims inspection, as well as some caching of user and group authorization details.  This is an area of active development.</li>
-<li><strong>Controllers</strong> are the entry point into the application proper, and are called after a request has been granted access to the end-point by the middleware.  It is here that the body of the request is deserialized and mapped into the correct go model structure.  Extension-points conforming to standard Jiffy interfaces are provided in the controllers for post-generation enhancements.</li>
-<li><strong>Models</strong> are where the entity data from the request is checked, normalized and prepared for submission to the database.  Extension-points conforming to standard Jiffy interfaces are provided in the models for post-generation enhancements.</li>
-<li><strong>Database</strong> refers to the backend DBMS that is being used to house the entity data.  Jiffy generated applications can connect to PostgreSQL, MariaDB/MySQL, MSSQL, SAP HanaDB or SQLite.  It is easy to extend the database support to other relational platforms provided that there is an existing go sql driver for the database in question.  It is possible to override the generated Jiffy call to the database and &lsquo;roll-your-own&rsquo; should the need arise.</li>
 </ul>
 
 
@@ -1152,20 +1130,20 @@ graph TD;
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1526065957"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1526065957"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1526065957"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1526065957"></script>
-    <script src="/jiffy/js/featherlight.min.js?1526065957"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1526065957"></script>
-    <script src="/jiffy/js/highlight.pack.js?1526065957"></script>
+    <script src="/jiffy/js/clipboard.min.js?1526072050"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1526072050"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1526072050"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1526072050"></script>
+    <script src="/jiffy/js/featherlight.min.js?1526072050"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1526072050"></script>
+    <script src="/jiffy/js/highlight.pack.js?1526072050"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1526065957"></script>
-    <script src="/jiffy/js/learn.js?1526065957"></script>
-    <script src="/jiffy/js/hugo-learn.js?1526065957"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1526072050"></script>
+    <script src="/jiffy/js/learn.js?1526072050"></script>
+    <script src="/jiffy/js/hugo-learn.js?1526072050"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1526065957" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1526065957"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1526072050" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1526072050"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

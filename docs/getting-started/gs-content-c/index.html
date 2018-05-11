@@ -13,17 +13,19 @@
     <title>Let&#39;s Build Something :: My New Hugo Site</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1526065957" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1526065957" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1526065957" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1526065957" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1526065957" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1526065957" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1526065957" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1526065957" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1526072050" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1526072050" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1526072050" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1526072050" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1526072050" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1526072050" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1526072050" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1526072050" rel="stylesheet">
+    
+      <link href="/jiffy/css/theme-blue.css?1526072050" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1526065957"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1526072050"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -68,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1526065957"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1526065957"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1526072050"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1526072050"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1526065957"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1526072050"></script>
 
     
   </div>
@@ -623,7 +625,7 @@
         
 
 
-<p>Now that Jiffy is installed, lets build a simple service to test it out!</p>
+<p>Now that Jiffy is installed, we will build a simple service to test it out.</p>
 
 <p>Jiffy&rsquo;s source tree comes with a number of sample model files that you can use to get the hang of things.  We are going to use a simple model file that contains an entity named &lsquo;Person&rsquo;.  The model file can be found in the Jiffy source tree, or pulled directly from the Jiffy github repository.</p>
 
@@ -679,6 +681,66 @@
 <div class="notices tip" ><p>Note that the location of the folder specified by the -p flag is deemed to be relative to $GOPATH/src.</p>
 </div>
 
+
+<p><br/></p>
+
+<p>If everything has gone according to plan, a new application has been generated and should be ready to run. Let&rsquo;s take a look at what jiffy generated for us!</p>
+
+<pre><code class="language-bash">
+    $ cd $GOPATH/src/jiffy_tests/first_app
+    $ ls -l
+
+</code></pre>
+
+<p>This should result in a list of the files and folders comprising our new application.</p>
+
+<pre><code class="language-bash">
+    drwxr-xr-x  12 stevem  staff    384  5 Feb 21:44 .
+    drwxr-xr-x  10 stevem  staff    320  5 Feb 21:44 ..
+    -rwxr-xr-x   1 stevem  staff    588  5 Feb 21:44 .dev.config.json
+    -rwxr-xr-x   1 stevem  staff    611  5 Feb 21:44 .prd.config.json
+    drwxr-xr-x   4 stevem  staff    128  5 Feb 21:44 appobj
+    drwxr-xr-x  10 stevem  staff    320  5 Feb 21:44 controllers
+    drwxr-xr-x   4 stevem  staff    128  5 Feb 21:44 jwtkeys
+    -rwxr-xr-x   1 stevem  staff    839  5 Feb 21:44 main.go
+    -rwxr-xr-x   1 stevem  staff  18421  5 Feb 21:44 main_test.go
+    drwxr-xr-x   3 stevem  staff     96  5 Feb 21:44 middleware
+    drwxr-xr-x  12 stevem  staff    384  5 Feb 21:44 models
+    drwxr-xr-x   3 stevem  staff     96  5 Feb 21:44 util
+    $
+
+</code></pre>
+
+<p>Jiffy generates two sample configuration files each time it is executed.  We are going to run our application with development environment settings, so lets take a quick look at .dev.config.json to make sure there are no horrible surprises.</p>
+
+<pre><code class="language-json">
+    {
+        &quot;port&quot;: 8080,    
+        &quot;env&quot;: &quot;dev&quot;,     
+        &quot;pepper&quot;: &quot;secret-pepper-key&quot;,  
+        &quot;database&quot;: {
+            &quot;db_dialect&quot;: &quot;sqlite&quot;,
+            &quot;host&quot;:       &quot;127.0.0.1&quot;,
+		    &quot;port&quot;:       0,
+		    &quot;usr&quot;:        &quot;&quot;,
+		    &quot;password&quot;:   &quot;&quot;,
+		    &quot;name&quot;:       &quot;testdb.sqlite&quot;
+        },
+        &quot;cert_file&quot;: &quot;&quot;,
+        &quot;key_file&quot;: &quot;&quot;,
+        &quot;jwt_priv_key_file&quot;: &quot;jwtkeys/private.pem&quot;,
+        &quot;jwt_pub_key_file&quot;: &quot;jwtkeys/public.pem&quot;,
+        &quot;service_activations&quot;: [
+            {
+                &quot;service_name&quot;:   &quot;Person&quot;,
+                &quot;service_active&quot;: true
+            }
+            ]
+    }
+
+</code></pre>
+
+<p>Jiffy decides by default to run against a sqlite database and generates what <em>should</em> be a suitable configuration file for most systems.  Again, we are not going to worry too much about what is in the configuration file at this point, but know that database file &lsquo;testdb.sqlite&rsquo; will be created in the generated application&rsquo;s root folder.</p>
 
 
 <footer class=" footline" >
@@ -1077,20 +1139,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1526065957"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1526065957"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1526065957"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1526065957"></script>
-    <script src="/jiffy/js/featherlight.min.js?1526065957"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1526065957"></script>
-    <script src="/jiffy/js/highlight.pack.js?1526065957"></script>
+    <script src="/jiffy/js/clipboard.min.js?1526072050"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1526072050"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1526072050"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1526072050"></script>
+    <script src="/jiffy/js/featherlight.min.js?1526072050"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1526072050"></script>
+    <script src="/jiffy/js/highlight.pack.js?1526072050"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1526065957"></script>
-    <script src="/jiffy/js/learn.js?1526065957"></script>
-    <script src="/jiffy/js/hugo-learn.js?1526065957"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1526072050"></script>
+    <script src="/jiffy/js/learn.js?1526072050"></script>
+    <script src="/jiffy/js/hugo-learn.js?1526072050"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1526065957" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1526065957"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1526072050" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1526072050"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
