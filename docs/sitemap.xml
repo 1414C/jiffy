@@ -3,20 +3,126 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://example.org/</loc>
+    <loc>https://1414c.github.io/jiffy/getting-started/gs-content-a/</loc>
+    <lastmod>2018-02-05T13:26:10-07:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/categories/</loc>
+    <loc>https://1414c.github.io/jiffy/getting-started/</loc>
+    <lastmod>2018-02-05T13:26:10-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/overview/</loc>
+    <lastmod>2018-02-05T13:26:10-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/getting-started/gs-content-b/</loc>
+    <lastmod>2018-02-05T20:39:34-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/overview/ov-content-a/</loc>
+    <lastmod>2018-02-05T13:26:10-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/getting-started/gs-content-c/</loc>
+    <lastmod>2018-02-05T21:15:53-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/overview/ov-content-b/</loc>
+    <lastmod>2018-02-05T13:26:10-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/overview/ov-content-c/</loc>
+    <lastmod>2018-02-10T23:56:10-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/getting-started/gs-content-d/</loc>
+    <lastmod>2018-02-05T21:40:32-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/overview/ov-content-d/</loc>
+    <lastmod>2018-02-10T23:53:10-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/overview/ov-content-e/</loc>
+    <lastmod>2018-02-14T22:11:10-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/getting-started/level-two/</loc>
+    <lastmod>2018-02-06T22:40:21-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-a/</loc>
+    <lastmod>2018-02-06T22:34:10-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-b/</loc>
+    <lastmod>2018-02-06T22:34:10-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-c/</loc>
+    <lastmod>2018-02-06T22:34:10-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-d/</loc>
+    <lastmod>2018-02-06T22:34:10-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-e/</loc>
+    <lastmod>2018-02-06T22:34:10-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-f/</loc>
+    <lastmod>2018-02-06T22:34:10-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-g/</loc>
+    <lastmod>2018-02-06T22:34:10-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-h/</loc>
+    <lastmod>2018-02-06T22:34:10-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-i/</loc>
+    <lastmod>2018-02-06T22:34:10-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/</loc>
+    <lastmod>2018-02-05T13:26:10-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://example.org/credits/</loc>
+    <loc>https://1414c.github.io/jiffy/credits/</loc>
   </url>
   
   <url>
-    <loc>http://example.org/tags/</loc>
+    <loc>https://1414c.github.io/jiffy/tags/</loc>
     <priority>0</priority>
   </url>
   

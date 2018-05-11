@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Getting Started on My New Hugo Site</title>
+    <link>https://1414c.github.io/jiffy/getting-started/</link>
+    <description>Recent content in Getting Started on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 05 Feb 2018 13:26:10 -0700</lastBuildDate>
+    
+	<atom:link href="https://1414c.github.io/jiffy/getting-started/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Go Environment</title>
+      <link>https://1414c.github.io/jiffy/getting-started/gs-content-a/</link>
+      <pubDate>Mon, 05 Feb 2018 13:26:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/getting-started/gs-content-a/</guid>
+      <description>If you already have Go installed and know that your installation is working, you should skip to the next section. If you need to get Go installed on your machine, keep reading.
+Go is easy to setup and can be installed from source or binary package, both which are available at golang.org.
+ Go binary installation instructions Go build-from-source installation instructions  </description>
+    </item>
+    
+    <item>
+      <title>Installing Jiffy</title>
+      <link>https://1414c.github.io/jiffy/getting-started/gs-content-b/</link>
+      <pubDate>Mon, 05 Feb 2018 20:39:34 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/getting-started/gs-content-b/</guid>
+      <description>The easiest way to install Jiffy is to use go get on the command-line to pull the latest version from github, as shown below:
+$ go get -u github.com/1414C/jiffy  This will pull the jiffy github repository into your $GOPATH/src/github.com folder, as well as any dependencies referenced by the jiffy source code. The -u flag is included to instruct go get to check for and pull updates to jiffy packages and their dependencies.</description>
+    </item>
+    
+    <item>
+      <title>Let&#39;s Build Something</title>
+      <link>https://1414c.github.io/jiffy/getting-started/gs-content-c/</link>
+      <pubDate>Mon, 05 Feb 2018 21:15:53 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/getting-started/gs-content-c/</guid>
+      <description>Now that Jiffy is installed, lets build a simple service to test it out!
+Jiffy&amp;rsquo;s source tree comes with a number of sample model files that you can use to get the hang of things. We are going to use a simple model file that contains an entity named &amp;lsquo;Person&amp;rsquo;. The model file can be found in the Jiffy source tree, or pulled directly from the Jiffy github repository.
+ $GOPATH/src/github.</description>
+    </item>
+    
+    <item>
+      <title>Let&#39;s Run Something</title>
+      <link>https://1414c.github.io/jiffy/getting-started/gs-content-d/</link>
+      <pubDate>Mon, 05 Feb 2018 21:40:32 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/getting-started/gs-content-d/</guid>
+      <description>If everything has gone according to plan, a new application has been generated and should be ready to run. Let&amp;rsquo;s take a look at what jiffy generated for us!
+$ cd $GOPATH/src/jiffy_tests/first_app $ ls -l  This should result in a list of the files and folders comprising our new application.
+drwxr-xr-x 12 stevem staff 384 5 Feb 21:44 . drwxr-xr-x 10 stevem staff 320 5 Feb 21:44 .. -rwxr-xr-x 1 stevem staff 588 5 Feb 21:44 .</description>
+    </item>
+    
+  </channel>
+</rss>
