@@ -17,7 +17,7 @@
       <pubDate>Mon, 05 Feb 2018 13:26:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/overview/ov-content-a/</guid>
-      <description>What does Jiffy do? Jiffy is a model-based RESTful application services generator written in go. Think of Jiffy as an accelerator. Jiffy generates a complete backend services application for you and that generated application is what you will run in production.
+      <description>What does Jiffy do? Jiffy is a model-based RESTful application services generator written in go. Think of Jiffy as an accelerator. Jiffy generates a complete backend services application for you, and that generated application is what you will run in production.
 Jiffy allows a developer to generate a robust go-based application that treats the data persistence layer in a generic manner. This allows the generated application to connect to number of different database systems (outlined below), without any code changes.</description>
     </item>
     

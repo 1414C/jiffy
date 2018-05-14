@@ -33,12 +33,53 @@ $ go get -u github.com/1414C/jiffy  This will pull the jiffy github repository i
     </item>
     
     <item>
+      <title>Generation Overview</title>
+      <link>https://1414c.github.io/jiffy/generation/gn-content-a/</link>
+      <pubDate>Mon, 05 Feb 2018 15:22:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/generation/gn-content-a/</guid>
+      <description>Jiffy Application File Structure Running the Jiffy generator creates a set of files that comprise a basic working backend services application. Jiffy generates the follwing source code when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity. The structure and files look more or less standard if you are used to looking at such things. Explanations of each folder and its content are discussed thoughout the documentation.
+FirstApp ├── appobj │ ├── appconf.</description>
+    </item>
+    
+    <item>
+      <title>Model Overview</title>
+      <link>https://1414c.github.io/jiffy/models/mo-content-a/</link>
+      <pubDate>Mon, 05 Feb 2018 13:26:13 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/models/mo-content-a/</guid>
+      <description>Model Files Model files contain the Entity, Index and Relation definitions that you wish to generate services for. Entity model defintion consists of an array of JSON objects, with each object being limited to a flat hierarchy and basic go-data-types, (although this is easily extended). By default, the Jiffy generator expects a models.json file in the execution directory, but a correctly formatted JSON file can be loaded from any location by executing with the -m flag.</description>
+    </item>
+    
+    <item>
+      <title>Running Jiffy</title>
+      <link>https://1414c.github.io/jiffy/execution/ex-content-a/</link>
+      <pubDate>Mon, 05 Feb 2018 13:26:13 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/execution/ex-content-a/</guid>
+      <description>Execution In order to run the application generator, ensure the following:
+ Make sure go has been installed in the test environment. See http://www.golang.org for installation files and instructions.
+ Make sure that the Jiffy source code and dependencies have been installed: Jiffy Installation
+ You will need access to a Postgres, MySQL, MSSQL or SAP Hana database, either locally or over the network. It is also possible to run tests with SQLite3.</description>
+    </item>
+    
+    <item>
+      <title>Jiffy Dependencies</title>
+      <link>https://1414c.github.io/jiffy/installation/ov-content-a/</link>
+      <pubDate>Mon, 05 Feb 2018 13:26:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/installation/ov-content-a/</guid>
+      <description>What does Jiffy need to run? Wherever possible and reasonable, Jiffy relies on packages found in the Go standard library. As of this writing, Go version 1.10 is required in order to build the Jiffy binary.
+Database Drivers The following golang database drivers are required, even if you are only planning to make use of one of the DBMS&amp;rsquo;s in the supported list. This is due to the fact that Jiffy attempts to connect to your test database during the code generation process and there is no guarantee what that database may be.</description>
+    </item>
+    
+    <item>
       <title>What is Jiffy?</title>
       <link>https://1414c.github.io/jiffy/overview/ov-content-a/</link>
       <pubDate>Mon, 05 Feb 2018 13:26:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/overview/ov-content-a/</guid>
-      <description>What does Jiffy do? Jiffy is a model-based RESTful application services generator written in go. Think of Jiffy as an accelerator. Jiffy generates a complete backend services application for you and that generated application is what you will run in production.
+      <description>What does Jiffy do? Jiffy is a model-based RESTful application services generator written in go. Think of Jiffy as an accelerator. Jiffy generates a complete backend services application for you, and that generated application is what you will run in production.
 Jiffy allows a developer to generate a robust go-based application that treats the data persistence layer in a generic manner. This allows the generated application to connect to number of different database systems (outlined below), without any code changes.</description>
     </item>
     
@@ -50,6 +91,47 @@ Jiffy allows a developer to generate a robust go-based application that treats t
       <guid>https://1414c.github.io/jiffy/getting-started/gs-content-c/</guid>
       <description>Now that Jiffy is installed, we will build a simple service to test it out.
 Jiffy&amp;rsquo;s source tree comes with a number of sample model files that you can use to get the hang of things. We are going to use a simple model file that contains an entity named &amp;lsquo;Person&amp;rsquo;. The model file can be found in the Jiffy source tree, or pulled directly from the Jiffy github repository.</description>
+    </item>
+    
+    <item>
+      <title>Generated &#39;application&#39; Folder</title>
+      <link>https://1414c.github.io/jiffy/generation/gn-content-b/</link>
+      <pubDate>Mon, 05 Feb 2018 15:34:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/generation/gn-content-b/</guid>
+      <description>Following the execution of the application generator, a folder containing the generated app&amp;rsquo;s files is created as shown. The application folder follows the name provided via the -p Jiffy execution flag. In this case, the name of the application folder is &amp;lsquo;FirstApp&amp;rsquo;.
+FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├── controllers │ ├── ... │ ├── ... . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  </description>
+    </item>
+    
+    <item>
+      <title>Simple Two Entity Model</title>
+      <link>https://1414c.github.io/jiffy/models/mo-content-b/</link>
+      <pubDate>Mon, 05 Feb 2018 14:52:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/models/mo-content-b/</guid>
+      <description>Two Entity Model The following JSON illustrates the defintion of a simple two-entity model file. In this case, model entities &amp;lsquo;Person&amp;rsquo; and &amp;lsquo;Country&amp;rsquo; will be created in the generated application, along with corresponding database tables &amp;lsquo;person&amp;rsquo; and &amp;lsquo;country&amp;rsquo;. No relationships have been defined between the two entities; this example simply illustrates how to add multiple entity definitions to a model file.
+simpleTwoEntityModel.json
+{ &amp;quot;entities&amp;quot;: [ { &amp;quot;typeName&amp;quot;: &amp;quot;Person&amp;quot;, &amp;quot;properties&amp;quot;: { &amp;quot;name&amp;quot;: { &amp;quot;type&amp;quot;: &amp;quot;string&amp;quot;, &amp;quot;format&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;required&amp;quot;: false, &amp;quot;unique&amp;quot;: false, &amp;quot;index&amp;quot;: &amp;quot;nonUnique&amp;quot;, &amp;quot;selectable&amp;quot;: &amp;quot;eq,like&amp;quot; }, &amp;quot;age&amp;quot;: { &amp;quot;type&amp;quot;: &amp;quot;uint&amp;quot;, &amp;quot;format&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;required&amp;quot;: false, &amp;quot;unique&amp;quot;: false, &amp;quot;index&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;selectable&amp;quot;: &amp;quot;eq,lt,gt&amp;quot; }, &amp;quot;weight&amp;quot;: { &amp;quot;type&amp;quot;: &amp;quot;float64&amp;quot;, &amp;quot;format&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;required&amp;quot;: false, &amp;quot;unique&amp;quot;: false, &amp;quot;index&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;selectable&amp;quot;: &amp;quot;eq,lt,le,gt,ge&amp;quot; }, &amp;quot;validLicense&amp;quot;: { &amp;quot;type&amp;quot;: &amp;quot;bool&amp;quot;, &amp;quot;format&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;required&amp;quot;: false, &amp;quot;unique&amp;quot;: false, &amp;quot;index&amp;quot;: &amp;quot;nonUnique&amp;quot;, &amp;quot;selectable&amp;quot;: &amp;quot;eq,ne&amp;quot; } } }, { &amp;quot;typeName&amp;quot;: &amp;quot;Country&amp;quot;, &amp;quot;properties&amp;quot;: { &amp;quot;name&amp;quot;: { &amp;quot;type&amp;quot;: &amp;quot;string&amp;quot;, &amp;quot;format&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;required&amp;quot;: false, &amp;quot;unique&amp;quot;: false, &amp;quot;index&amp;quot;: &amp;quot;nonUnique&amp;quot;, &amp;quot;selectable&amp;quot;: &amp;quot;eq,like&amp;quot; }, &amp;quot;isoCode&amp;quot;: { &amp;quot;type&amp;quot;: &amp;quot;uint&amp;quot;, &amp;quot;format&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;required&amp;quot;: false, &amp;quot;unique&amp;quot;: false, &amp;quot;index&amp;quot;: &amp;quot;unique&amp;quot;, &amp;quot;selectable&amp;quot;: &amp;quot;eq,lt,gt&amp;quot; } } } ] }  simpleTwoEntityModel.</description>
+    </item>
+    
+    <item>
+      <title>Jiffy Execution Flags</title>
+      <link>https://1414c.github.io/jiffy/execution/ex-content-b/</link>
+      <pubDate>Mon, 05 Feb 2018 14:30:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/execution/ex-content-b/</guid>
+      <description>Generation Flags Flags are kept to a minimum, but there are a few flags that can be appended to the execution command:
+ go run *.go -p   The -p switch is used to specify the target directory for generated application source-code relative to $GOPATH/src.   $ go run main.go -p &amp;quot;github.com/footle.com/myrestfulsvc&amp;quot;   go run main.go -m .json  By default, the application will attempt to use .</description>
+    </item>
+    
+    <item>
+      <title>Jiffy Installation</title>
+      <link>https://1414c.github.io/jiffy/installation/ov-content-b/</link>
+      <pubDate>Mon, 05 Feb 2018 14:03:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/installation/ov-content-b/</guid>
+      <description>Installation Steps The easiest way to install Jiffy is to use go get on the command-line to pull the latest version from github, as shown below:
+$ go get -u github.com/1414C/jiffy  This will pull the jiffy github repository into your $GOPATH/src/github.com folder, as well as any dependencies referenced by the jiffy source code. The -u flag is included to instruct go get to check for and pull updates to jiffy packages and their dependencies.</description>
     </item>
     
     <item>
@@ -84,6 +166,25 @@ $ cd $GOPATH/src/jiffy_tests/first_app $ go run main.go -dev -rs  Executing with
     </item>
     
     <item>
+      <title>Generated &#39;appobj&#39; Folder</title>
+      <link>https://1414c.github.io/jiffy/generation/gn-content-c/</link>
+      <pubDate>Mon, 05 Feb 2018 15:32:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/generation/gn-content-c/</guid>
+      <description>The &amp;lsquo;appobj&amp;rsquo; Folder  The appobj folder contains the generated application&amp;rsquo;s configuration loader and the main application object. 
+FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├── controllers │ ├── ... │ ├── ... . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  appobj.go The entry point for go applications is always the main() function, but we seldom write the so-called &amp;lsquo;main&amp;rsquo; part of the application in this monolithic function.</description>
+    </item>
+    
+    <item>
+      <title>Model with Composite Index</title>
+      <link>https://1414c.github.io/jiffy/models/mo-content-c/</link>
+      <pubDate>Mon, 05 Feb 2018 14:57:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/models/mo-content-c/</guid>
+      <description>Two Entity Model with Composite Index The following JSON illustrates the addition of a composite-index to an entity definition. An index composed of the &amp;lsquo;name&amp;rsquo; and &amp;lsquo;province&amp;rsquo; fields has been declared in the &amp;lsquo;Owner&amp;rsquo; entity. This declaration will result in the creation of a non-unique b-tree index for columns &amp;lsquo;name&amp;rsquo; and &amp;lsquo;province&amp;rsquo; in the database. Any number of composite indices may be declared for an entity. No relationships have been defined between the two entities; this example simply illustrates how to declare a composite-index for an entity.</description>
+    </item>
+    
+    <item>
       <title>Jiffy Application Architecture</title>
       <link>https://1414c.github.io/jiffy/overview/ov-content-d/</link>
       <pubDate>Sat, 10 Feb 2018 23:53:10 -0700</pubDate>
@@ -95,12 +196,40 @@ graph TD; subgraph A(End-Points)--B(Middleware) B--C(Controllers) C--D(Models) D
     </item>
     
     <item>
+      <title>Generated &#39;controllers&#39; Folder</title>
+      <link>https://1414c.github.io/jiffy/generation/gn-content-d/</link>
+      <pubDate>Mon, 05 Feb 2018 15:44:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/generation/gn-content-d/</guid>
+      <description>The &amp;lsquo;controllers&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.go │ ├── personc.go │ ├── usrc.go │ ├── usr_groupc.go │ └── ext │ ├── extc_interfaces.go │ └── personc_ext.go ├── group │ ├── ... │ │ ├── ... . . . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  A controller is created for each entity that has been declared in the model files, as well as a number of static controllers that are used to handle the application&amp;rsquo;s users and authoziation objects.</description>
+    </item>
+    
+    <item>
+      <title>Entity Relations</title>
+      <link>https://1414c.github.io/jiffy/models/mo-content-d/</link>
+      <pubDate>Mon, 05 Feb 2018 15:03:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/models/mo-content-d/</guid>
+      <description>Modelling Entity Relationships Relationships between entities can be declared in the application model file via the addition of a &amp;lsquo;relations&amp;rsquo; block inside an entity&amp;rsquo;s declaration. Relationships are based on resource id&amp;rsquo;s by default, although it is possible to specify non-default key fields in the configuration, or implement complex joins directly by maintaining the entity&amp;rsquo;s controller and model. &amp;lsquo;relations&amp;rsquo; blocks look as follows:
+&amp;quot;relations&amp;quot;: [ { &amp;quot;relName&amp;quot;: &amp;quot;ToOwner&amp;quot;, &amp;quot;properties&amp;quot;: { &amp;quot;relType&amp;quot;: &amp;quot;hasOne&amp;quot;, &amp;quot;toEntity&amp;quot;: &amp;quot;Owner&amp;quot; } } ]  The sample relations block illustrates the declaration of a HasOne relationship between Car and Owner making use of default-keys.</description>
+    </item>
+    
+    <item>
       <title>Jiffy Development Steps</title>
       <link>https://1414c.github.io/jiffy/overview/ov-content-e/</link>
       <pubDate>Wed, 14 Feb 2018 22:11:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/overview/ov-content-e/</guid>
       <description>Jiffy Pre-Generation Workflow Jiffy is intended to generate a clean, straight-forward and secure application services platform just like the one you would write by hand. Jiffy originally started as a few go templates I used to generate boiler-plate code that I do not like to type. Generation is a lot nicer than cut-and-paste. There are places in the generated code where things could be more elegant, but the code is intended to be easy to work on even if one is not familliar with it.</description>
+    </item>
+    
+    <item>
+      <title>Generated &#39;models&#39; Folder</title>
+      <link>https://1414c.github.io/jiffy/generation/gn-content-e/</link>
+      <pubDate>Mon, 05 Feb 2018 15:51:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/generation/gn-content-e/</guid>
+      <description>The &amp;lsquo;models&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go . . . ├── models │ ├── authm.go │ ├── errors.go │ ├── group_authm.go │ ├── modelfuncs.go │ ├── personm_ext.go │ ├── personm.go │ ├── servicesm.go │ ├── usr_groupm.go │ ├── usrm.go │ └── ext │ └── model_ext_interfaces.go ├── util │ └── strings.go ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  A model is created for each entity that has been modelled in the .</description>
     </item>
     
     <item>
