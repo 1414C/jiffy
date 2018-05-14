@@ -38,7 +38,7 @@ $ go get -u github.com/1414C/jiffy  This will pull the jiffy github repository i
       <pubDate>Mon, 05 Feb 2018 15:22:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-a/</guid>
-      <description>Jiffy Application File Structure Running the Jiffy generator creates a set of files that comprise a basic working backend services application. Jiffy generates the follwing source code when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity. The structure and files look more or less standard if you are used to looking at such things. Explanations of each folder and its content are discussed thoughout the documentation.
+      <description>Jiffy Application File Structure Running the Jiffy generator creates a set of files that comprise a basic working backend services application. Jiffy generates the following source code when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity. The structure and files look more or less standard if you are used to looking at such things. Explanations of each folder and its content are discussed thoughout the documentation.
 FirstApp ├── appobj │ ├── appconf.</description>
     </item>
     
