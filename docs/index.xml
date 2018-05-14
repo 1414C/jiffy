@@ -38,7 +38,7 @@ $ go get -u github.com/1414C/jiffy  This will pull the jiffy github repository i
       <pubDate>Mon, 05 Feb 2018 13:26:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/overview/ov-content-a/</guid>
-      <description>What does Jiffy do? Jiffy is a model-based RESTful application services generator written in go. It was developed as an experiment to offer an alternative avenue when developing native applications for SAP Hana.
+      <description>What does Jiffy do? Jiffy is a model-based RESTful application services generator written in go. Think of Jiffy as an accelerator. Jiffy generates a complete backend services application for you and that generated application is what you will run in production.
 Jiffy allows a developer to generate a robust go-based application that treats the data persistence layer in a generic manner. This allows the generated application to connect to number of different database systems (outlined below), without any code changes.</description>
     </item>
     
@@ -79,7 +79,7 @@ FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├�
       
       <guid>https://1414c.github.io/jiffy/getting-started/gs-content-d/</guid>
       <description>Let&amp;rsquo;s execute our first application!
-$ cd $GOPATH/src/jiffy_tests/first_app $ go run main.go -dev -rs  Executing with the -dev and -rs flags instructs our new application to initialize itself using the development settings file, and forces a rebuild of the &amp;lsquo;Super&amp;rsquo; authorization-group. Consequently, you will see some warning and info messages scroll up the screen which is perfectly normal.
+$ cd $GOPATH/src/jiffy_tests/first_app $ go run main.go -dev -rs  Executing with the -dev and -rs flags instructs our new application to initialize itself using the development settings file, and forces a rebuild of the &amp;lsquo;Super&amp;rsquo; authorization-group. Consequently, you will see some warning and info messages scroll up the screen which is expected.
 2018/02/05 22:29:26 package sqac init is running 2018/02/05 22:29:26 successfully loaded the config file.</description>
     </item>
     
