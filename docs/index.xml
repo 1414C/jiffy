@@ -33,6 +33,16 @@ $ go get -u github.com/1414C/jiffy  This will pull the jiffy github repository i
     </item>
     
     <item>
+      <title>Extension Point Overview</title>
+      <link>https://1414c.github.io/jiffy/extensionpoints/gn-content-a/</link>
+      <pubDate>Mon, 05 Feb 2018 17:55:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/extensionpoints/gn-content-a/</guid>
+      <description>Extension-Points (ext folders) The Jiffy application generates a working web services application based on the provided model files. While the generated application should be runnable immediately following generation, there is often a need to perform validation and normalization of the incoming data. This is best coded in the model-layer within the generated validation methods, but sometimes this is not sufficient.
+There may be a need to inspect the request details immediately once the request has been passed to the controller.</description>
+    </item>
+    
+    <item>
       <title>Generation Overview</title>
       <link>https://1414c.github.io/jiffy/generation/gn-content-a/</link>
       <pubDate>Mon, 05 Feb 2018 15:22:10 -0700</pubDate>
@@ -91,6 +101,16 @@ Jiffy allows a developer to generate a robust go-based application that treats t
       <guid>https://1414c.github.io/jiffy/getting-started/gs-content-c/</guid>
       <description>Now that Jiffy is installed, we will build a simple service to test it out.
 Jiffy&amp;rsquo;s source tree comes with a number of sample model files that you can use to get the hang of things. We are going to use a simple model file that contains an entity named &amp;lsquo;Person&amp;rsquo;. The model file can be found in the Jiffy source tree, or pulled directly from the Jiffy github repository.</description>
+    </item>
+    
+    <item>
+      <title>Controller Extension Points</title>
+      <link>https://1414c.github.io/jiffy/extensionpoints/gn-content-b/</link>
+      <pubDate>Mon, 05 Feb 2018 18:03:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/extensionpoints/gn-content-b/</guid>
+      <description>Overview Controller extension-points exist for the Create, Update and Get CRUD operations. Each operation has a related extension-point interface, for which an empty implementation is created when the application is generated. If the generator sees that the extension-point implementation file for an entity has already been created, it will not over-write or create a new version.
+File ./myapp/controllers/ext/extc_interfaces.go contains the generated entity controller extension-point interface declarations. Each interface and interface method is documented in this file.</description>
     </item>
     
     <item>
@@ -166,6 +186,16 @@ $ cd $GOPATH/src/jiffy_tests/first_app $ go run main.go -dev -rs  Executing with
     </item>
     
     <item>
+      <title>Model Extension Points</title>
+      <link>https://1414c.github.io/jiffy/extensionpoints/gn-content-c/</link>
+      <pubDate>Mon, 05 Feb 2018 18:08:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/extensionpoints/gn-content-c/</guid>
+      <description>Overview Model extension-points exist for the Create, Update and Get CRUD operations. Each operation has a related extension-point interface, for which an empty implementation is created when the application is generated. If the generator sees that the extension-point implementation file for an entity has already been created, it will not over-write or create a new version.
+File ./myapp/models/ext/extm_interfaces.go contains the generated entity model extension-point interface declarations. Each interface and interface method is documented in this file.</description>
+    </item>
+    
+    <item>
       <title>Generated &#39;appobj&#39; Folder</title>
       <link>https://1414c.github.io/jiffy/generation/gn-content-c/</link>
       <pubDate>Mon, 05 Feb 2018 15:32:10 -0700</pubDate>
@@ -230,6 +260,35 @@ graph TD; subgraph A(End-Points)--B(Middleware) B--C(Controllers) C--D(Models) D
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-e/</guid>
       <description>The &amp;lsquo;models&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go . . . ├── models │ ├── authm.go │ ├── errors.go │ ├── group_authm.go │ ├── modelfuncs.go │ ├── personm_ext.go │ ├── personm.go │ ├── servicesm.go │ ├── usr_groupm.go │ ├── usrm.go │ └── ext │ └── model_ext_interfaces.go ├── util │ └── strings.go ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  A model is created for each entity that has been modelled in the .</description>
+    </item>
+    
+    <item>
+      <title>Generated &#39;middleware&#39; Folder</title>
+      <link>https://1414c.github.io/jiffy/generation/gn-content-f/</link>
+      <pubDate>Mon, 05 Feb 2018 17:23:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/generation/gn-content-f/</guid>
+      <description>The &amp;lsquo;middleware&amp;rsquo; Folder FirstApp ├── appobj │ ├── ... │ └── ... . . . ├── middleware │ └── requireuser.go . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  The middleware folder contains all of the code related to the application the of Authentication and Authorization concepts discussed in the &amp;lsquo;Access Control Overview&amp;rsquo; and &amp;lsquo;Authorizations &amp;amp; End-Point Security&amp;rsquo; sections of this document.</description>
+    </item>
+    
+    <item>
+      <title>Generated &#39;jwtkeys&#39; Folder</title>
+      <link>https://1414c.github.io/jiffy/generation/gn-content-g/</link>
+      <pubDate>Mon, 05 Feb 2018 15:24:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/generation/gn-content-g/</guid>
+      <description>The &amp;lsquo;jwtkeys&amp;rsquo; Folder FirstApp ├── appobj │ ├── ... │ └── ... . . . ├── jwtkeys │ ├── ecdsa256 │ │ ├── ecdsa.priv.pem │ │ └── ecdsa.pub.pem │ ├── ecdsa384 │ │ ├── ecdsa384.prive.pem │ │ └── ecdsa384.pub.pem │ ├── ecdsa521 │ │ ├── ecdsa521.priv.pem │ │ └── ecdsa521.pub.pem │ ├── rsa256 │ │ ├── rsa.priv.pem │ │ └── rsa.pub.pem │ ├── rsa384 │ │ ├── rsa384.prive.pem │ │ └── rsa384.</description>
+    </item>
+    
+    <item>
+      <title>Other Generated Folders</title>
+      <link>https://1414c.github.io/jiffy/generation/gn-content-h/</link>
+      <pubDate>Mon, 05 Feb 2018 15:46:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/generation/gn-content-h/</guid>
+      <description>The &amp;lsquo;ext&amp;rsquo; Folders &amp;lsquo;ext&amp;rsquo; folders contain Jiffy application interface definitions and empty implementations of the same for controller and model extension-points. See the &amp;lsquo;Extension Point&amp;rsquo; section of this documentation.
+The group/gmcl Folder The group/gmcl folder contains the source files for the usr, auth, usrgroup and groupauth cache clients. This package is for internal use only. See the &amp;lsquo;Group Membership&amp;rsquo; and &amp;lsquo;Failure Detection&amp;rsquo; sections of this documentation.
+The group/gmcom Folder The group/gmcom folder contains source files holding artifacts that are needed by the groups/&amp;hellip; packages and those of the generated jiffy application.</description>
     </item>
     
     <item>

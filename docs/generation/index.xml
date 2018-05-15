@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Generation on My New Hugo Site</title>
+    <title>Generation Reference on My New Hugo Site</title>
     <link>https://1414c.github.io/jiffy/generation/</link>
-    <description>Recent content in Generation on My New Hugo Site</description>
+    <description>Recent content in Generation Reference on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 05 Feb 2018 15:22:10 -0700</lastBuildDate>
@@ -57,6 +57,35 @@ FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├�
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-e/</guid>
       <description>The &amp;lsquo;models&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go . . . ├── models │ ├── authm.go │ ├── errors.go │ ├── group_authm.go │ ├── modelfuncs.go │ ├── personm_ext.go │ ├── personm.go │ ├── servicesm.go │ ├── usr_groupm.go │ ├── usrm.go │ └── ext │ └── model_ext_interfaces.go ├── util │ └── strings.go ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  A model is created for each entity that has been modelled in the .</description>
+    </item>
+    
+    <item>
+      <title>Generated &#39;middleware&#39; Folder</title>
+      <link>https://1414c.github.io/jiffy/generation/gn-content-f/</link>
+      <pubDate>Mon, 05 Feb 2018 17:23:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/generation/gn-content-f/</guid>
+      <description>The &amp;lsquo;middleware&amp;rsquo; Folder FirstApp ├── appobj │ ├── ... │ └── ... . . . ├── middleware │ └── requireuser.go . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  The middleware folder contains all of the code related to the application the of Authentication and Authorization concepts discussed in the &amp;lsquo;Access Control Overview&amp;rsquo; and &amp;lsquo;Authorizations &amp;amp; End-Point Security&amp;rsquo; sections of this document.</description>
+    </item>
+    
+    <item>
+      <title>Generated &#39;jwtkeys&#39; Folder</title>
+      <link>https://1414c.github.io/jiffy/generation/gn-content-g/</link>
+      <pubDate>Mon, 05 Feb 2018 15:24:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/generation/gn-content-g/</guid>
+      <description>The &amp;lsquo;jwtkeys&amp;rsquo; Folder FirstApp ├── appobj │ ├── ... │ └── ... . . . ├── jwtkeys │ ├── ecdsa256 │ │ ├── ecdsa.priv.pem │ │ └── ecdsa.pub.pem │ ├── ecdsa384 │ │ ├── ecdsa384.prive.pem │ │ └── ecdsa384.pub.pem │ ├── ecdsa521 │ │ ├── ecdsa521.priv.pem │ │ └── ecdsa521.pub.pem │ ├── rsa256 │ │ ├── rsa.priv.pem │ │ └── rsa.pub.pem │ ├── rsa384 │ │ ├── rsa384.prive.pem │ │ └── rsa384.</description>
+    </item>
+    
+    <item>
+      <title>Other Generated Folders</title>
+      <link>https://1414c.github.io/jiffy/generation/gn-content-h/</link>
+      <pubDate>Mon, 05 Feb 2018 15:46:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/generation/gn-content-h/</guid>
+      <description>The &amp;lsquo;ext&amp;rsquo; Folders &amp;lsquo;ext&amp;rsquo; folders contain Jiffy application interface definitions and empty implementations of the same for controller and model extension-points. See the &amp;lsquo;Extension Point&amp;rsquo; section of this documentation.
+The group/gmcl Folder The group/gmcl folder contains the source files for the usr, auth, usrgroup and groupauth cache clients. This package is for internal use only. See the &amp;lsquo;Group Membership&amp;rsquo; and &amp;lsquo;Failure Detection&amp;rsquo; sections of this documentation.
+The group/gmcom Folder The group/gmcom folder contains source files holding artifacts that are needed by the groups/&amp;hellip; packages and those of the generated jiffy application.</description>
     </item>
     
   </channel>

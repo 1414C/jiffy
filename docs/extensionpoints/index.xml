@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Extension Points on My New Hugo Site</title>
+    <link>https://1414c.github.io/jiffy/extensionpoints/</link>
+    <description>Recent content in Extension Points on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 05 Feb 2018 17:55:10 -0700</lastBuildDate>
+    
+	<atom:link href="https://1414c.github.io/jiffy/extensionpoints/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Extension Point Overview</title>
+      <link>https://1414c.github.io/jiffy/extensionpoints/gn-content-a/</link>
+      <pubDate>Mon, 05 Feb 2018 17:55:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/extensionpoints/gn-content-a/</guid>
+      <description>Extension-Points (ext folders) The Jiffy application generates a working web services application based on the provided model files. While the generated application should be runnable immediately following generation, there is often a need to perform validation and normalization of the incoming data. This is best coded in the model-layer within the generated validation methods, but sometimes this is not sufficient.
+There may be a need to inspect the request details immediately once the request has been passed to the controller.</description>
+    </item>
+    
+    <item>
+      <title>Controller Extension Points</title>
+      <link>https://1414c.github.io/jiffy/extensionpoints/gn-content-b/</link>
+      <pubDate>Mon, 05 Feb 2018 18:03:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/extensionpoints/gn-content-b/</guid>
+      <description>Overview Controller extension-points exist for the Create, Update and Get CRUD operations. Each operation has a related extension-point interface, for which an empty implementation is created when the application is generated. If the generator sees that the extension-point implementation file for an entity has already been created, it will not over-write or create a new version.
+File ./myapp/controllers/ext/extc_interfaces.go contains the generated entity controller extension-point interface declarations. Each interface and interface method is documented in this file.</description>
+    </item>
+    
+    <item>
+      <title>Model Extension Points</title>
+      <link>https://1414c.github.io/jiffy/extensionpoints/gn-content-c/</link>
+      <pubDate>Mon, 05 Feb 2018 18:08:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/extensionpoints/gn-content-c/</guid>
+      <description>Overview Model extension-points exist for the Create, Update and Get CRUD operations. Each operation has a related extension-point interface, for which an empty implementation is created when the application is generated. If the generator sees that the extension-point implementation file for an entity has already been created, it will not over-write or create a new version.
+File ./myapp/models/ext/extm_interfaces.go contains the generated entity model extension-point interface declarations. Each interface and interface method is documented in this file.</description>
+    </item>
+    
+  </channel>
+</rss>
