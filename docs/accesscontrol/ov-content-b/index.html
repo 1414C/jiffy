@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <title>Generated &#39;jwtkeys&#39; Folder :: My New Hugo Site</title>
+    <title>Authorizations :: My New Hugo Site</title>
     
     
     <link href="/jiffy/css/nucleus.css?1526486917" rel="stylesheet">
@@ -35,7 +35,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/jiffy/generation/gn-content-g/">
+  <body class="" data-url="/jiffy/accesscontrol/ov-content-b/">
     <nav id="sidebar" class="">
 
 
@@ -784,7 +784,7 @@
   
     
     <li data-nav-id="/jiffy/generation/" title="Generation Reference" class="dd-item 
-        parent
+        
         
         
         ">
@@ -922,7 +922,7 @@
  
   
     
-      <li data-nav-id="/jiffy/generation/gn-content-g/" title="Generated &#39;jwtkeys&#39; Folder" class="dd-item active">
+      <li data-nav-id="/jiffy/generation/gn-content-g/" title="Generated &#39;jwtkeys&#39; Folder" class="dd-item ">
         <a href="/jiffy/generation/gn-content-g/">
         Generated &#39;jwtkeys&#39; Folder
         
@@ -1057,7 +1057,7 @@
   
     
     <li data-nav-id="/jiffy/accesscontrol/" title="Access Control" class="dd-item 
-        
+        parent
         
         
         ">
@@ -1100,7 +1100,7 @@
  
   
     
-      <li data-nav-id="/jiffy/accesscontrol/ov-content-b/" title="Authorizations" class="dd-item ">
+      <li data-nav-id="/jiffy/accesscontrol/ov-content-b/" title="Authorizations" class="dd-item active">
         <a href="/jiffy/accesscontrol/ov-content-b/">
         Authorizations
         
@@ -1205,7 +1205,7 @@
             
           
           
-            <a href='/jiffy/'></a> > <a href='/jiffy/generation/'>Generation Reference</a> > Generated 'jwtkeys' Folder
+            <a href='/jiffy/'></a> > <a href='/jiffy/accesscontrol/'>Access Control</a> > Authorizations
           
          
           
@@ -1223,7 +1223,13 @@
 <ul>
 <li>
 <ul>
-<li><a href="#the-jwtkeys-folder">The &lsquo;jwtkeys&rsquo; Folder</a></li>
+<li><a href="#standard-crud-authorizations">Standard CRUD Authorizations</a>
+<ul>
+<li><a href="#static-filter-authorizations">Static Filter Authorizations</a></li>
+<li><a href="#relation-authorizations">Relation Authorizations</a></li>
+<li><a href="#authorization-generation">Authorization Generation</a></li>
+<li><a href="#authorization-maintenance">Authorization Maintenance</a></li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -1239,7 +1245,7 @@
         
         <div id="body-inner">
           
-            <h1>Generated &#39;jwtkeys&#39; Folder</h1>
+            <h1>Authorizations</h1>
           
 
         
@@ -1247,46 +1253,99 @@
 
 
 
-<h3 id="the-jwtkeys-folder">The &lsquo;jwtkeys&rsquo; Folder</h3>
+<h3 id="standard-crud-authorizations">Standard CRUD Authorizations</h3>
 
-<pre><code class="language-code">
-FirstApp
-├── appobj
-│   ├── ...
-│   └── ...
-.
-.
-.
-├── jwtkeys
-│   ├── ecdsa256
-│   │   ├── ecdsa.priv.pem
-│   │   └── ecdsa.pub.pem
-│   ├── ecdsa384
-│   │   ├── ecdsa384.prive.pem
-│   │   └── ecdsa384.pub.pem
-│   ├── ecdsa521
-│   │   ├── ecdsa521.priv.pem
-│   │   └── ecdsa521.pub.pem
-│   ├── rsa256
-│   │   ├── rsa.priv.pem
-│   │   └── rsa.pub.pem
-│   ├── rsa384
-│   │   ├── rsa384.prive.pem
-│   │   └── rsa384.pub.pem
-│   └── rsa512
-│       ├── rsa512.priv.pem
-│       └── rsa512.pub.pem
-.
-.
-.
-├── .dev.config.json
-├── .prd.config.json
-├── main_test.go
-└── main.go
+<p>As discussed in the Access Control Overview, each of the generated services end-points is assigned a name which is used as an Authorization object by the router middleware.</p>
+
+<p>Standard CRUD end-points for entity Library are generated as follows:</p>
+
+<pre><code class="language-golang">
+    // ====================== Library protected routes for standard CRUD access ======================
+    a.router.HandleFunc(&quot;/librarys&quot;, requireUserMw.ApplyFn(a.libraryC.GetLibrarys)).Methods(&quot;GET&quot;).Name(&quot;library.GET_SET&quot;)
+    a.router.HandleFunc(&quot;/library&quot;, requireUserMw.ApplyFn(a.libraryC.Create)).Methods(&quot;POST&quot;).Name(&quot;library.CREATE&quot;)
+    a.router.HandleFunc(&quot;/library/{id:[0-9]+}&quot;, requireUserMw.ApplyFn(a.libraryC.Get)).Methods(&quot;GET&quot;).Name(&quot;library.GET_ID&quot;)
+    a.router.HandleFunc(&quot;/library/{id:[0-9]+}&quot;, requireUserMw.ApplyFn(a.libraryC.Update)).Methods(&quot;PUT&quot;).Name(&quot;library.UPDATE&quot;)
+    a.router.HandleFunc(&quot;/library/{id:[0-9]+}&quot;, requireUserMw.ApplyFn(a.libraryC.Delete)).Methods(&quot;DELETE&quot;).Name(&quot;library.DELETE&quot;)
 
 </code></pre>
 
-<p>The jwtkeys folder contains the public and private keys that are generated in order to support the use of JWT tokens.  Jiffy generates public/private keys for all supported JWT signing algorithms.  It would <em>probably</em> be okay to place the keys into a common location, as they are only read once by each application instance during its initialization.  JWT&rsquo;s and key usage are discussed in greated detail in the &lsquo;Authorizations &amp; End-Point Security&rsquo; section of this documentation.</p>
+<p>Notice that each end-point handler is assigned a name via the gorilla.mux.Route.Name(&ldquo;string&rdquo;) method.  The generated end-point names follow the standard shown here, but in practice it is safe to change them to whatever works best for your implementation.  Duplicate names in the same router will cause the existing name-route combination to be overwritten by the latest name-route addition as per the gorilla API docs.  Avoid the use of duplicate names.  The set of generated Authorizations for the Library entitys CRUD end-points are:</p>
+
+<ul>
+<li>library.GET_SET</li>
+<li>library.CREATE</li>
+<li>library.GET_ID</li>
+<li>library.UPDATE</li>
+<li>library.DELETE</li>
+</ul>
+
+<h4 id="static-filter-authorizations">Static Filter Authorizations</h4>
+
+<p>Static Filter end-points for entity Library follow the same rules as mentioned above and are generated as follows:</p>
+
+<pre><code class="language-golang">
+    //=================================== Library Static Filters ===================================
+    // http://127.0.0.1:&lt;port&gt;/librarys/name(EQ '&lt;sel_string&gt;')
+    a.router.HandleFunc(&quot;/librarys/name{name:[(]+(?:EQ|eq|LIKE|like)+[ ']+[a-zA-Z0-9_]+[')]+}&quot;,
+        requireUserMw.ApplyFn(a.libraryC.GetLibrarysByName)).Methods(&quot;GET&quot;).Name(&quot;library.STATICFLTR_ByName&quot;)
+
+    // http://127.0.0.1:&lt;port&gt;/librarys/city(EQ '&lt;sel_string&gt;')
+    a.router.HandleFunc(&quot;/librarys/city{city:[(]+(?:EQ|eq)+[ ']+[a-zA-Z0-9_]+[')]+}&quot;,
+        requireUserMw.ApplyFn(a.libraryC.GetLibrarysByCity)).Methods(&quot;GET&quot;).Name(&quot;library.STATICFLTR_ByCity&quot;)
+
+</code></pre>
+
+<p>The set of generated Authorizations for the Library entitys static filter end-points are:</p>
+
+<ul>
+<li>library.STATICFLTR_ByName</li>
+<li>library.STATICFLTR_ByCity</li>
+</ul>
+
+<h4 id="relation-authorizations">Relation Authorizations</h4>
+
+<p>Relation end-points for entity Library follow the same rules as mentioned above and are generated as follows:</p>
+
+<pre><code class="language-golang">
+    //====================================== Library Relations ======================================
+    // hasMany relation ToBooks for Library
+    a.router.HandleFunc(&quot;/library/{library_id:[0-9]+}/tobooks&quot;, 
+        requireUserMw.ApplyFn(a.libraryC.GetLibraryToBooks)).Methods(&quot;GET&quot;).Name(&quot;library.REL_tobooks&quot;)
+
+    a.router.HandleFunc(&quot;/library/{library_id:[0-9]+}/tobooks/{book_id:[0-9]+}&quot;, 
+        requireUserMw.ApplyFn(a.libraryC.GetLibraryToBooks)).Methods(&quot;GET&quot;).Name(&quot;library.REL_tobooks_id&quot;)
+
+</code></pre>
+
+<p>The set of generated Authorizations for the Library entitys relation end-points are:</p>
+
+<ul>
+<li>library.REL_tobooks</li>
+<li>library.REL_tobooks_id</li>
+</ul>
+
+<h4 id="authorization-generation">Authorization Generation</h4>
+
+<p>Authorizations are assigned to end-points in the route declarations as described in the preceding sections.  They are also added to a table (<em>auth</em>) in the backing database, as are the User Groups (table <em>usrgroup</em>) and the assignment of Authorizations to the same (via table <em>groupauth</em>).</p>
+
+<p>At application start-up, a walk of the router is performed in order to obtain a complete list of Authorizations.  This is neccessary, as changes may have been made to the application since the last time it was run.  For example, a new entity may have been added; the Authorizations for the corresponding end-points need to be made available via the creation of new entries in the <em>auth</em> table.  The creation of the new Authorizations in the <em>auth</em> table does not add them to any User Groups, but simply makes them available for use.</p>
+
+<h4 id="authorization-maintenance">Authorization Maintenance</h4>
+
+<p>The end-points related to Authorization, User Group and User maintenance are protected by default.  This means that in order to perform any activities (such as create Users) in the generated application, an initial User belonging to a User Group with sufficient Authorizations is required.  To this end, a User called &lsquo;admin&rsquo; and a User Group called &lsquo;Super&rsquo; are created by default the first time the application is run.  This unfolds as follows:</p>
+
+<ul>
+<li>A complete list of the route Authorizations is obtained by walking the router as described above in the Authorization Generation section.</li>
+<li>Table <em>usrgroup</em> is checked for the existance of the &lsquo;Super&rsquo; group.</li>
+<li>If the &lsquo;Super&rsquo; User Group is not found, it is created.</li>
+<li>All existing Authorization allocations to the &lsquo;Super&rsquo; User Group are deleted.</li>
+<li>The list of route Authorizations is then used to allocate Authorization for each end-point to the &lsquo;Super&rsquo; User Group.</li>
+<li>A check for the existance of the &lsquo;admin&rsquo; user is executed against the <em>usr</em> table.</li>
+<li>If the &lsquo;admin&rsquo; user does not exist, it is created as a member of the &lsquo;Super&rsquo; User Group, with an initial password of &lsquo;initpass&rsquo;.</li>
+<li>As the User Group Authorizations are cached on all application instances in the pool, the cache is re-initialized locally and then distributed to the other pool memnbers so that the &lsquo;Super&rsquo; group is generally available.</li>
+</ul>
+
+<p>It is possible to force a rebuild of the &lsquo;Super&rsquo; User Group&rsquo;s Authorization allocations by starting the generated application with the <strong>-rs</strong> (rebuild super) flag.  This will force the application to run through the preceding list of steps, resulting in a &lsquo;Super&rsquo; User Group that contains a complete list of the Authorizations needed to access all end-points, as well as removing any end-point Authorizations that may no longer exist.  Only the &lsquo;Super&rsquo; User Group may be updated in this manner.  Changes to existing User Groups must be carried out manually by an authorized user via the end-points related to User, User Group and Authorization maintenance.</p>
 
 
 <footer class=" footline" >
@@ -1842,7 +1901,6 @@ FirstApp
             
                 
                     
-                    
                 
                 
 
@@ -1855,9 +1913,6 @@ FirstApp
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -1933,74 +1988,6 @@ FirstApp
                     
             
         
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
                     
                         
             
@@ -2117,6 +2104,78 @@ FirstApp
             
         
                     
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
             
         
         
@@ -2124,10 +2183,10 @@ FirstApp
 
 
         
-            <a class="nav nav-prev" href="/jiffy/generation/gn-content-f/" title="Generated &#39;middleware&#39; Folder"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/jiffy/accesscontrol/ov-content-a/" title="Access Control Overview"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/jiffy/generation/gn-content-h/" title="Other Generated Folders" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/jiffy/accesscontrol/ov-content-c/" title="Access Revocation" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 

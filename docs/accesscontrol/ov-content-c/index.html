@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <title>Generated &#39;jwtkeys&#39; Folder :: My New Hugo Site</title>
+    <title>Access Revocation :: My New Hugo Site</title>
     
     
     <link href="/jiffy/css/nucleus.css?1526486917" rel="stylesheet">
@@ -35,7 +35,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/jiffy/generation/gn-content-g/">
+  <body class="" data-url="/jiffy/accesscontrol/ov-content-c/">
     <nav id="sidebar" class="">
 
 
@@ -784,7 +784,7 @@
   
     
     <li data-nav-id="/jiffy/generation/" title="Generation Reference" class="dd-item 
-        parent
+        
         
         
         ">
@@ -922,7 +922,7 @@
  
   
     
-      <li data-nav-id="/jiffy/generation/gn-content-g/" title="Generated &#39;jwtkeys&#39; Folder" class="dd-item active">
+      <li data-nav-id="/jiffy/generation/gn-content-g/" title="Generated &#39;jwtkeys&#39; Folder" class="dd-item ">
         <a href="/jiffy/generation/gn-content-g/">
         Generated &#39;jwtkeys&#39; Folder
         
@@ -1057,7 +1057,7 @@
   
     
     <li data-nav-id="/jiffy/accesscontrol/" title="Access Control" class="dd-item 
-        
+        parent
         
         
         ">
@@ -1119,7 +1119,7 @@
  
   
     
-      <li data-nav-id="/jiffy/accesscontrol/ov-content-c/" title="Access Revocation" class="dd-item ">
+      <li data-nav-id="/jiffy/accesscontrol/ov-content-c/" title="Access Revocation" class="dd-item active">
         <a href="/jiffy/accesscontrol/ov-content-c/">
         Access Revocation
         
@@ -1205,7 +1205,7 @@
             
           
           
-            <a href='/jiffy/'></a> > <a href='/jiffy/generation/'>Generation Reference</a> > Generated 'jwtkeys' Folder
+            <a href='/jiffy/'></a> > <a href='/jiffy/accesscontrol/'>Access Control</a> > Access Revocation
           
          
           
@@ -1223,7 +1223,7 @@
 <ul>
 <li>
 <ul>
-<li><a href="#the-jwtkeys-folder">The &lsquo;jwtkeys&rsquo; Folder</a></li>
+<li><a href="#jwt-token-revocation">JWT Token Revocation</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -1239,7 +1239,7 @@
         
         <div id="body-inner">
           
-            <h1>Generated &#39;jwtkeys&#39; Folder</h1>
+            <h1>Access Revocation</h1>
           
 
         
@@ -1247,46 +1247,11 @@
 
 
 
-<h3 id="the-jwtkeys-folder">The &lsquo;jwtkeys&rsquo; Folder</h3>
+<h3 id="jwt-token-revocation">JWT Token Revocation</h3>
 
-<pre><code class="language-code">
-FirstApp
-├── appobj
-│   ├── ...
-│   └── ...
-.
-.
-.
-├── jwtkeys
-│   ├── ecdsa256
-│   │   ├── ecdsa.priv.pem
-│   │   └── ecdsa.pub.pem
-│   ├── ecdsa384
-│   │   ├── ecdsa384.prive.pem
-│   │   └── ecdsa384.pub.pem
-│   ├── ecdsa521
-│   │   ├── ecdsa521.priv.pem
-│   │   └── ecdsa521.pub.pem
-│   ├── rsa256
-│   │   ├── rsa.priv.pem
-│   │   └── rsa.pub.pem
-│   ├── rsa384
-│   │   ├── rsa384.prive.pem
-│   │   └── rsa384.pub.pem
-│   └── rsa512
-│       ├── rsa512.priv.pem
-│       └── rsa512.pub.pem
-.
-.
-.
-├── .dev.config.json
-├── .prd.config.json
-├── main_test.go
-└── main.go
+<p>Jiffy applications do not support the revocation or automatic renewal of JWT tokens.  Instead, a cross-process cache of User information is maintained via a group-membership service.  The service ensures that changes to User information (create/update/delete) are disseminated to all running instances of the Jiffy generated application.  Consequently, in Jiffy-based applications it makes sense to discuss user access revocation from the perspective of an administrator making a call to the user-API to perform general user deletion or deactivation.  Such changes are affected in the backend database, and then updated in the application server caches by way of the web-sockets-based group-membership service.</p>
 
-</code></pre>
-
-<p>The jwtkeys folder contains the public and private keys that are generated in order to support the use of JWT tokens.  Jiffy generates public/private keys for all supported JWT signing algorithms.  It would <em>probably</em> be okay to place the keys into a common location, as they are only read once by each application instance during its initialization.  JWT&rsquo;s and key usage are discussed in greated detail in the &lsquo;Authorizations &amp; End-Point Security&rsquo; section of this documentation.</p>
+<p>It would be possible to alter jiffy to create self-renewing JWT&rsquo;s, but then the client developer would need to examine the Authorization field in the response header.  It is possible to set the token-expiry for an arbitrary length of time - say 12 hours via the &lsquo;jwt_lifetime&rsquo; configuration key in the application&rsquo;s configuration file.</p>
 
 
 <footer class=" footline" >
@@ -1842,7 +1807,6 @@ FirstApp
             
                 
                     
-                    
                 
                 
 
@@ -1855,9 +1819,6 @@ FirstApp
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -1933,74 +1894,6 @@ FirstApp
                     
             
         
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
                     
                         
             
@@ -2117,6 +2010,75 @@ FirstApp
             
         
                     
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
             
         
         
@@ -2124,10 +2086,10 @@ FirstApp
 
 
         
-            <a class="nav nav-prev" href="/jiffy/generation/gn-content-f/" title="Generated &#39;middleware&#39; Folder"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/jiffy/accesscontrol/ov-content-b/" title="Authorizations"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/jiffy/generation/gn-content-h/" title="Other Generated Folders" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/jiffy/accesscontrol/ov-content-a/" title="Access Control Overview" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Access Control on My New Hugo Site</title>
+    <link>https://1414c.github.io/jiffy/accesscontrol/</link>
+    <description>Recent content in Access Control on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="https://1414c.github.io/jiffy/accesscontrol/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Access Control Overview</title>
+      <link>https://1414c.github.io/jiffy/accesscontrol/ov-content-a/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/accesscontrol/ov-content-a/</guid>
+      <description>Overview Access to application resources (entities) is controlled in four ways:
+ Configuration based service activation Secure user authentication Authorization checks via JWT token claim inspection embeded as middleware in the protected route declarations (end-points) Usr/Auth/Group/GroupAuth caches are maintained on each group-member and updated via an internal API and dissemination protocol in the group-membership service  Configuration Based Service Activation An internal service is created for each of the modelled entities in the application.</description>
+    </item>
+    
+    <item>
+      <title>Authorizations</title>
+      <link>https://1414c.github.io/jiffy/accesscontrol/ov-content-b/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/accesscontrol/ov-content-b/</guid>
+      <description>Standard CRUD Authorizations As discussed in the Access Control Overview, each of the generated services end-points is assigned a name which is used as an Authorization object by the router middleware.
+Standard CRUD end-points for entity Library are generated as follows:
+// ====================== Library protected routes for standard CRUD access ====================== a.router.HandleFunc(&amp;quot;/librarys&amp;quot;, requireUserMw.ApplyFn(a.libraryC.GetLibrarys)).Methods(&amp;quot;GET&amp;quot;).Name(&amp;quot;library.GET_SET&amp;quot;) a.router.HandleFunc(&amp;quot;/library&amp;quot;, requireUserMw.ApplyFn(a.libraryC.Create)).Methods(&amp;quot;POST&amp;quot;).Name(&amp;quot;library.CREATE&amp;quot;) a.router.HandleFunc(&amp;quot;/library/{id:[0-9]+}&amp;quot;, requireUserMw.ApplyFn(a.libraryC.Get)).Methods(&amp;quot;GET&amp;quot;).Name(&amp;quot;library.GET_ID&amp;quot;) a.router.HandleFunc(&amp;quot;/library/{id:[0-9]+}&amp;quot;, requireUserMw.ApplyFn(a.libraryC.Update)).Methods(&amp;quot;PUT&amp;quot;).Name(&amp;quot;library.UPDATE&amp;quot;) a.router.HandleFunc(&amp;quot;/library/{id:[0-9]+}&amp;quot;, requireUserMw.ApplyFn(a.libraryC.Delete)).Methods(&amp;quot;DELETE&amp;quot;).Name(&amp;quot;library.DELETE&amp;quot;)  Notice that each end-point handler is assigned a name via the gorilla.</description>
+    </item>
+    
+    <item>
+      <title>Access Revocation</title>
+      <link>https://1414c.github.io/jiffy/accesscontrol/ov-content-c/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/accesscontrol/ov-content-c/</guid>
+      <description>JWT Token Revocation Jiffy applications do not support the revocation or automatic renewal of JWT tokens. Instead, a cross-process cache of User information is maintained via a group-membership service. The service ensures that changes to User information (create/update/delete) are disseminated to all running instances of the Jiffy generated application. Consequently, in Jiffy-based applications it makes sense to discuss user access revocation from the perspective of an administrator making a call to the user-API to perform general user deletion or deactivation.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -94,6 +94,16 @@ Jiffy allows a developer to generate a robust go-based application that treats t
     </item>
     
     <item>
+      <title>Access Control Overview</title>
+      <link>https://1414c.github.io/jiffy/accesscontrol/ov-content-a/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/accesscontrol/ov-content-a/</guid>
+      <description>Overview Access to application resources (entities) is controlled in four ways:
+ Configuration based service activation Secure user authentication Authorization checks via JWT token claim inspection embeded as middleware in the protected route declarations (end-points) Usr/Auth/Group/GroupAuth caches are maintained on each group-member and updated via an internal API and dissemination protocol in the group-membership service  Configuration Based Service Activation An internal service is created for each of the modelled entities in the application.</description>
+    </item>
+    
+    <item>
       <title>Let&#39;s Build Something</title>
       <link>https://1414c.github.io/jiffy/getting-started/gs-content-c/</link>
       <pubDate>Mon, 05 Feb 2018 21:15:53 -0700</pubDate>
@@ -165,6 +175,17 @@ Applications are generated based on model files which are encoded as simple JSON
     </item>
     
     <item>
+      <title>Authorizations</title>
+      <link>https://1414c.github.io/jiffy/accesscontrol/ov-content-b/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/accesscontrol/ov-content-b/</guid>
+      <description>Standard CRUD Authorizations As discussed in the Access Control Overview, each of the generated services end-points is assigned a name which is used as an Authorization object by the router middleware.
+Standard CRUD end-points for entity Library are generated as follows:
+// ====================== Library protected routes for standard CRUD access ====================== a.router.HandleFunc(&amp;quot;/librarys&amp;quot;, requireUserMw.ApplyFn(a.libraryC.GetLibrarys)).Methods(&amp;quot;GET&amp;quot;).Name(&amp;quot;library.GET_SET&amp;quot;) a.router.HandleFunc(&amp;quot;/library&amp;quot;, requireUserMw.ApplyFn(a.libraryC.Create)).Methods(&amp;quot;POST&amp;quot;).Name(&amp;quot;library.CREATE&amp;quot;) a.router.HandleFunc(&amp;quot;/library/{id:[0-9]+}&amp;quot;, requireUserMw.ApplyFn(a.libraryC.Get)).Methods(&amp;quot;GET&amp;quot;).Name(&amp;quot;library.GET_ID&amp;quot;) a.router.HandleFunc(&amp;quot;/library/{id:[0-9]+}&amp;quot;, requireUserMw.ApplyFn(a.libraryC.Update)).Methods(&amp;quot;PUT&amp;quot;).Name(&amp;quot;library.UPDATE&amp;quot;) a.router.HandleFunc(&amp;quot;/library/{id:[0-9]+}&amp;quot;, requireUserMw.ApplyFn(a.libraryC.Delete)).Methods(&amp;quot;DELETE&amp;quot;).Name(&amp;quot;library.DELETE&amp;quot;)  Notice that each end-point handler is assigned a name via the gorilla.</description>
+    </item>
+    
+    <item>
       <title>Jiffy Application Structure</title>
       <link>https://1414c.github.io/jiffy/overview/ov-content-c/</link>
       <pubDate>Sat, 10 Feb 2018 23:56:10 -0700</pubDate>
@@ -212,6 +233,15 @@ FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├�
       
       <guid>https://1414c.github.io/jiffy/models/mo-content-c/</guid>
       <description>Two Entity Model with Composite Index The following JSON illustrates the addition of a composite-index to an entity definition. An index composed of the &amp;lsquo;name&amp;rsquo; and &amp;lsquo;province&amp;rsquo; fields has been declared in the &amp;lsquo;Owner&amp;rsquo; entity. This declaration will result in the creation of a non-unique b-tree index for columns &amp;lsquo;name&amp;rsquo; and &amp;lsquo;province&amp;rsquo; in the database. Any number of composite indices may be declared for an entity. No relationships have been defined between the two entities; this example simply illustrates how to declare a composite-index for an entity.</description>
+    </item>
+    
+    <item>
+      <title>Access Revocation</title>
+      <link>https://1414c.github.io/jiffy/accesscontrol/ov-content-c/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/accesscontrol/ov-content-c/</guid>
+      <description>JWT Token Revocation Jiffy applications do not support the revocation or automatic renewal of JWT tokens. Instead, a cross-process cache of User information is maintained via a group-membership service. The service ensures that changes to User information (create/update/delete) are disseminated to all running instances of the Jiffy generated application. Consequently, in Jiffy-based applications it makes sense to discuss user access revocation from the perspective of an administrator making a call to the user-API to perform general user deletion or deactivation.</description>
     </item>
     
     <item>
