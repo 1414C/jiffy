@@ -13,19 +13,19 @@
     <title>Failure Detector :: My New Hugo Site</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1526531591" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1526531591" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1526531591" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1526531591" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1526531591" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1526531591" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1526531591" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1526531591" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1526660752" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1526660752" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1526660752" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1526660752" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1526660752" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1526660752" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1526660752" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1526660752" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1526531591" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1526660752" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1526531591"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1526660752"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1526531591"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1526531591"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1526660752"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1526660752"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1526531591"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1526660752"></script>
 
     
   </div>
@@ -1344,13 +1344,14 @@
 <h3 id="group-membership-failure-detector">Group Membership Failure Detector</h3>
 
 <ul>
+<li>When discussing deployment of a Jiffy-generated application, each instance of the application is referred to as a process.</li>
 <li>Processes may fail.</li>
-<li>Processes exist with one of three publicly disseminated and well-known states: {ACTIVE; SUSPECT; FAILED}</li>
+<li>Processes exist with one of three publicly disseminated and well-known statuses: {ACTIVE; SUSPECT; FAILED}</li>
 <li>Processes exist with a publicly (within the group) disseminated incarnation number.</li>
-<li>Process liveness is checked at selectable intervals (ping-cycle time) via a ping-ack mechanism.</li>
+<li>Process viability is checked at selectable intervals (ping-cycle time) via a ping-ack mechanism.</li>
 <li>Each process pings all other processes in the group once per ping-cycle in random order. This means that each process is guaranteed to ping every other process in the group in (2n-1) pings, where n is the number of non-failed processes in the process-list.</li>
 <li>Processes failing a ping-ack exchange are not immediately failed but are moved into the SUSPECT state.</li>
-<li>The failure-threshold outlining the number of failed ping-ack exchanges for a SUSPECT process is configurable.</li>
+<li>The failure-threshold outlining the number of failed ping-ack exchanges for a SUSPECT process is configurable via the &lsquo;failure_threshold&rsquo; key in the configuration file.</li>
 <li>The local status-count of the SUSPECT process is incremented once for each failed ping or notification of a failed ping from another process in the group.</li>
 <li>Process status is disseminated across all processes by way of a gossip-based infection-style piggybacking of process information on top of a process&rsquo;s outgoing ping messages.  Pinging process (Pi) sends a Ping containing it&rsquo;s local group-membership list to a target process (Pj).  Process Pj receives the Ping, takes note of the included group-membership list from Pi, updates its own group-membership list, then sends an Ack message back to Pi.  Ping status scenarios are broken out in a subseqent section.</li>
 <li>Once a SUSPECT process (Pj) reaches the failure-threshold in any pinging process (Pi), process Pi moves process Pj from the SUSPECT to the FAILED state in its local group-membership list.</li>
@@ -2377,20 +2378,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1526531591"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1526531591"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1526531591"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1526531591"></script>
-    <script src="/jiffy/js/featherlight.min.js?1526531591"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1526531591"></script>
-    <script src="/jiffy/js/highlight.pack.js?1526531591"></script>
+    <script src="/jiffy/js/clipboard.min.js?1526660752"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1526660752"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1526660752"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1526660752"></script>
+    <script src="/jiffy/js/featherlight.min.js?1526660752"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1526660752"></script>
+    <script src="/jiffy/js/highlight.pack.js?1526660752"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1526531591"></script>
-    <script src="/jiffy/js/learn.js?1526531591"></script>
-    <script src="/jiffy/js/hugo-learn.js?1526531591"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1526660752"></script>
+    <script src="/jiffy/js/learn.js?1526660752"></script>
+    <script src="/jiffy/js/hugo-learn.js?1526660752"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1526531591" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1526531591"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1526660752" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1526660752"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

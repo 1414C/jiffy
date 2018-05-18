@@ -109,7 +109,7 @@ Jiffy allows a developer to generate a robust go-based application that treats t
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://1414c.github.io/jiffy/interprocess/ip-content-a/</guid>
-      <description>Overview  Jiffy-generated applications can be deployed as a single instance or as multiple instances. When running multiple instances of a Jiffy-generated application, a group-membership service is started inside each application instance. A group is defined as a running set of application instances running the group-membership service. An application instance knows to start its group-membership service if the -gm flag is provided during startup. Each application instance running the group-membership service can be thought of as a process.</description>
+      <description>Overview  Jiffy-generated applications can be deployed as single or multiple instances. When running multiple instances of a Jiffy-generated application, a group-membership service is started inside each application instance. A group is defined as a set of application instances running the group-membership service. An application instance knows to start its group-membership service if the -gm flag is provided during startup. Each application instance running the group-membership service can be thought of as a process.</description>
     </item>
     
     <item>
@@ -200,7 +200,7 @@ Standard CRUD end-points for entity Library are generated as follows:
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://1414c.github.io/jiffy/interprocess/ip-content-b/</guid>
-      <description>Group Membership Failure Detector  Processes may fail. Processes exist with one of three publicly disseminated and well-known states: {ACTIVE; SUSPECT; FAILED} Processes exist with a publicly (within the group) disseminated incarnation number. Process liveness is checked at selectable intervals (ping-cycle time) via a ping-ack mechanism. Each process pings all other processes in the group once per ping-cycle in random order. This means that each process is guaranteed to ping every other process in the group in (2n-1) pings, where n is the number of non-failed processes in the process-list.</description>
+      <description>Group Membership Failure Detector  When discussing deployment of a Jiffy-generated application, each instance of the application is referred to as a process. Processes may fail. Processes exist with one of three publicly disseminated and well-known statuses: {ACTIVE; SUSPECT; FAILED} Processes exist with a publicly (within the group) disseminated incarnation number. Process viability is checked at selectable intervals (ping-cycle time) via a ping-ack mechanism. Each process pings all other processes in the group once per ping-cycle in random order.</description>
     </item>
     
     <item>
@@ -268,7 +268,8 @@ FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├�
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://1414c.github.io/jiffy/interprocess/ip-content-c/</guid>
-      <description>JWT Tokens and Access Revocation Jiffy applications do not support the revocation or automatic renewal of JWT tokens. Instead, a cross-process cache of User information is maintained via a group-membership service. The service ensures that changes to User information (create/update/delete) are disseminated to all running instances of the Jiffy generated application. Consequently, in Jiffy-based applications it makes sense to discuss User access revocation from the perspective of an administrator making a call to the user-API to perform general User deletion or deactivation.</description>
+      <description>JWT Tokens and Access Revocation Jiffy applications do not support the revocation or automatic renewal of JWT tokens. Instead, the service ensures that changes to User information (create/update/delete) are disseminated to all running instances of the Jiffy generated application. This is accomplished by maintaining a cross-process cache of User information via the group-membership service.
+Consequently, in Jiffy-based applications it makes sense to discuss User access revocation from the perspective of an administrator making a call to the user-API to perform general User deletion or deactivation.</description>
     </item>
     
     <item>
