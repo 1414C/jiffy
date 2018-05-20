@@ -13,19 +13,19 @@
     <title>Failure Detector :: My New Hugo Site</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1526660752" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1526660752" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1526660752" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1526660752" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1526660752" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1526660752" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1526660752" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1526660752" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1526859486" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1526859486" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1526859486" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1526859486" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1526859486" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1526859486" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1526859486" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1526859486" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1526660752" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1526859486" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1526660752"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1526859486"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1526660752"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1526660752"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1526859486"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1526859486"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1526660752"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1526859486"></script>
 
     
   </div>
@@ -1208,8 +1208,27 @@
  
   
     
-      <li data-nav-id="/jiffy/interprocess/ip-content-c/" title="Access Revocation and Renewal" class="dd-item ">
+      <li data-nav-id="/jiffy/interprocess/ip-content-c/" title="Process Startup / Join" class="dd-item ">
         <a href="/jiffy/interprocess/ip-content-c/">
+        Process Startup / Join
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/interprocess/ip-content-d/" title="Access Revocation and Renewal" class="dd-item ">
+        <a href="/jiffy/interprocess/ip-content-d/">
         Access Revocation and Renewal
         
         </a>
@@ -1351,7 +1370,7 @@
 <li>Process viability is checked at selectable intervals (ping-cycle time) via a ping-ack mechanism.</li>
 <li>Each process pings all other processes in the group once per ping-cycle in random order. This means that each process is guaranteed to ping every other process in the group in (2n-1) pings, where n is the number of non-failed processes in the process-list.</li>
 <li>Processes failing a ping-ack exchange are not immediately failed but are moved into the SUSPECT state.</li>
-<li>The failure-threshold outlining the number of failed ping-ack exchanges for a SUSPECT process is configurable via the &lsquo;failure_threshold&rsquo; key in the configuration file.</li>
+<li>The failure-threshold outlining the number of failed ping-ack exchanges for a SUSPECT process is configurable via the &lsquo;failure_threshold&rsquo; key in the configuration file.  At the moment, the configuration value is used directly, but in large groups or groups where the number of active members varies greatly it would make sense to use the configuration value in combination with the number of active processes in the group to determine an appropriate SUSPECT to FAILURE threshold.</li>
 <li>The local status-count of the SUSPECT process is incremented once for each failed ping or notification of a failed ping from another process in the group.</li>
 <li>Process status is disseminated across all processes by way of a gossip-based infection-style piggybacking of process information on top of a process&rsquo;s outgoing ping messages.  Pinging process (Pi) sends a Ping containing it&rsquo;s local group-membership list to a target process (Pj).  Process Pj receives the Ping, takes note of the included group-membership list from Pi, updates its own group-membership list, then sends an Ack message back to Pi.  Ping status scenarios are broken out in a subseqent section.</li>
 <li>Once a SUSPECT process (Pj) reaches the failure-threshold in any pinging process (Pi), process Pi moves process Pj from the SUSPECT to the FAILED state in its local group-membership list.</li>
@@ -1465,6 +1484,8 @@
 <p>As the ping-cycles run, the possibility exists that if P2 were to come back online it may receive a Ping message containing a group-membership list where it (P2) is in a SUSPECT state.  If P2 sees that it is SUSPECT, it reacts by incrementing it&rsquo;s incarnation-number which is then relayed to the group-members via P2&rsquo;s ping messages.  When a process (let&rsquo;s say P1), sees that SUSPECT process P2 has sent a Ping, it checks the embedded incarnation-number to see if it is greater than the P2 incarnation-number presently stored in P1&rsquo;s local group-membership list.  If the incarnation-number contained in the Ping is greater, P1 updates it&rsquo;s group-membership list to indicate that P2 is ALIVE with a new incarnation number.  If the incarnation-number in the (P2-Ping) is lower or the same as that of the P2 record in the local P1 group-membership list, the Ping is discarded.</p>
 
 <p>P2 can still send the Ack&rsquo;s in response to Pings coming from other processes, and due to the concurrent nature of the service, it may well send a Ping to the other group-members (P1 for example) in time to prevent itself from being failed, but this is an unavoidable edge-case.  When a SUSPECT process recovers to the extent that it is reachable again, and one or more group-members are very close to reaching the failure-threshold for the process in question, there is a chance that the recovered process will be failed anyway.</p>
+
+<p>There is a lot more to write here in order to completely describe the mechanics of how the failure detector works.</p>
 
 
 <footer class=" footline" >
@@ -2356,6 +2377,22 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
                     
@@ -2369,7 +2406,7 @@
             <a class="nav nav-prev" href="/jiffy/interprocess/ip-content-a/" title="Group Membership Overview"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/jiffy/interprocess/ip-content-c/" title="Access Revocation and Renewal" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/jiffy/interprocess/ip-content-c/" title="Process Startup / Join" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
@@ -2378,20 +2415,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1526660752"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1526660752"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1526660752"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1526660752"></script>
-    <script src="/jiffy/js/featherlight.min.js?1526660752"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1526660752"></script>
-    <script src="/jiffy/js/highlight.pack.js?1526660752"></script>
+    <script src="/jiffy/js/clipboard.min.js?1526859486"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1526859486"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1526859486"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1526859486"></script>
+    <script src="/jiffy/js/featherlight.min.js?1526859486"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1526859486"></script>
+    <script src="/jiffy/js/highlight.pack.js?1526859486"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1526660752"></script>
-    <script src="/jiffy/js/learn.js?1526660752"></script>
-    <script src="/jiffy/js/hugo-learn.js?1526660752"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1526859486"></script>
+    <script src="/jiffy/js/learn.js?1526859486"></script>
+    <script src="/jiffy/js/hugo-learn.js?1526859486"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1526660752" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1526660752"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1526859486" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1526859486"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

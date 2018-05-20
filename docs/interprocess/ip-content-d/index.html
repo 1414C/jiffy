@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <title>Get Some Persons :: My New Hugo Site</title>
+    <title>Access Revocation and Renewal :: My New Hugo Site</title>
     
     
     <link href="/jiffy/css/nucleus.css?1526859486" rel="stylesheet">
@@ -35,7 +35,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/jiffy/getting-started/level-two/l2-content-d/">
+  <body class="" data-url="/jiffy/interprocess/ip-content-d/">
     <nav id="sidebar" class="">
 
 
@@ -221,7 +221,7 @@
   
     
     <li data-nav-id="/jiffy/getting-started/" title="Getting Started" class="dd-item 
-        parent
+        
         
         
         ">
@@ -324,7 +324,7 @@
   
     
     <li data-nav-id="/jiffy/getting-started/level-two/" title="Let&#39;s Test Something" class="dd-item 
-        parent
+        
         
         
         ">
@@ -405,7 +405,7 @@
  
   
     
-      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-d/" title="Get Some Persons" class="dd-item active">
+      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-d/" title="Get Some Persons" class="dd-item ">
         <a href="/jiffy/getting-started/level-two/l2-content-d/">
         Get Some Persons
         
@@ -1146,7 +1146,7 @@
   
     
     <li data-nav-id="/jiffy/interprocess/" title="Interprocess Communication" class="dd-item 
-        
+        parent
         
         
         ">
@@ -1227,7 +1227,7 @@
  
   
     
-      <li data-nav-id="/jiffy/interprocess/ip-content-d/" title="Access Revocation and Renewal" class="dd-item ">
+      <li data-nav-id="/jiffy/interprocess/ip-content-d/" title="Access Revocation and Renewal" class="dd-item active">
         <a href="/jiffy/interprocess/ip-content-d/">
         Access Revocation and Renewal
         
@@ -1313,13 +1313,7 @@
             
           
           
-            
-            
-          
-          
-            <a href='/jiffy/'></a> > <a href='/jiffy/getting-started/'>Getting Started</a> > <a href='/jiffy/getting-started/level-two/'>Let's Test Something</a> > Get Some Persons
-          
-         
+            <a href='/jiffy/'></a> > <a href='/jiffy/interprocess/'>Interprocess Communication</a> > Access Revocation and Renewal
           
          
           
@@ -1331,7 +1325,21 @@
                 
                     <div class="progress">
     <div class="wrapper">
-
+<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#jwt-tokens-and-access-revocation">JWT Tokens and Access Revocation</a>
+<ul>
+<li><a href="#user-access-revocation-example">User Access Revocation Example</a></li>
+</ul></li>
+<li><a href="#jwt-token-renewal">JWT Token Renewal</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
     </div>
 </div>
 
@@ -1343,29 +1351,60 @@
         
         <div id="body-inner">
           
-            <h1>Get Some Persons</h1>
+            <h1>Access Revocation and Renewal</h1>
           
 
         
 
 
-<p>So far we have created two Person entities.  We have observed that upon successful creation of an entity, a JSON representation of that entity is passed back to us via the response-writer.  Let&rsquo;s now look at how we can get a list of all of our Person entities.</p>
 
-<p>Create a new tab in Postman and specify a target URL of <code>http://127.0.0.1:8080/persons</code> making sure to select the http GET method.  Next, add the following key-value pair to the http header:</p>
+
+<h3 id="jwt-tokens-and-access-revocation">JWT Tokens and Access Revocation</h3>
+
+<p>Jiffy applications do not support the revocation or automatic renewal of JWT tokens.  Instead, the service ensures that changes to User information (create/update/delete) are disseminated to all running instances of the Jiffy generated application.  This is accomplished by maintaining a cross-process cache of User information via the group-membership service.</p>
+
+<p>Consequently, in Jiffy-based applications it makes sense to discuss User access revocation from the perspective of an administrator making a call to the user-API to perform general User deletion or deactivation.  Such changes are affected in the backend database, and then updated in the application server caches by way of the web-sockets-based group-membership service.</p>
+
+<h4 id="user-access-revocation-example">User Access Revocation Example</h4>
+
+<p><strong>Conditions</strong></p>
+
+<ol>
+<li>User &lsquo;tester@test.com&rsquo; has access to a number of services in a Jiffy-generated application.  We now wish to remove access from this user.</li>
+<li>JWT lifetime in our test system is set to 12 hours.</li>
+<li>tester@test.com has a current and valid JWT that will expire in 8 hours.</li>
+</ol>
+
+<p><strong>Revocation Steps</strong></p>
+
+<ol>
+<li>A user with administrative priviledges in the Jiffy-generated application makes a call to the Usr service of the Jiffy-generated application to deactivate the &lsquo;tester@test.com&rsquo; account.  This call can be made to any running instance of the application.</li>
+<li>Once the Usr record has been updated in the backend the id in question will not be able to login to the application.</li>
+<li>On confirmation of the successful update to the Usr record, the Usr controller will disseminate the new status of the Usr record to the other group-members.  Each group-member will update their Usr cache with the new information.</li>
+</ol>
+
+<p><strong>Revocation Results</strong></p>
+
+<ol>
+<li>If the user attempts to login to any of the application instances, the middleware will see that the Usr has been deactivated when it checks the Usr cache and the login will be rejected.</li>
+
+<li><p>If the user has a valid JWT, but has their access revoked as desribed in the previous steps, all attempts to access application services will be denied.</p>
 
 <ul>
-<li><code>Authorization</code> : <code>Bearer *paste-your-JWT-here*</code></li>
-</ul>
+<li>The JWT remains valid.</li>
+<li>The JWT contains the user&rsquo;s ID.</li>
+<li>The route middleware examines the JWT Claims for every call made to the application services.</li>
+<li>The UID claim in the JWT is used by the middleware to read the Usr cache.</li>
+<li>In this example, the middleware cache will indicate that the user is no longer active.</li>
+<li>This approach allows us to focus on the maintenance and buffering of the persistent object (Usr) rather than trying to maintain/cache the transient JWT.</li>
+</ul></li>
+</ol>
 
-<p>When you have finished, the test session should look as follows and it is time to read some Person entities from the database.  Click &lsquo;Send&rsquo; to issue our read request to the application.</p>
+<h3 id="jwt-token-renewal">JWT Token Renewal</h3>
 
-<p><img src="../images/l2-get-persons-a.jpg" alt="persons-a" />
-<br/></p>
+<p>It would be possible to alter the Jiffy application to create self-renewing JWT&rsquo;s.  Doing so would mandate that the client developer compare the Authorization field in the response header to the one that was sent in the request.  For now, the strategy is to have the application configuration set a JWT validity of ~12 hours, and then force the user to login again once the time limit expires.</p>
 
-<p>We just read the complete list of Person entities.  Adding an &rsquo;s&rsquo; to the entity name and issuing the request with a GET http verb tells a jiffy application to read all of the Person entities.  In some cases this looks odd, but it makes it quite easy to consume the services.  Notice that the &lsquo;href&rsquo; field of each Person entity provides a direct link to the entity that it is a part of.</p>
-
-<p><img src="../images/l2-get-persons-b.jpg" alt="person-b" />
-<br/></p>
+<p>On one hand, this approach to (not supporting) JWT renewal means that the client/consumer of the RESTful services need not worry about checking the JWT content at the end of each exchange.  On the other hand, the current strategy may be a concern in system-to-system interfaces especially where it is not acceptable to set a very long JWT expiry limit in the configuration.</p>
 
 
 <footer class=" footline" >
@@ -1503,7 +1542,6 @@
             
                 
                     
-                    
                 
                 
 
@@ -1518,9 +1556,6 @@
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -1586,7 +1621,6 @@
             
                 
                     
-                    
                 
                 
 
@@ -1599,9 +1633,6 @@
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -1651,7 +1682,6 @@
             
                 
                     
-                    
                 
                 
 
@@ -1667,9 +1697,6 @@
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -2205,6 +2232,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -2212,6 +2240,25 @@
                     
                     
 
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
                     
                         
             
@@ -2250,21 +2297,6 @@
             
                 
                     
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
                     
                 
                 
@@ -2287,10 +2319,10 @@
 
 
         
-            <a class="nav nav-prev" href="/jiffy/getting-started/level-two/l2-content-c/" title="Create Another Person"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/jiffy/interprocess/ip-content-c/" title="Process Startup / Join"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/jiffy/getting-started/level-two/l2-content-e/" title="Get a Person" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/jiffy/interprocess/ip-content-a/" title="Group Membership Overview" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 

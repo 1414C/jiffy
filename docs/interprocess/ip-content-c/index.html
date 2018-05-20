@@ -10,22 +10,22 @@
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <title>Access Revocation and Renewal :: My New Hugo Site</title>
+    <title>Process Startup / Join :: My New Hugo Site</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1526660752" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1526660752" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1526660752" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1526660752" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1526660752" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1526660752" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1526660752" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1526660752" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1526859486" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1526859486" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1526859486" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1526859486" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1526859486" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1526859486" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1526859486" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1526859486" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1526660752" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1526859486" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1526660752"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1526859486"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1526660752"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1526660752"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1526859486"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1526859486"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1526660752"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1526859486"></script>
 
     
   </div>
@@ -1208,8 +1208,27 @@
  
   
     
-      <li data-nav-id="/jiffy/interprocess/ip-content-c/" title="Access Revocation and Renewal" class="dd-item active">
+      <li data-nav-id="/jiffy/interprocess/ip-content-c/" title="Process Startup / Join" class="dd-item active">
         <a href="/jiffy/interprocess/ip-content-c/">
+        Process Startup / Join
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/interprocess/ip-content-d/" title="Access Revocation and Renewal" class="dd-item ">
+        <a href="/jiffy/interprocess/ip-content-d/">
         Access Revocation and Renewal
         
         </a>
@@ -1294,7 +1313,7 @@
             
           
           
-            <a href='/jiffy/'></a> > <a href='/jiffy/interprocess/'>Interprocess Communication</a> > Access Revocation and Renewal
+            <a href='/jiffy/'></a> > <a href='/jiffy/interprocess/'>Interprocess Communication</a> > Process Startup / Join
           
          
           
@@ -1312,11 +1331,25 @@
 <ul>
 <li>
 <ul>
-<li><a href="#jwt-tokens-and-access-revocation">JWT Tokens and Access Revocation</a>
+<li><a href="#process-startup-with-group-membership">Process Startup with Group Membership</a>
 <ul>
-<li><a href="#user-access-revocation-example">User Access Revocation Example</a></li>
+<li><a href="#member-communication">Member Communication</a></li>
+<li><a href="#group-leadership-overview">Group Leadership Overview</a>
+<ul>
+<li><a href="#election-overview">Election Overview</a></li>
+<li><a href="#joining-overview">Joining Overview</a></li>
+<li><a href="#interface-gmcom-gmgettersetter">Interface gmcom.GMGetterSetter</a></li>
+<li><a href="#interface-gmcom-gmsettergetter-sample-implementation">Interface gmcom.GMSetterGetter Sample Implementation</a></li>
 </ul></li>
-<li><a href="#jwt-token-renewal">JWT Token Renewal</a></li>
+<li><a href="#startup">Startup</a></li>
+<li><a href="#leader-identification">Leader Identification</a>
+<ul>
+<li><a href="#leader-is-found">Leader is Found</a></li>
+<li><a href="#leader-is-found-but-not-contactable">Leader is Found but not Contactable</a></li>
+<li><a href="#leader-is-contacted-and-responds">Leader is Contacted and Responds</a></li>
+<li><a href="#leader-is-contacted-but-does-not-respond">Leader is Contacted but Does Not Respond</a></li>
+</ul></li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -1332,7 +1365,7 @@
         
         <div id="body-inner">
           
-            <h1>Access Revocation and Renewal</h1>
+            <h1>Process Startup / Join</h1>
           
 
         
@@ -1340,52 +1373,109 @@
 
 
 
-<h3 id="jwt-tokens-and-access-revocation">JWT Tokens and Access Revocation</h3>
+<h3 id="process-startup-with-group-membership">Process Startup with Group Membership</h3>
 
-<p>Jiffy applications do not support the revocation or automatic renewal of JWT tokens.  Instead, the service ensures that changes to User information (create/update/delete) are disseminated to all running instances of the Jiffy generated application.  This is accomplished by maintaining a cross-process cache of User information via the group-membership service.</p>
+<p>When an instance (process) starts in a group-membership scenario, the group-membership subsystem is started as a goroutine within the application.</p>
 
-<p>Consequently, in Jiffy-based applications it makes sense to discuss User access revocation from the perspective of an administrator making a call to the user-API to perform general User deletion or deactivation.  Such changes are affected in the backend database, and then updated in the application server caches by way of the web-sockets-based group-membership service.</p>
+<h4 id="member-communication">Member Communication</h4>
 
-<h4 id="user-access-revocation-example">User Access Revocation Example</h4>
+<p>The group-membership service communicates between processes via web-sockets connections.  Each process accepts group-membership messages on the address:port specified by the &lsquo;internal_address&rsquo; key in the configuration file.  This port is not secured, and the group-membership messages are not encrypted in any way.  <strong>It is advisable that the address:port used here is not accessible to the outside world.  The group-membership service is intended to be hosted on a dedicated nic.</strong></p>
 
-<p><strong>Conditions</strong></p>
+<p>Due to the round-robin every-process-pings-every-other-process model used by the failure detector, the group-membership service can be rather busy.</p>
 
-<ol>
-<li>User &lsquo;tester@test.com&rsquo; has access to a number of services in a Jiffy-generated application.  We now wish to remove access from this user.</li>
-<li>JWT lifetime in our test system is set to 12 hours.</li>
-<li>tester@test.com has a current and valid JWT that will expire in 8 hours.</li>
-</ol>
+<h4 id="group-leadership-overview">Group Leadership Overview</h4>
 
-<p><strong>Revocation Steps</strong></p>
+<h5 id="election-overview">Election Overview</h5>
 
-<ol>
-<li>A user with administrative priviledges in the Jiffy-generated application makes a call to the Usr service of the Jiffy-generated application to deactivate the &lsquo;tester@test.com&rsquo; account.  This call can be made to any running instance of the application.</li>
-<li>Once the Usr record has been updated in the backend the id in question will not be able to login to the application.</li>
-<li>On confirmation of the successful update to the Usr record, the Usr controller will disseminate the new status of the Usr record to the other group-members.  Each group-member will update their Usr cache with the new information.</li>
-</ol>
+<p>In order to participate in a group, each starting process needs to know who the current group-leader is.  Group-leadership is determined internally via the failure-detector and a bully-type leader-election.  Each process knows who the current group-leader is at any given time.  If a failure of the group-leader is detected, an election is held whereby the process with the highest process-id (PID) assumes leadership of the group.</p>
 
-<p><strong>Revocation Results</strong></p>
+<p>Assertion of leadership is disseminated to all group-members by the new leader via the COORDINATOR message.  This takes care of the current group-members, but processes wishing to join the group must have a way to determine who the current group-leader is.</p>
 
-<ol>
-<li>If the user attempts to login to any of the application instances, the middleware will see that the Usr has been deactivated when it checks the Usr cache and the login will be rejected.</li>
+<h5 id="joining-overview">Joining Overview</h5>
 
-<li><p>If the user has a valid JWT, but has their access revoked as desribed in the previous steps, all attempts to access application services will be denied.</p>
+<p>Joining processes must access a well-known persistent store that holds the current group-leader information.  This means that each joining process must know the location of and the manner in which the persistent store can be queried.  The persistent store exists outside of the group-membership and is typically some sort of name-value keystore like redis or memcached.</p>
 
-<ul>
-<li>The JWT remains valid.</li>
-<li>The JWT contains the user&rsquo;s ID.</li>
-<li>The route middleware examines the JWT Claims for every call made to the application services.</li>
-<li>The UID claim in the JWT is used by the middleware to read the Usr cache.</li>
-<li>In this example, the middleware cache will indicate that the user is no longer active.</li>
-<li>This approach allows us to focus on the maintenance and buffering of the persistent object (Usr) rather than trying to maintain/cache the transient JWT.</li>
-</ul></li>
-</ol>
+<p>To this end, a general interface is provided by Jiffy to allow the implementing developer to access the persistent store of their choice.  The rationale here is that many implementers will have a preference in terms of the key-value store they use, and may already have a suitable kvs in their productive landscape.  The interface provided by Jiffy for this purpose is <em>gmcom.GMLeaderSetterGetter</em> and it must be implemented in the application&rsquo;s main.go and passed into the AppObj.Run() method on application startup.</p>
 
-<h3 id="jwt-token-renewal">JWT Token Renewal</h3>
+<h5 id="interface-gmcom-gmgettersetter">Interface gmcom.GMGetterSetter</h5>
 
-<p>It would be possible to alter the Jiffy application to create self-renewing JWT&rsquo;s.  Doing so would mandate that the client developer compare the Authorization field in the response header to the one that was sent in the request.  For now, the strategy is to have the application configuration set a JWT validity of ~12 hours, and then force the user to login again once the time limit expires.</p>
+<p>Interface gmcom.GMGetterSetter contains methods to facilitate read/write access to the persisted leader record in any key-value-store.  Applications implementing the interface may choose to store the persisted current leader in a number of mediums; flat-file, db table record, redis, memcached etc.</p>
 
-<p>On one hand, this approach to (not supporting) JWT renewal means that the client/consumer of the RESTful services need not worry about checking the JWT content at the end of each exchange.  On the other hand, the current strategy may be a concern in system-to-system interfaces especially where it is not acceptable to set a very long JWT expiry limit in the configuration.</p>
+<p><table style="width:100%">
+  <tr>
+    <td><h5><i>Interface gmcom.GMGetterSetter</i></h5></td>
+  </tr>
+  <tr><br />
+    <td><h5>GetDBLeader() (*GMLeader, error)</h5>
+    GetDBLeader is provided in order to allow the implementer to retrieve the current group-leader information from the persistent store.  The implementation of this method is intended to be self-contained.<p>  For example, if the implementation calls for the current leader information to be persisted in redis, the implementer should code a self-contained method to connect to redis retrieve the leader information and return it in the GMLeader pointer.  Failure to read a current leader from the peristent store should result in the return of a nil in place of the *GMLeader pointer and a non-nil error value.<p>
+    </td>
+  </tr>
+  <tr>
+    <td><h5>SetDBLeader(l GMLeader) error</h5>
+    SetDBLeader is provided in order to allow the implementer to persist a newly elected leader&rsquo;s information in the persistent store.  The implementation of this method is intended to be self-contained.<p>  For example, if the implementation calls for the current leader information to be persisted in redis, the implementer should code a self-contained method to connect to redis and store the leader information provided by input parateter <strong>l</strong>. Failure to persist the provided leader information should result in the implementer returning a non-nil value in the <strong>error</strong> return parameter.<p>
+    </td>
+  </tr>
+</table>
+<br></p>
+
+<h5 id="interface-gmcom-gmsettergetter-sample-implementation">Interface gmcom.GMSetterGetter Sample Implementation</h5>
+
+<pre><code class="language-golang">
+// LeadSetGet provides a sample implementation of the GMLeaderSetterGetter
+// interface in order to support persistence of the current group-leader
+// information.  re-implement these methods as you see fit to facilitate
+// storage and retrieval of the leader information to and from the persistent
+// storage.  This example uses a quick and dirty web-socket-based cache to
+// handle the persistence.  It works well enough for testing, but you should
+// use something more robust like a database, redis etc.  The methods in the
+// GMLeaderSetterGetter interface are called when a new process is attempting
+// to join the group and also when a new leader is selected via the coordinator
+// process.
+//
+// To test with the delivered interface implementation:
+// go get -u github.com/1414C/sluggo
+//
+// Execute sluggo from the command-line as follows:
+// go run main.go -a &lt;ipaddress:port&gt;
+// For example:
+// $ go run main.go -a 192.168.1.40:5050
+//
+type LeadSetGet struct {
+  gmcom.GMLeaderSetterGetter
+}
+
+// GetDBLeader retrieves the current leader information from
+// the persistence layer.
+func (sg *LeadSetGet) GetDBLeader() (*gmcom.GMLeader, error) {
+
+  // access the database here to read the current leader
+  l := &amp;gmcom.GMLeader{}
+  wscl.GetCacheEntry(&quot;LEADER&quot;, l, &quot;192.168.1.40:7070&quot;)
+  return l, nil
+}
+
+// SetDBLeader stores the current leader information in the
+// persistence layer.
+func (sg *LeadSetGet) SetDBLeader(l gmcom.GMLeader) error {
+
+  // access the database here to set a new current leader
+  wscl.AddUpdCacheEntry(&quot;LEADER&quot;, &amp;l, &quot;192.168.1.40:7070&quot;)
+  return nil
+}
+
+</code></pre>
+
+<h4 id="startup">Startup</h4>
+
+<h4 id="leader-identification">Leader Identification</h4>
+
+<h5 id="leader-is-found">Leader is Found</h5>
+
+<h5 id="leader-is-found-but-not-contactable">Leader is Found but not Contactable</h5>
+
+<h5 id="leader-is-contacted-and-responds">Leader is Contacted and Responds</h5>
+
+<h5 id="leader-is-contacted-but-does-not-respond">Leader is Contacted but Does Not Respond</h5>
 
 
 <footer class=" footline" >
@@ -2274,6 +2364,25 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
                     
@@ -2287,7 +2396,7 @@
             <a class="nav nav-prev" href="/jiffy/interprocess/ip-content-b/" title="Failure Detector"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/jiffy/interprocess/ip-content-a/" title="Group Membership Overview" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/jiffy/interprocess/ip-content-d/" title="Access Revocation and Renewal" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
@@ -2296,20 +2405,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1526660752"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1526660752"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1526660752"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1526660752"></script>
-    <script src="/jiffy/js/featherlight.min.js?1526660752"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1526660752"></script>
-    <script src="/jiffy/js/highlight.pack.js?1526660752"></script>
+    <script src="/jiffy/js/clipboard.min.js?1526859486"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1526859486"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1526859486"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1526859486"></script>
+    <script src="/jiffy/js/featherlight.min.js?1526859486"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1526859486"></script>
+    <script src="/jiffy/js/highlight.pack.js?1526859486"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1526660752"></script>
-    <script src="/jiffy/js/learn.js?1526660752"></script>
-    <script src="/jiffy/js/hugo-learn.js?1526660752"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1526859486"></script>
+    <script src="/jiffy/js/learn.js?1526859486"></script>
+    <script src="/jiffy/js/hugo-learn.js?1526859486"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1526660752" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1526660752"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1526859486" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1526859486"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

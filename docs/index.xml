@@ -109,7 +109,7 @@ Jiffy allows a developer to generate a robust go-based application that treats t
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://1414c.github.io/jiffy/interprocess/ip-content-a/</guid>
-      <description>Overview  Jiffy-generated applications can be deployed as single or multiple instances. When running multiple instances of a Jiffy-generated application, a group-membership service is started inside each application instance. A group is defined as a set of application instances running the group-membership service. An application instance knows to start its group-membership service if the -gm flag is provided during startup. Each application instance running the group-membership service can be thought of as a process.</description>
+      <description>Overview  Jiffy-generated applications can be deployed as single or multiple instances. When running multiple instances of a Jiffy-generated application, a group-membership service establishes connectivity between all running instances. An application instance knows to start its group-membership service if the -gm flag is provided during startup. Each application instance running the group-membership service can be thought of as a process. At any point in time, the group has an elected leader.</description>
     </item>
     
     <item>
@@ -263,13 +263,13 @@ FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├�
     </item>
     
     <item>
-      <title>Access Revocation and Renewal</title>
+      <title>Process Startup / Join</title>
       <link>https://1414c.github.io/jiffy/interprocess/ip-content-c/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://1414c.github.io/jiffy/interprocess/ip-content-c/</guid>
-      <description>JWT Tokens and Access Revocation Jiffy applications do not support the revocation or automatic renewal of JWT tokens. Instead, the service ensures that changes to User information (create/update/delete) are disseminated to all running instances of the Jiffy generated application. This is accomplished by maintaining a cross-process cache of User information via the group-membership service.
-Consequently, in Jiffy-based applications it makes sense to discuss User access revocation from the perspective of an administrator making a call to the user-API to perform general User deletion or deactivation.</description>
+      <description>Process Startup with Group Membership When an instance (process) starts in a group-membership scenario, the group-membership subsystem is started as a goroutine within the application.
+Member Communication The group-membership service communicates between processes via web-sockets connections. Each process accepts group-membership messages on the address:port specified by the &amp;lsquo;internal_address&amp;rsquo; key in the configuration file. This port is not secured, and the group-membership messages are not encrypted in any way. It is advisable that the address:port used here is not accessible to the outside world.</description>
     </item>
     
     <item>
@@ -300,6 +300,16 @@ graph TD; subgraph A(End-Points)--B(Middleware) B--C(Controllers) C--D(Models) D
       <guid>https://1414c.github.io/jiffy/models/mo-content-d/</guid>
       <description>Modelling Entity Relationships Relationships between entities can be declared in the application model file via the addition of a &amp;lsquo;relations&amp;rsquo; block inside an entity&amp;rsquo;s declaration. Relationships are based on resource id&amp;rsquo;s by default, although it is possible to specify non-default key fields in the configuration, or implement complex joins directly by maintaining the entity&amp;rsquo;s controller and model. &amp;lsquo;relations&amp;rsquo; blocks look as follows:
 &amp;quot;relations&amp;quot;: [ { &amp;quot;relName&amp;quot;: &amp;quot;ToOwner&amp;quot;, &amp;quot;properties&amp;quot;: { &amp;quot;relType&amp;quot;: &amp;quot;hasOne&amp;quot;, &amp;quot;toEntity&amp;quot;: &amp;quot;Owner&amp;quot; } } ]  The sample relations block illustrates the declaration of a HasOne relationship between Car and Owner making use of default-keys.</description>
+    </item>
+    
+    <item>
+      <title>Access Revocation and Renewal</title>
+      <link>https://1414c.github.io/jiffy/interprocess/ip-content-d/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/interprocess/ip-content-d/</guid>
+      <description>JWT Tokens and Access Revocation Jiffy applications do not support the revocation or automatic renewal of JWT tokens. Instead, the service ensures that changes to User information (create/update/delete) are disseminated to all running instances of the Jiffy generated application. This is accomplished by maintaining a cross-process cache of User information via the group-membership service.
+Consequently, in Jiffy-based applications it makes sense to discuss User access revocation from the perspective of an administrator making a call to the user-API to perform general User deletion or deactivation.</description>
     </item>
     
     <item>
