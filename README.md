@@ -1,5 +1,16 @@
 # jiffy
 
+## TODO:
+
+- re-enable the ELECTION message and test on ARM
+- look at service deployment
+- rationalize logging
+- code redis, memcached, etcd and sqlite kvs example implementations of gmcom.GetterSetter
+- create a few runnable examples in Docker containers
+- create a Docker tutorial
+- create a kubernetes tutorial
+- consider creating an interface for the cache access which would allow the use of redis / memcached / etcd for cache management.  use of etcd would allow multiple processes to run in kubernetes without worrying about group-leader stuff.  Would it be fast enough, as the cached entries would be read by the middleware on each route access?
+
 ## Overview and Features
 
 Jiffy is a model-based RESTful application services generator written in go.  It was developed as an experiment to offer an alternative avenue when developing native applications for SAP Hana.  The jiffy application allows a developer to treat the data persistence layer as an abstraction, thereby removing the need to make use of CDS and the SAP XS libraries.
