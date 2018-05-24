@@ -13,19 +13,19 @@
     <title>Process Startup / Join :: My New Hugo Site</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1526916163" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1526916163" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1526916163" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1526916163" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1526916163" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1526916163" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1526916163" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1526916163" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1527137131" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1527137131" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1527137131" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1527137131" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1527137131" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1527137131" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1527137131" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1527137131" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1526916163" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1527137131" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1526916163"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1527137131"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1526916163"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1526916163"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1527137131"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1527137131"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1526916163"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1527137131"></script>
 
     
   </div>
@@ -1379,7 +1379,7 @@
 
 <h4 id="member-communication">Member Communication</h4>
 
-<p>The group-membership service communicates between processes via web-sockets connections.  Each process accepts group-membership messages on the address:port specified by the &lsquo;internal_address&rsquo; key in the configuration file.  This port is not secured, and the group-membership messages are not encrypted in any way.  <strong>It is advisable that the address:port used here is not accessible to the outside world.  The group-membership service is intended to be hosted on a dedicated nic.</strong></p>
+<p>The group-membership service communicates between processes via web-sockets connections.  Each process accepts group-membership messages on the address:port specified by the &lsquo;internal_address&rsquo; key in the configuration file.  This port is not secured, and the group-membership messages are not encrypted in any way.  <strong>It is advisable that the address:port used here is not accessible to the outside world.  The group-membership service is intended to be hosted on a dedicated nic with a  non-routable address.</strong></p>
 
 <p>Due to the round-robin every-process-pings-every-other-process model used by the failure detector, the group-membership service can be rather busy.</p>
 
@@ -1432,13 +1432,13 @@
 // to join the group and also when a new leader is selected via the coordinator
 // process.
 //
-// To test with the delivered interface implementation:
+// To test with the delivered interface implementation, install and run sluggo:
 // go get -u github.com/1414C/sluggo
 //
 // Execute sluggo from the command-line as follows:
 // go run main.go -a &lt;ipaddress:port&gt;
 // For example:
-// $ go run main.go -a 192.168.1.40:5050
+// $ go run main.go -a 192.168.1.40:7070
 //
 type LeadSetGet struct {
   gmcom.GMLeaderSetterGetter
@@ -2405,20 +2405,20 @@ func (sg *LeadSetGet) SetDBLeader(l gmcom.GMLeader) error {
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1526916163"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1526916163"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1526916163"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1526916163"></script>
-    <script src="/jiffy/js/featherlight.min.js?1526916163"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1526916163"></script>
-    <script src="/jiffy/js/highlight.pack.js?1526916163"></script>
+    <script src="/jiffy/js/clipboard.min.js?1527137131"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1527137131"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1527137131"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1527137131"></script>
+    <script src="/jiffy/js/featherlight.min.js?1527137131"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1527137131"></script>
+    <script src="/jiffy/js/highlight.pack.js?1527137131"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1526916163"></script>
-    <script src="/jiffy/js/learn.js?1526916163"></script>
-    <script src="/jiffy/js/hugo-learn.js?1526916163"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1527137131"></script>
+    <script src="/jiffy/js/learn.js?1527137131"></script>
+    <script src="/jiffy/js/hugo-learn.js?1527137131"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1526916163" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1526916163"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1527137131" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1527137131"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
