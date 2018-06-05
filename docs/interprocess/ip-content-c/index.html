@@ -13,19 +13,19 @@
     <title>Process Startup / Join :: My New Hugo Site</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528211868" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528211868" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528211868" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528211868" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528211868" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528211868" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528211868" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528223913" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528223913" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528223913" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528223913" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528223913" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528223913" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528223913" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528223913" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528211868" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528223913" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528211868"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528223913"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528211868"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528211868"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528223913"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528223913"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528211868"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528223913"></script>
 
     
   </div>
@@ -1341,13 +1341,13 @@
 <li><a href="#interface-gmcom-gmgettersetter">Interface gmcom.GMGetterSetter</a></li>
 <li><a href="#interface-gmcom-gmsettergetter-sample-implementation">Interface gmcom.GMSetterGetter Sample Implementation</a></li>
 </ul></li>
-<li><a href="#startup">Startup</a></li>
+<li><a href="#startup-leader-identification">Startup &amp; Leader Identification</a></li>
 <li><a href="#leader-identification">Leader Identification</a>
 <ul>
-<li><a href="#leader-is-found">Leader is Found</a></li>
 <li><a href="#leader-is-found-but-not-contactable">Leader is Found but not Contactable</a></li>
-<li><a href="#leader-is-contacted-and-responds">Leader is Contacted and Responds</a></li>
-<li><a href="#leader-is-contacted-but-does-not-respond">Leader is Contacted but Does Not Respond</a></li>
+<li><a href="#leader-is-found-and-has-the-current-pid-s-ip-address">Leader is Found and has the Current PID&rsquo;s IP Address</a></li>
+<li><a href="#leader-is-found">Leader is Found</a></li>
+<li><a href="#no-leader-is-found">No Leader is Found</a></li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -1465,17 +1465,57 @@ func (sg *LeadSetGet) SetDBLeader(l gmcom.GMLeader) error {
 
 </code></pre>
 
-<h4 id="startup">Startup</h4>
+<h4 id="startup-leader-identification">Startup &amp; Leader Identification</h4>
+
+<p>When the application starts in group-membership mode, the process must determine who the group-leader is as described in the preceding sections.  The process tries to join an existing group four times before giving up, and within each join attempt the process tries to read the current leader PID from the persistent store three times.</p>
 
 <h4 id="leader-identification">Leader Identification</h4>
 
-<h5 id="leader-is-found">Leader is Found</h5>
+<p>When the starting process is able to read the PID and IP Address:port of the current group-leader from the persistent store, it proceeds to the next step where an attempt to contact the leader is made.</p>
+
+<p>If the starting process is unable to read the leader information from the persistent store, the process waits for a randomized period of between 1 and 1000 ms.  Once the wait is over, the process tries to read the current leader from the persistent store again.  This loop will be repeated up to four times before the process gives up and attempts to assume leadership itself.</p>
+
+<p>A distinction is not currently made between being unable to contact the persistent store and not finding a current leader after reading the persistent store.</p>
 
 <h5 id="leader-is-found-but-not-contactable">Leader is Found but not Contactable</h5>
 
-<h5 id="leader-is-contacted-and-responds">Leader is Contacted and Responds</h5>
+<p>When a value is read from the persistent store, it is assumed to be that of the current group-leader.  This may not always be true, particularly in the case of an application startup where the external leader kvs has not been restarted or when old leader information has not been evicted.</p>
 
-<h5 id="leader-is-contacted-but-does-not-respond">Leader is Contacted but Does Not Respond</h5>
+<h5 id="leader-is-found-and-has-the-current-pid-s-ip-address">Leader is Found and has the Current PID&rsquo;s IP Address</h5>
+
+<p>It is possible that the starting PID&rsquo;s address matches that of the leader that was read from the persistent store.  This can happen in scenarios where the leader is the last process standing and then terminates without warning.</p>
+
+<p>The persistent store retains the last leader information (Pi) resulting in a successful leader-ping if the first process to restart in the group happens to hold the same ip-address as that of the old leader.  A successful ping (Pi-&gt;Pi) looks like there is a functioning leader.</p>
+
+<p>If the joining process sees it&rsquo;s own ip-address in the leader slot within the persistent store, it is best to act like there is no current leader and wipe the read (leader) information clean.  This will repeat four times as described above, then the current PID will attempt to assert itself as group-leader.  The randomized time is used to offset potentially simultaneous multiple group-leadership assertions in mass cold-start situations.</p>
+
+<p>It is important to remember/know that a starting process does not start participating in the group failure-detector until it has either joined an existing group, or has become the leader thereby starting a new group.</p>
+
+<pre><code>i.e. {inGetDBLeader 0 192.168.1.42:5050 0  0 1 192.168.1.42:5050 0   0 0  true &lt;nil&gt;}
+see if the persisted leader is contactable or not...
+</code></pre>
+
+<h5 id="leader-is-found">Leader is Found</h5>
+
+<p>Once that starting process has obtained a set of group-leader information from the persistent store that looks valid, it uses the information to send a Join message to the group-leader.  There are a few possible outcomes to the Join message:</p>
+
+<ul>
+<li><strong>The leader could not be contacted.</strong>  In this case, the starting process waits for a randomized period of time between 1 and 1000ms, then loops back to read the leader information from the persistent store again in hope that it has been updated.  This can occur up to four times, after which the starting process will attempt to become the group-leader.</li>
+<li><strong>The leader information read from the persistent store was not correct.</strong>  It is possible that the leader information in the persistent store is stale during a cold-startup.  In this case, although a process was reachable at the leader&rsquo;s ip-address:port, the so-called leader process was not in fact the leader.  In this case, the starting process waits for a randomized period of time between 1 and 1000ms, then loops back to read the leader information from the persistent store again in hope that it has been updated.  This can occur up to four times, after which the starting process will report an error and gracefully exit.</li>
+<li><strong>The leader reports that the ip-address:port of the starting process is already in use within the group.</strong>  This can occur due to a misconfigured failure threshold value (too high), or when a process is killed and restarted immediately.  In this case, the starting process waits 5 seconds and then loops back to read the leader information and make another attempt to join the group.   This can occur up to four times, after which the starting process will report an error and gracefully exit.</li>
+<li><strong>An unknown error occurs.</strong>  This is a catch-all for failed join attempts.  In this case, the starting process waits 5 seconds and then loops back to read the leader information and make another attempt to join the group.   This can occur up to four times, after which the starting process will report an error and gracefully exit.</li>
+</ul>
+
+<h5 id="no-leader-is-found">No Leader is Found</h5>
+
+<p>If a valid group-leader has not been found after four attempts, the starting process attempts to become the group-leader.  The starting process will:</p>
+
+<ul>
+<li>Set it&rsquo;s PID to 1.</li>
+<li>Add itself to the local process member map.</li>
+<li>Call gm.SendSetDBLeader to set itself as group-leader in the persistent store.</li>
+<li>Start it&rsquo;s failure-detector loop in a go-routine.</li>
+</ul>
 
 
 <footer class=" footline" >
@@ -2405,20 +2445,20 @@ func (sg *LeadSetGet) SetDBLeader(l gmcom.GMLeader) error {
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528211868"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528211868"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528211868"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528211868"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528211868"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528211868"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528211868"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528223913"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528223913"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528223913"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528223913"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528223913"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528223913"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528223913"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528211868"></script>
-    <script src="/jiffy/js/learn.js?1528211868"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528211868"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528223913"></script>
+    <script src="/jiffy/js/learn.js?1528223913"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528223913"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528211868" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528211868"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528223913" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528223913"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
