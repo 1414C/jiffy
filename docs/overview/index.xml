@@ -27,7 +27,7 @@ Jiffy allows a developer to generate a robust go-based application that treats t
       <pubDate>Mon, 05 Feb 2018 13:26:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/overview/ov-content-b/</guid>
-      <description>What does a generated Jiffy application look like? Generated Jiffy applications can be pointed at the DBMS of your choice without the need to recompile the binary (architecture differences not withstanding). This means that a developer can build a model, fully test it locally using SQLite and then redirect the appplication to a formal testing environment running SAP Hana, or any of the other supported database systems.
+      <description>What does a generated Jiffy application look like? Generated Jiffy applications can be pointed at the DBMS of your choice without the need to recompile the binary (architecture differences not withstanding). This means that a developer can build a model, fully test it locally using SQLite and then redirect the application to a formal testing environment running SAP Hana, or any of the other supported database systems.
 Applications are generated based on model files which are encoded as simple JSON.</description>
     </item>
     
@@ -37,7 +37,7 @@ Applications are generated based on model files which are encoded as simple JSON
       <pubDate>Sat, 10 Feb 2018 23:56:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/overview/ov-content-c/</guid>
-      <description>Jiffy Application File Structure This is what Jiffy generates when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity. The structure and files look more or less standard if you are used to looking at such things. Explanations of each folder and its content are discussed thoughout the documentation.
+      <description>Jiffy Application File Structure This is what Jiffy generates when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity. The structure and files look more or less standard if you are used to looking at such things. Explanations of each folder and its content are discussed throughout the documentation.
 FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.</description>
     </item>
     
@@ -58,7 +58,7 @@ graph TD; subgraph A(End-Points)--B(Middleware) B--C(Controllers) C--D(Models) D
       <pubDate>Wed, 14 Feb 2018 22:11:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/overview/ov-content-e/</guid>
-      <description>Jiffy Pre-Generation Workflow Jiffy is intended to generate a clean, straight-forward and secure application services platform just like the one you would write by hand. Jiffy originally started as a few go templates I used to generate boiler-plate code that I do not like to type. Generation is a lot nicer than cut-and-paste. There are places in the generated code where things could be more elegant, but the code is intended to be easy to work on even if one is not familliar with it.</description>
+      <description>Jiffy Pre-Generation Workflow Jiffy is intended to generate a clean, straight-forward and secure application services platform just like the one you would write by hand. Jiffy originally started as a few go templates I used to generate boiler-plate code that I do not like to type. Generation is a lot nicer than cut-and-paste. There are places in the generated code where things could be more elegant, but the code is intended to be easy to work on even if one is not familiar with it.</description>
     </item>
     
   </channel>

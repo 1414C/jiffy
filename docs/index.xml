@@ -48,7 +48,7 @@ There may be a need to inspect the request details immediately once the request 
       <pubDate>Mon, 05 Feb 2018 15:22:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-a/</guid>
-      <description>Jiffy Application File Structure Running the Jiffy generator creates a set of files that comprise a basic working backend services application. Jiffy generates the following source code when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity. The structure and files look more or less standard if you are used to looking at such things. Explanations of each folder and its content are discussed thoughout the documentation.
+      <description>Jiffy Application File Structure Running the Jiffy generator creates a set of files that comprise a basic working backend services application. Jiffy generates the following source code when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity. The structure and files look more or less standard if you are used to looking at such things. Explanations of each folder and its content are discussed throughout the documentation.
 FirstApp ├── appobj │ ├── appconf.</description>
     </item>
     
@@ -58,7 +58,7 @@ FirstApp ├── appobj │ ├── appconf.</description>
       <pubDate>Mon, 05 Feb 2018 13:26:13 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/models/mo-content-a/</guid>
-      <description>Model Files Model files contain the Entity, Index and Relation definitions that you wish to generate services for. Entity model defintion consists of an array of JSON objects, with each object being limited to a flat hierarchy and basic go-data-types, (although this is easily extended). By default, the Jiffy generator expects a models.json file in the execution directory, but a correctly formatted JSON file can be loaded from any location by executing with the -m flag.</description>
+      <description>Model Files Model files contain the Entity, Index and Relation definitions that you wish to generate services for. Entity model definition consists of an array of JSON objects, with each object being limited to a flat hierarchy and basic go-data-types, (although this is easily extended). By default, the Jiffy generator expects a models.json file in the execution directory, but a correctly formatted JSON file can be loaded from any location by executing with the -m flag.</description>
     </item>
     
     <item>
@@ -100,7 +100,7 @@ Jiffy allows a developer to generate a robust go-based application that treats t
       
       <guid>https://1414c.github.io/jiffy/accesscontrol/ac-content-a/</guid>
       <description>Overview Access to application resources (entities) is controlled in four ways:
- Configuration based service activation Secure user authentication Authorization checks via JWT token claim inspection embeded as middleware in the protected route declarations (end-points) Usr/Auth/Group/GroupAuth caches are maintained on each group-member and updated via an internal API and dissemination protocol in the group-membership service  Configuration Based Service Activation An internal service is created for each of the modelled entities in the application.</description>
+ Configuration based service activation Secure user authentication Authorization checks via JWT token claim inspection embedded as middleware in the protected route declarations (end-points) Usr/Auth/Group/GroupAuth caches are maintained on each group-member and updated via an internal API and dissemination protocol in the group-membership service  Configuration Based Service Activation An internal service is created for each of the modeled entities in the application.</description>
     </item>
     
     <item>
@@ -148,7 +148,7 @@ FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├�
       <pubDate>Mon, 05 Feb 2018 14:52:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/models/mo-content-b/</guid>
-      <description>Two Entity Model The following JSON illustrates the defintion of a simple two-entity model file. In this case, model entities &amp;lsquo;Person&amp;rsquo; and &amp;lsquo;Country&amp;rsquo; will be created in the generated application, along with corresponding database tables &amp;lsquo;person&amp;rsquo; and &amp;lsquo;country&amp;rsquo;. No relationships have been defined between the two entities; this example simply illustrates how to add multiple entity definitions to a model file.
+      <description>Two Entity Model The following JSON illustrates the definition of a simple two-entity model file. In this case, model entities &amp;lsquo;Person&amp;rsquo; and &amp;lsquo;Country&amp;rsquo; will be created in the generated application, along with corresponding database tables &amp;lsquo;person&amp;rsquo; and &amp;lsquo;country&amp;rsquo;. No relationships have been defined between the two entities; this example simply illustrates how to add multiple entity definitions to a model file.
 simpleTwoEntityModel.json
 { &amp;quot;entities&amp;quot;: [ { &amp;quot;typeName&amp;quot;: &amp;quot;Person&amp;quot;, &amp;quot;properties&amp;quot;: { &amp;quot;name&amp;quot;: { &amp;quot;type&amp;quot;: &amp;quot;string&amp;quot;, &amp;quot;format&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;required&amp;quot;: false, &amp;quot;unique&amp;quot;: false, &amp;quot;index&amp;quot;: &amp;quot;nonUnique&amp;quot;, &amp;quot;selectable&amp;quot;: &amp;quot;eq,like&amp;quot; }, &amp;quot;age&amp;quot;: { &amp;quot;type&amp;quot;: &amp;quot;uint&amp;quot;, &amp;quot;format&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;required&amp;quot;: false, &amp;quot;unique&amp;quot;: false, &amp;quot;index&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;selectable&amp;quot;: &amp;quot;eq,lt,gt&amp;quot; }, &amp;quot;weight&amp;quot;: { &amp;quot;type&amp;quot;: &amp;quot;float64&amp;quot;, &amp;quot;format&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;required&amp;quot;: false, &amp;quot;unique&amp;quot;: false, &amp;quot;index&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;selectable&amp;quot;: &amp;quot;eq,lt,le,gt,ge&amp;quot; }, &amp;quot;validLicense&amp;quot;: { &amp;quot;type&amp;quot;: &amp;quot;bool&amp;quot;, &amp;quot;format&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;required&amp;quot;: false, &amp;quot;unique&amp;quot;: false, &amp;quot;index&amp;quot;: &amp;quot;nonUnique&amp;quot;, &amp;quot;selectable&amp;quot;: &amp;quot;eq,ne&amp;quot; } } }, { &amp;quot;typeName&amp;quot;: &amp;quot;Country&amp;quot;, &amp;quot;properties&amp;quot;: { &amp;quot;name&amp;quot;: { &amp;quot;type&amp;quot;: &amp;quot;string&amp;quot;, &amp;quot;format&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;required&amp;quot;: false, &amp;quot;unique&amp;quot;: false, &amp;quot;index&amp;quot;: &amp;quot;nonUnique&amp;quot;, &amp;quot;selectable&amp;quot;: &amp;quot;eq,like&amp;quot; }, &amp;quot;isoCode&amp;quot;: { &amp;quot;type&amp;quot;: &amp;quot;uint&amp;quot;, &amp;quot;format&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;required&amp;quot;: false, &amp;quot;unique&amp;quot;: false, &amp;quot;index&amp;quot;: &amp;quot;unique&amp;quot;, &amp;quot;selectable&amp;quot;: &amp;quot;eq,lt,gt&amp;quot; } } } ] }  simpleTwoEntityModel.</description>
     </item>
@@ -179,7 +179,7 @@ $ go get -u github.com/1414C/jiffy  This will pull the jiffy github repository i
       <pubDate>Mon, 05 Feb 2018 13:26:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/overview/ov-content-b/</guid>
-      <description>What does a generated Jiffy application look like? Generated Jiffy applications can be pointed at the DBMS of your choice without the need to recompile the binary (architecture differences not withstanding). This means that a developer can build a model, fully test it locally using SQLite and then redirect the appplication to a formal testing environment running SAP Hana, or any of the other supported database systems.
+      <description>What does a generated Jiffy application look like? Generated Jiffy applications can be pointed at the DBMS of your choice without the need to recompile the binary (architecture differences not withstanding). This means that a developer can build a model, fully test it locally using SQLite and then redirect the application to a formal testing environment running SAP Hana, or any of the other supported database systems.
 Applications are generated based on model files which are encoded as simple JSON.</description>
     </item>
     
@@ -209,7 +209,7 @@ Standard CRUD end-points for entity Library are generated as follows:
       <pubDate>Sat, 10 Feb 2018 23:56:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/overview/ov-content-c/</guid>
-      <description>Jiffy Application File Structure This is what Jiffy generates when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity. The structure and files look more or less standard if you are used to looking at such things. Explanations of each folder and its content are discussed thoughout the documentation.
+      <description>Jiffy Application File Structure This is what Jiffy generates when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity. The structure and files look more or less standard if you are used to looking at such things. Explanations of each folder and its content are discussed throughout the documentation.
 FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.</description>
     </item>
     
@@ -289,7 +289,7 @@ graph TD; subgraph A(End-Points)--B(Middleware) B--C(Controllers) C--D(Models) D
       <pubDate>Mon, 05 Feb 2018 15:44:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-d/</guid>
-      <description>The &amp;lsquo;controllers&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.go │ ├── personc.go │ ├── usrc.go │ ├── usr_groupc.go │ └── ext │ ├── extc_interfaces.go │ └── personc_ext.go ├── group │ ├── ... │ │ ├── ... . . . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  A controller is created for each entity that has been declared in the model files, as well as a number of static controllers that are used to handle the application&amp;rsquo;s users and authoziation objects.</description>
+      <description>The &amp;lsquo;controllers&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.go │ ├── personc.go │ ├── usrc.go │ ├── usr_groupc.go │ └── ext │ ├── extc_interfaces.go │ └── personc_ext.go ├── group │ ├── ... │ │ ├── ... . . . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  A controller is created for each entity that has been declared in the model files, as well as a number of static controllers that are used to handle the application&amp;rsquo;s users and authorization objects.</description>
     </item>
     
     <item>
@@ -298,7 +298,7 @@ graph TD; subgraph A(End-Points)--B(Middleware) B--C(Controllers) C--D(Models) D
       <pubDate>Mon, 05 Feb 2018 15:03:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/models/mo-content-d/</guid>
-      <description>Modelling Entity Relationships Relationships between entities can be declared in the application model file via the addition of a &amp;lsquo;relations&amp;rsquo; block inside an entity&amp;rsquo;s declaration. Relationships are based on resource id&amp;rsquo;s by default, although it is possible to specify non-default key fields in the configuration, or implement complex joins directly by maintaining the entity&amp;rsquo;s controller and model. &amp;lsquo;relations&amp;rsquo; blocks look as follows:
+      <description>Modeling Entity Relationships Relationships between entities can be declared in the application model file via the addition of a &amp;lsquo;relations&amp;rsquo; block inside an entity&amp;rsquo;s declaration. Relationships are based on resource id&amp;rsquo;s by default, although it is possible to specify non-default key fields in the configuration, or implement complex joins directly by maintaining the entity&amp;rsquo;s controller and model. &amp;lsquo;relations&amp;rsquo; blocks look as follows:
 &amp;quot;relations&amp;quot;: [ { &amp;quot;relName&amp;quot;: &amp;quot;ToOwner&amp;quot;, &amp;quot;properties&amp;quot;: { &amp;quot;relType&amp;quot;: &amp;quot;hasOne&amp;quot;, &amp;quot;toEntity&amp;quot;: &amp;quot;Owner&amp;quot; } } ]  The sample relations block illustrates the declaration of a HasOne relationship between Car and Owner making use of default-keys.</description>
     </item>
     
@@ -318,7 +318,7 @@ Consequently, in Jiffy-based applications it makes sense to discuss User access 
       <pubDate>Wed, 14 Feb 2018 22:11:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/overview/ov-content-e/</guid>
-      <description>Jiffy Pre-Generation Workflow Jiffy is intended to generate a clean, straight-forward and secure application services platform just like the one you would write by hand. Jiffy originally started as a few go templates I used to generate boiler-plate code that I do not like to type. Generation is a lot nicer than cut-and-paste. There are places in the generated code where things could be more elegant, but the code is intended to be easy to work on even if one is not familliar with it.</description>
+      <description>Jiffy Pre-Generation Workflow Jiffy is intended to generate a clean, straight-forward and secure application services platform just like the one you would write by hand. Jiffy originally started as a few go templates I used to generate boiler-plate code that I do not like to type. Generation is a lot nicer than cut-and-paste. There are places in the generated code where things could be more elegant, but the code is intended to be easy to work on even if one is not familiar with it.</description>
     </item>
     
     <item>
@@ -327,7 +327,7 @@ Consequently, in Jiffy-based applications it makes sense to discuss User access 
       <pubDate>Mon, 05 Feb 2018 15:51:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-e/</guid>
-      <description>The &amp;lsquo;models&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go . . . ├── models │ ├── authm.go │ ├── errors.go │ ├── group_authm.go │ ├── modelfuncs.go │ ├── personm_ext.go │ ├── personm.go │ ├── servicesm.go │ ├── usr_groupm.go │ ├── usrm.go │ └── ext │ └── model_ext_interfaces.go ├── util │ └── strings.go ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  A model is created for each entity that has been modelled in the .</description>
+      <description>The &amp;lsquo;models&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go . . . ├── models │ ├── authm.go │ ├── errors.go │ ├── group_authm.go │ ├── modelfuncs.go │ ├── personm_ext.go │ ├── personm.go │ ├── servicesm.go │ ├── usr_groupm.go │ ├── usrm.go │ └── ext │ └── model_ext_interfaces.go ├── util │ └── strings.go ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  A model is created for each entity that has been modeled in the .</description>
     </item>
     
     <item>
@@ -367,7 +367,7 @@ The group/gmcom Folder The group/gmcom folder contains source files holding arti
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-a/</guid>
       <description>Launch Postman and specify a target URL of: http://127.0.0.1:8080/usr/login making sure to select the http POST method. Maintain the request body to provide a user-id and password as shown in the following JSON snippet. Typically the user-id for a jiffy application is an email address, but we make an exception for the default administration user.
 { &amp;quot;email&amp;quot;: &amp;quot;admin&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;initpass&amp;quot; }  
-When you have finshed and your Postman (or other test utility) looks like the following image, click the &amp;lsquo;Send&amp;rsquo; button to post your login request to the running application.</description>
+When you have finished and your Postman (or other test utility) looks like the following image, click the &amp;lsquo;Send&amp;rsquo; button to post your login request to the running application.</description>
     </item>
     
     <item>

@@ -13,19 +13,19 @@
     <title>Generation Overview :: My New Hugo Site</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1527137131" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528211868" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1527137131" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528211868" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1527137131"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528211868"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1527137131"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1527137131"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528211868"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528211868"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1527137131"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528211868"></script>
 
     
   </div>
@@ -1358,7 +1358,7 @@
 
 <h3 id="jiffy-application-file-structure">Jiffy Application File Structure</h3>
 
-<p>Running the Jiffy generator creates a set of files that comprise a basic working backend services application.  Jiffy generates the following source code when provided with a model-file describing a simple &lsquo;Person&rsquo; entity.  The structure and files look more or less standard if you are used to looking at such things.  Explanations of each folder and its content are discussed thoughout the documentation.</p>
+<p>Running the Jiffy generator creates a set of files that comprise a basic working backend services application.  Jiffy generates the following source code when provided with a model-file describing a simple &lsquo;Person&rsquo; entity.  The structure and files look more or less standard if you are used to looking at such things.  Explanations of each folder and its content are discussed throughout the documentation.</p>
 
 <pre><code class="language-code">
 FirstApp
@@ -1438,8 +1438,8 @@ FirstApp
 <p>Jiffy applications contain an embedded leader-based group-membership sub-system that is used for interprocess communication when the generated jiffy application is deployed as multiple processes.</p>
 
 <ol>
-<li>When a jiffy application is deployed as more than one process, there is a need for changes to users, auths, groups and group/auth associations to be communicated to all running instances.  These common application entities are cached locally on each running instance in order to avoid accessing the database uneccessarily.  An internal subsystem was chosen in order to avoid dependencies on external solutions like redis/memcached etc.</li>
-<li>Given that there is interprocess communication for the cache updates, the status of the group members must be tracked.  The subsytem uses a SWIM (Scalable Weakly-Consistent Infection-Style Process-Membership) protocol to check and disseminate the statues of the group&rsquo;s processes.  A ping is sent from each process to every other known process in the group in random order once per ping-cycle.  The ping message contains a piggybacked process-map containing the pinging process&rsquo;s view of the world in terms of process status.  Processes may have one of the following three statuses <strong>(ALIVE, SUSPECT, FAILED)</strong>, as well as a status count indicating how many times the pinging process has noted that a process is in a particular state.</li>
+<li>When a jiffy application is deployed as more than one process, there is a need for changes to users, auths, groups and group/auth associations to be communicated to all running instances.  These common application entities are cached locally on each running instance in order to avoid accessing the database unnecessarily  An internal subsystem was chosen in order to avoid dependencies on external solutions like redis/memcached etc.</li>
+<li>Given that there is interprocess communication for the cache updates, the status of the group members must be tracked.  The subsystem uses a SWIM (Scalable Weakly-Consistent Infection-Style Process-Membership) protocol to check and disseminate the statues of the group&rsquo;s processes.  A ping is sent from each process to every other known process in the group in random order once per ping-cycle.  The ping message contains a piggybacked process-map containing the pinging process&rsquo;s view of the world in terms of process status.  Processes may have one of the following three statuses <strong>(ALIVE, SUSPECT, FAILED)</strong>, as well as a status count indicating how many times the pinging process has noted that a process is in a particular state.</li>
 </ol>
 
 <p>See the Group Membership section of this document for a detailed overview of the group-membership subsystem.</p>
@@ -2371,20 +2371,20 @@ FirstApp
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1527137131"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1527137131"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1527137131"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1527137131"></script>
-    <script src="/jiffy/js/featherlight.min.js?1527137131"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1527137131"></script>
-    <script src="/jiffy/js/highlight.pack.js?1527137131"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528211868"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528211868"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528211868"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528211868"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528211868"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528211868"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528211868"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1527137131"></script>
-    <script src="/jiffy/js/learn.js?1527137131"></script>
-    <script src="/jiffy/js/hugo-learn.js?1527137131"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528211868"></script>
+    <script src="/jiffy/js/learn.js?1528211868"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528211868"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1527137131" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1527137131"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528211868" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528211868"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

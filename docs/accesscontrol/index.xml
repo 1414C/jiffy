@@ -17,7 +17,7 @@
       
       <guid>https://1414c.github.io/jiffy/accesscontrol/ac-content-a/</guid>
       <description>Overview Access to application resources (entities) is controlled in four ways:
- Configuration based service activation Secure user authentication Authorization checks via JWT token claim inspection embeded as middleware in the protected route declarations (end-points) Usr/Auth/Group/GroupAuth caches are maintained on each group-member and updated via an internal API and dissemination protocol in the group-membership service  Configuration Based Service Activation An internal service is created for each of the modelled entities in the application.</description>
+ Configuration based service activation Secure user authentication Authorization checks via JWT token claim inspection embedded as middleware in the protected route declarations (end-points) Usr/Auth/Group/GroupAuth caches are maintained on each group-member and updated via an internal API and dissemination protocol in the group-membership service  Configuration Based Service Activation An internal service is created for each of the modeled entities in the application.</description>
     </item>
     
     <item>

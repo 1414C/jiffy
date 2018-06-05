@@ -19,7 +19,7 @@
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-a/</guid>
       <description>Launch Postman and specify a target URL of: http://127.0.0.1:8080/usr/login making sure to select the http POST method. Maintain the request body to provide a user-id and password as shown in the following JSON snippet. Typically the user-id for a jiffy application is an email address, but we make an exception for the default administration user.
 { &amp;quot;email&amp;quot;: &amp;quot;admin&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;initpass&amp;quot; }  
-When you have finshed and your Postman (or other test utility) looks like the following image, click the &amp;lsquo;Send&amp;rsquo; button to post your login request to the running application.</description>
+When you have finished and your Postman (or other test utility) looks like the following image, click the &amp;lsquo;Send&amp;rsquo; button to post your login request to the running application.</description>
     </item>
     
     <item>

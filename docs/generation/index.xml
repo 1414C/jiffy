@@ -17,7 +17,7 @@
       <pubDate>Mon, 05 Feb 2018 15:22:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-a/</guid>
-      <description>Jiffy Application File Structure Running the Jiffy generator creates a set of files that comprise a basic working backend services application. Jiffy generates the following source code when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity. The structure and files look more or less standard if you are used to looking at such things. Explanations of each folder and its content are discussed thoughout the documentation.
+      <description>Jiffy Application File Structure Running the Jiffy generator creates a set of files that comprise a basic working backend services application. Jiffy generates the following source code when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity. The structure and files look more or less standard if you are used to looking at such things. Explanations of each folder and its content are discussed throughout the documentation.
 FirstApp ├── appobj │ ├── appconf.</description>
     </item>
     
@@ -47,7 +47,7 @@ FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├�
       <pubDate>Mon, 05 Feb 2018 15:44:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-d/</guid>
-      <description>The &amp;lsquo;controllers&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.go │ ├── personc.go │ ├── usrc.go │ ├── usr_groupc.go │ └── ext │ ├── extc_interfaces.go │ └── personc_ext.go ├── group │ ├── ... │ │ ├── ... . . . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  A controller is created for each entity that has been declared in the model files, as well as a number of static controllers that are used to handle the application&amp;rsquo;s users and authoziation objects.</description>
+      <description>The &amp;lsquo;controllers&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.go │ ├── personc.go │ ├── usrc.go │ ├── usr_groupc.go │ └── ext │ ├── extc_interfaces.go │ └── personc_ext.go ├── group │ ├── ... │ │ ├── ... . . . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  A controller is created for each entity that has been declared in the model files, as well as a number of static controllers that are used to handle the application&amp;rsquo;s users and authorization objects.</description>
     </item>
     
     <item>
@@ -56,7 +56,7 @@ FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├�
       <pubDate>Mon, 05 Feb 2018 15:51:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-e/</guid>
-      <description>The &amp;lsquo;models&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go . . . ├── models │ ├── authm.go │ ├── errors.go │ ├── group_authm.go │ ├── modelfuncs.go │ ├── personm_ext.go │ ├── personm.go │ ├── servicesm.go │ ├── usr_groupm.go │ ├── usrm.go │ └── ext │ └── model_ext_interfaces.go ├── util │ └── strings.go ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  A model is created for each entity that has been modelled in the .</description>
+      <description>The &amp;lsquo;models&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go . . . ├── models │ ├── authm.go │ ├── errors.go │ ├── group_authm.go │ ├── modelfuncs.go │ ├── personm_ext.go │ ├── personm.go │ ├── servicesm.go │ ├── usr_groupm.go │ ├── usrm.go │ └── ext │ └── model_ext_interfaces.go ├── util │ └── strings.go ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  A model is created for each entity that has been modeled in the .</description>
     </item>
     
     <item>

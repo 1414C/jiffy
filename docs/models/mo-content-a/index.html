@@ -13,19 +13,19 @@
     <title>Model Overview :: My New Hugo Site</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1527137131" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528211868" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1527137131" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528211868" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1527137131"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528211868"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1527137131"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1527137131"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528211868"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528211868"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1527137131"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528211868"></script>
 
     
   </div>
@@ -1359,7 +1359,7 @@
 
 <h3 id="model-files">Model Files</h3>
 
-<p>Model files contain the Entity, Index and Relation definitions that you wish to generate services for.  Entity model defintion consists of an array of JSON objects, with each object being limited to a flat hierarchy and basic go-data-types, (although this is easily extended).  By default, the Jiffy generator expects a <strong><em>models.json</em></strong> file in the execution directory, but a correctly formatted JSON file can be loaded from any location by executing with the <strong>-m</strong> flag.</p>
+<p>Model files contain the Entity, Index and Relation definitions that you wish to generate services for.  Entity model definition consists of an array of JSON objects, with each object being limited to a flat hierarchy and basic go-data-types, (although this is easily extended).  By default, the Jiffy generator expects a <strong><em>models.json</em></strong> file in the execution directory, but a correctly formatted JSON file can be loaded from any location by executing with the <strong>-m</strong> flag.</p>
 
 <p>It is possible to use more than one model-file, as long as there is no duplication of entity definitions across files.  Model files may be loaded in any order, but the complete set of files must be loaded at the same time.  As an example, it would be fine to create three model files; <strong><em>Library.json, Book.json, LibraryCard.json</em></strong>, but all three files should be complete and processed at the same time via the <strong>-mf</strong> flag in order to allow the correct generation of relationships etc.</p>
 
@@ -1367,7 +1367,7 @@
 
 <h3 id="simple-single-entity-model">Simple Single Entity Model</h3>
 
-<p>The following JSON illustrates the defintion of a simple single-entity model file.  In this case, a model entity called <strong>&lsquo;Person&rsquo;</strong> will be created in the generated application, along with corresponding database table <strong>&lsquo;person&rsquo;</strong>.  Table <strong>&lsquo;person&rsquo;</strong> will be created (if it does not already exist) when the application is started for the first time.  See the application startup sequence section of this document for details regarding database artifact creation and updates.</p>
+<p>The following JSON illustrates the definition of a simple single-entity model file.  In this case, a model entity called <strong>&lsquo;Person&rsquo;</strong> will be created in the generated application, along with corresponding database table <strong>&lsquo;person&rsquo;</strong>.  Table <strong>&lsquo;person&rsquo;</strong> will be created (if it does not already exist) when the application is started for the first time.  See the application startup sequence section of this document for details regarding database artifact creation and updates.</p>
 
 <pre><code class="language-JSON">
 {
@@ -1545,11 +1545,11 @@
 
 <h3 id="entity-id">Entity ID</h3>
 
-<p>The <strong>ID</strong> field is visibly absent from the preceding entity declarations.  The original intent was to support any name for the primary key / resource identifier of an entity.  While it is possile to do this, it seems that ID is the universal &lsquo;non-standard&rsquo; way of representing object identifiers in RESTful-type services, so we went with it.  As a result, ID is injected into the model defintion of every entity as a uint64 field and is marked as the primary-key in the database backend.  By default, the ID is created as an auto-incrementing column in the DBMS, but this functionality can be suppressed (future).  The ability to allow a specific starting point for the ID key range is supported via the entity header-level &ldquo;start&rdquo; value.</p>
+<p>The <strong>ID</strong> field is visibly absent from the preceding entity declarations.  The original intent was to support any name for the primary key / resource identifier of an entity.  While it is possible to do this, it seems that ID is the universal &lsquo;non-standard&rsquo; way of representing object identifiers in RESTful-type services, so we went with it.  As a result, ID is injected into the model definition of every entity as a uint64 field and is marked as the primary-key in the database backend.  By default, the ID is created as an auto-incrementing column in the DBMS, but this functionality can be suppressed (future).  The ability to allow a specific starting point for the ID key range is supported via the entity header-level &ldquo;start&rdquo; value.</p>
 
 <p>If the ID field really needs to be known as CustomerNumber for example, the generated code can be edited in a few locations to support the change.  It is worth mentioning that the number of edits required to rename &lsquo;ID&rsquo; increases in direct relation to the number and complexity of entity relations (both to and from).</p>
 
-<p>As an alternative to renaming ID, it is also conceivable that it can be ignored.  Ignoring the ID means that the generated CRUD controller/model/routes are not as useful as they could be, but they offer a great starting point for your own coding.  Entities can be defined with column constraints that mimic those of DBMS primary / complex keys, then the generated CRUD artifacts based on ID can be ignored, copied then ignored, or modified to accmodate the modelled entities.</p>
+<p>As an alternative to renaming ID, it is also conceivable that it can be ignored.  Ignoring the ID means that the generated CRUD controller/model/routes are not as useful as they could be, but they offer a great starting point for your own coding.  Entities can be defined with column constraints that mimic those of DBMS primary / complex keys, then the generated CRUD artifacts based on ID can be ignored, copied then ignored, or modified to accommodate the modeled entities.</p>
 
 <p>It is also possible to go completely custom and write your own models and controllers from scratch using a generated model as a reference template.  In addition to exposing a generic internal CRUD interface to the backend, the more interesting go/sql calls are exposed internally along with some lightly wrapped and super useful calls from jmoirons widely used sqlx package.</p>
 
@@ -2484,20 +2484,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1527137131"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1527137131"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1527137131"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1527137131"></script>
-    <script src="/jiffy/js/featherlight.min.js?1527137131"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1527137131"></script>
-    <script src="/jiffy/js/highlight.pack.js?1527137131"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528211868"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528211868"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528211868"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528211868"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528211868"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528211868"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528211868"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1527137131"></script>
-    <script src="/jiffy/js/learn.js?1527137131"></script>
-    <script src="/jiffy/js/hugo-learn.js?1527137131"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528211868"></script>
+    <script src="/jiffy/js/learn.js?1528211868"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528211868"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1527137131" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1527137131"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528211868" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528211868"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

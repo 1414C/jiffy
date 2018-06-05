@@ -13,19 +13,19 @@
     <title>Entity Relations :: My New Hugo Site</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1527137131" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528211868" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1527137131" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528211868" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1527137131"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528211868"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1527137131"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1527137131"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528211868"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528211868"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1527137131"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528211868"></script>
 
     
   </div>
@@ -1329,7 +1329,7 @@
 <ul>
 <li>
 <ul>
-<li><a href="#modelling-entity-relationships">Modelling Entity Relationships</a>
+<li><a href="#modeling-entity-relationships">Modeling Entity Relationships</a>
 <ul>
 <li><a href="#hasone-relationship">hasOne Relationship</a></li>
 <li><a href="#hasmany-relationship">hasMany Relationship</a></li>
@@ -1358,7 +1358,7 @@
 
 
 
-<h2 id="modelling-entity-relationships">Modelling Entity Relationships</h2>
+<h2 id="modeling-entity-relationships">Modeling Entity Relationships</h2>
 
 <p>Relationships between entities can be declared in the application model file  via the addition of a &lsquo;relations&rsquo; block inside an entity&rsquo;s declaration.  Relationships are based on resource id&rsquo;s by default, although it is possible to specify non-default key fields in the configuration, or implement complex joins directly by maintaining the entity&rsquo;s controller and model.  &lsquo;relations&rsquo; blocks look as follows:</p>
 
@@ -1379,7 +1379,7 @@
 
 <h3 id="hasone-relationship">hasOne Relationship</h3>
 
-<p>&lsquo;hasOne&rsquo; relationships establish a one-to-one relationship between two model entities.  As an example, let&rsquo;s posit that a Car can have one Owner.  If the Car and Owner were modelled as entities, we could declare a &lsquo;hasOne&rsquo; (1:1) relationship between them.  The relation would be added to the &lsquo;relations&rsquo; block inside the Car entity definition (as shown above).</p>
+<p>&lsquo;hasOne&rsquo; relationships establish a one-to-one relationship between two model entities.  As an example, let&rsquo;s posit that a Car can have one Owner.  If the Car and Owner were modeled as entities, we could declare a &lsquo;hasOne&rsquo; (1:1) relationship between them.  The relation would be added to the &lsquo;relations&rsquo; block inside the Car entity definition (as shown above).</p>
 
 <p>A break-down of the relations block fields is as follows:</p>
 
@@ -1425,7 +1425,7 @@
 
 <h3 id="hasmany-relationship">hasMany Relationship</h3>
 
-<p>&lsquo;hasMany&rsquo; relationships establish a one-to-many relationship between two model entities.  As an example, let&rsquo;s posit that a Library can have many Books.  If Library and Book were modelled as entities, we could declare a &lsquo;hasMany&rsquo; (1:N) relationship between them.  The relation would be added to the &lsquo;relations&rsquo; block inside the Library entity definition:</p>
+<p>&lsquo;hasMany&rsquo; relationships establish a one-to-many relationship between two model entities.  As an example, let&rsquo;s posit that a Library can have many Books.  If Library and Book were modeled as entities, we could declare a &lsquo;hasMany&rsquo; (1:N) relationship between them.  The relation would be added to the &lsquo;relations&rsquo; block inside the Library entity definition:</p>
 
 <pre><code class="language-JSON">
 {
@@ -1594,7 +1594,7 @@
 
 <h3 id="what-if-more-complex-relationships-are-required">What if more complex relationships are required?</h3>
 
-<p>At the moment the generator only supports &lsquo;hasOne&rsquo;, &lsquo;hasMany&rsquo; and &lsquo;belongsTo&rsquo; relations, as in practice these tend to be the most widely used.  The generated code can be extended to accomodate additional relationships and joins if need be.  There is a tentative plan to support more complex relations in the generator in the future.  Most of the supporting code is in place, but the controller_rel templates would need to be enhanced to support it.  In the meantime, a combination of foreign-feys and static filters can be employed as an alternative to formally defined relationships in cases where the entity-id model is not sufficient.</p>
+<p>At the moment the generator only supports &lsquo;hasOne&rsquo;, &lsquo;hasMany&rsquo; and &lsquo;belongsTo&rsquo; relations, as in practice these tend to be the most widely used.  The generated code can be extended to accommodate additional relationships and joins if need be.  There is a tentative plan to support more complex relations in the generator in the future.  Most of the supporting code is in place, but the controller_rel templates would need to be enhanced to support it.  In the meantime, a combination of foreign-keys and static filters can be employed as an alternative to formally defined relationships in cases where the entity-id model is not sufficient.</p>
 
 
 <footer class=" footline" >
@@ -2524,20 +2524,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1527137131"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1527137131"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1527137131"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1527137131"></script>
-    <script src="/jiffy/js/featherlight.min.js?1527137131"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1527137131"></script>
-    <script src="/jiffy/js/highlight.pack.js?1527137131"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528211868"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528211868"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528211868"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528211868"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528211868"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528211868"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528211868"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1527137131"></script>
-    <script src="/jiffy/js/learn.js?1527137131"></script>
-    <script src="/jiffy/js/hugo-learn.js?1527137131"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528211868"></script>
+    <script src="/jiffy/js/learn.js?1528211868"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528211868"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1527137131" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1527137131"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528211868" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528211868"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

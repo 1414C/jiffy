@@ -13,19 +13,19 @@
     <title>Authorizations :: My New Hugo Site</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1527137131" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528211868" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1527137131" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528211868" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1527137131"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528211868"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1527137131"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1527137131"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528211868"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528211868"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1527137131"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528211868"></script>
 
     
   </div>
@@ -1377,7 +1377,7 @@
 
 </code></pre>
 
-<p>Notice that each end-point handler is assigned a name via the gorilla.mux.Route.Name(&ldquo;string&rdquo;) method.  The generated end-point names follow the standard shown here, but in practice it is safe to change them to whatever works best for your implementation.  Duplicate names in the same router will cause the existing name-route combination to be overwritten by the latest name-route addition as per the gorilla API docs.  Avoid the use of duplicate names.  The set of generated Authorizations for the Library entitys CRUD end-points are:</p>
+<p>Notice that each end-point handler is assigned a name via the gorilla.mux.Route.Name(&ldquo;string&rdquo;) method.  The generated end-point names follow the standard shown here, but in practice it is safe to change them to whatever works best for your implementation.  Duplicate names in the same router will cause the existing name-route combination to be overwritten by the latest name-route addition as per the gorilla API docs.  Avoid the use of duplicate names.  The set of generated Authorizations for the Library entities CRUD end-points are:</p>
 
 <ul>
 <li>library.GET_SET</li>
@@ -1403,7 +1403,7 @@
 
 </code></pre>
 
-<p>The set of generated Authorizations for the Library entitys static filter end-points are:</p>
+<p>The set of generated Authorizations for the Library entity&rsquo;s static filter end-points are:</p>
 
 <ul>
 <li>library.STATICFLTR_ByName</li>
@@ -1425,7 +1425,7 @@
 
 </code></pre>
 
-<p>The set of generated Authorizations for the Library entitys relation end-points are:</p>
+<p>The set of generated Authorizations for the Library entity&rsquo;s relation end-points are:</p>
 
 <ul>
 <li>library.REL_tobooks</li>
@@ -1436,7 +1436,7 @@
 
 <p>Authorizations are assigned to end-points in the route declarations as described in the preceding sections.  They are also added to a table (<em>auth</em>) in the backing database, as are the User Groups (table <em>usrgroup</em>) and the assignment of Authorizations to the same (via table <em>groupauth</em>).</p>
 
-<p>At application start-up, a walk of the router is performed in order to obtain a complete list of Authorizations.  This is neccessary, as changes may have been made to the application since the last time it was run.  For example, a new entity may have been added; the Authorizations for the corresponding end-points need to be made available via the creation of new entries in the <em>auth</em> table.  The creation of the new Authorizations in the <em>auth</em> table does not add them to any User Groups, but simply makes them available for use.</p>
+<p>At application start-up, a walk of the router is performed in order to obtain a complete list of Authorizations.  This is necessary, as changes may have been made to the application since the last time it was run.  For example, a new entity may have been added; the Authorizations for the corresponding end-points need to be made available via the creation of new entries in the <em>auth</em> table.  The creation of the new Authorizations in the <em>auth</em> table does not add them to any User Groups, but simply makes them available for use.</p>
 
 <h4 id="authorization-maintenance">Authorization Maintenance</h4>
 
@@ -1444,13 +1444,13 @@
 
 <ul>
 <li>A complete list of the route Authorizations is obtained by walking the router as described above in the Authorization Generation section.</li>
-<li>Table <em>usrgroup</em> is checked for the existance of the &lsquo;Super&rsquo; group.</li>
+<li>Table <em>usrgroup</em> is checked for the existence of the &lsquo;Super&rsquo; group.</li>
 <li>If the &lsquo;Super&rsquo; User Group is not found, it is created.</li>
 <li>All existing Authorization allocations to the &lsquo;Super&rsquo; User Group are deleted.</li>
 <li>The list of route Authorizations is then used to allocate Authorization for each end-point to the &lsquo;Super&rsquo; User Group.</li>
-<li>A check for the existance of the &lsquo;admin&rsquo; user is executed against the <em>usr</em> table.</li>
+<li>A check for the existence of the &lsquo;admin&rsquo; user is executed against the <em>usr</em> table.</li>
 <li>If the &lsquo;admin&rsquo; user does not exist, it is created as a member of the &lsquo;Super&rsquo; User Group, with an initial password of &lsquo;initpass&rsquo;.</li>
-<li>As the User Group Authorizations are cached on all application instances in the pool, the cache is re-initialized locally and then distributed to the other pool memnbers so that the &lsquo;Super&rsquo; group is generally available.</li>
+<li>As the User Group Authorizations are cached on all application instances in the pool, the cache is re-initialized locally and then distributed to the other pool members so that the &lsquo;Super&rsquo; group is generally available.</li>
 </ul>
 
 <p>It is possible to force a rebuild of the &lsquo;Super&rsquo; User Group&rsquo;s Authorization allocations by starting the generated application with the <strong>-rs</strong> (rebuild super) flag.  This will force the application to run through the preceding list of steps, resulting in a &lsquo;Super&rsquo; User Group that contains a complete list of the Authorizations needed to access all end-points, as well as removing any end-point Authorizations that may no longer exist.  Only the &lsquo;Super&rsquo; User Group may be updated in this manner.  Changes to existing User Groups must be carried out manually by an authorized user via the end-points related to User, User Group and Authorization maintenance.</p>
@@ -2383,20 +2383,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1527137131"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1527137131"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1527137131"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1527137131"></script>
-    <script src="/jiffy/js/featherlight.min.js?1527137131"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1527137131"></script>
-    <script src="/jiffy/js/highlight.pack.js?1527137131"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528211868"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528211868"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528211868"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528211868"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528211868"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528211868"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528211868"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1527137131"></script>
-    <script src="/jiffy/js/learn.js?1527137131"></script>
-    <script src="/jiffy/js/hugo-learn.js?1527137131"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528211868"></script>
+    <script src="/jiffy/js/learn.js?1528211868"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528211868"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1527137131" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1527137131"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528211868" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528211868"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

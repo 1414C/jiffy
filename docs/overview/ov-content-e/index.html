@@ -13,19 +13,19 @@
     <title>Jiffy Development Steps :: My New Hugo Site</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1527137131" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1527137131" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528211868" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528211868" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1527137131" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528211868" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1527137131"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528211868"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1527137131"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1527137131"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528211868"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528211868"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1527137131"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528211868"></script>
 
     
   </div>
@@ -1363,14 +1363,14 @@
 
 <h3 id="jiffy-pre-generation-workflow">Jiffy Pre-Generation Workflow</h3>
 
-<p>Jiffy is intended to generate a clean, straight-forward and secure application services platform just like the one you would write by hand.  Jiffy originally started as a few go templates I used to generate boiler-plate code that I do not like to type.  Generation is a lot nicer than cut-and-paste.  There are places in the generated code where things could be more elegant, but the code is intended to be easy to work on even if one is not familliar with it.  File and folder names are somewhat subjective; I have tried to be descriptive and organized.</p>
+<p>Jiffy is intended to generate a clean, straight-forward and secure application services platform just like the one you would write by hand.  Jiffy originally started as a few go templates I used to generate boiler-plate code that I do not like to type.  Generation is a lot nicer than cut-and-paste.  There are places in the generated code where things could be more elegant, but the code is intended to be easy to work on even if one is not familiar with it.  File and folder names are somewhat subjective; I have tried to be descriptive and organized.</p>
 
 <h4 id="design-steps">Design Steps</h4>
 
 <ol>
 <li><p>You are building a back-end of some sort where you need to reliably read and write data.  Before you start building the &lsquo;real&rsquo; Jiffy model of your application, try some of the demo models to get a feel for what Jiffy is and what it isn&rsquo;t.  It is a lot easier to design if you know what the platform provides and what it does not.</p></li>
 
-<li><p>Start messing around with entity ideas.  What is the best way to represent your data?  Transfering your ideas into a few rough diagrams often changes your understanding of what you are modelling.</p></li>
+<li><p>Start messing around with entity ideas.  What is the best way to represent your data?  Transferring your ideas into a few rough diagrams often changes your understanding of what you are modeling.</p></li>
 
 <li><p>Consider the relationships you would like to have between your entities.  Does your model still hold up?</p></li>
 
@@ -1384,9 +1384,9 @@
 
 <li><p>Again, don&rsquo;t worry too much about formal inter-entity rules in the beginning.  The idea is to get something up and running fast so you can try out the services.  You can generate your application many times over without touching anything but the model-file / model-files.  Generation is fast.</p></li>
 
-<li><p>Generate a version of your application and start it up.  Try it out with a tool like Postman.  See the Quickstart for an overview of application generation through to application testing, or go to the formal section dealing with each of the appliation creation steps.</p></li>
+<li><p>Generate a version of your application and start it up.  Try it out with a tool like Postman.  See the Quickstart for an overview of application generation through to application testing, or go to the formal section dealing with each of the application creation steps.</p></li>
 
-<li><p>It is not (typically) neccessary to do early development testing via https.  If this is not the case for you, see the testing with https section in this document set.  Step-by-step instructions are given to create and install self-signed certificates that will permit you to test locally with https.</p></li>
+<li><p>It is not (typically) necessary to do early development testing via https.  If this is not the case for you, see the testing with https section in this document set.  Step-by-step instructions are given to create and install self-signed certificates that will permit you to test locally with https.</p></li>
 
 <li><p>As you test your application, you will probably see some fields missing, some fields that you don&rsquo;t care for, and maybe the need for an additional entity.  Update your model files and generate the application again.  Try it out.  Repeat.</p></li>
 
@@ -1410,7 +1410,7 @@
 
 <li><p>Implement extension-points in the controller and model go source as per your requirements.  Implemented extension-points will not be over-written should you need to regenerate the application.  Test often.</p></li>
 
-<li><p>Implement normalization and validation at the field-level in the generated entity model go source file.  This part is slightly contentious, as field normalization and validiation is performed directly in the generated code, rather than off to the side in extension-points.  We suggest that if you are worried about over-writing your normalization and validation code with an accidental regeneration, you create a <em>model_normalization</em> package for each model and implement field-level normalizations and checks there.  Of course, you are free to ignore the provided field-level normalization and validation methods and perform all checks in one of the model extension-points.  Its up to you, and it will make more sense once you take a look through one of the generated files.</p></li>
+<li><p>Implement normalization and validation at the field-level in the generated entity model go source file.  This part is slightly contentious, as field normalization and validation is performed directly in the generated code, rather than off to the side in extension-points.  We suggest that if you are worried about over-writing your normalization and validation code with an accidental regeneration, you create a <em>model_normalization</em> package for each model and implement field-level normalizations and checks there.  Of course, you are free to ignore the provided field-level normalization and validation methods and perform all checks in one of the model extension-points.  Its up to you, and it will make more sense once you take a look through one of the generated files.</p></li>
 
 <li><p>When you are happy with the way things are working, think about user access.  Sketch out user-groups and assign end-points to them until you have something that you like.  Use Postman to create UserGroups and assign Auths to them, then create new users and allocate the relevant UserGroups to their ID.  That is all you need to do; the Jiffy middleware will take care of the rest.  See the Authentication and Authorization section for a detailed discussion of how users are authenticated and authorized.</p></li>
 </ol>
@@ -2376,20 +2376,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1527137131"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1527137131"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1527137131"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1527137131"></script>
-    <script src="/jiffy/js/featherlight.min.js?1527137131"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1527137131"></script>
-    <script src="/jiffy/js/highlight.pack.js?1527137131"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528211868"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528211868"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528211868"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528211868"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528211868"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528211868"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528211868"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1527137131"></script>
-    <script src="/jiffy/js/learn.js?1527137131"></script>
-    <script src="/jiffy/js/hugo-learn.js?1527137131"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528211868"></script>
+    <script src="/jiffy/js/learn.js?1528211868"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528211868"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1527137131" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1527137131"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528211868" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528211868"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
