@@ -90,7 +90,15 @@
   </url>
   
   <url>
+    <loc>https://1414c.github.io/jiffy/usage/us-content-a/</loc>
+  </url>
+  
+  <url>
     <loc>https://1414c.github.io/jiffy/interprocess/ip-content-a/</loc>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/usage/</loc>
   </url>
   
   <url>
@@ -133,6 +141,10 @@
   </url>
   
   <url>
+    <loc>https://1414c.github.io/jiffy/usage/us-content-b/</loc>
+  </url>
+  
+  <url>
     <loc>https://1414c.github.io/jiffy/interprocess/ip-content-b/</loc>
   </url>
   
@@ -166,6 +178,10 @@
   </url>
   
   <url>
+    <loc>https://1414c.github.io/jiffy/usage/us-content-c/</loc>
+  </url>
+  
+  <url>
     <loc>https://1414c.github.io/jiffy/interprocess/ip-content-c/</loc>
   </url>
   
@@ -185,7 +201,7 @@
   </url>
   
   <url>
-    <loc>https://1414c.github.io/jiffy/interprocess/ip-content-d/</loc>
+    <loc>https://1414c.github.io/jiffy/usage/us-content-d/</loc>
   </url>
   
   <url>
@@ -204,13 +220,25 @@
   </url>
   
   <url>
+    <loc>https://1414c.github.io/jiffy/usage/us-content-e/</loc>
+  </url>
+  
+  <url>
     <loc>https://1414c.github.io/jiffy/generation/gn-content-f/</loc>
     <lastmod>2018-02-05T17:23:10-07:00</lastmod>
   </url>
   
   <url>
+    <loc>https://1414c.github.io/jiffy/usage/us-content-f/</loc>
+  </url>
+  
+  <url>
     <loc>https://1414c.github.io/jiffy/generation/gn-content-g/</loc>
     <lastmod>2018-02-05T15:24:10-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/usage/us-content-g/</loc>
   </url>
   
   <url>

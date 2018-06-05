@@ -104,6 +104,16 @@ Jiffy allows a developer to generate a robust go-based application that treats t
     </item>
     
     <item>
+      <title>Application Configuration Overview</title>
+      <link>https://1414c.github.io/jiffy/usage/us-content-a/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/usage/us-content-a/</guid>
+      <description>Overview The generated application code can be run unchanged for testing purposes, but some external setup is required.
+ Edit the generated .prd.config.json file to define your production configuration. Edit the generated .dev.config.json file to define your development / testing configuration. When using SSL to test locally, SSL certs will be needed. See the SSL setup section below for instructions regarding the generation of certificates suitable for local testing via go test.</description>
+    </item>
+    
+    <item>
       <title>Group Membership Overview</title>
       <link>https://1414c.github.io/jiffy/interprocess/ip-content-a/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -195,6 +205,15 @@ Standard CRUD end-points for entity Library are generated as follows:
     </item>
     
     <item>
+      <title>Default Configuration</title>
+      <link>https://1414c.github.io/jiffy/usage/us-content-b/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/usage/us-content-b/</guid>
+      <description>Default Config The following command strings may be used to run the program using a set of default configuration that has been hard-coded into the source files. The default configuration may be edited in the generated appobj/appconf.go file to suit local requirements. The default application settings are shown in the server configuration file format. The default configuration publishes the end-points on port 3000 over http due to the absence of the ‘cert_file’ and ‘key_file’ values.</description>
+    </item>
+    
+    <item>
       <title>Failure Detector</title>
       <link>https://1414c.github.io/jiffy/interprocess/ip-content-b/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -263,6 +282,17 @@ FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├�
     </item>
     
     <item>
+      <title>Development Configuration</title>
+      <link>https://1414c.github.io/jiffy/usage/us-content-c/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/usage/us-content-c/</guid>
+      <description>Development Config The following command string may be used to run the program using the values defined in the ./.dev.config.json file.
+$ go run main.go -dev  The generated sample dev configuration file should be edited to match the local environment. Jiffy will generate a sample .dev.config.json file similar to the one shown below:
+{ &amp;quot;external_address&amp;quot;: &amp;quot;127.0.0.1:3000&amp;quot;, &amp;quot;internal_address&amp;quot;: &amp;quot;127.0.0.1:4444&amp;quot;, &amp;quot;env&amp;quot;: &amp;quot;dev&amp;quot;, &amp;quot;ping_cycle&amp;quot;: 1, &amp;quot;failure_threshold&amp;quot;: 5, &amp;quot;pepper&amp;quot;: &amp;quot;secret-pepper-key&amp;quot;, &amp;quot;hmac_Key&amp;quot;: &amp;quot;secret-hmac-key&amp;quot;, &amp;quot;database&amp;quot;: { &amp;quot;db_dialect&amp;quot;: &amp;quot;postgres&amp;quot;, &amp;quot;host&amp;quot;: &amp;quot;localhost&amp;quot;, &amp;quot;port&amp;quot;: 5432, &amp;quot;user&amp;quot;: &amp;quot;godev&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;gogogo123&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;glrestgen&amp;quot; }, &amp;quot;cert_file&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;key_file&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;rsa256_priv_key_file&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;rsa256_pub_key_file&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;rsa384_priv_key_file&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;rsa384_pub_key_file&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;rsa512_priv_key_file&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;rsa512_pub_key_file&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;ecdsa256_priv_key_file&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;ecdsa256_pub_key_file&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;ecdsa384_priv_key_file&amp;quot;: &amp;quot;jwtkeys/ecdsa384/ec384.</description>
+    </item>
+    
+    <item>
       <title>Process Startup / Join</title>
       <link>https://1414c.github.io/jiffy/interprocess/ip-content-c/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -303,13 +333,14 @@ graph TD; subgraph A(End-Points)--B(Middleware) B--C(Controllers) C--D(Models) D
     </item>
     
     <item>
-      <title>Access Revocation and Renewal</title>
-      <link>https://1414c.github.io/jiffy/interprocess/ip-content-d/</link>
+      <title>Production Configuration</title>
+      <link>https://1414c.github.io/jiffy/usage/us-content-d/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://1414c.github.io/jiffy/interprocess/ip-content-d/</guid>
-      <description>JWT Tokens and Access Revocation Jiffy applications do not support the revocation or automatic renewal of JWT tokens. Instead, the service ensures that changes to User information (create/update/delete) are disseminated to all running instances of the Jiffy generated application. This is accomplished by maintaining a cross-process cache of User information via the group-membership service.
-Consequently, in Jiffy-based applications it makes sense to discuss User access revocation from the perspective of an administrator making a call to the user-API to perform general User deletion or deactivation.</description>
+      <guid>https://1414c.github.io/jiffy/usage/us-content-d/</guid>
+      <description>Production Config The following command string may be used to run the program using the values defined in the ./.prd.config.json file.
+$ go run main.go -prod  The generated sample dev configuration file should be edited to match the local environment. Jiffy will generate a sample .prod.config.json file similar to the one shown below:
+{ &amp;quot;external_address&amp;quot;: &amp;quot;127.0.0.1:8080&amp;quot;, &amp;quot;internal_address&amp;quot;: &amp;quot;127.0.0.1:4444&amp;quot;, &amp;quot;env&amp;quot;: &amp;quot;prod&amp;quot;, &amp;quot;ping_cycle&amp;quot;: 1, &amp;quot;failure_threshold&amp;quot;: 5, &amp;quot;pepper&amp;quot;: &amp;quot;secret-pepper-key&amp;quot;, &amp;quot;hmac_Key&amp;quot;: &amp;quot;secret-hmac-key&amp;quot;, &amp;quot;database&amp;quot;: { &amp;quot;db_dialect&amp;quot;: &amp;quot;postgres&amp;quot;, &amp;quot;host&amp;quot;: &amp;quot;localhost&amp;quot;, &amp;quot;port&amp;quot;: 5432, &amp;quot;user&amp;quot;: &amp;quot;godev&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;gogogo123&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;glrestgen&amp;quot; }, &amp;quot;cert_file&amp;quot;: &amp;quot;srvcert.</description>
     </item>
     
     <item>
@@ -331,6 +362,16 @@ Consequently, in Jiffy-based applications it makes sense to discuss User access 
     </item>
     
     <item>
+      <title>Application Server Flags</title>
+      <link>https://1414c.github.io/jiffy/usage/us-content-e/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/usage/us-content-e/</guid>
+      <description>Application Server Flags Flags are generally not used, as the configuration files (models.json) are easier to deal with. There are however, a few flags that can be used when starting the server:
+ -dr  The -dr switch is used to perform a destructive reset of the application&amp;rsquo;s data tables. This flag causes the application tables to be dropped and recreated, but does not affect the user, user-group, or authorization tables.</description>
+    </item>
+    
+    <item>
       <title>Generated &#39;middleware&#39; Folder</title>
       <link>https://1414c.github.io/jiffy/generation/gn-content-f/</link>
       <pubDate>Mon, 05 Feb 2018 17:23:10 -0700</pubDate>
@@ -340,12 +381,34 @@ Consequently, in Jiffy-based applications it makes sense to discuss User access 
     </item>
     
     <item>
+      <title>Testing with TLS</title>
+      <link>https://1414c.github.io/jiffy/usage/us-content-f/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/usage/us-content-f/</guid>
+      <description>Generate Self-Signed Certs for https Testing If you wish to perform local https-based testing, it is possible to do so through the use of self-signed certificates. Self-signed certificates can be easily created through the use of the openssl tool on *nix systems. 
+Verify the OpenSSL Installation Open a terminal session and verify that openssl is available:
+$ which -a openssl /usr/bin/openssl  If openssl is not shown in the &amp;lsquo;which&amp;rsquo; command output, check your path to ensure you have access to /usr/bin or /usr/local/bin.</description>
+    </item>
+    
+    <item>
       <title>Generated &#39;jwtkeys&#39; Folder</title>
       <link>https://1414c.github.io/jiffy/generation/gn-content-g/</link>
       <pubDate>Mon, 05 Feb 2018 15:24:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-g/</guid>
       <description>The &amp;lsquo;jwtkeys&amp;rsquo; Folder FirstApp ├── appobj │ ├── ... │ └── ... . . . ├── jwtkeys │ ├── ecdsa256 │ │ ├── ecdsa.priv.pem │ │ └── ecdsa.pub.pem │ ├── ecdsa384 │ │ ├── ecdsa384.prive.pem │ │ └── ecdsa384.pub.pem │ ├── ecdsa521 │ │ ├── ecdsa521.priv.pem │ │ └── ecdsa521.pub.pem │ ├── rsa256 │ │ ├── rsa.priv.pem │ │ └── rsa.pub.pem │ ├── rsa384 │ │ ├── rsa384.prive.pem │ │ └── rsa384.</description>
+    </item>
+    
+    <item>
+      <title>Automated Application Testing</title>
+      <link>https://1414c.github.io/jiffy/usage/us-content-g/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/usage/us-content-g/</guid>
+      <description>UPDATE TEST CASE GENERATION TO ACCEPT ADDRESS:PORT RATHER THAN PORT
+Automated Testing When jiffy generates the application, a set of automated tests are also generated for the application&amp;rsquo;s end-points. These tests use set values for each data-type in the services to allow robust GET/POST/PUT type testing.
+The automated tests make use of the standard go test tooling. Tests can be run using http or https, and run against the port that the application is presently serving on.</description>
     </item>
     
     <item>
