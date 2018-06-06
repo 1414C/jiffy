@@ -13,19 +13,19 @@
     <title>Automated Application Testing :: My New Hugo Site</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528242851" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528242851" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528242851" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528242851" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528242851" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528242851" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528242851" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528242851" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528260038" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528260038" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528260038" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528260038" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528260038" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528260038" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528260038" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528260038" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528242851" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528260038" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528242851"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528260038"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528242851"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528242851"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528260038"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528260038"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528242851"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528260038"></script>
 
     
   </div>
@@ -1385,6 +1385,44 @@
 
             
           
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/us-content-h/" title="Deployment on Bare Metal / VM&#39;s" class="dd-item ">
+        <a href="/jiffy/usage/us-content-h/">
+        Deployment on Bare Metal / VM&#39;s
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/us-content-i/" title="Deployment on Kubernetes" class="dd-item ">
+        <a href="/jiffy/usage/us-content-i/">
+        Deployment on Kubernetes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
         
         </ul>
               
@@ -1505,30 +1543,26 @@
 
 
 
-<p><strong><em>UPDATE TEST CASE GENERATION TO ACCEPT ADDRESS:PORT RATHER THAN PORT</em></strong></p>
-
 <h2 id="automated-testing">Automated Testing</h2>
 
-<p>When jiffy generates the application, a set of automated tests are also generated for the application&rsquo;s end-points.  These tests use set values for each data-type in the services to allow robust GET/POST/PUT type testing.</p>
+<p>When jiffy generates the application, a set of automated tests are also generated for the application&rsquo;s end-points.  The  tests make use of the standard go test tooling.  Tests can be conducted using http or https, and run against the address:port that the application is presently serving on.  Remember, the application must be running prior to executing the test.</p>
 
-<p>The automated tests make use of the standard go test tooling.  Tests can be run using http
-or https, and run against the port that the application is presently serving on.  Remember, the
-application must be running prior to executing the test.</p>
-
-<p>The generated CRUD tests check the availability of the end-points, and attempt to perform CRUD
+<p>The generated CRUD tests check the availability of the end-points and attempt to perform CRUD
 activities using representative data for the field-types.  If customization has occurred in the
 model normalization and validation enhancement points, the field values used in the generated
-main_test.go file should be updated accordingly.  The generated CRUD tests are provided as a
-starting point for your own testing.</p>
+main_test.go file should be updated accordingly.  <em>The generated CRUD tests are provided as a
+starting point for your own testing.</em></p>
 
 <p>The generated simple selector tests check the availability of the end-points, and attempt to perform
 a GET for each of the selection operators specified in the Entity-&gt;selectable field in the models.json
 file.  It is not necessary to have values populated in the database in order for the simple selector
  tests to run.</p>
 
-<p>At the moment, relationships are not included in the generated tests and the test case generator needs to be updated to consider foreign-key relationships.  For this reason, it is recommended to perform baseline model testing without foreign-keys in the model-files.</p>
+<p>At the moment, relationships are not included in the generated tests, and the test case generator needs to be updated to consider foreign-key relationships.  For this reason, it is recommended to perform baseline model testing without foreign-keys in the model-files.</p>
 
 <h4 id="run-go-test-with-https">Run go test With https</h4>
+
+<p>In order to conduct automated testing via a TLS connection, follow the instructions in the &lsquo;Testing with TLS&rsquo; section of this documentation.</p>
 
 <pre><code class="language-bash">
     $ go test -v -https -address &quot;192.168.1.66:8080&quot;
@@ -1561,7 +1595,7 @@ file.  It is not necessary to have values populated in the database in order for
 <h4 id="run-go-test-without-https">Run go test Without https</h4>
 
 <pre><code class="language-bash">
-    $ go test -v -https -address &quot;192.168.1.66:8080&quot;
+    $ go test -v -address &quot;192.168.1.66:8080&quot;
     2018/06/05 17:50:17 package sqac init is running
     using usr: {&quot;email&quot;:&quot;admin&quot;,&quot;password&quot;:&quot;initpass&quot;}
     === RUN   TestCreatePerson
@@ -2603,6 +2637,41 @@ file.  It is not necessary to have values populated in the database in order for
             
         
                     
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
                     
@@ -2616,7 +2685,7 @@ file.  It is not necessary to have values populated in the database in order for
             <a class="nav nav-prev" href="/jiffy/usage/us-content-f/" title="Testing with TLS"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/jiffy/usage/us-content-a/" title="Application Configuration Overview" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/jiffy/usage/us-content-h/" title="Deployment on Bare Metal / VM&#39;s" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
@@ -2625,20 +2694,20 @@ file.  It is not necessary to have values populated in the database in order for
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528242851"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528242851"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528242851"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528242851"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528242851"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528242851"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528242851"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528260038"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528260038"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528260038"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528260038"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528260038"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528260038"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528260038"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528242851"></script>
-    <script src="/jiffy/js/learn.js?1528242851"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528242851"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528260038"></script>
+    <script src="/jiffy/js/learn.js?1528260038"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528260038"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528242851" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528242851"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528260038" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528260038"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

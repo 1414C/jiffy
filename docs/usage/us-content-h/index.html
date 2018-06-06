@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <title>Other Generated Folders :: My New Hugo Site</title>
+    <title>Deployment on Bare Metal / VM&#39;s :: My New Hugo Site</title>
     
     
     <link href="/jiffy/css/nucleus.css?1528260038" rel="stylesheet">
@@ -35,7 +35,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/jiffy/generation/gn-content-h/">
+  <body class="" data-url="/jiffy/usage/us-content-h/">
     <nav id="sidebar" class="">
 
 
@@ -784,7 +784,7 @@
   
     
     <li data-nav-id="/jiffy/generation/" title="Generation Reference" class="dd-item 
-        parent
+        
         
         
         ">
@@ -941,7 +941,7 @@
  
   
     
-      <li data-nav-id="/jiffy/generation/gn-content-h/" title="Other Generated Folders" class="dd-item active">
+      <li data-nav-id="/jiffy/generation/gn-content-h/" title="Other Generated Folders" class="dd-item ">
         <a href="/jiffy/generation/gn-content-h/">
         Other Generated Folders
         
@@ -1235,7 +1235,7 @@
   
     
     <li data-nav-id="/jiffy/usage/" title="Testing and Deployment" class="dd-item 
-        
+        parent
         
         
         ">
@@ -1392,7 +1392,7 @@
  
   
     
-      <li data-nav-id="/jiffy/usage/us-content-h/" title="Deployment on Bare Metal / VM&#39;s" class="dd-item ">
+      <li data-nav-id="/jiffy/usage/us-content-h/" title="Deployment on Bare Metal / VM&#39;s" class="dd-item active">
         <a href="/jiffy/usage/us-content-h/">
         Deployment on Bare Metal / VM&#39;s
         
@@ -1497,7 +1497,7 @@
             
           
           
-            <a href='/jiffy/'></a> > <a href='/jiffy/generation/'>Generation Reference</a> > Other Generated Folders
+            <a href='/jiffy/'></a> > <a href='/jiffy/usage/'>Testing and Deployment</a> > Deployment on Bare Metal / VM's
           
          
           
@@ -1515,10 +1515,12 @@
 <ul>
 <li>
 <ul>
-<li><a href="#the-ext-folders">The &lsquo;ext&rsquo; Folders</a></li>
-<li><a href="#the-group-gmcl-folder">The group/gmcl Folder</a></li>
-<li><a href="#the-group-gmcom-folder">The group/gmcom Folder</a></li>
-<li><a href="#the-group-gmsrv-folder">The group/gmsrv Folder</a></li>
+<li><a href="#deployment-overview">Deployment Overview</a>
+<ul>
+<li><a href="#database-system">Database System</a></li>
+<li><a href="#key-value-store">Key Value Store</a></li>
+<li><a href="#load-balancer">Load Balancer</a></li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -1534,7 +1536,7 @@
         
         <div id="body-inner">
           
-            <h1>Other Generated Folders</h1>
+            <h1>Deployment on Bare Metal / VM&#39;s</h1>
           
 
         
@@ -1542,21 +1544,30 @@
 
 
 
-<h3 id="the-ext-folders">The &lsquo;ext&rsquo; Folders</h3>
+<h3 id="deployment-overview">Deployment Overview</h3>
 
-<p>&lsquo;ext&rsquo; folders contain Jiffy application interface definitions and empty implementations of the same for controller and model extension-points.  See the &lsquo;Extension Point&rsquo; section of this documentation.</p>
+<p>Jiffy was written with the idea of generating backend applications free of sidecars.  While this is a nice goal, the current version of Jiffy relies on the presence of some external processes and/or services depending on the target environment.</p>
 
-<h3 id="the-group-gmcl-folder">The group/gmcl Folder</h3>
+<h4 id="database-system">Database System</h4>
 
-<p>The group/gmcl folder contains the source files for the usr, auth, usrgroup and groupauth cache clients.  This package is for internal use only.  See the &lsquo;Group Membership&rsquo; and &lsquo;Failure Detection&rsquo; sections of this documentation.</p>
+<p>The generated application will need to connect to a database system from the <a href="https://1414c.github.io/jiffy/installation/in-content-a/#database-drivers">supported list</a>.  We suggest using sqlite3 for initial testing if you do not want to install a full DBMS on your development machine.  Connectivity to your database can be checked by running the test suite in the github.com/1414C/sqac repository.  The sqac repository will be pulled into your Go environment when the Jiffy source code is installed via go get -u.  See the README.md file in the sqac repository for instructions.</p>
 
-<h3 id="the-group-gmcom-folder">The group/gmcom Folder</h3>
+<h4 id="key-value-store">Key Value Store</h4>
 
-<p>The group/gmcom folder contains source files holding artifacts that are needed by the groups/&hellip; packages and those of the generated jiffy application.  This package is for internal use only.  See the &lsquo;Group Membership&rsquo; and &lsquo;Failure Detection&rsquo; sections of this documentation.</p>
+<p>A KVS is required in order to persist the current group-leader information.  This is discussed in the <a href="https://1414c.github.io/jiffy/interprocess/ip-content-c/#joining-overview">Joining Overview</a> section of the Interprocess Communication documentation.  Although we refer the persistent store as a KVS, anything that manages access and allows read/write operations can be used.  A sample implementation of the gmcom.GetterSetter interface is generated and used by default to communicate with the KVS.</p>
 
-<h3 id="the-group-gmsrv-folder">The group/gmsrv Folder</h3>
+<p>The sample/default gmcom.GetterSetter implementation relies on a simple KVS called <em>sluggo</em> that was written as a super-lightweight non-productive testing solution.  For now, the docs will refer to <em>sluggo</em> when discussing the KVS, but it recommended to use something more robust for real deployments.</p>
 
-<p>The group/gmsrv folder contains the source files for the group-membership service, the failure detector and the leader-election mechanism.  This package is for internal use only.  See the &lsquo;Group Membership&rsquo; and &lsquo;Failure Detection&rsquo; sections of this documentation.</p>
+<p>Sluggo may be installed in your environment the following go get command:</p>
+
+<pre><code class="language-bash">
+    $ go get -u github.com/1414C/sluggo
+
+</code></pre>
+
+<h4 id="load-balancer">Load Balancer</h4>
+
+<p>Jiffy applications are designed to scale horizontally by starting more application server instances (processes).  The applications do not handle load balancing however, and in a bare metal or VM-type deployment it is recommended to use something like NGinx to direct traffic.</p>
 
 
 <footer class=" footline" >
@@ -2112,7 +2123,6 @@
             
                 
                     
-                    
                 
                 
 
@@ -2125,9 +2135,6 @@
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -2203,74 +2210,6 @@
                     
             
         
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
-                
-                
-
-                    
-                    
-                    
-
                     
                         
             
@@ -2512,6 +2451,42 @@
             
         
                     
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
                         
             
             
@@ -2608,6 +2583,42 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
                     
@@ -2618,10 +2629,10 @@
 
 
         
-            <a class="nav nav-prev" href="/jiffy/generation/gn-content-g/" title="Generated &#39;jwtkeys&#39; Folder"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/jiffy/usage/us-content-g/" title="Automated Application Testing"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/jiffy/extensionpoints/" title="Extension Points" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/jiffy/usage/us-content-i/" title="Deployment on Kubernetes" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 

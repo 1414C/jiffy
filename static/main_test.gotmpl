@@ -46,7 +46,7 @@ func TestMain(m *testing.M) {
 	// parse flags
 	logFlag := flag.Bool("log", false, "extended log")
 	useHttpsFlag := flag.Bool("https", false, "true == use https")
-	portFlag := flag.String("port", "3000", "port to connect to")
+	addressFlag := flag.String("address", "localhost:3000", "address:port to connect to")
 	u := flag.String("u", "admin", "user name")
 	passwd := flag.String("passwd", "", "passwd")
 	flag.Parse()
@@ -60,7 +60,7 @@ func TestMain(m *testing.M) {
 	}
 
 	// build base url
-	err = sessionData.buildURL(*useHttpsFlag, *portFlag)
+	err = sessionData.buildURL(*useHttpsFlag, *addressFlag)
 	if err != nil {
 		log.Fatalf("%s\n", err.Error())
 	}
@@ -132,13 +132,13 @@ func (sd *SessionData) initializeClient(useHttps bool) error  {
 // buildURL builds a url based on flag parameters
 //
 // internal
-func (sd *SessionData) buildURL(useHttps bool, port string) error {
+func (sd *SessionData) buildURL(useHttps bool, address string) error {
 
 	sd.baseURL = "http"
 	if useHttps {
 		sd.baseURL = sd.baseURL + "s"
 	}
-	sd.baseURL = sd.baseURL + "://localhost:" + port
+	sd.baseURL = sd.baseURL + "://" + address
 	return nil
 }
 

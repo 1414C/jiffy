@@ -78,9 +78,27 @@ $ which -a openssl /usr/bin/openssl  If openssl is not shown in the &amp;lsquo;w
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://1414c.github.io/jiffy/usage/us-content-g/</guid>
-      <description>UPDATE TEST CASE GENERATION TO ACCEPT ADDRESS:PORT RATHER THAN PORT
-Automated Testing When jiffy generates the application, a set of automated tests are also generated for the application&amp;rsquo;s end-points. These tests use set values for each data-type in the services to allow robust GET/POST/PUT type testing.
-The automated tests make use of the standard go test tooling. Tests can be run using http or https, and run against the port that the application is presently serving on.</description>
+      <description>Automated Testing When jiffy generates the application, a set of automated tests are also generated for the application&amp;rsquo;s end-points. The tests make use of the standard go test tooling. Tests can be conducted using http or https, and run against the address:port that the application is presently serving on. Remember, the application must be running prior to executing the test.
+The generated CRUD tests check the availability of the end-points and attempt to perform CRUD activities using representative data for the field-types.</description>
+    </item>
+    
+    <item>
+      <title>Deployment on Bare Metal / VM&#39;s</title>
+      <link>https://1414c.github.io/jiffy/usage/us-content-h/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/usage/us-content-h/</guid>
+      <description>Deployment Overview Jiffy was written with the idea of generating backend applications free of sidecars. While this is a nice goal, the current version of Jiffy relies on the presence of some external processes and/or services depending on the target environment.
+Database System The generated application will need to connect to a database system from the supported list. We suggest using sqlite3 for initial testing if you do not want to install a full DBMS on your development machine.</description>
+    </item>
+    
+    <item>
+      <title>Deployment on Kubernetes</title>
+      <link>https://1414c.github.io/jiffy/usage/us-content-i/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/usage/us-content-i/</guid>
+      <description> Deployment Overview </description>
     </item>
     
   </channel>

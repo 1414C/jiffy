@@ -30,7 +30,7 @@
       
       <guid>https://1414c.github.io/jiffy/execution/ex-content-b/</guid>
       <description>Generation Flags Flags are kept to a minimum, but there are a few flags that can be appended to the execution command:
- go run *.go -p   The -p switch is used to specify the target directory for generated application source-code relative to $GOPATH/src.   $ go run main.go -p &amp;quot;github.com/footle.com/myrestfulsvc&amp;quot;   go run main.go -m .json  By default, the application will attempt to use .</description>
+ go run *.go -p   The -p switch is used to specify the target directory for generated application source-code relative to $GOPATH/src.   $ go run main.go -p &amp;quot;/github.com/footle.com/myrestfulsvc&amp;quot;   go run main.go -m .json  By default, the application will attempt to use .</description>
     </item>
     
   </channel>
