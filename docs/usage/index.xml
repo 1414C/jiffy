@@ -88,7 +88,7 @@ The generated CRUD tests check the availability of the end-points and attempt to
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://1414c.github.io/jiffy/usage/us-content-h/</guid>
-      <description>Deployment Overview Jiffy was written with the idea of generating backend applications free of sidecars. While this is a nice goal, the current version of Jiffy relies on the presence of some external processes and/or services depending on the target environment.
+      <description>Deployment Overview Jiffy was written with the idea of generating sidecar-free backend service applications. While this is a nice goal, the current version of Jiffy relies on the presence of some external processes and/or services depending on the target environment.
 Database System The generated application will need to connect to a database system from the supported list. We suggest using sqlite3 for initial testing if you do not want to install a full DBMS on your development machine.</description>
     </item>
     
