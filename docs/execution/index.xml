@@ -19,7 +19,7 @@
       <guid>https://1414c.github.io/jiffy/execution/ex-content-a/</guid>
       <description>Execution In order to run the application generator, ensure the following:
  Make sure go has been installed in the test environment. See http://www.golang.org for installation files and instructions.
- Make sure that the Jiffy source code and dependencies have been installed: Jiffy Installation
+ Make sure that the Jiffy source code and dependencies have been installed.
  You will need access to a Postgres, MySQL, MSSQL or SAP Hana database, either locally or over the network. It is also possible to run tests with SQLite3.</description>
     </item>
     
