@@ -79,8 +79,8 @@ FirstApp ├── appobj │ ├── appconf.</description>
       <pubDate>Mon, 05 Feb 2018 13:26:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/installation/in-content-a/</guid>
-      <description>What does Jiffy need to run? Wherever possible and reasonable, Jiffy relies on packages found in the Go standard library. As of this writing, Go version 1.10 is required in order to build the Jiffy binary.
-Database Drivers The following golang database drivers are required, even if you are only planning to make use of one of the DBMS&amp;rsquo;s in the supported list. This is due to the fact that Jiffy attempts to connect to your test database during the code generation process and there is no guarantee what that database may be.</description>
+      <description>What does Jiffy need to run? Wherever possible and reasonable, Jiffy relies on packages found in the Go standard library. As of this writing, Go version 1.10 is required in order to build the Jiffy binary. Jiffy requires a running database from the following list of supported databases:
+Supported Databases  PostgreSQL tested with version 10+ SAP HanaDB tested up to HDB 2.0 MSSQL tested with MSSQL 2017 MySQL SQLite3 Firebird DB2  Database Drivers The following golang database drivers are required, even if you are only planning to make use of one of the DBMS&amp;rsquo;s in the supported list.</description>
     </item>
     
     <item>
@@ -422,22 +422,22 @@ The group/gmcom Folder The group/gmcom folder contains source files holding arti
     </item>
     
     <item>
-      <title>Deployment on Bare Metal / VM&#39;s</title>
+      <title>Key Value Store Support</title>
       <link>https://1414c.github.io/jiffy/usage/us-content-h/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://1414c.github.io/jiffy/usage/us-content-h/</guid>
-      <description>Deployment Overview Jiffy was written with the idea of generating sidecar-free backend service applications. While this is a nice goal, the current version of Jiffy relies on the presence of some external processes and/or services depending on the target environment.
-Database System The generated application will need to connect to a database system from the supported list. We suggest using sqlite3 for initial testing if you do not want to install a full DBMS on your development machine.</description>
+      <description>Overview A KVS is required in order to persist the current group-leader information in multi-instance jiffy-application deployments. This is discussed in the Joining Overview section of the Interprocess Communication documentation. Although we refer to the persistent store as a KVS, anything that manages access and allows read/write operations can be used. A sample implementation of the gmcom.GetterSetter interface is generated and used by default to communicate with the KVS.</description>
     </item>
     
     <item>
-      <title>Deployment on Kubernetes</title>
+      <title>Deployment on Bare Metal / VM&#39;s</title>
       <link>https://1414c.github.io/jiffy/usage/us-content-i/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://1414c.github.io/jiffy/usage/us-content-i/</guid>
-      <description> Deployment Overview </description>
+      <description>Deployment Overview Jiffy was written with the idea of generating sidecar-free backend service applications. While this is a nice goal, the current version of Jiffy relies on the presence of some external processes and/or services depending on the target environment.
+Database System The generated application will need to connect to a database system from the supported list. We suggest using sqlite3 for initial testing if you do not want to install a full DBMS on your development machine.</description>
     </item>
     
     <item>
@@ -449,6 +449,15 @@ Database System The generated application will need to connect to a database sys
       <description>Launch Postman and specify a target URL of: http://127.0.0.1:8080/usr/login making sure to select the http POST method. Maintain the request body to provide a user-id and password as shown in the following JSON snippet. Typically the user-id for a jiffy application is an email address, but we make an exception for the default administration user.
 { &amp;quot;email&amp;quot;: &amp;quot;admin&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;initpass&amp;quot; }  
 When you have finished and your Postman (or other test utility) looks like the following image, click the &amp;lsquo;Send&amp;rsquo; button to post your login request to the running application.</description>
+    </item>
+    
+    <item>
+      <title>Deployment on Kubernetes</title>
+      <link>https://1414c.github.io/jiffy/usage/us-content-j/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/usage/us-content-j/</guid>
+      <description> Deployment Overview </description>
     </item>
     
     <item>

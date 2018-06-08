@@ -13,19 +13,19 @@
     <title>Jiffy Dependencies :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528412032" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528412032" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528412032" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528412032" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528412032" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528412032" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528412032" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528412032" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528417349" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528417349" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528417349" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528417349" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528417349" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528417349" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528417349" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528417349" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528412032" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528417349" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528412032"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528417349"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528412032"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528412032"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528417349"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528417349"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528412032"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528417349"></script>
 
     
   </div>
@@ -1392,8 +1392,27 @@
  
   
     
-      <li data-nav-id="/jiffy/usage/us-content-h/" title="Deployment on Bare Metal / VM&#39;s" class="dd-item ">
+      <li data-nav-id="/jiffy/usage/us-content-h/" title="Key Value Store Support" class="dd-item ">
         <a href="/jiffy/usage/us-content-h/">
+        Key Value Store Support
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/us-content-i/" title="Deployment on Bare Metal / VM&#39;s" class="dd-item ">
+        <a href="/jiffy/usage/us-content-i/">
         Deployment on Bare Metal / VM&#39;s
         
         </a>
@@ -1411,8 +1430,8 @@
  
   
     
-      <li data-nav-id="/jiffy/usage/us-content-i/" title="Deployment on Kubernetes" class="dd-item ">
-        <a href="/jiffy/usage/us-content-i/">
+      <li data-nav-id="/jiffy/usage/us-content-j/" title="Deployment on Kubernetes" class="dd-item ">
+        <a href="/jiffy/usage/us-content-j/">
         Deployment on Kubernetes
         
         </a>
@@ -1517,6 +1536,7 @@
 <ul>
 <li><a href="#what-does-jiffy-need-to-run">What does Jiffy need to run?</a>
 <ul>
+<li><a href="#supported-databases">Supported Databases</a></li>
 <li><a href="#database-drivers">Database Drivers</a></li>
 <li><a href="#sqac-orm">Sqac ORM</a></li>
 </ul></li>
@@ -1545,7 +1565,19 @@
 
 <h3 id="what-does-jiffy-need-to-run">What does Jiffy need to run?</h3>
 
-<p>Wherever possible and reasonable, Jiffy relies on packages found in the Go standard library.  As of this writing, Go version 1.10 is required in order to build the Jiffy binary.</p>
+<p>Wherever possible and reasonable, Jiffy relies on packages found in the Go standard library.  As of this writing, Go version 1.10 is required in order to build the Jiffy binary.  Jiffy requires a running database from the following list of supported databases:</p>
+
+<h4 id="supported-databases">Supported Databases</h4>
+
+<ul>
+<li><a href="https://www.postgresql.org/">PostgreSQL</a> tested with version 10+</li>
+<li><a href="https://www.sap.com/cmp/ft/crm-xu16-dat-hddedft/index.html">SAP HanaDB</a> tested up to HDB 2.0</li>
+<li><a href="https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-overview?view=sql-server-linux-2017">MSSQL</a> tested with MSSQL 2017</li>
+<li><a href="https://www.mysql.com/">MySQL</a></li>
+<li><a href="https://www.sqlite.org/">SQLite3</a></li>
+<li><a href="https://www.firebirdsql.org/en/start/">Firebird</a></li>
+<li><a href="https://www.ibm.com/developerworks/downloads/im/db2express/index.html">DB2</a></li>
+</ul>
 
 <h4 id="database-drivers">Database Drivers</h4>
 
@@ -2652,6 +2684,22 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
                     
@@ -2674,20 +2722,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528412032"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528412032"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528412032"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528412032"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528412032"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528412032"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528412032"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528417349"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528417349"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528417349"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528417349"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528417349"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528417349"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528417349"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528412032"></script>
-    <script src="/jiffy/js/learn.js?1528412032"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528412032"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528417349"></script>
+    <script src="/jiffy/js/learn.js?1528417349"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528417349"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528412032" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528412032"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528417349" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528417349"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

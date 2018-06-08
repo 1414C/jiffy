@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <title>Jiffy Installation :: Jiffy Services Generator</title>
+    <title>Deployment on Kubernetes :: Jiffy Services Generator</title>
     
     
     <link href="/jiffy/css/nucleus.css?1528417349" rel="stylesheet">
@@ -35,7 +35,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/jiffy/installation/in-content-b/">
+  <body class="" data-url="/jiffy/usage/us-content-j/">
     <nav id="sidebar" class="">
 
 
@@ -536,7 +536,7 @@
   
     
     <li data-nav-id="/jiffy/installation/" title="Jiffy Installation" class="dd-item 
-        parent
+        
         
         
         ">
@@ -579,7 +579,7 @@
  
   
     
-      <li data-nav-id="/jiffy/installation/in-content-b/" title="Jiffy Installation" class="dd-item active">
+      <li data-nav-id="/jiffy/installation/in-content-b/" title="Jiffy Installation" class="dd-item ">
         <a href="/jiffy/installation/in-content-b/">
         Jiffy Installation
         
@@ -1235,7 +1235,7 @@
   
     
     <li data-nav-id="/jiffy/usage/" title="Testing and Deployment" class="dd-item 
-        
+        parent
         
         
         ">
@@ -1430,7 +1430,7 @@
  
   
     
-      <li data-nav-id="/jiffy/usage/us-content-j/" title="Deployment on Kubernetes" class="dd-item ">
+      <li data-nav-id="/jiffy/usage/us-content-j/" title="Deployment on Kubernetes" class="dd-item active">
         <a href="/jiffy/usage/us-content-j/">
         Deployment on Kubernetes
         
@@ -1516,7 +1516,7 @@
             
           
           
-            <a href='/jiffy/'></a> > <a href='/jiffy/installation/'>Jiffy Installation</a> > Jiffy Installation
+            <a href='/jiffy/'></a> > <a href='/jiffy/usage/'>Testing and Deployment</a> > Deployment on Kubernetes
           
          
           
@@ -1534,7 +1534,7 @@
 <ul>
 <li>
 <ul>
-<li><a href="#installation-steps">Installation Steps</a></li>
+<li><a href="#deployment-overview">Deployment Overview</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -1550,7 +1550,7 @@
         
         <div id="body-inner">
           
-            <h1>Jiffy Installation</h1>
+            <h1>Deployment on Kubernetes</h1>
           
 
         
@@ -1558,32 +1558,7 @@
 
 
 
-<h3 id="installation-steps">Installation Steps</h3>
-
-<p>The easiest way to install Jiffy is to use <em>go get</em> on the command-line to pull the latest version from github, as shown below:</p>
-
-<pre><code class="language-bash">
-    $ go get -u github.com/1414C/jiffy
-
-</code></pre>
-
-<p>This will pull the jiffy github repository into your $GOPATH/src/github.com folder, as well as any dependencies referenced by the jiffy source code.  The <em>-u</em> flag is included to instruct <em>go get</em> to check for and pull updates to jiffy packages and their dependencies.  This is the least sophisticated way of managing dependencies in go.</p>
-
-<p>Once the jiffy source code and dependencies have been installed into your $GOPATH, you can use <em>go build</em> to compile a binary from the jiffy sources.  The easiest way to do this is to open a terminal window, switch to $GOPATH/src/github.com/1414C/jiffy and run <em>go build</em> as shown below.</p>
-
-<pre><code class="language-bash">
-    $ go build -v
-
-</code></pre>
-
-<p>This will result in the creation of a binary file called &lsquo;jiffy&rsquo;.  You may move the &lsquo;jiffy&rsquo; binary anywhere in your $PATH, but convention would have you install it in /usr/local/bin.  Once you have moved the &lsquo;jiffy&rsquo; binary to its new home, open a new terminal window and use the <em>which</em> command to ensure that you can access the binary.</p>
-
-<pre><code class="language-bash">
-    $ which jiffy -a
-
-</code></pre>
-
-<p>If <em>which</em> cannot find the jiffy binary (or finds the wrong one!), you need to make sure that your $PATH is set correctly.</p>
+<h3 id="deployment-overview">Deployment Overview</h3>
 
 
 <footer class=" footline" >
@@ -1963,7 +1938,6 @@
             
                 
                     
-                    
                 
                 
 
@@ -1976,9 +1950,6 @@
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -1995,7 +1966,6 @@
             
             
                 
-                    
                     
                 
                 
@@ -2015,9 +1985,6 @@
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -2483,6 +2450,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -2490,6 +2458,25 @@
                     
                     
 
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
                     
                         
             
@@ -2624,21 +2611,6 @@
             
                 
                     
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
                     
                 
                 
@@ -2661,10 +2633,10 @@
 
 
         
-            <a class="nav nav-prev" href="/jiffy/installation/in-content-a/" title="Jiffy Dependencies"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/jiffy/usage/us-content-i/" title="Deployment on Bare Metal / VM&#39;s"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/jiffy/execution/" title="Jiffy Execution" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/jiffy/usage/us-content-a/" title="Application Configuration Overview" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 

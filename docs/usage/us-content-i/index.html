@@ -10,22 +10,22 @@
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <title>Deployment on Kubernetes :: Jiffy Services Generator</title>
+    <title>Deployment on Bare Metal / VM&#39;s :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528412032" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528412032" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528412032" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528412032" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528412032" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528412032" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528412032" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528412032" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528417349" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528417349" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528417349" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528417349" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528417349" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528417349" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528417349" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528417349" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528412032" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528417349" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528412032"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528417349"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528412032"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528412032"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528417349"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528417349"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528412032"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528417349"></script>
 
     
   </div>
@@ -1392,8 +1392,27 @@
  
   
     
-      <li data-nav-id="/jiffy/usage/us-content-h/" title="Deployment on Bare Metal / VM&#39;s" class="dd-item ">
+      <li data-nav-id="/jiffy/usage/us-content-h/" title="Key Value Store Support" class="dd-item ">
         <a href="/jiffy/usage/us-content-h/">
+        Key Value Store Support
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/us-content-i/" title="Deployment on Bare Metal / VM&#39;s" class="dd-item active">
+        <a href="/jiffy/usage/us-content-i/">
         Deployment on Bare Metal / VM&#39;s
         
         </a>
@@ -1411,8 +1430,8 @@
  
   
     
-      <li data-nav-id="/jiffy/usage/us-content-i/" title="Deployment on Kubernetes" class="dd-item active">
-        <a href="/jiffy/usage/us-content-i/">
+      <li data-nav-id="/jiffy/usage/us-content-j/" title="Deployment on Kubernetes" class="dd-item ">
+        <a href="/jiffy/usage/us-content-j/">
         Deployment on Kubernetes
         
         </a>
@@ -1497,7 +1516,7 @@
             
           
           
-            <a href='/jiffy/'></a> > <a href='/jiffy/usage/'>Testing and Deployment</a> > Deployment on Kubernetes
+            <a href='/jiffy/'></a> > <a href='/jiffy/usage/'>Testing and Deployment</a> > Deployment on Bare Metal / VM's
           
          
           
@@ -1515,7 +1534,16 @@
 <ul>
 <li>
 <ul>
-<li><a href="#deployment-overview">Deployment Overview</a></li>
+<li><a href="#deployment-overview">Deployment Overview</a>
+<ul>
+<li><a href="#database-system">Database System</a></li>
+<li><a href="#key-value-store">Key Value Store</a></li>
+<li><a href="#load-balancer">Load Balancer</a></li>
+</ul></li>
+<li><a href="#sample-deployment-scenarios">Sample Deployment Scenarios</a>
+<ul>
+<li><a href="#all-in-one-deployment">All-In-One Deployment</a></li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -1531,7 +1559,7 @@
         
         <div id="body-inner">
           
-            <h1>Deployment on Kubernetes</h1>
+            <h1>Deployment on Bare Metal / VM&#39;s</h1>
           
 
         
@@ -1540,6 +1568,46 @@
 
 
 <h3 id="deployment-overview">Deployment Overview</h3>
+
+<p>Jiffy was written with the idea of generating sidecar-free backend service applications.  While this is a nice goal, the current version of Jiffy relies on the presence of some external processes and/or services depending on the target environment.</p>
+
+<h4 id="database-system">Database System</h4>
+
+<p>The generated application will need to connect to a database system from the <a href="/jiffy/installation/in-content-a/#database-drivers">supported list</a>.  We suggest using sqlite3 for initial testing if you do not want to install a full DBMS on your development machine.  Connectivity to your database can be checked by running the test suite in the github.com/1414C/sqac repository.  The sqac repository will be pulled into your Go environment when the Jiffy source code is installed via go get -u.  See the README.md file in the sqac repository for instructions.</p>
+
+<h4 id="key-value-store">Key Value Store</h4>
+
+<p>A KVS is required in order to persist the current group-leader information.  This is discussed in the <a href="/jiffy/usage/us-content-h/#overview">Key Value Store Support</a> section of this documentation.  Deployment-specific considerations are outlined for each of the following deployment scenarios.</p>
+
+<h4 id="load-balancer">Load Balancer</h4>
+
+<p>Jiffy applications are designed to scale horizontally by starting more application server instances (processes).  The applications do not handle load balancing however, and in a bare metal or VM-type deployment it is recommended to use something like NGinx to direct traffic.</p>
+
+<h3 id="sample-deployment-scenarios">Sample Deployment Scenarios</h3>
+
+<p>The following are a few high-level deployment scenarios for a jiffy-generated application.  Infrastructure security is not discussed here in any depth, but if you deploy a Jiffy-application productively the usual precautions apply.</p>
+
+<h4 id="all-in-one-deployment">All-In-One Deployment</h4>
+
+<p>In a development or test setting it may make sense to deploy everything in one system.  In this context &lsquo;system&rsquo; refers to a laptop, bare-metal server or a VM of some sort.  To deploy an all-in-one type setup, the following artifacts are required:</p>
+
+<ol>
+<li>Database</li>
+<li>Jiffy application</li>
+<li>Optional Key-Value-Store</li>
+</ol>
+
+<p><img src="/jiffy/usage/images/BareMetal3.png" alt="BareMetalAllInOne" /></p>
+
+<p>The All-In-One Deployment diagram shows a jiffy-application running on a system with an ip-address of 192.168.1.5.  The application is accepting http client connections on port :8080 and using port :7070 to listen for failure-detector / internal messages.  The failure detector &lsquo;bus&rsquo; is used for group-leadership messages as well as cache synchronization, even when the application is run standalone (single process).</p>
+
+<p>It is not necessary to run an external KVS if the jiffy-application will be run as a standalone process.  The KVS is used to hold the current group-leader information when jiffy applications are deployed with more than one instance.  When running without a KVS it is fine to leave the default gmcom.GetterSetter implementation as it is.  The application will attempt to contact the default KVS (<em>sluggo</em>) four times, then give up, assign itself a PID of 1 and assert leadership inside it&rsquo;s own process.  The short version is: don&rsquo;t worry about the KVS if you want to run a single instance of your jiffy application.</p>
+
+<p>If you do choose to run an All-In-One / single application instance with a KVS, running <a href="/jiffy/usage/us-content-h/#key-value-store-a-id-key-value-store-a"><em>sluggo</em></a> and making use of the default gmcom.GetterSetter implementation is the easiest way to get started.  You may also choose to create your own implementation of the gmcom.GetterSetter interface in the main.go file to support another KVS.</p>
+
+<p>The application communicates with the KVS using whatever protocol/transport is required.  Remember that the selection of KVS is arbitrary and an <a href="/jiffy/usage/us-content-h/#interface-gmcom-gmgettersetter">interface is provided</a> to allow the implementer to write their own code to communicate with any KVS.</p>
+
+<p>The application is also shown to be communicating with the locally installed database over a tcp connection.  In this example we show PostgreSQL accepting connections on it&rsquo;s default port (tcp/5432), but any of the <a href="/jiffy/installation/in-content-a/#supported-databases">supported databases</a> can be used.</p>
 
 
 <footer class=" footline" >
@@ -2588,6 +2656,25 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
                     
@@ -2598,10 +2685,10 @@
 
 
         
-            <a class="nav nav-prev" href="/jiffy/usage/us-content-h/" title="Deployment on Bare Metal / VM&#39;s"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/jiffy/usage/us-content-h/" title="Key Value Store Support"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/jiffy/usage/us-content-a/" title="Application Configuration Overview" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/jiffy/usage/us-content-j/" title="Deployment on Kubernetes" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
@@ -2610,20 +2697,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528412032"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528412032"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528412032"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528412032"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528412032"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528412032"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528412032"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528417349"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528417349"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528417349"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528417349"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528417349"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528417349"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528417349"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528412032"></script>
-    <script src="/jiffy/js/learn.js?1528412032"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528412032"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528417349"></script>
+    <script src="/jiffy/js/learn.js?1528417349"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528417349"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528412032" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528412032"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528417349" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528417349"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
