@@ -13,19 +13,19 @@
     <title>Generated &#39;models&#39; Folder :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528475615" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528437263" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528475615" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528437263"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528475615"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528437263"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528475615"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528475615"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528475615"></script>
 
     
   </div>
@@ -1450,6 +1450,76 @@
  
 
           
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/tutorials/" title="Jiffy Tutorials" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/tutorials/">
+          <i class='fa fa-github'></i> Jiffy Tutorials
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/tt-content-a/" title="Hand Coding a Custom Join" class="dd-item ">
+        <a href="/jiffy/tutorials/tt-content-a/">
+        Hand Coding a Custom Join
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/tt-content-b/" title="Dealing with mixed/multipart" class="dd-item ">
+        <a href="/jiffy/tutorials/tt-content-b/">
+        Dealing with mixed/multipart
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
          
     </ul>
 
@@ -1589,9 +1659,9 @@ FirstApp
 
 </code></pre>
 
-<p>A model is created for each entity that has been modeled in the <model>.json files, as well as well as the static models used to support users and authorizations.</p>
+<p>A model is created for each entity that has been modeled in the my_model.json files, as well as well as the static models used to support users and authorizations.</p>
 
-<p>Models define an entity&rsquo;s structure and member field characteristics such as type, required/not-required, db-type etc.  Each model has a corresponding controller that examines the request, parses the incoming JSON data into the model structure, and then calls the appropriate method in the entity-model based on the end-point / http method.  The model provides a validator, which can be used to perform detailed checks and normalizations on the entity data prior to making the call to the ORM.</p>
+<p>Models define an entity&rsquo;s structure and member field characteristics such as type, required/not-required, db-type etc.  Each model has a corresponding controller that examines the request, parses the incoming JSON data into the model structure, and then calls the appropriate method in the entity-model based on the end-point / http method.  The model provides a validator, which can be used to perform detailed checks and normalizations on the entity data prior to making the call to the sqac ORM.</p>
 
 <p>Empty model validations are generated for each entity field, and are designed to be extended by the application developer.  Validation methods are generated for each entity field and added to the model&rsquo;s entity validator.  For example, the model source file for entity &lsquo;Library&rsquo; (./models/librarym.go), contains a &lsquo;libraryValidator&rsquo; type.  Validation methods for each of the library entity&rsquo;s fields are attached to this type.</p>
 
@@ -1625,7 +1695,7 @@ FirstApp
 <li>lv contains an implementation of the generated LibraryDB interface, as well as the set of empty generated field validation methods</li>
 </ul>
 
-<p>Using the creation of a new Library entity as an example, the controller will parse the JSON body of the incoming request into a Library entity struct.  The controller will then call the entity&rsquo;s model.Create method.  The &lsquo;libraryValidator.Create&rsquo; method (on lv) will execute the implemented field validations, then call the service&rsquo;s model.Create() method (on ls)which will in-turn make the required call to the ORM.</p>
+<p>Using the creation of a new &lsquo;Library&rsquo; entity as an example, the controller will parse the JSON body of the incoming request into a &lsquo;Library&rsquo; entity struct.  The controller will then call the entity&rsquo;s model.Create method.  The &lsquo;libraryValidator.Create&rsquo; method (on lv) will execute the implemented field validations, then call the service&rsquo;s model.Create() method (on ls)which will in-turn make the required call to the ORM.</p>
 
 <pre><code class="language-golang">
     // Create validates and normalizes data used in the library creation.
@@ -1653,18 +1723,18 @@ FirstApp
 
 <p>The last line of the method is the most interesting, as it demonstrates something known as method-chaining which allows the call to implicitly access the &lsquo;ls&rsquo; methods.  Look carefully at the code in this area so you understand what is happening, and perhaps lookup &lsquo;method-chaining&rsquo; as it pertains to golang.</p>
 
-<p>Note that at the moment, validations are intended to be coded directly in the body of the generated model code.  This is in contrast with the extension-point technique implemented in the controller and at the sqacService level in the model file (see Extension Points in this document).  The reasons for this are as follows:</p>
+<p><strong>Note that at the moment, validations are intended to be coded directly in the body of the generated model code.</strong>  This is in contrast with the extension-point technique implemented in the controller and at the sqacService level in the model file (see <a href="/jiffy/extensionpoints/">Extension Points</a>).  The reasons for this are as follows:</p>
 
 <ul>
 <li>It is expected that no validations will be coded until the model has been stabilized.</li>
 <li>It is generally desirable to get an application working (or mostly working), then start worrying about validations.</li>
 <li>Extension points exist as a convenience in the case where data needs pre/post processing.</li>
 <li>For most entities, some sort of validation will be required on the majority of fields.  We treat the validations as first-class citizens in the application rather than extension-points.</li>
-<li>By treating validations as first-class citizens we do not need to use type assertion and reflection in the validation layer when performing the checks.</li>
-<li>If there is a concern regarding the over-writing of coded validations due to application regeneration, it is simple for an application developer to implement their own sub-package with methods or functions containing the check code.  The Jiffy application will not over-write files that it is not responsible for during a regeneration of an application.</li>
+<li>By treating validations as first-class citizens we do not need to use type assertion and reflection in the validation layer when performing the checks.  This is in contrast to the <a href="/jiffy/extensionpoints/ep-content-c/#model-extension-point-interfaces">model extension-point interfaces</a>.</li>
+<li>If there is a concern regarding the over-writing of coded validations due to application regeneration, it is simple for an application developer to implement their own sub-package with methods or functions containing the check code.  Jiffy application generation will not overwrite files that it is not responsible for during a regeneration of an application.</li>
 </ul>
 
-<p>By default, a CRUD interface is generated for each entity.  Using the Library example, the generated code for the CRUD end-points look as follows:</p>
+<p>By default, a CRUD interface is generated for each entity.  Using the &lsquo;Library&rsquo; example, the generated code for the CRUD end-points look as follows:</p>
 
 <pre><code class="language-golang">
     // ====================== Library protected routes for standard CRUD access ======================
@@ -1676,7 +1746,7 @@ FirstApp
 
 </code></pre>
 
-<p>The generated go struct for the Library model looks as follows:</p>
+<p>The generated go struct for the &lsquo;Library&rsquo; model looks as follows:</p>
 
 <pre><code class="language-golang">
     // Library structure
@@ -1702,12 +1772,12 @@ FirstApp
 <tbody>
 <tr>
 <td>ID</td>
-<td>This is the generated key for the entity. The sqac tag &ldquo;primary_key:inc&rdquo; instructs the ORM that this field is to be created as an auto-incrementing column in the backend DBMS.</td>
+<td>This is the injected key for the entity. The sqac tag &ldquo;primary_key:inc&rdquo; instructs the ORM that this field is to be created as an auto-incrementing column in the backend DBMS.</td>
 </tr>
 
 <tr>
 <td>Href</td>
-<td>Each entity has an Href field injected into its structure when the application is generated. The Href value provides a direct link to read, update or delete the represented entity. This can be useful if the entity was returned as part of a list, or via a relation-based request. Changes to entities must be carried out via the direct links rather than through relation-type requests.  Enforcement of this precludes the requirement of coding / executing additional checks during updates to makes sure that the relationship path is valid.  Authorization for end-point access is also simplified via this model.  Sqac tag &ldquo;-&rdquo; indicates that this field is not persisted on the database and is not included in the table schema.</td>
+<td>Each entity has an Href field injected into its structure when the application is generated. The Href value provides a direct link to read, update or delete the represented entity. This can be useful if the entity was returned as part of a list, or via a relation-based request. Changes to entities must be carried out via the direct links rather than through relation-type requests.  Enforcement of this precludes the requirement of coding / executing additional checks during updates to make sure that the relationship path is valid.  Authorization for end-point access is also simplified via this model.  Sqac tag &ldquo;-&rdquo; indicates that this field is not persisted on the database and is not included in the table schema.</td>
 </tr>
 
 <tr>
@@ -1724,7 +1794,7 @@ FirstApp
 
 <p>For a more complete explanation of the Sqac ORM tags and operation, see the README.md of the sqac library at: <a href="https://github.com/1414C/sqac">https://github.com/1414C/sqac</a></p>
 
-<p>The models folder also contains an &lsquo;ext&rsquo; sub-directory which is used to hold the interface definitions for model extension-points.  See the &lsquo;Extension Points&rsquo; section of this document for more details.</p>
+<p>The models folder also contains an &lsquo;ext&rsquo; sub-directory which is used to hold the interface definitions for model extension-points.  See the <a href="/jiffy/extensionpoints/">Extension Points</a> section of this document for more details.</p>
 
 
 <footer class=" footline" >
@@ -2795,6 +2865,54 @@ FirstApp
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
             
         
         
@@ -2814,20 +2932,20 @@ FirstApp
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528437263"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528437263"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528437263"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528437263"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528437263"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528437263"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528437263"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528475615"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528475615"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528475615"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528475615"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528475615"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528475615"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528475615"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528437263"></script>
-    <script src="/jiffy/js/learn.js?1528437263"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528437263"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528475615"></script>
+    <script src="/jiffy/js/learn.js?1528475615"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528475615"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528437263" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528437263"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528475615" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528475615"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

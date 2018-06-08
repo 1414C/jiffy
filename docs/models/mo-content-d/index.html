@@ -13,19 +13,19 @@
     <title>Entity Relations :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528475615" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528437263" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528475615" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528437263"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528475615"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528437263"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528475615"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528475615"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528475615"></script>
 
     
   </div>
@@ -1450,6 +1450,76 @@
  
 
           
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/tutorials/" title="Jiffy Tutorials" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/tutorials/">
+          <i class='fa fa-github'></i> Jiffy Tutorials
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/tt-content-a/" title="Hand Coding a Custom Join" class="dd-item ">
+        <a href="/jiffy/tutorials/tt-content-a/">
+        Hand Coding a Custom Join
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/tt-content-b/" title="Dealing with mixed/multipart" class="dd-item ">
+        <a href="/jiffy/tutorials/tt-content-b/">
+        Dealing with mixed/multipart
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
          
     </ul>
 
@@ -1532,8 +1602,9 @@
 <ul>
 <li>
 <ul>
-<li><a href="#modeling-entity-relationships">Modeling Entity Relationships</a>
+<li>
 <ul>
+<li><a href="#modeling-entity-relationships">Modeling Entity Relationships</a></li>
 <li><a href="#hasone-relationship">hasOne Relationship</a></li>
 <li><a href="#hasmany-relationship">hasMany Relationship</a></li>
 <li><a href="#belongsto-relationship">belongsTo Relationship</a></li>
@@ -1561,9 +1632,9 @@
 
 
 
-<h2 id="modeling-entity-relationships">Modeling Entity Relationships</h2>
+<h3 id="modeling-entity-relationships">Modeling Entity Relationships</h3>
 
-<p>Relationships between entities can be declared in the application model file  via the addition of a &lsquo;relations&rsquo; block inside an entity&rsquo;s declaration.  Relationships are based on resource id&rsquo;s by default, although it is possible to specify non-default key fields in the configuration, or implement complex joins directly by maintaining the entity&rsquo;s controller and model.  &lsquo;relations&rsquo; blocks look as follows:</p>
+<p>Relationships between entities can be declared in the application model file via the addition of a &lsquo;relations&rsquo; block inside an entity&rsquo;s declaration.  Relationships are based on resource id&rsquo;s by default, although it is possible to specify non-default key fields in the configuration, or implement complex joins directly by maintaining the entity&rsquo;s controller and model.  &lsquo;relations&rsquo; blocks look as follows:</p>
 
 <pre><code class="language-JSON">
             &quot;relations&quot;: [
@@ -1578,11 +1649,11 @@
 
 </code></pre>
 
-<p>The sample relations block illustrates the declaration of a HasOne relationship between Car and Owner making use of default-keys.</p>
+<p>The sample relations block illustrates the declaration of a &lsquo;hasOne&rsquo; relationship between &lsquo;Car&rsquo; and &lsquo;Owner&rsquo; making use of default-keys.</p>
 
 <h3 id="hasone-relationship">hasOne Relationship</h3>
 
-<p>&lsquo;hasOne&rsquo; relationships establish a one-to-one relationship between two model entities.  As an example, let&rsquo;s posit that a Car can have one Owner.  If the Car and Owner were modeled as entities, we could declare a &lsquo;hasOne&rsquo; (1:1) relationship between them.  The relation would be added to the &lsquo;relations&rsquo; block inside the Car entity definition (as shown above).</p>
+<p>&lsquo;hasOne&rsquo; relationships establish a one-to-one relationship between two modeled entities.  As an example, let&rsquo;s posit that a car can have one owner.  If the car and owner were modeled as entities, we could declare a &lsquo;hasOne&rsquo; (1:1) relationship between them.  The relation would be added to the &lsquo;relations&rsquo; block inside the &lsquo;Car&rsquo; entity definition (as shown above).</p>
 
 <p>A break-down of the relations block fields is as follows:</p>
 
@@ -1591,13 +1662,13 @@
     &quot;relations&quot;: [
     The 'entities' block contains an array of relations belonging to the containing entity definition.
     Each relation is defined from the perspective of the containing entity having a relationship of
-    the specified type (in this case hasOne), with the entity referenced in the declaration.  A Car
-    has one Owner - in our example at least.
+    the specified type (in this case hasOne), with the entity referenced in the declaration.  A 'Car'
+    has one 'Owner' - in our example at least.
     {
         &quot;relName&quot;: &quot;Owner&quot;
         Field 'relName' refers to the name the relationship will be known by inside the application
-        and in the end-point definition in the mux routes.  It must be capitalized and written in
-        CamelCase.  Any name may be chosen for this field, but keep in mind this name will be exposed
+        and in the mux route end-point definition.  It must be capitalized and written in
+        CamelCase.  Any name may be chosen for this field, but keep in mind the name will be exposed
         to the service consumer via the URI, so something respecting the relationship enities and
         cardinality is best.  For the example, we have chosen a relName of 'ToOwner' to demonstrate
         the difference between the toEntity and relName fields.
@@ -1608,8 +1679,8 @@
 
             &quot;relType&quot;:
             Field 'relType' is used to indicate what sort of relationship is being declared between
-            the containing (from) entity and the toEntity.  Valid values are {hasOne, hasMany and
-            belongsTo}.
+            the containing (from) entity and the toEntity.  
+            Valid values are {hasOne, hasMany and belongsTo}.
             This is a mandatory field.
 
             &quot;toEntity&quot;:
@@ -1626,9 +1697,97 @@
 
 </code></pre>
 
+<pre><code class="language-JSON">
+{
+    &quot;entities&quot;:  [
+        {
+            &quot;typeName&quot;: &quot;Owner&quot;,
+            &quot;properties&quot;: {
+                &quot;Name&quot;: {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;format&quot;: &quot;&quot;,
+                    &quot;required&quot;: false,
+                    &quot;unique&quot;: false,
+                    &quot;index&quot;: &quot;nonUnique&quot;,
+                    &quot;selectable&quot;: &quot;eq,like&quot;
+                },
+                &quot;RegistrationNumber&quot;: {
+                    &quot;type&quot;: &quot;uint&quot;,
+                    &quot;format&quot;: &quot;&quot;,
+                    &quot;required&quot;: false,
+                    &quot;unique&quot;: true,
+                    &quot;index&quot;: &quot;&quot;,
+                    &quot;selectable&quot;: &quot;eq,lt,gt&quot;
+                },
+                &quot;City&quot;: {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;format&quot;: &quot;&quot;,
+                    &quot;required&quot;: false,
+                    &quot;unique&quot;: false,
+                    &quot;index&quot;: &quot;&quot;,
+                    &quot;selectable&quot;: &quot;eq,lt,gt&quot;
+                }
+            },
+            &quot;compositeIndexes&quot;: [
+                {&quot;index&quot;: &quot;name, city&quot;}
+            ],
+            &quot;relations&quot;: [
+                { 
+                &quot;relName&quot;: &quot;ToCar&quot;,
+                    &quot;properties&quot;: {
+                        &quot;relType&quot;: &quot;hasOne&quot;,
+                        &quot;toEntity&quot;: &quot;Car&quot;
+                    }
+                }
+            ],
+            &quot;ext_points&quot;: {
+                &quot;gen_controller&quot;: true,
+                &quot;gen_validator&quot;: false,
+                &quot;gen_model&quot;: true
+            }
+        },
+        {
+            &quot;typeName&quot;: &quot;Car&quot;,
+            &quot;properties&quot;: {
+                &quot;Model&quot;: {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;format&quot;: &quot;&quot;,
+                    &quot;required&quot;: true,
+                    &quot;index&quot;: &quot;nonUnique&quot;,
+                    &quot;selectable&quot;: &quot;eq,like&quot;
+                },
+                &quot;Make&quot;: {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;format&quot;: &quot;&quot;,
+                    &quot;required&quot;: true,
+                    &quot;index&quot;: &quot;nonUnique&quot;,
+                    &quot;selectable&quot;: &quot;eq,like&quot;
+                },
+                &quot;OwnerID&quot;: {
+                    &quot;type&quot;: &quot;uint64&quot;,
+                    &quot;format&quot;: &quot;&quot;,
+                    &quot;required&quot;: false,
+                    &quot;unique&quot;: false,
+                    &quot;index&quot;: &quot;nonUnique&quot;,
+                    &quot;selectable&quot;: &quot;eq,lt,gt&quot;
+                }
+            },
+            &quot;ext_points&quot;: {
+                &quot;gen_controller&quot;: true,
+                &quot;gen_validator&quot;: false,
+                 &quot;gen_model&quot;: true
+            }
+        }
+    ]
+}
+
+</code></pre>
+
+<p>The sample model file can be downloaded from the following location: <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/hasOne.json">hasOne.json</a>.</p>
+
 <h3 id="hasmany-relationship">hasMany Relationship</h3>
 
-<p>&lsquo;hasMany&rsquo; relationships establish a one-to-many relationship between two model entities.  As an example, let&rsquo;s posit that a Library can have many Books.  If Library and Book were modeled as entities, we could declare a &lsquo;hasMany&rsquo; (1:N) relationship between them.  The relation would be added to the &lsquo;relations&rsquo; block inside the Library entity definition:</p>
+<p>&lsquo;hasMany&rsquo; relationships establish a one-to-many relationship between two modeled entities.  As an example, let&rsquo;s posit that a library can have many books.  If library and book were modeled as entities, we could declare a &lsquo;hasMany&rsquo; (1:N) relationship between them.  The relation would be added to the &lsquo;relations&rsquo; block inside the &lsquo;Library&rsquo; entity definition:</p>
 
 <pre><code class="language-JSON">
 {
@@ -1704,11 +1863,11 @@
 
 </code></pre>
 
-<p><img src="/testing_models/hasManyDefaultKeys.json" alt="hasManyDefaultKeys.json" title="hasManyDefaultKeys.json" /></p>
+<p>The sample model file can be downloaded from the following location: <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/hasManyDefaultKeys.json">hasManyDefaultKeys.json</a>.</p>
 
 <h3 id="belongsto-relationship">belongsTo Relationship</h3>
 
-<p>&lsquo;belongsTo&rsquo; relationships are used to form the inverse of the &lsquo;hasOne&rsquo; and &lsquo;hasMany&rsquo; relations.  Consider the Library &lsquo;hasMany&rsquo; Books example; A Library has many books, but we can also posit that &lsquo;a Book belongs to a Library&rsquo;; this is an example of a &lsquo;belongsTo&rsquo; relationship.  The JSON below extends the Library -&gt; Book example by adding the &lsquo;belongsTo&rsquo; relationship to the Book entity definition:</p>
+<p>&lsquo;belongsTo&rsquo; relationships are used to form the inverse of the &lsquo;hasOne&rsquo; and &lsquo;hasMany&rsquo; relations.  Consider the library &lsquo;hasMany&rsquo; books example; A library has many books, but we can also posit that &lsquo;a book belongs to a library&rsquo;; this is an example of a &lsquo;belongsTo&rsquo; relationship.  The JSON below extends the &lsquo;Library&rsquo; -&gt; &lsquo;Book&rsquo; example by adding the &lsquo;belongsTo&rsquo; relationship to the &lsquo;Book&rsquo; entity definition:</p>
 
 <pre><code class="language-JSON">
 {
@@ -1793,11 +1952,13 @@
 
 </code></pre>
 
+<p>The sample model file can be downloaded from the following location: <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/hasManyBelongsTo.json">hasManyBelongsTo.json</a>.</p>
+
 <p>By relying on the default key determinations for the &lsquo;belongsTo&rsquo; relationship, the generator determines that the Book.LibraryID field should be matched against field Library.ID.  If alternate keys are desired, they can be specified in the &lsquo;refKey&rsquo; and &lsquo;foreignKey&rsquo; property fields in the &lsquo;belongsTo&rsquo; relation declaration.</p>
 
 <h3 id="what-if-more-complex-relationships-are-required">What if more complex relationships are required?</h3>
 
-<p>At the moment the generator only supports &lsquo;hasOne&rsquo;, &lsquo;hasMany&rsquo; and &lsquo;belongsTo&rsquo; relations, as in practice these tend to be the most widely used.  The generated code can be extended to accommodate additional relationships and joins if need be.  There is a tentative plan to support more complex relations in the generator in the future.  Most of the supporting code is in place, but the controller_rel templates would need to be enhanced to support it.  In the meantime, a combination of foreign-keys and static filters can be employed as an alternative to formally defined relationships in cases where the entity-id model is not sufficient.</p>
+<p>At the moment the generator only supports &lsquo;hasOne&rsquo;, &lsquo;hasMany&rsquo; and &lsquo;belongsTo&rsquo; relations, as in practice these tend to be the most widely used.  The generated code can be extended to accommodate additional relationships and joins if need be.  There is a tentative plan to support more complex relations in the generator in the future.  Most of the supporting code is in place, but the controller_rel templates would need to be enhanced to support it.  In the meantime, a combination of foreign-keys and static filters or hand-coded SQL can be employed as an alternative to formally defined relationships in cases where the entity-id model is not sufficient.  See the <a href="/jiffy/tutorials/tt-content-a/">Custom Join Tutorial</a> for an example of coding a custom-join between two entities.</p>
 
 
 <footer class=" footline" >
@@ -2868,6 +3029,54 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
             
         
         
@@ -2887,20 +3096,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528437263"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528437263"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528437263"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528437263"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528437263"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528437263"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528437263"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528475615"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528475615"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528475615"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528475615"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528475615"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528475615"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528475615"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528437263"></script>
-    <script src="/jiffy/js/learn.js?1528437263"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528437263"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528475615"></script>
+    <script src="/jiffy/js/learn.js?1528475615"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528475615"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528437263" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528437263"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528475615" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528475615"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

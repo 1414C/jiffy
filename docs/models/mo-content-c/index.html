@@ -13,19 +13,19 @@
     <title>Model with Composite Index :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528475615" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528437263" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528475615" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528437263"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528475615"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528437263"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528475615"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528475615"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528475615"></script>
 
     
   </div>
@@ -1450,6 +1450,76 @@
  
 
           
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/tutorials/" title="Jiffy Tutorials" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/tutorials/">
+          <i class='fa fa-github'></i> Jiffy Tutorials
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/tt-content-a/" title="Hand Coding a Custom Join" class="dd-item ">
+        <a href="/jiffy/tutorials/tt-content-a/">
+        Hand Coding a Custom Join
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/tt-content-b/" title="Dealing with mixed/multipart" class="dd-item ">
+        <a href="/jiffy/tutorials/tt-content-b/">
+        Dealing with mixed/multipart
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
          
     </ul>
 
@@ -1560,9 +1630,7 @@
 
 <h3 id="two-entity-model-with-composite-index">Two Entity Model with Composite Index</h3>
 
-<p>The following JSON illustrates the addition of a composite-index to an entity definition.  An index composed of the <strong>&lsquo;name&rsquo;</strong> and <strong>&lsquo;province&rsquo;</strong> fields has been declared in the <strong>&lsquo;Owner&rsquo;</strong> entity.  This declaration will result in the creation of a non-unique b-tree index for columns <strong>&lsquo;name&rsquo;</strong> and <strong>&lsquo;province&rsquo;</strong> in the database.  Any number of composite indices may be declared for an entity.  No relationships have been defined between the two entities; this example simply illustrates how to declare a composite-index for an entity.</p>
-
-<p><strong><em>twoEntityWithCompositeIndex.json</em></strong></p>
+<p>The following JSON illustrates the addition of a composite-index to an entity definition.  An index composed of the <strong>&lsquo;name&rsquo;</strong> and <strong>&lsquo;province&rsquo;</strong> fields has been declared in the <strong>&lsquo;Owner&rsquo;</strong> entity.  This declaration will result in the creation of a non-unique btree index for columns <strong>&lsquo;name&rsquo;</strong> and <strong>&lsquo;province&rsquo;</strong> in the database.  Any number of composite indices may be declared for an entity.  No relationships have been defined between the two entities; this example simply illustrates how to declare a composite-index for an entity.</p>
 
 <pre><code class="language-JSON">
 {
@@ -1572,7 +1640,7 @@
             &quot;properties&quot;: {
                 &quot;Name&quot;: {
                     &quot;type&quot;: &quot;string&quot;,
-                    &quot;format&quot;: &quot;&quot;, 
+                    &quot;format&quot;: &quot;&quot;,
                     &quot;required&quot;: false,
                     &quot;unique&quot;: false,
                     &quot;index&quot;: &quot;nonUnique&quot;,
@@ -1580,7 +1648,7 @@
                 },
                 &quot;LicenseNumber&quot;: {
                     &quot;type&quot;: &quot;uint&quot;,
-                    &quot;format&quot;: &quot;&quot;, 
+                    &quot;format&quot;: &quot;&quot;,
                     &quot;required&quot;: false,
                     &quot;unique&quot;: true,
                     &quot;index&quot;: &quot;&quot;,
@@ -1588,14 +1656,14 @@
                 },
                 &quot;Province&quot;: {
                     &quot;type&quot;: &quot;string&quot;,
-                    &quot;format&quot;: &quot;&quot;, 
+                    &quot;format&quot;: &quot;&quot;,
                     &quot;required&quot;: false,
                     &quot;unique&quot;: false,
                     &quot;index&quot;: &quot;&quot;,
                     &quot;selectable&quot;: &quot;eq,lt,gt&quot;
                 }
             },
-            &quot;compositeIndexes&quot;: [ 
+            &quot;compositeIndexes&quot;: [
                 {&quot;index&quot;: &quot;name, province&quot;}
             ]
     },
@@ -1604,14 +1672,14 @@
         &quot;properties&quot;: {
             &quot;Model&quot;: {
                 &quot;type&quot;: &quot;string&quot;,
-                &quot;format&quot;: &quot;&quot;, 
+                &quot;format&quot;: &quot;&quot;,
                 &quot;required&quot;: true,
                 &quot;index&quot;: &quot;nonUnique&quot;,
                 &quot;selectable&quot;: &quot;eq,like&quot;
             },
             &quot;Make&quot;: {
                 &quot;type&quot;: &quot;string&quot;,
-                &quot;format&quot;: &quot;&quot;, 
+                &quot;format&quot;: &quot;&quot;,
                 &quot;required&quot;: true,
                 &quot;index&quot;: &quot;nonUnique&quot;,
                 &quot;selectable&quot;: &quot;eq,like&quot;
@@ -1623,7 +1691,7 @@
 
 </code></pre>
 
-<p><img src="/testing_models/twoEntityWithCompositeIndex.json" alt="twoEntityWithCompositeIndex.json" title="twoEntityWithCompositeIndex.json" /></p>
+<p>The sample model file can be downloaded from the following location: <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/twoEntityWithCompositeIndex.json">twoEntityWithCompositeIndex.json</a>.</p>
 
 
 <footer class=" footline" >
@@ -2694,6 +2762,54 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
             
         
         
@@ -2713,20 +2829,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528437263"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528437263"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528437263"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528437263"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528437263"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528437263"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528437263"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528475615"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528475615"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528475615"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528475615"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528475615"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528475615"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528475615"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528437263"></script>
-    <script src="/jiffy/js/learn.js?1528437263"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528437263"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528475615"></script>
+    <script src="/jiffy/js/learn.js?1528475615"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528475615"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528437263" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528437263"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528475615" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528475615"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

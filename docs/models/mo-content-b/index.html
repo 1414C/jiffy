@@ -13,19 +13,19 @@
     <title>Simple Two Entity Model :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528475615" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528437263" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528475615" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528437263"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528475615"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528437263"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528475615"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528475615"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528475615"></script>
 
     
   </div>
@@ -1450,6 +1450,76 @@
  
 
           
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/tutorials/" title="Jiffy Tutorials" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/tutorials/">
+          <i class='fa fa-github'></i> Jiffy Tutorials
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/tt-content-a/" title="Hand Coding a Custom Join" class="dd-item ">
+        <a href="/jiffy/tutorials/tt-content-a/">
+        Hand Coding a Custom Join
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/tt-content-b/" title="Dealing with mixed/multipart" class="dd-item ">
+        <a href="/jiffy/tutorials/tt-content-b/">
+        Dealing with mixed/multipart
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
          
     </ul>
 
@@ -1562,8 +1632,6 @@
 
 <p>The following JSON illustrates the definition of a simple two-entity model file.  In this case, model entities <strong>&lsquo;Person&rsquo;</strong> and <strong>&lsquo;Country&rsquo;</strong> will be created in the generated application, along with corresponding database tables <strong>&lsquo;person&rsquo;</strong> and <strong>&lsquo;country&rsquo;</strong>.  No relationships have been defined between the two entities; this example simply illustrates how to add multiple entity definitions to a model file.</p>
 
-<p><strong><em>simpleTwoEntityModel.json</em></strong></p>
-
 <pre><code class="language-JSON">
 {
     &quot;entities&quot;:  [
@@ -1572,7 +1640,7 @@
             &quot;properties&quot;: {
                 &quot;name&quot;: {
                     &quot;type&quot;: &quot;string&quot;,
-                    &quot;format&quot;: &quot;&quot;, 
+                    &quot;format&quot;: &quot;&quot;,
                     &quot;required&quot;: false,
                     &quot;unique&quot;: false,
                     &quot;index&quot;: &quot;nonUnique&quot;,
@@ -1580,7 +1648,7 @@
                 },
                 &quot;age&quot;: {
                     &quot;type&quot;: &quot;uint&quot;,
-                    &quot;format&quot;: &quot;&quot;, 
+                    &quot;format&quot;: &quot;&quot;,
                     &quot;required&quot;: false,
                     &quot;unique&quot;: false,
                     &quot;index&quot;: &quot;&quot;,
@@ -1588,7 +1656,7 @@
                 },
                 &quot;weight&quot;: {
                     &quot;type&quot;: &quot;float64&quot;,
-                    &quot;format&quot;: &quot;&quot;, 
+                    &quot;format&quot;: &quot;&quot;,
                     &quot;required&quot;: false,
                     &quot;unique&quot;: false,
                     &quot;index&quot;: &quot;&quot;,
@@ -1596,7 +1664,7 @@
                 },
                 &quot;validLicense&quot;: {
                     &quot;type&quot;: &quot;bool&quot;,
-                    &quot;format&quot;: &quot;&quot;, 
+                    &quot;format&quot;: &quot;&quot;,
                     &quot;required&quot;: false,
                     &quot;unique&quot;: false,
                     &quot;index&quot;: &quot;nonUnique&quot;,
@@ -1609,7 +1677,7 @@
             &quot;properties&quot;: {
                 &quot;name&quot;: {
                     &quot;type&quot;: &quot;string&quot;,
-                    &quot;format&quot;: &quot;&quot;, 
+                    &quot;format&quot;: &quot;&quot;,
                     &quot;required&quot;: false,
                     &quot;unique&quot;: false,
                     &quot;index&quot;: &quot;nonUnique&quot;,
@@ -1617,7 +1685,7 @@
                 },
                 &quot;isoCode&quot;: {
                     &quot;type&quot;: &quot;uint&quot;,
-                    &quot;format&quot;: &quot;&quot;, 
+                    &quot;format&quot;: &quot;&quot;,
                     &quot;required&quot;: false,
                     &quot;unique&quot;: false,
                     &quot;index&quot;: &quot;unique&quot;,
@@ -1630,7 +1698,7 @@
 
 </code></pre>
 
-<p><a href="/testing_models/simpleTwoEntityModel.json" title="simpleTwoEntityModel.json">simpleTwoEntityModel.json</a></p>
+<p>The sample model file can be downloaded from the following location: <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/simpleTwoEntityModel.json">simpleTwoEntityModel.json</a>.</p>
 
 
 <footer class=" footline" >
@@ -2701,6 +2769,54 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
             
         
         
@@ -2720,20 +2836,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528437263"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528437263"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528437263"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528437263"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528437263"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528437263"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528437263"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528475615"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528475615"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528475615"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528475615"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528475615"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528475615"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528475615"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528437263"></script>
-    <script src="/jiffy/js/learn.js?1528437263"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528437263"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528475615"></script>
+    <script src="/jiffy/js/learn.js?1528475615"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528475615"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528437263" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528437263"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528475615" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528475615"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

@@ -13,19 +13,19 @@
     <title>Generation Overview :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528475615" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528437263" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528475615" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528437263"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528475615"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528437263"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528475615"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528475615"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528475615"></script>
 
     
   </div>
@@ -1450,6 +1450,76 @@
  
 
           
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/tutorials/" title="Jiffy Tutorials" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/tutorials/">
+          <i class='fa fa-github'></i> Jiffy Tutorials
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/tt-content-a/" title="Hand Coding a Custom Join" class="dd-item ">
+        <a href="/jiffy/tutorials/tt-content-a/">
+        Hand Coding a Custom Join
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/tt-content-b/" title="Dealing with mixed/multipart" class="dd-item ">
+        <a href="/jiffy/tutorials/tt-content-b/">
+        Dealing with mixed/multipart
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
          
     </ul>
 
@@ -1561,7 +1631,7 @@
 
 <h3 id="jiffy-application-file-structure">Jiffy Application File Structure</h3>
 
-<p>Running the Jiffy generator creates a set of files that comprise a basic working backend services application.  Jiffy generates the following source code when provided with a model-file describing a simple &lsquo;Person&rsquo; entity.  The structure and files look more or less standard if you are used to looking at such things.  Explanations of each folder and its content are discussed throughout the documentation.</p>
+<p>Running the Jiffy generator creates a set of files that comprise a basic working backend services application.  Jiffy generates the following source code tree when provided with a model-file describing a simple &lsquo;Person&rsquo; entity.</p>
 
 <pre><code class="language-code">
 FirstApp
@@ -1636,18 +1706,20 @@ FirstApp
 
 <h3 id="basic-application-flow">Basic Application Flow</h3>
 
-<p>Incoming requests are handled by a mux, which validates / authenticates the request, and then matches it to a route.  The selected route passes the request to a controller specific to the entity-type, where the incoming information is mapped into a go struct matching the entity declaration.  The controller then calls the appropriate model function for the http operation and entity-type combination, passing it the entity structure.  The model handler passes the entity struct through a member-field validation layer, and then to the model&rsquo;s interface to the underlying sqac ORM.  The database request is handled by the ORM, and then the response is passed from the model back to the controller where it is packaged as a JSON payload and sent back to the caller in the response-writer&rsquo;s body.</p>
+<p>Incoming requests are handled by a mux, which validates / authenticates the request, and then matches it to a route.  The selected route passes the request to a controller specific to the entity-type, where the incoming information is mapped into a go struct matching the entity declaration.  The controller then calls the appropriate model method for the http operation and entity-type combination, passing it the entity structure.  The model handler passes the entity struct through a member-field validation layer, and then to the model&rsquo;s interface to the underlying sqac ORM.  The database request is handled by the ORM, and then the response is passed from the model back to the controller where it is marshaled into a JSON payload and sent back to the caller in the response-writer&rsquo;s body.</p>
 
 <p>Jiffy applications contain an embedded leader-based group-membership sub-system that is used for interprocess communication when the generated jiffy application is deployed as multiple processes.</p>
 
 <ol>
-<li>When a jiffy application is deployed as more than one process, there is a need for changes to users, auths, groups and group/auth associations to be communicated to all running instances.  These common application entities are cached locally on each running instance in order to avoid accessing the database unnecessarily  An internal subsystem was chosen in order to avoid dependencies on external solutions like redis/memcached etc.</li>
+<li>When a jiffy-application is deployed as more than one process, there is a need for changes to users, auths, groups and group/auth associations to be communicated to all running instances.  These common application entities are cached locally on each running instance in order to avoid accessing the database unnecessarily.  An internal subsystem was chosen in order to avoid dependencies on external solutions like redis/memcached/etcd etc. (see footnote).  Changes to these objects are performed via standard jiffy-admin services that are present in every jiffy-application.  When one of the standard admin objects is updated via an admin service, the object&rsquo;s data is updated in the database.  Following a successful database update, the jiffy-application must disseminate the updated object data to the local cache of the application server that processed the change, as well as every other application server in the group.</li>
 <li>Given that there is interprocess communication for the cache updates, the status of the group members must be tracked.  The subsystem uses a SWIM (Scalable Weakly-Consistent Infection-Style Process-Membership) protocol to check and disseminate the statues of the group&rsquo;s processes.  A ping is sent from each process to every other known process in the group in random order once per ping-cycle.  The ping message contains a piggybacked process-map containing the pinging process&rsquo;s view of the world in terms of process status.  Processes may have one of the following three statuses <strong>(ALIVE, SUSPECT, FAILED)</strong>, as well as a status count indicating how many times the pinging process has noted that a process is in a particular state.</li>
 </ol>
 
-<p>See the Group Membership section of this document for a detailed overview of the group-membership subsystem.</p>
+<p>See the <a href="/jiffy/interprocess/ip-content-a/">Group Membership</a> section of this document for a detailed overview of the group-membership subsystem.</p>
 
 <p>There are more elegant ways to express certain aspects of the generated application.  The coding style has been deliberately kept as simple and straight-forward as possible in order to facilitate easier understanding and adjustment of the generated code.</p>
+
+<p>** Using something like <a href="https://coreos.com/etcd/docs/latest/">etcd</a> to replace the group-membership and app-server-level caching may make sense in Kubernetes-style deployments.  In the future, jiffy may move to the etcd model for all deployments.</p>
 
 
 <footer class=" footline" >
@@ -2715,6 +2787,54 @@ FirstApp
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
             
         
         
@@ -2734,20 +2854,20 @@ FirstApp
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528437263"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528437263"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528437263"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528437263"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528437263"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528437263"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528437263"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528475615"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528475615"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528475615"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528475615"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528475615"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528475615"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528475615"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528437263"></script>
-    <script src="/jiffy/js/learn.js?1528437263"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528437263"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528475615"></script>
+    <script src="/jiffy/js/learn.js?1528475615"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528475615"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528437263" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528437263"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528475615" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528475615"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

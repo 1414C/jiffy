@@ -13,19 +13,19 @@
     <title>Extension Point Overview :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528475615" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528437263" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528475615" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528437263"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528475615"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528437263"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528475615"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528475615"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528475615"></script>
 
     
   </div>
@@ -1450,6 +1450,76 @@
  
 
           
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/tutorials/" title="Jiffy Tutorials" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/tutorials/">
+          <i class='fa fa-github'></i> Jiffy Tutorials
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/tt-content-a/" title="Hand Coding a Custom Join" class="dd-item ">
+        <a href="/jiffy/tutorials/tt-content-a/">
+        Hand Coding a Custom Join
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/tt-content-b/" title="Dealing with mixed/multipart" class="dd-item ">
+        <a href="/jiffy/tutorials/tt-content-b/">
+        Dealing with mixed/multipart
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
          
     </ul>
 
@@ -1560,11 +1630,11 @@
 
 <h3 id="extension-points-ext-folders">Extension-Points (ext folders)</h3>
 
-<p>The Jiffy application generates a working web services application based on the provided model files.  While the generated application should be runnable immediately following generation, there is often a need to perform validation and normalization of the incoming data.  This is best coded in the model-layer within the generated validation methods, but sometimes this is not sufficient.</p>
+<p>The Jiffy application generates a working services application based on the provided model files.  While the generated application should be runnable immediately following generation, there is often a need to perform validation and normalization of the incoming data.  This is best coded in the model-layer within the generated validation methods, but sometimes this is not sufficient.</p>
 
 <p>There may be a need to inspect the request details immediately once the request has been passed to the controller.  There may be a need to perform crucial validations of the request-body in the controller layer prior to calling the model-layer (i.e. in advance of the validator).  There may be a need to influence the value of an entity&rsquo;s fields prior to returning the read or created entity back to the caller.  For reasons such as these, so-called &lsquo;extension-points&rsquo; have been embedded in the model and controller layers of the code.</p>
 
-<p>Each extension-point offers the developer the ability to code their own method in a regeneration protected code-body in order to perform checks or data manipulations  Consider that regeneration of an application will overwrite the current controller and model files if the same target destination is used.  If an application developer were to extend the controller or model directly in the generated code, their additions would be lost if the application were to be regenerated.  By introducing the extension-point concept and separating the related code from the generated code the application developers enhancements are protected from being over-written by an inadvertent application regeneration.</p>
+<p>Each extension-point offers the developer the ability to code their own method in a regeneration protected code-body in order to perform checks or data manipulations.  Consider that regeneration of an application will overwrite the current controller and model files if the same target destination is used.  If an application developer were to extend the controller or model directly in the generated code, their additions would be lost if the application were to be regenerated.  By introducing the extension-point concept and separating the related code from the generated code the application developers enhancements are protected from being over-written by an inadvertent application regeneration.</p>
 
 <pre><code class="language-code">
 FirstApp
@@ -1609,6 +1679,8 @@ FirstApp
 <p>Extension-points are declared in the generated codebase as a specific set of controller and model interfaces.  The interface declarations are contained in the ext sub-folders of the model and controller folders.  The ext sub-folders also contain sample (empty) implementations of the interfaces are provided for each modeled entity.</p>
 
 <p>The extension-point interfaces rely on the use of the empty interface{} in order to facilitate the passing of a pointer to the data structure being inspected/updated.  Use of interface{} allows us to embrace the concept of a general extension-point API at the cost of strict typing.  Additionally, the implementer must make use of reflection in order to assign a type to the value of the interface{} underlying data structure.  As of this writing, the use of interface{} and reflection is the best way to implement a general extension-point API with golang.</p>
+
+<p>Extension-points are generated on a per-entity-basis controlled by the inclusion of the &lsquo;ext_points&rsquo; block in the entity&rsquo;s model declaration.</p>
 
 
 <footer class=" footline" >
@@ -2676,6 +2748,54 @@ FirstApp
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
             
         
         
@@ -2695,20 +2815,20 @@ FirstApp
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528437263"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528437263"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528437263"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528437263"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528437263"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528437263"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528437263"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528475615"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528475615"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528475615"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528475615"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528475615"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528475615"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528475615"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528437263"></script>
-    <script src="/jiffy/js/learn.js?1528437263"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528437263"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528475615"></script>
+    <script src="/jiffy/js/learn.js?1528475615"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528475615"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528437263" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528437263"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528475615" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528475615"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

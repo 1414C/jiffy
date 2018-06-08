@@ -13,19 +13,19 @@
     <title>Generated &#39;controllers&#39; Folder :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528475615" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528437263" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528475615" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528437263"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528475615"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528437263"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528475615"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528475615"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528475615"></script>
 
     
   </div>
@@ -1450,6 +1450,76 @@
  
 
           
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/tutorials/" title="Jiffy Tutorials" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/tutorials/">
+          <i class='fa fa-github'></i> Jiffy Tutorials
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/tt-content-a/" title="Hand Coding a Custom Join" class="dd-item ">
+        <a href="/jiffy/tutorials/tt-content-a/">
+        Hand Coding a Custom Join
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/tt-content-b/" title="Dealing with mixed/multipart" class="dd-item ">
+        <a href="/jiffy/tutorials/tt-content-b/">
+        Dealing with mixed/multipart
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
          
     </ul>
 
@@ -1591,7 +1661,7 @@ FirstApp
 
 <p>A controller is created for each entity that has been declared in the model files, as well as a number of static controllers that are used to handle the application&rsquo;s users and authorization objects.</p>
 
-<p>Controllers act as a bridge between an entity&rsquo;s routes and its model layer.  Each entity mux route is assigned a method in their respective controller based on the intent of that route.  For example, to create a new new Library entity the following POST could be made:</p>
+<p>Controllers act as a bridge between an entity&rsquo;s routes and its model layer.  Each entity mux route is assigned a method in their respective controller based on the intent of that route.  For example, to create a new new &lsquo;Library&rsquo; entity the following POST could be made:</p>
 
 <pre><code class="language-http">
 https://servername:port/library {JSON body} + POST
@@ -1605,7 +1675,7 @@ a.router.HandleFunc(&quot;/library&quot;, requireUserMw.ApplyFn(a.libraryC.Creat
 
 </code></pre>
 
-<p>The &lsquo;/library&rsquo;-POST route is assigned a HandleFunc belonging to the instance of the LibraryController that has been created on the appobj.  a.libraryC.Create is called for the &lsquo;library&rsquo; route when the http method equals &lsquo;POST&rsquo;.  The route contains some additional code related to authentication and authorization of the requester but this can be ignored for now.  The handler function for a mux.route must conform to the standard go http.Handler interface:</p>
+<p>The &lsquo;/library&rsquo;-POST route is assigned a HandleFunc belonging to the instance of the LibraryController that has been created on the appobj.  Controller method a.libraryC.Create is called for the &lsquo;library&rsquo; route when the http method equals &lsquo;POST&rsquo;.  The route contains some additional code related to authentication and authorization of the requester but this can be ignored for now.  The handler function for a mux.route must conform to the standard go http.Handler interface:</p>
 
 <pre><code class="language-golang">
     type Handler interface {
@@ -1681,8 +1751,8 @@ a.router.HandleFunc(&quot;/library&quot;, requireUserMw.ApplyFn(a.libraryC.Creat
         }
         defer r.Body.Close()
 
-        // fill the model with the parsed content of the JSON body.  this step looks 
-        // redundant, but can be thought of as a way to separate the incoming data 
+        // fill the model with the parsed content of the JSON body.  this step looks
+        // redundant, but can be thought of as a way to separate the incoming data
         // from the response.  going forward from this point, 'l' is ignored and
         // all data transformation occurs on the 'library' variable.
         library := models.Library{
@@ -1719,14 +1789,14 @@ a.router.HandleFunc(&quot;/library&quot;, requireUserMw.ApplyFn(a.libraryC.Creat
         // Href is another injected field in the entity and fullfills the purpose
         // of providing a direct URI for the returned entity.  finally the populated
         // 'library' struct is formatted as a JSON response and passed back to the
-        // router along with an http status-code indicating success. 
+        // router along with an http status-code indicating success.
         library.Href = urlString + strconv.FormatUint(uint64(library.ID), 10)
         respondWithJSON(w, http.StatusCreated, library)
     }
 
 </code></pre>
 
-<p>The controllers folder also contains an &lsquo;ext&rsquo; sub-directory which is used to hold the interface definitions for controller extension-points as well as the associated empty implementation for each entity.  See the &lsquo;Extension Points&rsquo; section of this document for more details.</p>
+<p>The controllers folder also contains an &lsquo;ext&rsquo; sub-directory which is used to hold the interface definitions for controller extension-points as well as the associated empty implementation for each entity.  See the <a href="/jiffy/extensionpoints/ep-content-b/">Controller Extension Points</a> section of this document for more details.</p>
 
 
 <footer class=" footline" >
@@ -2797,6 +2867,54 @@ a.router.HandleFunc(&quot;/library&quot;, requireUserMw.ApplyFn(a.libraryC.Creat
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
             
         
         
@@ -2816,20 +2934,20 @@ a.router.HandleFunc(&quot;/library&quot;, requireUserMw.ApplyFn(a.libraryC.Creat
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528437263"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528437263"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528437263"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528437263"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528437263"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528437263"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528437263"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528475615"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528475615"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528475615"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528475615"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528475615"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528475615"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528475615"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528437263"></script>
-    <script src="/jiffy/js/learn.js?1528437263"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528437263"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528475615"></script>
+    <script src="/jiffy/js/learn.js?1528475615"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528475615"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528437263" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528437263"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528475615" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528475615"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

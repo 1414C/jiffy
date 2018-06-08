@@ -17,7 +17,7 @@
       <pubDate>Mon, 05 Feb 2018 17:55:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/extensionpoints/ep-content-a/</guid>
-      <description>Extension-Points (ext folders) The Jiffy application generates a working web services application based on the provided model files. While the generated application should be runnable immediately following generation, there is often a need to perform validation and normalization of the incoming data. This is best coded in the model-layer within the generated validation methods, but sometimes this is not sufficient.
+      <description>Extension-Points (ext folders) The Jiffy application generates a working services application based on the provided model files. While the generated application should be runnable immediately following generation, there is often a need to perform validation and normalization of the incoming data. This is best coded in the model-layer within the generated validation methods, but sometimes this is not sufficient.
 There may be a need to inspect the request details immediately once the request has been passed to the controller.</description>
     </item>
     

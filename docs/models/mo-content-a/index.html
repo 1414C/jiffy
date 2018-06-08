@@ -13,19 +13,19 @@
     <title>Model Overview :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528437263" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528475615" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528437263" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528475615" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528437263"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528475615"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528437263"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528475615"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528475615"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528475615"></script>
 
     
   </div>
@@ -1450,6 +1450,76 @@
  
 
           
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/tutorials/" title="Jiffy Tutorials" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/tutorials/">
+          <i class='fa fa-github'></i> Jiffy Tutorials
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/tt-content-a/" title="Hand Coding a Custom Join" class="dd-item ">
+        <a href="/jiffy/tutorials/tt-content-a/">
+        Hand Coding a Custom Join
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/tt-content-b/" title="Dealing with mixed/multipart" class="dd-item ">
+        <a href="/jiffy/tutorials/tt-content-b/">
+        Dealing with mixed/multipart
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
          
     </ul>
 
@@ -1534,8 +1604,11 @@
 <ul>
 <li>
 <ul>
-<li><a href="#model-files">Model Files</a></li>
+<li><a href="#model-files">Model Files</a>
+<ul>
+<li><a href="#making-changes-to-a-model">Making Changes to a Model</a></li>
 <li><a href="#simple-single-entity-model">Simple Single Entity Model</a></li>
+</ul></li>
 <li><a href="#entity-id">Entity ID</a></li>
 </ul></li>
 </ul></li>
@@ -1568,9 +1641,14 @@
 
 <p>Sample <strong><em>models.json</em></strong> files are installed with the application and can be found in the <a href="https://github.com/1414C/jiffy/tree/master/support/testing_models"><strong><em>support/testing_models</em></strong></a> folder of the Jiffy source tree.  The sample models are used as the basis for the following sections.</p>
 
-<h3 id="simple-single-entity-model">Simple Single Entity Model</h3>
+<h4 id="making-changes-to-a-model">Making Changes to a Model</h4>
 
-<p>The following JSON illustrates the definition of a simple single-entity model file.  In this case, a model entity called <strong>&lsquo;Person&rsquo;</strong> will be created in the generated application, along with corresponding database table <strong>&lsquo;person&rsquo;</strong>.  Table <strong>&lsquo;person&rsquo;</strong> will be created (if it does not already exist) when the application is started for the first time.  See the application startup sequence section of this document for details regarding database artifact creation and updates.</p>
+<p>Each time the Jiffy-generated application is started, a check is performed to see if it&rsquo;s models match any database artifacts.  For example, if the generated application contains a model called &lsquo;Widget&rsquo;, a check is performed to see if table &lsquo;widget&rsquo; exists in the database.
+If a table matching the model name is detected in the database, the application will attempt to process the model definition as an ALTER TABLE-type operation rather than CREATE TABLE.  The application will add new model elements to the existing database table schema, but will not delete database artifacts if model elements are removed.  During the development-cycle it is recommended to <a href="/jiffy/usage/us-content-e/">drop and recreate the database artifacts</a> when making changes to the model.  This can be done using the <em>-dr</em> flag option when executing your generated application.  See the application startup sequence section of this document for details regarding database artifact creation and updates.</p>
+
+<h4 id="simple-single-entity-model">Simple Single Entity Model</h4>
+
+<p>The following JSON illustrates the definition of a simple single-entity model file.  In this case, a model entity called <strong>&lsquo;Person&rsquo;</strong> will be created in the generated application, along with corresponding database table <strong>&lsquo;person&rsquo;</strong>.  Table <strong>&lsquo;person&rsquo;</strong> will be created (if it does not already exist) when the application is started for the first time.</p>
 
 <pre><code class="language-JSON">
 {
@@ -1585,7 +1663,7 @@
                     &quot;type&quot;: &quot;string&quot;,
                     &quot;db_type&quot;: &quot;&quot;,
                     &quot;no_db&quot;: false,
-                    &quot;format&quot;: &quot;&quot;, 
+                    &quot;format&quot;: &quot;&quot;,
                     &quot;required&quot;: false,
                     &quot;unique&quot;: false,
                     &quot;index&quot;: &quot;nonUnique&quot;,
@@ -1593,7 +1671,7 @@
                 },
                 &quot;age&quot;: {
                     &quot;type&quot;: &quot;uint&quot;,
-                    &quot;format&quot;: &quot;&quot;, 
+                    &quot;format&quot;: &quot;&quot;,
                     &quot;required&quot;: false,
                     &quot;unique&quot;: false,
                     &quot;index&quot;: &quot;&quot;,
@@ -1601,7 +1679,7 @@
                 },
                 &quot;weight&quot;: {
                     &quot;type&quot;: &quot;float64&quot;,
-                    &quot;format&quot;: &quot;&quot;, 
+                    &quot;format&quot;: &quot;&quot;,
                     &quot;required&quot;: false,
                     &quot;unique&quot;: false,
                     &quot;index&quot;: &quot;&quot;,
@@ -1609,7 +1687,7 @@
                 },
                 &quot;validLicense&quot;: {
                     &quot;type&quot;: &quot;bool&quot;,
-                    &quot;format&quot;: &quot;&quot;, 
+                    &quot;format&quot;: &quot;&quot;,
                     &quot;required&quot;: false,
                     &quot;unique&quot;: false,
                     &quot;index&quot;: &quot;nonUnique&quot;,
@@ -1636,7 +1714,7 @@
     {
         &quot;typeName&quot;: &quot;Person&quot;
         Field 'typeName' refers to the name of an entity.  It should be capitalized and written in CamelCase.
-        An Entity given a typeName of &quot;Person&quot; will result in an internal model object of type Person and a 
+        An Entity given a typeName of &quot;Person&quot; will result in an internal model object of type Person and a
         database table called 'person'.
         This is a mandatory model element.
 
@@ -1670,7 +1748,7 @@
                 Field 'dbtype' can be used to specify a native db-field-type for the property.  This feature
                 can be useful if for example, the developer is confident that a string will never exceed 100
                 characters in length.  Care should be taken to ensure that the specified DB-Type is consistent
-                with the go-type that will be generated in the model.&lt;Entity&gt; defintion in the application.
+                with the go-type that will be generated in the application's model.&lt;Entity&gt; defintion.
                 Consider also that making use of this field to some extent limits the backend portability of
                 the generated code.  For example, not all database systems have a TINYINT data-type, so
                 specifying a 'db_type' of TINYINT could be problematic if multiple database systems are
@@ -1679,13 +1757,12 @@
 
                 &quot;no_db&quot;:
                 Field 'no_db' can be used to instruct the generator to create the field as a member in the
-                enitity struture, but to prevent the field from being persisted to the backend database.
-                Data like passwords for example should never be persisted to the database, but it handy to
-                have in the user entitiy definition to help with the login process.  Non-persisted fields
-                are not created in the database table schemas, and values passed into the application
-                are wiped from their respective internal structures following use.
+                enitity struture, but to prevent the field from being persisted in the backend database.
+                Non-persisted fields are not created in the database table schemas, and values passed into
+                the application are wiped from their respective internal structures following use.  'no_db'
+                fields can also be used to pass calculated values back to the caller.
 
-                &quot;format&quot;: &quot;&quot;, 
+                &quot;format&quot;: &quot;&quot;,
                 Field 'format' is not currently used, but is intended to deal with field conversion from
                 strings / floats to timestamp formats etc.
                 This is an optional field.
@@ -1705,13 +1782,13 @@
 
                 &quot;index&quot;: &quot;nonUnique&quot;,
                 Field 'index' is used to instruct the database to create an index on the db table-column
-                related to the property. 
+                related to the property.
                 See the 'indexes' element in the type definition for the creation of compound indices.
                 Allowed values include {&quot;unique&quot;, &quot;nonUnique&quot;, &quot;&quot;}.
                 This is an optional field.
 
                 &quot;selectable&quot;: &quot;eq,like&quot;
-                Field 'selectable' can be used to instruct the code-generator to create simple REST query 
+                Field 'selectable' can be used to instruct the code-generator to create simple REST query
                 accessor routes for the current 'property'.  The generator creates routes to permit GET
                 operations that can be called based on the entity 'typeName' and 'property' values.
                 Allowed values include {&quot;EQ&quot;, &quot;eq&quot;, &quot;LT&quot;, &quot;lt&quot;, &quot;GT&quot;, &quot;gt&quot;, &quot;GE&quot;, &quot;ge&quot;, &quot;LIKE&quot;, &quot;like&quot;, &quot;NE&quot;, &quot;ne&quot;, &quot;&quot;}
@@ -1722,13 +1799,13 @@
                     https://localhost:&lt;port&gt;/persons/name(EQ '&lt;sel_string&gt;')
                     https://localhost:&lt;port&gt;/persons/name(LIKE '&lt;sel_string&gt;')
 
-                Note that this is not the same thing as filtering insofar as setting the selectable options
+                Note that this is not the same as filtering insofar as setting the selectable options
                 results in the creation of parameterized static routes in the application mux.
 
             },
             &quot;age&quot;: {
                 &quot;type&quot;: &quot;uint&quot;,
-                &quot;format&quot;: &quot;&quot;, 
+                &quot;format&quot;: &quot;&quot;,
                 &quot;required&quot;: false,
                 &quot;unique&quot;: false,
                 &quot;index&quot;: &quot;&quot;,
@@ -1748,19 +1825,13 @@
 
 <h3 id="entity-id">Entity ID</h3>
 
-<p>The <strong>ID</strong> field is visibly absent from the preceding entity declarations.  The original intent was to support any name for the primary key / resource identifier of an entity.  While it is possible to do this, it seems that ID is the universal &lsquo;non-standard&rsquo; way of representing object identifiers in RESTful-type services, so we went with it.  As a result, ID is injected into the model definition of every entity as a uint64 field and is marked as the primary-key in the database backend.  By default, the ID is created as an auto-incrementing column in the DBMS, but this functionality can be suppressed (future).  The ability to allow a specific starting point for the ID key range is supported via the entity header-level &ldquo;start&rdquo; value.</p>
+<p>The <strong>ID</strong> field is visibly absent from the preceding entity declarations.  The original intent was to support any name for the primary key / resource identifier of an entity.  While it is possible to do this, ID uint values are the universal &lsquo;standard non-standard&rsquo; way of representing object identifiers in systems.  As a result, ID is injected into the model definition of every entity as a uint64 field and is marked as the primary-key in the database table.  By default, the ID is created as an auto-incrementing column in the DBMS, but this functionality can be suppressed (future - the ORM supports this, but Jiffy has yet to be updated).  The ability to allow a specific starting point for the ID key range is supported via the entity header-level &ldquo;start&rdquo; value.</p>
 
 <p>If the ID field really needs to be known as CustomerNumber for example, the generated code can be edited in a few locations to support the change.  It is worth mentioning that the number of edits required to rename &lsquo;ID&rsquo; increases in direct relation to the number and complexity of entity relations (both to and from).</p>
 
 <p>As an alternative to renaming ID, it is also conceivable that it can be ignored.  Ignoring the ID means that the generated CRUD controller/model/routes are not as useful as they could be, but they offer a great starting point for your own coding.  Entities can be defined with column constraints that mimic those of DBMS primary / complex keys, then the generated CRUD artifacts based on ID can be ignored, copied then ignored, or modified to accommodate the modeled entities.</p>
 
-<p>It is also possible to go completely custom and write your own models and controllers from scratch using a generated model as a reference template.  In addition to exposing a generic internal CRUD interface to the backend, the more interesting go/sql calls are exposed internally along with some lightly wrapped and super useful calls from jmoirons widely used sqlx package.</p>
-
-<p><a href="https://github.com/jmoiron/sqlx">https://github.com/jmoiron/sqlx</a></p>
-
-<p><a href="http://jmoiron.github.io/sqlx/">http://jmoiron.github.io/sqlx/</a></p>
-
-<p>Although Jiffy eschews non-standard lib packages wherever possible, sqlx is really great.</p>
+<p>It is also possible to go completely custom and write your own models and controllers from scratch using a generated model as a reference template.  In addition to exposing a generic internal CRUD interface to the backend, the more interesting go/sql calls are exposed internally along with some lightly wrapped and super useful calls from <a href="https://github.com/jmoiron/sqlx">jmoirons widely used sqlx package</a>.  Although Jiffy eschews non-standard lib packages wherever possible, sqlx is really great.</p>
 
 
 <footer class=" footline" >
@@ -2828,6 +2899,54 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
             
         
         
@@ -2847,20 +2966,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528437263"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528437263"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528437263"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528437263"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528437263"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528437263"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528437263"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528475615"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528475615"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528475615"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528475615"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528475615"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528475615"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528475615"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528437263"></script>
-    <script src="/jiffy/js/learn.js?1528437263"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528437263"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528475615"></script>
+    <script src="/jiffy/js/learn.js?1528475615"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528475615"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528437263" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528437263"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528475615" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528475615"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
