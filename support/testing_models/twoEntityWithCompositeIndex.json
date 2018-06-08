@@ -28,6 +28,10 @@
                     "selectable": "eq,lt,gt"
                 }
             },
+            "ext_points": {
+                "gen_controller": true,
+                "gen_model": true
+            },
             "compositeIndexes": [ 
                 {"index": "name, province"}
             ]
@@ -49,6 +53,10 @@
                 "index": "nonUnique",
                 "selectable": "eq,like"
             }
+        },
+        "ext_points": {
+            "gen_controller": true,
+            "gen_model": true
         }
     }
     ]

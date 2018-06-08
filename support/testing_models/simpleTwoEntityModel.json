@@ -35,6 +35,10 @@
                     "index": "nonUnique",
                     "selectable": "eq,ne"
                 }
+            },
+            "ext_points": {
+                "gen_controller": true,
+                "gen_model": true
             }
         },
         {
@@ -56,6 +60,10 @@
                     "index": "unique",
                     "selectable": "eq,lt,gt"
                 }
+            },
+            "ext_points": {
+                "gen_controller": true,
+                 "gen_model": true
             }
         }
     ]
