@@ -17,7 +17,7 @@
       <pubDate>Mon, 05 Feb 2018 13:26:13 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/models/mo-content-a/</guid>
-      <description>Model Files Model files contain the Entity, Index and Relation definitions that you wish to generate services for. Entity model definition consists of an array of JSON objects, with each object being limited to a flat hierarchy and basic go-data-types, (although this is easily extended). By default, the Jiffy generator expects a models.json file in the execution directory, but a correctly formatted JSON file can be loaded from any location by executing with the -m flag.</description>
+      <description>Model Files Model files contain the Entity, Index and Relation definitions that you wish to generate services for. Entity model definition consists of an array of JSON objects, with each object being limited to a flat hierarchy and basic go-data-types, (although this is easily extended). By default, the Jiffy generator expects a models.json file in the execution directory, but a correctly formatted JSON file can be loaded from any location by executing jiffy with the -m flag.</description>
     </item>
     
     <item>

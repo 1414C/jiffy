@@ -18,8 +18,7 @@
       
       <guid>https://1414c.github.io/jiffy/getting-started/gs-content-a/</guid>
       <description>If you already have Go installed and know that your installation is working, you should skip to the next section. If you need to get Go installed on your machine, keep reading.
-Go is easy to setup and can be installed from source or binary package, both which are available at golang.org.
- Go binary installation instructions Go build-from-source installation instructions  </description>
+Go is easy to setup and can be installed from source or binary package, both which are available at golang.org. Jiffy is presently built and tested using golang version 1.10, but it is best to use the latest stable 1.</description>
     </item>
     
     <item>
@@ -29,7 +28,7 @@ Go is easy to setup and can be installed from source or binary package, both whi
       
       <guid>https://1414c.github.io/jiffy/getting-started/gs-content-b/</guid>
       <description>The easiest way to install Jiffy is to use go get on the command-line to pull the latest version from github, as shown below:
-$ go get -u github.com/1414C/jiffy  This will pull the jiffy github repository into your $GOPATH/src/github.com folder, as well as any dependencies referenced by the jiffy source code. The -u flag is included to instruct go get to check for and pull updates to jiffy packages and their dependencies.</description>
+$ go get -u github.com/1414C/jiffy  The &amp;lsquo;go get&amp;rsquo; command will pull the Jiffy github repository into your $GOPATH/src/github.com folder, as well as any dependencies referenced by the Jiffy source code. The -u flag is included to instruct go get to check for and pull updates to Jiffy packages and their dependencies.</description>
     </item>
     
     <item>
@@ -58,7 +57,7 @@ FirstApp ├── appobj │ ├── appconf.</description>
       <pubDate>Mon, 05 Feb 2018 13:26:13 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/models/mo-content-a/</guid>
-      <description>Model Files Model files contain the Entity, Index and Relation definitions that you wish to generate services for. Entity model definition consists of an array of JSON objects, with each object being limited to a flat hierarchy and basic go-data-types, (although this is easily extended). By default, the Jiffy generator expects a models.json file in the execution directory, but a correctly formatted JSON file can be loaded from any location by executing with the -m flag.</description>
+      <description>Model Files Model files contain the Entity, Index and Relation definitions that you wish to generate services for. Entity model definition consists of an array of JSON objects, with each object being limited to a flat hierarchy and basic go-data-types, (although this is easily extended). By default, the Jiffy generator expects a models.json file in the execution directory, but a correctly formatted JSON file can be loaded from any location by executing jiffy with the -m flag.</description>
     </item>
     
     <item>
@@ -67,10 +66,12 @@ FirstApp ├── appobj │ ├── appconf.</description>
       <pubDate>Mon, 05 Feb 2018 13:26:13 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/execution/ex-content-a/</guid>
-      <description>Execution In order to run the application generator, ensure the following:
+      <description>Execution In order to run the Jiffy application generator, ensure the following:
  Make sure go has been installed in the test environment. See http://www.golang.org for installation files and instructions.
  Make sure that the Jiffy source code and dependencies have been installed.
- You will need access to a Postgres, MySQL, MSSQL or SAP Hana database, either locally or over the network. It is also possible to run tests with SQLite3.</description>
+ One of the supported databases is available, either locally or over the network.
+ Jiffy can be started in two ways:
+ From $GOPATH/src/github.com/1414C/jiffy you may execute the application directly from the Jiffy source code as follows.</description>
     </item>
     
     <item>
@@ -80,7 +81,7 @@ FirstApp ├── appobj │ ├── appconf.</description>
       
       <guid>https://1414c.github.io/jiffy/installation/in-content-a/</guid>
       <description>What does Jiffy need to run? Wherever possible and reasonable, Jiffy relies on packages found in the Go standard library. As of this writing, Go version 1.10 is required in order to build the Jiffy binary. Jiffy requires a running database from the following list of supported databases:
-Supported Databases  PostgreSQL tested with version 10+ SAP HanaDB tested up to HDB 2.0 MSSQL tested with MSSQL 2017 MySQL SQLite3 Firebird DB2  Database Drivers The following golang database drivers are required, even if you are only planning to make use of one of the DBMS&amp;rsquo;s in the supported list.</description>
+Supported Databases  PostgreSQL tested with version 10+ SAP HanaDB tested with HDB 2.0 MSSQL tested with MSSQL 2017 MySQL SQLite3 Firebird (future) DB2 (future)  Database Drivers The following golang database drivers are required, even if you are only planning to make use of one of the DBMS&amp;rsquo;s in the supported list.</description>
     </item>
     
     <item>
@@ -89,7 +90,7 @@ Supported Databases  PostgreSQL tested with version 10+ SAP HanaDB tested up to 
       <pubDate>Mon, 05 Feb 2018 13:26:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/overview/ov-content-a/</guid>
-      <description>What does Jiffy do? Jiffy is a model-based RESTful application services generator written in go. Think of Jiffy as an accelerator. Jiffy generates a complete backend services application for you, and that generated application is what you will run in production.
+      <description>What does Jiffy do? Jiffy is a model-based RESTful application services generator written in go. Think of Jiffy as an accelerator: Jiffy generates a complete backend services application, and that generated application is what will be run in production.
 Jiffy allows a developer to generate a robust go-based application that treats the data persistence layer in a generic manner. This allows the generated application to connect to number of different database systems (outlined below), without any code changes.</description>
     </item>
     
@@ -129,7 +130,7 @@ Jiffy allows a developer to generate a robust go-based application that treats t
       
       <guid>https://1414c.github.io/jiffy/getting-started/gs-content-c/</guid>
       <description>Now that Jiffy is installed, we will build a simple service to test it out.
-Jiffy&amp;rsquo;s source tree comes with a number of sample model files that you can use to get the hang of things. We are going to use a simple model file that contains an entity named &amp;lsquo;Person&amp;rsquo;. The model file can be found in the Jiffy source tree, or pulled directly from the Jiffy github repository.</description>
+Jiffy&amp;rsquo;s source tree comes with a number of sample model files that you can be used to get the hang of things. We are going to use a simple model file that contains an entity named &amp;lsquo;Person&amp;rsquo;. The model file can be found in the Jiffy source tree, or pulled directly from the Jiffy github repository.</description>
     </item>
     
     <item>
@@ -170,7 +171,7 @@ simpleTwoEntityModel.json
       
       <guid>https://1414c.github.io/jiffy/execution/ex-content-b/</guid>
       <description>Generation Flags Flags are kept to a minimum, but there are a few flags that can be appended to the execution command:
- go run *.go -p   The -p switch is used to specify the target directory for generated application source-code relative to $GOPATH/src.   $ go run main.go -p &amp;quot;/github.com/footle.com/myrestfulsvc&amp;quot;   go run main.go -m .json  By default, the application will attempt to use .</description>
+ go run main.go -m ./my_model.json  By default, the application will attempt to use ./support/testing_models/models.json as the model source, but inclusion of the -m flag permits the use of a more useful model file. The path of model file in the application base directory must be prefaced with .</description>
     </item>
     
     <item>
@@ -180,7 +181,7 @@ simpleTwoEntityModel.json
       
       <guid>https://1414c.github.io/jiffy/installation/in-content-b/</guid>
       <description>Installation Steps The easiest way to install Jiffy is to use go get on the command-line to pull the latest version from github, as shown below:
-$ go get -u github.com/1414C/jiffy  This will pull the jiffy github repository into your $GOPATH/src/github.com folder, as well as any dependencies referenced by the jiffy source code. The -u flag is included to instruct go get to check for and pull updates to jiffy packages and their dependencies.</description>
+$ go get -u github.com/1414C/jiffy  The &amp;lsquo;go get -u&amp;rsquo; command will pull the jiffy github repository into your $GOPATH/src/github.com folder, as well as any dependencies referenced by the Jiffy source code. The -u flag is included to instruct go get to check for and pull updates to jiffy packages and their dependencies.</description>
     </item>
     
     <item>
@@ -228,8 +229,8 @@ Standard CRUD end-points for entity Library are generated as follows:
       <pubDate>Sat, 10 Feb 2018 23:56:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/overview/ov-content-c/</guid>
-      <description>Jiffy Application File Structure This is what Jiffy generates when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity. The structure and files look more or less standard if you are used to looking at such things. Explanations of each folder and its content are discussed throughout the documentation.
-FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.</description>
+      <description>Jiffy Application File Structure iffy generates the following structure when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity. Explanations of each folder and its content are discussed throughout the documentation.
+FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.go │ ├── personc.go │ ├── usrc.go │ ├── usr_groupc.go │ └── ext │ ├── extc_interfaces.go │ └── personc_ext.</description>
     </item>
     
     <item>
@@ -239,8 +240,8 @@ FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├�
       
       <guid>https://1414c.github.io/jiffy/getting-started/gs-content-d/</guid>
       <description>Let&amp;rsquo;s execute our first application!
-$ cd $GOPATH/src/jiffy_tests/first_app $ go run main.go -dev -rs  Executing with the -dev and -rs flags instructs our new application to initialize itself using the development settings file, and forces a rebuild of the &amp;lsquo;Super&amp;rsquo; authorization-group. Consequently, you will see some warning and info messages scroll up the screen which is expected.
-2018/02/05 22:29:26 package sqac init is running 2018/02/05 22:29:26 successfully loaded the config file.</description>
+$ cd $GOPATH/src/jiffy_tests/first_app $ go run main.go -dev -rs  Executing with the -dev and -rs flags instructs our new application to initialize itself using the development configuration file, and forces a rebuild of the &amp;lsquo;Super&amp;rsquo; authorization-group. Consequently, some warning and info messages will scroll up the screen which is expected.
+2018/02/05 22:29:26 package sqac init is running 2018/02/05 22:29:26 successfully loaded the config file... 2018/02/05 22:29:26 JWTPrivKeyFile: jwtkeys/private.</description>
     </item>
     
     <item>
@@ -349,7 +350,7 @@ $ go run main.go -prod  The generated sample dev configuration file should be ed
       <pubDate>Wed, 14 Feb 2018 22:11:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/overview/ov-content-e/</guid>
-      <description>Jiffy Pre-Generation Workflow Jiffy is intended to generate a clean, straight-forward and secure application services platform just like the one you would write by hand. Jiffy originally started as a few go templates I used to generate boiler-plate code that I do not like to type. Generation is a lot nicer than cut-and-paste. There are places in the generated code where things could be more elegant, but the code is intended to be easy to work on even if one is not familiar with it.</description>
+      <description>Jiffy Pre-Generation Workflow Jiffy is intended to generate a clean, straight-forward and secure application services platform just like the one you would write by hand. Jiffy originally started as a few go templates used to generate boiler-plate code that seemed onerous to type. Generation is a lot nicer than cut-and-paste. There are places in the generated code where things could be more elegant, but the code is intended to be easy to work on even if one is not familiar with it.</description>
     </item>
     
     <item>
@@ -446,7 +447,7 @@ Database System The generated application will need to connect to a database sys
       <pubDate>Tue, 06 Feb 2018 22:34:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-a/</guid>
-      <description>Launch Postman and specify a target URL of: http://127.0.0.1:8080/usr/login making sure to select the http POST method. Maintain the request body to provide a user-id and password as shown in the following JSON snippet. Typically the user-id for a jiffy application is an email address, but we make an exception for the default administration user.
+      <description>Launch Postman and specify a target URL of: http://127.0.0.1:8080/usr/login making sure to select the http POST method. Maintain the request body to provide a user-id and password as shown in the following JSON snippet. Typically the user-id for a Jiffy application is an email address, but we make an exception for the default administration user.
 { &amp;quot;email&amp;quot;: &amp;quot;admin&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;initpass&amp;quot; }  
 When you have finished and your Postman (or other test utility) looks like the following image, click the &amp;lsquo;Send&amp;rsquo; button to post your login request to the running application.</description>
     </item>
@@ -466,7 +467,7 @@ When you have finished and your Postman (or other test utility) looks like the f
       <pubDate>Tue, 06 Feb 2018 22:34:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-b/</guid>
-      <description>Now that we have successfully logged into the application and received our first JWT, it is time to create a new Person entity. Start by copying the content of the &amp;lsquo;token&amp;rsquo; tag from the login response body to the clipboard. This JWT must henceforth be included in the http header of every subsequent request.
+      <description>Now that we have successfully logged into the application and received our first JWT, it is time to create a new &amp;lsquo;Person&amp;rsquo; entity. Start by copying the content of the &amp;lsquo;token&amp;rsquo; tag from the login response body to the clipboard. This JWT must henceforth be included in the http header of every subsequent request.
 Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/person with the http POST method.</description>
     </item>
     
@@ -476,11 +477,11 @@ Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/pe
       <pubDate>Tue, 06 Feb 2018 22:34:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-c/</guid>
-      <description>Let&amp;rsquo;s change a few things in our request-body and create another Person entity. Edit the JSON body in the request section of your Postman session and click &amp;lsquo;Send&amp;rsquo; when you are ready.
+      <description>Let&amp;rsquo;s change a few things in our request-body and create another &amp;lsquo;Person&amp;rsquo; entity. Edit the JSON body in the request section of your Postman session and click &amp;lsquo;Send&amp;rsquo; when you are ready.
 
-Another Person entity has been created.
+Another &amp;lsquo;Person&amp;rsquo; entity has been created.
 
-Create one more Person entity so we have three (or more) in total.</description>
+Create one more &amp;lsquo;Person&amp;rsquo; entity so we have three (or more) in total.</description>
     </item>
     
     <item>
@@ -489,7 +490,7 @@ Create one more Person entity so we have three (or more) in total.</description>
       <pubDate>Tue, 06 Feb 2018 22:34:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-d/</guid>
-      <description>So far we have created two Person entities. We have observed that upon successful creation of an entity, a JSON representation of that entity is passed back to us via the response-writer. Let&amp;rsquo;s now look at how we can get a list of all of our Person entities.
+      <description>So far we have created a few &amp;lsquo;Person&amp;rsquo; entities. We have observed that upon successful creation of an entity, a JSON representation of that entity is passed back to us via the response-writer. Let&amp;rsquo;s now look at how we can get a list of all of our &amp;lsquo;Person&amp;rsquo; entities.
 Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/persons making sure to select the http GET method. Next, add the following key-value pair to the http header:</description>
     </item>
     
@@ -499,9 +500,9 @@ Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/pe
       <pubDate>Tue, 06 Feb 2018 22:34:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-e/</guid>
-      <description>What if we need to read a single Person, or isolate a Person entity from a list of entities? Let&amp;rsquo;s try reading a Person entity using its &amp;lsquo;id&amp;rsquo; key.
+      <description>What if we need to read a single &amp;lsquo;Person&amp;rsquo;, or isolate a &amp;lsquo;Person&amp;rsquo; entity from a list of entities? Let&amp;rsquo;s try reading a &amp;lsquo;Person&amp;rsquo; entity using its &amp;lsquo;id&amp;rsquo; key.
 Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/person/10000001 making sure to select the http GET method. Next, add the following key-value pair to the http header:
- Authorization : Bearer *paste-your-JWT-here*  When you have finished, the test session should look as follows and it is time to read Person 10000001 from the database.</description>
+ Authorization : Bearer *paste-your-JWT-here*  When you have finished, the test session should look as follows and it is time to read &amp;lsquo;Person&amp;rsquo; 10000001 from the database.</description>
     </item>
     
     <item>
@@ -510,9 +511,9 @@ Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/pe
       <pubDate>Tue, 06 Feb 2018 22:34:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-f/</guid>
-      <description>If you have been following along, we have created Person entities, read Person entities both in bulk and by &amp;lsquo;id&amp;rsquo; key. We are now going to take a look at updating an existing entity.
-Read Person entity 10000001 from the database as shown in the Get a Person example.
-Once you have successfully read Person entity 10000001 into your Postman session, copy the content of the response body to your clipboard.</description>
+      <description>If you have been following along, we have created &amp;lsquo;Person&amp;rsquo; entities, read &amp;lsquo;Person&amp;rsquo; entities both in bulk and by &amp;lsquo;id&amp;rsquo; key. We are now going to take a look at updating an existing entity.
+Read &amp;lsquo;Person&amp;rsquo; entity 10000001 from the database as shown in the Get a Person example.
+Once you have successfully read &amp;lsquo;Person&amp;rsquo; entity 10000001 into your Postman session, copy the content of the response body to your clipboard.</description>
     </item>
     
     <item>
@@ -521,9 +522,9 @@ Once you have successfully read Person entity 10000001 into your Postman session
       <pubDate>Tue, 06 Feb 2018 22:34:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-g/</guid>
-      <description>We have seen how to Create, Get, and Update a Person entity, but before we get around to the Delete operation, let&amp;rsquo;s take a quick look at some other simple things we can do with Get entity lists.
-  Get a count of Person entities in the database   http://127.0.0.1:8080/persons/$count .
-    Get all Person entities in the database ordered-by age   http://127.0.0.1:8080/persons$orderby=age .</description>
+      <description>We have seen how to Create, Get, and Update a &amp;lsquo;Person&amp;rsquo; entity, but before we get around to the Delete operation, let&amp;rsquo;s take a quick look at some other simple things we can do with Get entity lists.
+  Get a count of &amp;#39;Person&amp;#39; entities in the database   http://127.0.0.1:8080/persons/$count .
+    Get all &amp;#39;Person&amp;#39; entities in the database ordered-by age   http://127.0.0.1:8080/persons$orderby=age .</description>
     </item>
     
     <item>
@@ -532,7 +533,7 @@ Once you have successfully read Person entity 10000001 into your Postman session
       <pubDate>Tue, 06 Feb 2018 22:34:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-h/</guid>
-      <description>Time to delete one of our Person entities. Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/person/10000000 with the http DELETE method. Next, add the following key-value pairs to the http header:
+      <description>Next we will delete one of our &amp;lsquo;Person&amp;rsquo; entities. Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/person/10000000 with the http DELETE method. Next, add the following key-value pairs to the http header:
  Content-Type : application\json Authorization : Bearer *paste-your-JWT-here*  When you have something that looks as follows, click the &amp;lsquo;Send&amp;rsquo; button to issue the delete request to the application.
 If the delete request was successful, you will see a http response-code of 202 (Accepted).</description>
     </item>
@@ -543,8 +544,8 @@ If the delete request was successful, you will see a http response-code of 202 (
       <pubDate>Tue, 06 Feb 2018 22:34:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-i/</guid>
-      <description>That is a quick overview of the sort of things you can do with an application generated by Jiffy. There is a lot more to see however!
-Good places to start would be in the Jiffy Overview and the Model File section.</description>
+      <description>That is a quick overview of the sort of things that can be done with an application generated by Jiffy. There is a lot more to see however!
+Good places to start would be in the Jiffy Overview and the Model Maintenance section.</description>
     </item>
     
     <item>

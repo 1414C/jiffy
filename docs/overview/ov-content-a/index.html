@@ -13,19 +13,19 @@
     <title>What is Jiffy? :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528417349" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528437263" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528417349" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528437263" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528417349"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528437263"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528417349"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528417349"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528437263"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528417349"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528437263"></script>
 
     
   </div>
@@ -1563,7 +1563,7 @@
 
 <h3 id="what-does-jiffy-do">What does Jiffy do?</h3>
 
-<p>Jiffy is a model-based RESTful application services generator written in go.  Think of Jiffy as an accelerator.  Jiffy generates a complete backend services application for you, and that generated application is what you will run in production.</p>
+<p>Jiffy is a model-based RESTful application services generator written in go.  Think of Jiffy as an accelerator: Jiffy generates a complete backend services application, and that generated application is what will be run in production.</p>
 
 <p>Jiffy allows a developer to generate a robust go-based application that treats the data persistence layer in a generic manner.  This allows the generated application to connect to number of different database systems (outlined below), without any code changes.  Generated applications can be targeted at SAP Hana; Postgres, MySQL, MSSQL or SQLite simply by updating one configuration file.</p>
 
@@ -1586,9 +1586,9 @@
 
 <h3 id="what-does-a-jiffy-application-provide">What does a Jiffy application provide?</h3>
 
-<p>Jiffy consumes simple JSON model-files and uses them to generate a working, secure and extensible application server codebase.  Generated applications need no additional coding to run, although it would probably be a good idea to implement some validations and do a bit of testing before you roll things out.</p>
+<p>Jiffy consumes simple JSON model-files and uses them to generate a working, secure and extensible application server codebase.  Generated applications need no additional coding to run, although in most situations custom checks should be added via <a href="/jiffy/extensionpoints/ep-content-a/#extension-points-ext-folders">extension-points</a> present in the generated codebase.</p>
 
-<p>Here are some of the features that are automatically included in a generated Jiffy application:</p>
+<p>Jiffy applications provide the following features:</p>
 
 <ul>
 <li>generated applications can be connected to Postgres, MSSQL, SAP Hana, SQLite or MariaDB</li>
@@ -1603,7 +1603,7 @@
 <li>supports single and composite index declarations via the model file</li>
 <li>built-in support for https</li>
 <li>built-in normalization and validation in the model-layer</li>
-<li>each entity&rsquo;s corresponding service can be enabled and disabled on a per-app-server basis based on config</li>
+<li>each entity&rsquo;s corresponding service can be enabled and disabled on a per-app-server (process) basis based on config</li>
 <li>generates a working set of CRUD-type RESTful services for each entity in the model file</li>
 <li>get-set type end-points support /$count, $limit=n, $offset=n, $orderby=field_name ($asc|$desc)</li>
 <li>supports and generates working end-points for hasOne, hasMany and belongsTo entity relationships</li>
@@ -1617,11 +1617,11 @@
 
 <h3 id="how-does-jiffy-interface-to-the-underlying-database">How does Jiffy interface to the underlying database?</h3>
 
-<p>Jiffy sits on top of a thin ORM that was written to talk to the SAP Hana in-memory db and then extended to the other supported DBMS systems.  The ORM code is very simple and can easily be extended to accommodate databases that have not been mentioned here.  Bear in mind that the generated queries are designed to accommodate the lowest-common-denominator-type CRUD access.  It is expected that a serious deployment will involve extending the generated codebase to optimize access in certain scenarios.</p>
+<p>Jiffy sits on top of a thin ORM that was written to talk to the SAP Hana in-memory db and then extended to the other <a href="/jiffy/installation/in-content-a/#supported-databases">supported DBMS systems</a>.  The ORM code is very simple and can easily be extended to accommodate databases that have not been mentioned here.  Bear in mind that the generated queries are designed to accommodate the lowest-common-denominator-type CRUD access.  It is expected that a serious deployment will involve extending the generated codebase to optimize access in certain scenarios.</p>
 
 <p><strong>ORM&rsquo;s sound like a bad idea to a lot of people.</strong>  In practice however, as soon as you want to support more than one type of backend DBMS, a level of abstraction (like a thin ORM) starts to look a bit more appealing.  However&hellip;</p>
 
-<p>If you look at the generated code and don&rsquo;t like what you see, the ORM handle exposes the standard go/sql and the awesome jmoiron/sqlx libraries to you directly.  This will effectively allow you to make use of the generated application, but code the SQL against the database yourself.</p>
+<p>If you look at the generated code and don&rsquo;t like what you see, the ORM handle exposes the standard go/sql and the awesome jmoiron/sqlx libraries to you directly.  This will effectively allow you to make use of the generated application while coding the SQL by hand.</p>
 
 
 <footer class=" footline" >
@@ -2705,20 +2705,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528417349"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528417349"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528417349"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528417349"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528417349"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528417349"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528417349"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528437263"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528437263"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528437263"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528437263"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528437263"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528437263"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528437263"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528417349"></script>
-    <script src="/jiffy/js/learn.js?1528417349"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528417349"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528437263"></script>
+    <script src="/jiffy/js/learn.js?1528437263"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528437263"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528417349" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528417349"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528437263" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528437263"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

@@ -13,19 +13,19 @@
     <title>Jiffy Execution Flags :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528417349" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528437263" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528417349" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528437263" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528417349"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528437263"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528417349"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528417349"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528437263"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528417349"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528437263"></script>
 
     
   </div>
@@ -1564,23 +1564,10 @@
 <p>Flags are kept to a minimum, but there are a few flags that can be appended to the execution command:</p>
 
 <ul>
-<li><strong>go run *.go -p <target_dir></strong>
+<li><strong>go run main.go -m ./my_model.json</strong>
 
 <ul>
-<li>The <strong>-p</strong> switch is used to specify the target directory for generated application source-code relative to $GOPATH/src.</li>
-</ul></li>
-</ul>
-
-<pre><code class="language-bash">
-    $ go run main.go -p &quot;/github.com/footle.com/myrestfulsvc&quot;
-
-</code></pre>
-
-<ul>
-<li><strong>go run main.go -m <model_file>.json</strong>
-
-<ul>
-<li>By default, the application will attempt to use ./support/testing_models/models.json as the model source, but inclusion of the <strong>-m</strong> flag permits the use of an alternate model file.</li>
+<li>By default, the application will attempt to use ./support/testing_models/models.json as the model source, but inclusion of the <strong>-m</strong> flag permits the use of a more useful model file.</li>
 <li>The path of model file in the application base directory must be prefaced with ./ .  If the model file is not located in the base directory of the application, the full path must be specified when using the <strong>-m</strong> flag.</li>
 </ul></li>
 </ul>
@@ -1591,7 +1578,7 @@
 </code></pre>
 
 <ul>
-<li><strong>go run main.go -mf <model_folder></strong>
+<li><strong>go run main.go -mf ./model_folder</strong>
 
 <ul>
 <li>By default, the application will attempt to use ./support/testing_models/models.json as the model source, but inclusion of the <strong>-mf</strong> flag instructs the generator to read and process all model files contained in the specified folder.</li>
@@ -1604,19 +1591,32 @@
 
 </code></pre>
 
+<ul>
+<li><strong>go run main.go -p /target_dir</strong>
+
+<ul>
+<li>The <strong>-p</strong> switch is used to specify the target directory for generated application source-code relative to $GOPATH/src.</li>
+</ul></li>
+</ul>
+
+<pre><code class="language-bash">
+    $ go run main.go -m &quot;./my_model.json&quot; -p &quot;/github.com/footle.com/mynewsvcs&quot;
+
+</code></pre>
+
 <h3 id="typical-use">Typical Use</h3>
 
 <p>Typically you will want to provide your own model file and direct Jiffy to write the source code for the new application to a non-default destination.</p>
 
 <pre><code class="language-bash">
-    go run main.go -m &quot;./my_model.json&quot; -p &quot;/github.com/footle.com/myrestfulsvc&quot;
+    go run main.go -m &quot;./my_model.json&quot; -p &quot;/github.com/footle.com/mynewsvcs&quot;
 
 </code></pre>
 
 <p>In the case where you have created more than one model file for your application, the -mf flag is used to instruct Jiffy to read all the models in specified location.</p>
 
 <pre><code class="language-bash">
-    go run main.go -mf &quot;./models_folder&quot; -p &quot;/github.com/footle.com/myrestfulsvc&quot;
+    go run main.go -mf &quot;./models_folder&quot; -p &quot;/github.com/footle.com/mynewsvcs&quot;
 
 </code></pre>
 
@@ -2708,20 +2708,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528417349"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528417349"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528417349"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528417349"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528417349"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528417349"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528417349"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528437263"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528437263"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528437263"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528437263"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528437263"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528437263"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528437263"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528417349"></script>
-    <script src="/jiffy/js/learn.js?1528417349"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528417349"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528437263"></script>
+    <script src="/jiffy/js/learn.js?1528437263"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528437263"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528417349" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528417349"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528437263" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528437263"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

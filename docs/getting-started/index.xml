@@ -18,8 +18,7 @@
       
       <guid>https://1414c.github.io/jiffy/getting-started/gs-content-a/</guid>
       <description>If you already have Go installed and know that your installation is working, you should skip to the next section. If you need to get Go installed on your machine, keep reading.
-Go is easy to setup and can be installed from source or binary package, both which are available at golang.org.
- Go binary installation instructions Go build-from-source installation instructions  </description>
+Go is easy to setup and can be installed from source or binary package, both which are available at golang.org. Jiffy is presently built and tested using golang version 1.10, but it is best to use the latest stable 1.</description>
     </item>
     
     <item>
@@ -29,7 +28,7 @@ Go is easy to setup and can be installed from source or binary package, both whi
       
       <guid>https://1414c.github.io/jiffy/getting-started/gs-content-b/</guid>
       <description>The easiest way to install Jiffy is to use go get on the command-line to pull the latest version from github, as shown below:
-$ go get -u github.com/1414C/jiffy  This will pull the jiffy github repository into your $GOPATH/src/github.com folder, as well as any dependencies referenced by the jiffy source code. The -u flag is included to instruct go get to check for and pull updates to jiffy packages and their dependencies.</description>
+$ go get -u github.com/1414C/jiffy  The &amp;lsquo;go get&amp;rsquo; command will pull the Jiffy github repository into your $GOPATH/src/github.com folder, as well as any dependencies referenced by the Jiffy source code. The -u flag is included to instruct go get to check for and pull updates to Jiffy packages and their dependencies.</description>
     </item>
     
     <item>
@@ -39,7 +38,7 @@ $ go get -u github.com/1414C/jiffy  This will pull the jiffy github repository i
       
       <guid>https://1414c.github.io/jiffy/getting-started/gs-content-c/</guid>
       <description>Now that Jiffy is installed, we will build a simple service to test it out.
-Jiffy&amp;rsquo;s source tree comes with a number of sample model files that you can use to get the hang of things. We are going to use a simple model file that contains an entity named &amp;lsquo;Person&amp;rsquo;. The model file can be found in the Jiffy source tree, or pulled directly from the Jiffy github repository.</description>
+Jiffy&amp;rsquo;s source tree comes with a number of sample model files that you can be used to get the hang of things. We are going to use a simple model file that contains an entity named &amp;lsquo;Person&amp;rsquo;. The model file can be found in the Jiffy source tree, or pulled directly from the Jiffy github repository.</description>
     </item>
     
     <item>
@@ -49,8 +48,8 @@ Jiffy&amp;rsquo;s source tree comes with a number of sample model files that you
       
       <guid>https://1414c.github.io/jiffy/getting-started/gs-content-d/</guid>
       <description>Let&amp;rsquo;s execute our first application!
-$ cd $GOPATH/src/jiffy_tests/first_app $ go run main.go -dev -rs  Executing with the -dev and -rs flags instructs our new application to initialize itself using the development settings file, and forces a rebuild of the &amp;lsquo;Super&amp;rsquo; authorization-group. Consequently, you will see some warning and info messages scroll up the screen which is expected.
-2018/02/05 22:29:26 package sqac init is running 2018/02/05 22:29:26 successfully loaded the config file.</description>
+$ cd $GOPATH/src/jiffy_tests/first_app $ go run main.go -dev -rs  Executing with the -dev and -rs flags instructs our new application to initialize itself using the development configuration file, and forces a rebuild of the &amp;lsquo;Super&amp;rsquo; authorization-group. Consequently, some warning and info messages will scroll up the screen which is expected.
+2018/02/05 22:29:26 package sqac init is running 2018/02/05 22:29:26 successfully loaded the config file... 2018/02/05 22:29:26 JWTPrivKeyFile: jwtkeys/private.</description>
     </item>
     
   </channel>

@@ -13,19 +13,19 @@
     <title>Model Overview :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528417349" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528437263" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528417349" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528437263" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528417349"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528437263"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528417349"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528417349"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528437263"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528417349"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528437263"></script>
 
     
   </div>
@@ -1562,11 +1562,11 @@
 
 <h3 id="model-files">Model Files</h3>
 
-<p>Model files contain the Entity, Index and Relation definitions that you wish to generate services for.  Entity model definition consists of an array of JSON objects, with each object being limited to a flat hierarchy and basic go-data-types, (although this is easily extended).  By default, the Jiffy generator expects a <strong><em>models.json</em></strong> file in the execution directory, but a correctly formatted JSON file can be loaded from any location by executing with the <strong>-m</strong> flag.</p>
+<p>Model files contain the Entity, Index and Relation definitions that you wish to generate services for.  Entity model definition consists of an array of JSON objects, with each object being limited to a flat hierarchy and basic go-data-types, (although this is easily extended).  By default, the Jiffy generator expects a <strong><em>models.json</em></strong> file in the execution directory, but a correctly formatted JSON file can be loaded from any location by executing jiffy with the <strong>-m</strong> flag.</p>
 
-<p>It is possible to use more than one model-file, as long as there is no duplication of entity definitions across files.  Model files may be loaded in any order, but the complete set of files must be loaded at the same time.  As an example, it would be fine to create three model files; <strong><em>Library.json, Book.json, LibraryCard.json</em></strong>, but all three files should be complete and processed at the same time via the <strong>-mf</strong> flag in order to allow the correct generation of relationships etc.</p>
+<p>It is possible to use more than one model-file, as long as there is no duplication of entity definitions across the files.  Model files may be loaded in any order, but the complete set of files must be loaded at the same time.  As an example, it would be fine to create three model files; <strong><em>Library.json, Book.json, LibraryCard.json</em></strong>, but all three files should be complete and processed at the same time via the <strong>-mf</strong> flag in order to allow the correct generation of relationships etc.</p>
 
-<p>Sample <strong><em>models.json</em></strong> files are installed with the application and can be found in the <strong><em>support/testing_models</em></strong> folder of the Jiffy source tree.  The sample models are used as the basis for the following sections.</p>
+<p>Sample <strong><em>models.json</em></strong> files are installed with the application and can be found in the <a href="https://github.com/1414C/jiffy/tree/master/support/testing_models"><strong><em>support/testing_models</em></strong></a> folder of the Jiffy source tree.  The sample models are used as the basis for the following sections.</p>
 
 <h3 id="simple-single-entity-model">Simple Single Entity Model</h3>
 
@@ -1622,7 +1622,7 @@
 
 </code></pre>
 
-<p><img src="/testing_models/simpleSingleEntityModel.json" alt="simpleSingleEntityModel.json" title="simpleSingleEntityModel.json" /></p>
+<p>The sample model file can be downloaded from the following location: <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/simpleSingleEntityModel.json">simpleSingleEntityModel.json</a>.</p>
 
 <p>The <strong><em>simpleSingleEntityModel.json</em></strong> file structure and content is explained below:</p>
 
@@ -2847,20 +2847,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528417349"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528417349"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528417349"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528417349"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528417349"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528417349"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528417349"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528437263"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528437263"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528437263"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528437263"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528437263"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528437263"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528437263"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528417349"></script>
-    <script src="/jiffy/js/learn.js?1528417349"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528417349"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528437263"></script>
+    <script src="/jiffy/js/learn.js?1528437263"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528437263"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528417349" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528417349"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528437263" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528437263"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

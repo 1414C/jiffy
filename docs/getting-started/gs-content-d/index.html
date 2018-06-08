@@ -13,19 +13,19 @@
     <title>Let&#39;s Run Something :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528417349" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528437263" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528417349" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528437263" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528417349"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528437263"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528417349"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528417349"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528437263"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528417349"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528437263"></script>
 
     
   </div>
@@ -1554,7 +1554,7 @@
 
 </code></pre>
 
-<p>Executing with the -dev and -rs flags instructs our new application to initialize itself using the development settings file, and forces a rebuild of the &lsquo;Super&rsquo; authorization-group.  Consequently, you will see some warning and info messages scroll up the screen which is expected.</p>
+<p>Executing with the -dev and -rs flags instructs our new application to initialize itself using the development configuration file, and forces a rebuild of the &lsquo;Super&rsquo; authorization-group.  Consequently, some warning and info messages will scroll up the screen which is expected.</p>
 
 <pre><code class="language-bash">
     2018/02/05 22:29:26 package sqac init is running
@@ -1583,23 +1583,23 @@
 
 </code></pre>
 
-<p>You should see a message indicating that the application is running.  During the startup, the application executed a number of steps.</p>
+<p>If all goes well, a message indicating that the application is running will be displayed.  During the startup, the application executed a number of steps:</p>
 
 <ol>
 <li>Loaded the development configuration file.</li>
-<li>Initialized a handle to the underlying ORM.</li>
+<li>Initialized a handle to the underlying sqac ORM.</li>
 <li>Checked for and loaded the public and private keys for JWT support.</li>
 <li>Checked for and created the user, auth, and usrgroup tables in the database.</li>
-<li>Checked for and created the person table in the database based on the Person model.</li>
+<li>Checked for and created the person table in the database based on the &lsquo;Person&rsquo; model.</li>
 <li>Checked for and created authorizations in the database for each service end-point.</li>
 <li>Checked for and created the Super user-group in the database.</li>
 <li>Assigned all authorizations to the Super user-group.</li>
 <li>Created the &lsquo;admin&rsquo; user and assigned it to the &lsquo;Super&rsquo; user-group.</li>
-<li>Initialized the authorization cache in the router.</li>
+<li>Initialized the authorization, user, user-group and auth-groups caches in the router.</li>
 <li>Started the router.</li>
 <li>Looked at the leader-persistence store to determine the group-leader (and failed).</li>
 <li>Became the defacto group-leader, set own process-id (usually to 1 in this case).</li>
-<li>Updated the leader-persistence store withe the new group-leader information.</li>
+<li>Updated the leader-persistence store with the new group-leader information.</li>
 <li>Started the inter-process failure-detector.</li>
 </ol>
 
@@ -2693,20 +2693,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528417349"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528417349"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528417349"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528417349"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528417349"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528417349"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528417349"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528437263"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528437263"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528437263"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528437263"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528437263"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528437263"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528437263"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528417349"></script>
-    <script src="/jiffy/js/learn.js?1528417349"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528417349"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528437263"></script>
+    <script src="/jiffy/js/learn.js?1528437263"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528437263"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528417349" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528417349"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528437263" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528437263"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

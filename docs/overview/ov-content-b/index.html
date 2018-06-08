@@ -13,19 +13,19 @@
     <title>Jiffy Application Overview :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528417349" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528437263" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528417349" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528437263" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528417349"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528437263"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528417349"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528417349"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528437263"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528417349"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528437263"></script>
 
     
   </div>
@@ -1579,31 +1579,31 @@
 <li><p>Create a customer entity:</p>
 
 <ul>
-<li><code>https://servername:port/customer</code>  + {JSON body}</li>
+<li><code>https://servername:port/customer</code>  + {JSON body} + POST</li>
 </ul></li>
 
 <li><p>Update a customer entity:</p>
 
 <ul>
-<li><code>https://servername:port/customer/:id</code>  + {JSON body}</li>
+<li><code>https://servername:port/customer/:id</code>  + {JSON body} + PUT</li>
 </ul></li>
 
 <li><p>Read a customer entity:</p>
 
 <ul>
-<li><code>https://servername:port/customer/:id</code></li>
+<li><code>https://servername:port/customer/:id</code> + GET</li>
 </ul></li>
 
 <li><p>Delete a customer entity:</p>
 
 <ul>
-<li><code>https://servername:port/customer/:id</code></li>
+<li><code>https://servername:port/customer/:id</code> + DELETE</li>
 </ul></li>
 
 <li><p>Read all customer entities:</p>
 
 <ul>
-<li><code>https://servername:port/customers</code></li>
+<li><code>https://servername:port/customers</code> + GET</li>
 </ul></li>
 </ol>
 
@@ -1615,31 +1615,31 @@
 <li><p>Use a filter to Get customers where the last name is &lsquo;Smith&rsquo;:</p>
 
 <ul>
-<li><code>https://servername:port/customers/?last_name=Smith</code></li>
+<li><code>https://servername:port/customers/?last_name=Smith</code> + GET</li>
 </ul></li>
 
 <li><p>Use a generated static end-point to Get customers where credit score is less than 4:</p>
 
 <ul>
-<li><code>https://servername:port/customers/credit_score(LT 4)</code></li>
+<li><code>https://servername:port/customers/credit_score(LT 4)</code> + GET</li>
 </ul></li>
 
 <li><p>Use a generated relationship to retrieve all orders for a specific customer (10023):</p>
 
 <ul>
-<li><code>https://servername:port/customer/10023/orders</code></li>
+<li><code>https://servername:port/customer/10023/orders</code> + GET</li>
 </ul></li>
 
 <li><p>Use a generated relationship to retrieve a specific order (99000022) for the specified customer (10023):</p>
 
 <ul>
-<li><code>https://servername:port/customer/10023/order/99000022</code></li>
+<li><code>https://servername:port/customer/10023/order/99000022</code> + GET</li>
 </ul></li>
 
 <li><p>Use a generated belongsTo relationship to retrieve the customer for a specific order (990000222):</p>
 
 <ul>
-<li><code>https://servername:port/order/99000022/customer</code></li>
+<li><code>https://servername:port/order/99000022/customer</code> + GET</li>
 </ul></li>
 </ol>
 
@@ -1651,55 +1651,55 @@
 <li><p>Get a count of all customer entities:</p>
 
 <ul>
-<li><code>https://servername:port/customer/$count</code></li>
+<li><code>https://servername:port/customer/$count</code> + GET</li>
 </ul></li>
 
 <li><p>Limit the number of returned customer entities to 3.  The default ordering for this example would be ascending based on the entity ID field.</p>
 
 <ul>
-<li><code>https://servername:port/customer/$limit=3</code></li>
+<li><code>https://servername:port/customer/$limit=3</code> + GET</li>
 </ul></li>
 
 <li><p>Offset the database selection by 2 records, top-down, using the default order; (ascending based on the entity ID field):</p>
 
 <ul>
-<li><code>https://servername:port/customer/$offset=2</code></li>
+<li><code>https://servername:port/customer/$offset=2</code> + GET</li>
 </ul></li>
 
 <li><p>Select records in descending order based on the entity ID field:</p>
 
 <ul>
-<li><code>https://servername:port/customer/$desc</code></li>
+<li><code>https://servername:port/customer/$desc</code> + GET</li>
 </ul></li>
 
 <li><p>Select records in descending order using the customer name field as the order-by criteria:</p>
 
 <ul>
-<li><code>https://servername:port/customer/$orderby=name$desc</code></li>
+<li><code>https://servername:port/customer/$orderby=name$desc</code> + GET</li>
 </ul></li>
 
 <li><p>Limit the number of selected records to 3 and select in descending order based on the entity ID field:</p>
 
 <ul>
-<li><code>https://servername:port/customer/$limit=3/$desc</code></li>
+<li><code>https://servername:port/customer/$limit=3/$desc</code> + GET</li>
 </ul></li>
 
 <li><p>Limit the number of selected records to 3 and select in ascending order using the customer name field as the order-by criteria:</p>
 
 <ul>
-<li><code>https://servername:port/customer/$limit=3;$orderby=name$asc</code></li>
+<li><code>https://servername:port/customer/$limit=3;$orderby=name$asc</code> + GET</li>
 </ul></li>
 
 <li><p>Limit the number of selected records to 3 with an offset of 2 and select the records in ascending order using the customer name field as the sort criteria:</p>
 
 <ul>
-<li><code>https://servername:port/customer/$limit=3$offset=2$orderby=name$asc</code></li>
+<li><code>https://servername:port/customer/$limit=3$offset=2$orderby=name$asc</code> + GET</li>
 </ul></li>
 
 <li><p>Limit the return of a static filter end-point to 3 records:</p>
 
 <ul>
-<li><code>https://servername:port/customers/credit_score(LT4)/$limit=3</code></li>
+<li><code>https://servername:port/customers/credit_score(LT4)/$limit=3</code> + GET</li>
 </ul></li>
 </ol>
 
@@ -2790,20 +2790,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528417349"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528417349"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528417349"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528417349"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528417349"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528417349"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528417349"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528437263"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528437263"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528437263"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528437263"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528437263"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528437263"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528437263"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528417349"></script>
-    <script src="/jiffy/js/learn.js?1528417349"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528417349"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528437263"></script>
+    <script src="/jiffy/js/learn.js?1528437263"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528437263"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528417349" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528417349"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528437263" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528437263"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

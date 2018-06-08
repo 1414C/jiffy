@@ -17,10 +17,12 @@
       <pubDate>Mon, 05 Feb 2018 13:26:13 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/execution/ex-content-a/</guid>
-      <description>Execution In order to run the application generator, ensure the following:
+      <description>Execution In order to run the Jiffy application generator, ensure the following:
  Make sure go has been installed in the test environment. See http://www.golang.org for installation files and instructions.
  Make sure that the Jiffy source code and dependencies have been installed.
- You will need access to a Postgres, MySQL, MSSQL or SAP Hana database, either locally or over the network. It is also possible to run tests with SQLite3.</description>
+ One of the supported databases is available, either locally or over the network.
+ Jiffy can be started in two ways:
+ From $GOPATH/src/github.com/1414C/jiffy you may execute the application directly from the Jiffy source code as follows.</description>
     </item>
     
     <item>
@@ -30,7 +32,7 @@
       
       <guid>https://1414c.github.io/jiffy/execution/ex-content-b/</guid>
       <description>Generation Flags Flags are kept to a minimum, but there are a few flags that can be appended to the execution command:
- go run *.go -p   The -p switch is used to specify the target directory for generated application source-code relative to $GOPATH/src.   $ go run main.go -p &amp;quot;/github.com/footle.com/myrestfulsvc&amp;quot;   go run main.go -m .json  By default, the application will attempt to use .</description>
+ go run main.go -m ./my_model.json  By default, the application will attempt to use ./support/testing_models/models.json as the model source, but inclusion of the -m flag permits the use of a more useful model file. The path of model file in the application base directory must be prefaced with .</description>
     </item>
     
   </channel>

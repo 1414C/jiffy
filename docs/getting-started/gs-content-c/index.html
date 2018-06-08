@@ -13,19 +13,19 @@
     <title>Let&#39;s Build Something :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528417349" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528417349" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528437263" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528437263" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528417349" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528437263" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528417349"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528437263"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528417349"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528417349"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528437263"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528437263"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528417349"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528437263"></script>
 
     
   </div>
@@ -1548,7 +1548,7 @@
 
 <p>Now that Jiffy is installed, we will build a simple service to test it out.</p>
 
-<p>Jiffy&rsquo;s source tree comes with a number of sample model files that you can use to get the hang of things.  We are going to use a simple model file that contains an entity named &lsquo;Person&rsquo;.  The model file can be found in the Jiffy source tree, or pulled directly from the Jiffy github repository.</p>
+<p>Jiffy&rsquo;s source tree comes with a number of sample model files that you can be used to get the hang of things.  We are going to use a simple model file that contains an entity named &lsquo;Person&rsquo;.  The model file can be found in the Jiffy source tree, or pulled directly from the Jiffy github repository.</p>
 
 <ul>
 <li>$GOPATH/src/github.com/1414C/jiffy/support/testing_models/simpleSingleEntityModel.json</li>
@@ -1570,15 +1570,15 @@
 
 </code></pre>
 
-<p>We can see that jiffy will create a Person model with a small set of fields, each with a number of attributes.  For the moment, we will concern ourselves only with the field names and types, as we will need to use this information to construct some tests for the new service.</p>
+<p>We can see that Jiffy will create a &lsquo;Person&rsquo; model with a small set of fields, each with a number of attributes.  For the moment, we will concern ourselves only with the field names and types, as we will need to use this information to construct some test data for the new service.</p>
 
-<div class="notices info" ><p>&lsquo;sqac&rsquo; tags are used to pass information to jiffy&rsquo;s ORM layer.</p>
+<div class="notices info" ><p>&lsquo;sqac&rsquo; tags are used to pass information to Jiffy&rsquo;s ORM layer.</p>
 </div>
 
 
 <p><br/></p>
 
-<p>Create a new target directory for your project under $GOPATH/src.</p>
+<p>Create a new target directory for the project under $GOPATH/src.</p>
 
 <pre><code class="language-bash">
     $ cd $GOPATH/src
@@ -1636,16 +1636,16 @@
 
 <pre><code class="language-json">
     {
-        &quot;port&quot;: 8080,    
-        &quot;env&quot;: &quot;dev&quot;,     
+        &quot;port&quot;: 8080,
+        &quot;env&quot;: &quot;dev&quot;,
         &quot;pepper&quot;: &quot;secret-pepper-key&quot;,  
         &quot;database&quot;: {
             &quot;db_dialect&quot;: &quot;sqlite&quot;,
             &quot;host&quot;:       &quot;127.0.0.1&quot;,
-		    &quot;port&quot;:       0,
-		    &quot;usr&quot;:        &quot;&quot;,
-		    &quot;password&quot;:   &quot;&quot;,
-		    &quot;name&quot;:       &quot;testdb.sqlite&quot;
+            &quot;port&quot;:       0,
+            &quot;usr&quot;:        &quot;&quot;,
+            &quot;password&quot;:   &quot;&quot;,
+            &quot;name&quot;:       &quot;testdb.sqlite&quot;
         },
         &quot;cert_file&quot;: &quot;&quot;,
         &quot;key_file&quot;: &quot;&quot;,
@@ -2751,20 +2751,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528417349"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528417349"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528417349"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528417349"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528417349"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528417349"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528417349"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528437263"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528437263"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528437263"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528437263"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528437263"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528437263"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528437263"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528417349"></script>
-    <script src="/jiffy/js/learn.js?1528417349"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528417349"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528437263"></script>
+    <script src="/jiffy/js/learn.js?1528437263"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528437263"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528417349" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528417349"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528437263" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528437263"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
