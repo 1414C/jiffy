@@ -13,19 +13,19 @@
     <title>Controller Extension Points :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528520108" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528475615" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528520108" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528475615"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528520108"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528475615"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528475615"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528520108"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528520108"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528475615"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528520108"></script>
 
     
   </div>
@@ -1131,6 +1131,25 @@
 
             
           
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/accesscontrol/ac-content-d/" title="Using External Identity Providers" class="dd-item ">
+        <a href="/jiffy/accesscontrol/ac-content-d/">
+        Using External Identity Providers
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
         
         </ul>
               
@@ -1633,7 +1652,7 @@
 
 <h3 id="overview">Overview</h3>
 
-<p>Controller extension-points exist for the Create, Update and Get CRUD operations.  Each operation has a related extension-point interface, for which an empty implementation is created when the application is generated.  If the generator sees that the extension-point implementation file for an entity has already been created, it will not over-write or create a new version.</p>
+<p>Controller extension-points exist for the Create, Update and Get CRUD operations.  Each operation has a related extension-point interface, for which an empty implementation may be created when the application is generated.  If the generator sees that the extension-point implementation file for an entity has already been created, it will not over-write or create a new version.</p>
 
 <p>File <strong>./myapp/controllers/ext/extc_interfaces.go</strong> contains the generated entity controller extension-point interface declarations.  Each interface and interface method is documented in this file.</p>
 
@@ -1647,12 +1666,12 @@
   </tr>
   <tr>  
     <td><h5>BeforeFirst(w http.ResponseWriter, r *http.Request) error</h5>
-    BeforeFirst is an extension-point that can be implemented in order to examine and potentially reject a Create entity request. This extension-point is the first code executed in the controller's Create method. Authentication and Authorization checks should be performed upstream in the route middleware-layer and detailed checks of a request.Body should be carried out by the validator in the model-layer.<p>
+    BeforeFirst is a controller extension-point that can be implemented in order to examine and potentially reject a Create entity request. This extension-point is the first code executed in the controller's Create method. Authentication and Authorization checks should be performed upstream in the route middleware-layer and detailed checks of a request.Body should be carried out by the validator in the model-layer.<p>
     </td>
   </tr>
   <tr>
     <td><h5>AfterBodyDecode(ent interface{}) error</h5>
-    AfterBodyDecode is an extension-point that can be implemented to perform preliminary checks and changes to the unmarshalled content of the request.Body. Detailed checks of the unmarshalled data from the request.Body should be carried out by the validator in the model-layer. This extension-point should only be used to carry out deal-breaker checks and perhaps to default data in the entity struct prior to calling the validator/normalization methods in the model-layer.<p>
+    AfterBodyDecode is a controller extension-point that can be implemented to perform preliminary checks and changes to the unmarshalled content of the request.Body. Detailed checks of the unmarshalled data from the request.Body should be carried out by the validator in the model-layer. This extension-point should only be used to carry out deal-breaker checks and perhaps to default data in the entity struct prior to calling the validator/normalization methods in the model-layer.<p>
     </td>
   </tr>
   <tr>
@@ -1669,17 +1688,17 @@
   </tr>
   <tr>
     <td><h5>BeforeFirst(w http.ResponseWriter, r *http.Request) error</h5>
-    BeforeFirst is an extension-point that can be implemented in order to examine and potentially reject an Update entity request. This extension-point is the first code executed in the controller's Update method. Authentication and Authorization checks should be performed upstream in the route middleware-layer and detailed checks of a request.Body should be carried out by the validator in the model-layer.<p>
+    BeforeFirst is a controller extension-point that can be implemented in order to examine and potentially reject an Update entity request. This extension-point is the first code executed in the controller's Update method. Authentication and Authorization checks should be performed upstream in the route middleware-layer and detailed checks of a request.Body should be carried out by the validator in the model-layer.<p>
     </td>
   </tr>
   <tr>
     <td><h5>AfterBodyDecode(ent interface{}) error</h5>
-    AfterBodyDecode is an extension-point that can be implemented to perform preliminary checks and changes to the unmarshalled content of the request.Body.  Detailed checks of the unmarshalled data from the request.Body should be carried out by the validator in the model-layer. This extension-point should only be used to carry out deal-breaker checks and perhaps to default data in the entity struct prior to calling the validator/normalization methods in the model-layer.<p>
+    AfterBodyDecode is a controller extension-point that can be implemented to perform preliminary checks and changes to the unmarshalled content of the request.Body.  Detailed checks of the unmarshalled data from the request.Body should be carried out by the validator in the model-layer. This extension-point should only be used to carry out deal-breaker checks and perhaps to default data in the entity struct prior to calling the validator/normalization methods in the model-layer.<p>
     </td>
   </tr>
   <tr>
     <td><h5>BeforeResponse(ent interface{}) error</h5>
-    BeforeResponse is an extension-point that can be implemented to perform checks following the return of the call to the model-layer. At this point, changes to the db will have been made, so failing the call should take this into consideration.<p>
+    BeforeResponse is a controller extension-point that can be implemented to perform checks following the return of the call to the model-layer. At this point, changes to the db will have been made, so failing the call should take this into consideration.<p>
     </td>
   </tr>
 </table>
@@ -1691,17 +1710,17 @@
   </tr>
   <tr>
     <td><h5>BeforeFirst(w http.ResponseWriter, r *http.Request) error</h5>
-    BeforeFirst is an extension-point that can be implemented in order to examine and potentially reject a Get entity request. This extension-point is the first code executed in the controller's Create method.  Authentication and Authorization checks should be performed upstream in the route middleware-layer.<p>
+    BeforeFirst is a controller  extension-point that can be implemented in order to examine and potentially reject a Get entity request. This extension-point is the first code executed in the controller's Create method.  Authentication and Authorization checks should be performed upstream in the route middleware-layer.<p>
     </td>
   </tr>
   <tr>
     <td><h5>BeforeModelCall(ent interface{}) error</h5>
-    BeforeModelCall is an extension-point that can be implemented in order to make changes to the content of the entity structure prior to calling the model-layer. By default the controller's Get method will populate the ID field of the entity structure using the :id value provided in the request URL. The use of this extension-point would be seemingly rare and any values added to the struct would be over-written in the model-layer when the call to the DBMS is made. The added values would however be available for use in the validation/normalization and DBMS access methods prior to the call to the ORM.<p>
+    BeforeModelCall is a controller extension-point that can be implemented in order to make changes to the content of the entity structure prior to calling the model-layer. By default the controller's Get method will populate the ID field of the entity structure using the :id value provided in the request URL. The use of this extension-point would be seemingly rare and any values added to the struct would be over-written in the model-layer when the call to the DBMS is made. The added values would however be available for use in the validation/normalization and DBMS access methods prior to the call to the ORM.<p>
     </td>
   </tr>
   <tr>
     <td><h5>BeforeResponse(ent interface{}) error</h5>
-    BeforeResponse is an extension-point that can be implemented to perform checks / changes following the return of the call to the model-layer. At this point, the db has been read and the populated entity structure is about to be marshaled into JSON and passed back to the router/mux.<p>
+    BeforeResponse is a controller extension-point that can be implemented to perform checks / changes following the return of the call to the model-layer. At this point, the db has been read and the populated entity structure is about to be marshaled into JSON and passed back to the router/mux.<p>
     </td>
   </tr>
 </table>
@@ -2532,6 +2551,22 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
                     
@@ -2842,20 +2877,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528475615"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528475615"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528475615"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528475615"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528475615"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528475615"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528475615"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528520108"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528520108"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528520108"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528520108"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528520108"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528520108"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528520108"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528475615"></script>
-    <script src="/jiffy/js/learn.js?1528475615"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528475615"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528520108"></script>
+    <script src="/jiffy/js/learn.js?1528520108"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528520108"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528475615" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528475615"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528520108" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528520108"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

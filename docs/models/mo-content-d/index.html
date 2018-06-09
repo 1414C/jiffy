@@ -13,19 +13,19 @@
     <title>Entity Relations :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528520108" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528475615" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528520108" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528475615"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528520108"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528475615"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528475615"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528520108"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528520108"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528475615"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528520108"></script>
 
     
   </div>
@@ -1131,6 +1131,25 @@
 
             
           
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/accesscontrol/ac-content-d/" title="Using External Identity Providers" class="dd-item ">
+        <a href="/jiffy/accesscontrol/ac-content-d/">
+        Using External Identity Providers
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
         
         </ul>
               
@@ -1732,7 +1751,7 @@
                 {&quot;index&quot;: &quot;name, city&quot;}
             ],
             &quot;relations&quot;: [
-                { 
+                {
                 &quot;relName&quot;: &quot;ToCar&quot;,
                     &quot;properties&quot;: {
                         &quot;relType&quot;: &quot;hasOne&quot;,
@@ -1742,7 +1761,6 @@
             ],
             &quot;ext_points&quot;: {
                 &quot;gen_controller&quot;: true,
-                &quot;gen_validator&quot;: false,
                 &quot;gen_model&quot;: true
             }
         },
@@ -1774,8 +1792,7 @@
             },
             &quot;ext_points&quot;: {
                 &quot;gen_controller&quot;: true,
-                &quot;gen_validator&quot;: false,
-                 &quot;gen_model&quot;: true
+                &quot;gen_model&quot;: true
             }
         }
     ]
@@ -1812,92 +1829,16 @@
                     &quot;selectable&quot;: &quot;eq,lt,gt&quot;
                 }
             },
-            &quot;compositeIndexes&quot;: [
-                {&quot;index&quot;: &quot;name, city&quot;}
-            ],
-            &quot;relations&quot;: [
-                    {
-                    &quot;relName&quot;: &quot;ToBooks&quot;,
-                        &quot;properties&quot;: {
-                            &quot;relType&quot;: &quot;hasMany&quot;,
-                            &quot;toEntity&quot;: &quot;Book&quot;
-                        }
-                    }
-                ]
-    },
-    {
-        &quot;typeName&quot;: &quot;Book&quot;,
-        &quot;properties&quot;: {
-            &quot;Title&quot;: {
-                &quot;type&quot;: &quot;string&quot;,
-                &quot;format&quot;: &quot;&quot;,
-                &quot;required&quot;: true,
-                &quot;index&quot;: &quot;nonUnique&quot;,
-                &quot;selectable&quot;: &quot;eq,like&quot;
-            },
-            &quot;Hardcover&quot;: {
-                &quot;type&quot;: &quot;bool&quot;,
-                &quot;format&quot;: &quot;&quot;,
-                &quot;required&quot;: true,
-                &quot;index&quot;: &quot;&quot;,
-                &quot;selectable&quot;: &quot;eq,ne&quot;
-            },
-            &quot;Copies&quot;: {
-                &quot;type&quot;: &quot;uint64&quot;,
-                &quot;format&quot;: &quot;&quot;,
-                &quot;required&quot;: true,
-                &quot;index&quot;: &quot;&quot;,
-                &quot;selectable&quot;: &quot;eq,lt,gt&quot;
-            },
-            &quot;LibraryID&quot;: {
-                &quot;type&quot;: &quot;uint64&quot;,
-                &quot;format&quot;: &quot;&quot;,
-                &quot;required&quot;: true,
-                &quot;index&quot;: &quot;nonUnique&quot;,
-                &quot;selectable&quot;: &quot;eq,like&quot;
-            }
-        }
-    }
-    ]
-}
-
-</code></pre>
-
-<p>The sample model file can be downloaded from the following location: <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/hasManyDefaultKeys.json">hasManyDefaultKeys.json</a>.</p>
-
-<h3 id="belongsto-relationship">belongsTo Relationship</h3>
-
-<p>&lsquo;belongsTo&rsquo; relationships are used to form the inverse of the &lsquo;hasOne&rsquo; and &lsquo;hasMany&rsquo; relations.  Consider the library &lsquo;hasMany&rsquo; books example; A library has many books, but we can also posit that &lsquo;a book belongs to a library&rsquo;; this is an example of a &lsquo;belongsTo&rsquo; relationship.  The JSON below extends the &lsquo;Library&rsquo; -&gt; &lsquo;Book&rsquo; example by adding the &lsquo;belongsTo&rsquo; relationship to the &lsquo;Book&rsquo; entity definition:</p>
-
-<pre><code class="language-JSON">
-{
-    &quot;entities&quot;:  [
-        {
-            &quot;typeName&quot;: &quot;Library&quot;,
-            &quot;properties&quot;: {
-                &quot;Name&quot;: {
-                    &quot;type&quot;: &quot;string&quot;,
-                    &quot;format&quot;: &quot;&quot;,
-                    &quot;required&quot;: true,
-                    &quot;unique&quot;: false,
-                    &quot;index&quot;: &quot;nonUnique&quot;,
-                    &quot;selectable&quot;: &quot;eq,like&quot;
-                },
-                &quot;City&quot;: {
-                    &quot;type&quot;: &quot;string&quot;,
-                    &quot;format&quot;: &quot;&quot;,
-                    &quot;required&quot;: true,
-                    &quot;unique&quot;: false,
-                    &quot;index&quot;: &quot;&quot;,
-                    &quot;selectable&quot;: &quot;eq,lt,gt&quot;
-                }
+            &quot;ext_points&quot;: {
+                &quot;gen_controller&quot;: true,
+                 &quot;gen_model&quot;: true
             },
             &quot;compositeIndexes&quot;: [
                 {&quot;index&quot;: &quot;name, city&quot;}
             ],
             &quot;relations&quot;: [
                     {
-                    &quot;relName&quot;: &quot;ToBooks&quot;,
+                    &quot;relName&quot;: &quot;Books&quot;,
                         &quot;properties&quot;: {
                             &quot;relType&quot;: &quot;hasMany&quot;,
                             &quot;toEntity&quot;: &quot;Book&quot;
@@ -1937,15 +1878,100 @@
                 &quot;selectable&quot;: &quot;eq,like&quot;
             }
         },
-        &quot;relations&quot;: [
-                    {
-                    &quot;relName&quot;: &quot;ToLibrary&quot;,
-                        &quot;properties&quot;: {
-                            &quot;relType&quot;: &quot;belongsTo&quot;,
-                            &quot;toEntity&quot;: &quot;Library&quot;
-                        }
+        &quot;ext_points&quot;: {
+            &quot;gen_controller&quot;: true,
+            &quot;gen_model&quot;: true
+        }
+    }
+    ]
+}
+
+</code></pre>
+
+<p>The sample model file can be downloaded from the following location: <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/hasManyDefaultKeys.json">hasManyDefaultKeys.json</a>.</p>
+
+<h3 id="belongsto-relationship">belongsTo Relationship</h3>
+
+<p>&lsquo;belongsTo&rsquo; relationships are used to form the inverse of the &lsquo;hasOne&rsquo; and &lsquo;hasMany&rsquo; relations.  Consider the library &lsquo;hasMany&rsquo; books example; A library has many books, but we can also posit that &lsquo;a book belongs to a library&rsquo;; this is an example of a &lsquo;belongsTo&rsquo; relationship.  The JSON below extends the &lsquo;Library&rsquo; -&gt; &lsquo;Book&rsquo; example by adding the &lsquo;belongsTo&rsquo; relationship to the &lsquo;Book&rsquo; entity definition:</p>
+
+<pre><code class="language-JSON">
+{
+    &quot;entities&quot;:  [
+        {
+            &quot;typeName&quot;: &quot;PetOwner&quot;,
+            &quot;properties&quot;: {
+                &quot;Name&quot;: {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;format&quot;: &quot;&quot;,
+                    &quot;required&quot;: false,
+                    &quot;unique&quot;: false,
+                    &quot;index&quot;: &quot;nonUnique&quot;,
+                    &quot;selectable&quot;: &quot;eq,like&quot;
+                },
+                &quot;City&quot;: {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;format&quot;: &quot;&quot;,
+                    &quot;required&quot;: false,
+                    &quot;unique&quot;: false,
+                    &quot;index&quot;: &quot;&quot;,
+                    &quot;selectable&quot;: &quot;eq,lt,gt&quot;
+                }
+            },
+            &quot;ext_points&quot;: {
+                &quot;gen_controller&quot;: true,
+                &quot;gen_model&quot;: true
+            },
+            &quot;compositeIndexes&quot;: [
+                {&quot;index&quot;: &quot;name, city&quot;}
+            ],
+            &quot;relations&quot;: [
+                {
+                &quot;relName&quot;: &quot;ToDogs&quot;,
+                    &quot;properties&quot;: {
+                        &quot;relType&quot;: &quot;hasMany&quot;,
+                        &quot;toEntity&quot;: &quot;Dog&quot;
                     }
-                ]
+                }
+            ]
+    },
+    {
+        &quot;typeName&quot;: &quot;Dog&quot;,
+        &quot;properties&quot;: {
+            &quot;Name&quot;: {
+                &quot;type&quot;: &quot;string&quot;,
+                &quot;format&quot;: &quot;&quot;,
+                &quot;required&quot;: true,
+                &quot;index&quot;: &quot;nonUnique&quot;,
+                &quot;selectable&quot;: &quot;eq,like&quot;
+            },
+            &quot;Breed&quot;: {
+                &quot;type&quot;: &quot;string&quot;,
+                &quot;format&quot;: &quot;&quot;,
+                &quot;required&quot;: true,
+                &quot;index&quot;: &quot;nonUnique&quot;,
+                &quot;selectable&quot;: &quot;eq,like&quot;
+            },
+            &quot;PetOwnerID&quot;: {
+                &quot;type&quot;: &quot;uint64&quot;,
+                &quot;format&quot;: &quot;&quot;,
+                &quot;required&quot;: true,
+                &quot;index&quot;: &quot;nonUnique&quot;,
+                &quot;selectable&quot;: &quot;eq,like&quot;
+            }
+        },
+        &quot;ext_points&quot;: {
+            &quot;gen_controller&quot;: true,
+            &quot;gen_model&quot;: true
+        },
+        &quot;relations&quot;: [
+            {
+            &quot;relName&quot;: &quot;ToPetOwner&quot;,
+                &quot;properties&quot;: {
+                    &quot;relType&quot;: &quot;belongsTo&quot;,
+                    &quot;toEntity&quot;: &quot;PetOwner&quot;
+                }
+            }
+        ]
     }
     ]
 }
@@ -2786,6 +2812,22 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
                     
@@ -3096,20 +3138,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528475615"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528475615"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528475615"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528475615"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528475615"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528475615"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528475615"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528520108"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528520108"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528520108"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528520108"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528520108"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528520108"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528520108"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528475615"></script>
-    <script src="/jiffy/js/learn.js?1528475615"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528475615"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528520108"></script>
+    <script src="/jiffy/js/learn.js?1528520108"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528520108"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528475615" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528475615"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528520108" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528520108"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

@@ -13,19 +13,19 @@
     <title>Model Overview :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528520108" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528475615" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528520108" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528475615"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528520108"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528475615"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528475615"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528520108"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528520108"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528475615"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528520108"></script>
 
     
   </div>
@@ -1131,6 +1131,25 @@
 
             
           
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/accesscontrol/ac-content-d/" title="Using External Identity Providers" class="dd-item ">
+        <a href="/jiffy/accesscontrol/ac-content-d/">
+        Using External Identity Providers
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
         
         </ul>
               
@@ -1608,6 +1627,7 @@
 <ul>
 <li><a href="#making-changes-to-a-model">Making Changes to a Model</a></li>
 <li><a href="#simple-single-entity-model">Simple Single Entity Model</a></li>
+<li><a href="#annotated-simple-single-entity-model">Annotated Simple Single Entity Model</a></li>
 </ul></li>
 <li><a href="#entity-id">Entity ID</a></li>
 </ul></li>
@@ -1661,9 +1681,7 @@ If a table matching the model name is detected in the database, the application 
             &quot;properties&quot;: {
                 &quot;name&quot;: {
                     &quot;type&quot;: &quot;string&quot;,
-                    &quot;db_type&quot;: &quot;&quot;,
-                    &quot;no_db&quot;: false,
-                    &quot;format&quot;: &quot;&quot;,
+                    &quot;format&quot;: &quot;&quot;, 
                     &quot;required&quot;: false,
                     &quot;unique&quot;: false,
                     &quot;index&quot;: &quot;nonUnique&quot;,
@@ -1671,7 +1689,7 @@ If a table matching the model name is detected in the database, the application 
                 },
                 &quot;age&quot;: {
                     &quot;type&quot;: &quot;uint&quot;,
-                    &quot;format&quot;: &quot;&quot;,
+                    &quot;format&quot;: &quot;&quot;, 
                     &quot;required&quot;: false,
                     &quot;unique&quot;: false,
                     &quot;index&quot;: &quot;&quot;,
@@ -1679,7 +1697,7 @@ If a table matching the model name is detected in the database, the application 
                 },
                 &quot;weight&quot;: {
                     &quot;type&quot;: &quot;float64&quot;,
-                    &quot;format&quot;: &quot;&quot;,
+                    &quot;format&quot;: &quot;&quot;, 
                     &quot;required&quot;: false,
                     &quot;unique&quot;: false,
                     &quot;index&quot;: &quot;&quot;,
@@ -1687,12 +1705,16 @@ If a table matching the model name is detected in the database, the application 
                 },
                 &quot;validLicense&quot;: {
                     &quot;type&quot;: &quot;bool&quot;,
-                    &quot;format&quot;: &quot;&quot;,
+                    &quot;format&quot;: &quot;&quot;, 
                     &quot;required&quot;: false,
                     &quot;unique&quot;: false,
                     &quot;index&quot;: &quot;nonUnique&quot;,
                     &quot;selectable&quot;: &quot;eq,ne&quot;
                 }
+            },
+            &quot;ext_points&quot;: {
+                &quot;gen_controller&quot;: true,
+                &quot;gen_model&quot;: true
             }
         }
     ]
@@ -1700,9 +1722,10 @@ If a table matching the model name is detected in the database, the application 
 
 </code></pre>
 
-<p>The sample model file can be downloaded from the following location: <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/simpleSingleEntityModel.json">simpleSingleEntityModel.json</a>.</p>
+<p>The sample model file can be downloaded from the following location: <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/simpleSingleEntityModel.json">simpleSingleEntityModel.json</a>.
+<br></br></p>
 
-<p>The <strong><em>simpleSingleEntityModel.json</em></strong> file structure and content is explained below:</p>
+<h4 id="annotated-simple-single-entity-model">Annotated Simple Single Entity Model</h4>
 
 <pre><code class="language-JSON">{
     &quot;entities&quot;: [
@@ -1814,7 +1837,27 @@ If a table matching the model name is detected in the database, the application 
             ...
             ...
         },
-    }
+        &quot;ext_points&quot;: {
+        The 'ext_points' block contains two elements which Jiffy uses to determine whether or not to create
+        extension-points in the entity.
+        This is an optional block.
+            &quot;gen_controller&quot;: true,
+            Element 'gen_controller' is used by Jiffy to determine whether or not to insert extension-points
+            into the entity's controller.  Setting the value of this element to 'true' will cause Jiffy to
+            insert extension-points into the entity's controller and generate an empty implementation of the
+            extension-point interface for the entity in the ./controllers/ext folder.
+            A generated controller extension-point implementation for entity 'Person' would take the form of:
+            'personc_ext.go'.
+            This is an optional element.
+            &quot;gen_model&quot;: true
+            Element 'gen_model' is used by Jiffy to determine whether or not to insert extension-points
+            into the entity's model file.  Setting the value of this element to 'true' will cause Jiffy to
+            insert extension-points into the entity's model file and generate an empty implementation of the
+            extension-point interface for the entity in the ./models folder.
+            A generated model extension-point implementation for entity 'Person' would take the form of:
+            'personm_ext.go'.
+            This is an optional element.
+        }  
     },
     {
         ... next entity definition
@@ -2656,6 +2699,22 @@ If a table matching the model name is detected in the database, the application 
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
                     
@@ -2966,20 +3025,20 @@ If a table matching the model name is detected in the database, the application 
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528475615"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528475615"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528475615"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528475615"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528475615"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528475615"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528475615"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528520108"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528520108"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528520108"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528520108"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528520108"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528520108"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528520108"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528475615"></script>
-    <script src="/jiffy/js/learn.js?1528475615"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528475615"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528520108"></script>
+    <script src="/jiffy/js/learn.js?1528520108"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528520108"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528475615" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528475615"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528520108" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528520108"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

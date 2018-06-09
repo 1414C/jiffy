@@ -13,19 +13,19 @@
     <title>Access Control Overview :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528520108" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528475615" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528520108" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528475615"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528520108"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528475615"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528475615"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528520108"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528520108"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528475615"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528520108"></script>
 
     
   </div>
@@ -1131,6 +1131,25 @@
 
             
           
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/accesscontrol/ac-content-d/" title="Using External Identity Providers" class="dd-item ">
+        <a href="/jiffy/accesscontrol/ac-content-d/">
+        Using External Identity Providers
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
         
         </ul>
               
@@ -1649,11 +1668,30 @@
 
 <h4 id="configuration-based-service-activation">Configuration Based Service Activation</h4>
 
-<p>An internal service is created for each of the modeled entities in the application.  Services can be marked as active or inactive in the service configuration, thereby allowing a single application to be generated, but also allowing selective service deployment.  For example, there may be cases where it is desirable to route certain services to a particular application instance and another set of services to the rest of the pool.  In such a case, a reverse-proxy could be configured to route the end-points appropriately, and the deployed service configurations would be adjusted accordingly.</p>
+<p>An internal service is created for each of the the application&rsquo;s entities.   Services can be marked as active or inactive in the service configuration, thereby allowing a single application to be generated, while at the same time allowing selective service deployment.  For example, there may be cases where it is desirable to route certain services to a particular application instance and another set of services to the rest of the pool.  In such a case, a reverse-proxy could be configured to route the end-points appropriately, and the deployed service configurations would be adjusted accordingly.  Service activations are controlled via entries in the &lsquo;service_activations&rsquo; block of each application instance&rsquo;s configuration file.</p>
+
+<p>The following configuration file excerpt shows that the selected instance of the application is servicing &lsquo;Person&rsquo; entity requests, but is not presently servicing &lsquo;Car&rsquo; entity requests.  However, if a relationship exists between &lsquo;Person&rsquo; and &lsquo;Car&rsquo;, requests rooted on the &lsquo;Person&rsquo; entity but involving the &lsquo;Car&rsquo; entity will be accepted.  For example, the selected instance would not honor a GET request for ../car/1234, but would accept and process a request for ../person/1234/toCar.  In practice, the reverse-proxy/load-balancer should be configured to route requests to the correct end-point.</p>
+
+<pre><code class="language-JSON">
+...
+...,
+    &quot;service_activations&quot;: [
+        {
+            &quot;service_name&quot;:   &quot;Person&quot;,
+            &quot;service_active&quot;: true
+        },
+        {
+            &quot;service_name&quot;: &quot;Car&quot;,
+            &quot;service_active&quot;: false
+        }
+        ]
+}
+
+</code></pre>
 
 <h4 id="secure-user-authentication">Secure User Authentication</h4>
 
-<p>User authentication is conducted using bcrypt in such a manner that passwords are never stored in the application database.  When a user is created, their user-id is stored in the backend database along with the salt/peppered bcrypt hash of their password.  This ensures that in the event of a breach no plain-text passwords can be obtained.</p>
+<p>User authentication is conducted using bcrypt in such a manner that passwords are never stored in the application database.  When a user is created, their user-id is stored in the database along with the salt/peppered bcrypt hash of their password.  This ensures that in the event of a breach no plain-text passwords can be obtained.</p>
 
 <p>Bcrypt was chosen for the following reasons:</p>
 
@@ -1667,7 +1705,7 @@
 <p>When a user logs into the application the following steps occur:</p>
 
 <ul>
-<li>a lookup of the user-name and stored bcrypt hash is executed against the back-end db</li>
+<li>a lookup of the user-name and stored bcrypt hash is executed against the database</li>
 <li>the user provided password is hashed in memory using the Go standard lib bcrypt functions and the protected salt/pepper values</li>
 <li>the computed bcrypt hash is compared to the stored hash value for the user</li>
 <li>if the hash values match, a JWT (token) is created and signed using ECDSA-256 (adjustable to ECDSA-384, ECDSA-521, RSA-256, RSA-384, RSA-512)</li>
@@ -2545,6 +2583,22 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
                     
@@ -2855,20 +2909,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528475615"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528475615"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528475615"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528475615"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528475615"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528475615"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528475615"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528520108"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528520108"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528520108"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528520108"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528520108"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528520108"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528520108"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528475615"></script>
-    <script src="/jiffy/js/learn.js?1528475615"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528475615"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528520108"></script>
+    <script src="/jiffy/js/learn.js?1528520108"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528520108"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528475615" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528475615"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528520108" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528520108"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

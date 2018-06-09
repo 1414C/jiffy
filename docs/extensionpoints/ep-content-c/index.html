@@ -13,19 +13,19 @@
     <title>Model Extension Points :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528520108" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528475615" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528520108" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528475615"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528520108"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528475615"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528475615"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528520108"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528520108"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528475615"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528520108"></script>
 
     
   </div>
@@ -1131,6 +1131,25 @@
 
             
           
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/accesscontrol/ac-content-d/" title="Using External Identity Providers" class="dd-item ">
+        <a href="/jiffy/accesscontrol/ac-content-d/">
+        Using External Identity Providers
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
         
         </ul>
               
@@ -1647,12 +1666,12 @@
   </tr>
   <tr>
     <td><h5>BeforeDB(ent interface{}) error</h5>
-    BeforeDB is an extension-point that can be implemented in order to examine and potentially make changes to the values in the entity structure immediately before the insertion request is made to the ORM. This extension-point is the first code executed in the model's Create method. Authentication and Authorization checks should be performed upstream in the route middleware-layer and detailed checks of an entity's data should be carried out in the validator-layer.<p>
+    BeforeDB is a model extension-point that can be implemented in order to examine and potentially make changes to the values in the entity structure immediately before the insertion request is made to the ORM. This extension-point is the first code executed in the model's Create method. Authentication and Authorization checks should be performed upstream in the route middleware-layer and detailed checks of an entity's data should be carried out in the validator-layer.<p>
     </td>
   </tr>
   <tr>
     <td><h5>AfterDB(ent interface{}) error</h5>
-    CreateAfterDB is an extension-point that can be implemented in order to examine and potentially make changes to the values in the entity structure immediately following the return of the ORM insertion request. This extension-point is the last code executed in the model's Create method. As the insertion will have already occurred at this point, care should be taken when deciding whether to issue an error in this extension-point.  Augmentation of the of the Create result may be carried out in this method in order to calculate non-persistent entity values for example.<p>
+    CreateAfterDB is a model extension-point that can be implemented in order to examine and potentially make changes to the values in the entity structure immediately following the return of the ORM insertion request. This extension-point is the last code executed in the model's Create method. As the insertion will have already occurred at this point, care should be taken when deciding whether to issue an error in this extension-point.  Augmentation of the of the Create result may be carried out in this method in order to calculate non-persistent entity values for example.<p>
     </td>
   </tr>
 </table>
@@ -1664,12 +1683,12 @@
   </tr>
   <tr>
     <td><h5>BeforeDB(ent interface{}) error</h5>
-    BeforeDB is an extension-point that can be implemented in order to examine and potentially make changes to the values in the entity structure immediately before the update request is made to the ORM.  This extension-point is the first code executed in the model's Update method. Authentication and Authorization checks should be performed upstream in the route middleware-layer and detailed checks and normalization of the entity's data should be carried out in the validator-layer.<p>
+    BeforeDB is a model extension-point that can be implemented in order to examine and potentially make changes to the values in the entity structure immediately before the update request is made to the ORM.  This extension-point is the first code executed in the model's Update method. Authentication and Authorization checks should be performed upstream in the route middleware-layer and detailed checks and normalization of the entity's data should be carried out in the validator-layer.<p>
     </td>
   </tr>
   <tr>
     <td><h5>AfterDB(ent interface{}) error</h5>
-    AfterDB is an extension-point that can be implemented in order to examine and potentially make changes to the values in the entity structure immediately following the return of the ORM update request. This extension-point is the last code executed in the model's Update method. As the update will have already occurred at this point, care should be taken when deciding whether to issue an error in this extension-point.  Augmentation of the of the Update result may be carried out in this method in order to calculate non-persistent entity values for example.<p>
+    AfterDB is a model extension-point that can be implemented in order to examine and potentially make changes to the values in the entity structure immediately following the return of the ORM update request. This extension-point is the last code executed in the model's Update method. As the update will have already occurred at this point, care should be taken when deciding whether to issue an error in this extension-point.  Augmentation of the of the Update result may be carried out in this method in order to calculate non-persistent entity values for example.<p>
     </td>
   </tr>
 </table>
@@ -1681,12 +1700,12 @@
   </tr>
   <tr>
     <td><h5>BeforeDB(ent interface{}) error</h5>
-    BeforeDB is an extension-point that can be implemented in order to examine and potentially make changes to the values in the entity structure immediately before the read-entity request is made to the ORM. This extension-point is the first code executed in the model's Get method. Authentication and Authorization checks should be performed upstream in the route middleware-layer and detailed checks of an entity's data should be carried out in the validator-layer.<p>
+    BeforeDB is a model extension-point that can be implemented in order to examine and potentially make changes to the values in the entity structure immediately before the read-entity request is made to the ORM. This extension-point is the first code executed in the model's Get method. Authentication and Authorization checks should be performed upstream in the route middleware-layer and detailed checks of an entity's data should be carried out in the validator-layer.<p>
     </td>
   </tr>
   <tr>
     <td><h5>AfterDB(ent interface{}) error</h5>
-    AfterDB is an extension-point that can be implemented in order to examine and potentially make changes to the values in the entity structure immediately following the return of the ORM read-entity request. This extension-point is the last code executed in the model's Get method. As the read will have already occurred at this point, care should be taken when deciding whether to issue an error in this extension-point.  Augmentation of the of the Get result may be carried out in this method in order to calculate non-persistent entity values for example.<p>
+    AfterDB is a model extension-point that can be implemented in order to examine and potentially make changes to the values in the entity structure immediately following the return of the ORM read-entity request. This extension-point is the last code executed in the model's Get method. As the read will have already occurred at this point, care should be taken when deciding whether to issue an error in this extension-point.  Augmentation of the of the Get result may be carried out in this method in order to calculate non-persistent entity values for example.<p>
     Note that the AfterDB(ent interface{}) method is called after the single and set Get CRUD operations for an entity.<p>
     </td>
   </tr>
@@ -2518,6 +2537,22 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
                     
@@ -2828,20 +2863,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528475615"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528475615"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528475615"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528475615"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528475615"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528475615"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528475615"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528520108"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528520108"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528520108"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528520108"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528520108"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528520108"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528520108"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528475615"></script>
-    <script src="/jiffy/js/learn.js?1528475615"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528475615"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528520108"></script>
+    <script src="/jiffy/js/learn.js?1528520108"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528520108"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528475615" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528475615"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528520108" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528520108"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

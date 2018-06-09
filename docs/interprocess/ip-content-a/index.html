@@ -13,19 +13,19 @@
     <title>Group Membership Overview :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528475615" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528475615" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528520108" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528520108" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528475615" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528520108" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528475615"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528520108"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528475615"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528475615"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528520108"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528520108"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528475615"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528520108"></script>
 
     
   </div>
@@ -1131,6 +1131,25 @@
 
             
           
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/accesscontrol/ac-content-d/" title="Using External Identity Providers" class="dd-item ">
+        <a href="/jiffy/accesscontrol/ac-content-d/">
+        Using External Identity Providers
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
         
         </ul>
               
@@ -1633,15 +1652,16 @@
 <ul>
 <li>Jiffy-generated applications can be deployed as single or multiple instances.</li>
 <li>When running multiple instances of a Jiffy-generated application, a group-membership service establishes connectivity between all running instances.</li>
-<li>An application instance knows to start its group-membership service if the <strong>-gm</strong> flag is provided during startup.</li>
+<li>An application instance always runs a group-membership service, even when running as a single instance.</li>
 <li>Each application instance running the group-membership service can be thought of as a process.</li>
-<li>At any point in time, the group has an elected leader.  The group-leader information must be made available via an external persistent store.</li>
-<li>An interface is provided (gmcom.GMLeaderSetterGetter) in order to support the passing of implementation-specific persistent store accessors to a starting process.  This allows the implementer to store the persisted leader information in any accessible medium (ie. redis, db, flat-file etc.)</li>
-<li>Jiffy ships with a sample implementation of gmcom.GMLeaderSetterGetter that facilitates the use of a simple web-sockets-based key-store application (see github.com/1414C/sluggo).</li>
-<li>Each process has a uint id (PID) that is assigned by the <em>group-leader</em> upon joining the group.</li>
+<li>At any point in time, the group has an elected leader.<br /></li>
+<li>The group-leader information must be made available via an external persistent store, except in the case of single-instance operation.</li>
+<li>An interface is provided (gmcom.GMLeaderSetterGetter) in order to support the passing of implementation-specific persistent store accessors to a starting process.  This allows the implementer to persist the current group-leader information in any accessible medium (ie. redis, db, flat-file etc.)</li>
+<li>Jiffy ships with a sample implementation of gmcom.GMLeaderSetterGetter that facilitates the use of a simple web-sockets-based key-store application (<a href="https://github.com/1414C/sluggo">https://github.com/1414C/sluggo</a>).</li>
+<li>Each process has a uint id (PID) that is assigned by the group-leader upon joining the group.</li>
 <li>Processes join the group by querying the well-known persistent store to obtain the current group-leader information.  Once the group-leader is known, the joining instance contacts the leader&rsquo;s address:port and sends a JOIN message.  The leader will allocate a new PID for the joining process and send an ACK message in response.  The joining process set it&rsquo;s PID based on the PID contained in the ACK message.</li>
 <li>Processes can join and drop out of the group without any changes to the configuration.  Group-membership is managed dynamically via inter-process messaging between group-members.</li>
-<li>Each process knows the PID and maintains a local status of every other process in the group.</li>
+<li>Each process knows the PID of and maintains a local status of every other process in the group.</li>
 <li>Each process maintains a status-count for every other process in the group.</li>
 </ul>
 
@@ -2463,6 +2483,22 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
                     
@@ -2778,20 +2814,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528475615"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528475615"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528475615"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528475615"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528475615"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528475615"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528475615"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528520108"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528520108"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528520108"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528520108"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528520108"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528520108"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528520108"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528475615"></script>
-    <script src="/jiffy/js/learn.js?1528475615"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528475615"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528520108"></script>
+    <script src="/jiffy/js/learn.js?1528520108"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528520108"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528475615" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528475615"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528520108" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528520108"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
