@@ -13,19 +13,19 @@
     <title>Deployment on Bare Metal / VM&#39;s :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528819301" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528819301" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528819301" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528819301" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528819301" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528819301" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528819301" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528819301" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1528903116" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1528903116" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1528903116" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1528903116" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1528903116" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1528903116" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1528903116" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1528903116" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528819301" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1528903116" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528819301"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1528903116"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528819301"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528819301"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528903116"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528903116"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528819301"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1528903116"></script>
 
     
   </div>
@@ -1690,7 +1690,7 @@
 
 <p><img src="/jiffy/usage/images/BareMetal3.png" alt="BareMetalAllInOne" /></p>
 
-<p>The All-In-One Deployment diagram shows a jiffy-application instance running on a system with an ip-address of 192.168.1.5.  The application instance is accepting http client connections on port :8080, using port :7070 to listen for failure-detector &amp; cache synchronization messages.  The failure detector &lsquo;bus&rsquo; is used for group-leadership and inter-process cache messages, even when the application is run standalone (single process).</p>
+<p>The All-In-One Deployment diagram shows a jiffy-application instance running on a system with an ip-address of 192.168.1.5.  The application instance is accepting http client connections on port :8080 and using port :7070 to listen for failure-detector &amp; cache synchronization messages.  The failure detector &lsquo;bus&rsquo; is used for group-leadership and inter-process cache messages, even when the application is run standalone (single process).</p>
 
 <p>It is not necessary to run an external KVS if the jiffy-application will be run as a standalone process.  The KVS is used to hold the current group-leader information when jiffy applications are deployed with more than one instance.  When running without a KVS it is fine to leave the default gmcom.GetterSetter implementation as it is.  The application instance will attempt to contact the default KVS (<em>sluggo</em>) four times, then give up, assign itself a PID of 1 and assert leadership inside it&rsquo;s own process.  The short version is: don&rsquo;t worry about the KVS if you want to run a single instance of your jiffy application.</p>
 
@@ -1734,9 +1734,9 @@
 <li>Key-Value-Store</li>
 </ol>
 
-<p><img src="/jiffy/usage/images/BareMetal5.png" alt="BareMetalMultiInstance" /></p>
+<p><img src="/jiffy/usage/images/BareMetal8.png" alt="BareMetalMultiInstance" /></p>
 
-<p>The Multi-Instance Deployment diagram shows a number of jiffy-application instances running on individual hosts.  Each application instance is accepting http client connections on port :8080, using port :7070 to listen for failure-detector &amp; cache synchronization messages.  The failure detector &lsquo;bus&rsquo; is used for group-leadership and inter-process cache messages.  Each application instance is shown making a web-socket connection to its peers on ws:7070.</p>
+<p>The Multi-Instance Deployment diagram shows a number of jiffy-application instances running on individual hosts.  Each application instance is accepting http client connections on port :8080 and using port :7070 to listen for failure-detector &amp; cache synchronization messages.  The failure detector &lsquo;bus&rsquo; is used for group-leadership and inter-process cache messages.  Each application instance is shown making a web-socket connection to its peers on ws:7070.</p>
 
 <p>The KVS is used to hold the current group-leader information when jiffy applications are deployed with more than one instance.  See the <a href="/jiffy/interprocess/">Interprocess Communication</a> section for details regarding the use of the KVS with group-membership and group-leader election.</p>
 
@@ -2900,20 +2900,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528819301"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528819301"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528819301"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528819301"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528819301"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528819301"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528819301"></script>
+    <script src="/jiffy/js/clipboard.min.js?1528903116"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1528903116"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528903116"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1528903116"></script>
+    <script src="/jiffy/js/featherlight.min.js?1528903116"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528903116"></script>
+    <script src="/jiffy/js/highlight.pack.js?1528903116"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528819301"></script>
-    <script src="/jiffy/js/learn.js?1528819301"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528819301"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1528903116"></script>
+    <script src="/jiffy/js/learn.js?1528903116"></script>
+    <script src="/jiffy/js/hugo-learn.js?1528903116"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528819301" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528819301"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1528903116" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1528903116"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
