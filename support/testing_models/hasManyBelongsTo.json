@@ -48,6 +48,14 @@
                 "index": "nonUnique",
                 "selectable": "eq,like"
             },
+            "Author": {
+                "type": "string",
+                "format": "", 
+                "required": false,
+                "degault": "unknown author",
+                "index": "nonUnique",
+                "selectable": "eq,like"
+            },
             "Hardcover": {
                 "type": "bool",
                 "format": "", 
