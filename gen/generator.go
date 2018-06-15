@@ -480,7 +480,7 @@ func (i *Info) GetSqacTagLine(b bool) string {
 
 	// set the default
 	// if i.DefaultValue != "" && i.DefaultValue != "<nil>" {
-	if i.DefaultValue != "<nil>" {
+	if i.DefaultValue != "<nil>" && i.DefaultValue != "" {
 		i.sqacTagLineExtend(fmt.Sprintf("default:%v", i.DefaultValue))
 	}
 
