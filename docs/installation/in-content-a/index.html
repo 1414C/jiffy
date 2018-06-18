@@ -13,19 +13,19 @@
     <title>Jiffy Dependencies :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1528903115" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1528903115" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1528903115" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1528903115" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1528903115" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1528903115" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1528903115" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1528903115" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1529359609" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1529359609" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1529359609" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1529359609" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1529359609" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1529359609" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1529359609" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1529359609" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1528903115" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1529359609" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1528903115"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1529359609"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1528903115"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1528903115"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1529359609"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1529359609"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1528903115"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1529359609"></script>
 
     
   </div>
@@ -1531,6 +1531,25 @@
 
             
           
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/tt-content-c/" title="Test in a Docker Container" class="dd-item ">
+        <a href="/jiffy/tutorials/tt-content-c/">
+        Test in a Docker Container
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
         
         </ul>
               
@@ -1627,7 +1646,7 @@
 <ul>
 <li><a href="#supported-databases">Supported Databases</a></li>
 <li><a href="#database-drivers">Database Drivers</a></li>
-<li><a href="#sqac-orm">Sqac ORM</a></li>
+<li><a href="#other-dependencies">Other Dependencies</a></li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -1715,16 +1734,64 @@
 
 </code></pre>
 
-<h4 id="sqac-orm">Sqac ORM</h4>
+<p><br></br></p>
 
-<p>Jiffy also requires the sqac ORM.  This should be pulled down automatically during the Jiffy installation process, but can also be manually installed using <em>go get</em> as shown below.</p>
+<h4 id="other-dependencies">Other Dependencies</h4>
+
+<table>
+<thead>
+<tr>
+<th>Library Name</th>
+<th>Library Location</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>sqac ORM</td>
+<td>github.com/1414C/sqac</td>
+</tr>
+
+<tr>
+<td>sluggo Key-Value-Store</td>
+<td>github.com/1414C/sluggo</td>
+</tr>
+
+<tr>
+<td>jwt-go package</td>
+<td>github.com/dgrijalva/jwt-go</td>
+</tr>
+
+<tr>
+<td>gorilla mux package</td>
+<td>github.com/gorilla/mux</td>
+</tr>
+
+<tr>
+<td>web-sockets package</td>
+<td>golang.org/x/net/websocket</td>
+</tr>
+</tbody>
+</table>
+
+<p>If you wish to be certain that you have everything, copy and execute the following script in your development and build environments:</p>
 
 <pre><code class="language-bash">
-  go get -u github.com/1414C/sqac
+#!/usr/bin/bash
+
+go get -u github.com/1414C/sqac
+go get -u github.com/1414C/sluggo/wscl
+go get -u github.com/dgrijalva/jwt-go
+go get -u github.com/dgrijalva/jwt-go/request
+go get -u github.com/gorilla/mux
+go get -u golang.org/x/net/websocket
+go get -u github.com/SAP/go-hdb/driver
+go get -u github.com/denisenkom/go-mssqldb
+go get -u github.com/go-sql-driver/mysql
+go get -u github.com/lib/pq
+go get -u github.com/mattn/go-sqlite3
 
 </code></pre>
-
-<p>See the sqac ORM README.md file for verification and testing instructions.</p>
 
 
 <footer class=" footline" >
@@ -2853,6 +2920,22 @@
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
                     
@@ -2875,20 +2958,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1528903115"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1528903115"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1528903115"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1528903115"></script>
-    <script src="/jiffy/js/featherlight.min.js?1528903115"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1528903115"></script>
-    <script src="/jiffy/js/highlight.pack.js?1528903115"></script>
+    <script src="/jiffy/js/clipboard.min.js?1529359609"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1529359609"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1529359609"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1529359609"></script>
+    <script src="/jiffy/js/featherlight.min.js?1529359609"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1529359609"></script>
+    <script src="/jiffy/js/highlight.pack.js?1529359609"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1528903115"></script>
-    <script src="/jiffy/js/learn.js?1528903115"></script>
-    <script src="/jiffy/js/hugo-learn.js?1528903115"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1529359609"></script>
+    <script src="/jiffy/js/learn.js?1529359609"></script>
+    <script src="/jiffy/js/hugo-learn.js?1529359609"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1528903115" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1528903115"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1529359609" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1529359609"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

@@ -321,6 +321,15 @@ Member Communication The group-membership service communicates between processes
     </item>
     
     <item>
+      <title>Test in a Docker Container</title>
+      <link>https://1414c.github.io/jiffy/tutorials/tt-content-c/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/tutorials/tt-content-c/</guid>
+      <description>Overview We will create and deploy a sample application using the All-In-One approach inside a Docker container. To make things easy, we will use SQLite as the database, which means that the Dockerfile and entrypoint setup will be quite simple. Note that if you try to do the same thing with one of the other supported databases there will be some additional setup. Docker containers are typically used to provide single services.</description>
+    </item>
+    
+    <item>
       <title>Jiffy Application Architecture</title>
       <link>https://1414c.github.io/jiffy/overview/ov-content-d/</link>
       <pubDate>Sat, 10 Feb 2018 23:53:10 -0700</pubDate>
@@ -480,15 +489,6 @@ When you have finished and your Postman (or other test utility) looks like the f
     </item>
     
     <item>
-      <title>Deployment on Kubernetes</title>
-      <link>https://1414c.github.io/jiffy/usage/us-content-j/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://1414c.github.io/jiffy/usage/us-content-j/</guid>
-      <description> Deployment Overview </description>
-    </item>
-    
-    <item>
       <title>Create a Person</title>
       <link>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-b/</link>
       <pubDate>Tue, 06 Feb 2018 22:34:10 -0700</pubDate>
@@ -496,6 +496,15 @@ When you have finished and your Postman (or other test utility) looks like the f
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-b/</guid>
       <description>Now that we have successfully logged into the application and received our first JWT, it is time to create a new &amp;lsquo;Person&amp;rsquo; entity. Start by copying the content of the &amp;lsquo;token&amp;rsquo; tag from the login response body to the clipboard. This JWT must henceforth be included in the http header of every subsequent request.
 Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/person with the http POST method.</description>
+    </item>
+    
+    <item>
+      <title>Deployment on Kubernetes</title>
+      <link>https://1414c.github.io/jiffy/usage/us-content-j/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/usage/us-content-j/</guid>
+      <description> Deployment Overview </description>
     </item>
     
     <item>

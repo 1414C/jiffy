@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <title>Get a Person :: Jiffy Services Generator</title>
+    <title>Test in a Docker Container :: Jiffy Services Generator</title>
     
     
     <link href="/jiffy/css/nucleus.css?1529359609" rel="stylesheet">
@@ -35,7 +35,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/jiffy/getting-started/level-two/l2-content-e/">
+  <body class="" data-url="/jiffy/tutorials/tt-content-c/">
     <nav id="sidebar" class="">
 
 
@@ -221,7 +221,7 @@
   
     
     <li data-nav-id="/jiffy/getting-started/" title="Getting Started" class="dd-item 
-        parent
+        
         
         
         ">
@@ -324,7 +324,7 @@
   
     
     <li data-nav-id="/jiffy/getting-started/level-two/" title="Let&#39;s Test Something" class="dd-item 
-        parent
+        
         
         
         ">
@@ -424,7 +424,7 @@
  
   
     
-      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-e/" title="Get a Person" class="dd-item active">
+      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-e/" title="Get a Person" class="dd-item ">
         <a href="/jiffy/getting-started/level-two/l2-content-e/">
         Get a Person
         
@@ -1476,7 +1476,7 @@
   
     
     <li data-nav-id="/jiffy/tutorials/" title="Jiffy Tutorials" class="dd-item 
-        
+        parent
         
         
         ">
@@ -1538,7 +1538,7 @@
  
   
     
-      <li data-nav-id="/jiffy/tutorials/tt-content-c/" title="Test in a Docker Container" class="dd-item ">
+      <li data-nav-id="/jiffy/tutorials/tt-content-c/" title="Test in a Docker Container" class="dd-item active">
         <a href="/jiffy/tutorials/tt-content-c/">
         Test in a Docker Container
         
@@ -1624,13 +1624,7 @@
             
           
           
-            
-            
-          
-          
-            <a href='/jiffy/'></a> > <a href='/jiffy/getting-started/'>Getting Started</a> > <a href='/jiffy/getting-started/level-two/'>Let's Test Something</a> > Get a Person
-          
-         
+            <a href='/jiffy/'></a> > <a href='/jiffy/tutorials/'>Jiffy Tutorials</a> > Test in a Docker Container
           
          
           
@@ -1642,7 +1636,44 @@
                 
                     <div class="progress">
     <div class="wrapper">
-
+<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#steps">Steps</a>
+<ul>
+<li><a href="#verify-jiffy-installation">Verify Jiffy Installation</a></li>
+<li><a href="#generate-the-application">Generate the Application</a></li>
+<li><a href="#edit-the-configuration-file">Edit the Configuration File</a>
+<ul>
+<li><a href="#update-address-keys">Update Address Keys</a></li>
+<li><a href="#update-database-config">Update Database Config</a></li>
+</ul></li>
+<li><a href="#build-a-static-application-binary-for-alpine-linux">Build a Static Application Binary for Alpine Linux</a>
+<ul>
+<li><a href="#install-musl-gcc">Install Musl-gcc</a></li>
+<li><a href="#build-a-static-binary">Build a Static Binary</a></li>
+<li><a href="#build-a-dynamically-linked-binary">Build a Dynamically-Linked Binary</a></li>
+</ul></li>
+<li><a href="#create-a-dockerfile">Create a Dockerfile</a></li>
+<li><a href="#create-set-address-script">Create Set Address Script</a></li>
+<li><a href="#build-the-image">Build the Image</a>
+<ul>
+<li><a href="#view-the-image">View the Image</a></li>
+<li><a href="#use-the-image">Use the Image</a></li>
+<li><a href="#check-the-container-status">Check the Container Status</a></li>
+<li><a href="#ssh-into-the-container">SSH into the Container</a></li>
+</ul></li>
+<li><a href="#login-to-the-application">Login to the Application</a></li>
+<li><a href="#create-a-library">Create a Library</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
     </div>
 </div>
 
@@ -1654,29 +1685,523 @@
         
         <div id="body-inner">
           
-            <h1>Get a Person</h1>
+            <h1>Test in a Docker Container</h1>
           
 
         
 
 
-<p>What if we need to read a single &lsquo;Person&rsquo;, or isolate a &lsquo;Person&rsquo; entity from a list of entities?  Let&rsquo;s try reading a &lsquo;Person&rsquo; entity using its &lsquo;id&rsquo; key.</p>
 
-<p>Create a new tab in Postman and specify a target URL of <code>http://127.0.0.1:8080/person/10000001</code> making sure to select the http GET method.  Next, add the following key-value pair to the http header:</p>
+
+<h3 id="overview">Overview</h3>
+
+<p>We will create and deploy a sample application using the All-In-One approach inside a Docker container.  To make things easy, we will use SQLite as the database, which means that the Dockerfile and entrypoint setup will be quite simple.  Note that if you try to do the same thing with one of the other supported databases there will be some additional setup.  Docker containers are <em>typically</em> used to provide single services.</p>
+
+<p>SQLite lets us do all-in-one in Docker, as SQLite is a library facilitating access to a file rather than a database service available at an address:port.  Our Dockerfile -&gt; entrypoint only has to start one thing: our application.</p>
+
+<h3 id="steps">Steps</h3>
+
+<ol>
+<li>Verify the Jiffy installation.</li>
+<li>Generate a new application using a sample model file from the Jiffy source-tree.</li>
+<li>Edit the application&rsquo;s configuration file for SQLite and Docker use.</li>
+<li>Statically compile a binary for inclusion in the Docker image.</li>
+<li>Write a simple Dockerfile to create a runnable image.</li>
+<li>Write a small script to update the image&rsquo;s .dev.config.json file with the container&rsquo;s ipv4 address</li>
+<li>Create and container from the image and start the container.</li>
+<li>Test access to the application running in the container using Postman.</li>
+<li>Stop the container.</li>
+<li>Cleanup the Docker environment.</li>
+</ol>
+
+<h4 id="verify-jiffy-installation">Verify Jiffy Installation</h4>
+
+<p>Ensure that Jiffy has been installed on your workstation by following the instructions provided in the <a href="/jiffy/installation">Jiffy Installation</a> section.</p>
+
+<h4 id="generate-the-application">Generate the Application</h4>
+
+<p>We will generate a new application from a <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/hasManyBelongsTo.json">model file</a> that contains a Library and Book entity.  Two relationships are maintained in the model; a Library hasMany Books and a Book belongsTo a specific Library.  An application generated from this model will allow many Jiffy application features to be tested.</p>
+
+<p>Open a terminal window on your workstation and run jiffy using the Library-Book model file to generate the source-code for our test application as follows:</p>
+
+<pre><code class="language-bash">
+$ jiffy -m $GOPATH/src/github.com/1414C/jiffy/support/testing_models/hasManyBelongsTo.json -p /exp/libraryapp
+
+</code></pre>
+
+<p><a href="/jiffy/execution/ex-content-b/#generation-flags">Remember that the -p flag</a> expects to be provided with an existing path underneath your $GOPATH/src folder.  In the example invocation shown above, jiffy will create the &lsquo;libraryapp&rsquo; folder underneath $GOPATH/src/exp/ and then write the generated source-code to this location.</p>
+
+<p>Execution of the generator should result in the following output.</p>
+
+<pre><code class="language-code">
+Aardvark:jiffy stevem$ go run main.go -m $GOPATH/src/github.com/1414C/jiffy/support/testing_models/hasManyBelongsTo.json -p /exp/libraryapp
+2018/06/15 14:44:11 generated: /Users/stevem/gowork/src/exp/libraryapp/models/librarym.go
+2018/06/15 14:44:11 generated: /Users/stevem/gowork/src/exp/libraryapp/models/librarym_ext.go
+2018/06/15 14:44:11 generated: /Users/stevem/gowork/src/exp/libraryapp/controllers/libraryc.go
+...
+...
+...
+2018/06/15 14:44:13 executing /usr/local/go/bin/goimports -w /Users/stevem/gowork/src/exp/libraryapp/util/strings.go
+2018/06/15 14:44:13 executing /usr/local/go/bin/gofmt -w /Users/stevem/gowork/src/exp/libraryapp/util/strings.go
+2018/06/15 14:44:13 executing /usr/local/go/bin/goimports -w /Users/stevem/gowork/src/exp/libraryapp/appobj/appconf.go
+2018/06/15 14:44:13 executing /usr/local/go/bin/gofmt -w /Users/stevem/gowork/src/exp/libraryapp/appobj/appconf.go
+Aardvark:jiffy stevem$
+
+</code></pre>
+
+<p>Your output may look slightly different, particularly the database connection test which will almost certainly fail.  This is nothing to be concerned about, as the generator is attempting to connect to a local postgres instance using bad credentials.</p>
+
+<h4 id="edit-the-configuration-file">Edit the Configuration File</h4>
+
+<h5 id="update-address-keys">Update Address Keys</h5>
+
+<p>The next step is to edit the generated application&rsquo;s configuration files.  Docker allocates a static ip-address for each container by default, and we will use that address in the configuration file.  &lsquo;external_address&rsquo; refers to the address at which the application&rsquo;s end-points will be available, while the &lsquo;internal_address&rsquo; is used for cache updates and interprocess communication over web-socket connections.  Strictly speaking, in a single-instance Docker deployment we could get away with doing something like this:</p>
+
+<pre><code class="language-json">.dev.config.json
+
+{
+    &quot;external_address&quot;: &quot;:8080&quot;,
+    &quot;internal_address&quot;: &quot;:4444&quot;,
+    &quot;env&quot;: &quot;dev&quot;,
+    ...
+    ...
+}
+
+</code></pre>
+
+<p>However, we will show how to obtain and insert the container&rsquo;s real ip-address into the configuration file.  This will be useful later if you deploy multiple application instances in Docker containers.</p>
+
+<p>We will replace localhost address 127.0.0.1 with a mask which will be used as an address placeholder.  Using an illegal ipv4 address ensures that the container will not start in the event that the container&rsquo;s address could not be assigned to the config keys.</p>
+
+<p>Open the generated <em>.dev.config.json</em> file in an editor and update the &lsquo;external_address&rsquo; and &lsquo;internal_address&rsquo; values with &ldquo;xxx.xxx.xxx.xxx:8080&rdquo; and &ldquo;xxx.xxx.xxx.xxx:4444&rdquo; respectively.  When you have finished, save the file after verifying that it looks like this:</p>
+
+<pre><code class="language-json">.dev.config.json
+
+{
+    &quot;external_address&quot;: &quot;xxx.xxx.xxx.xxx:8080&quot;,
+    &quot;internal_address&quot;: &quot;xxx.xxx.xxx.xxx:4444&quot;,
+    &quot;env&quot;: &quot;dev&quot;,
+    ...
+    ...
+
+}
+
+</code></pre>
+
+<h5 id="update-database-config">Update Database Config</h5>
+
+<p>Jiffy generates configuration files targeting a Postgres database by default.  As we intend to use SQLite in our all-in-one Docker test deployment, the &lsquo;database&rsquo; block in <em>.dev.config.json</em> must be updated as follows:</p>
+
+<pre><code class="language-json">.dev.config.json
+
+{
+    ...
+    &quot;database&quot;: {
+        &quot;db_dialect&quot;: &quot;sqlite&quot;,
+        &quot;host&quot;:       &quot;&quot;,
+        &quot;port&quot;:       0,
+        &quot;usr&quot;:        &quot;&quot;,
+        &quot;password&quot;:   &quot;&quot;,
+        &quot;name&quot;:       &quot;testdb.db&quot;
+    },
+    ...
+}
+
+</code></pre>
+
+<p><br></br></p>
+
+<h4 id="build-a-static-application-binary-for-alpine-linux">Build a Static Application Binary for Alpine Linux</h4>
+
+<p>Next, we need to build a static application binary for linux/amd64.  To build the application, a number of dependencies are required as outlined in the <a href="/jiffy/installation/in-content-a/#what-does-jiffy-need-to-run">Jiffy Dependencies</a> section of the documentation.</p>
+
+<p>This example uses the popular <a href="https://alpinelinux.org/">Alpine Linux distribution</a> as the basis for the new container image.  Alpine Linux is a very small distribution making it nice for use with containers.  There are a few things to be aware of however&hellip;</p>
+
+<p>Alpine is built with <a href="https://www.musl-libc.org/">lib-musl</a> which means that binaries built by &lsquo;go build&rsquo; must target lib-musl rather than lib-gcc.  If you were to simply run &lsquo;go build -o main .&rsquo; on your workstation, the generated binary would almost certainly not work on Alpine.  The good news is that this is pretty easy to build with musl-gcc, the bad news is that musl-gcc is available for Linux only.</p>
+
+<p>First we need to check if lib-musl has been installed on your workstation.  Run the following command to see if musl-gcc is in the $PATH:</p>
+
+<pre><code class="language-bash">
+which musl-gcc
+/usr/bin/musl-gcc
+
+</code></pre>
+
+<p>If musl-gcc was found, you may skip over the musl-gcc installation instructions.</p>
+
+<h5 id="install-musl-gcc">Install Musl-gcc</h5>
+
+<p>We will go over how to install musl-gcc on a Debian system, but the steps are largely the same for any Linux distribution.  Use your distro&rsquo;s package manager to install the musl lib, musl development files and musl development tools.  Run the following commands in a terminal window on your linux build system:</p>
+
+<pre><code>
+sudo apt-get update
+sudo apt-get install musl
+sudo apt-get install musl-dev
+sudo apt-get install musl-tools
+
+</code></pre>
+
+<p>Check to make sure that musl-gcc is now in the $PATH:</p>
+
+<pre><code class="language-bash">
+which musl-gcc
+/usr/bin/musl-gcc
+
+</code></pre>
+
+<h5 id="build-a-static-binary">Build a Static Binary</h5>
+
+<p>After ensuring that all of the required dependencies have been installed in the build environment, run the following command to build the &lsquo;main&rsquo; binary for the Alpine Linux target OS adjusting your GOARCH as necessary:</p>
+
+<pre><code class="language-bash">
+CGO=0 GOOS=linux GOARCH=amd64 CC=$(which musl-gcc) go build --ldflags '-w -linkmode external -extldflags &quot;-static&quot;' -a -tags netgo -installsuffix cgo -o main .
+
+</code></pre>
+
+<p>Running <em>go build</em> with CGO=0 and setting the -a flag forces a rebuild without cross-compilation dependencies (static).  Setting &ndash;ldflags as shown instructs <em>go build</em> to produce a statically linked binary.  Once the build has completed, a new &lsquo;main&rsquo; file will have been created.  Check the file via the &lsquo;file&rsquo; command:</p>
+
+<pre><code class="language-bash">
+file main
+main: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, not stripped
+
+</code></pre>
+
+<h5 id="build-a-dynamically-linked-binary">Build a Dynamically-Linked Binary</h5>
+
+<p>This is optional and will produce a marginally smaller binary.  We will not use a dynamically-linked binary in this example and this has been included for reference purposes only.</p>
+
+<pre><code class="language-bash">
+CGO=0 GOOS=linux GOARCH=amd64 CC=$(which musl-gcc) go build -a -tags netgo -installsuffix cgo -o main .
+
+</code></pre>
+
+<p>Running <em>go build</em> with CGO=0 and setting the -a flag forces a rebuild without cross-compilation dependencies (static).  <em>go build</em> produces dynamically-linked binaries by default, so no linker instructions have been provided.  Once the build has completed, a new &lsquo;main&rsquo; file will have been created.  Check the file via the &lsquo;file&rsquo; command:</p>
+
+<pre><code class="language-bash">
+file main
+main: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-x86_64.so.1, not stripped
+
+</code></pre>
+
+<p><br></br></p>
+
+<h4 id="create-a-dockerfile">Create a Dockerfile</h4>
+
+<p>Verify that you have docker installed on your workstation.  The easiest way to do this is to run <em>which docker</em> in a terminal window to ensure the docker application is in your $PATH.  If there is no response, check your $PATH or install docker following the instructions at <a href="https://www.docker.com/get-docker">www.docker.com</a>.</p>
+
+<p>In order to deploy the compiled all-in-one application in a Docker container, we need to create a Dockerfile.  The &lsquo;docker build&rsquo; command uses the Dockerfile as a set of instructions when building an image.  We will use Alpine Linux as the foundation for our new Docker container image.  Dockerhub has a number of pre-defined images that are available to be &lsquo;pulled&rsquo; into locally defined custom images.</p>
+
+<p>Create a new file called &lsquo;Dockerfile&rsquo; in the root folder of the libraryapp source-tree and open it in your editor.  Copy the following content into the new Dockerfile:</p>
+
+<pre><code class="language-Dockerfile">
+# use the official alpine:3.7 base image
+FROM alpine:3.7
+
+# set the maintainer information for the new image
+LABEL maintainer=&quot;&lt;stevem@1414c.io&gt;&quot;
+
+# add the compiled application binary to the root folder of the new image
+ADD main ./
+
+# copy the configuration file to the root folder of the new image
+COPY .dev.config.json .
+
+# add the setaddress.sh shell script to the root folder of the new image
+ADD setaddress.sh .
+
+# set widely exectuable permission on the shell-script
+RUN /bin/chmod 755 setaddress.sh
+
+# execute setaddress.sh to update .dev.config.json with the ipv4 address bound to eth0
+RUN sh setaddress.sh
+
+# create a directory in the root folder of the new image to hold the jwt signing keys
+RUN mkdir jwtkeys
+
+# copy the jwtkeys folder content into the image's /jwtkeys folder
+COPY jwtkeys ./jwtkeys
+
+# set container environment variable $PORT to 8080
+ENV PORT 8080
+
+# container will listen on port tcp/8080
+EXPOSE 8080
+
+# install sqlite3 into the image
+RUN apk update \
+    &amp;&amp; apk add sqlite \
+&amp;&amp; apk add socat
+
+# add unix file command
+RUN apk add file
+
+#RUN mkdir /db
+
+# create a test.db file in the root folder (don't really need to do this, but it is a nice test when getting started)
+RUN /usr/bin/sqlite3 /test.db
+
+# specify the flag(s) to be used with the ENTRYPOINT
+CMD [&quot;-dev&quot;]
+
+# set the container entrypoint - container executes this once it is up and running
+# in more complex setups, one would perhaps execute a shell-script here.
+ENTRYPOINT [&quot;/main&quot;]
+
+</code></pre>
+
+<h4 id="create-set-address-script">Create Set Address Script</h4>
+
+<p>Remember how we updated <em>.dev.config.json</em> with xxx.xxx.xxx.xxx ipv4 address mask?  In order to replace the mask with the container&rsquo;s ipv4 address, the <em>docker build</em> command will run the setaddress.sh script as instructed in the Dockerfile.  At the moment this is a problem however, as we have not written the script yet.  Create a new file called &lsquo;setaddress.sh&rsquo; in the root folder of the libraryapp source-tree and open it in your editor.  Copy the following content into the new setaddress.sh file:</p>
+
+<pre><code class="language-bash">
+#!/bin/sh
+
+# get the ipv4 address assigned to eth0
+replace=$(ifconfig eth0 | grep &quot;inet addr&quot; | cut -d ':' -f 2 | cut -d ' ' -f 1)
+
+# set a variable with the value we are planning to replace
+search=&quot;xxx.xxx.xxx.xxx&quot;
+
+# check that variable replace has something in it
+if [ -z &quot;$replace&quot; ]; then
+  echo &quot;Did not get an address value for eth0&quot;
+elif [ -n &quot;$replace&quot; ]; then
+  echo &quot;${replace} found&quot;
+# replace all instances of 'xxx.xxx.xxx.xxx' in .dev.config.json
+# with the ipv4 address in the ${replace} variable
+  sed -i &quot;s/${search}/${replace}/g&quot; .dev.config.json
+fi
+
+</code></pre>
+
+<p><br></br></p>
+
+<h4 id="build-the-image">Build the Image</h4>
+
+<p>Assuming the previous steps have been successful, it is now time to build the new Docker image.  Execute the following command from the libraryapp root folder:</p>
+
+<pre><code class="language-bash">
+docker build -t libraryapp .
+
+Sending build context to Docker daemon  16.41MB
+Step 1/16 : FROM alpine:3.7
+ ---&gt; 3fd9065eaf02
+Step 2/16 : LABEL maintainer=&quot;&lt;stevem@1414c.io&gt;&quot;
+ ---&gt; Running in 47f1ff866746
+Removing intermediate container 47f1ff866746
+ ---&gt; af8bc433ad48
+Step 3/16 : ADD main ./
+ ---&gt; 7c5cbfc98e7e
+Step 4/16 : COPY .dev.config.json .
+ ---&gt; 32ac01018170
+Step 5/16 : ADD setaddress.sh .
+ ---&gt; 4f5d82578eed
+Step 6/16 : RUN /bin/chmod 755 setaddress.sh
+ ---&gt; Running in ff241174089e
+Removing intermediate container ff241174089e
+ ---&gt; 23a9fcb90c9a
+Step 7/16 : RUN sh setaddress.sh
+ ---&gt; Running in 0bcdc5263d56
+172.17.0.2 found
+Removing intermediate container 0bcdc5263d56
+ ---&gt; 8543b41fa43a
+Step 8/16 : RUN mkdir jwtkeys
+ ---&gt; Running in 859323f7edca
+Removing intermediate container 859323f7edca
+ ---&gt; 1c2be131954d
+Step 9/16 : COPY jwtkeys ./jwtkeys
+ ---&gt; 5479e1e2af20
+Step 10/16 : ENV PORT 8080
+ ---&gt; Running in 609f67bf3c24
+Removing intermediate container 609f67bf3c24
+ ---&gt; 9ad74036c899
+Step 11/16 : EXPOSE 8080
+ ---&gt; Running in 9be154f90812
+Removing intermediate container 9be154f90812
+ ---&gt; 0543413c0e72
+Step 12/16 : RUN apk update     &amp;&amp; apk add sqlite &amp;&amp; apk add socat
+ ---&gt; Running in 497ee534989c
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.7/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.7/community/x86_64/APKINDEX.tar.gz
+v3.7.0-204-gd59577c011 [http://dl-cdn.alpinelinux.org/alpine/v3.7/main]
+v3.7.0-203-g63878b91a7 [http://dl-cdn.alpinelinux.org/alpine/v3.7/community]
+OK: 9054 distinct packages available
+(1/5) Installing ncurses-terminfo-base (6.0_p20171125-r0)
+(2/5) Installing ncurses-terminfo (6.0_p20171125-r0)
+(3/5) Installing ncurses-libs (6.0_p20171125-r0)
+(4/5) Installing readline (7.0.003-r0)
+(5/5) Installing sqlite (3.21.0-r1)
+Executing busybox-1.27.2-r7.trigger
+OK: 13 MiB in 16 packages
+(1/1) Installing socat (1.7.3.2-r3)
+Executing busybox-1.27.2-r7.trigger
+OK: 13 MiB in 17 packages
+Removing intermediate container 497ee534989c
+ ---&gt; 42ed4e066895
+Step 13/16 : RUN apk add file
+ ---&gt; Running in d184e4af2738
+(1/2) Installing libmagic (5.32-r0)
+(2/2) Installing file (5.32-r0)
+Executing busybox-1.27.2-r7.trigger
+OK: 18 MiB in 19 packages
+Removing intermediate container d184e4af2738
+ ---&gt; ee8aedbf2af3
+Step 14/16 : RUN /usr/bin/sqlite3 /test.db
+ ---&gt; Running in 49f2d06cb7fc
+Removing intermediate container 49f2d06cb7fc
+ ---&gt; 30cdd7ca006a
+Step 15/16 : CMD [&quot;-dev&quot;]
+ ---&gt; Running in fae71eaf7065
+Removing intermediate container fae71eaf7065
+ ---&gt; 22337789d2c6
+Step 16/16 : ENTRYPOINT [&quot;/main&quot;]
+ ---&gt; Running in 8c0bcacd5822
+Removing intermediate container 8c0bcacd5822
+ ---&gt; 85bcc32c0de4
+Successfully built 85bcc32c0de4
+Successfully tagged libraryapp:latest
+Aardvark:libraryapp stevem$
+
+</code></pre>
+
+<h5 id="view-the-image">View the Image</h5>
+
+<p>You can run the <em>docker image</em> command to view some basic data regarding the new image:</p>
+
+<pre><code class="language-bash">
+docker image ls library*
+
+REPOSITORY      TAG                 IMAGE ID            CREATED                  SIZE
+libraryapp      latest              85bcc32c0de4        Less than a second ago   23.6MB
+Aardvark:libraryapp stevem$
+
+</code></pre>
+
+<h5 id="use-the-image">Use the Image</h5>
+
+<p>Once the image has been created, the next step is to use it to create a container.  This can be done in a single step where docker creates the container and then starts it.  Run the following command to create and start a new container from the libraryapp image:</p>
+
+<pre><code class="language-bash">
+docker run --name libraryapp -p 8080:8080 -d libraryapp
+c3709b8d6c623670ec81c6fc222a8bef2ff58e47706c360a1e90b85fd33661e4
+Aardvark:libraryapp stevem$
+
+</code></pre>
+
+<p>If all went well, docker created a container from the libraryapp image and then started it.  The flags provided with the <em>docker run</em> command do the following:</p>
 
 <ul>
-<li><code>Authorization</code> : <code>Bearer *paste-your-JWT-here*</code></li>
+<li>&ndash;name - the image to use</li>
+<li>-p - used to bind the host&rsquo;s tcp/8080 port to container port tcp/8080</li>
+<li>-d - detach</li>
 </ul>
 
-<p>When you have finished, the test session should look as follows and it is time to read &lsquo;Person&rsquo; 10000001 from the database.  Click &lsquo;Send&rsquo; to issue our read request to the application.</p>
+<h5 id="check-the-container-status">Check the Container Status</h5>
 
-<p><img src="../images/l2-get-person-a.jpg" alt="l2-get-person-a" />
+<p>Container status can be checked via the docker ps command:</p>
+
+<pre><code class="language-bash">
+docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES
+532180e4716c        libraryapp          &quot;/main -dev&quot;        About an hour ago   Up About an hour    0.0.0.0:8080-&gt;8080/tcp   libraryapp
+Aardvark:libraryapp stevem$
+
+</code></pre>
+
+<p>The output of the command shows that the libraryapp container was started with entrypoint &lsquo;/main -dev&rsquo; and that container port :8080 is mapped to host port :8080.</p>
+
+<h5 id="ssh-into-the-container">SSH into the Container</h5>
+
+<p>We can ssh into the container to see what is going on using the command shown in the following terminal session.  The command logs in as root using the interactive shell specified (in this case /bin/sh).  Check that &lsquo;main -dev&rsquo; is running as expected using the <em>ps</em> command.</p>
+
+<pre><code class="language-bash">
+docker exec -it libraryapp /bin/sh
+/ # ps -ef
+PID   USER     TIME   COMMAND
+    1 root       0:13 /main -dev
+   25 root       0:00 /bin/sh
+   31 root       0:00 ps -ef
+/ #
+
+</code></pre>
+
+<p>If you like, take a look around and verify that the content of .dev.config.json has been updated with the correct ip-address using the <em>ifconfig/cat</em> commands.  Remember that the docker container is created with a static ipv4 address assigned to the eth0 interface.  Verify that the eth0 ipv4 address has been added to the &lsquo;external_address&rsquo; and &lsquo;internal_address&rsquo; keys in .dev.config.json.</p>
+
+<pre><code class="language-bash">
+/ # ifconfig
+eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:02
+          inet addr:172.17.0.2  Bcast:172.17.255.255  Mask:255.255.0.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:234 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:214 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:14515 (14.1 KiB)  TX bytes:13329 (13.0 KiB)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:55613 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:55613 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1
+          RX bytes:9736184 (9.2 MiB)  TX bytes:9736184 (9.2 MiB)
+
+/ # cat .dev.config.json
+{
+    &quot;external_address&quot;: &quot;172.17.0.2:8080&quot;,
+    &quot;internal_address&quot;: &quot;172.17.0.2:4444&quot;,
+    &quot;env&quot;: &quot;dev&quot;,
+    ...
+    ...
+    ...
+            &quot;service_name&quot;:   &quot;Book&quot;,
+            &quot;service_active&quot;: true
+        }
+        ]
+}/ #
+
+</code></pre>
+
+<p><br></br></p>
+
+<h4 id="login-to-the-application">Login to the Application</h4>
+
+<p>Launch Postman or your favorite RESTful service testing tool and specify a target URL of: <code>http://127.0.0.1:8080/usr/login</code> making sure to select the http POST method.  Maintain the request body to provide a user-id and password as shown in the following JSON snippet.  Typically the user-id for a Jiffy application is an email address, but we make an exception for the default administration user.</p>
+
+<pre><code class="language-bash">
+    {
+        &quot;email&quot;: &quot;admin&quot;,
+        &quot;password&quot;: &quot;initpass&quot;
+    }
+
+</code></pre>
+
+<p><br/></p>
+
+<p>When you have finished and your Postman (or other test utility) looks like the following image, click the &lsquo;Send&rsquo; button to post your login request to the running application.
+<img src="../images/login-a.jpg" alt="Enter login credentials" /></p>
+
+<p><br/>
+If all goes well, you will get a http response code of 200 (status ok), and a block of JSON with a single &lsquo;token&rsquo; tag containing a jumble of letters and numbers.  This is the JWT that will be used to validate our authorization to access the Library and Book entity service end-points.  If you want to read more about JWT&rsquo;s, <a href="https://jwt.io">jwt.io</a> is a good place to start, or you can refer to the <a href="/jiffy/accesscontrol/index.html">Access Control</a> section of this document set.
+<img src="../images/login-b.jpg" alt="Login" />
 <br/></p>
 
-<p>We just read the &lsquo;Person&rsquo; entity with &lsquo;id&rsquo; key 10000001.  While this is not a very human-friendly way to search for a person, it is a simple way to isolate and reference an entity for reading, updating or deletion.</p>
+<h4 id="create-a-library">Create a Library</h4>
 
-<p><img src="../images/l2-get-person-b.jpg" alt="l2-get-person-b" />
-<br/></p>
+<p>We will create a new Library entity.  Configure your test-tool to POST to the &lsquo;library&rsquo; service as shown in the following image:</p>
+
+<p><img src="../images/post_lib_1.jpg" alt="PostLib1" /></p>
+
+<p>Copy the JWT from the login session and paste it into the new POST request&rsquo;s Authorization header field as shown below and then submit the request to the application.</p>
+
+<p><img src="../images/post_lib_2.jpg" alt="PostLib2" /></p>
+
+<p>Following submission, a new Library entity should have been created:</p>
+
+<p><img src="../images/post_lib_3.jpg" alt="PostLib3" /></p>
+
+<p>Create another Library using &lsquo;Create a Library&rsquo; steps and then request a list of Library entities using GET ../librarys end-point:</p>
+
+<p><img src="../images/get_libs_1.jpg" alt="GetLibs1" /></p>
 
 
 <footer class=" footline" >
@@ -1814,7 +2339,6 @@
             
                 
                     
-                    
                 
                 
 
@@ -1829,9 +2353,6 @@
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -1897,7 +2418,6 @@
             
                 
                     
-                    
                 
                 
 
@@ -1910,9 +2430,6 @@
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -1978,7 +2495,6 @@
             
                 
                     
-                    
                 
                 
 
@@ -1994,9 +2510,6 @@
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -2772,6 +3285,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -2784,6 +3298,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -2816,6 +3333,7 @@
             
             
                 
+                    
                     
                 
                 
@@ -2838,10 +3356,10 @@
 
 
         
-            <a class="nav nav-prev" href="/jiffy/getting-started/level-two/l2-content-d/" title="Get Some Persons"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/jiffy/tutorials/tt-content-b/" title="Dealing with mixed/multipart"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/jiffy/getting-started/level-two/l2-content-f/" title="Update a Person" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/jiffy/tutorials/tt-content-a/" title="Hand Coding a Custom Join" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 

@@ -29,5 +29,14 @@
       <description> Supporting mixed/multipart </description>
     </item>
     
+    <item>
+      <title>Test in a Docker Container</title>
+      <link>https://1414c.github.io/jiffy/tutorials/tt-content-c/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/tutorials/tt-content-c/</guid>
+      <description>Overview We will create and deploy a sample application using the All-In-One approach inside a Docker container. To make things easy, we will use SQLite as the database, which means that the Dockerfile and entrypoint setup will be quite simple. Note that if you try to do the same thing with one of the other supported databases there will be some additional setup. Docker containers are typically used to provide single services.</description>
+    </item>
+    
   </channel>
 </rss>
