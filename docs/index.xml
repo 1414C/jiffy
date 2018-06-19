@@ -326,7 +326,7 @@ Member Communication The group-membership service communicates between processes
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://1414c.github.io/jiffy/tutorials/tt-content-c/</guid>
-      <description>Overview We will create and deploy a sample application using the All-In-One approach inside a Docker container. To make things easy, we will use SQLite as the database, which means that the Dockerfile and entrypoint setup will be quite simple. Note that if you try to do the same thing with one of the other supported databases there will be some additional setup. Docker containers are typically used to provide single services.</description>
+      <description>Overview We will create and deploy a sample application using the All-In-One approach inside a Docker container. To make things easy, we will use SQLite as the database, which means that the Dockerfile and entrypoint setup will be quite simple. Note that if you try to do the same thing with one of the other supported databases there will be some additional configuration. Docker containers are typically used to provide single services.</description>
     </item>
     
     <item>
@@ -500,10 +500,10 @@ Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/pe
     
     <item>
       <title>Deployment on Kubernetes</title>
-      <link>https://1414c.github.io/jiffy/usage/us-content-j/</link>
+      <link>https://1414c.github.io/jiffy/usage/us-content-k/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://1414c.github.io/jiffy/usage/us-content-j/</guid>
+      <guid>https://1414c.github.io/jiffy/usage/us-content-k/</guid>
       <description> Deployment Overview </description>
     </item>
     

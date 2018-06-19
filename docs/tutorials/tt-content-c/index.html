@@ -13,19 +13,19 @@
     <title>Test in a Docker Container :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1529370484" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1529370484" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1529370484" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1529370484" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1529370484" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1529370484" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1529370484" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1529370484" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1529384576" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1529384576" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1529384576" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1529384576" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1529384576" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1529384576" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1529384576" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1529384576" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1529370484" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1529384576" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1529370484"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1529384576"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1529370484"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1529370484"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1529384576"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1529384576"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1529370484"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1529384576"></script>
 
     
   </div>
@@ -1449,8 +1449,8 @@
  
   
     
-      <li data-nav-id="/jiffy/usage/us-content-j/" title="Deployment on Kubernetes" class="dd-item ">
-        <a href="/jiffy/usage/us-content-j/">
+      <li data-nav-id="/jiffy/usage/us-content-k/" title="Deployment on Kubernetes" class="dd-item ">
+        <a href="/jiffy/usage/us-content-k/">
         Deployment on Kubernetes
         
         </a>
@@ -1669,6 +1669,9 @@
 </ul></li>
 <li><a href="#login-to-the-application">Login to the Application</a></li>
 <li><a href="#create-a-library">Create a Library</a></li>
+<li><a href="#create-a-book">Create a Book</a></li>
+<li><a href="#library-tobooks">Library toBooks</a></li>
+<li><a href="#book-tolibrary">Book toLibrary</a></li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -1695,7 +1698,7 @@
 
 <h3 id="overview">Overview</h3>
 
-<p>We will create and deploy a sample application using the All-In-One approach inside a Docker container.  To make things easy, we will use SQLite as the database, which means that the Dockerfile and entrypoint setup will be quite simple.  Note that if you try to do the same thing with one of the other supported databases there will be some additional setup.  Docker containers are <em>typically</em> used to provide single services.</p>
+<p>We will create and deploy a sample application using the All-In-One approach inside a Docker container.  To make things easy, we will use SQLite as the database, which means that the Dockerfile and entrypoint setup will be quite simple.  Note that if you try to do the same thing with one of the other supported databases there will be some additional configuration.  Docker containers are <em>typically</em> used to provide single services.</p>
 
 <p>SQLite lets us do all-in-one in Docker, as SQLite is a library facilitating access to a file rather than a database service available at an address:port.  Our Dockerfile -&gt; entrypoint only has to start one thing: our application.</p>
 
@@ -1749,7 +1752,8 @@ Aardvark:jiffy stevem$
 
 </code></pre>
 
-<p>Your output may look slightly different, particularly the database connection test which will almost certainly fail.  This is nothing to be concerned about, as the generator is attempting to connect to a local postgres instance using bad credentials.</p>
+<p>Your output may look slightly different, particularly the database connection test which will almost certainly fail.  This is nothing to be concerned about, as the generator is attempting to connect to a local postgres instance using bad credentials.
+<br></br></p>
 
 <h4 id="edit-the-configuration-file">Edit the Configuration File</h4>
 
@@ -1813,13 +1817,13 @@ Aardvark:jiffy stevem$
 
 <h4 id="build-a-static-application-binary-for-alpine-linux">Build a Static Application Binary for Alpine Linux</h4>
 
-<p>Next, we need to build a static application binary for linux/amd64.  To build the application, a number of dependencies are required as outlined in the <a href="/jiffy/installation/in-content-a/#what-does-jiffy-need-to-run">Jiffy Dependencies</a> section of the documentation.</p>
+<p>Next, we need to build a static application binary for linux/amd64.  To build the application, a number of dependencies are required as outlined in the <a href="/jiffy/installation/in-content-a/#what-does-jiffy-need-to-run">Jiffy Dependencies</a> section of the documentation.  Check that your build environment contains the correct packages and import any that are missing.</p>
 
-<p>This example uses the popular <a href="https://alpinelinux.org/">Alpine Linux distribution</a> as the basis for the new container image.  Alpine Linux is a very small distribution making it nice for use with containers.  There are a few things to be aware of however&hellip;</p>
+<p>This tutorial uses the popular <a href="https://alpinelinux.org/">Alpine Linux distribution</a> as the basis for the new container image.  Alpine Linux is a small and sparse distribution making it nice for use with containers.  There are a few things to be aware of however&hellip;</p>
 
-<p>Alpine is built with <a href="https://www.musl-libc.org/">lib-musl</a> which means that binaries built by &lsquo;go build&rsquo; must target lib-musl rather than lib-gcc.  If you were to simply run &lsquo;go build -o main .&rsquo; on your workstation, the generated binary would almost certainly not work on Alpine.  The good news is that this is pretty easy to build with musl-gcc, the bad news is that musl-gcc is available for Linux only.</p>
+<p>Alpine Linux is based on <a href="https://www.musl-libc.org/">lib-musl</a> which means that binaries built by &lsquo;go build&rsquo; must target lib-musl rather than lib-gcc.  The binary resulting from the typical &lsquo;GOOS=linux GOARCH=amd64 go build -o main .&rsquo; command would almost certainly not work on Alpine.  The good news is that this is pretty easy to build with musl-gcc, the bad news is that musl-gcc is available for Linux only.</p>
 
-<p>First we need to check if lib-musl has been installed on your workstation.  Run the following command to see if musl-gcc is in the $PATH:</p>
+<p>First we need to check if lib-musl has been installed in the build environment.  Run the following command to see if musl-gcc is in the $PATH:</p>
 
 <pre><code class="language-bash">
 which musl-gcc
@@ -1851,7 +1855,7 @@ which musl-gcc
 
 <h5 id="build-a-static-binary">Build a Static Binary</h5>
 
-<p>After ensuring that all of the required dependencies have been installed in the build environment, run the following command to build a statically-linked  binary called &lsquo;main&rsquo; for the Alpine Linux target OS adjusting your GOARCH as necessary:</p>
+<p>After ensuring that all of the required dependencies have been installed in the build environment, run the following command to build a statically-linked  binary called &lsquo;main&rsquo; for the Alpine Linux target OS.  Adjust the GOARCH environment variable as necessary:</p>
 
 <pre><code class="language-bash">
 CGO=0 GOOS=linux GOARCH=amd64 CC=$(which musl-gcc) go build --ldflags '-w -linkmode external -extldflags &quot;-static&quot;' -a -tags netgo -installsuffix cgo -o main .
@@ -1887,14 +1891,14 @@ main: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, i
 
 <h4 id="create-a-dockerfile">Create a Dockerfile</h4>
 
-<p>Verify that you have docker installed on your workstation.  The easiest way to do this is to run <em>which docker</em> in a terminal window to ensure the docker application is in your $PATH.  If there is no response, check your $PATH or install docker following the instructions at <a href="https://www.docker.com/get-docker">www.docker.com</a>.  Verify that Docker is running by opening a terminal window in your build environment and running the docker <em>docker ps</em> command.  If docker is not running, an error message will be displayed and you should start the docker daemon before continuing.</p>
+<p>Verify that you have docker installed in your build environment.  The easiest way to do this is to run <em>which docker</em> in a terminal window to ensure the docker application is in the $PATH.  If there is no response, check the $PATH or install docker following the instructions at <a href="https://www.docker.com/get-docker">www.docker.com</a>.  Verify that the Docker daemon is running by opening a terminal window in your build environment and running the docker <em>docker ps</em> command.  If docker is not running, an error message will be displayed.  Start the docker daemon before continuing.</p>
 
-<p>In order to deploy the compiled all-in-one application in a Docker container, we need to create a Dockerfile.  The &lsquo;docker build&rsquo; command uses the Dockerfile as a set of instructions when building an image.  We will use Alpine Linux as the foundation for our new Docker container image.  Dockerhub has a number of pre-defined images that are available to be &lsquo;pulled&rsquo; into locally defined custom images.</p>
+<p>In order to deploy the compiled all-in-one application in a Docker container, we need to create a Dockerfile.  The <em>docker build</em> command uses the Dockerfile as a set of instructions when building an image.  We will use Alpine Linux as the foundation for our new Docker container image.  <a href="https://hub.docker.com/_/alpine/">Dockerhub</a> has a number of pre-defined images that are available to be &lsquo;pulled&rsquo; into locally defined custom images.</p>
 
 <p>Create a new file called &lsquo;Dockerfile&rsquo; in the root folder of the libraryapp source-tree and open it in your editor.  Copy the following content into the new Dockerfile:</p>
 
 <pre><code class="language-Dockerfile">
-# use the official alpine:3.7 base image
+# use the official docker hub alpine:3.7 base image
 FROM alpine:3.7
 
 # set the maintainer information for the new image
@@ -1949,9 +1953,11 @@ ENTRYPOINT [&quot;/main&quot;]
 
 </code></pre>
 
+<p><br></br></p>
+
 <h4 id="create-set-address-script">Create Set Address Script</h4>
 
-<p>Remember how we updated <em>.dev.config.json</em> with xxx.xxx.xxx.xxx ipv4 address mask?  In order to replace the mask with the container&rsquo;s ipv4 address, the <em>docker build</em> command will run the setaddress.sh script as instructed in the Dockerfile.  At the moment this is a problem however, as we have not written the script yet.  Create a new file called &lsquo;setaddress.sh&rsquo; in the root folder of the libraryapp source-tree and open it in your editor.  Copy the following content into the new setaddress.sh file:</p>
+<p>In a previous step <em>.dev.config.json</em> was updated with xxx.xxx.xxx.xxx ipv4 address masks.  In order to replace the masks with the container&rsquo;s ipv4 address, the <em>docker build</em> command will run the <em>setaddress.sh</em> script as instructed in the Dockerfile.  At the moment this is a problem however, as we have not written the script yet.  Create a new file called <em>setaddress.sh</em> in the root folder of the libraryapp source-tree and open it in your editor.  Copy the following content into the new <em>setaddress.sh</em> file:</p>
 
 <pre><code class="language-bash">
 #!/bin/sh
@@ -2098,7 +2104,7 @@ Aardvark:libraryapp stevem$
 
 <h5 id="check-the-container-status">Check the Container Status</h5>
 
-<p>Container status can be checked via the docker ps command:</p>
+<p>Container status can be checked via the <em>docker ps</em> command:</p>
 
 <pre><code class="language-bash">
 docker ps -a
@@ -2112,7 +2118,7 @@ Aardvark:libraryapp stevem$
 
 <h5 id="ssh-into-the-container">SSH into the Container</h5>
 
-<p>We can ssh into the container to see what is going on using the command shown in the following terminal session.  The command logs in as root using the interactive shell specified (in this case /bin/sh).  Check that &lsquo;main -dev&rsquo; is running as expected using the Linux <em>ps</em> command.</p>
+<p>We can ssh into the running container to see what is going on using the command shown in the following terminal session.  The command logs in as root using the specified interactive shell (in this case /bin/sh).  Check that &lsquo;main -dev&rsquo; is running as expected using the Linux <em>ps</em> command.</p>
 
 <pre><code class="language-bash">
 docker exec -it libraryapp /bin/sh
@@ -2125,7 +2131,7 @@ PID   USER     TIME   COMMAND
 
 </code></pre>
 
-<p>Take a look around the in the container environment and verify that the content of .dev.config.json has been updated with the correct ip-address using the <em>ifconfig/cat</em> commands.  Remember that the docker container is created with a static ipv4 address assigned to the eth0 interface.  Verify that the eth0 ipv4 address has been added to the &lsquo;external_address&rsquo; and &lsquo;internal_address&rsquo; keys in .dev.config.json.</p>
+<p>Take a look around the in the container environment and verify that the content of <em>.dev.config.json</em> has been updated with the correct ip-address using the <em>ifconfig/cat</em> commands.  Remember that the docker container is created with a static ipv4 address assigned to the eth0 interface.  Verify that the eth0 ipv4 address has been added to the &lsquo;external_address&rsquo; and &lsquo;internal_address&rsquo; keys in <em>.dev.config.json</em>.</p>
 
 <pre><code class="language-bash">
 / # ifconfig
@@ -2199,9 +2205,41 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
 
 <p><img src="../images/post_lib_3.jpg" alt="PostLib3" /></p>
 
-<p>Create another Library using &lsquo;Create a Library&rsquo; steps and then request a list of Library entities using GET ../librarys end-point:</p>
+<p>Create another Library using the &lsquo;Create a Library&rsquo; steps and then request a list of Library entities using the GET ../librarys end-point:</p>
 
 <p><img src="../images/get_libs_1.jpg" alt="GetLibs1" /></p>
+
+<h4 id="create-a-book">Create a Book</h4>
+
+<p>Next, we will create a Book and allocate it to Library 1.  Configure your test-tool to POST to the &lsquo;book&rsquo; service as shown in the following image:</p>
+
+<p><img src="../images/post_book_1.jpg" alt="PostBook1" /></p>
+
+<p>Following the submission, a new Book entity should have been created:</p>
+
+<p><img src="../images/post_book_2.jpg" alt="PostBook2" /></p>
+
+<p>Create a few more Book entities using the &lsquo;Create a Book&rsquo; steps and allocate them to your Library entities.  When you have finished, request a list of Book entities using the GET ../books end-point:</p>
+
+<p><img src="../images/get_books_1.jpg" alt="GetBooks1" /></p>
+
+<h4 id="library-tobooks">Library toBooks</h4>
+
+<p>Based on the hasMany relationship between the Library and Book entity&rsquo;s, we can get the number of Book entities belonging to Library 1 as follows:</p>
+
+<p><img src="../images/get_lib1_books_count.jpg" alt="GetLib1BooksCount" /></p>
+
+<p>Remove the $count suffix from the URL to get the complete list of Book entities belonging to Library 1:</p>
+
+<p><img src="../images/get_lib1_tobooks_1.jpg" alt="GetLib1Books1" /></p>
+
+<h4 id="book-tolibrary">Book toLibrary</h4>
+
+<p>A reciprocal &lsquo;belongsTo&rsquo; relationship exists between Book and Library.  Select a Book entity and verify that the &lsquo;belongsTo&rsquo; relationship works as expected:</p>
+
+<p><img src="../images/get_book4_tolibrary.jpg" alt="GetBook4ToLibrary" /></p>
+
+<p>Check the list of <a href="/jiffy/overview/ov-content-b/#filters-and-relationships">filters</a> and <a href="/jiffy/overview/ov-content-b/#commands">commands</a> along with the Library and Book models to see what can be appended to the the service end-points.  Try some things out.</p>
 
 
 <footer class=" footline" >
@@ -3368,20 +3406,20 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1529370484"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1529370484"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1529370484"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1529370484"></script>
-    <script src="/jiffy/js/featherlight.min.js?1529370484"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1529370484"></script>
-    <script src="/jiffy/js/highlight.pack.js?1529370484"></script>
+    <script src="/jiffy/js/clipboard.min.js?1529384576"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1529384576"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1529384576"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1529384576"></script>
+    <script src="/jiffy/js/featherlight.min.js?1529384576"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1529384576"></script>
+    <script src="/jiffy/js/highlight.pack.js?1529384576"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1529370484"></script>
-    <script src="/jiffy/js/learn.js?1529370484"></script>
-    <script src="/jiffy/js/hugo-learn.js?1529370484"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1529384576"></script>
+    <script src="/jiffy/js/learn.js?1529384576"></script>
+    <script src="/jiffy/js/hugo-learn.js?1529384576"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1529370484" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1529370484"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1529384576" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1529384576"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
