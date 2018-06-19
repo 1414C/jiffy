@@ -13,19 +13,19 @@
     <title>Test in a Docker Container :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1529359609" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1529359609" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1529359609" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1529359609" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1529359609" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1529359609" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1529359609" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1529359609" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1529369740" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1529369740" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1529369740" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1529369740" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1529369740" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1529369740" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1529369740" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1529369740" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1529359609" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1529369740" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1529359609"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1529369740"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1529359609"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1529359609"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1529369740"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1529369740"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1529359609"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1529369740"></script>
 
     
   </div>
@@ -1831,7 +1831,7 @@ which musl-gcc
 
 <h5 id="install-musl-gcc">Install Musl-gcc</h5>
 
-<p>We will go over how to install musl-gcc on a Debian system, but the steps are largely the same for any Linux distribution.  Use your distro&rsquo;s package manager to install the musl lib, musl development files and musl development tools.  Run the following commands in a terminal window on your linux build system:</p>
+<p>We will go over how to install musl-gcc on a Debian system, but the steps are largely the same for any Linux distribution.  Use your distro&rsquo;s package manager to install the musl lib, musl development files and musl development tools.  Run the following commands (or their equivalents) in a terminal window on your Linux build system:</p>
 
 <pre><code>
 sudo apt-get update
@@ -1851,14 +1851,14 @@ which musl-gcc
 
 <h5 id="build-a-static-binary">Build a Static Binary</h5>
 
-<p>After ensuring that all of the required dependencies have been installed in the build environment, run the following command to build the &lsquo;main&rsquo; binary for the Alpine Linux target OS adjusting your GOARCH as necessary:</p>
+<p>After ensuring that all of the required dependencies have been installed in the build environment, run the following command to build a statically-linked  binary called &lsquo;main&rsquo; for the Alpine Linux target OS adjusting your GOARCH as necessary:</p>
 
 <pre><code class="language-bash">
 CGO=0 GOOS=linux GOARCH=amd64 CC=$(which musl-gcc) go build --ldflags '-w -linkmode external -extldflags &quot;-static&quot;' -a -tags netgo -installsuffix cgo -o main .
 
 </code></pre>
 
-<p>Running <em>go build</em> with CGO=0 and setting the -a flag forces a rebuild without cross-compilation dependencies (static).  Setting &ndash;ldflags as shown instructs <em>go build</em> to produce a statically linked binary.  Once the build has completed, a new &lsquo;main&rsquo; file will have been created.  Check the file via the &lsquo;file&rsquo; command:</p>
+<p>Running <em>go build</em> with CGO=0 and setting the -a flag forces a rebuild without cross-compilation dependencies.  Setting &ndash;ldflags as shown instructs <em>go build</em> to produce a statically linked binary.  Setting the CC environment variable to point at musl-gcc ensures that the target (executable) will run in the Alpine Linux environment.  Once the build has completed, a new &lsquo;main&rsquo; file will have been created.  Check the file via the &lsquo;file&rsquo; command:</p>
 
 <pre><code class="language-bash">
 file main
@@ -1868,14 +1868,14 @@ main: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, no
 
 <h5 id="build-a-dynamically-linked-binary">Build a Dynamically-Linked Binary</h5>
 
-<p>This is optional and will produce a marginally smaller binary.  We will not use a dynamically-linked binary in this example and this has been included for reference purposes only.</p>
+<p>This is optional and will produce a marginally smaller binary.  We will not use a dynamically-linked binary in our image, but have included a suitable <em>go build</em> command for reference purposes.</p>
 
 <pre><code class="language-bash">
 CGO=0 GOOS=linux GOARCH=amd64 CC=$(which musl-gcc) go build -a -tags netgo -installsuffix cgo -o main .
 
 </code></pre>
 
-<p>Running <em>go build</em> with CGO=0 and setting the -a flag forces a rebuild without cross-compilation dependencies (static).  <em>go build</em> produces dynamically-linked binaries by default, so no linker instructions have been provided.  Once the build has completed, a new &lsquo;main&rsquo; file will have been created.  Check the file via the &lsquo;file&rsquo; command:</p>
+<p>Running <em>go build</em> with CGO=0 and setting the -a flag forces a rebuild without cross-compilation dependencies.  <em>go build</em> produces dynamically-linked binaries by default, so no linker instructions have been provided.  Setting the CC environment variable to point at musl-gcc ensures that the target (executable) will run in the Alpine Linux environment.  Once the build has completed, a new &lsquo;main&rsquo; file will have been created.  Check the file via the &lsquo;file&rsquo; command:</p>
 
 <pre><code class="language-bash">
 file main
@@ -1887,7 +1887,7 @@ main: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, i
 
 <h4 id="create-a-dockerfile">Create a Dockerfile</h4>
 
-<p>Verify that you have docker installed on your workstation.  The easiest way to do this is to run <em>which docker</em> in a terminal window to ensure the docker application is in your $PATH.  If there is no response, check your $PATH or install docker following the instructions at <a href="https://www.docker.com/get-docker">www.docker.com</a>.</p>
+<p>Verify that you have docker installed on your workstation.  The easiest way to do this is to run <em>which docker</em> in a terminal window to ensure the docker application is in your $PATH.  If there is no response, check your $PATH or install docker following the instructions at <a href="https://www.docker.com/get-docker">www.docker.com</a>.  Verify that Docker is running by opening a terminal window in your build environment and running the docker <em>docker ps</em> command.  If docker is not running, an error message will be displayed and you should start the docker daemon before continuing.</p>
 
 <p>In order to deploy the compiled all-in-one application in a Docker container, we need to create a Dockerfile.  The &lsquo;docker build&rsquo; command uses the Dockerfile as a set of instructions when building an image.  We will use Alpine Linux as the foundation for our new Docker container image.  Dockerhub has a number of pre-defined images that are available to be &lsquo;pulled&rsquo; into locally defined custom images.</p>
 
@@ -3368,20 +3368,20 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1529359609"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1529359609"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1529359609"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1529359609"></script>
-    <script src="/jiffy/js/featherlight.min.js?1529359609"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1529359609"></script>
-    <script src="/jiffy/js/highlight.pack.js?1529359609"></script>
+    <script src="/jiffy/js/clipboard.min.js?1529369740"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1529369740"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1529369740"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1529369740"></script>
+    <script src="/jiffy/js/featherlight.min.js?1529369740"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1529369740"></script>
+    <script src="/jiffy/js/highlight.pack.js?1529369740"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1529359609"></script>
-    <script src="/jiffy/js/learn.js?1529359609"></script>
-    <script src="/jiffy/js/hugo-learn.js?1529359609"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1529369740"></script>
+    <script src="/jiffy/js/learn.js?1529369740"></script>
+    <script src="/jiffy/js/hugo-learn.js?1529369740"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1529359609" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1529359609"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1529369740" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1529369740"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
