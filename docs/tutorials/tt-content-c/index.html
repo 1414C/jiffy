@@ -13,19 +13,19 @@
     <title>Test in a Docker Container :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1529369917" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1529369917" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1529369917" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1529369917" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1529369917" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1529369917" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1529369917" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1529369917" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1529370484" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1529370484" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1529370484" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1529370484" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1529370484" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1529370484" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1529370484" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1529370484" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1529369917" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1529370484" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1529369917"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1529370484"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1529369917"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1529369917"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1529370484"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1529370484"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1529369917"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1529370484"></script>
 
     
   </div>
@@ -2112,7 +2112,7 @@ Aardvark:libraryapp stevem$
 
 <h5 id="ssh-into-the-container">SSH into the Container</h5>
 
-<p>We can ssh into the container to see what is going on using the command shown in the following terminal session.  The command logs in as root using the interactive shell specified (in this case /bin/sh).  Check that &lsquo;main -dev&rsquo; is running as expected using the <em>ps</em> command.</p>
+<p>We can ssh into the container to see what is going on using the command shown in the following terminal session.  The command logs in as root using the interactive shell specified (in this case /bin/sh).  Check that &lsquo;main -dev&rsquo; is running as expected using the Linux <em>ps</em> command.</p>
 
 <pre><code class="language-bash">
 docker exec -it libraryapp /bin/sh
@@ -2125,7 +2125,7 @@ PID   USER     TIME   COMMAND
 
 </code></pre>
 
-<p>If you like, take a look around and verify that the content of .dev.config.json has been updated with the correct ip-address using the <em>ifconfig/cat</em> commands.  Remember that the docker container is created with a static ipv4 address assigned to the eth0 interface.  Verify that the eth0 ipv4 address has been added to the &lsquo;external_address&rsquo; and &lsquo;internal_address&rsquo; keys in .dev.config.json.</p>
+<p>Take a look around the in the container environment and verify that the content of .dev.config.json has been updated with the correct ip-address using the <em>ifconfig/cat</em> commands.  Remember that the docker container is created with a static ipv4 address assigned to the eth0 interface.  Verify that the eth0 ipv4 address has been added to the &lsquo;external_address&rsquo; and &lsquo;internal_address&rsquo; keys in .dev.config.json.</p>
 
 <pre><code class="language-bash">
 / # ifconfig
@@ -3368,20 +3368,20 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1529369917"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1529369917"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1529369917"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1529369917"></script>
-    <script src="/jiffy/js/featherlight.min.js?1529369917"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1529369917"></script>
-    <script src="/jiffy/js/highlight.pack.js?1529369917"></script>
+    <script src="/jiffy/js/clipboard.min.js?1529370484"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1529370484"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1529370484"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1529370484"></script>
+    <script src="/jiffy/js/featherlight.min.js?1529370484"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1529370484"></script>
+    <script src="/jiffy/js/highlight.pack.js?1529370484"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1529369917"></script>
-    <script src="/jiffy/js/learn.js?1529369917"></script>
-    <script src="/jiffy/js/hugo-learn.js?1529369917"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1529370484"></script>
+    <script src="/jiffy/js/learn.js?1529370484"></script>
+    <script src="/jiffy/js/hugo-learn.js?1529370484"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1529369917" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1529369917"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1529370484" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1529370484"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
