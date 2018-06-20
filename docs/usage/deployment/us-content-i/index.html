@@ -10,22 +10,22 @@
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <title>Default Configuration :: Jiffy Services Generator</title>
+    <title>Deployment Requirements :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1529538115" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1529538115" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1529538115" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1529538115" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1529538115" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1529538115" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1529538115" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1529538115" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1529538116" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1529538116" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1529538116" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1529538116" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1529538116" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1529538116" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1529538116" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1529538116" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1529538115" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1529538116" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1529538115"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1529538116"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -35,7 +35,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/jiffy/usage/us-content-b/">
+  <body class="" data-url="/jiffy/usage/deployment/us-content-i/">
     <nav id="sidebar" class="">
 
 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1529538115"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1529538115"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1529538116"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1529538116"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1529538115"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1529538116"></script>
 
     
   </div>
@@ -1299,7 +1299,7 @@
  
   
     
-      <li data-nav-id="/jiffy/usage/us-content-b/" title="Default Configuration" class="dd-item active">
+      <li data-nav-id="/jiffy/usage/us-content-b/" title="Default Configuration" class="dd-item ">
         <a href="/jiffy/usage/us-content-b/">
         Default Configuration
         
@@ -1433,7 +1433,7 @@
   
     
     <li data-nav-id="/jiffy/usage/deployment/" title="Deployment Overview" class="dd-item 
-        
+        parent
         
         
         ">
@@ -1457,7 +1457,7 @@
  
   
     
-      <li data-nav-id="/jiffy/usage/deployment/us-content-i/" title="Deployment Requirements" class="dd-item ">
+      <li data-nav-id="/jiffy/usage/deployment/us-content-i/" title="Deployment Requirements" class="dd-item active">
         <a href="/jiffy/usage/deployment/us-content-i/">
         Deployment Requirements
         
@@ -1679,7 +1679,13 @@
             
           
           
-            <a href='/jiffy/'></a> > <a href='/jiffy/usage/'>Testing and Deployment</a> > Default Configuration
+            
+            
+          
+          
+            <a href='/jiffy/'></a> > <a href='/jiffy/usage/'>Testing and Deployment</a> > <a href='/jiffy/usage/deployment/'>Deployment Overview</a> > Deployment Requirements
+          
+         
           
          
           
@@ -1697,10 +1703,13 @@
 <ul>
 <li>
 <ul>
-<li><a href="#default-config">Default Config</a>
+<li><a href="#overview">Overview</a>
 <ul>
-<li><a href="#default-configuration-settings">Default Configuration Settings</a></li>
+<li><a href="#database-system">Database System</a></li>
+<li><a href="#key-value-store">Key Value Store</a></li>
+<li><a href="#load-balancer">Load Balancer</a></li>
 </ul></li>
+<li><a href="#sample-deployment-scenarios">Sample Deployment Scenarios</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -1716,7 +1725,7 @@
         
         <div id="body-inner">
           
-            <h1>Default Configuration</h1>
+            <h1>Deployment Requirements</h1>
           
 
         
@@ -1724,68 +1733,25 @@
 
 
 
-<h3 id="default-config">Default Config</h3>
+<h3 id="overview">Overview</h3>
 
-<p>The following command strings may be used to run the program using a set of default configuration that has been hard-coded into the source files. The default configuration may be edited in the generated appobj/appconf.go file to suit local requirements. The default application settings are shown in the server configuration file format. The default configuration publishes the end-points on port 3000 over http due to the absence of the ‘cert_file’ and ‘key_file’ values.</p>
+<p>Jiffy was written with the idea of generating sidecar-free backend service applications.  While this is a nice goal, the current version of Jiffy relies on the presence of some external processes and/or services depending on the target environment.</p>
 
-<pre><code class="language-bash">    $ go run main.go
-</code></pre>
+<h4 id="database-system">Database System</h4>
 
-<p>or</p>
+<p>The generated application will need to connect to a database system from the <a href="/jiffy/installation/in-content-a/#database-drivers">supported list</a>.  We suggest using sqlite3 for initial testing if you do not want to install a full DBMS on your development machine.  Connectivity to your database can be checked by running the test suite in the github.com/1414C/sqac repository.  The sqac repository will be pulled into your Go environment when the Jiffy source code is installed via go get -u.  See the README.md file in the sqac repository for instructions.</p>
 
-<pre><code class="language-bash">    $ go run main.go -def
-</code></pre>
+<h4 id="key-value-store">Key Value Store</h4>
 
-<h4 id="default-configuration-settings">Default Configuration Settings</h4>
+<p>A KVS is required in order to persist the current group-leader information.  This is discussed in the <a href="/jiffy/usage/us-content-h/#overview">Key Value Store Support</a> section of this documentation.  Deployment-specific considerations are outlined for each of the deployment scenarios.</p>
 
-<p>The default configuration settings are shown below:</p>
+<h4 id="load-balancer">Load Balancer</h4>
 
-<pre><code class="language-JSON">
-{
-    &quot;external_address&quot;: &quot;127.0.0.1:3000&quot;,
-    &quot;internal_address&quot;: &quot;127.0.0.1:4444&quot;,
-    &quot;env&quot;: &quot;def&quot;,
-    &quot;ping_cycle&quot;: 1,
-    &quot;failure_threshold&quot;: 5,
-    &quot;pepper&quot;: &quot;secret-pepper-key&quot;,
-    &quot;hmac_Key&quot;: &quot;secret-hmac-key&quot;,
-    &quot;database&quot;: {
-        &quot;db_dialect&quot;: &quot;postgres&quot;,
-        &quot;host&quot;:       &quot;localhost&quot;,
-        &quot;port&quot;:       5432,
-        &quot;user&quot;:       &quot;godev&quot;,
-        &quot;password&quot;:   &quot;gogogo123&quot;,
-        &quot;name&quot;:       &quot;glrestgen&quot;
-    },
-    &quot;cert_file&quot;: &quot;&quot;,
-    &quot;key_file&quot;: &quot;&quot;,
-    &quot;rsa256_priv_key_file&quot;: &quot;&quot;,
-    &quot;rsa256_pub_key_file&quot;: &quot;&quot;,
-    &quot;rsa384_priv_key_file&quot;: &quot;&quot;,
-    &quot;rsa384_pub_key_file&quot;: &quot;&quot;,
-    &quot;rsa512_priv_key_file&quot;: &quot;&quot;,
-    &quot;rsa512_pub_key_file&quot;: &quot;&quot;,
-    &quot;ecdsa256_priv_key_file&quot;: &quot;&quot;,
-    &quot;ecdsa256_pub_key_file&quot;: &quot;&quot;,
-    &quot;ecdsa384_priv_key_file&quot;: &quot;jwtkeys/ecdsa384/ec384.priv.pem&quot;,
-    &quot;ecdsa384_pub_key_file&quot;: &quot;jwtkeys/ecdsa384/ec384.pub.pem&quot;,
-    &quot;ecdsa521_priv_key_file&quot;: &quot;&quot;,
-    &quot;ecdsa521_pub_key_file&quot;: &quot;&quot;,
-    &quot;jwt_sign_method&quot;: &quot;ES384&quot;,
-    &quot;jwt_lifetime&quot;: 120,
-    &quot;service_activations&quot;: [
-        {
-            &quot;service_name&quot;:   &quot;Library&quot;,
-            &quot;service_active&quot;: true
-        },
-        {
-            &quot;service_name&quot;:   &quot;Book&quot;,
-            &quot;service_active&quot;: true
-        }
-        ]
-}
+<p>Jiffy applications are designed to scale horizontally by starting more application server instances (processes).  The applications do not handle load balancing however, and in a bare metal or VM-type deployment it is recommended to use something like NGinx to direct traffic.</p>
 
-</code></pre>
+<h3 id="sample-deployment-scenarios">Sample Deployment Scenarios</h3>
+
+<p>This section of the documentation contains sample high-level deployment scenarios for a jiffy-generated application.  The examples should be considered as general guidance rather than production-deployment-cookbooks.  Infrastructure security is not discussed in any depth, but the usual precautions apply when deploying a Jiffy-application productively.</p>
 
 
 <footer class=" footline" >
@@ -2728,26 +2694,6 @@
             
                 
                     
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
                 
                 
 
@@ -2852,6 +2798,94 @@
                     
 
                     
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
                         
             
             
@@ -2905,82 +2939,15 @@
                     
             
         
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-            
-        
         
         
 
 
         
-            <a class="nav nav-prev" href="/jiffy/usage/us-content-a/" title="Application Configuration Overview"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/jiffy/usage/deployment/" title="Deployment Overview"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/jiffy/usage/us-content-c/" title="Development Configuration" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/jiffy/usage/deployment/us-content-j/" title="Deployment on Bare Metal / VM&#39;s" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
@@ -2989,20 +2956,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1529538115"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1529538115"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1529538115"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1529538115"></script>
-    <script src="/jiffy/js/featherlight.min.js?1529538115"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1529538115"></script>
-    <script src="/jiffy/js/highlight.pack.js?1529538115"></script>
+    <script src="/jiffy/js/clipboard.min.js?1529538116"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1529538116"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1529538116"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1529538116"></script>
+    <script src="/jiffy/js/featherlight.min.js?1529538116"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1529538116"></script>
+    <script src="/jiffy/js/highlight.pack.js?1529538116"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1529538115"></script>
-    <script src="/jiffy/js/learn.js?1529538115"></script>
-    <script src="/jiffy/js/hugo-learn.js?1529538115"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1529538116"></script>
+    <script src="/jiffy/js/learn.js?1529538116"></script>
+    <script src="/jiffy/js/hugo-learn.js?1529538116"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1529538115" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1529538115"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1529538116" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1529538116"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

@@ -468,16 +468,6 @@ The group/gmcom Folder The group/gmcom folder contains source files holding arti
     </item>
     
     <item>
-      <title>Deployment on Bare Metal / VM&#39;s</title>
-      <link>https://1414c.github.io/jiffy/usage/us-content-i/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://1414c.github.io/jiffy/usage/us-content-i/</guid>
-      <description>Deployment Overview Jiffy was written with the idea of generating sidecar-free backend service applications. While this is a nice goal, the current version of Jiffy relies on the presence of some external processes and/or services depending on the target environment.
-Database System The generated application will need to connect to a database system from the supported list. We suggest using sqlite3 for initial testing if you do not want to install a full DBMS on your development machine.</description>
-    </item>
-    
-    <item>
       <title>Login</title>
       <link>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-a/</link>
       <pubDate>Tue, 06 Feb 2018 22:34:10 -0700</pubDate>
@@ -486,6 +476,16 @@ Database System The generated application will need to connect to a database sys
       <description>Launch Postman and specify a target URL of: http://127.0.0.1:8080/usr/login making sure to select the http POST method. Maintain the request body to provide a user-id and password as shown in the following JSON snippet. Typically the user-id for a Jiffy application is an email address, but we make an exception for the default administration user.
 { &amp;quot;email&amp;quot;: &amp;quot;admin&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;initpass&amp;quot; }  
 When you have finished and your Postman (or other test utility) looks like the following image, click the &amp;lsquo;Send&amp;rsquo; button to post your login request to the running application.</description>
+    </item>
+    
+    <item>
+      <title>Deployment Requirements</title>
+      <link>https://1414c.github.io/jiffy/usage/deployment/us-content-i/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/usage/deployment/us-content-i/</guid>
+      <description>Overview Jiffy was written with the idea of generating sidecar-free backend service applications. While this is a nice goal, the current version of Jiffy relies on the presence of some external processes and/or services depending on the target environment.
+Database System The generated application will need to connect to a database system from the supported list. We suggest using sqlite3 for initial testing if you do not want to install a full DBMS on your development machine.</description>
     </item>
     
     <item>
@@ -499,12 +499,14 @@ Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/pe
     </item>
     
     <item>
-      <title>Deployment on Kubernetes</title>
-      <link>https://1414c.github.io/jiffy/usage/us-content-k/</link>
+      <title>Deployment on Bare Metal / VM&#39;s</title>
+      <link>https://1414c.github.io/jiffy/usage/deployment/us-content-j/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://1414c.github.io/jiffy/usage/us-content-k/</guid>
-      <description> Deployment Overview </description>
+      <guid>https://1414c.github.io/jiffy/usage/deployment/us-content-j/</guid>
+      <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts 
+All-In-One Deployment In a development or test setting it may make sense to deploy everything in one system. In this context &amp;lsquo;system&amp;rsquo; refers to a laptop, bare-metal server or a VM of some sort. To deploy an all-in-one type setup, the following artifacts are required:
+ Database Jiffy application Optional Key-Value-Store  The All-In-One Deployment diagram shows a jiffy-application instance running on a system with an ip-address of 192.</description>
     </item>
     
     <item>
@@ -528,6 +530,15 @@ Create one more &amp;lsquo;Person&amp;rsquo; entity so we have three (or more) i
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-d/</guid>
       <description>So far we have created a few &amp;lsquo;Person&amp;rsquo; entities. We have observed that upon successful creation of an entity, a JSON representation of that entity is passed back to us via the response-writer. Let&amp;rsquo;s now look at how we can get a list of all of our &amp;lsquo;Person&amp;rsquo; entities.
 Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/persons making sure to select the http GET method. Next, add the following key-value pair to the http header:</description>
+    </item>
+    
+    <item>
+      <title>Deployment on Kubernetes</title>
+      <link>https://1414c.github.io/jiffy/usage/deployment/us-content-l/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/usage/deployment/us-content-l/</guid>
+      <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts</description>
     </item>
     
     <item>
