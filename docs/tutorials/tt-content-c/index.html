@@ -13,19 +13,19 @@
     <title>Test in a Docker Container :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1529384576" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1529384576" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1529384576" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1529384576" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1529384576" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1529384576" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1529384576" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1529384576" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1529536348" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1529536348" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1529536348" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1529536348" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1529536348" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1529536348" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1529536348" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1529536348" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1529384576" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1529536348" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1529384576"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1529536348"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1529384576"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1529384576"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1529536348"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1529536348"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1529384576"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1529536348"></script>
 
     
   </div>
@@ -1698,7 +1698,7 @@
 
 <h3 id="overview">Overview</h3>
 
-<p>We will create and deploy a sample application using the All-In-One approach inside a Docker container.  To make things easy, we will use SQLite as the database, which means that the Dockerfile and entrypoint setup will be quite simple.  Note that if you try to do the same thing with one of the other supported databases there will be some additional configuration.  Docker containers are <em>typically</em> used to provide single services.</p>
+<p>We will create and deploy a sample application using the all-in-one approach inside a Docker container.  To make things easy, we will use SQLite as the database, which means that the Dockerfile and entrypoint setup will be quite simple.  Note that if you try to do the same thing with one of the other supported databases there will be some additional configuration.  Docker containers are <em>typically</em> used to provide single services.</p>
 
 <p>SQLite lets us do all-in-one in Docker, as SQLite is a library facilitating access to a file rather than a database service available at an address:port.  Our Dockerfile -&gt; entrypoint only has to start one thing: our application.</p>
 
@@ -1710,7 +1710,7 @@
 <li>Edit the application&rsquo;s configuration file for SQLite and Docker use.</li>
 <li>Statically compile a binary for inclusion in the Docker image.</li>
 <li>Write a simple Dockerfile to create a runnable image.</li>
-<li>Write a small script to update the image&rsquo;s .dev.config.json file with the container&rsquo;s ipv4 address</li>
+<li>Write a small script to update the image&rsquo;s <em>.dev.config.json</em> file with the container&rsquo;s ipv4 address</li>
 <li>Create a container from the image and start the container.</li>
 <li>Test access to the application running in the container using Postman.</li>
 <li>Stop the container.</li>
@@ -1723,7 +1723,7 @@
 
 <h4 id="generate-the-application">Generate the Application</h4>
 
-<p>We will generate a new application from a <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/hasManyBelongsTo.json">model file</a> that contains a Library and Book entity.  Two relationships are maintained in the model; a Library hasMany Books and a Book belongsTo a specific Library.  An application generated from this model will allow many Jiffy application features to be tested.</p>
+<p>We will generate a new application from a <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/hasManyBelongsTo.json">model file</a> that contains a &lsquo;Library&rsquo; and &lsquo;Book&rsquo; entity.  Two relationships are maintained in the model; a Library hasMany Books and a Book belongsTo a specific Library.  An application generated from this model will allow many Jiffy application features to be tested.</p>
 
 <p>Open a terminal window on your workstation and run jiffy using the Library-Book model file to generate the source-code for our test application as follows:</p>
 
@@ -1732,7 +1732,7 @@ $ jiffy -m $GOPATH/src/github.com/1414C/jiffy/support/testing_models/hasManyBelo
 
 </code></pre>
 
-<p><a href="/jiffy/execution/ex-content-b/#generation-flags">Remember that the -p flag</a> expects to be provided with an existing path underneath your $GOPATH/src folder.  In the example invocation shown above, jiffy will create the &lsquo;libraryapp&rsquo; folder underneath $GOPATH/src/exp/ and then write the generated source-code to this location.</p>
+<p><a href="/jiffy/execution/ex-content-b/#generation-flags">Remember that jiffy&rsquo;s -p flag</a> expects to be provided with an existing path underneath your $GOPATH/src folder.  In the example invocation shown above, jiffy will create the &lsquo;libraryapp&rsquo; folder underneath $GOPATH/src/exp/ and then write the generated source-code to this location.</p>
 
 <p>Execution of the generator should result in the following output.</p>
 
@@ -1759,7 +1759,7 @@ Aardvark:jiffy stevem$
 
 <h5 id="update-address-keys">Update Address Keys</h5>
 
-<p>The next step is to edit the generated application&rsquo;s configuration files.  Docker allocates a static ip-address for each container by default, and we will use that address in the configuration file.  &lsquo;external_address&rsquo; refers to the address at which the application&rsquo;s end-points will be available, while the &lsquo;internal_address&rsquo; is used for cache updates and interprocess communication over web-socket connections.  Strictly speaking, in a single-instance Docker deployment we could get away with doing something like this:</p>
+<p>The next step is to edit the generated application&rsquo;s configuration files.  Docker allocates a static ip-address for each container by default, and we will use that address in our application&rsquo;s configuration file.  &lsquo;external_address&rsquo; refers to the address at which the application&rsquo;s end-points will be available, while the &lsquo;internal_address&rsquo; is used for cache updates and interprocess communication over web-socket connections.  Strictly speaking, in a single-instance Docker deployment we could get away with maintaining the address-keys as follows:</p>
 
 <pre><code class="language-json">.dev.config.json
 
@@ -1775,9 +1775,7 @@ Aardvark:jiffy stevem$
 
 <p>However, we will show how to obtain and insert the container&rsquo;s real ip-address into the configuration file.  This will be useful later if you deploy multiple application instances in Docker containers.</p>
 
-<p>We will replace localhost address 127.0.0.1 with a mask which will be used as an address placeholder.  Using an illegal ipv4 address ensures that the container will not start in the event that the container&rsquo;s address could not be assigned to the config keys.</p>
-
-<p>Open the generated <em>.dev.config.json</em> file in an editor and update the &lsquo;external_address&rsquo; and &lsquo;internal_address&rsquo; values with &ldquo;xxx.xxx.xxx.xxx:8080&rdquo; and &ldquo;xxx.xxx.xxx.xxx:4444&rdquo; respectively.  When you have finished, save the file after verifying that it looks like this:</p>
+<p>Open the generated <em>.dev.config.json</em> file in an editor and update the &lsquo;external_address&rsquo; and &lsquo;internal_address&rsquo; values with &ldquo;xxx.xxx.xxx.xxx:8080&rdquo; and &ldquo;xxx.xxx.xxx.xxx:4444&rdquo; respectively.  Using an illegal ipv4 address as a placeholder/mask ensures that the container will not start in the event that the container&rsquo;s address could not be assigned to the config keys.  When you have finished, save the file after verifying that it looks like this:</p>
 
 <pre><code class="language-json">.dev.config.json
 
@@ -1813,6 +1811,8 @@ Aardvark:jiffy stevem$
 
 </code></pre>
 
+<p>Once the database block in <em>.dev.config.json</em> has been updated, save the file and close the editor.</p>
+
 <p><br></br></p>
 
 <h4 id="build-a-static-application-binary-for-alpine-linux">Build a Static Application Binary for Alpine Linux</h4>
@@ -1821,9 +1821,9 @@ Aardvark:jiffy stevem$
 
 <p>This tutorial uses the popular <a href="https://alpinelinux.org/">Alpine Linux distribution</a> as the basis for the new container image.  Alpine Linux is a small and sparse distribution making it nice for use with containers.  There are a few things to be aware of however&hellip;</p>
 
-<p>Alpine Linux is based on <a href="https://www.musl-libc.org/">lib-musl</a> which means that binaries built by &lsquo;go build&rsquo; must target lib-musl rather than lib-gcc.  The binary resulting from the typical &lsquo;GOOS=linux GOARCH=amd64 go build -o main .&rsquo; command would almost certainly not work on Alpine.  The good news is that this is pretty easy to build with musl-gcc, the bad news is that musl-gcc is available for Linux only.</p>
+<p>Alpine Linux is based on <a href="https://www.musl-libc.org/">lib-musl</a> which means that binaries built by <em>go build</em> must target lib-musl rather than lib-gcc.  The binary resulting from the typical &lsquo;GOOS=linux GOARCH=amd64 go build -o main .&rsquo; command would almost certainly not work on Alpine.  The good news is that this is pretty easy to build with musl-gcc, the bad news is that musl-gcc is available for Linux only.  If you are working on a system in which lib-musl is not supported, you will need to run the <em>go build</em> command on in a supported build environment. <a href="https://wiki.musl-libc.org/supported-platforms.html">Most Linux distributions and architectures are supported</a>.</p>
 
-<p>First we need to check if lib-musl has been installed in the build environment.  Run the following command to see if musl-gcc is in the $PATH:</p>
+<p>Check if lib-musl has been installed in the build environment by running the following command to see if <em>musl-gcc</em> is in the $PATH:</p>
 
 <pre><code class="language-bash">
 which musl-gcc
@@ -1831,11 +1831,11 @@ which musl-gcc
 
 </code></pre>
 
-<p>If musl-gcc was found, you may skip over the musl-gcc installation instructions.</p>
+<p>If <em>musl-gcc</em> was found, you may skip over the musl-gcc installation instructions.</p>
 
 <h5 id="install-musl-gcc">Install Musl-gcc</h5>
 
-<p>We will go over how to install musl-gcc on a Debian system, but the steps are largely the same for any Linux distribution.  Use your distro&rsquo;s package manager to install the musl lib, musl development files and musl development tools.  Run the following commands (or their equivalents) in a terminal window on your Linux build system:</p>
+<p>We will go over how to install <em>musl-gcc</em> on a Debian system, but the steps are largely the same for any Linux distribution.  Use your distribution&rsquo;s package manager to install the musl lib, musl development files and musl development tools.  Run the following commands (or their equivalents) in a terminal window on your Linux build system:</p>
 
 <pre><code>
 sudo apt-get update
@@ -1855,7 +1855,7 @@ which musl-gcc
 
 <h5 id="build-a-static-binary">Build a Static Binary</h5>
 
-<p>After ensuring that all of the required dependencies have been installed in the build environment, run the following command to build a statically-linked  binary called &lsquo;main&rsquo; for the Alpine Linux target OS.  Adjust the GOARCH environment variable as necessary:</p>
+<p>After ensuring that all of the required dependencies have been installed in the build environment, run the following command to build a statically-linked  binary called <em>main</em> for the Alpine Linux target OS.  Adjust the GOARCH environment variable as necessary:</p>
 
 <pre><code class="language-bash">
 CGO=0 GOOS=linux GOARCH=amd64 CC=$(which musl-gcc) go build --ldflags '-w -linkmode external -extldflags &quot;-static&quot;' -a -tags netgo -installsuffix cgo -o main .
@@ -1891,11 +1891,11 @@ main: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, i
 
 <h4 id="create-a-dockerfile">Create a Dockerfile</h4>
 
-<p>Verify that you have docker installed in your build environment.  The easiest way to do this is to run <em>which docker</em> in a terminal window to ensure the docker application is in the $PATH.  If there is no response, check the $PATH or install docker following the instructions at <a href="https://www.docker.com/get-docker">www.docker.com</a>.  Verify that the Docker daemon is running by opening a terminal window in your build environment and running the docker <em>docker ps</em> command.  If docker is not running, an error message will be displayed.  Start the docker daemon before continuing.</p>
+<p>Verify that you have Docker installed in your build environment.  The easiest way to do this is to run <em>which docker</em> in a terminal window to ensure the <em>docker</em> application is in the $PATH.  If there is no response, check the $PATH or install Docker following the instructions at <a href="https://www.docker.com/get-docker">www.docker.com</a>.  Verify that the Docker daemon is running by opening a terminal window in your build environment and running the <em>docker ps</em> command.  If Docker is not running, an error message will be displayed.  Start the Docker daemon before continuing.</p>
 
-<p>In order to deploy the compiled all-in-one application in a Docker container, we need to create a Dockerfile.  The <em>docker build</em> command uses the Dockerfile as a set of instructions when building an image.  We will use Alpine Linux as the foundation for our new Docker container image.  <a href="https://hub.docker.com/_/alpine/">Dockerhub</a> has a number of pre-defined images that are available to be &lsquo;pulled&rsquo; into locally defined custom images.</p>
+<p>In order to deploy the compiled all-in-one application in a Docker container, we need to create a Dockerfile.  The <em>docker build</em> command uses the Dockerfile as a set of instructions when building an image.  As mentioned previously, we will use Alpine Linux as the foundation for the new Docker container image.  <a href="https://hub.docker.com/_/alpine/">Dockerhub</a> has a number of pre-defined images that are available to be &lsquo;pulled&rsquo; into locally defined custom images.</p>
 
-<p>Create a new file called &lsquo;Dockerfile&rsquo; in the root folder of the libraryapp source-tree and open it in your editor.  Copy the following content into the new Dockerfile:</p>
+<p>Create a new file called &lsquo;Dockerfile&rsquo; in the root folder of the libraryapp source-tree and open it in your editor.  Copy the following content into the new Dockerfile.  An effort has been made to briefly describe what each line of the Dockerfile is used for.</p>
 
 <pre><code class="language-Dockerfile">
 # use the official docker hub alpine:3.7 base image
@@ -1989,7 +1989,11 @@ fi
 <pre><code class="language-bash">
 docker build -t libraryapp .
 
-Sending build context to Docker daemon  16.41MB
+</code></pre>
+
+<p>Running <em>docker build</em> as shown instructs Docker to construct an image called &lsquo;libraryapp&rsquo; using the Dockerfile in the current working directory.  You should see output similar to that shown below:</p>
+
+<pre><code class="language-code">Sending build context to Docker daemon  16.41MB
 Step 1/16 : FROM alpine:3.7
  ---&gt; 3fd9065eaf02
 Step 2/16 : LABEL maintainer=&quot;&lt;stevem@1414c.io&gt;&quot;
@@ -2072,7 +2076,7 @@ Aardvark:libraryapp stevem$
 
 <h5 id="view-the-image">View the Image</h5>
 
-<p>You can run the <em>docker image</em> command to view some basic data regarding the new image:</p>
+<p>You can run the <em>docker image</em> command as shown below to view some basic data regarding the new image:</p>
 
 <pre><code class="language-bash">
 docker image ls library*
@@ -2085,7 +2089,7 @@ Aardvark:libraryapp stevem$
 
 <h5 id="use-the-image">Use the Image</h5>
 
-<p>Once the image has been created, the next step is to use it to create a container.  This can be done in a single step where docker creates the container and then starts it.  Run the following command to create and start a new container from the libraryapp image:</p>
+<p>Once the image has been created, the next step is to use it to create a container.  This can be done in a single step where Docker creates the container and then starts it.  Run the following command to create and start a new container from the libraryapp image:</p>
 
 <pre><code class="language-bash">
 docker run --name libraryapp -p 8080:8080 -d libraryapp
@@ -2171,7 +2175,7 @@ lo        Link encap:Local Loopback
 
 <h4 id="login-to-the-application">Login to the Application</h4>
 
-<p>Launch Postman or your favorite RESTful service testing tool and specify a target URL of: <code>http://127.0.0.1:8080/usr/login</code> making sure to select the http POST method.  Maintain the request body to provide a user-id and password as shown in the following JSON snippet.  Typically the user-id for a Jiffy application is an email address, but we make an exception for the default administration user.</p>
+<p>Launch Postman or your favorite RESTful service testing tool and specify a target URL of: <code>http://172.17.0.2:8080/usr/login</code> making sure to select the http POST method.  Maintain the request body to provide a user-id and password as shown in the following JSON snippet.  Typically the user-id for a Jiffy application is an email address, but an exception is made for the default administration user defintion.</p>
 
 <pre><code class="language-bash">
     {
@@ -2187,13 +2191,13 @@ lo        Link encap:Local Loopback
 <img src="../images/login-a.jpg" alt="Enter login credentials" /></p>
 
 <p><br/>
-If all goes well, you will get a http response code of 200 (status ok), and a block of JSON with a single &lsquo;token&rsquo; tag containing a jumble of letters and numbers.  This is the JWT that will be used to validate our authorization to access the Library and Book entity service end-points.  If you want to read more about JWT&rsquo;s, <a href="https://jwt.io">jwt.io</a> is a good place to start, or you can refer to the <a href="/jiffy/accesscontrol/index.html">Access Control</a> section of this document set.
+If all goes well, you will get a http response code of 200 (status ok), and a block of JSON with a single &lsquo;token&rsquo; tag containing a jumble of letters and numbers.  This is the JWT that will be used to validate the &lsquo;admin&rsquo; user&rsquo;s authorization to access the &lsquo;Library&rsquo; and &lsquo;Book&rsquo; entity service end-points.  If you want to read more about JWT&rsquo;s, <a href="https://jwt.io">jwt.io</a> is a good place to start, or you can refer to the <a href="/jiffy/accesscontrol/index.html">Access Control</a> section of this document set.
 <img src="../images/login-b.jpg" alt="Login" />
 <br/></p>
 
 <h4 id="create-a-library">Create a Library</h4>
 
-<p>We will create a new Library entity.  Configure your test-tool to POST to the &lsquo;library&rsquo; service as shown in the following image:</p>
+<p>We will create a new &lsquo;Library&rsquo; entity.  Configure your test-tool to POST to the &lsquo;library&rsquo; service as shown in the following image:</p>
 
 <p><img src="../images/post_lib_1.jpg" alt="PostLib1" /></p>
 
@@ -2201,41 +2205,41 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
 
 <p><img src="../images/post_lib_2.jpg" alt="PostLib2" /></p>
 
-<p>Following submission, a new Library entity should have been created:</p>
+<p>Following submission, a new &lsquo;Library&rsquo; entity should have been created:</p>
 
 <p><img src="../images/post_lib_3.jpg" alt="PostLib3" /></p>
 
-<p>Create another Library using the &lsquo;Create a Library&rsquo; steps and then request a list of Library entities using the GET ../librarys end-point:</p>
+<p>Create another &lsquo;Library&rsquo; entity using the &lsquo;Create a Library&rsquo; steps and then request a list of Library entities using the GET ../librarys end-point:</p>
 
 <p><img src="../images/get_libs_1.jpg" alt="GetLibs1" /></p>
 
 <h4 id="create-a-book">Create a Book</h4>
 
-<p>Next, we will create a Book and allocate it to Library 1.  Configure your test-tool to POST to the &lsquo;book&rsquo; service as shown in the following image:</p>
+<p>Next, we will create a &lsquo;Book&rsquo; entity and allocate it to &lsquo;Library&rsquo; 1.  Configure your test-tool to POST to the &lsquo;book&rsquo; service as shown in the following image:</p>
 
 <p><img src="../images/post_book_1.jpg" alt="PostBook1" /></p>
 
-<p>Following the submission, a new Book entity should have been created:</p>
+<p>Following the submission, a new &lsquo;Book&rsquo; entity should have been created:</p>
 
 <p><img src="../images/post_book_2.jpg" alt="PostBook2" /></p>
 
-<p>Create a few more Book entities using the &lsquo;Create a Book&rsquo; steps and allocate them to your Library entities.  When you have finished, request a list of Book entities using the GET ../books end-point:</p>
+<p>Create a few more &lsquo;Book&rsquo; entities using the &lsquo;Create a Book&rsquo; steps and allocate them to your &lsquo;Library&rsquo; entities.  When you have finished, request a list of &lsquo;Book&rsquo; entities using the GET ../books end-point:</p>
 
 <p><img src="../images/get_books_1.jpg" alt="GetBooks1" /></p>
 
 <h4 id="library-tobooks">Library toBooks</h4>
 
-<p>Based on the hasMany relationship between the Library and Book entity&rsquo;s, we can get the number of Book entities belonging to Library 1 as follows:</p>
+<p>Based on the &lsquo;hasMany&rsquo; relationship between the &lsquo;Library&rsquo; and &lsquo;Book&rsquo; entity&rsquo;s, we can get the number of &lsquo;Book&rsquo; entities belonging to &lsquo;Library&rsquo; 1 as follows:</p>
 
 <p><img src="../images/get_lib1_books_count.jpg" alt="GetLib1BooksCount" /></p>
 
-<p>Remove the $count suffix from the URL to get the complete list of Book entities belonging to Library 1:</p>
+<p>Remove the $count suffix from the URL to get the complete list of Book entities belonging to &lsquo;Library&rsquo; 1:</p>
 
 <p><img src="../images/get_lib1_tobooks_1.jpg" alt="GetLib1Books1" /></p>
 
 <h4 id="book-tolibrary">Book toLibrary</h4>
 
-<p>A reciprocal &lsquo;belongsTo&rsquo; relationship exists between Book and Library.  Select a Book entity and verify that the &lsquo;belongsTo&rsquo; relationship works as expected:</p>
+<p>A reciprocal &lsquo;belongsTo&rsquo; relationship exists between the &lsquo;Book&rsquo; and &lsquo;Library&rsquo; entity definitions.  Select a &lsquo;Book&rsquo; entity and verify that the &lsquo;belongsTo&rsquo; relationship works as expected:</p>
 
 <p><img src="../images/get_book4_tolibrary.jpg" alt="GetBook4ToLibrary" /></p>
 
@@ -3406,20 +3410,20 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1529384576"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1529384576"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1529384576"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1529384576"></script>
-    <script src="/jiffy/js/featherlight.min.js?1529384576"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1529384576"></script>
-    <script src="/jiffy/js/highlight.pack.js?1529384576"></script>
+    <script src="/jiffy/js/clipboard.min.js?1529536348"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1529536348"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1529536348"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1529536348"></script>
+    <script src="/jiffy/js/featherlight.min.js?1529536348"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1529536348"></script>
+    <script src="/jiffy/js/highlight.pack.js?1529536348"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1529384576"></script>
-    <script src="/jiffy/js/learn.js?1529384576"></script>
-    <script src="/jiffy/js/hugo-learn.js?1529384576"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1529536348"></script>
+    <script src="/jiffy/js/learn.js?1529536348"></script>
+    <script src="/jiffy/js/hugo-learn.js?1529536348"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1529384576" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1529384576"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1529536348" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1529536348"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
