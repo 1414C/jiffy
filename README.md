@@ -2,6 +2,7 @@
 
 ## TODO:
 
+- consider FAQ for calling db functions
 - re-enable the ELECTION message and test on ARM
 - look at service deployment
 - rationalize logging
