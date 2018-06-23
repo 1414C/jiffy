@@ -36,8 +36,8 @@ As in the All-In-One tutorial, our Dockerfile will be quite simple and we will g
       
       <guid>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-g/</guid>
       <description>Overview If a container crashes when executing the entrypoint, there are a few things that can be done to help figure out what is going on.
-Start the Container in Interactive Mode Docker allows containers to be started with flags that direct the console output to the starter&amp;rsquo;s session. For example, to start a containerized jiffy application in this manner execute the following when starting your container:
-Aardvark:pgelibraryapp stevem$ docker start pgelibraryapp -ia  When Docker starts the container, the ENTRYPOINT we specified in the image&amp;rsquo;s Dockerfile will be executed.</description>
+Start the Container in Interactive Mode Docker allows containers to be started with flags that direct the console output to the starter&amp;rsquo;s session. For example, to start a containerized jiffy application in this manner use the following command/flags:
+Aardvark:pgelibraryapp stevem$ docker start pgelibraryapp -ia  When Docker starts the container, the ENTRYPOINT specified in the image&amp;rsquo;s Dockerfile will be executed.</description>
     </item>
     
   </channel>
