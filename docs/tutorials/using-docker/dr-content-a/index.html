@@ -13,19 +13,19 @@
     <title>Jiffy with Docker and SQLite :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1529716308" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1529716308" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1529716308" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1529716308" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1529716308" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1529716308" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1529716308" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1529716308" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1529716907" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1529716907" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1529716907" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1529716907" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1529716907" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1529716907" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1529716907" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1529716907" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1529716308" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1529716907" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1529716308"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1529716907"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1529716308"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1529716308"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1529716907"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1529716907"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1529716308"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1529716907"></script>
 
     
   </div>
@@ -2323,60 +2323,60 @@ lo        Link encap:Local Loopback
 <p><br/></p>
 
 <p>When you have finished and your Postman (or other test utility) looks like the following image, click the &lsquo;Send&rsquo; button to post your login request to the running application.
-<img src="../images/login-a.jpg" alt="Enter login credentials" /></p>
+<img src="../../images/login-a.jpg" alt="Enter login credentials" /></p>
 
 <p><br/>
 If all goes well, you will get a http response code of 200 (status ok), and a block of JSON with a single &lsquo;token&rsquo; tag containing a jumble of letters and numbers.  This is the JWT that will be used to validate the &lsquo;admin&rsquo; user&rsquo;s authorization to access the &lsquo;Library&rsquo; and &lsquo;Book&rsquo; entity service end-points.  If you want to read more about JWT&rsquo;s, <a href="https://jwt.io">jwt.io</a> is a good place to start, or you can refer to the <a href="/jiffy/accesscontrol/index.html">Access Control</a> section of this document set.
-<img src="../images/login-b.jpg" alt="Login" />
+<img src="../../images/login-b.jpg" alt="Login" />
 <br/></p>
 
 <h4 id="create-a-library">Create a Library</h4>
 
 <p>We will create a new &lsquo;Library&rsquo; entity.  Configure your test-tool to POST to the &lsquo;library&rsquo; service as shown in the following image:</p>
 
-<p><img src="../images/post_lib_1.jpg" alt="PostLib1" /></p>
+<p><img src="../../images/post_lib_1.jpg" alt="PostLib1" /></p>
 
 <p>Copy the JWT from the login session and paste it into the new POST request&rsquo;s Authorization header field as shown below and then submit the request to the application.</p>
 
-<p><img src="../images/post_lib_2.jpg" alt="PostLib2" /></p>
+<p><img src="../../images/post_lib_2.jpg" alt="PostLib2" /></p>
 
 <p>Following submission, a new &lsquo;Library&rsquo; entity should have been created:</p>
 
-<p><img src="../images/post_lib_3.jpg" alt="PostLib3" /></p>
+<p><img src="../../images/post_lib_3.jpg" alt="PostLib3" /></p>
 
 <p>Create another &lsquo;Library&rsquo; entity using the &lsquo;Create a Library&rsquo; steps and then request a list of Library entities using the GET ../librarys end-point:</p>
 
-<p><img src="../images/get_libs_1.jpg" alt="GetLibs1" /></p>
+<p><img src="../../images/get_libs_1.jpg" alt="GetLibs1" /></p>
 
 <h4 id="create-a-book">Create a Book</h4>
 
 <p>Next, we will create a &lsquo;Book&rsquo; entity and allocate it to &lsquo;Library&rsquo; 1.  Configure your test-tool to POST to the &lsquo;book&rsquo; service as shown in the following image:</p>
 
-<p><img src="../images/post_book_1.jpg" alt="PostBook1" /></p>
+<p><img src="../../images/post_book_1.jpg" alt="PostBook1" /></p>
 
 <p>Following the submission, a new &lsquo;Book&rsquo; entity should have been created:</p>
 
-<p><img src="../images/post_book_2.jpg" alt="PostBook2" /></p>
+<p><img src="../../images/post_book_2.jpg" alt="PostBook2" /></p>
 
 <p>Create a few more &lsquo;Book&rsquo; entities using the &lsquo;Create a Book&rsquo; steps and allocate them to your &lsquo;Library&rsquo; entities.  When you have finished, request a list of &lsquo;Book&rsquo; entities using the GET ../books end-point:</p>
 
-<p><img src="../images/get_books_1.jpg" alt="GetBooks1" /></p>
+<p><img src="../..images/get_books_1.jpg" alt="GetBooks1" /></p>
 
 <h4 id="library-tobooks">Library toBooks</h4>
 
 <p>Based on the &lsquo;hasMany&rsquo; relationship between the &lsquo;Library&rsquo; and &lsquo;Book&rsquo; entity&rsquo;s, we can get the number of &lsquo;Book&rsquo; entities belonging to &lsquo;Library&rsquo; 1 as follows:</p>
 
-<p><img src="../images/get_lib1_books_count.jpg" alt="GetLib1BooksCount" /></p>
+<p><img src="../../images/get_lib1_books_count.jpg" alt="GetLib1BooksCount" /></p>
 
 <p>Remove the $count suffix from the URL to get the complete list of Book entities belonging to &lsquo;Library&rsquo; 1:</p>
 
-<p><img src="../images/get_lib1_tobooks_1.jpg" alt="GetLib1Books1" /></p>
+<p><img src="../../images/get_lib1_tobooks_1.jpg" alt="GetLib1Books1" /></p>
 
 <h4 id="book-tolibrary">Book toLibrary</h4>
 
 <p>A reciprocal &lsquo;belongsTo&rsquo; relationship exists between the &lsquo;Book&rsquo; and &lsquo;Library&rsquo; entity definitions.  Select a &lsquo;Book&rsquo; entity and verify that the &lsquo;belongsTo&rsquo; relationship works as expected:</p>
 
-<p><img src="../images/get_book4_tolibrary.jpg" alt="GetBook4ToLibrary" /></p>
+<p><img src="../../images/get_book4_tolibrary.jpg" alt="GetBook4ToLibrary" /></p>
 
 <p>Check the list of <a href="/jiffy/overview/ov-content-b/#filters-and-relationships">filters</a> and <a href="/jiffy/overview/ov-content-b/#commands">commands</a> along with the Library and Book models to see what can be appended to the the service end-points.  Try some things out.</p>
 
@@ -3633,20 +3633,20 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1529716308"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1529716308"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1529716308"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1529716308"></script>
-    <script src="/jiffy/js/featherlight.min.js?1529716308"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1529716308"></script>
-    <script src="/jiffy/js/highlight.pack.js?1529716308"></script>
+    <script src="/jiffy/js/clipboard.min.js?1529716907"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1529716907"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1529716907"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1529716907"></script>
+    <script src="/jiffy/js/featherlight.min.js?1529716907"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1529716907"></script>
+    <script src="/jiffy/js/highlight.pack.js?1529716907"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1529716308"></script>
-    <script src="/jiffy/js/learn.js?1529716308"></script>
-    <script src="/jiffy/js/hugo-learn.js?1529716308"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1529716907"></script>
+    <script src="/jiffy/js/learn.js?1529716907"></script>
+    <script src="/jiffy/js/hugo-learn.js?1529716907"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1529716308" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1529716308"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1529716907" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1529716907"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
