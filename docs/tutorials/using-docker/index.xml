@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Using Docker on Jiffy Services Generator</title>
+    <link>https://1414c.github.io/jiffy/tutorials/using-docker/</link>
+    <description>Recent content in Using Docker on Jiffy Services Generator</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="https://1414c.github.io/jiffy/tutorials/using-docker/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Jiffy with Docker and SQLite</title>
+      <link>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-a/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-a/</guid>
+      <description>Overview We will create and deploy a sample application using the all-in-one approach inside a Docker container. To make things easy, we will use SQLite as the database, which means that the Dockerfile and entrypoint setup will be quite simple. Note that if you try to do the same thing with one of the other supported databases there will be some additional configuration. Docker containers are typically used to provide single services.</description>
+    </item>
+    
+    <item>
+      <title>Jiffy with Docker and External PostgreSQL</title>
+      <link>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-b/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-b/</guid>
+      <description>Overview We will create and deploy a sample application inside a Docker container. The containerized application will run as a single-instance and communicate to a Postgres database which will be available over the container-host&amp;rsquo;s network. In this example the Postgres database will not be running in a container.
+As in the All-In-One tutorial, our Dockerfile will be quite simple and we will go with some of the docker build defaults.</description>
+    </item>
+    
+    <item>
+      <title>Troubleshooting</title>
+      <link>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-g/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-g/</guid>
+      <description>Overview If a container crashes when executing the entrypoint, there are a few things that can be done to help figure out what is going on.
+Start the Container in Interactive Mode Docker allows containers to be started with flags that direct the console output to the starter&amp;rsquo;s session. For example, to start a containerized jiffy application in this manner execute the following when starting your container:
+Aardvark:pgelibraryapp stevem$ docker start pgelibraryapp -ia  When Docker starts the container, the ENTRYPOINT we specified in the image&amp;rsquo;s Dockerfile will be executed.</description>
+    </item>
+    
+  </channel>
+</rss>

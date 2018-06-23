@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <title>Let&#39;s Build Something :: Jiffy Services Generator</title>
+    <title>Using Docker :: Jiffy Services Generator</title>
     
     
     <link href="/jiffy/css/nucleus.css?1529716026" rel="stylesheet">
@@ -35,7 +35,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/jiffy/getting-started/gs-content-c/">
+  <body class="" data-url="/jiffy/tutorials/using-docker/">
     <nav id="sidebar" class="">
 
 
@@ -221,7 +221,7 @@
   
     
     <li data-nav-id="/jiffy/getting-started/" title="Getting Started" class="dd-item 
-        parent
+        
         
         
         ">
@@ -285,7 +285,7 @@
  
   
     
-      <li data-nav-id="/jiffy/getting-started/gs-content-c/" title="Let&#39;s Build Something" class="dd-item active">
+      <li data-nav-id="/jiffy/getting-started/gs-content-c/" title="Let&#39;s Build Something" class="dd-item ">
         <a href="/jiffy/getting-started/gs-content-c/">
         Let&#39;s Build Something
         
@@ -1531,7 +1531,7 @@
   
     
     <li data-nav-id="/jiffy/tutorials/" title="Jiffy Tutorials" class="dd-item 
-        
+        parent
         
         
         ">
@@ -1596,8 +1596,8 @@
   
     
     <li data-nav-id="/jiffy/tutorials/using-docker/" title="Using Docker" class="dd-item 
-        
-        
+        parent
+        active
         
         ">
       <a href="/jiffy/tutorials/using-docker/">
@@ -1739,8 +1739,6 @@
                         </a>
                     </span>
                   
-                  <span id="toc-menu"><i class="fa fa-list-alt"></i></span>
-                  
                   <span class="links">
                     
           
@@ -1753,7 +1751,7 @@
             
           
           
-            <a href='/jiffy/'></a> > <a href='/jiffy/getting-started/'>Getting Started</a> > Let's Build Something
+            <a href='/jiffy/'></a> > <a href='/jiffy/tutorials/'>Jiffy Tutorials</a> > Using Docker
           
          
           
@@ -1763,149 +1761,34 @@
                   </span>
                 </div>
                 
-                    <div class="progress">
-    <div class="wrapper">
-
-    </div>
-</div>
-
-                
               </div>
             </div>
             
 
         
+          <div id="chapter">
+        
         <div id="body-inner">
-          
-            <h1>Let&#39;s Build Something</h1>
           
 
         
 
 
-<p>Now that Jiffy is installed, we will build a simple service to test it out.</p>
-
-<p>Jiffy&rsquo;s source tree comes with a number of sample model files that you can be used to get the hang of things.  We are going to use a simple model file that contains an entity named &lsquo;Person&rsquo;.  The model file can be found in the Jiffy source tree, or pulled directly from the Jiffy github repository.</p>
-
-<ul>
-<li>$GOPATH/src/github.com/1414C/jiffy/support/testing_models/simpleSingleEntityModel.json</li>
-<li><a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/simpleSingleEntityModel.json">jiffy repository model: simpleSingleEntityModel.json</a></li>
-</ul>
-
-<p>For now we are not going to worry about the content of the model file, but we will look at the structure of our new &lsquo;Person&rsquo; entity briefly.</p>
-
-<pre><code class="language-golang">
-    // Person structure
-    type Person struct {
-	    ID           uint64   `json:&quot;id&quot; sqac:&quot;primary_key:inc;start:10000000&quot;`
-	    Href         string   `json:&quot;href&quot; sqac:&quot;-&quot;`
-	    Name         *string  `json:&quot;name,omitempty&quot; sqac:&quot;nullable:true;index:non-unique&quot;`
-	    Age          *uint    `json:&quot;age,omitempty&quot; sqac:&quot;nullable:true&quot;`
-	    Weight       *float64 `json:&quot;weight,omitempty&quot; sqac:&quot;nullable:true&quot;`
-	    ValidLicense *bool    `json:&quot;valid_license,omitempty&quot; sqac:&quot;nullable:true;index:non-unique&quot;`
-    }
-
-</code></pre>
-
-<p>We can see that Jiffy will create a &lsquo;Person&rsquo; model with a small set of fields, each with a number of attributes.  For the moment, we will concern ourselves only with the field names and types, as we will need to use this information to construct some test data for the new service.</p>
-
-<div class="notices info" ><p>&lsquo;sqac&rsquo; tags are used to pass information to Jiffy&rsquo;s ORM layer.</p>
-</div>
 
 
-<p><br/></p>
+<h3 id="using-docker-with-jiffy">Using Docker with Jiffy</h3>
 
-<p>Create a new target directory for the project under $GOPATH/src.</p>
+<h1 id="jiffy">Jiffy</h1>
 
-<pre><code class="language-bash">
-    $ cd $GOPATH/src
-    $ mkdir jiffy_tests
-
-</code></pre>
-
-<p><br/></p>
-
-<p>Execute the jiffy binary, specifying the model file to use, as well as the target directory/project name.</p>
-
-<pre><code class="language-bash">
-    $ jiffy -m $GOPATH/src/github.com/1414C/jiffy/support/testing_models/simpleSingleEntityModel.json -p /jiffy_tests/first_app
-
-</code></pre>
-
-<p>-m tells jiffy which model file should be used to construct the new service.</p>
-
-<p>-p tells jiffy where to write the generated application code.</p>
-
-<div class="notices tip" ><p>Note that the location of the folder specified by the -p flag is deemed to be relative to $GOPATH/src.</p>
-</div>
-
-
-<p><br/></p>
-
-<p>If everything has gone according to plan, a new application has been generated and should be ready to run. Let&rsquo;s take a look at what jiffy generated for us!</p>
-
-<pre><code class="language-bash">
-    $ cd $GOPATH/src/jiffy_tests/first_app
-    $ ls -l
-
-</code></pre>
-
-<p>This should result in a list of the files and folders comprising our new application.</p>
-
-<pre><code class="language-bash">
-    drwxr-xr-x  12 stevem  staff    384  5 Feb 21:44 .
-    drwxr-xr-x  10 stevem  staff    320  5 Feb 21:44 ..
-    -rwxr-xr-x   1 stevem  staff    588  5 Feb 21:44 .dev.config.json
-    -rwxr-xr-x   1 stevem  staff    611  5 Feb 21:44 .prd.config.json
-    drwxr-xr-x   4 stevem  staff    128  5 Feb 21:44 appobj
-    drwxr-xr-x  10 stevem  staff    320  5 Feb 21:44 controllers
-    drwxr-xr-x   4 stevem  staff    128  5 Feb 21:44 jwtkeys
-    -rwxr-xr-x   1 stevem  staff    839  5 Feb 21:44 main.go
-    -rwxr-xr-x   1 stevem  staff  18421  5 Feb 21:44 main_test.go
-    drwxr-xr-x   3 stevem  staff     96  5 Feb 21:44 middleware
-    drwxr-xr-x  12 stevem  staff    384  5 Feb 21:44 models
-    drwxr-xr-x   3 stevem  staff     96  5 Feb 21:44 util
-    $
-
-</code></pre>
-
-<p>Jiffy generates two sample configuration files each time it is executed.  We are going to run our application with development environment settings, so lets take a quick look at .dev.config.json to make sure there are no horrible surprises.</p>
-
-<pre><code class="language-json">
-    {
-        &quot;port&quot;: 8080,
-        &quot;env&quot;: &quot;dev&quot;,
-        &quot;pepper&quot;: &quot;secret-pepper-key&quot;,  
-        &quot;database&quot;: {
-            &quot;db_dialect&quot;: &quot;sqlite&quot;,
-            &quot;host&quot;:       &quot;127.0.0.1&quot;,
-            &quot;port&quot;:       0,
-            &quot;usr&quot;:        &quot;&quot;,
-            &quot;password&quot;:   &quot;&quot;,
-            &quot;name&quot;:       &quot;testdb.sqlite&quot;
-        },
-        &quot;cert_file&quot;: &quot;&quot;,
-        &quot;key_file&quot;: &quot;&quot;,
-        &quot;jwt_priv_key_file&quot;: &quot;jwtkeys/private.pem&quot;,
-        &quot;jwt_pub_key_file&quot;: &quot;jwtkeys/public.pem&quot;,
-        &quot;service_activations&quot;: [
-            {
-                &quot;service_name&quot;:   &quot;Person&quot;,
-                &quot;service_active&quot;: true
-            }
-            ]
-    }
-
-</code></pre>
-
-<p>Jiffy decides by default to run against a sqlite database and generates what <em>should</em> be a suitable configuration file for most systems.  Again, we are not going to worry too much about what is in the configuration file at this point, but know that database file &lsquo;testdb.sqlite&rsquo; will be created in the generated application&rsquo;s root folder.</p>
+<p>logo here</p>
 
 
 <footer class=" footline" >
 	
 </footer>
 
-
+        
+            </div> 
         
         </div> 
         
@@ -2036,7 +1919,6 @@
             
                 
                     
-                    
                 
                 
 
@@ -2051,9 +1933,6 @@
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -2087,7 +1966,6 @@
             
                 
                     
-                    
                 
                 
 
@@ -2103,9 +1981,6 @@
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -3024,6 +2899,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -3038,6 +2914,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -3071,6 +2950,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -3083,6 +2963,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -3140,10 +3023,10 @@
 
 
         
-            <a class="nav nav-prev" href="/jiffy/getting-started/gs-content-b/" title="Installing Jiffy"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/jiffy/tutorials/tt-content-b/" title="Dealing with mixed/multipart"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/jiffy/getting-started/gs-content-d/" title="Let&#39;s Run Something" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/jiffy/tutorials/using-docker/dr-content-a/" title="Jiffy with Docker and SQLite" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
@@ -3173,4 +3056,3 @@
 
   </body>
 </html>
-

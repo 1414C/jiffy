@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <title>Let&#39;s Build Something :: Jiffy Services Generator</title>
+    <title>Troubleshooting :: Jiffy Services Generator</title>
     
     
     <link href="/jiffy/css/nucleus.css?1529716026" rel="stylesheet">
@@ -35,7 +35,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/jiffy/getting-started/gs-content-c/">
+  <body class="" data-url="/jiffy/tutorials/using-docker/dr-content-g/">
     <nav id="sidebar" class="">
 
 
@@ -221,7 +221,7 @@
   
     
     <li data-nav-id="/jiffy/getting-started/" title="Getting Started" class="dd-item 
-        parent
+        
         
         
         ">
@@ -285,7 +285,7 @@
  
   
     
-      <li data-nav-id="/jiffy/getting-started/gs-content-c/" title="Let&#39;s Build Something" class="dd-item active">
+      <li data-nav-id="/jiffy/getting-started/gs-content-c/" title="Let&#39;s Build Something" class="dd-item ">
         <a href="/jiffy/getting-started/gs-content-c/">
         Let&#39;s Build Something
         
@@ -1531,7 +1531,7 @@
   
     
     <li data-nav-id="/jiffy/tutorials/" title="Jiffy Tutorials" class="dd-item 
-        
+        parent
         
         
         ">
@@ -1596,7 +1596,7 @@
   
     
     <li data-nav-id="/jiffy/tutorials/using-docker/" title="Using Docker" class="dd-item 
-        
+        parent
         
         
         ">
@@ -1658,7 +1658,7 @@
  
   
     
-      <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-g/" title="Troubleshooting" class="dd-item ">
+      <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-g/" title="Troubleshooting" class="dd-item active">
         <a href="/jiffy/tutorials/using-docker/dr-content-g/">
         Troubleshooting
         
@@ -1753,7 +1753,13 @@
             
           
           
-            <a href='/jiffy/'></a> > <a href='/jiffy/getting-started/'>Getting Started</a> > Let's Build Something
+            
+            
+          
+          
+            <a href='/jiffy/'></a> > <a href='/jiffy/tutorials/'>Jiffy Tutorials</a> > <a href='/jiffy/tutorials/using-docker/'>Using Docker</a> > Troubleshooting
+          
+         
           
          
           
@@ -1765,7 +1771,21 @@
                 
                     <div class="progress">
     <div class="wrapper">
-
+<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#overview">Overview</a>
+<ul>
+<li><a href="#start-the-container-in-interactive-mode">Start the Container in Interactive Mode</a></li>
+<li><a href="#the-container-crashes-during-startup">The Container Crashes During Startup</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
     </div>
 </div>
 
@@ -1777,128 +1797,196 @@
         
         <div id="body-inner">
           
-            <h1>Let&#39;s Build Something</h1>
+            <h1>Troubleshooting</h1>
           
 
         
 
 
-<p>Now that Jiffy is installed, we will build a simple service to test it out.</p>
 
-<p>Jiffy&rsquo;s source tree comes with a number of sample model files that you can be used to get the hang of things.  We are going to use a simple model file that contains an entity named &lsquo;Person&rsquo;.  The model file can be found in the Jiffy source tree, or pulled directly from the Jiffy github repository.</p>
 
-<ul>
-<li>$GOPATH/src/github.com/1414C/jiffy/support/testing_models/simpleSingleEntityModel.json</li>
-<li><a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/simpleSingleEntityModel.json">jiffy repository model: simpleSingleEntityModel.json</a></li>
-</ul>
+<h3 id="overview">Overview</h3>
 
-<p>For now we are not going to worry about the content of the model file, but we will look at the structure of our new &lsquo;Person&rsquo; entity briefly.</p>
+<p>If a container crashes when executing the entrypoint, there are a few things that can be done to help figure out what is going on.</p>
 
-<pre><code class="language-golang">
-    // Person structure
-    type Person struct {
-	    ID           uint64   `json:&quot;id&quot; sqac:&quot;primary_key:inc;start:10000000&quot;`
-	    Href         string   `json:&quot;href&quot; sqac:&quot;-&quot;`
-	    Name         *string  `json:&quot;name,omitempty&quot; sqac:&quot;nullable:true;index:non-unique&quot;`
-	    Age          *uint    `json:&quot;age,omitempty&quot; sqac:&quot;nullable:true&quot;`
-	    Weight       *float64 `json:&quot;weight,omitempty&quot; sqac:&quot;nullable:true&quot;`
-	    ValidLicense *bool    `json:&quot;valid_license,omitempty&quot; sqac:&quot;nullable:true;index:non-unique&quot;`
-    }
+<h4 id="start-the-container-in-interactive-mode">Start the Container in Interactive Mode</h4>
+
+<p>Docker allows containers to be started with flags that direct the console output to the starter&rsquo;s session.  For example, to start a containerized jiffy application in this manner execute the following when starting your container:</p>
+
+<pre><code class="language-code">
+Aardvark:pgelibraryapp stevem$ docker start pgelibraryapp -ia
 
 </code></pre>
 
-<p>We can see that Jiffy will create a &lsquo;Person&rsquo; model with a small set of fields, each with a number of attributes.  For the moment, we will concern ourselves only with the field names and types, as we will need to use this information to construct some test data for the new service.</p>
+<p>When Docker starts the container, the ENTRYPOINT we specified in the image&rsquo;s Dockerfile will be executed.  Due to the removal of the <em>-d</em> flag and the addition of the <em>-ia</em> flags in the <em>docker start</em> command, anything written to the container&rsquo;s stdout/stderr will be output in the starter&rsquo;s terminal session.  The <em>-i</em> flag allows the starter to supply input if user-input is required (probably unusual in the jiffy-application case).</p>
 
-<div class="notices info" ><p>&lsquo;sqac&rsquo; tags are used to pass information to Jiffy&rsquo;s ORM layer.</p>
-</div>
+<pre><code class="language-code">
+console output:
 
-
-<p><br/></p>
-
-<p>Create a new target directory for the project under $GOPATH/src.</p>
-
-<pre><code class="language-bash">
-    $ cd $GOPATH/src
-    $ mkdir jiffy_tests
-
-</code></pre>
-
-<p><br/></p>
-
-<p>Execute the jiffy binary, specifying the model file to use, as well as the target directory/project name.</p>
-
-<pre><code class="language-bash">
-    $ jiffy -m $GOPATH/src/github.com/1414C/jiffy/support/testing_models/simpleSingleEntityModel.json -p /jiffy_tests/first_app
-
-</code></pre>
-
-<p>-m tells jiffy which model file should be used to construct the new service.</p>
-
-<p>-p tells jiffy where to write the generated application code.</p>
-
-<div class="notices tip" ><p>Note that the location of the folder specified by the -p flag is deemed to be relative to $GOPATH/src.</p>
-</div>
-
-
-<p><br/></p>
-
-<p>If everything has gone according to plan, a new application has been generated and should be ready to run. Let&rsquo;s take a look at what jiffy generated for us!</p>
-
-<pre><code class="language-bash">
-    $ cd $GOPATH/src/jiffy_tests/first_app
-    $ ls -l
-
-</code></pre>
-
-<p>This should result in a list of the files and folders comprising our new application.</p>
-
-<pre><code class="language-bash">
-    drwxr-xr-x  12 stevem  staff    384  5 Feb 21:44 .
-    drwxr-xr-x  10 stevem  staff    320  5 Feb 21:44 ..
-    -rwxr-xr-x   1 stevem  staff    588  5 Feb 21:44 .dev.config.json
-    -rwxr-xr-x   1 stevem  staff    611  5 Feb 21:44 .prd.config.json
-    drwxr-xr-x   4 stevem  staff    128  5 Feb 21:44 appobj
-    drwxr-xr-x  10 stevem  staff    320  5 Feb 21:44 controllers
-    drwxr-xr-x   4 stevem  staff    128  5 Feb 21:44 jwtkeys
-    -rwxr-xr-x   1 stevem  staff    839  5 Feb 21:44 main.go
-    -rwxr-xr-x   1 stevem  staff  18421  5 Feb 21:44 main_test.go
-    drwxr-xr-x   3 stevem  staff     96  5 Feb 21:44 middleware
-    drwxr-xr-x  12 stevem  staff    384  5 Feb 21:44 models
-    drwxr-xr-x   3 stevem  staff     96  5 Feb 21:44 util
-    $
+2018/06/23 00:09:41 package sqac init is running
+2018/06/23 00:09:41 successfully loaded the config file...
+2018/06/23 00:09:41 config: {172.17.0.2:8080 172.17.0.2:4444 dev 1 5 secret-pepper-key {postgres 192.168.1.65 5432 godev gogogo123 glrestgen}           jwtkeys/ecdsa384/ec384.priv.pem jwtkeys/ecdsa384/ec384.pub.pem   ES384 120 [{Library true} {Book true}]}
+2018/06/23 00:09:41 ECDSA256PrivKeyFile:
+2018/06/23 00:09:41 ECDSA256PubKeyFile:
+2018/06/23 00:09:41 ECDSA384PrivKeyFile: jwtkeys/ecdsa384/ec384.priv.pem
+2018/06/23 00:09:41 ECDSA384PubKeyFile: jwtkeys/ecdsa384/ec384.pub.pem
+2018/06/23 00:09:41 ECDSA521PrivKeyFile:
+2018/06/23 00:09:41 ECDSA521PubKeyFile:
+2018/06/23 00:09:41 RSA256PrivKeyFile:
+2018/06/23 00:09:41 RSA256PubKeyFile:
+2018/06/23 00:09:41 RSA384PrivKeyFile:
+2018/06/23 00:09:41 RSA384PubKeyFile:
+2018/06/23 00:09:41 RSA512PrivKeyFile:
+2018/06/23 00:09:41 RSA512PubKeyFile:
+2018/06/23 00:09:41 Login() signing jwt's with ES384
+Development settings selected...
+Starting http server on: 172.17.0.2:8080
+2018/06/23 00:09:41 listening for ws traffic on 172.17.0.2:4444
+2018/06/23 00:09:43 gm.count: 1
+2018/06/23 00:09:43 gm.count: 2
+2018/06/23 00:09:44 gm.count: 3
+2018/06/23 00:09:45 gm.count: 4
+2018/06/23 00:09:45 JOIN: no leader detected - setting myID = 1 as leader
+2018/06/23 00:09:45 gm.count: 5
+2018/06/23 00:09:45 db and local leader set to 1, 172.17.0.2:4444
+2018/06/23 00:09:45 initialization complete...
+2018/06/23 00:09:45 leader info is: {1 172.17.0.2:4444}
+2018/06/23 00:09:46 PING CYCLE: starting ping cycle...
+2018/06/23 00:09:46 gm.count: 6
+2018/06/23 00:09:46 sendPing assembled index slice: [0]
+2018/06/23 00:09:46 sending PING: {PING 1 172.17.0.2:4444 1  0 1 172.17.0.2:4444 1 /ping ALIVE 1 0  true 0xc4205d2f30 false false  []}
+2018/06/23 00:09:46 EncodeGMMessage &amp;m.MemberMap: 0xc42005ece0
+2018/06/23 00:09:46 websocket.Dial: ws://172.17.0.2:4444/ping
+2018/06/23 00:09:46 websocket.Dial: ws://172.17.0.2:4444/ping complete
+2018/06/23 00:09:46 gm.count: 7
+...
+...
 
 </code></pre>
 
-<p>Jiffy generates two sample configuration files each time it is executed.  We are going to run our application with development environment settings, so lets take a quick look at .dev.config.json to make sure there are no horrible surprises.</p>
+<p><br></br></p>
 
-<pre><code class="language-json">
-    {
-        &quot;port&quot;: 8080,
-        &quot;env&quot;: &quot;dev&quot;,
-        &quot;pepper&quot;: &quot;secret-pepper-key&quot;,  
-        &quot;database&quot;: {
-            &quot;db_dialect&quot;: &quot;sqlite&quot;,
-            &quot;host&quot;:       &quot;127.0.0.1&quot;,
-            &quot;port&quot;:       0,
-            &quot;usr&quot;:        &quot;&quot;,
-            &quot;password&quot;:   &quot;&quot;,
-            &quot;name&quot;:       &quot;testdb.sqlite&quot;
-        },
-        &quot;cert_file&quot;: &quot;&quot;,
-        &quot;key_file&quot;: &quot;&quot;,
-        &quot;jwt_priv_key_file&quot;: &quot;jwtkeys/private.pem&quot;,
-        &quot;jwt_pub_key_file&quot;: &quot;jwtkeys/public.pem&quot;,
-        &quot;service_activations&quot;: [
-            {
-                &quot;service_name&quot;:   &quot;Person&quot;,
-                &quot;service_active&quot;: true
-            }
-            ]
-    }
+<h4 id="the-container-crashes-during-startup">The Container Crashes During Startup</h4>
+
+<p>Containers can crash during startup if something prevents the ENTRYPOINT from executing successfully.  In the context of a jiffy application a common cause of failure during startup is failure to connect to the database (for example).  When a container crashes on startup, the first thing to do is attempt to restart the container using the <em>-ia</em> flags as described above.  It is possible that a corrective action can be determined and implemented by reviewing the stdout/stderr during the container startup.</p>
+
+<p>If you are unable to correct the startup issue after reviewing the stdout/stderr output a good next step is logging into the container to investigate the issue.  How can we do this if the container is not running?</p>
+
+<p>Without going overboard on repeating the Docker online docs, it is helpful in these circumstances to remember that Docker images are constructed of so-called &lsquo;layers&rsquo;.  Thinking back to the output of the <em>docker build</em> command, we see some numbers that look suspiciously like docker image id&rsquo;s in each step of the image build output:</p>
+
+<pre><code class="language-code">
+...
+...
+Step 13/18 : RUN apk add file
+ ---&gt; Running in 51acae660d55
+(1/2) Installing libmagic (5.32-r0)
+(2/2) Installing file (5.32-r0)
+Executing busybox-1.27.2-r7.trigger
+OK: 9 MiB in 13 packages
+Removing intermediate container 51acae660d55
+ ---&gt; 566a1ee53ff0                              &lt;---- this is interesting
+Step 14/18 : RUN apk add busybox-extras
+...
+...
 
 </code></pre>
 
-<p>Jiffy decides by default to run against a sqlite database and generates what <em>should</em> be a suitable configuration file for most systems.  Again, we are not going to worry too much about what is in the configuration file at this point, but know that database file &lsquo;testdb.sqlite&rsquo; will be created in the generated application&rsquo;s root folder.</p>
+<p>The <a href="https://docs.docker.com/engine/docker-overview/#docker-registries">Docker online docs</a> tell us the following about image construction:</p>
+
+<blockquote>
+<p>Each instruction in a Dockerfile creates a layer in the image.
+When you change the Dockerfile and rebuild the image, only those
+layers which have changed are rebuilt. This is part of what makes
+images so lightweight, small, and fast, when compared to other
+virtualization technologies.</p>
+</blockquote>
+
+<p>This is important to us, because it informs that Docker sees images as accretions of layers corresponding to the build-steps in the Dockerfile used to maintain the image.  The next interesting point is that each layer corresponds to an intermediate image that inherits all of the intermediate images related to the previous <em>docker build</em> steps in the original Dockerfile.  We can get a list of the image-layers for our container by running the <em>docker history</em> command:</p>
+
+<pre><code class="language-code">
+  docker history pgelibraryapp
+
+</code></pre>
+
+<p>Running the command for the pgelibraryapp image results in the following output:</p>
+
+<pre><code class="language-code">
+Aardvark:quickstart stevem$ docker history pgelibraryapp
+
+IMAGE               CREATED             CREATED BY                                      SIZE  
+2f8b3df80aea        About an hour ago   /bin/sh -c #(nop)  ENTRYPOINT [&quot;/main&quot;]         0B
+7c6e201e86d2        About an hour ago   /bin/sh -c #(nop)  CMD [&quot;-dev&quot;]                 0B
+0ccad193e938        About an hour ago   /bin/sh -c apk add postgresql-client            7.31MB
+9e0557830716        About an hour ago   /bin/sh -c apk add openssh-client               3.09MB
+1adf3e8bbaf2        About an hour ago   /bin/sh -c apk add busybox-extras               119kB
+566a1ee53ff0        About an hour ago   /bin/sh -c apk add file                         5.12MB
+e365a84b6aec        About an hour ago   /bin/sh -c apk update                           1.22MB
+2963aa3091b8        About an hour ago   /bin/sh -c #(nop)  EXPOSE 8080                  0B
+8f359a48314a        About an hour ago   /bin/sh -c #(nop)  ENV PORT=8080                0B
+f8563aec3763        About an hour ago   /bin/sh -c #(nop) COPY dir:93ede63eb2fbf590a…   7.92kB
+17afeeae80b5        About an hour ago   /bin/sh -c mkdir jwtkeys                        0B
+1e9f1d632409        About an hour ago   /bin/sh -c sh setaddress.sh                     1.21kB
+2381bd9d01b2        About an hour ago   /bin/sh -c /bin/chmod 755 setaddress.sh         352B
+9996d0cbf44c        About an hour ago   /bin/sh -c #(nop) ADD file:b4cc3b29b753aaa7a…   352B
+d2764e99b3f5        About an hour ago   /bin/sh -c #(nop) COPY file:1331fb51eea27513…   1.22kB
+deec414c95e4        About an hour ago   /bin/sh -c #(nop) ADD file:5604ab9e3793fff27…   14MB
+7bd0bd5537d4        2 days ago          /bin/sh -c #(nop)  LABEL maintainer=&lt;stevem@…   0B
+3fd9065eaf02        5 months ago        /bin/sh -c #(nop)  CMD [&quot;/bin/sh&quot;]              0B
+&lt;missing&gt;           5 months ago        /bin/sh -c #(nop) ADD file:093f0723fa46f6cdb…   4.15MB
+Aardvark:quickstart stevem$
+
+</code></pre>
+
+<p>Starting from the bottom of the list and going up, each image builds on the images before it all the way up to the image corresponding to the named pgelibraryapp image.  This can be easily corroborated by running the <em>docker image</em> command with the pgelibraryapp image name as the command&rsquo;s ls criteria:</p>
+
+<pre><code class="language-code">
+docker image ls pgelib*
+
+</code></pre>
+
+<pre><code class="language-code">
+Aardvark:quickstart stevem$ docker image ls pgelib*
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+pgelibraryapp       latest              2f8b3df80aea        About an hour ago   35MB
+Aardvark:quickstart stevem$
+
+</code></pre>
+
+<p>Compare the IMAGE ID of the <em>pgelibraryapp</em> image with the top-level image reported by the <em>docker history pgelibraryapp</em> command.  They are the same.  We can infer from this that if an image is an image is an image, we should be able to <em>start any image in the history list</em>.</p>
+
+<p>Assuming that the container is crashing when attempting to execute the ENTRYPOINT, it may be useful to run a container using a source image that does everything but run the ENTRYPOINT step.  We can do this by selecting the intermediate image that we would like to run as a container and running the following command:</p>
+
+<pre><code class="language-code">
+docker run -it 0ccad193e938  /bin/sh
+
+</code></pre>
+
+<p>A check of the <em>docker history</em> output above tells us that intermediate image 0ccad193e938 contains everything that should be in our image with the exception of the ENTRYPOINT and CMD(flags) steps.  Starting the intermediate image as shown tells Docker to create a container from the intermediate image, run it in the foreground starting an interactive session running /bin/sh:</p>
+
+<pre><code class="language-sh">
+Aardvark:quickstart stevem$ docker run -it 0ccad193e938 /bin/sh
+
+/ # set
+HISTFILE='/root/.ash_history'
+HOME='/root'
+HOSTNAME='1aac17789e87'
+IFS='
+'
+OPTIND='1'
+PATH='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+PORT='8080'
+PPID='0'
+PS1='\w \$ '
+PS2='&gt; '
+PS4='+ '
+PWD='/'
+SHLVL='1'
+TERM='xterm'
+/ #
+
+</code></pre>
+
+<p>From here we can try to figure out what the problem is by attempting to start the application directly, inspecting the Alpine Linux setup, adding and configuring missing packages, adjusting network setup (careful) etc.  When the problem has been solved and you exit the container, the source Dockerfile may need to be updated and the image regenerated.</p>
 
 
 <footer class=" footline" >
@@ -2036,7 +2124,6 @@
             
                 
                     
-                    
                 
                 
 
@@ -2051,9 +2138,6 @@
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -2087,7 +2171,6 @@
             
                 
                     
-                    
                 
                 
 
@@ -2103,9 +2186,6 @@
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -3024,6 +3104,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -3038,6 +3119,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -3071,6 +3155,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -3083,6 +3168,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -3115,6 +3203,7 @@
             
             
                 
+                    
                     
                 
                 
@@ -3140,10 +3229,10 @@
 
 
         
-            <a class="nav nav-prev" href="/jiffy/getting-started/gs-content-b/" title="Installing Jiffy"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/jiffy/tutorials/using-docker/dr-content-b/" title="Jiffy with Docker and External PostgreSQL"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/jiffy/getting-started/gs-content-d/" title="Let&#39;s Run Something" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/jiffy/tutorials/using-docker/dr-content-a/" title="Jiffy with Docker and SQLite" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
