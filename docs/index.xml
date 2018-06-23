@@ -544,6 +544,16 @@ Create one more &amp;lsquo;Person&amp;rsquo; entity so we have three (or more) i
     </item>
     
     <item>
+      <title>Deployment with Containers</title>
+      <link>https://1414c.github.io/jiffy/usage/deployment/us-content-k/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/usage/deployment/us-content-k/</guid>
+      <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts 
+All-In-One Deployment with Docker In a development or test setting it may make sense to deploy everything in one container. SQLite is a good choice for this type of container deployment, as it is a file-based database and therefore does not need to be started as a service. Containers typically offer single services and their configuration is geared to this usage pattern.</description>
+    </item>
+    
+    <item>
       <title>Get Some Persons</title>
       <link>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-d/</link>
       <pubDate>Tue, 06 Feb 2018 22:34:10 -0700</pubDate>

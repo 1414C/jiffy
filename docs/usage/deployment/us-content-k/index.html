@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/images/favicon.png" type="image/x-icon" />
 
-    <title>Jiffy with Docker and External PostgreSQL :: Jiffy Services Generator</title>
+    <title>Deployment with Containers :: Jiffy Services Generator</title>
     
     
     <link href="/jiffy/css/nucleus.css?1529717062" rel="stylesheet">
@@ -35,7 +35,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/jiffy/tutorials/using-docker/dr-content-b/">
+  <body class="" data-url="/jiffy/usage/deployment/us-content-k/">
     <nav id="sidebar" class="">
 
 
@@ -1254,7 +1254,7 @@
   
     
     <li data-nav-id="/jiffy/usage/" title="Testing and Deployment" class="dd-item 
-        
+        parent
         
         
         ">
@@ -1433,7 +1433,7 @@
   
     
     <li data-nav-id="/jiffy/usage/deployment/" title="Deployment Overview" class="dd-item 
-        
+        parent
         
         
         ">
@@ -1495,7 +1495,7 @@
  
   
     
-      <li data-nav-id="/jiffy/usage/deployment/us-content-k/" title="Deployment with Containers" class="dd-item ">
+      <li data-nav-id="/jiffy/usage/deployment/us-content-k/" title="Deployment with Containers" class="dd-item active">
         <a href="/jiffy/usage/deployment/us-content-k/">
         Deployment with Containers
         
@@ -1550,7 +1550,7 @@
   
     
     <li data-nav-id="/jiffy/tutorials/" title="Jiffy Tutorials" class="dd-item 
-        parent
+        
         
         
         ">
@@ -1615,7 +1615,7 @@
   
     
     <li data-nav-id="/jiffy/tutorials/using-docker/" title="Using Docker" class="dd-item 
-        parent
+        
         
         
         ">
@@ -1658,7 +1658,7 @@
  
   
     
-      <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-b/" title="Jiffy with Docker and External PostgreSQL" class="dd-item active">
+      <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-b/" title="Jiffy with Docker and External PostgreSQL" class="dd-item ">
         <a href="/jiffy/tutorials/using-docker/dr-content-b/">
         Jiffy with Docker and External PostgreSQL
         
@@ -1776,7 +1776,7 @@
             
           
           
-            <a href='/jiffy/'></a> > <a href='/jiffy/tutorials/'>Jiffy Tutorials</a> > <a href='/jiffy/tutorials/using-docker/'>Using Docker</a> > Jiffy with Docker and External PostgreSQL
+            <a href='/jiffy/'></a> > <a href='/jiffy/usage/'>Testing and Deployment</a> > <a href='/jiffy/usage/deployment/'>Deployment Overview</a> > Deployment with Containers
           
          
           
@@ -1796,38 +1796,11 @@
 <ul>
 <li>
 <ul>
-<li><a href="#overview">Overview</a></li>
-<li><a href="#steps">Steps</a>
+<li><a href="#deployment-overview">Deployment Overview</a>
 <ul>
-<li><a href="#verify-jiffy-installation">Verify Jiffy Installation</a></li>
-<li><a href="#generate-the-application">Generate the Application</a></li>
-<li><a href="#edit-the-configuration-file">Edit the Configuration File</a>
-<ul>
-<li><a href="#update-address-keys">Update Address Keys</a></li>
-<li><a href="#update-database-config">Update Database Config</a></li>
-<li><a href="#ensure-postgresql-is-available">Ensure PostgreSQL is Available</a></li>
-</ul></li>
-<li><a href="#build-a-static-application-binary-for-alpine-linux">Build a Static Application Binary for Alpine Linux</a>
-<ul>
-<li><a href="#install-musl-gcc">Install Musl-gcc</a></li>
-<li><a href="#build-a-static-binary">Build a Static Binary</a></li>
-<li><a href="#build-a-dynamically-linked-binary">Build a Dynamically-Linked Binary</a></li>
-</ul></li>
-<li><a href="#create-a-dockerfile">Create a Dockerfile</a></li>
-<li><a href="#create-set-address-script">Create Set Address Script</a></li>
-<li><a href="#build-the-image">Build the Image</a>
-<ul>
-<li><a href="#view-the-image">View the Image</a></li>
-<li><a href="#use-the-image">Use the Image</a></li>
-<li><a href="#check-the-container-status">Check the Container Status</a></li>
-<li><a href="#ssh-into-the-container">SSH into the Container</a></li>
-</ul></li>
-<li><a href="#use-the-psql-client-to-connect-to-postgres">Use the psql Client to Connect to Postgres</a></li>
-<li><a href="#login-to-the-application">Login to the Application</a></li>
-<li><a href="#create-a-library">Create a Library</a></li>
-<li><a href="#create-a-book">Create a Book</a></li>
-<li><a href="#library-tobooks">Library toBooks</a></li>
-<li><a href="#book-tolibrary">Book toLibrary</a></li>
+<li><a href="#all-in-one-deployment-with-docker">All-In-One Deployment with Docker</a></li>
+<li><a href="#single-instance-deployment-with-external-postgres-database">Single-Instance Deployment with External Postgres Database</a></li>
+<li><a href="#multi-instance-deployment">Multi-Instance Deployment</a></li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -1844,7 +1817,7 @@
         
         <div id="body-inner">
           
-            <h1>Jiffy with Docker and External PostgreSQL</h1>
+            <h1>Deployment with Containers</h1>
           
 
         
@@ -1852,589 +1825,76 @@
 
 
 
-<h3 id="overview">Overview</h3>
+<p><br></br></p>
 
-<p>We will create and deploy a sample application inside a Docker container.  The containerized application will run as a single-instance and communicate to a Postgres database which will be available over the container-host&rsquo;s network.  In this example the Postgres database will not be running in a container.</p>
+<h3 id="deployment-overview">Deployment Overview</h3>
 
-<p>As in the <a href="http://localhost:1313/jiffy/tutorials/using-docker/dr-content-a/#overview">All-In-One tutorial</a>, our Dockerfile will be quite simple and we will go with some of the <em>docker build</em> defaults.  These include allowing <em>docker build</em> to determine the ipv4 address to assign to the image, and also using the default Docker networking setup (&ndash;network-bridge).</p>
+<p>See the <a href="/jiffy/usage/deployment/us-content-i/">Deployment Overview</a> chapter for a brief outline of jiffy-application deployment artifacts
+<br></br></p>
 
-<h3 id="steps">Steps</h3>
+<h4 id="all-in-one-deployment-with-docker">All-In-One Deployment with Docker</h4>
+
+<p>In a development or test setting it may make sense to deploy everything in one container.  SQLite is a good choice for this type of container deployment, as it is a file-based database and therefore does not need to be started as a service.  Containers <em>typically</em> offer single services and their configuration is geared to this usage pattern.  While it is possible to run Postgres, a KVS and a jiffy-application in the same container, it is an atypical scenario and a little cumbersome to setup.  By using SQLite and dispensing with the KVS we only need to run the jiffy-application in the container.</p>
+
+<p>The <em>docker build</em> command can be used in conjunction with a Dockerfile to generate a new Docker image complete with the application, SQLite library and sparse Alpine Linux install.  <em>docker build</em> also assigns an ipv4 address to the container image by default.  This ip-address needs to be added to the application&rsquo;s configuration file via the execution of a custom script during the image build.</p>
+
+<p>See the <a href="/jiffy/tutorials/tt-content-c/#overview">Test in a Docker Container</a> tutorial for an example of an end-to-end all-in-one Jiffy application deployment with Docker and SQLite.</p>
+
+<p><img src="/jiffy/usage/images/DockerImage1.png" alt="DockerImage1" /></p>
+
+<p>The new Docker image can then be used to create a container which the Docker daemon will then manage and run.</p>
+
+<p><img src="/jiffy/usage/images/DockerJiffyContainer1.png" alt="DockerJiffyContainer1" /></p>
+
+<p>See the sample tutorial referenced above for the Dockerfile, application configuration file and scripting required to support this type of deployment.</p>
+
+<p><br></br></p>
+
+<h4 id="single-instance-deployment-with-external-postgres-database">Single-Instance Deployment with External Postgres Database</h4>
+
+<p>Single instance deployments contain one jiffy-application instance, an optional KVS and a database.  In this example scenario the jiffy application is deployed in a Docker container, the database is running on a separate host and no KVS is used.  Ip-addresses are shown for illustrative purposes only.  See the <a href="/jiffy/usage/deployment/us-content-k/#all-in-one-deployment-with-docker">All-In-One Deployment with Docker</a> section for a brief overview of the Docker containerization of a jiffy application.</p>
 
 <ol>
-<li>Verify the Jiffy installation.</li>
-<li>Generate a new application using a sample model file from the Jiffy source-tree.</li>
-<li>Edit the application&rsquo;s configuration file for Postgres and Docker use.</li>
-<li>Statically compile a binary for inclusion in the Docker image.</li>
-<li>Write a simple Dockerfile to create a runnable image.</li>
-<li>Write a small script to update the image&rsquo;s <em>.dev.config.json</em> file with the container&rsquo;s ipv4 address</li>
-<li>Create a container from the image and start the container.</li>
-<li>Test access to the application running in the container using Postman.</li>
-<li>Stop the container.</li>
-<li>Cleanup the Docker environment.</li>
+<li>Database running on a separate host</li>
+<li>Jiffy application deployed in a Docker container</li>
 </ol>
 
-<h4 id="verify-jiffy-installation">Verify Jiffy Installation</h4>
+<p><img src="/jiffy/usage/images/DockerJiffyWithPostgres1.png" alt="DockerJiffyWithPostgres1" /></p>
 
-<p>Ensure that Jiffy has been installed on your workstation by following the instructions provided in the <a href="/jiffy/installation">Jiffy Installation</a> section.</p>
+<p>The Single-Instance Deployment diagram shows a jiffy-application instance running on a system with an ip-address of 192.168.1.5.  The application instance is accepting http client connections on port :8080, using port :7070 to listen for failure-detector &amp; cache synchronization messages.  The failure detector &lsquo;bus&rsquo; is used for group-leadership and inter-process cache messages, even when the application is run standalone (single process).</p>
 
-<h4 id="generate-the-application">Generate the Application</h4>
+<p>It is not necessary to run an external KVS if the jiffy-application will be run as a standalone process.  The KVS is used to hold the current group-leader information when jiffy applications are deployed with more than one instance.  When running without a KVS it is fine to leave the default gmcom.GetterSetter implementation as it is.  The application instance will attempt to contact the default KVS (<em>sluggo</em>) four times, then give up, assign itself a PID of 1 and assert leadership inside it&rsquo;s own process.  The short version is: don&rsquo;t worry about the KVS if you want to run a single instance of your jiffy application.</p>
 
-<p>We will generate a new application called <em>pgelibraryapp</em> from a <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/hasManyBelongsTo.json">model file</a> that contains a &lsquo;Library&rsquo; and &lsquo;Book&rsquo; entity.  Two relationships are maintained in the model; a Library hasMany Books and a Book belongsTo a specific Library.  An application generated from this model will allow many Jiffy application features to be tested.</p>
+<p>If you do choose to run a single application instance with a KVS, using <a href="/jiffy/usage/us-content-h/#key-value-store-a-id-key-value-store-a"><em>sluggo</em></a> and making use of the jiffy-application&rsquo;s default gmcom.GetterSetter implementation is the easiest way to get started.  You may also choose to create your own implementation of the gmcom.GetterSetter interface in the main.go file to support another KVS.</p>
 
-<p>Open a terminal window on your workstation and run jiffy using the Library-Book model file to generate the source-code for our test application as follows:</p>
+<p>The application communicates with the KVS using whatever protocol/transport is required.  Remember that the selection of KVS is arbitrary and an <a href="/jiffy/usage/us-content-h/#interface-gmcom-gmgettersetter">interface is provided</a> to allow the implementer to write their own code to communicate with any KVS.</p>
 
-<pre><code class="language-bash">
-$ jiffy -m $GOPATH/src/github.com/1414C/jiffy/support/testing_models/hasManyBelongsTo.json -p /exp/pgelibraryapp
-
-</code></pre>
-
-<p><a href="/jiffy/execution/ex-content-b/#generation-flags">Remember that jiffy&rsquo;s -p flag</a> expects to be provided with an existing path underneath your $GOPATH/src folder.  In the example invocation shown above, jiffy will create the <em>pgelibraryapp</em> folder underneath $GOPATH/src/exp/ and then write the generated source-code to this location.</p>
-
-<p>Execution of the generator should result in output similar to the following:</p>
-
-<pre><code class="language-code">
-Aardvark:jiffy stevem$ go run main.go -m $GOPATH/src/github.com/1414C/jiffy/support/testing_models/hasManyBelongsTo.json -p /exp/pgelibraryapp
-2018/06/22 12:26:57 generated: /Users/stevem/gowork/src/exp/pgelibraryapp/models/librarym.go
-2018/06/22 12:26:57 generated: /Users/stevem/gowork/src/exp/pgelibraryapp/models/librarym_ext.go
-2018/06/22 12:26:57 generated: /Users/stevem/gowork/src/exp/pgelibraryapp/controllers/libraryc.go
-...
-...
-...
-2018/06/22 12:26:59 executing /usr/local/go/bin/goimports -w /Users/stevem/gowork/src/exp/pgelibraryapp/util/strings.go
-2018/06/22 12:26:59 executing /usr/local/go/bin/gofmt -w /Users/stevem/gowork/src/exp/pgelibraryapp/util/strings.go
-2018/06/22 12:26:59 executing /usr/local/go/bin/goimports -w /Users/stevem/gowork/src/exp/pgelibraryapp/appobj/appconf.go
-2018/06/22 12:26:59 executing /usr/local/go/bin/gofmt -w /Users/stevem/gowork/src/exp/pgelibraryapp/appobj/appconf.go
-Aardvark:jiffy stevem$
-
-</code></pre>
-
-<p>Your output may look slightly different, particularly the database connection test which will almost certainly fail.  This is nothing to be concerned about, as the generator is attempting to connect to a local Postgres instance using bad credentials.
+<p>The application is also shown to be accessing a Postgres database via tcp @192.168.1.31:5432.  In this example we show PostgreSQL accepting connections on it&rsquo;s default port (tcp/5432), but any of the <a href="/jiffy/installation/in-content-a/#supported-databases">supported databases</a> can be used.
 <br></br></p>
 
-<h4 id="edit-the-configuration-file">Edit the Configuration File</h4>
+<h4 id="multi-instance-deployment">Multi-Instance Deployment</h4>
 
-<h5 id="update-address-keys">Update Address Keys</h5>
+<p>Multi-instance deployments contain more than one jiffy-application instance, a KVS and a database.  In this scenario the database is running on a separate system and is available over the local network and jiffy-application instances are running in parallel on multiple hosts.  In this arrangement the KVS is not optional, as the group-leadership sub-system requires it in order to persist the group-leader information.</p>
 
-<p>The next step is to edit the generated application&rsquo;s configuration files.  Docker allocates a static ip-address for each container by default, and we will use that address in our application&rsquo;s configuration file.  &lsquo;external_address&rsquo; refers to the address at which the application&rsquo;s end-points will be available, while the &lsquo;internal_address&rsquo; is used for cache updates and interprocess communication over web-socket connections.  Strictly speaking, in a single-instance Docker deployment we could get away with maintaining the address-keys as follows:</p>
+<ol>
+<li>Database running on a separate host</li>
+<li>Jiffy application instances running on separate hosts/VM&rsquo;s</li>
+<li>Key-Value-Store</li>
+</ol>
 
-<pre><code class="language-json">.dev.config.json
+<p><img src="/jiffy/usage/images/BareMetal8.png" alt="BareMetalMultiInstance" /></p>
 
-{
-    &quot;external_address&quot;: &quot;:8080&quot;,
-    &quot;internal_address&quot;: &quot;:4444&quot;,
-    &quot;env&quot;: &quot;dev&quot;,
-    ...
-    ...
-}
+<p>The Multi-Instance Deployment diagram shows a number of jiffy-application instances running on individual hosts.  Each application instance is accepting http client connections on port :8080 and using port :7070 to listen for failure-detector &amp; cache synchronization messages.  The failure detector &lsquo;bus&rsquo; is used for group-leadership and inter-process cache messages.  Each application instance is shown making a web-socket connection to its peers on ws:7070.</p>
 
-</code></pre>
+<p>The KVS is used to hold the current group-leader information when jiffy applications are deployed with more than one instance.  See the <a href="/jiffy/interprocess/">Interprocess Communication</a> section for details regarding the use of the KVS with group-membership and group-leader election.</p>
 
-<p>However, we will show how to obtain and insert the container&rsquo;s real ip-address into the configuration file.  This will be useful later if you deploy multiple application instances in Docker containers.</p>
+<p>Running <a href="/jiffy/usage/us-content-h/#key-value-store-a-id-key-value-store-a"><em>sluggo</em></a> and making use of the default gmcom.GetterSetter implementation is the easiest way to get started.  You may also choose to create your own implementation of the gmcom.GetterSetter interface in the main.go file to support another KVS.</p>
 
-<p>Open the generated <em>.dev.config.json</em> file in an editor and update the &lsquo;external_address&rsquo; and &lsquo;internal_address&rsquo; values with &ldquo;xxx.xxx.xxx.xxx:8080&rdquo; and &ldquo;xxx.xxx.xxx.xxx:4444&rdquo; respectively.  Using an illegal ipv4 address as a placeholder/mask ensures that the container will not start in the event that the container&rsquo;s address could not be assigned to the config keys.  When you have finished, save the file after verifying that it looks like this:</p>
+<p>The application communicates with the KVS using whatever protocol/transport is required.  Remember that the selection of KVS is arbitrary and an <a href="/jiffy/usage/us-content-h/#interface-gmcom-gmgettersetter">interface is provided</a> to allow the implementer to write their own code to communicate with any KVS.</p>
 
-<pre><code class="language-json">.dev.config.json
+<p>Application instances are shown to be accessing a Postgres database via tcp @192.168.1.31:5432.  In this example we show PostgreSQL accepting connections on it&rsquo;s default port (tcp/5432), but any of the <a href="/jiffy/installation/in-content-a/#supported-databases">supported databases</a> can be used.</p>
 
-{
-    &quot;external_address&quot;: &quot;xxx.xxx.xxx.xxx:8080&quot;,
-    &quot;internal_address&quot;: &quot;xxx.xxx.xxx.xxx:4444&quot;,
-    &quot;env&quot;: &quot;dev&quot;,
-    ...
-    ...
-
-}
-
-</code></pre>
-
-<h5 id="update-database-config">Update Database Config</h5>
-
-<p>Jiffy generates configuration files targeting a Postgres database by default.  Maintain the values in the &lsquo;database&rsquo; block of the *.dev.config.json; file as necessary in order to gain access to your testing database:</p>
-
-<pre><code class="language-json">.dev.config.json
-
-{
-    ...
-    &quot;database&quot;: {
-        &quot;db_dialect&quot;: &quot;postgres&quot;,
-        &quot;host&quot;:       &quot;192.168.1.65&quot;,
-        &quot;port&quot;:       5432,
-        &quot;usr&quot;:        &quot;godev&quot;,
-        &quot;password&quot;:   &quot;gogogo123&quot;,
-        &quot;name&quot;:       &quot;glrestgen&quot;
-    },
-    ...
-}
-
-</code></pre>
-
-<p>Once the database block in <em>.dev.config.json</em> has been updated, save the file and close the editor.</p>
-
-<h5 id="ensure-postgresql-is-available">Ensure PostgreSQL is Available</h5>
-
-<p>By default, Postgres only allows connections from the localhost (127.0.0.1).  If your Postgres database is running on another machine, you will need to ensure that it allows connections from remote hosts.  A quick web-search will reveal how to maintain Postgres&rsquo;s <em>postgresql.conf</em> and <em>pg_hba.conf</em> files to allow remote connections to the database.  Make sure that you are able to connect to your Postgres database from the Docker host environment before continuing.</p>
-
-<p><br></br></p>
-
-<h4 id="build-a-static-application-binary-for-alpine-linux">Build a Static Application Binary for Alpine Linux</h4>
-
-<p>Next, we need to build a static application binary for linux/amd64.  To build the application, a number of dependencies are required as outlined in the <a href="/jiffy/installation/in-content-a/#what-does-jiffy-need-to-run">Jiffy Dependencies</a> section of the documentation.  Check that your build environment contains the correct packages and import any that are missing.</p>
-
-<p>This tutorial uses the popular <a href="https://alpinelinux.org/">Alpine Linux distribution</a> as the basis for the new container image.  Alpine Linux is a small and sparse distribution making it nice for use with containers.  There are a few things to be aware of however&hellip;</p>
-
-<p>Alpine Linux is based on <a href="https://www.musl-libc.org/">lib-musl</a> which means that binaries built by <em>go build</em> must target lib-musl rather than lib-gcc.  The binary resulting from the typical &lsquo;GOOS=linux GOARCH=amd64 go build -o main .&rsquo; command would almost certainly not work on Alpine.  The good news is that this is pretty easy to build with musl-gcc, the bad news is that musl-gcc is available for Linux only.  If you are working on a system in which lib-musl is not supported, you will need to run the <em>go build</em> command on in a supported build environment. <a href="https://wiki.musl-libc.org/supported-platforms.html">Most Linux distributions and architectures are supported</a>.</p>
-
-<p>Check if lib-musl has been installed in the build environment by running the following command to see if <em>musl-gcc</em> is in the $PATH:</p>
-
-<pre><code class="language-bash">
-which musl-gcc
-/usr/bin/musl-gcc
-
-</code></pre>
-
-<p>If <em>musl-gcc</em> was found, you may skip over the musl-gcc installation instructions.</p>
-
-<h5 id="install-musl-gcc">Install Musl-gcc</h5>
-
-<p>We will go over how to install <em>musl-gcc</em> on a Debian system, but the steps are largely the same for any Linux distribution.  Use your distribution&rsquo;s package manager to install the musl lib, musl development files and musl development tools.  Run the following commands (or their equivalents) in a terminal window on your Linux build system:</p>
-
-<pre><code>
-sudo apt-get update
-sudo apt-get install musl
-sudo apt-get install musl-dev
-sudo apt-get install musl-tools
-
-</code></pre>
-
-<p>Check to make sure that musl-gcc is now in the $PATH:</p>
-
-<pre><code class="language-bash">
-which musl-gcc
-/usr/bin/musl-gcc
-
-</code></pre>
-
-<h5 id="build-a-static-binary">Build a Static Binary</h5>
-
-<p>After ensuring that all of the required dependencies have been installed in the build environment, run the following command to build a statically-linked  binary called <em>main</em> for the Alpine Linux target OS.  Adjust the GOARCH environment variable as necessary:</p>
-
-<pre><code class="language-bash">
-CGO=0 GOOS=linux GOARCH=amd64 CC=$(which musl-gcc) go build --ldflags '-w -linkmode external -extldflags &quot;-static&quot;' -a -tags netgo -installsuffix cgo -o main .
-
-</code></pre>
-
-<p>Running <em>go build</em> with CGO=0 and setting the -a flag forces a rebuild without cross-compilation dependencies.  Setting &ndash;ldflags as shown instructs <em>go build</em> to produce a statically linked binary.  Setting the CC environment variable to point at musl-gcc ensures that the target (executable) will run in the Alpine Linux environment.  Once the build has completed, a new &lsquo;main&rsquo; file will have been created.  Check the file via the &lsquo;file&rsquo; command:</p>
-
-<pre><code class="language-bash">
-file main
-main: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, not stripped
-
-</code></pre>
-
-<h5 id="build-a-dynamically-linked-binary">Build a Dynamically-Linked Binary</h5>
-
-<p>This is optional and will produce a marginally smaller binary.  We will not use a dynamically-linked binary in our image, but have included a suitable <em>go build</em> command for reference purposes.</p>
-
-<pre><code class="language-bash">
-CGO=0 GOOS=linux GOARCH=amd64 CC=$(which musl-gcc) go build -a -tags netgo -installsuffix cgo -o main .
-
-</code></pre>
-
-<p>Running <em>go build</em> with CGO=0 and setting the -a flag forces a rebuild without cross-compilation dependencies.  <em>go build</em> produces dynamically-linked binaries by default, so no linker instructions have been provided.  Setting the CC environment variable to point at musl-gcc ensures that the target (executable) will run in the Alpine Linux environment.  Once the build has completed, a new &lsquo;main&rsquo; file will have been created.  Check the file via the &lsquo;file&rsquo; command:</p>
-
-<pre><code class="language-bash">
-file main
-main: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-x86_64.so.1, not stripped
-
-</code></pre>
-
-<p><br></br></p>
-
-<h4 id="create-a-dockerfile">Create a Dockerfile</h4>
-
-<p>Verify that you have Docker installed in your build environment.  The easiest way to do this is to run <em>which docker</em> in a terminal window to ensure the <em>docker</em> application is in the $PATH.  If there is no response, check the $PATH or install Docker following the instructions at <a href="https://www.docker.com/get-docker">www.docker.com</a>.  Verify that the Docker daemon is running by opening a terminal window in your build environment and running the <em>docker ps</em> command.  If Docker is not running, an error message will be displayed.  Start the Docker daemon before continuing.</p>
-
-<p>In order to deploy the compiled application in a Docker container, we need to create a Dockerfile.  The <em>docker build</em> command uses the Dockerfile as a set of instructions when building an image.  As mentioned previously, we will use Alpine Linux as the foundation (base image) for the new Docker container image.  <a href="https://hub.docker.com/_/alpine/">Dockerhub</a> has a number of pre-defined images that are available to be &lsquo;pulled&rsquo; into locally defined custom images.</p>
-
-<p>Create a new file called <em>Dockerfile</em> in the root folder of the pgelibraryapp source-tree and open it in your editor.  Copy the following content into the new Dockerfile.  An effort has been made to briefly describe what each line of the Dockerfile is used for.</p>
-
-<pre><code class="language-Dockerfile">
-# use the official docker hub alpine:3.7 base image
-FROM alpine:3.7
-
-# set the maintainer information for the new image
-LABEL maintainer=&quot;&lt;stevem@1414c.io&gt;&quot;
-
-# add the compiled application binary to the root folder of the new image
-ADD main ./
-
-# copy the configuration file to the root folder of the new image
-COPY .dev.config.json .
-
-# add the setaddress.sh shell script to the root folder of the new image
-ADD setaddress.sh .
-
-# set widely exectuable permission on the shell-script
-RUN /bin/chmod 755 setaddress.sh
-
-# execute setaddress.sh to update .dev.config.json with the ipv4 address bound to eth0
-RUN sh setaddress.sh
-
-# create a directory in the root folder of the new image to hold the jwt signing keys
-RUN mkdir jwtkeys
-
-# copy the jwtkeys folder content into the image's /jwtkeys folder
-COPY jwtkeys ./jwtkeys
-
-# set container environment variable $PORT to 8080
-ENV PORT 8080
-
-# container will listen on port tcp/8080
-EXPOSE 8080
-
-# add unix file command
-RUN apk add file
-
-# add openssh-client for connectivity testing
-RUN apk add openssh-client
-
-# add the postgresql-client to test connectivity to the db
-RUN apk add postgresql-client
-
-# specify the flag(s) to be used with the ENTRYPOINT
-CMD [&quot;-dev&quot;]
-
-# set the container entrypoint - container executes this once it is up and running
-# in more complex setups, one would perhaps execute a shell-script here.
-ENTRYPOINT [&quot;/main&quot;]
-
-</code></pre>
-
-<p><br></br></p>
-
-<h4 id="create-set-address-script">Create Set Address Script</h4>
-
-<p>In a previous step <em>.dev.config.json</em> was updated with xxx.xxx.xxx.xxx ipv4 address masks.  In order to replace the masks with the container&rsquo;s ipv4 address, the <em>docker build</em> command will run the <em>setaddress.sh</em> script as instructed in the Dockerfile.  At the moment this is a problem however, as we have not written the script yet.  Create a new file called <em>setaddress.sh</em> in the root folder of the pgelibraryapp source-tree and open it in your editor.  Copy the following content into the new <em>setaddress.sh</em> file:</p>
-
-<pre><code class="language-bash">
-#!/bin/sh
-
-# get the ipv4 address assigned to eth0
-replace=$(ifconfig eth0 | grep &quot;inet addr&quot; | cut -d ':' -f 2 | cut -d ' ' -f 1)
-
-# set a variable with the value we are planning to replace
-search=&quot;xxx.xxx.xxx.xxx&quot;
-
-# check that variable replace has something in it
-if [ -z &quot;$replace&quot; ]; then
-  echo &quot;Did not get an address value for eth0&quot;
-elif [ -n &quot;$replace&quot; ]; then
-  echo &quot;${replace} found&quot;
-# replace all instances of 'xxx.xxx.xxx.xxx' in .dev.config.json
-# with the ipv4 address in the ${replace} variable
-  sed -i &quot;s/${search}/${replace}/g&quot; .dev.config.json
-fi
-
-</code></pre>
-
-<p><br></br></p>
-
-<h4 id="build-the-image">Build the Image</h4>
-
-<p>Assuming the previous steps have been successful, it is now time to build the new Docker image.  Execute the following command from the pgelibraryapp root folder:</p>
-
-<pre><code class="language-bash">
-docker build -t pgelibraryapp .
-
-</code></pre>
-
-<p>Running <em>docker build</em> as shown instructs Docker to construct an image called <em>pgelibraryapp</em> using the Dockerfile in the current working directory.  You should see output similar to that shown below:</p>
-
-<pre><code class="language-code">Aardvark:pgelibraryapp stevem$ docker build -t pgelibraryapp .
-Sending build context to Docker daemon   14.4MB
-Step 1/18 : FROM alpine:3.7
- ---&gt; 3fd9065eaf02
-Step 2/18 : LABEL maintainer=&quot;&lt;stevem@1414c.io&gt;&quot;
- ---&gt; Using cache
- ---&gt; 7bd0bd5537d4
-Step 3/18 : ADD main ./
- ---&gt; deec414c95e4
-Step 4/18 : COPY .dev.config.json .
- ---&gt; d2764e99b3f5
-Step 5/18 : ADD setaddress.sh .
- ---&gt; 9996d0cbf44c
-Step 6/18 : RUN /bin/chmod 755 setaddress.sh
- ---&gt; Running in 1c1c4a5fb77e
-Removing intermediate container 1c1c4a5fb77e
- ---&gt; 2381bd9d01b2
-Step 7/18 : RUN sh setaddress.sh
- ---&gt; Running in d56f33948c09
-172.17.0.2 found
-Removing intermediate container d56f33948c09
- ---&gt; 1e9f1d632409
-Step 8/18 : RUN mkdir jwtkeys
- ---&gt; Running in 27ea3fd9ecf7
-Removing intermediate container 27ea3fd9ecf7
- ---&gt; 17afeeae80b5
-Step 9/18 : COPY jwtkeys ./jwtkeys
- ---&gt; f8563aec3763
-Step 10/18 : ENV PORT 8080
- ---&gt; Running in 4d7adcdf6f4e
-Removing intermediate container 4d7adcdf6f4e
- ---&gt; 8f359a48314a
-Step 11/18 : EXPOSE 8080
- ---&gt; Running in fd0229f23a3c
-Removing intermediate container fd0229f23a3c
- ---&gt; 2963aa3091b8
-Step 12/18 : RUN apk update
- ---&gt; Running in 5fbabf7053e5
-fetch http://dl-cdn.alpinelinux.org/alpine/v3.7/main/x86_64/APKINDEX.tar.gz
-fetch http://dl-cdn.alpinelinux.org/alpine/v3.7/community/x86_64/APKINDEX.tar.gz
-v3.7.0-214-g519be0a2d1 [http://dl-cdn.alpinelinux.org/alpine/v3.7/main]
-v3.7.0-207-gac61833f9b [http://dl-cdn.alpinelinux.org/alpine/v3.7/community]
-OK: 9054 distinct packages available
-Removing intermediate container 5fbabf7053e5
- ---&gt; e365a84b6aec
-Step 13/18 : RUN apk add file
- ---&gt; Running in 51acae660d55
-(1/2) Installing libmagic (5.32-r0)
-(2/2) Installing file (5.32-r0)
-Executing busybox-1.27.2-r7.trigger
-OK: 9 MiB in 13 packages
-Removing intermediate container 51acae660d55
- ---&gt; 566a1ee53ff0
-Step 14/18 : RUN apk add busybox-extras
- ---&gt; Running in 4c7efc95386d
-(1/1) Installing busybox-extras (1.27.2-r11)
-Executing busybox-extras-1.27.2-r11.post-install
-Executing busybox-1.27.2-r7.trigger
-OK: 9 MiB in 14 packages
-Removing intermediate container 4c7efc95386d
- ---&gt; 1adf3e8bbaf2
-Step 15/18 : RUN apk add openssh-client
- ---&gt; Running in a89b1480e10c
-(1/2) Installing openssh-keygen (7.5_p1-r8)
-(2/2) Installing openssh-client (7.5_p1-r8)
-Executing busybox-1.27.2-r7.trigger
-OK: 12 MiB in 16 packages
-Removing intermediate container a89b1480e10c
- ---&gt; 9e0557830716
-Step 16/18 : RUN apk add postgresql-client
- ---&gt; Running in 1f195c265692
-(1/9) Installing ncurses-terminfo-base (6.0_p20171125-r0)
-(2/9) Installing ncurses-terminfo (6.0_p20171125-r0)
-(3/9) Installing ncurses-libs (6.0_p20171125-r0)
-(4/9) Installing libedit (20170329.3.1-r3)
-(5/9) Installing db (5.3.28-r0)
-(6/9) Installing libsasl (2.1.26-r11)
-(7/9) Installing libldap (2.4.45-r3)
-(8/9) Installing libpq (10.4-r0)
-(9/9) Installing postgresql-client (10.4-r0)
-Executing busybox-1.27.2-r7.trigger
-OK: 24 MiB in 25 packages
-Removing intermediate container 1f195c265692
- ---&gt; 0ccad193e938
-Step 17/18 : CMD [&quot;-dev&quot;]
- ---&gt; Running in 9d11b1d5758e
-Removing intermediate container 9d11b1d5758e
- ---&gt; 7c6e201e86d2
-Step 18/18 : ENTRYPOINT [&quot;/main&quot;]
- ---&gt; Running in d9ec48627ff7
-Removing intermediate container d9ec48627ff7
- ---&gt; 2f8b3df80aea
-Successfully built 2f8b3df80aea
-Successfully tagged pgelibraryapp:latest
-Aardvark:pgelibraryapp stevem$
-
-</code></pre>
-
-<h5 id="view-the-image">View the Image</h5>
-
-<p>You can run the <em>docker image</em> command as shown below to view some basic data regarding the new image:</p>
-
-<pre><code class="language-bash">
-Aardvark:pgelibraryapp stevem$ docker image ls pgelib*
-
-REPOSITORY          TAG                 IMAGE ID            CREATED              SIZE
-pgelibraryapp       latest              2f8b3df80aea        About a minute ago   35MB
-Aardvark:pgelibraryapp stevem$
-
-</code></pre>
-
-<h5 id="use-the-image">Use the Image</h5>
-
-<p>Once the image has been created, the next step is to use it to create a container.  This can be done in a single step where Docker creates the container and then starts it.  Run the following command to create and start a new container from the pgelibraryapp image:</p>
-
-<pre><code class="language-bash">
-docker run --name pgelibraryapp -p 8080:8080 -d pgelibraryapp
-c3709b8d6c623670ec81c6fc222a8bef2ff58e47706c360a1e90b85fd33661e4
-Aardvark:pgelibraryapp stevem$
-
-</code></pre>
-
-<p>If all went well, docker created a container from the pgelibraryapp image and then started it.  The flags provided with the <em>docker run</em> command do the following:</p>
-
-<ul>
-<li>&ndash;name - the image to use</li>
-<li>-p - used to bind the host&rsquo;s tcp/8080 port to container port tcp/8080</li>
-<li>-d - detach</li>
-</ul>
-
-<h5 id="check-the-container-status">Check the Container Status</h5>
-
-<p>Container status can be checked via the <em>docker ps</em> command:</p>
-
-<pre><code class="language-bash">
-docker ps -a
-
-CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES
-e04bbd64dfba        pgelibraryapp       &quot;/main -dev&quot;        3 seconds ago       Up 3 seconds             0.0.0.0:8080-&gt;8080/tcp   pgelibraryapp
-Aardvark:pgelibraryapp stevem$
-
-</code></pre>
-
-<p>The output of the command shows that the pgelibraryapp container was started with entrypoint &lsquo;/main -dev&rsquo; and that container port :8080 is mapped to host port :8080.</p>
-
-<h5 id="ssh-into-the-container">SSH into the Container</h5>
-
-<p>We can ssh into the running container to see what is going on using the command shown in the following terminal session.  The command logs in as root using the specified interactive shell (in this case /bin/sh).  Check that &lsquo;main -dev&rsquo; is running as expected using the Linux <em>ps</em> command.</p>
-
-<pre><code class="language-bash">
-docker exec -it pgelibraryapp /bin/sh
-/ # ps -ef
-PID   USER     TIME   COMMAND
-    1 root       0:00 /main -dev
-   12 root       0:00 /bin/sh
-   19 root       0:00 ps -ef
-/ #
-
-</code></pre>
-
-<p>Take a look around the in the container environment and verify that the content of <em>.dev.config.json</em> has been updated with the correct ip-address using the <em>ifconfig/cat</em> commands.  Remember that the docker container is created with a static ipv4 address assigned to the eth0 interface.  Verify that the eth0 ipv4 address has been added to the &lsquo;external_address&rsquo; and &lsquo;internal_address&rsquo; keys in <em>.dev.config.json</em>.</p>
-
-<pre><code class="language-bash">
-/ # ifconfig
-eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:02  
-          inet addr:172.17.0.2  Bcast:172.17.255.255  Mask:255.255.0.0
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:401 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:275 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
-          RX bytes:61539 (60.0 KiB)  TX bytes:26368 (25.7 KiB)
-
-lo        Link encap:Local Loopback  
-          inet addr:127.0.0.1  Mask:255.0.0.0
-          UP LOOPBACK RUNNING  MTU:65536  Metric:1
-          RX packets:401 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:401 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1 
-          RX bytes:70197 (68.5 KiB)  TX bytes:70197 (68.5 KiB)
-
-/ # cat .dev.config.json
-{
-    &quot;external_address&quot;: &quot;172.17.0.2:8080&quot;,
-    &quot;internal_address&quot;: &quot;172.17.0.2:4444&quot;,
-    &quot;env&quot;: &quot;dev&quot;,
-    ...
-    ...
-    ...
-            &quot;service_name&quot;:   &quot;Book&quot;,
-            &quot;service_active&quot;: true
-        }
-        ]
-}/ #
-
-</code></pre>
-
-<p><br></br></p>
-
-<h4 id="use-the-psql-client-to-connect-to-postgres">Use the psql Client to Connect to Postgres</h4>
-
-<p>We installed the Postgres client package into the pgelibraryapp image by including it in our Dockerfile.  Make sure that the pgelibraryapp container is running and that you have logged in via the <em>docker exec -it pgelibraryapp /bin/sh</em> command.  Try to connect to your Postgres database as follows:</p>
-
-<pre><code class="language-code">
-/ # psql -h 192.168.1.65 -d postgres -U postgres
-Password for user postgres: *******************
-psql (10.4, server 9.5.3)
-Type &quot;help&quot; for help.
-
-postgres=#
-
-</code></pre>
-
-<p>Connecting to the database using <em>psql</em> is just for demonstration purposes.  If the database was not reachable the container would not have started.  For a discussion of what to do if the container entrypoint fails, see the <a href="/jiffy/tutorials/using-docker/dr-content-g/">Troubleshooting</a> section of this document.
-<br></br></p>
-
-<h4 id="login-to-the-application">Login to the Application</h4>
-
-<p>Launch Postman or your favorite RESTful service testing tool and specify a target URL of: <code>http://172.17.0.2:8080/usr/login</code> making sure to select the http POST method.  Maintain the request body to provide a user-id and password as shown in the following JSON snippet.  Typically the user-id for a Jiffy application is an email address, but an exception is made for the default administration user definition.</p>
-
-<pre><code class="language-bash">
-    {
-        &quot;email&quot;: &quot;admin&quot;,
-        &quot;password&quot;: &quot;initpass&quot;
-    }
-
-</code></pre>
-
-<p><br/></p>
-
-<p>When you have finished and your Postman (or other test utility) looks like the following image, click the &lsquo;Send&rsquo; button to post your login request to the running application.
-<img src="../../images/login-a.jpg" alt="Enter login credentials" /></p>
-
-<p><br/>
-If all goes well, you will get a http response code of 200 (status ok), and a block of JSON with a single &lsquo;token&rsquo; tag containing a jumble of letters and numbers.  This is the JWT that will be used to validate the &lsquo;admin&rsquo; user&rsquo;s authorization to access the &lsquo;Library&rsquo; and &lsquo;Book&rsquo; entity service end-points.  If you want to read more about JWT&rsquo;s, <a href="https://jwt.io">jwt.io</a> is a good place to start, or you can refer to the <a href="/jiffy/accesscontrol/index.html">Access Control</a> section of this document set.
-<img src="../../images/login-b.jpg" alt="Login" />
-<br/></p>
-
-<h4 id="create-a-library">Create a Library</h4>
-
-<p>We will create a new &lsquo;Library&rsquo; entity.  Configure your test-tool to POST to the &lsquo;library&rsquo; service as shown in the following image:</p>
-
-<p><img src="../../images/post_lib_1.jpg" alt="PostLib1" /></p>
-
-<p>Copy the JWT from the login session and paste it into the new POST request&rsquo;s Authorization header field as shown below and then submit the request to the application.</p>
-
-<p><img src="../../images/post_lib_2.jpg" alt="PostLib2" /></p>
-
-<p>Following submission, a new &lsquo;Library&rsquo; entity should have been created:</p>
-
-<p><img src="../../images/post_lib_3.jpg" alt="PostLib3" /></p>
-
-<p>Create another &lsquo;Library&rsquo; entity using the &lsquo;Create a Library&rsquo; steps and then request a list of Library entities using the GET ../librarys end-point:</p>
-
-<p><img src="../../images/get_libs_1.jpg" alt="GetLibs1" /></p>
-
-<h4 id="create-a-book">Create a Book</h4>
-
-<p>Next, we will create a &lsquo;Book&rsquo; entity and allocate it to &lsquo;Library&rsquo; 1.  Configure your test-tool to POST to the &lsquo;book&rsquo; service as shown in the following image:</p>
-
-<p><img src="../../images/post_book_1.jpg" alt="PostBook1" /></p>
-
-<p>Following the submission, a new &lsquo;Book&rsquo; entity should have been created:</p>
-
-<p><img src="../../images/post_book_2.jpg" alt="PostBook2" /></p>
-
-<p>Create a few more &lsquo;Book&rsquo; entities using the &lsquo;Create a Book&rsquo; steps and allocate them to your &lsquo;Library&rsquo; entities.  When you have finished, request a list of &lsquo;Book&rsquo; entities using the GET ../books end-point:</p>
-
-<p><img src="../../images/get_books_1.jpg" alt="GetBooks1" /></p>
-
-<h4 id="library-tobooks">Library toBooks</h4>
-
-<p>Based on the &lsquo;hasMany&rsquo; relationship between the &lsquo;Library&rsquo; and &lsquo;Book&rsquo; entity&rsquo;s, we can get the number of &lsquo;Book&rsquo; entities belonging to &lsquo;Library&rsquo; 1 as follows:</p>
-
-<p><img src="../../images/get_lib1_books_count.jpg" alt="GetLib1BooksCount" /></p>
-
-<p>Remove the $count suffix from the URL to get the complete list of Book entities belonging to &lsquo;Library&rsquo; 1:</p>
-
-<p><img src="../../images/get_lib1_tobooks_1.jpg" alt="GetLib1Books1" /></p>
-
-<h4 id="book-tolibrary">Book toLibrary</h4>
-
-<p>A reciprocal &lsquo;belongsTo&rsquo; relationship exists between the &lsquo;Book&rsquo; and &lsquo;Library&rsquo; entity definitions.  Select a &lsquo;Book&rsquo; entity and verify that the &lsquo;belongsTo&rsquo; relationship works as expected:</p>
-
-<p><img src="../../images/get_book4_tolibrary.jpg" alt="GetBook4ToLibrary" /></p>
-
-<p>Check the list of <a href="/jiffy/overview/ov-content-b/#filters-and-relationships">filters</a> and <a href="/jiffy/overview/ov-content-b/#commands">commands</a> along with the Library and Book models to see what can be appended to the the service end-points.  Try some things out.</p>
+<p>When running multiple jiffy-application instances a load-balancer of some sort should be used to route traffic based on end-point, system-load or other locally important criteria.</p>
 
 
 <footer class=" footline" >
@@ -3342,6 +2802,7 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
             
                 
                     
+                    
                 
                 
 
@@ -3351,6 +2812,41 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
                     
                     
 
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
                     
                         
             
@@ -3453,6 +2949,112 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
             
                 
                     
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
                 
                 
 
@@ -3541,148 +3143,6 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
             
         
                     
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                    
-                
-                
-
-                    
-                    
-                        
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
             
         
                     
@@ -3696,10 +3156,10 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
 
 
         
-            <a class="nav nav-prev" href="/jiffy/tutorials/using-docker/dr-content-a/" title="Jiffy with Docker and SQLite"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/jiffy/usage/deployment/us-content-j/" title="Deployment on Bare Metal / VM&#39;s"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/jiffy/tutorials/using-docker/dr-content-g/" title="Troubleshooting" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/jiffy/usage/deployment/us-content-l/" title="Deployment on Kubernetes" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
