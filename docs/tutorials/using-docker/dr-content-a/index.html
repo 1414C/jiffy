@@ -13,19 +13,19 @@
     <title>Jiffy with Docker and SQLite :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1529717062" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1529717062" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1529717062" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1529717062" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1529717062" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1529717062" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1529717062" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1529717062" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1530745534" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1530745534" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1530745534" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1530745534" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1530745534" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1530745534" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1530745534" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1530745534" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1529717062" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1530745534" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1529717062"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1530745534"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1529717062"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1529717062"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1530745534"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1530745534"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1529717062"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1530745534"></script>
 
     
   </div>
@@ -1677,6 +1677,25 @@
  
   
     
+      <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-d/" title="Jiffy with Kubernetes" class="dd-item ">
+        <a href="/jiffy/tutorials/using-docker/dr-content-d/">
+        Jiffy with Kubernetes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
       <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-g/" title="Troubleshooting" class="dd-item ">
         <a href="/jiffy/tutorials/using-docker/dr-content-g/">
         Troubleshooting
@@ -1801,19 +1820,19 @@
 <ul>
 <li><a href="#verify-jiffy-installation">Verify Jiffy Installation</a></li>
 <li><a href="#generate-the-application">Generate the Application</a></li>
-<li><a href="#edit-the-configuration-file">Edit the Configuration File</a>
+<li><a href="#edit-the-application-configuration-file">Edit the Application Configuration File</a>
 <ul>
 <li><a href="#update-address-keys">Update Address Keys</a></li>
-<li><a href="#update-database-config">Update Database Config</a></li>
+<li><a href="#update-the-application-s-database-config">Update the Application&rsquo;s Database Config</a></li>
 </ul></li>
 <li><a href="#build-a-static-application-binary-for-alpine-linux">Build a Static Application Binary for Alpine Linux</a>
 <ul>
 <li><a href="#install-musl-gcc">Install Musl-gcc</a></li>
-<li><a href="#build-a-static-binary">Build a Static Binary</a></li>
+<li><a href="#build-a-static-application-binary">Build a Static Application Binary</a></li>
 <li><a href="#build-a-dynamically-linked-binary">Build a Dynamically-Linked Binary</a></li>
 </ul></li>
 <li><a href="#create-a-dockerfile">Create a Dockerfile</a></li>
-<li><a href="#create-set-address-script">Create Set Address Script</a></li>
+<li><a href="#create-the-entrypoint-script">Create the Entrypoint Script</a></li>
 <li><a href="#build-the-image">Build the Image</a>
 <ul>
 <li><a href="#view-the-image">View the Image</a></li>
@@ -1855,6 +1874,8 @@
 <p>We will create and deploy a sample application using the all-in-one approach inside a Docker container.  To make things easy, we will use SQLite as the database, which means that the Dockerfile and entrypoint setup will be quite simple.  Note that if you try to do the same thing with one of the other supported databases there will be some additional configuration.  Docker containers are <em>typically</em> used to provide single services.</p>
 
 <p>SQLite lets us do all-in-one in Docker, as SQLite is a library facilitating access to a file rather than a database service available at an address:port.  Our Dockerfile -&gt; entrypoint only has to start one thing: our application.</p>
+
+<p>Note that this is a setup for testing and development only.  When deploying a jiffy-application with Docker, you should use a container clustering/management solution (Docker Swarm, Kubernetes, Rancher &hellip;). Doing will simplify application scaling and is also necessary in order to support the peer-to-peer networking requirement.</p>
 
 <h3 id="steps">Steps</h3>
 
@@ -1909,7 +1930,7 @@ Aardvark:jiffy stevem$
 <p>Your output may look slightly different, particularly the database connection test which will almost certainly fail.  This is nothing to be concerned about, as the generator is attempting to connect to a local postgres instance using bad credentials.
 <br></br></p>
 
-<h4 id="edit-the-configuration-file">Edit the Configuration File</h4>
+<h4 id="edit-the-application-configuration-file">Edit the Application Configuration File</h4>
 
 <h5 id="update-address-keys">Update Address Keys</h5>
 
@@ -1944,7 +1965,7 @@ Aardvark:jiffy stevem$
 
 </code></pre>
 
-<h5 id="update-database-config">Update Database Config</h5>
+<h5 id="update-the-application-s-database-config">Update the Application&rsquo;s Database Config</h5>
 
 <p>Jiffy generates configuration files targeting a Postgres database by default.  As we intend to use SQLite in our all-in-one Docker test deployment, the &lsquo;database&rsquo; block in <em>.dev.config.json</em> must be updated as follows:</p>
 
@@ -1975,7 +1996,7 @@ Aardvark:jiffy stevem$
 
 <p>This tutorial uses the popular <a href="https://alpinelinux.org/">Alpine Linux distribution</a> as the basis for the new container image.  Alpine Linux is a small and sparse distribution making it nice for use with containers.  There are a few things to be aware of however&hellip;</p>
 
-<p>Alpine Linux is based on <a href="https://www.musl-libc.org/">lib-musl</a> which means that binaries built by <em>go build</em> must target lib-musl rather than lib-gcc.  The binary resulting from the typical &lsquo;GOOS=linux GOARCH=amd64 go build -o main .&rsquo; command would almost certainly not work on Alpine.  The good news is that this is pretty easy to build with musl-gcc, the bad news is that musl-gcc is available for Linux only.  If you are working on a system in which lib-musl is not supported, you will need to run the <em>go build</em> command on in a supported build environment. <a href="https://wiki.musl-libc.org/supported-platforms.html">Most Linux distributions and architectures are supported</a>.</p>
+<p>Alpine Linux is based on <a href="https://www.musl-libc.org/">lib-musl</a> which means that binaries built by <em>go build</em> must target lib-musl rather than lib-gcc.  The binary resulting from the typical &lsquo;GOOS=linux GOARCH=amd64 go build -o main .&rsquo; command would almost certainly not work on Alpine.  The good news is that it is quite easy to build with musl-gcc, the bad news is that musl-gcc is available for Linux only.  If you are working on a system in which lib-musl is not supported, you will need to run the <em>go build</em> command in a supported build environment. <a href="https://wiki.musl-libc.org/supported-platforms.html">Most Linux distributions and architectures are supported</a>.</p>
 
 <p>Check if lib-musl has been installed in the build environment by running the following command to see if <em>musl-gcc</em> is in the $PATH:</p>
 
@@ -2007,9 +2028,9 @@ which musl-gcc
 
 </code></pre>
 
-<h5 id="build-a-static-binary">Build a Static Binary</h5>
+<h5 id="build-a-static-application-binary">Build a Static Application Binary</h5>
 
-<p>After ensuring that all of the required dependencies have been installed in the build environment, run the following command to build a statically-linked  binary called <em>main</em> for the Alpine Linux target OS.  Adjust the GOARCH environment variable as necessary:</p>
+<p>After ensuring that all of the required dependencies have been installed in the build environment, run the following command to build a statically-linked binary called <em>main</em> for the Alpine Linux target OS.  Adjust the GOARCH environment variable as necessary:</p>
 
 <pre><code class="language-bash">
 CGO=0 GOOS=linux GOARCH=amd64 CC=$(which musl-gcc) go build --ldflags '-w -linkmode external -extldflags &quot;-static&quot;' -a -tags netgo -installsuffix cgo -o main .
@@ -2064,14 +2085,11 @@ ADD main ./
 # copy the configuration file to the root folder of the new image
 COPY .dev.config.json .
 
-# add the setaddress.sh shell script to the root folder of the new image
-ADD setaddress.sh .
+# add the entrypoint.sh shell script to the root folder of the new image
+ADD docker-entrypoint.sh .
 
 # set widely exectuable permission on the shell-script
-RUN /bin/chmod 755 setaddress.sh
-
-# execute setaddress.sh to update .dev.config.json with the ipv4 address bound to eth0
-RUN sh setaddress.sh
+RUN /bin/chmod 777 docker-entrypoint.sh
 
 # create a directory in the root folder of the new image to hold the jwt signing keys
 RUN mkdir jwtkeys
@@ -2093,25 +2111,22 @@ RUN apk update \
 # add unix file command
 RUN apk add file
 
-#RUN mkdir /db
-
 # create a test.db file in the root folder (don't really need to do this, but it is a nice test when getting started)
 RUN /usr/bin/sqlite3 /test.db
 
+# set the container entrypoint - container executes this once it is up and running
+ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]
+
 # specify the flag(s) to be used with the ENTRYPOINT
 CMD [&quot;-dev&quot;]
-
-# set the container entrypoint - container executes this once it is up and running
-# in more complex setups, one would perhaps execute a shell-script here.
-ENTRYPOINT [&quot;/main&quot;]
 
 </code></pre>
 
 <p><br></br></p>
 
-<h4 id="create-set-address-script">Create Set Address Script</h4>
+<h4 id="create-the-entrypoint-script">Create the Entrypoint Script</h4>
 
-<p>In a previous step <em>.dev.config.json</em> was updated with xxx.xxx.xxx.xxx ipv4 address masks.  In order to replace the masks with the container&rsquo;s ipv4 address, the <em>docker build</em> command will run the <em>setaddress.sh</em> script as instructed in the Dockerfile.  At the moment this is a problem however, as we have not written the script yet.  Create a new file called <em>setaddress.sh</em> in the root folder of the libraryapp source-tree and open it in your editor.  Copy the following content into the new <em>setaddress.sh</em> file:</p>
+<p>In a previous step <em>.dev.config.json</em> was updated with xxx.xxx.xxx.xxx ipv4 address masks.  In order to replace the masks with the container&rsquo;s ipv4 address, <em>docker run</em> and <em>docker start</em> will execute the <em>docker-entrypoint.sh</em> when running a container instance based on the image definition.  At the moment this is a problem however, as we have not written the script yet.  Create a new file called <em>docker-entrypoint.sh</em> in the root folder of the libraryapp source-tree and open it in your editor.  Copy the following content into the new <em>docker-entrypoint.sh</em> file:</p>
 
 <pre><code class="language-bash">
 #!/bin/sh
@@ -2130,6 +2145,7 @@ elif [ -n &quot;$replace&quot; ]; then
 # replace all instances of 'xxx.xxx.xxx.xxx' in .dev.config.json
 # with the ipv4 address in the ${replace} variable
   sed -i &quot;s/${search}/${replace}/g&quot; .dev.config.json
+  exec /main &quot;$@&quot;
 fi
 
 </code></pre>
@@ -2148,47 +2164,41 @@ docker build -t libraryapp .
 <p>Running <em>docker build</em> as shown instructs Docker to construct an image called <em>libraryapp</em> using the Dockerfile in the current working directory.  You should see output similar to that shown below:</p>
 
 <pre><code class="language-code">Sending build context to Docker daemon  16.41MB
-Step 1/16 : FROM alpine:3.7
+Step 1/17 : FROM alpine:3.7
  ---&gt; 3fd9065eaf02
-Step 2/16 : LABEL maintainer=&quot;&lt;stevem@1414c.io&gt;&quot;
- ---&gt; Running in 47f1ff866746
-Removing intermediate container 47f1ff866746
- ---&gt; af8bc433ad48
-Step 3/16 : ADD main ./
- ---&gt; 7c5cbfc98e7e
-Step 4/16 : COPY .dev.config.json .
- ---&gt; 32ac01018170
-Step 5/16 : ADD setaddress.sh .
- ---&gt; 4f5d82578eed
-Step 6/16 : RUN /bin/chmod 755 setaddress.sh
- ---&gt; Running in ff241174089e
-Removing intermediate container ff241174089e
- ---&gt; 23a9fcb90c9a
-Step 7/16 : RUN sh setaddress.sh
- ---&gt; Running in 0bcdc5263d56
-172.17.0.2 found
-Removing intermediate container 0bcdc5263d56
- ---&gt; 8543b41fa43a
-Step 8/16 : RUN mkdir jwtkeys
- ---&gt; Running in 859323f7edca
-Removing intermediate container 859323f7edca
- ---&gt; 1c2be131954d
-Step 9/16 : COPY jwtkeys ./jwtkeys
- ---&gt; 5479e1e2af20
-Step 10/16 : ENV PORT 8080
- ---&gt; Running in 609f67bf3c24
-Removing intermediate container 609f67bf3c24
- ---&gt; 9ad74036c899
-Step 11/16 : EXPOSE 8080
- ---&gt; Running in 9be154f90812
-Removing intermediate container 9be154f90812
- ---&gt; 0543413c0e72
-Step 12/16 : RUN apk update     &amp;&amp; apk add sqlite &amp;&amp; apk add socat
- ---&gt; Running in 497ee534989c
+Step 2/17 : LABEL maintainer=&quot;&lt;stevem@1414c.io&gt;&quot;
+ ---&gt; Using cache
+ ---&gt; 79c0d43a29f9
+Step 3/17 : ADD main ./
+ ---&gt; a7e7dce67f50
+Step 4/17 : COPY .dev.config.json .
+ ---&gt; c5822b775472
+Step 5/17 : ADD docker-entrypoint.sh .
+ ---&gt; dc5f95101182
+Step 6/17 : RUN /bin/chmod 777 docker-entrypoint.sh
+ ---&gt; Running in 77137cc55a5c
+Removing intermediate container 77137cc55a5c
+ ---&gt; dbaf6e72994a
+Step 7/17 : RUN mkdir jwtkeys
+ ---&gt; Running in 14818b929ee8
+Removing intermediate container 14818b929ee8
+ ---&gt; f90bb5e8d516
+Step 8/17 : COPY jwtkeys ./jwtkeys
+ ---&gt; b1f7dbcb7f99
+Step 9/17 : ENV PORT 8080
+ ---&gt; Running in b5f273f638f4
+Removing intermediate container b5f273f638f4
+ ---&gt; 48ad91d892a2
+Step 10/17 : EXPOSE 8080
+ ---&gt; Running in 16494e968402
+Removing intermediate container 16494e968402
+ ---&gt; 7b9ad3d367ad
+Step 11/17 : RUN apk update     &amp;&amp; apk add sqlite &amp;&amp; apk add socat
+ ---&gt; Running in 52ca734359f8
 fetch http://dl-cdn.alpinelinux.org/alpine/v3.7/main/x86_64/APKINDEX.tar.gz
 fetch http://dl-cdn.alpinelinux.org/alpine/v3.7/community/x86_64/APKINDEX.tar.gz
-v3.7.0-204-gd59577c011 [http://dl-cdn.alpinelinux.org/alpine/v3.7/main]
-v3.7.0-203-g63878b91a7 [http://dl-cdn.alpinelinux.org/alpine/v3.7/community]
+v3.7.0-215-g16971064c0 [http://dl-cdn.alpinelinux.org/alpine/v3.7/main]
+v3.7.0-207-gac61833f9b [http://dl-cdn.alpinelinux.org/alpine/v3.7/community]
 OK: 9054 distinct packages available
 (1/5) Installing ncurses-terminfo-base (6.0_p20171125-r0)
 (2/5) Installing ncurses-terminfo (6.0_p20171125-r0)
@@ -2200,29 +2210,45 @@ OK: 13 MiB in 16 packages
 (1/1) Installing socat (1.7.3.2-r3)
 Executing busybox-1.27.2-r7.trigger
 OK: 13 MiB in 17 packages
-Removing intermediate container 497ee534989c
- ---&gt; 42ed4e066895
-Step 13/16 : RUN apk add file
- ---&gt; Running in d184e4af2738
+Removing intermediate container 52ca734359f8
+ ---&gt; a67a51781543
+Step 12/17 : RUN apk add file
+ ---&gt; Running in 51824f0e8666
 (1/2) Installing libmagic (5.32-r0)
 (2/2) Installing file (5.32-r0)
 Executing busybox-1.27.2-r7.trigger
 OK: 18 MiB in 19 packages
-Removing intermediate container d184e4af2738
- ---&gt; ee8aedbf2af3
-Step 14/16 : RUN /usr/bin/sqlite3 /test.db
- ---&gt; Running in 49f2d06cb7fc
-Removing intermediate container 49f2d06cb7fc
- ---&gt; 30cdd7ca006a
-Step 15/16 : CMD [&quot;-dev&quot;]
- ---&gt; Running in fae71eaf7065
-Removing intermediate container fae71eaf7065
- ---&gt; 22337789d2c6
-Step 16/16 : ENTRYPOINT [&quot;/main&quot;]
- ---&gt; Running in 8c0bcacd5822
-Removing intermediate container 8c0bcacd5822
- ---&gt; 85bcc32c0de4
-Successfully built 85bcc32c0de4
+Removing intermediate container 51824f0e8666
+ ---&gt; c529b1a51fbb
+Step 13/17 : RUN apk add busybox-extras
+ ---&gt; Running in ff07237bfbea
+(1/1) Installing busybox-extras (1.27.2-r11)
+Executing busybox-extras-1.27.2-r11.post-install
+Executing busybox-1.27.2-r7.trigger
+OK: 18 MiB in 20 packages
+Removing intermediate container ff07237bfbea
+ ---&gt; 93f5024f2a17
+Step 14/17 : RUN apk add openssh-client
+ ---&gt; Running in 7ea7c5e2197a
+(1/2) Installing openssh-keygen (7.5_p1-r8)
+(2/2) Installing openssh-client (7.5_p1-r8)
+Executing busybox-1.27.2-r7.trigger
+OK: 21 MiB in 22 packages
+Removing intermediate container 7ea7c5e2197a
+ ---&gt; 63dfd0feacfc
+Step 15/17 : RUN /usr/bin/sqlite3 /test.db
+ ---&gt; Running in e1215daeac5c
+Removing intermediate container e1215daeac5c
+ ---&gt; e3339d8ca07e
+Step 16/17 : ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]
+ ---&gt; Running in cb7231e2f911
+Removing intermediate container cb7231e2f911
+ ---&gt; 43f23ae635c7
+Step 17/17 : CMD [&quot;-dev&quot;]
+ ---&gt; Running in cd1245631529
+Removing intermediate container cd1245631529
+ ---&gt; 5ef02199fb7e
+Successfully built 5ef02199fb7e
 Successfully tagged libraryapp:latest
 Aardvark:libraryapp stevem$
 
@@ -2236,7 +2262,7 @@ Aardvark:libraryapp stevem$
 docker image ls library*
 
 REPOSITORY      TAG                 IMAGE ID            CREATED                  SIZE
-libraryapp      latest              85bcc32c0de4        Less than a second ago   23.6MB
+libraryapp      latest              5ef02199fb7e        Less than a second ago   23.6MB
 Aardvark:libraryapp stevem$
 
 </code></pre>
@@ -3643,6 +3669,22 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
                     
@@ -3668,20 +3710,20 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1529717062"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1529717062"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1529717062"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1529717062"></script>
-    <script src="/jiffy/js/featherlight.min.js?1529717062"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1529717062"></script>
-    <script src="/jiffy/js/highlight.pack.js?1529717062"></script>
+    <script src="/jiffy/js/clipboard.min.js?1530745534"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1530745534"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1530745534"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1530745534"></script>
+    <script src="/jiffy/js/featherlight.min.js?1530745534"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1530745534"></script>
+    <script src="/jiffy/js/highlight.pack.js?1530745534"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1529717062"></script>
-    <script src="/jiffy/js/learn.js?1529717062"></script>
-    <script src="/jiffy/js/hugo-learn.js?1529717062"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1530745534"></script>
+    <script src="/jiffy/js/learn.js?1530745534"></script>
+    <script src="/jiffy/js/hugo-learn.js?1530745534"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1529717062" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1529717062"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1530745534" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1530745534"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

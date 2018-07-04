@@ -255,8 +255,8 @@ Standard CRUD end-points for entity Library are generated as follows:
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-b/</guid>
-      <description>Overview We will create and deploy a sample application inside a Docker container. The containerized application will run as a single-instance and communicate to a Postgres database which will be available over the container-host&amp;rsquo;s network. In this example the Postgres database will not be running in a container.
-As in the All-In-One tutorial, our Dockerfile will be quite simple and we will go with some of the docker build defaults.</description>
+      <description>Overview We will create and deploy a sample application inside a Docker container. The containerized application will run as a single-instance and communicate with a Postgres database on the container-host&amp;rsquo;s network. In this example the Postgres database will not be running in a container.
+As in the Jiffy with Docker and SQLite tutorial, our Dockerfile will be quite simple and we will go with some of the docker build defaults.</description>
     </item>
     
     <item>
@@ -340,17 +340,6 @@ Member Communication The group-membership service communicates between processes
     </item>
     
     <item>
-      <title>Troubleshooting</title>
-      <link>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-g/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-g/</guid>
-      <description>Overview If a container crashes when executing the entrypoint, there are a few things that can be done to help figure out what is going on.
-Start the Container in Interactive Mode Docker allows containers to be started with flags that direct the console output to the starter&amp;rsquo;s session. For example, to start a containerized jiffy application in this manner use the following command/flags:
-Aardvark:pgelibraryapp stevem$ docker start pgelibraryapp -ia  When Docker starts the container, the ENTRYPOINT specified in the image&amp;rsquo;s Dockerfile will be executed.</description>
-    </item>
-    
-    <item>
       <title>Jiffy Application Architecture</title>
       <link>https://1414c.github.io/jiffy/overview/ov-content-d/</link>
       <pubDate>Sat, 10 Feb 2018 23:53:10 -0700</pubDate>
@@ -378,6 +367,16 @@ graph TD; subgraph A(End-Points)--B(Middleware) B--C(Controllers) C--D(Models) D
       <guid>https://1414c.github.io/jiffy/models/mo-content-d/</guid>
       <description>Modeling Entity Relationships Relationships between entities can be declared in the application model file via the addition of a &amp;lsquo;relations&amp;rsquo; block inside an entity&amp;rsquo;s declaration. Relationships are based on resource id&amp;rsquo;s by default, although it is possible to specify non-default key fields in the configuration, or implement complex joins directly by maintaining the entity&amp;rsquo;s controller and model. &amp;lsquo;relations&amp;rsquo; blocks look as follows:
 &amp;quot;relations&amp;quot;: [ { &amp;quot;relName&amp;quot;: &amp;quot;ToOwner&amp;quot;, &amp;quot;properties&amp;quot;: { &amp;quot;relType&amp;quot;: &amp;quot;hasOne&amp;quot;, &amp;quot;toEntity&amp;quot;: &amp;quot;Owner&amp;quot; } } ]  The sample relations block illustrates the declaration of a &amp;lsquo;hasOne&amp;rsquo; relationship between &amp;lsquo;Car&amp;rsquo; and &amp;lsquo;Owner&amp;rsquo; making use of default-keys.</description>
+    </item>
+    
+    <item>
+      <title>Jiffy with Kubernetes</title>
+      <link>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-d/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-d/</guid>
+      <description>Overview We will create and deploy a sample application in Kubernetes using the minikube cluster which is available from the Kubernetes site. The containerized jiffy-application will be deployed in the Kubernetes cluster and will communicate with a Postgres database and KVS on the cluster-host&amp;rsquo;s network. In this example the Postgres database and KVS will not be running in containers.
+Bear in mind that the goal of this example is to get a feel for Kubernetes deployment of a jiffy-application for testing purposes and does not represent a productive landscape.</description>
     </item>
     
     <item>
@@ -427,6 +426,17 @@ $ go run main.go -prod  The generated sample dev configuration file should be ed
       <guid>https://1414c.github.io/jiffy/usage/us-content-e/</guid>
       <description>Application Server Flags Flags are generally not used, as the configuration files (models.json) are easier to deal with. There are however, a few flags that can be used when starting the server:
  -dr  The -dr switch is used to perform a destructive reset of the application&amp;rsquo;s data tables. This flag causes the application tables to be dropped and recreated, but does not affect the user, user-group, or authorization tables.</description>
+    </item>
+    
+    <item>
+      <title>Troubleshooting</title>
+      <link>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-g/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-g/</guid>
+      <description>Overview If a container crashes when executing the entrypoint, there are a few things that can be done to help figure out what is going on.
+Start the Container in Interactive Mode Docker allows containers to be started with flags that direct the console output to the starter&amp;rsquo;s session. For example, to start a containerized jiffy application in this manner use the following command/flags:
+Aardvark:pgelibraryapp stevem$ docker start pgelibraryapp -ia  When Docker starts the container, the ENTRYPOINT specified in the image&amp;rsquo;s Dockerfile will be executed.</description>
     </item>
     
     <item>

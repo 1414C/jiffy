@@ -209,10 +209,6 @@
   </url>
   
   <url>
-    <loc>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-g/</loc>
-  </url>
-  
-  <url>
     <loc>https://1414c.github.io/jiffy/tutorials/using-docker/</loc>
   </url>
   
@@ -229,6 +225,10 @@
   <url>
     <loc>https://1414c.github.io/jiffy/models/mo-content-d/</loc>
     <lastmod>2018-02-05T15:03:10-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-d/</loc>
   </url>
   
   <url>
@@ -256,6 +256,10 @@
   
   <url>
     <loc>https://1414c.github.io/jiffy/usage/us-content-e/</loc>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-g/</loc>
   </url>
   
   <url>

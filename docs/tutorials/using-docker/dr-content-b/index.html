@@ -13,19 +13,19 @@
     <title>Jiffy with Docker and External PostgreSQL :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1529717062" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1529717062" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1529717062" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1529717062" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1529717062" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1529717062" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1529717062" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1529717062" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1530745534" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1530745534" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1530745534" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1530745534" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1530745534" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1530745534" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1530745534" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1530745534" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1529717062" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1530745534" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1529717062"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1530745534"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1529717062"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1529717062"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1530745534"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1530745534"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1529717062"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1530745534"></script>
 
     
   </div>
@@ -1677,6 +1677,25 @@
  
   
     
+      <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-d/" title="Jiffy with Kubernetes" class="dd-item ">
+        <a href="/jiffy/tutorials/using-docker/dr-content-d/">
+        Jiffy with Kubernetes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
       <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-g/" title="Troubleshooting" class="dd-item ">
         <a href="/jiffy/tutorials/using-docker/dr-content-g/">
         Troubleshooting
@@ -1801,20 +1820,20 @@
 <ul>
 <li><a href="#verify-jiffy-installation">Verify Jiffy Installation</a></li>
 <li><a href="#generate-the-application">Generate the Application</a></li>
-<li><a href="#edit-the-configuration-file">Edit the Configuration File</a>
+<li><a href="#edit-the-application-configuration-file">Edit the Application Configuration File</a>
 <ul>
 <li><a href="#update-address-keys">Update Address Keys</a></li>
-<li><a href="#update-database-config">Update Database Config</a></li>
+<li><a href="#update-the-application-s-database-config">Update the Application&rsquo;s Database Config</a></li>
 <li><a href="#ensure-postgresql-is-available">Ensure PostgreSQL is Available</a></li>
 </ul></li>
 <li><a href="#build-a-static-application-binary-for-alpine-linux">Build a Static Application Binary for Alpine Linux</a>
 <ul>
 <li><a href="#install-musl-gcc">Install Musl-gcc</a></li>
-<li><a href="#build-a-static-binary">Build a Static Binary</a></li>
-<li><a href="#build-a-dynamically-linked-binary">Build a Dynamically-Linked Binary</a></li>
+<li><a href="#build-a-static-application-binary">Build a Static Application Binary</a></li>
+<li><a href="#build-a-dynamically-linked-application-binary">Build a Dynamically-Linked Application Binary</a></li>
 </ul></li>
 <li><a href="#create-a-dockerfile">Create a Dockerfile</a></li>
-<li><a href="#create-set-address-script">Create Set Address Script</a></li>
+<li><a href="#create-the-entrypoint-script">Create the Entrypoint Script</a></li>
 <li><a href="#build-the-image">Build the Image</a>
 <ul>
 <li><a href="#view-the-image">View the Image</a></li>
@@ -1854,9 +1873,11 @@
 
 <h3 id="overview">Overview</h3>
 
-<p>We will create and deploy a sample application inside a Docker container.  The containerized application will run as a single-instance and communicate to a Postgres database which will be available over the container-host&rsquo;s network.  In this example the Postgres database will not be running in a container.</p>
+<p>We will create and deploy a sample application inside a Docker container.  The containerized application will run as a single-instance and communicate with a Postgres database on the container-host&rsquo;s network.  In this example the Postgres database will not be running in a container.</p>
 
-<p>As in the <a href="http://localhost:1313/jiffy/tutorials/using-docker/dr-content-a/#overview">All-In-One tutorial</a>, our Dockerfile will be quite simple and we will go with some of the <em>docker build</em> defaults.  These include allowing <em>docker build</em> to determine the ipv4 address to assign to the image, and also using the default Docker networking setup (&ndash;network-bridge).</p>
+<p>As in the <a href="http://localhost:1313/jiffy/tutorials/using-docker/dr-content-a/#overview">Jiffy with Docker and SQLite</a> tutorial, our Dockerfile will be quite simple and we will go with some of the <em>docker build</em> defaults.  These include allowing <em>docker build</em> to determine the ipv4 address to assign to the image, and also using the default Docker networking setup (&ndash;network-bridge).</p>
+
+<p>Note that this is a setup for testing and development only.  When deploying a jiffy-application with Docker, you should use a container clustering/management solution (Docker Swarm, Kubernetes, Rancher &hellip;). Doing will simplify application scaling and is also necessary in order to support the peer-to-peer networking requirement.</p>
 
 <h3 id="steps">Steps</h3>
 
@@ -1911,7 +1932,7 @@ Aardvark:jiffy stevem$
 <p>Your output may look slightly different, particularly the database connection test which will almost certainly fail.  This is nothing to be concerned about, as the generator is attempting to connect to a local Postgres instance using bad credentials.
 <br></br></p>
 
-<h4 id="edit-the-configuration-file">Edit the Configuration File</h4>
+<h4 id="edit-the-application-configuration-file">Edit the Application Configuration File</h4>
 
 <h5 id="update-address-keys">Update Address Keys</h5>
 
@@ -1946,7 +1967,7 @@ Aardvark:jiffy stevem$
 
 </code></pre>
 
-<h5 id="update-database-config">Update Database Config</h5>
+<h5 id="update-the-application-s-database-config">Update the Application&rsquo;s Database Config</h5>
 
 <p>Jiffy generates configuration files targeting a Postgres database by default.  Maintain the values in the &lsquo;database&rsquo; block of the *.dev.config.json; file as necessary in order to gain access to your testing database:</p>
 
@@ -1981,7 +2002,7 @@ Aardvark:jiffy stevem$
 
 <p>This tutorial uses the popular <a href="https://alpinelinux.org/">Alpine Linux distribution</a> as the basis for the new container image.  Alpine Linux is a small and sparse distribution making it nice for use with containers.  There are a few things to be aware of however&hellip;</p>
 
-<p>Alpine Linux is based on <a href="https://www.musl-libc.org/">lib-musl</a> which means that binaries built by <em>go build</em> must target lib-musl rather than lib-gcc.  The binary resulting from the typical &lsquo;GOOS=linux GOARCH=amd64 go build -o main .&rsquo; command would almost certainly not work on Alpine.  The good news is that this is pretty easy to build with musl-gcc, the bad news is that musl-gcc is available for Linux only.  If you are working on a system in which lib-musl is not supported, you will need to run the <em>go build</em> command on in a supported build environment. <a href="https://wiki.musl-libc.org/supported-platforms.html">Most Linux distributions and architectures are supported</a>.</p>
+<p>Alpine Linux is based on <a href="https://www.musl-libc.org/">lib-musl</a> which means that binaries built by <em>go build</em> must target lib-musl rather than lib-gcc.  The binary resulting from the typical &lsquo;GOOS=linux GOARCH=amd64 go build -o main .&rsquo; command would almost certainly not work on Alpine.  The good news is that it is quite easy to build with musl-gcc, the bad news is that musl-gcc is available for Linux only.  If you are working on a system in which lib-musl is not supported, you will need to run the <em>go build</em> command in a supported build environment. <a href="https://wiki.musl-libc.org/supported-platforms.html">Most Linux distributions and architectures are supported</a>.</p>
 
 <p>Check if lib-musl has been installed in the build environment by running the following command to see if <em>musl-gcc</em> is in the $PATH:</p>
 
@@ -1997,7 +2018,7 @@ which musl-gcc
 
 <p>We will go over how to install <em>musl-gcc</em> on a Debian system, but the steps are largely the same for any Linux distribution.  Use your distribution&rsquo;s package manager to install the musl lib, musl development files and musl development tools.  Run the following commands (or their equivalents) in a terminal window on your Linux build system:</p>
 
-<pre><code>
+<pre><code class="language-code">
 sudo apt-get update
 sudo apt-get install musl
 sudo apt-get install musl-dev
@@ -2013,9 +2034,9 @@ which musl-gcc
 
 </code></pre>
 
-<h5 id="build-a-static-binary">Build a Static Binary</h5>
+<h5 id="build-a-static-application-binary">Build a Static Application Binary</h5>
 
-<p>After ensuring that all of the required dependencies have been installed in the build environment, run the following command to build a statically-linked  binary called <em>main</em> for the Alpine Linux target OS.  Adjust the GOARCH environment variable as necessary:</p>
+<p>After ensuring that all of the required dependencies have been installed in the build environment, run the following command to build a statically-linked binary called <em>main</em> for the Alpine Linux target OS.  Adjust the GOARCH environment variable as necessary:</p>
 
 <pre><code class="language-bash">
 CGO=0 GOOS=linux GOARCH=amd64 CC=$(which musl-gcc) go build --ldflags '-w -linkmode external -extldflags &quot;-static&quot;' -a -tags netgo -installsuffix cgo -o main .
@@ -2030,7 +2051,7 @@ main: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, no
 
 </code></pre>
 
-<h5 id="build-a-dynamically-linked-binary">Build a Dynamically-Linked Binary</h5>
+<h5 id="build-a-dynamically-linked-application-binary">Build a Dynamically-Linked Application Binary</h5>
 
 <p>This is optional and will produce a marginally smaller binary.  We will not use a dynamically-linked binary in our image, but have included a suitable <em>go build</em> command for reference purposes.</p>
 
@@ -2055,7 +2076,7 @@ main: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, i
 
 <p>In order to deploy the compiled application in a Docker container, we need to create a Dockerfile.  The <em>docker build</em> command uses the Dockerfile as a set of instructions when building an image.  As mentioned previously, we will use Alpine Linux as the foundation (base image) for the new Docker container image.  <a href="https://hub.docker.com/_/alpine/">Dockerhub</a> has a number of pre-defined images that are available to be &lsquo;pulled&rsquo; into locally defined custom images.</p>
 
-<p>Create a new file called <em>Dockerfile</em> in the root folder of the pgelibraryapp source-tree and open it in your editor.  Copy the following content into the new Dockerfile.  An effort has been made to briefly describe what each line of the Dockerfile is used for.</p>
+<p>Create a new file called <em>Dockerfile</em> in the root folder of the <em>libappmulti</em> source-tree and open it in your editor.  Copy the following content into the new Dockerfile.  An effort has been made to briefly describe what each line of the Dockerfile is used for.</p>
 
 <pre><code class="language-Dockerfile">
 # use the official docker hub alpine:3.7 base image
@@ -2091,6 +2112,9 @@ ENV PORT 8080
 # container will listen on port tcp/8080
 EXPOSE 8080
 
+# update local package list
+RUN apk update
+
 # add unix file command
 RUN apk add file
 
@@ -2111,9 +2135,9 @@ ENTRYPOINT [&quot;/main&quot;]
 
 <p><br></br></p>
 
-<h4 id="create-set-address-script">Create Set Address Script</h4>
+<h4 id="create-the-entrypoint-script">Create the Entrypoint Script</h4>
 
-<p>In a previous step <em>.dev.config.json</em> was updated with xxx.xxx.xxx.xxx ipv4 address masks.  In order to replace the masks with the container&rsquo;s ipv4 address, the <em>docker build</em> command will run the <em>setaddress.sh</em> script as instructed in the Dockerfile.  At the moment this is a problem however, as we have not written the script yet.  Create a new file called <em>setaddress.sh</em> in the root folder of the pgelibraryapp source-tree and open it in your editor.  Copy the following content into the new <em>setaddress.sh</em> file:</p>
+<p>In a previous step <em>.dev.config.json</em> was updated with xxx.xxx.xxx.xxx ipv4 address masks.  In order to replace the masks with the container&rsquo;s ipv4 address, <em>docker run</em> and <em>docker start</em> will execute the <em>docker-entrypoint.sh</em> when running a container instance based on the image definition.  At the moment this is a problem however, as we have not written the script yet.  Create a new file called <em>docker-entrypoint.sh</em> in the root folder of the pgelibraryapp source-tree and open it in your editor.  Copy the following content into the new <em>docker-entrypoint.sh</em> file:</p>
 
 <pre><code class="language-bash">
 #!/bin/sh
@@ -2132,6 +2156,7 @@ elif [ -n &quot;$replace&quot; ]; then
 # replace all instances of 'xxx.xxx.xxx.xxx' in .dev.config.json
 # with the ipv4 address in the ${replace} variable
   sed -i &quot;s/${search}/${replace}/g&quot; .dev.config.json
+  exec /main &quot;$@&quot;
 fi
 
 </code></pre>
@@ -2140,7 +2165,7 @@ fi
 
 <h4 id="build-the-image">Build the Image</h4>
 
-<p>Assuming the previous steps have been successful, it is now time to build the new Docker image.  Execute the following command from the pgelibraryapp root folder:</p>
+<p>Assuming the previous steps have been successful, it is now time to build the new Docker image.  Execute the following command from the <em>pgelibraryapp</em> root folder:</p>
 
 <pre><code class="language-bash">
 docker build -t pgelibraryapp .
@@ -2150,76 +2175,75 @@ docker build -t pgelibraryapp .
 <p>Running <em>docker build</em> as shown instructs Docker to construct an image called <em>pgelibraryapp</em> using the Dockerfile in the current working directory.  You should see output similar to that shown below:</p>
 
 <pre><code class="language-code">Aardvark:pgelibraryapp stevem$ docker build -t pgelibraryapp .
-Sending build context to Docker daemon   14.4MB
-Step 1/18 : FROM alpine:3.7
+
+</code></pre>
+
+<pre><code class="language-code">Sending build context to Docker daemon   14.4MB
+Step 1/17 : FROM alpine:3.7
  ---&gt; 3fd9065eaf02
-Step 2/18 : LABEL maintainer=&quot;&lt;stevem@1414c.io&gt;&quot;
- ---&gt; Using cache
- ---&gt; 7bd0bd5537d4
-Step 3/18 : ADD main ./
- ---&gt; deec414c95e4
-Step 4/18 : COPY .dev.config.json .
- ---&gt; d2764e99b3f5
-Step 5/18 : ADD setaddress.sh .
- ---&gt; 9996d0cbf44c
-Step 6/18 : RUN /bin/chmod 755 setaddress.sh
- ---&gt; Running in 1c1c4a5fb77e
-Removing intermediate container 1c1c4a5fb77e
- ---&gt; 2381bd9d01b2
-Step 7/18 : RUN sh setaddress.sh
- ---&gt; Running in d56f33948c09
-172.17.0.2 found
-Removing intermediate container d56f33948c09
- ---&gt; 1e9f1d632409
-Step 8/18 : RUN mkdir jwtkeys
- ---&gt; Running in 27ea3fd9ecf7
-Removing intermediate container 27ea3fd9ecf7
- ---&gt; 17afeeae80b5
-Step 9/18 : COPY jwtkeys ./jwtkeys
- ---&gt; f8563aec3763
-Step 10/18 : ENV PORT 8080
- ---&gt; Running in 4d7adcdf6f4e
-Removing intermediate container 4d7adcdf6f4e
- ---&gt; 8f359a48314a
-Step 11/18 : EXPOSE 8080
- ---&gt; Running in fd0229f23a3c
-Removing intermediate container fd0229f23a3c
- ---&gt; 2963aa3091b8
-Step 12/18 : RUN apk update
- ---&gt; Running in 5fbabf7053e5
+Step 2/17 : LABEL maintainer=&quot;&lt;stevem@1414c.io&gt;&quot;
+ ---&gt; Running in bf4ee48b2816
+Removing intermediate container bf4ee48b2816
+ ---&gt; f6450f88abb9
+Step 3/17 : ADD main ./
+ ---&gt; 0339472c223a
+Step 4/17 : COPY .dev.config.json .
+ ---&gt; ea4d0e22dda8
+Step 5/17 : ADD docker-entrypoint.sh .
+ ---&gt; 3a091afcc4e6
+Step 6/17 : RUN /bin/chmod 777 docker-entrypoint.sh
+ ---&gt; Running in 02bc2611f675
+Removing intermediate container 02bc2611f675
+ ---&gt; 82b131becf0a
+Step 7/17 : RUN mkdir jwtkeys
+ ---&gt; Running in 5dc37bbb6d90
+Removing intermediate container 5dc37bbb6d90
+ ---&gt; ce27be862527
+Step 8/17 : COPY jwtkeys ./jwtkeys
+ ---&gt; fad638ee093f
+Step 9/17 : ENV PORT 8080
+ ---&gt; Running in ebf5a4645a24
+Removing intermediate container ebf5a4645a24
+ ---&gt; f73fa9102cca
+Step 10/17 : EXPOSE 8080
+ ---&gt; Running in 8ec67da3a90f
+Removing intermediate container 8ec67da3a90f
+ ---&gt; d943968d2257
+Step 11/17 : RUN apk update
+ ---&gt; Running in 4f036d66ca8e
 fetch http://dl-cdn.alpinelinux.org/alpine/v3.7/main/x86_64/APKINDEX.tar.gz
 fetch http://dl-cdn.alpinelinux.org/alpine/v3.7/community/x86_64/APKINDEX.tar.gz
-v3.7.0-214-g519be0a2d1 [http://dl-cdn.alpinelinux.org/alpine/v3.7/main]
+v3.7.0-215-g16971064c0 [http://dl-cdn.alpinelinux.org/alpine/v3.7/main]
 v3.7.0-207-gac61833f9b [http://dl-cdn.alpinelinux.org/alpine/v3.7/community]
 OK: 9054 distinct packages available
-Removing intermediate container 5fbabf7053e5
- ---&gt; e365a84b6aec
-Step 13/18 : RUN apk add file
- ---&gt; Running in 51acae660d55
+Removing intermediate container 4f036d66ca8e
+ ---&gt; 15aef1a3a835
+Step 12/17 : RUN apk add file
+ ---&gt; Running in 7444e203db73
 (1/2) Installing libmagic (5.32-r0)
 (2/2) Installing file (5.32-r0)
 Executing busybox-1.27.2-r7.trigger
 OK: 9 MiB in 13 packages
-Removing intermediate container 51acae660d55
- ---&gt; 566a1ee53ff0
-Step 14/18 : RUN apk add busybox-extras
- ---&gt; Running in 4c7efc95386d
+Removing intermediate container 7444e203db73
+ ---&gt; 92bf177f86b7
+Step 13/17 : RUN apk add busybox-extras
+ ---&gt; Running in 662591e9e2bd
 (1/1) Installing busybox-extras (1.27.2-r11)
 Executing busybox-extras-1.27.2-r11.post-install
 Executing busybox-1.27.2-r7.trigger
 OK: 9 MiB in 14 packages
-Removing intermediate container 4c7efc95386d
- ---&gt; 1adf3e8bbaf2
-Step 15/18 : RUN apk add openssh-client
- ---&gt; Running in a89b1480e10c
+Removing intermediate container 662591e9e2bd
+ ---&gt; 80ab4f590c82
+Step 14/17 : RUN apk add openssh-client
+ ---&gt; Running in 5baaa52529ab
 (1/2) Installing openssh-keygen (7.5_p1-r8)
 (2/2) Installing openssh-client (7.5_p1-r8)
 Executing busybox-1.27.2-r7.trigger
 OK: 12 MiB in 16 packages
-Removing intermediate container a89b1480e10c
- ---&gt; 9e0557830716
-Step 16/18 : RUN apk add postgresql-client
- ---&gt; Running in 1f195c265692
+Removing intermediate container 5baaa52529ab
+ ---&gt; 8d1b14444e72
+Step 15/17 : RUN apk add postgresql-client
+ ---&gt; Running in 2a3edc09549a
 (1/9) Installing ncurses-terminfo-base (6.0_p20171125-r0)
 (2/9) Installing ncurses-terminfo (6.0_p20171125-r0)
 (3/9) Installing ncurses-libs (6.0_p20171125-r0)
@@ -2231,17 +2255,17 @@ Step 16/18 : RUN apk add postgresql-client
 (9/9) Installing postgresql-client (10.4-r0)
 Executing busybox-1.27.2-r7.trigger
 OK: 24 MiB in 25 packages
-Removing intermediate container 1f195c265692
- ---&gt; 0ccad193e938
-Step 17/18 : CMD [&quot;-dev&quot;]
- ---&gt; Running in 9d11b1d5758e
-Removing intermediate container 9d11b1d5758e
- ---&gt; 7c6e201e86d2
-Step 18/18 : ENTRYPOINT [&quot;/main&quot;]
- ---&gt; Running in d9ec48627ff7
-Removing intermediate container d9ec48627ff7
- ---&gt; 2f8b3df80aea
-Successfully built 2f8b3df80aea
+Removing intermediate container 2a3edc09549a
+ ---&gt; 9d5c92cc037f
+Step 16/17 : ENTRYPOINT [&quot;/docker-entrypoint.sh&quot;]
+ ---&gt; Running in 499c637488e1
+Removing intermediate container 499c637488e1
+ ---&gt; 6b4c3914a599
+Step 17/17 : CMD [&quot;-dev&quot;]
+ ---&gt; Running in 401321fde538
+Removing intermediate container 401321fde538
+ ---&gt; 32045cc2b080
+Successfully built 32045cc2b080
 Successfully tagged pgelibraryapp:latest
 Aardvark:pgelibraryapp stevem$
 
@@ -2255,7 +2279,7 @@ Aardvark:pgelibraryapp stevem$
 Aardvark:pgelibraryapp stevem$ docker image ls pgelib*
 
 REPOSITORY          TAG                 IMAGE ID            CREATED              SIZE
-pgelibraryapp       latest              2f8b3df80aea        About a minute ago   35MB
+pgelibraryapp       latest              32045cc2b080        About a minute ago   35MB
 Aardvark:pgelibraryapp stevem$
 
 </code></pre>
@@ -3683,6 +3707,22 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
             
         
                     
@@ -3699,7 +3739,7 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
             <a class="nav nav-prev" href="/jiffy/tutorials/using-docker/dr-content-a/" title="Jiffy with Docker and SQLite"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/jiffy/tutorials/using-docker/dr-content-g/" title="Troubleshooting" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/jiffy/tutorials/using-docker/dr-content-d/" title="Jiffy with Kubernetes" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
@@ -3708,20 +3748,20 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1529717062"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1529717062"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1529717062"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1529717062"></script>
-    <script src="/jiffy/js/featherlight.min.js?1529717062"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1529717062"></script>
-    <script src="/jiffy/js/highlight.pack.js?1529717062"></script>
+    <script src="/jiffy/js/clipboard.min.js?1530745534"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1530745534"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1530745534"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1530745534"></script>
+    <script src="/jiffy/js/featherlight.min.js?1530745534"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1530745534"></script>
+    <script src="/jiffy/js/highlight.pack.js?1530745534"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1529717062"></script>
-    <script src="/jiffy/js/learn.js?1529717062"></script>
-    <script src="/jiffy/js/hugo-learn.js?1529717062"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1530745534"></script>
+    <script src="/jiffy/js/learn.js?1530745534"></script>
+    <script src="/jiffy/js/hugo-learn.js?1530745534"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1529717062" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1529717062"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1530745534" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1530745534"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

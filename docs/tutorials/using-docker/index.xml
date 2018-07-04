@@ -25,8 +25,18 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-b/</guid>
-      <description>Overview We will create and deploy a sample application inside a Docker container. The containerized application will run as a single-instance and communicate to a Postgres database which will be available over the container-host&amp;rsquo;s network. In this example the Postgres database will not be running in a container.
-As in the All-In-One tutorial, our Dockerfile will be quite simple and we will go with some of the docker build defaults.</description>
+      <description>Overview We will create and deploy a sample application inside a Docker container. The containerized application will run as a single-instance and communicate with a Postgres database on the container-host&amp;rsquo;s network. In this example the Postgres database will not be running in a container.
+As in the Jiffy with Docker and SQLite tutorial, our Dockerfile will be quite simple and we will go with some of the docker build defaults.</description>
+    </item>
+    
+    <item>
+      <title>Jiffy with Kubernetes</title>
+      <link>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-d/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-d/</guid>
+      <description>Overview We will create and deploy a sample application in Kubernetes using the minikube cluster which is available from the Kubernetes site. The containerized jiffy-application will be deployed in the Kubernetes cluster and will communicate with a Postgres database and KVS on the cluster-host&amp;rsquo;s network. In this example the Postgres database and KVS will not be running in containers.
+Bear in mind that the goal of this example is to get a feel for Kubernetes deployment of a jiffy-application for testing purposes and does not represent a productive landscape.</description>
     </item>
     
     <item>
