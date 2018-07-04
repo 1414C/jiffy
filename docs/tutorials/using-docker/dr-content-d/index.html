@@ -13,19 +13,19 @@
     <title>Jiffy with Kubernetes :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1530746056" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1530746056" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1530746056" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1530746056" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1530746056" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1530746056" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1530746056" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1530746056" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1530746278" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1530746278" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1530746278" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1530746278" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1530746278" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1530746278" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1530746278" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1530746278" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1530746056" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1530746278" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1530746056"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1530746278"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1530746056"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1530746056"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1530746278"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1530746278"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1530746056"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1530746278"></script>
 
     
   </div>
@@ -2694,7 +2694,7 @@ Aardvark:libappk8 stevem$
 
 <h5 id="create-a-service-for-the-libappk8-deployment">Create a Service for the <em>libappk8</em> Deployment</h5>
 
-<p>We will now create a Kubernetes Service for the <em>libappk8</em> Deployment.  Creation of the service will allow us to expose the application end-points via the load-balance built into the Kubernetes stack.  There are several options for the <em>type</em> of service that will be exposed, but for single Node testing with <em>minikube</em> the &lsquo;LoadBalancer&rsquo; type works well.  Create a new service from the <em>libappk8</em> Deployment as follows:</p>
+<p>We will now create a Kubernetes Service for the <em>libappk8</em> Deployment.  Creation of the service will allow us to expose the application end-points via the load-balancer built into the Kubernetes stack.  There are several options for the <em>type</em> of service that will be exposed, but for single Node testing with <em>minikube</em> the &lsquo;LoadBalancer&rsquo; type works well.  Create a new service from the <em>libappk8</em> Deployment as follows:</p>
 
 <pre><code class="language-shell">
   kubectl expose deployment libappk8 --type=LoadBalancer
@@ -2717,7 +2717,7 @@ Aardvark:libappk8 stevem$
 
 </code></pre>
 
-<p>You should see a new line in the Services table with the correct name and TYPE.  In a productive scenario, configuration would have been done to allocate an EXTERNAL-IP to the new Service.  <em>Minikube</em> does not allocate an external address for exposed Kubernetes Services, but exposes them via a port on the Cluster&rsquo;s server address.</p>
+<p>You should see a new line in the Services table with the correct name and TYPE.  In a productive scenario, configuration would have been done to allocate an external-ip to the new Service.  <em>Minikube</em> does not allocate an external address for exposed Kubernetes Services, but exposes them via a port on the Cluster&rsquo;s server address.</p>
 
 <pre><code class="language-shell">
   Aardvark:libappk8 stevem$ kubectl get services
@@ -4180,20 +4180,20 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1530746056"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1530746056"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1530746056"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1530746056"></script>
-    <script src="/jiffy/js/featherlight.min.js?1530746056"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1530746056"></script>
-    <script src="/jiffy/js/highlight.pack.js?1530746056"></script>
+    <script src="/jiffy/js/clipboard.min.js?1530746278"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1530746278"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1530746278"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1530746278"></script>
+    <script src="/jiffy/js/featherlight.min.js?1530746278"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1530746278"></script>
+    <script src="/jiffy/js/highlight.pack.js?1530746278"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1530746056"></script>
-    <script src="/jiffy/js/learn.js?1530746056"></script>
-    <script src="/jiffy/js/hugo-learn.js?1530746056"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1530746278"></script>
+    <script src="/jiffy/js/learn.js?1530746278"></script>
+    <script src="/jiffy/js/hugo-learn.js?1530746278"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1530746056" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1530746056"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1530746278" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1530746278"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
