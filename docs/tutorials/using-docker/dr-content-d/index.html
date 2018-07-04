@@ -13,19 +13,19 @@
     <title>Jiffy with Kubernetes :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1530745534" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1530745534" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1530745534" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1530745534" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1530745534" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1530745534" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1530745534" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1530745534" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1530746056" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1530746056" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1530746056" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1530746056" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1530746056" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1530746056" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1530746056" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1530746056" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1530745534" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1530746056" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1530745534"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1530746056"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1530745534"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1530745534"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1530746056"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1530746056"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1530745534"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1530746056"></script>
 
     
   </div>
@@ -2484,7 +2484,7 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
 
 <h4 id="stop-the-docker-container">Stop the Docker Container</h4>
 
-<p>Now that we have verified that the containerized application runs as a single container stop the container as follows:</p>
+<p>Now that we have verified that the containerized application runs in the Docker environment, stop the container as follows:</p>
 
 <pre><code class="language-shell">
   docker stop libappk8
@@ -2495,13 +2495,13 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
 
 <h3 id="install-minikube">Install Minikube</h3>
 
-<p>Kubernetes offers a preconfigured single node cluster called <em>Minikube</em> which is designed to allow developers to test deployments.  <em>Minikube</em> is lightweight and will easily run on your workstation/laptop.  Install <em>Minikube</em> and <em>kubectl</em> following the instructions at <a href="https://kubernetes.io/docs/tasks/tools/install-minikube/">install-minikube</a>.  These installations are required in order to follow along with the tutorial.</p>
+<p>Kubernetes offers a preconfigured single node cluster called <em>Minikube</em> which is designed to allow developers to test deployments.  <em>Minikube</em> is lightweight and will easily run on a workstation or laptop.  Install <em>Minikube</em> and <em>kubectl</em> following the instructions at <a href="https://kubernetes.io/docs/tasks/tools/install-minikube/">install-minikube</a>.  <em>Minikube</em> and <em>kubectl</em> are required in order to follow along with the tutorial.</p>
 
 <p><br></br></p>
 
 <h4 id="verify-minikube-installation">Verify Minikube Installation</h4>
 
-<p>Once you have installed <em>minikube</em> and <em>kubectl</em> we need to start the cluster and instruct <em>kubectl</em> to use the <em>minikube</em> context.  From the command-prompt run the following commands:</p>
+<p>Once you have installed <em>minikube</em> and <em>kubectl</em> the cluster must be started and <em>kubectl</em> needs to be told to use the <em>minikube</em> context.  From the command-prompt run the following commands:</p>
 
 <pre><code class="language-shell">
   minikube start
@@ -2545,9 +2545,9 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
 
 <h4 id="deploy-the-application-in-kubernetes">Deploy the Application in Kubernetes</h4>
 
-<p>Now that the <em>minikube</em> cluster is running and the Kubernetes dashboard has been launched it is time to deploy the <em>libappk8</em> application.  We will create a single instance deployment of the application using the <em>kubectl</em> command.  Kubernetes expects to pull images from an image repository, however in this example we will be working with a local image instead.  <em>kubectl</em> requires that locally pulled images conform to a `image_name:image_version&rsquo; where the version is not equal to &lsquo;latest&rsquo;.  For this reason, we will build a new image with version :v1.</p>
+<p>Now that the <em>minikube</em> cluster is running and the Kubernetes dashboard has been launched, it is time to deploy the <em>libappk8</em> application.  We will create a single instance deployment of the application using the <em>kubectl</em> command.  Kubernetes expects to pull images from an image repository, however in this example we will be working with a local image instead.  <em>kubectl</em> requires that locally pulled images conform to a `image_name:image_version&rsquo; where the version is not equal to &lsquo;latest&rsquo;.  For this reason, we will build a new image with version :v1.</p>
 
-<p>We will remove the existing image via the <em>docker image rm</em> command, use <em>eval</em> to tell Docker to build the new image in the <em>Minikube</em> environment and finally run <em>docker build</em> to create a new image for deployment:</p>
+<p>Remove the existing <em>libappk8</em> image via the <em>docker image rm</em> command, then use <em>eval</em> to tell Docker to build a new image in the <em>Minikube</em> environment.  Finally run <em>docker build</em> to create a new image (libappk8:v1) for deployment:</p>
 
 <p>See <a href="https://stackoverflow.com/questions/49639280/kubernetes-cannot-pull-image-from-private-docker-image-repository">this link</a> for a discussion of using local Docker images with <em>Minikube</em>.</p>
 
@@ -4180,20 +4180,20 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1530745534"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1530745534"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1530745534"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1530745534"></script>
-    <script src="/jiffy/js/featherlight.min.js?1530745534"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1530745534"></script>
-    <script src="/jiffy/js/highlight.pack.js?1530745534"></script>
+    <script src="/jiffy/js/clipboard.min.js?1530746056"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1530746056"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1530746056"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1530746056"></script>
+    <script src="/jiffy/js/featherlight.min.js?1530746056"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1530746056"></script>
+    <script src="/jiffy/js/highlight.pack.js?1530746056"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1530745534"></script>
-    <script src="/jiffy/js/learn.js?1530745534"></script>
-    <script src="/jiffy/js/hugo-learn.js?1530745534"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1530746056"></script>
+    <script src="/jiffy/js/learn.js?1530746056"></script>
+    <script src="/jiffy/js/hugo-learn.js?1530746056"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1530745534" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1530745534"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1530746056" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1530746056"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
