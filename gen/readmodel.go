@@ -276,7 +276,6 @@ func buildEntityColumns(colString string, colType ColType) ([]Info, error) {
 // the Info.SqacTagLine.
 func buildCompositeIndexes(cIdxString, tn string, info []Info) ([]Info, error) {
 
-	fmt.Println("cIdxString:", cIdxString)
 	var indexMap = make([]map[string]string, 0)
 	err := json.Unmarshal([]byte(cIdxString), &indexMap)
 	if err != nil {
@@ -303,9 +302,6 @@ func buildCompositeIndexes(cIdxString, tn string, info []Info) ([]Info, error) {
 			indexColumnNames[i] = common.CamelToSnake(indexColumnNames[i])
 			cIdxDirective = cIdxDirective + "_" + indexColumnNames[i]
 		}
-
-		fmt.Println("indexColumnNames:", indexColumnNames)
-		fmt.Println("cIdxDirective:", cIdxDirective)
 
 		// now finally update the SqacTagLines.  for each column name in the
 		// index, read the list of fields in the entity ([]info).  when an

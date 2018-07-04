@@ -1,14 +1,19 @@
 package appobj
 
 import (
-	"crypto/ecdsa"
-	"crypto/rsa"
+	"context"
+	"crypto/tls"
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net"
 	"net/http"
 	"os"
+	"os/signal"
 	"strconv"
+	"strings"
+	"syscall"
+	"time"
 
 	"{{.AppPath}}/controllers"
 	"{{.AppPath}}/group/gmcom"
@@ -656,10 +661,60 @@ func (a *AppObj) Run(lsg gmcom.GMLeaderSetterGetter) {
 	// close db connection later
 	defer a.services.Close()
 
+	// set basic http server values
+	var err error
+	srv := http.Server{
+		Addr:    a.cfg.ExternalAddress,
+		Handler: a.router,
+	}
+
+	// graceful shutdown channels
+	sigs := make(chan os.Signal, 1)
+	done := make(chan bool, 1)
+
+	// specify signals of interest for shutdown
+	signal.Notify(sigs, syscall.SIGKILL, syscall.SIGTERM, os.Interrupt)
+
+	// create a context for the srv.Shutdown() call
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+
+	// start a blocking goroutine to listen for signals. when an interesting signal arrives
+	// push a true into the done channel.
+	go func() {
+		signal := <-sigs
+		log.Printf("signal received: %v\n", signal)
+		done <- true
+	}()
+
 	if a.cfg.IsProd() {
 		fmt.Println("Production settings selected...")
+
+				tlsCfg := &tls.Config{
+			MinVersion: tls.VersionTLS10, // good enough?
+		}
+
+		tlsCfg.Certificates = make([]tls.Certificate, 1)
+		tlsCfg.Certificates[0], err = tls.LoadX509KeyPair(a.cfg.CertFile, a.cfg.KeyFile)
+		if err != nil {
+			log.Fatal(err)
+		}
+		srv.TLSConfig = tlsCfg
+
+		// create a tlsListener
+		lsnr, err := net.Listen("tcp", a.cfg.ExternalAddress)
+		if err != nil {
+			log.Fatal(err)
+		}
+		tlsListener := tls.NewListener(lsnr, tlsCfg)
+
 		fmt.Println("Starting https server on:", a.cfg.ExternalAddress)
-		log.Fatal(http.ListenAndServeTLS(a.cfg.ExternalAddress, a.cfg.CertFile, a.cfg.KeyFile, a.router))
+		go func() {
+			err := srv.Serve(tlsListener)
+			if err != nil {
+				log.Fatal(err)
+			}
+		}()
+
 	} else {
 		if a.cfg.IsDev() {
 			fmt.Println("Development settings selected...")
@@ -667,8 +722,18 @@ func (a *AppObj) Run(lsg gmcom.GMLeaderSetterGetter) {
 			fmt.Println("Default settings selected...")
 		}
 		fmt.Println("Starting http server on:", a.cfg.ExternalAddress)
-		log.Fatal(http.ListenAndServe(fmt.Sprintf("%s", a.cfg.ExternalAddress), a.router))
+		go func() {
+			err := srv.ListenAndServe()
+			if err != nil {
+				log.Fatal(err)
+			}
+		}()
 	}
+
+	// handle shutdown
+	<- done
+	srv.Shutdown(ctx)
+	log.Println("Shutdown complete")
 }
 
 func fatal(err error) {
