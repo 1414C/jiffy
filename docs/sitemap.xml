@@ -91,22 +91,6 @@
   </url>
   
   <url>
-    <loc>https://1414c.github.io/jiffy/accesscontrol/ac-content-a/</loc>
-  </url>
-  
-  <url>
-    <loc>https://1414c.github.io/jiffy/usage/us-content-a/</loc>
-  </url>
-  
-  <url>
-    <loc>https://1414c.github.io/jiffy/interprocess/ip-content-a/</loc>
-  </url>
-  
-  <url>
-    <loc>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-a/</loc>
-  </url>
-  
-  <url>
     <loc>https://1414c.github.io/jiffy/usage/</loc>
   </url>
   
@@ -156,22 +140,6 @@
   </url>
   
   <url>
-    <loc>https://1414c.github.io/jiffy/accesscontrol/ac-content-b/</loc>
-  </url>
-  
-  <url>
-    <loc>https://1414c.github.io/jiffy/usage/us-content-b/</loc>
-  </url>
-  
-  <url>
-    <loc>https://1414c.github.io/jiffy/interprocess/ip-content-b/</loc>
-  </url>
-  
-  <url>
-    <loc>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-b/</loc>
-  </url>
-  
-  <url>
     <loc>https://1414c.github.io/jiffy/overview/ov-content-c/</loc>
     <lastmod>2018-02-10T23:56:10-07:00</lastmod>
   </url>
@@ -197,19 +165,8 @@
   </url>
   
   <url>
-    <loc>https://1414c.github.io/jiffy/accesscontrol/ac-content-c/</loc>
-  </url>
-  
-  <url>
-    <loc>https://1414c.github.io/jiffy/usage/us-content-c/</loc>
-  </url>
-  
-  <url>
-    <loc>https://1414c.github.io/jiffy/interprocess/ip-content-c/</loc>
-  </url>
-  
-  <url>
     <loc>https://1414c.github.io/jiffy/tutorials/using-docker/</loc>
+    <lastmod>2018-07-04T13:27:10-07:00</lastmod>
   </url>
   
   <url>
@@ -228,15 +185,8 @@
   </url>
   
   <url>
-    <loc>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-d/</loc>
-  </url>
-  
-  <url>
-    <loc>https://1414c.github.io/jiffy/usage/us-content-d/</loc>
-  </url>
-  
-  <url>
-    <loc>https://1414c.github.io/jiffy/accesscontrol/ac-content-d/</loc>
+    <loc>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-g/</loc>
+    <lastmod>2018-07-04T13:27:10-07:00</lastmod>
   </url>
   
   <url>
@@ -255,20 +205,8 @@
   </url>
   
   <url>
-    <loc>https://1414c.github.io/jiffy/usage/us-content-e/</loc>
-  </url>
-  
-  <url>
-    <loc>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-g/</loc>
-  </url>
-  
-  <url>
     <loc>https://1414c.github.io/jiffy/generation/gn-content-f/</loc>
     <lastmod>2018-02-05T17:23:10-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://1414c.github.io/jiffy/usage/us-content-f/</loc>
   </url>
   
   <url>
@@ -277,16 +215,8 @@
   </url>
   
   <url>
-    <loc>https://1414c.github.io/jiffy/usage/us-content-g/</loc>
-  </url>
-  
-  <url>
     <loc>https://1414c.github.io/jiffy/generation/gn-content-h/</loc>
     <lastmod>2018-02-05T15:46:10-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://1414c.github.io/jiffy/usage/us-content-h/</loc>
   </url>
   
   <url>
@@ -300,16 +230,8 @@
   </url>
   
   <url>
-    <loc>https://1414c.github.io/jiffy/usage/deployment/us-content-i/</loc>
-  </url>
-  
-  <url>
     <loc>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-b/</loc>
     <lastmod>2018-02-06T22:34:10-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://1414c.github.io/jiffy/usage/deployment/us-content-j/</loc>
   </url>
   
   <url>
@@ -318,16 +240,8 @@
   </url>
   
   <url>
-    <loc>https://1414c.github.io/jiffy/usage/deployment/us-content-k/</loc>
-  </url>
-  
-  <url>
     <loc>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-d/</loc>
     <lastmod>2018-02-06T22:34:10-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://1414c.github.io/jiffy/usage/deployment/us-content-l/</loc>
   </url>
   
   <url>
