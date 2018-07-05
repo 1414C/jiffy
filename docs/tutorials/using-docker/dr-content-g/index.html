@@ -13,19 +13,19 @@
     <title>Troubleshooting :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1530806031" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1530806031" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1530806031" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1530806031" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1530806031" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1530806031" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1530806031" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1530806031" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1530806781" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1530806781" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1530806781" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1530806781" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1530806781" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1530806781" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1530806781" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1530806781" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1530806031" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1530806781" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1530806031"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1530806781"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1530806031"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1530806031"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1530806781"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1530806781"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1530806031"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1530806781"></script>
 
     
   </div>
@@ -1491,18 +1491,16 @@ images so lightweight, small, and fast, when compared to other
 virtualization technologies.</p>
 </blockquote>
 
-<p>This is important to us, because it informs that Docker sees images as accretions of layers corresponding to the build-steps in the Dockerfile used to maintain the image.  The next interesting point is that each layer corresponds to an intermediate image that inherits all of the intermediate images related to the previous <em>docker build</em> steps in the original Dockerfile.  We can get a list of the image-layers for our container by running the <em>docker history</em> command:</p>
+<p>This is important, because it informs us that Docker sees images as accretions of layers corresponding to the build-steps in the Dockerfile used to define the image.  The next interesting point is that each layer corresponds to an intermediate image that inherits all of the intermediate images related to the previous <em>docker build</em> steps in the original Dockerfile.  We can get a list of the image-layers for our container by running the <em>docker history</em> command:</p>
 
 <pre><code class="language-code">
   docker history pgelibraryapp
 
 </code></pre>
 
-<p>Running the command for the pgelibraryapp image results in the following output:</p>
+<p>Running the command for the <em>pgelibraryapp</em> image results in output similar to:</p>
 
 <pre><code class="language-code">
-Aardvark:quickstart stevem$ docker history pgelibraryapp
-
 IMAGE               CREATED             CREATED BY                                      SIZE  
 2f8b3df80aea        About an hour ago   /bin/sh -c #(nop)  ENTRYPOINT [&quot;/main&quot;]         0B
 7c6e201e86d2        About an hour ago   /bin/sh -c #(nop)  CMD [&quot;-dev&quot;]                 0B
@@ -1523,28 +1521,27 @@ deec414c95e4        About an hour ago   /bin/sh -c #(nop) ADD file:5604ab9e3793f
 7bd0bd5537d4        2 days ago          /bin/sh -c #(nop)  LABEL maintainer=&lt;stevem@…   0B
 3fd9065eaf02        5 months ago        /bin/sh -c #(nop)  CMD [&quot;/bin/sh&quot;]              0B
 &lt;missing&gt;           5 months ago        /bin/sh -c #(nop) ADD file:093f0723fa46f6cdb…   4.15MB
-Aardvark:quickstart stevem$
 
 </code></pre>
 
-<p>Starting from the bottom of the list and going up, each image builds on the images before it all the way up to the image corresponding to the named pgelibraryapp image.  This can be easily corroborated by running the <em>docker image</em> command with the pgelibraryapp image name as the command&rsquo;s ls criteria:</p>
+<p>Starting from the bottom of the list and going up, we can see that each image builds on the images before it, all the way up to the image corresponding to the named <em>pgelibraryapp</em> image.  This can be easily corroborated by running the <em>docker image</em> command with the <em>pgelibraryapp</em> image name as the command&rsquo;s ls criteria:</p>
 
 <pre><code class="language-code">
 docker image ls pgelib*
 
 </code></pre>
 
+<p>Resulting in output similar to:</p>
+
 <pre><code class="language-code">
-Aardvark:quickstart stevem$ docker image ls pgelib*
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 pgelibraryapp       latest              2f8b3df80aea        About an hour ago   35MB
-Aardvark:quickstart stevem$
 
 </code></pre>
 
 <p>Compare the IMAGE ID of the <em>pgelibraryapp</em> image with the top-level image reported by the <em>docker history pgelibraryapp</em> command.  They are the same.  We can infer from this that if an image is an image is an image, we should be able to <em>start any image in the history list</em>.</p>
 
-<p>Assuming that the container is crashing when attempting to execute the ENTRYPOINT, it may be useful to run a container using a source image that does everything but run the ENTRYPOINT step.  We can do this by selecting the intermediate image that we would like to run as a container and running the following command:</p>
+<p>Assuming that the container is crashing when attempting to execute the ENTRYPOINT, it may be useful to create and start a container using a source image that does everything but run the ENTRYPOINT step.  We can do this by selecting the intermediate image that we would like to run as a container and running the following command:</p>
 
 <pre><code class="language-code">
 docker run -it 0ccad193e938  /bin/sh
@@ -1553,9 +1550,14 @@ docker run -it 0ccad193e938  /bin/sh
 
 <p>A check of the <em>docker history</em> output above tells us that intermediate image 0ccad193e938 contains everything that should be in our image with the exception of the ENTRYPOINT and CMD(flags) steps.  Starting the intermediate image as shown tells Docker to create a container from the intermediate image, run it in the foreground starting an interactive session running /bin/sh:</p>
 
-<pre><code class="language-sh">
-Aardvark:quickstart stevem$ docker run -it 0ccad193e938 /bin/sh
+<pre><code class="language-shell">
+  docker run -it 0ccad193e938 /bin/sh
 
+</code></pre>
+
+<p>Resulting in a root login to the container created from image 0ccad193e938:</p>
+
+<pre><code class="language-shell">
 / # set
 HISTFILE='/root/.ash_history'
 HOME='/root'
@@ -1576,7 +1578,7 @@ TERM='xterm'
 
 </code></pre>
 
-<p>From here we can try to figure out what the problem is by attempting to start the application directly, inspecting the Alpine Linux setup, adding and configuring missing packages, adjusting network setup (careful) etc.  When the problem has been solved and you exit the container, the source Dockerfile may need to be updated and the image regenerated.</p>
+<p>From here we can try to figure out what the problem is by attempting to start the application directly, inspecting the Alpine Linux setup, adding and configuring missing packages, adjusting network setup (careful) etc.  When the problem has been solved and the application can be started by running the <em>docker-entrypoint.sh</em> script in the container session the source Dockerfile/scripts can be updated to reflect the reqiured changes.</p>
 
 
 <footer class=" footline" >
@@ -2508,20 +2510,20 @@ TERM='xterm'
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1530806031"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1530806031"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1530806031"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1530806031"></script>
-    <script src="/jiffy/js/featherlight.min.js?1530806031"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1530806031"></script>
-    <script src="/jiffy/js/highlight.pack.js?1530806031"></script>
+    <script src="/jiffy/js/clipboard.min.js?1530806781"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1530806781"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1530806781"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1530806781"></script>
+    <script src="/jiffy/js/featherlight.min.js?1530806781"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1530806781"></script>
+    <script src="/jiffy/js/highlight.pack.js?1530806781"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1530806031"></script>
-    <script src="/jiffy/js/learn.js?1530806031"></script>
-    <script src="/jiffy/js/hugo-learn.js?1530806031"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1530806781"></script>
+    <script src="/jiffy/js/learn.js?1530806781"></script>
+    <script src="/jiffy/js/hugo-learn.js?1530806781"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1530806031" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1530806031"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1530806781" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1530806781"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
