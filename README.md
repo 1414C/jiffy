@@ -6,7 +6,7 @@
 - [ ] re-enable the ELECTION message and test on ARM
 - [x] look at service deployment
 - [ ] rationalize logging
-- [ ]code redis, memcached, etcd and sqlite kvs example implementations of gmcom.GetterSetter
+- [ ] code redis, memcached, etcd and sqlite kvs example implementations of gmcom.GetterSetter
 - [ ] create a few runnable examples in Docker containers
 - [x] create a Docker tutorial
 - [x] create a kubernetes tutorial

@@ -13,19 +13,19 @@
     <title>Jiffy with Kubernetes :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1530808388" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1530808388" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1530808388" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1530808388" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1530808388" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1530808388" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1530808388" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1530808388" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1530835384" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1530835384" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1530835384" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1530835384" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1530835384" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1530835384" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1530835384" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1530835384" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1530808388" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1530835384" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1530808388"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1530835384"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1530808388"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1530808388"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1530835384"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1530835384"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1530808388"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1530835384"></script>
 
     
   </div>
@@ -2513,15 +2513,13 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
 
 </code></pre>
 
-<p>If there are any errors, go back to the <a href="https://kubernetes.io/docs/tasks/tools/install-minikube/">install-minikube instructions</a> and work through the issues before continuing.  If all went well, you should see output similar to the following:</p>
+<p>If there are any errors, go back to the <a href="https://kubernetes.io/docs/tasks/tools/install-minikube/">install-minikube instructions</a> and work through the issues before continuing.  If all went well, you should see output similar to:</p>
 
 <pre><code class="language-shell">
-  Aardvark:libappk8 stevem$ kubectl cluster-info
   Kubernetes master is running at https://192.168.64.2:8443
   KubeDNS is running at https://192.168.64.2:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
 
   To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
-  Aardvark:libappk8 stevem$
 
 </code></pre>
 
@@ -2632,13 +2630,11 @@ Aardvark:libappk8 stevem$
 
 </code></pre>
 
-<p>Results in:</p>
+<p>Results in output similar to:</p>
 
 <pre><code class="language-shell">
-Aardvark:libappk8 stevem$ kubectl get deployments
 NAME       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 libappk8   4         4         4            4           50m
-Aardvark:libappk8 stevem$
 
 </code></pre>
 
@@ -2653,16 +2649,14 @@ Aardvark:libappk8 stevem$
 
 </code></pre>
 
-<p>Results in:</p>
+<p>Results in output similar to:</p>
 
 <pre><code class="language-shell">
-  Aardvark:libappk8 stevem$ kubectl get pods
   NAME                        READY     STATUS    RESTARTS   AGE
   libappk8-687c7484cb-5nwxq   1/1       Running   0          53m
   libappk8-687c7484cb-8hmtw   1/1       Running   0          42m
   libappk8-687c7484cb-hnksv   1/1       Running   0          42m
   libappk8-687c7484cb-pbntc   1/1       Running   0          42m
-  Aardvark:libappk8 stevem$
 
 </code></pre>
 
@@ -2677,13 +2671,11 @@ Aardvark:libappk8 stevem$
 
 </code></pre>
 
-<p>Results in the following list of Kubernetes Services:</p>
+<p>Results in a list of Kubernetes Services:</p>
 
 <pre><code class="language-shell">
-  Aardvark:libappk8 stevem$ kubectl get services
   NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
   kubernetes   ClusterIP   10.96.0.1    &lt;none&gt;        443/TCP   36d
-  Aardvark:libappk8 stevem$
 
 </code></pre>
 
@@ -2700,12 +2692,10 @@ Aardvark:libappk8 stevem$
 
 </code></pre>
 
-<p>Creation of the service should result in the following:</p>
+<p>Creation of the service should result in output similar to:</p>
 
 <pre><code class="language-shell">
-  Aardvark:libappk8 stevem$ kubectl expose deployment libappk8 --type=LoadBalancer
   service &quot;libappk8&quot; exposed
-  Aardvark:libappk8 stevem$
 
 </code></pre>
 
@@ -2719,11 +2709,9 @@ Aardvark:libappk8 stevem$
 <p>You should see a new line in the Services table with the correct name and TYPE.  In a productive scenario, configuration would have been done to allocate an EXTERNAL-IP to the new Service.  <em>Minikube</em> does not allocate an external address for exposed Kubernetes Services, but exposes them via a port on the Cluster&rsquo;s server address.</p>
 
 <pre><code class="language-shell">
-  Aardvark:libappk8 stevem$ kubectl get services
   NAME         TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
   kubernetes   ClusterIP      10.96.0.1       &lt;none&gt;        443/TCP          36d
   libappk8     LoadBalancer   10.103.54.235   &lt;pending&gt;     8080:32700/TCP   1m
-  Aardvark:libappk8 stevem$
 
 </code></pre>
 
@@ -2751,9 +2739,7 @@ Aardvark:libappk8 stevem$
 <p>This command will return the base URL of the <em>libappk8</em> service:</p>
 
 <pre><code class="language-shell">
-  Aardvark:libappk8 stevem$ minikube service libappk8 --url
   http://192.168.64.2:32700
-  Aardvark:libappk8 stevem$
 
 </code></pre>
 
@@ -2774,10 +2760,9 @@ Aardvark:libappk8 stevem$
 
 </code></pre>
 
-<p>The result of which is:</p>
+<p>The result of which will be similar to:</p>
 
 <pre><code class="language-shell">
-Aardvark:libappk8 stevem$ kubectl config view
 apiVersion: v1
 clusters:
 - cluster:
@@ -2797,7 +2782,6 @@ users:
   user:
     client-certificate: /Users/stevem/.minikube/client.crt
     client-key: /Users/stevem/.minikube/client.key
-Aardvark:libappk8 stevem$
 
 </code></pre>
 
@@ -4179,20 +4163,20 @@ If all goes well, you will get a http response code of 200 (status ok), and a bl
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1530808388"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1530808388"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1530808388"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1530808388"></script>
-    <script src="/jiffy/js/featherlight.min.js?1530808388"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1530808388"></script>
-    <script src="/jiffy/js/highlight.pack.js?1530808388"></script>
+    <script src="/jiffy/js/clipboard.min.js?1530835384"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1530835384"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1530835384"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1530835384"></script>
+    <script src="/jiffy/js/featherlight.min.js?1530835384"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1530835384"></script>
+    <script src="/jiffy/js/highlight.pack.js?1530835384"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1530808388"></script>
-    <script src="/jiffy/js/learn.js?1530808388"></script>
-    <script src="/jiffy/js/hugo-learn.js?1530808388"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1530835384"></script>
+    <script src="/jiffy/js/learn.js?1530835384"></script>
+    <script src="/jiffy/js/hugo-learn.js?1530835384"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1530808388" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1530808388"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1530835384" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1530835384"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
