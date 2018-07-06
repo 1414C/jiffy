@@ -6,6 +6,7 @@
     <description>Recent content in Access Control on Jiffy Services Generator</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Mon, 02 Jul 2018 13:26:10 -0700</lastBuildDate>
     
 	<atom:link href="https://1414c.github.io/jiffy/accesscontrol/index.xml" rel="self" type="application/rss+xml" />
     
@@ -13,7 +14,7 @@
     <item>
       <title>Access Control Overview</title>
       <link>https://1414c.github.io/jiffy/accesscontrol/ac-content-a/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 02 Jul 2018 13:26:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/accesscontrol/ac-content-a/</guid>
       <description>Overview Access to application resources (entities) is controlled in four ways:
@@ -23,7 +24,7 @@
     <item>
       <title>Authorizations</title>
       <link>https://1414c.github.io/jiffy/accesscontrol/ac-content-b/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 02 Jul 2018 13:28:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/accesscontrol/ac-content-b/</guid>
       <description>Standard CRUD Authorizations As discussed in the Access Control Overview, each of the generated services end-points is assigned a name which is used as an Authorization object by the router middleware.
@@ -34,7 +35,7 @@ Standard CRUD end-points for entity Library are generated as follows:
     <item>
       <title>Access Revocation and Renewal</title>
       <link>https://1414c.github.io/jiffy/accesscontrol/ac-content-c/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 02 Jul 2018 13:29:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/accesscontrol/ac-content-c/</guid>
       <description>JWT Tokens and Access Revocation Jiffy applications do not direct support the revocation or automatic renewal of JWT tokens. Instead, a cross-process cache of User information is maintained via a group-membership service. The service ensures that changes to User information (create/update/delete) are disseminated to all running instances of the Jiffy generated application. Consequently, in Jiffy-based applications it makes sense to discuss User access revocation from the perspective of an administrator making a call to the user-API to perform general User deletion or deactivation.</description>
@@ -43,7 +44,7 @@ Standard CRUD end-points for entity Library are generated as follows:
     <item>
       <title>Using External Identity Providers</title>
       <link>https://1414c.github.io/jiffy/accesscontrol/ac-content-d/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 02 Jul 2018 13:29:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/accesscontrol/ac-content-d/</guid>
       <description>Using External Identity Providers It is possible to use an external Identity Provider to supply JWT tokens capable of accessing jiffy-applications. In order for an external IDP to provide usable JWT&amp;rsquo;s to jiffy the following criteria have to be met:

@@ -6,6 +6,7 @@
     <description>Recent content in Using Docker on Jiffy Services Generator</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Mon, 02 Jul 2018 13:27:10 -0700</lastBuildDate>
     
 	<atom:link href="https://1414c.github.io/jiffy/tutorials/using-docker/index.xml" rel="self" type="application/rss+xml" />
     
@@ -13,7 +14,7 @@
     <item>
       <title>Jiffy with Docker and SQLite</title>
       <link>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-a/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 02 Jul 2018 13:27:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-a/</guid>
       <description>Overview We will create and deploy a sample application using the all-in-one approach inside a Docker container. To make things easy, we will use SQLite as the database, which means that the Dockerfile and entrypoint setup will be quite simple. Note that if you try to do the same thing with one of the other supported databases there will be some additional configuration. Docker containers are typically used to provide single services.</description>
@@ -22,7 +23,7 @@
     <item>
       <title>Jiffy with Docker and External PostgreSQL</title>
       <link>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-b/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 02 Jul 2018 13:27:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-b/</guid>
       <description>Overview We will create and deploy a sample application inside a Docker container. The containerized application will run as a single-instance and communicate with a Postgres database on the container-host&amp;rsquo;s network. In this example the Postgres database will not be running in a container.
@@ -32,17 +33,17 @@ As in the Jiffy with Docker and SQLite tutorial, our Dockerfile will be quite si
     <item>
       <title>Jiffy with Kubernetes</title>
       <link>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-d/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 02 Jul 2018 12:27:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-d/</guid>
-      <description>Overview We will create and deploy a sample application in Kubernetes using the minikube cluster which is available from the Kubernetes site. The containerized jiffy-application will be deployed in the Kubernetes cluster and will communicate with a Postgres database and KVS on the cluster-host&amp;rsquo;s network. In this example the Postgres database and KVS will not be running in containers.
-Bear in mind that the goal of this example is to get a feel for Kubernetes deployment of a jiffy-application for testing purposes and does not represent a productive landscape.</description>
+      <description>Overview We will create and deploy a sample jiffy application in Kubernetes using the preconfigured minikube cluster. The containerized jiffy application will be deployed in the Kubernetes cluster and will communicate with a Postgres database and KVS running on the cluster-host&amp;rsquo;s network. In this example the Postgres database and KVS will not be running in containers.
+The goal of this example is to get a feel for Kubernetes deployment of a jiffy-application.</description>
     </item>
     
     <item>
       <title>Troubleshooting</title>
       <link>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-g/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 04 Jul 2018 13:27:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-g/</guid>
       <description>Overview If a container crashes when executing the entrypoint, there are a few things that can be done to help figure out what is going on.
