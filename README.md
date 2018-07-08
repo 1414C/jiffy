@@ -5,8 +5,11 @@
 - [ ] consider FAQ for calling db functions
 - [ ] re-enable the ELECTION message and test on ARM
 - [x] look at service deployment
-- [ ] rationalize logging
+- [ ] rationalize logging via custom logger
 - [ ] code redis, memcached, etcd and sqlite kvs example implementations of gmcom.GetterSetter
+- [ ] code redis / memcached cache solution
+- [ ] code LEAVE message into group membership
+- [ ] update gmlist with LEAVE and shutdown code
 - [ ] create a few runnable examples in Docker containers
 - [x] create a Docker tutorial
 - [x] create a kubernetes tutorial
