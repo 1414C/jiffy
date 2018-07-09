@@ -14,10 +14,9 @@ import (
 
 func main() {
 
-	projectPath := flag.String("p", "/exp/DadDemo", "project path starting in &GOPATH/src")
+	projectPath := flag.String("p", "/exp", "project path starting in &GOPATH/src")
 	modelFile := flag.String("m", "", "model file relative to application base directory")
 	modelDirectory := flag.String("md", "", "process all model files in the specified directory")
-
 	rsaBits := flag.Uint("rb", 2048, "length of generated RSA keys")
 
 	flag.Parse()
