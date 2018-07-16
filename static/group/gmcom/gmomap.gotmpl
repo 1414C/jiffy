@@ -26,8 +26,10 @@ type OrderedMapI interface {
 	ReadMinActiveID() (g *GMMember)
 	ReadActiveProcessList() (g []GMMember)
 	UpdFromPing(localID uint, id uint, mm *OMap, failureThreshold uint, leaderID uint) (checkElect bool, err error)
-	UpdFailedProcesses() error
+	UpdFailedDepartedProcesses() error
 	Delete(id uint) bool
+	DeleteByIndex(idx int) bool
+	Flush() bool
 	Count() int
 	sendFailureFlush(pid uint)
 }
@@ -105,13 +107,13 @@ func (o *OMap) AddWithoutID(g *GMMember) error {
 	return nil
 }
 
-// UpdFailedProcesses increments the process's status count.  when the status count
-// reaches the threshold value, the failed process is removed from the membermap.
-func (o *OMap) UpdFailedProcesses() error {
+// UpdFailedDepartedProcesses increments the process's status count.  when the status count
+// reaches the threshold value, the failed or departed process is removed from the membermap.
+func (o *OMap) UpdFailedDepartedProcesses() error {
 
 	c := ((o.Count() * 2) - 1)
 	for k, v := range o.IDMap {
-		if v.Status != CStatusFailed {
+		if v.Status != CStatusFailed && v.Status != CStatusDeparted {
 			continue
 		}
 
@@ -125,11 +127,47 @@ func (o *OMap) UpdFailedProcesses() error {
 		} else { // remove
 			b := o.Delete(k)
 			if !b {
-				return fmt.Errorf("failed to remove failed process %d from local membermap", k)
+				if v.Status == CStatusFailed {
+					return fmt.Errorf("failed to remove failed process %d from local membermap", k)
+				}
+				return fmt.Errorf("failed to remove departed process %d from local membermap", k)
 			}
 		}
 	}
 	return nil
+}
+
+// UpdFromDeparting updates the status of the departing process if the departing
+// process has provided an incarnation number greater that that contained in the
+// member-map.  (Sets DEPARTED status on departing process's entry in the local 
+// process's memberMap.)
+func (o *OMap) UpdFromDeparting(g GMMember, leaderID uint) (checkElect bool, err error) {
+
+	// does the departing process exist in the local map?
+	w, ok := o.Read(g.ID)
+
+	if ok {
+		if w.IncarnationNumber < g.IncarnationNumber {
+			log.Printf("DEPARTING: g.IncarnationNumber (%d) > w.IncarnationNumber (%d)\n", g.IncarnationNumber, w.IncarnationNumber)
+			return false, fmt.Errorf("UpdFromDeparting() did not process departure request: incarnation number %d is not greater than %d", g.IncarnationNumber, w.IncarnationNumber)
+		}
+	}
+
+	if ok && w.Status != CStatusFailed && w.Status != CStatusDeparted {
+		w.StatusCount = 1
+		w.Status = CStatusDeparted
+		err := o.Add(g.ID, w)
+		log.Printf("DEPARTING: set DEPARTED status for process %v in local membermap.\n", g.ID)
+		if err != nil {
+			// TODO: log
+		}
+
+		// START AN ELECTION?
+		if leaderID == g.ID {
+			checkElect = true
+		}
+	}
+	return checkElect, err
 }
 
 // UpdFromPing updates the memberMap based on the memberMap
@@ -154,9 +192,10 @@ func (o *OMap) UpdFromPing(localID uint, id uint, mm *OMap, failureThreshold uin
 		// if the current loop process-id (v.ID) does not exist in the local
 		// memberMap it should be added according to the following rules:
 		// 1. do not add processes that are in a failed state.
-		// 2. reset the incoming status count to 1 before adding the new process.
+		// 2. do not add processes that are in a departed state.
+		// 3. reset the incoming status count to 1 before adding the new process.
 		w, ok := o.Read(v.ID)
-		if !ok && v.Status != CStatusFailed {
+		if !ok && v.Status != CStatusFailed && v.Status != CStatusDeparted {
 			v.StatusCount = 1
 			err := o.Add(v.ID, v)
 			if err != nil {
@@ -166,8 +205,8 @@ func (o *OMap) UpdFromPing(localID uint, id uint, mm *OMap, failureThreshold uin
 		}
 
 		// if the current loop process-id (v.ID) exists in the local memberMap
-		// with a failed status no updates should be made.
-		if w.Status == CStatusFailed {
+		// with a failed or departed status no updates should be made.
+		if w.Status == CStatusFailed || w.Status == CStatusDeparted {
 			continue
 		}
 
@@ -183,6 +222,24 @@ func (o *OMap) UpdFromPing(localID uint, id uint, mm *OMap, failureThreshold uin
 			}
 			// START AN ELECTION?
 			log.Println("ELECTION: SET checkElect BASED ON INCOMING MEMBERMAP FAILURE INDICATION")
+			if leaderID == v.ID {
+				checkElect = true
+			}
+			continue
+		}
+
+		// if the current loop process-id has an incoming status of departed, and
+		// the local memberMap has any other status then update the local memberMap
+		// accordingly.
+		if ok && v.Status == CStatusDeparted {
+			w.Status = CStatusDeparted
+			w.StatusCount = 1
+			err := o.Add(w.ID, w)
+			if err != nil {
+				// TODO: log
+			}
+			// start an election?
+			log.Println("ELECTION: SET checkElect BASED ON INCOMING MEMBERMAP DEPARTED INDICATION")
 			if leaderID == v.ID {
 				checkElect = true
 			}
@@ -244,6 +301,10 @@ func (o *OMap) UpdFromPing(localID uint, id uint, mm *OMap, failureThreshold uin
 
 			case CStatusFailed:
 				// do nothing - the status count of failed process is incremented
+				// in sendPing() in order to track the dissemination count.
+
+			case CStatusDeparted:
+				// do nothing - the status count of departed process will be incremented
 				// in sendPing() in order to track the dissemination count.
 
 			default:
@@ -373,21 +434,22 @@ func (o *OMap) ReadMaxActiveID() (g *GMMember) {
 
 	var k uint
 	var maxG GMMember
+	var tMember GMMember
 	var ok bool
 
 	for _, v := range o.IDList {
 		if v > k {
 			maxG, ok = o.Read(v)
-			if ok && maxG.Status != CStatusFailed {
+			if ok && (maxG.Status != CStatusFailed && maxG.Status != CStatusDeparted) {
 				k = v
-				g = &maxG
+				tMember = maxG
 			}
 		}
 	}
 	if k == 0 {
 		return nil
 	}
-	return &maxG
+	return &tMember
 }
 
 // ReadMinActiveID returns the details of the lowest Active (or Suspect) ID in the ordered map.
@@ -399,22 +461,23 @@ func (o *OMap) ReadMinActiveID() (g *GMMember) {
 
 	var k uint
 	var minG GMMember
+	var bMember GMMember
 	var ok bool
 
 	k = ^uint(0) // max-value
 	for _, v := range o.IDList {
 		if v < k {
 			minG, ok = o.Read(v)
-			if ok && minG.Status != CStatusFailed {
+			if ok && (minG.Status != CStatusFailed && minG.Status != CStatusDeparted) {
 				k = v
-				g = &minG
+				bMember = minG
 			}
 		}
 	}
 	if k == 0 {
 		return nil
 	}
-	return &minG
+	return &bMember
 }
 
 // ReadByAddress returns all entries in the local membermap containing an
@@ -450,7 +513,7 @@ func (o *OMap) ReadActiveProcessList() (g []GMMember) {
 
 	for _, v := range o.IDList {
 		m, ok = o.Read(v)
-		if ok && m.Status != CStatusFailed {
+		if ok && m.Status != CStatusFailed && m.Status != CStatusDeparted {
 			g = append(g, m)
 		}
 	}
@@ -485,6 +548,24 @@ func (o *OMap) DeleteByIndex(idx int) bool {
 	v := o.IDList[idx]
 	o.IDList = append(o.IDList[:idx], o.IDList[idx+1:]...)
 	delete(o.IDMap, v)
+	return true
+}
+
+// Flush flushes the ordered map with no checks
+func (o *OMap) Flush() bool {
+
+	// deleting from an empty list is deemed to be successful
+	if len(o.IDList) == 0 {
+		return true
+	}
+
+	for n := range o.IDList {
+		ok := o.DeleteByIndex(n)
+		if !ok {
+			return ok
+		}
+		return ok
+	}
 	return true
 }
 

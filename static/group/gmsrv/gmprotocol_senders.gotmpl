@@ -104,12 +104,14 @@ func (gm *GMServ) SendPing() {
 	_ = gm.sendPing(nil)
 }
 
-// SendFailure send a failure message to each process in the membership group
+// SendFailure sends a failure message to each process in the membership group
 // with the exception of the failed process.  SendFailure is also sent to the
 // local server and the failed process is removed from the local list on this
 // basis.
 func (gm *GMServ) SendFailure(f gmcom.GMMessage) {
 
+    // ??? DEPRECATED ???
+	panic("Deprecated SendFailure(...) called!")
 	// if no subject process was provided leave
 	if f.SubjectID == 0 || f.SubjectIPAddress == "" {
 		// TODO: log
@@ -141,6 +143,57 @@ func (gm *GMServ) SendFailure(f gmcom.GMMessage) {
 		if err != nil {
 			log.Println(err)
 			return
+		}
+	}
+}
+
+// SendDeparting sends a departing message to each process in the membership group
+// including the local process, although the local list will likely not see the
+// update (or care about it).
+func (gm *GMServ) SendDeparting() {
+
+	log.Println("DEPARTING-1: SendDeparting called")
+
+	// do this on the channel?
+	gm.MyIncarnation++
+	gm.memberMap.Add(gm.MyID, gmcom.GMMember{
+		ID:                gm.MyID,
+		IPAddress:         gm.MyIPAddress,
+		Status:            gmcom.CStatusDeparted,
+		StatusCount:       1,
+		IncarnationNumber: gm.MyIncarnation,
+	})
+
+	f := gmcom.GMMessage{}
+
+	// request a list of current process-ids
+	f.Type = gmcom.CinDoSendPrep
+	f.TargetPath = ""
+	f.TargetID = 0
+	f.TargetIPAddress = ""
+	f.ExpectResponse = true
+	gm.chin <- f
+
+	// read the list from the channel one-by-one :(
+	requested := true
+	for requested {
+		f = <-gm.chout
+		if f.TargetID == 0 {
+			log.Println("DEPARTING-1B: SendDeparting got:", f)
+			break
+		}
+		// make some adjustments to the incoming message structure
+		f.SrcIncarnationNumber += 2 // double-down
+		f.Type = gmcom.CDeparting
+		f.TargetPath = "/departing"
+		f.ExpectResponse = false
+
+		log.Println("DEPARTING-2: SendDeparting sending:", f)
+
+		// send the departing message to the target
+		err := gm.TxGMMessage(f)
+		if err != nil {
+			log.Println("DEPARTING-ERR: SendDeparting got:", err)
 		}
 	}
 }
@@ -228,7 +281,7 @@ func (gm *GMServ) sendPing(l *gmcom.GMLeader) error {
 		// result from the Rx or an error.  error indicates that an ACK message was not
 		// received for the ping.
 		p = pl[iv]
-		if p.TargetStatus != gmcom.CStatusFailed {
+		if p.TargetStatus != gmcom.CStatusFailed && p.TargetStatus != gmcom.CStatusDeparted {
 			log.Println("sending PING:", p)
 
 			r, err := gm.TxRxGMMessage(p) //(pl[iv])
@@ -308,6 +361,9 @@ func (gm *GMServ) sendPing(l *gmcom.GMLeader) error {
 
 				case gmcom.CStatusFailed:
 					// should never get here as failed processes are not pinged
+				
+				case gmcom.CStatusDeparted:
+					// should never get here as departed processes are not pinged
 
 				default:
 					// should never get here
@@ -406,6 +462,9 @@ func (gm *GMServ) sendPing(l *gmcom.GMLeader) error {
 
 				case gmcom.CStatusFailed:
 					// never reinstate once failed
+
+				case gmcom.CStatusDeparted:
+					// never reinstate once departed
 
 				default:
 					panic(fmt.Errorf("incoming ACK for process %d has unknown status %s", p.TargetID, p.TargetStatus))

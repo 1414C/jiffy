@@ -23,6 +23,7 @@ const (
 	CFailure     = "FAILURE"
 	CCoordinator = "COORDINATOR"
 	COkay        = "OKAY"
+	CDeparting   = "DEPARTING"
 )
 
 const (
@@ -39,6 +40,7 @@ const (
 	CinGetMyTargetInfo  = "inGetMyTargetInfo"
 	CinNoAck            = "inNoAck"
 	CinDoSendPrep       = "inDoSendPrep"
+	CinFlushMemberMap   = "inFlushMemberMap"
 )
 
 // election 'error' codes
@@ -56,6 +58,7 @@ const (
 	CStatusAlive   ProcStatus = "ALIVE"
 	CStatusSuspect ProcStatus = "SUSPECT"
 	CStatusFailed  ProcStatus = "FAILED"
+	CStatusDeparted ProcStatus = "DEPARTED"
 )
 
 // GMMember is the struct for membership recording

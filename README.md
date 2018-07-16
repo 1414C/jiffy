@@ -1,5 +1,19 @@
 # jiffy
 
+## Latest
+
+- [ ] Send a DEPARTING message to the group when a SIGKILL, SIGTERM or os.Interrupt is detected
+- [ ] Add CDeparting Message Type constant
+- [ ] Add CinFlushMemberMap channel command constant
+- [ ] Add CStatusDeparted process status constant
+- [ ] Add CerrMemberMapFlushFailed error constant
+- [ ] Add DeleteByIndex(...) to OrderedMapI interface
+- [ ] Add Flush() method to OrderedMapI interface and add implementation to OMap
+- [ ] Add UpdFailedDepartedProcesses() to OrderedMapI interface and add implementation to OMap
+- [ ] Add SendDeparting(...) method
+- [ ] Add Self-ping network up/down check + Join in TxRxGMMessage(...)
+
+
 ## TODO:
 
 - [ ] consider FAQ for calling db functions

@@ -683,6 +683,9 @@ func (a *AppObj) Run(lsg gmcom.GMLeaderSetterGetter) {
 	go func() {
 		signal := <-sigs
 		log.Printf("signal received: %v\n", signal)
+
+		// sending departing message to group-members
+		gv.SendDeparting()
 		done <- true
 	}()
 

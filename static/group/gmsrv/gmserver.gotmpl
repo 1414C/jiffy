@@ -45,6 +45,7 @@ type GMServSenderInt interface {
 	SendJoin(l *gmcom.GMLeader) error
 	SendPing()
 	SendFailure(f gmcom.GMMessage)
+	SendDeparting()
 	SendCoordinator(c gmcom.GMMessage) error
 }
 
@@ -68,6 +69,7 @@ type GMServ struct {
 	MyID             uint
 	MyIPAddress      string
 	MyIncarnation    uint
+	MyNetworkOffline bool // true = unable to ping myself
 	FailureThreshold uint32
 	chin             chan gmcom.GMMessage
 	chout            chan gmcom.GMMessage
@@ -164,13 +166,27 @@ func (gm *GMServ) processCmdChannel() {
 			gm.MyID = v.TargetID
 			gm.chout <- v
 
-		case gmcom.CLeave:
-		// 	// if the get finds nothing, clear the key to prevent match-checking error
-		// 	v, ok := gm.cacheMap[v.Key]
-		// 	if !ok {
-		// 		v.Key = ""
-		// 	}
-		// 	gm.chout <- v
+		case gmcom.CDeparting:
+			log.Println("DEPARTING: message received from:", v.SrcID, v.SrcIPAddress)
+			dm := gmcom.GMMember{
+				ID:                v.SrcID,
+				IPAddress:         v.SrcIPAddress,
+				Status:            gmcom.CStatusDeparted, //v.TargetStatus,
+				StatusCount:       1,                     // v.TargetStatusCount,
+				IncarnationNumber: v.TargetIncarnationNumber,
+			}
+			var err error
+			v.CheckElection, err = gm.memberMap.UpdFromDeparting(dm, gm.Leader.LeaderID)
+			if err != nil {
+				log.Println("error: gm.memberMap.UpdFromDeparting got:", err)
+			}
+			fmt.Println("========================================================================")
+			all := gm.memberMap.ReadAll()
+			for _, mem := range all {
+				fmt.Println("member:", mem)
+			}
+			fmt.Println("========================================================================")
+			gm.chout <- v
 
 		case gmcom.CFailure:
 			log.Println("FAILURE received")
@@ -238,16 +254,26 @@ func (gm *GMServ) processCmdChannel() {
 			// }
 			gm.chout <- v
 
+		case gmcom.CinFlushMemberMap:
+			ok := gm.memberMap.Flush()
+			if !ok {
+				log.Println("error: Requested gm.memberMap.Flush() did not succeed")
+				// panic("Requested gm.memberMap.Flush() did not succeed")
+				v.ErrCode = gmcom.CerrMemberMapFlushFailed
+			}
+			v.ErrCode = ""
+			gm.chout <- v
+
 		case gmcom.CinDoSendPrep:
 
 			// first increment failure status counts and flush failed processes that have been
-			// disseminated ((gm.memberMap.Count()*4)-1) times.  this is overkill, as 2n-1 is
-			// gives two rounds of pinging, but it doesn't cost much to do it a few extra times.
-			// failed processes are updated or deleted from the local membermap here.
-			err := gm.memberMap.UpdFailedProcesses()
+			// disseminated ((gm.memberMap.Count()*2)-1) times.  this is overkill, as 2n-1 is
+			// gives two rounds of pinging but it doesn't cost much to do it a few extra times.
+			// failed and departed processes are updated or deleted from the local membermap here.
+			err := gm.memberMap.UpdFailedDepartedProcesses()
 			if err != nil {
 				// TODO: log
-				log.Println("error: gm.memberMap.UpdFailedProcesses() got:", err)
+				log.Println("error: gm.memberMap.UpdFailedDepartedProcesses() got:", err)
 			}
 
 			// populate the dissemination membermap with a deep-copy of the local membermap in order
@@ -417,7 +443,7 @@ func (gm *GMServ) processCmdChannel() {
 				// send coordinator messages to all non-failed processes with lower-ids than that of the local process.
 				for i := 0; i < gm.memberMap.Count(); i++ {
 					m, ok := gm.memberMap.ReadByIndex(i)
-					if ok && m.Status != gmcom.CStatusFailed && m.ID != gm.MyID {
+					if ok && m.Status != gmcom.CStatusFailed && m.Status != gmcom.CStatusDeparted && m.ID != gm.MyID {
 						c.TargetID = m.ID
 						c.TargetIPAddress = m.IPAddress
 						err = gm.SendCoordinator(c)
@@ -564,6 +590,7 @@ func (gm *GMServ) Serve(myIPAddress string, lsg gmcom.GMLeaderSetterGetter, actU
 	// failure detector handlers
 	mux.Handle("/ping", websocket.Handler(gm.PingHandler))
 	mux.Handle("/join", websocket.Handler(gm.JoinHandler))
+	mux.Handle("/departing", websocket.Handler(gm.DepartingHandler))
 	mux.Handle("/coordinator", websocket.Handler(gm.CoordinatorHandler))
 
 	mux.Handle("/updateusrcache", websocket.Handler(gm.UsrUpdateHandler))
@@ -875,6 +902,41 @@ func (gm *GMServ) CoordinatorHandler(ws *websocket.Conn) {
 	}
 	gm.chin <- l
 	l = <-gm.chout
+}
+
+// DepartingHandler deals with incoming departing messages.  Departing messages
+// are decoded and then fed into the inbound GMMessage channel for processing.
+// Message Type == Departing
+func (gm *GMServ) DepartingHandler(ws *websocket.Conn) {
+
+	// decode the incoming DEPARTING message and feed to inbound channel
+	m, err := gmcom.DecodeGMMessage(ws)
+	if err == nil {
+
+		log.Println("DEPARTING: In DepartingHandler for:", m)
+
+		// process the departing message and wait for the outbound channel to provide a response
+		gm.chin <- *m
+		m2 := <-gm.chout
+		log.Println("DepartingHandler() channel result:", m2)
+
+		// is there a need to trigger an elelection?
+		if !m2.CheckElection {
+			return
+		}
+
+		log.Println("ELECTION: DepartingHandler() starting election evaluation...")
+		log.Println("ELECTION: unsafe access to gm.InElection returns:", gm.InElection)
+
+		s := gmcom.GMMessage{
+			Type: gmcom.CinRunElection,
+		}
+
+		gm.chin <- s
+		s = <-gm.chout
+		log.Println("DepartingHandler() complete")
+		return
+	}
 }
 
 // JoinHandler deals with join websocket requests that have been accepted by the router.
