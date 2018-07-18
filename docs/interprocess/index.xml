@@ -26,7 +26,7 @@
       <pubDate>Mon, 02 Jul 2018 17:02:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/interprocess/ip-content-b/</guid>
-      <description>Group Membership Failure Detector  When discussing deployment of a Jiffy-generated application, each instance of the application is referred to as a process or application instance. Processes may fail. Processes exist with one of three publicly disseminated and well-known statuses: {ACTIVE; SUSPECT; FAILED} Processes exist with a publicly (within the group) disseminated incarnation number. Process viability is checked at selectable intervals (ping-cycle time) via a ping-ack mechanism. Each process pings all other processes in the group in random order once per ping-cycle.</description>
+      <description>Group Membership Failure Detector  When discussing deployment of a Jiffy-generated application, each instance of the application is referred to as a process or application instance. Processes may fail. Processes exist with one of four publicly disseminated and well-known statuses: {ACTIVE; SUSPECT; FAILED; DEPARTED} Processes exist with a publicly (within the group) disseminated incarnation number. Process viability is checked at selectable intervals (ping-cycle time) via a ping-ack mechanism. Each process pings all other processes in the group in random order once per ping-cycle.</description>
     </item>
     
     <item>
@@ -37,6 +37,15 @@
       <guid>https://1414c.github.io/jiffy/interprocess/ip-content-c/</guid>
       <description>Process Startup When an application instance (process) starts, the group-membership subsystem is started as a go-routine within the application.
 Member Communication The group-membership service communicates between processes via web-sockets connections. Each process accepts group-membership messages on the address:port specified by the &amp;lsquo;internal_address&amp;rsquo; key in the application configuration file. This port is not secured, and the group-membership messages are not encrypted in any way. It is advisable that the address:port used here is not accessible to the outside world.</description>
+    </item>
+    
+    <item>
+      <title>Process Shutdown</title>
+      <link>https://1414c.github.io/jiffy/interprocess/ip-content-d/</link>
+      <pubDate>Mon, 02 Jul 2018 17:03:10 -0701</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/interprocess/ip-content-d/</guid>
+      <description>Planned Shutdown  Application instances can be stopped deliberately. For example, application instances running in a cluster may be started and stopped based on auto-scaling behaviors. Application shutdowns consider the need to complete work in progress by listening for SIGTERM, SIGKILL and os.Interrupt &amp;lsquo;events&amp;rsquo; in a dedicated goroutine which we will refer to here as the &amp;lsquo;shutdown detector goroutine&amp;rsquo;. When a signal of interest is detected, the shutdown detector goroutine passes a value through a channel being listened to in the main services loop.</description>
     </item>
     
   </channel>

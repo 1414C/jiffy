@@ -2,16 +2,17 @@
 
 ## Latest
 
-- [ ] Send a DEPARTING message to the group when a SIGKILL, SIGTERM or os.Interrupt is detected
-- [ ] Add CDeparting Message Type constant
-- [ ] Add CinFlushMemberMap channel command constant
-- [ ] Add CStatusDeparted process status constant
-- [ ] Add CerrMemberMapFlushFailed error constant
-- [ ] Add DeleteByIndex(...) to OrderedMapI interface
-- [ ] Add Flush() method to OrderedMapI interface and add implementation to OMap
-- [ ] Add UpdFailedDepartedProcesses() to OrderedMapI interface and add implementation to OMap
-- [ ] Add SendDeparting(...) method
-- [ ] Add Self-ping network up/down check + Join in TxRxGMMessage(...)
+- [x] Send a DEPARTING message to the group when a SIGKILL, SIGTERM or os.Interrupt is detected
+- [x] Add CDeparting Message Type constant
+- [x] Add CinFlushMemberMap channel command constant
+- [x] Add CStatusDeparted process status constant
+- [x] Add CerrMemberMapFlushFailed error constant
+- [x] Add DeleteByIndex(...) to OrderedMapI interface
+- [x] Add Flush() method to OrderedMapI interface and add implementation to OMap
+- [x] Add UpdFailedDepartedProcesses() to OrderedMapI interface and add implementation to OMap
+- [x] Add SendDeparting(...) method
+- [x] Add Self-ping network up/down check + Join in TxRxGMMessage(...)
+- [ ] Address logging
 
 
 ## TODO:
