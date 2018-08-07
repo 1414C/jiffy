@@ -17,6 +17,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/dgrijalva/jwt-go/request"
+	"github.com/1414C/lw"
 )
 
 // RequireUsr offers a closure that can be called with the requested page's
@@ -80,15 +81,15 @@ func (mw *RequireUsr) CheckAuth(authName string, groups []string, id uint64) boo
 
 	// is the user active?
 	active := mw.ActUsrsH.ActiveUsrs[id]
-	fmt.Println("==============================================================")
-	fmt.Println("mw.ActUsrsH.ActiveUsrs:", mw.ActUsrsH.ActiveUsrs)
-	fmt.Println("==============================================================")
-	fmt.Println("mw.GroupAuthsH.GroupAuths:", mw.GroupAuthsH.GroupAuths["Test Group 3"])
-	fmt.Println("==============================================================")
-	fmt.Println("mw.AuthsH.Auths:", mw.AuthsH.Auths)
-	fmt.Println("==============================================================")
-	fmt.Println("mw.UsrGroups.UsrGroupsH", mw.UsrGroupsH.GroupNames)
-	fmt.Println("==============================================================")
+	lw.Debug("==============================================================")
+	lw.Debug("mw.ActUsrsH.ActiveUsrs: %v", mw.ActUsrsH.ActiveUsrs)
+	lw.Debug("==============================================================")
+	lw.Debug("mw.GroupAuthsH.GroupAuths: %v", mw.GroupAuthsH.GroupAuths)
+	lw.Debug("==============================================================")
+	lw.Debug("mw.AuthsH.Auths: %v", mw.AuthsH.Auths)
+	lw.Debug("==============================================================")
+	lw.Debug("mw.UsrGroups.UsrGroupsH: %v", mw.UsrGroupsH.GroupNames)
+	lw.Debug("==============================================================")
 	if !active {
 		return false
 	}
@@ -97,12 +98,12 @@ func (mw *RequireUsr) CheckAuth(authName string, groups []string, id uint64) boo
  
  		// nil here is odd but plausible
  		mapAuths := mw.GroupAuthsH.GroupAuths[g]
-		// fmt.Printf("mw.mapGA[%s] got: %v\n", g, mapAuths)
+		// lw.Debug("mw.mapGA[%s] got: %v", g, mapAuths)
  		if mapAuths == nil || len(mapAuths) == 0 {
  			continue
  		}
  
-		// fmt.Println("mapAuths:", mapAuths)
+		// lw.Debug("mapAuths: %v", mapAuths)
  		auth := mapAuths[authName]
  		if auth == true {
  			return true
@@ -172,18 +173,18 @@ func (mw *RequireUsr) ApplyFn(next http.HandlerFunc) http.HandlerFunc {
 			if token.Valid {
 				claims := token.Claims.(*CustomClaims)
 
-				// fmt.Printf("checking auth: %s with groups: %v\n", mux.CurrentRoute(r).GetName(), claims.Groups)
-				// fmt.Println("token.Header:", token.Header)
-				// fmt.Println("claims.IssuedAt", claims.IssuedAt)
-				// fmt.Println("claims.ExpiresAt", claims.ExpiresAt)
-				// fmt.Println("claims.NotBefore", claims.NotBefore)
-				// fmt.Println("claims.Issuer", claims.Issuer)
-				// fmt.Println("claims.Subject", claims.Subject)
-				// fmt.Println("claims.TokenType", claims.TokenType)
-				// fmt.Println("claims.Groups", claims.Groups)
-				// fmt.Println("claims.Id", claims.Id)
-				// fmt.Println("claims.UID:", claims.UID)
-				// fmt.Println("claims.Email:", claims.Email)
+				// lw.Debug("checking auth: %s with groups: %v", mux.CurrentRoute(r).GetName(), claims.Groups)
+				// lw.Debug("token.Header: %v", token.Header)
+				// lw.Debug("claims.IssuedAt: %v", claims.IssuedAt)
+				// lw.Debug("claims.ExpiresAt: %v", claims.ExpiresAt)
+				// lw.Debug("claims.NotBefore: %v", claims.NotBefore)
+				// lw.Debug("claims.Issuer: %v", claims.Issuer)
+				// lw.Debug("claims.Subject: %v", claims.Subject)
+				// lw.Debug("claims.TokenType: %v", claims.TokenType)
+				// lw.Debug("claims.Groups: %v", claims.Groups)
+				// lw.Debug("claims.Id: %v", claims.Id)
+				// lw.Debug("claims.UID: %v", claims.UID)
+				// lw.Debug("claims.Email: %v", claims.Email)
 				
 				gps := strings.Split(claims.Groups, ";")
 				for i := range gps {
@@ -197,11 +198,11 @@ func (mw *RequireUsr) ApplyFn(next http.HandlerFunc) http.HandlerFunc {
 				}
 			}
 			w.WriteHeader(http.StatusUnauthorized)
-			fmt.Fprint(w, "Unauthorized access to this resource")
+			lw.Warning("Unauthorized access to this resource: %v", w)
 			return
 		}
 		w.WriteHeader(http.StatusUnauthorized)
-		fmt.Fprint(w, "Unauthorized access to this resource "+err.Error())
+		lw.Warning("Unauthorized access to this resource: %v %s", w, err.Error())
 		return
 	})
 }
@@ -209,6 +210,6 @@ func (mw *RequireUsr) ApplyFn(next http.HandlerFunc) http.HandlerFunc {
 // Apply assumes that Usr middleware has already been run
 // otherwise it will not work correctly.
 func (mw *RequireUsr) Apply(next http.Handler) http.HandlerFunc {
-	// log.Println("middleware: *RequireUser: Apply:", next)
+	// lw.Info("middleware: *RequireUser: Apply: %v", next)
 	return mw.ApplyFn(next.ServeHTTP)
 }

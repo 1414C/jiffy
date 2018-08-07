@@ -8,7 +8,6 @@ package gmsrv
 import (
 	"{{.AppPath}}/group/gmcom"
 	"fmt"
-	"log"
 )
 
 // All methods contained herein must be called within the processCmdChannel method.
@@ -71,7 +70,8 @@ func (gm *GMServ) processPing(p gmcom.GMMessage) (rm gmcom.GMMessage) {
 				for _, v := range da {
 					if v.Status == gmcom.CStatusAlive ||
 						v.Status == gmcom.CStatusSuspect {
-						log.Printf("address %s is in use with proc-id: %d status: %s", v.IPAddress, v.ID, v.Status)
+			            e := fmt.Errorf("address %s is in use with proc-id: %d status: %s", v.IPAddress, v.ID, v.Status)
+						lw.Error(e)
 						rm.ErrCode = gmcom.CerrJoinAddrInUse
 						return rm // TargetIPAddress == 0
 					}
@@ -81,7 +81,7 @@ func (gm *GMServ) processPing(p gmcom.GMMessage) (rm gmcom.GMMessage) {
 			// 2
 			err := gm.memberMap.AddWithoutID(&m)
 			if err != nil {
-				log.Println(err)
+				lw.Error(err)
 				rm.ErrCode = gmcom.CerrJoinUnknownErr
 				return rm
 			} else {
@@ -94,7 +94,7 @@ func (gm *GMServ) processPing(p gmcom.GMMessage) (rm gmcom.GMMessage) {
 			}
 		} else {
 			// remember that rm.TargetID == 0 here
-			log.Printf("non-leader process-id %d received JOIN message from ip-address: %s\n", gm.MyID, p.SrcIPAddress)
+			lw.Info("non-leader process-id %d received JOIN message from ip-address: %s", gm.MyID, p.SrcIPAddress)
 			rm.ErrCode = gmcom.CerrJoinNotLeader
 			return rm
 		}
@@ -128,7 +128,7 @@ func (gm *GMServ) processPing(p gmcom.GMMessage) (rm gmcom.GMMessage) {
 			// add the process-id to the memberMap
 			err := gm.memberMap.Add(p.SrcID, m)
 			if err != nil {
-				log.Println(err)
+				lw.Error(err)
 			}
 
 			// if the pinging process-id (pj.ID)is in the local memberMap - update it
@@ -141,7 +141,7 @@ func (gm *GMServ) processPing(p gmcom.GMMessage) (rm gmcom.GMMessage) {
 				// update the pinger's information in the local memberMap
 				err := gm.memberMap.Add(pj.ID, pj)
 				if err != nil {
-					log.Println(err)
+					lw.Error(err)
 				}
 
 				// perform local updates based on incoming ping memberMap
@@ -149,13 +149,13 @@ func (gm *GMServ) processPing(p gmcom.GMMessage) (rm gmcom.GMMessage) {
 					// BETA: is the local process-id (Pi) marked as suspect or failed in the sender's memberMap?
 					err = gm.updateOwnStatusInPingMap(&p)
 					if err != nil {
-						log.Println(err)
+						lw.Error(err)
 					}
 
 					// update the local memberMap based on the incoming ping's memberMap
 					rm.CheckElection, err = gm.memberMap.UpdFromPing(gm.MyID, pj.ID, p.MemberMap, uint(gm.FailureThreshold), gm.Leader.LeaderID)
 					if err != nil {
-						log.Println(err)
+						lw.Error(err)
 					}
 				}
 
@@ -169,7 +169,7 @@ func (gm *GMServ) processPing(p gmcom.GMMessage) (rm gmcom.GMMessage) {
 					// BETA: is the local process-id (Pi) marked as suspect or failed in the sender's memberMap?
 					err := gm.updateOwnStatusInPingMap(&p)
 					if err != nil {
-						log.Println(err)
+						lw.Error(err)
 					}
 				}
 
@@ -181,7 +181,7 @@ func (gm *GMServ) processPing(p gmcom.GMMessage) (rm gmcom.GMMessage) {
 					// update the pinger's information in the local memberMap
 					err := gm.memberMap.Add(pj.ID, pj)
 					if err != nil {
-						log.Println(err)
+						lw.Error(err)
 					}
 
 					// perform local updates based on incoming ping memberMap
@@ -196,7 +196,7 @@ func (gm *GMServ) processPing(p gmcom.GMMessage) (rm gmcom.GMMessage) {
 						// update the local memberMap based on the incoming ping's memberMap
 						rm.CheckElection, err = gm.memberMap.UpdFromPing(gm.MyID, pj.ID, p.MemberMap, uint(gm.FailureThreshold), gm.Leader.LeaderID)
 						if err != nil {
-							log.Println(err)
+							lw.Error(err)
 						}
 					}
 				}
@@ -220,16 +220,16 @@ func (gm *GMServ) processPing(p gmcom.GMMessage) (rm gmcom.GMMessage) {
 // PingMap is updated so that our localMap will get updated correctly in the
 func (gm *GMServ) updateOwnStatusInPingMap(p *gmcom.GMMessage) error {
 
-	log.Println("updateOwnStatusInPingMap() called...")
+	lw.Info("updateOwnStatusInPingMap() called...")
 	// is the local process-id (Pi) marked as suspect or failed in the sender's memberMap?
 	pi, ok := p.MemberMap.IDMap[gm.MyID]
 	if ok {
 		switch pi.Status {
 		case gmcom.CStatusAlive:
-			// log.Println("Incoming memberMap from pinger says that I am alive:")
-			// log.Println("Ping map:", p.MemberMap.IDMap)
+			lw.Debug("Incoming memberMap from pinger says that I am alive:")
+			lw.Debug("Ping map: %v", p.MemberMap.IDMap)
 		case gmcom.CStatusSuspect:
-			// log.Println("I am suspected of failure - increasing incarnation number and asserting alive status")
+			lw.Debug("I am suspected of failure - increasing incarnation number and asserting alive status")
 			gm.MyIncarnation++
 			pi.Status = gmcom.CStatusAlive
 			pi.IncarnationNumber = gm.MyIncarnation

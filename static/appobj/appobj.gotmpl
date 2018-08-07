@@ -5,7 +5,6 @@ import (
 	"crypto/tls"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net"
 	"net/http"
 	"os"
@@ -22,6 +21,7 @@ import (
 	"{{.AppPath}}/models"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
+	"github.com/1414C/lw"
 )
 
 // AppObj is the one and only application object
@@ -81,6 +81,9 @@ func (a *AppObj) Initialize(dev, prd, dr, rs, al, dl bool) {
 	// get the DB config
 	a.dbConfig = a.cfg.Database
 
+	// initialize logging
+	a.initializeLogging(a.cfg.Logging)
+
 	// create Services
 	a.createServices(al, dl)
 
@@ -116,7 +119,7 @@ func (a *AppObj) Initialize(dev, prd, dr, rs, al, dl bool) {
 	// validate Auths against registered end-points
 	auths := a.initializeAuthsByRoute()
 	if auths == nil || len(auths) == 0 {
-		log.Println("Auth initialization did not return the current list of route authorizations.  The Super UsrGroup will not be updated...")
+		lw.Console("Auth initialization did not return the current list of route authorizations.  The Super UsrGroup will not be updated...")
 	} else {
 		// assign all current Auths to the Super UsrGroup / rebuild Super UsrGroup Auths?
 		a.initializeSuperGroup(auths, rs)
@@ -133,7 +136,7 @@ func (a *AppObj) Initialize(dev, prd, dr, rs, al, dl bool) {
 // destructiveReset executes a destructive reset to refresh db
 func (a *AppObj) destructiveReset() {
 	a.services.DestructiveReset()
-	fmt.Println("Destructive reset has been carried out.  Exiting...")
+	lw.Console("Destructive reset has been carried out.  Exiting...")
 	os.Exit(0)
 }
 
@@ -143,6 +146,23 @@ func (a *AppObj) automigrate() {
 	if err := a.services.AlterAllTables(); err != nil {
 		panic(err)
 	}
+}
+
+// initializeLogging sets up the logger to stdout.  replace nil with your
+// own io.Writer if you wish to direct the log output to another location.
+func (a *AppObj) initializeLogging(l LogConfig) {
+	ls := lw.LogWriterState{
+		Enabled:        l.Active,
+		LocEnabled:     l.CallLocation,
+		TraceEnabled:   l.TraceMsgs,
+		InfoEnabled:    l.InfoMsgs,
+		WarningEnabled: l.WarningMsgs,
+		DebugEnabled:   l.DebugMsgs,
+		ErrorEnabled:   l.ErrorMsgs,
+		ColorEnabled:   l.ColorMsgTypes,
+	}
+	lw.InitWithSettings(ls, nil)
+
 }
 
 // createServices creates new services for the application object
@@ -173,8 +193,8 @@ func (a *AppObj) initializeJWTKeys() {
 	a.jwtKeyMap = make(map[string]interface{})
 
 	{{range .ECDSA -}}
-	log.Println("ECDSA{{.}}PrivKeyFile:", a.cfg.ECDSA{{.}}PrivKeyFile)
-	log.Println("ECDSA{{.}}PubKeyFile:", a.cfg.ECDSA{{.}}PubKeyFile)
+	lw.Console("ECDSA{{.}}PrivKeyFile: %v", a.cfg.ECDSA{{.}}PrivKeyFile)
+	lw.Console("ECDSA{{.}}PubKeyFile: %v", a.cfg.ECDSA{{.}}PubKeyFile)
 	if a.cfg.ECDSA{{.}}PrivKeyFile != "" {
 		signBytes, err := ioutil.ReadFile(a.cfg.ECDSA{{.}}PrivKeyFile)
 		fatal(err)
@@ -198,8 +218,8 @@ func (a *AppObj) initializeJWTKeys() {
 	{{end -}}
 
 	{{range .RSA -}}
-	log.Println("RSA{{.}}PrivKeyFile:", a.cfg.RSA{{.}}PrivKeyFile)
-	log.Println("RSA{{.}}PubKeyFile:", a.cfg.RSA{{.}}PubKeyFile)
+	lw.Console("RSA{{.}}PrivKeyFile: %v", a.cfg.RSA{{.}}PrivKeyFile)
+	lw.Console("RSA{{.}}PubKeyFile: %v", a.cfg.RSA{{.}}PubKeyFile)
 	if a.cfg.RSA{{.}}PrivKeyFile != "" {
 		signBytes, err := ioutil.ReadFile(a.cfg.RSA{{.}}PrivKeyFile)
 		fatal(err)
@@ -501,13 +521,12 @@ func (a *AppObj) getRouteNames() (authNames []string) {
 			return fmt.Errorf("walkRoutes found route %v with no name", path)
 		}
 		authNames = append(authNames, name)
-		// fmt.Println("RouteName:", name)
 		return nil
 	}
 
 	err := a.router.Walk(walkFn)
 	if err != nil {
-		fmt.Printf("warning: %v\n", err)
+		lw.Console("warning: %v", err)
 	}
 	return authNames
 }
@@ -533,14 +552,14 @@ func (a *AppObj) initializeAuthsByRoute() map[string]uint64 {
 	for _, rn := range routeNames {
 		id := mapAuths[rn]
 		if id == 0 {
-			log.Printf("warning: auth %s not found in the db Auth master data\n", rn)
+			lw.Warning("auth %s not found in the db Auth master data", rn)
 			pendingAuths = append(pendingAuths, rn)
 		}
 	}
 
 	// create the missing auths in the Auth master data
 	for _, pa := range pendingAuths {
-		log.Printf("info: creating auth %s in the db Auth master data\n", pa)
+		lw.Console("creating auth %s in the db Auth master data...", pa)
 
 		d := ""
 		parts := strings.Split(pa, ".")
@@ -558,10 +577,10 @@ func (a *AppObj) initializeAuthsByRoute() map[string]uint64 {
 
 		err := a.services.Auth.Create(&newAuth)
 		if err != nil {
-			log.Printf("warning: attempted creation of auth %s failed. got: %s\n", pa, err)
+			lw.Warning("attempted creation of auth %s failed. got: %s", pa, err)
 			return nil
 		}
-		log.Printf("warning: new auth %s must be added to at least one group\n", pa)
+		lw.Warning("new auth %s must be added to at least one group", pa)
 		mapAuths[newAuth.AuthName] = newAuth.ID
 	}
 	return mapAuths
@@ -597,8 +616,8 @@ func (a *AppObj) initializeSuperGroup(Auths map[string]uint64, rebuildSuperGroup
 	// delete current auth allocations to Super
 	err := a.services.GroupAuth.DeleteGroupAuthsByGroupID(strconv.Itoa(int(sg.ID)))
 	if err != nil {
-		log.Println("warning:", err)
-		log.Println("Super GroupAuths will not be maintained.  Some end-points may not be available...")
+		lw.Warning(err.Error())
+		lw.Warning("Super GroupAuths will not be maintained.  Some end-points may not be available...")
 		return
 	}
 
@@ -608,12 +627,11 @@ func (a *AppObj) initializeSuperGroup(Auths map[string]uint64, rebuildSuperGroup
 		// call the Create method on the groupauth model
 		err := a.services.GroupAuth.CreateGroupAuthDirect(sg.ID, v)
 		if err != nil {
-			log.Printf("CreateGroupAuthDirect error occured while rebuilding the Super Group Auth assignment for UsrGroup %v and Auth %v.\n", sg.ID, k)
-			panic("Terminating...")
+			panic(fmt.Sprintf("CreateGroupAuthDirect error occured while rebuilding the Super Group Auth assignment for UsrGroup %v and Auth %v.\n", sg.ID, k))
 		}
 	}
-	log.Printf("The Super UsrGroup has been initialized with %v Auth objects.\n", len(Auths))
-	log.Printf("re-initializing local middleware to accomodate Super group changes.\n")
+	lw.Console("The Super UsrGroup has been initialized with %v Auth objects.", len(Auths))
+	lw.Console("re-initializing local middleware to accomodate Super group changes.")
 }
 
 // initializeAdminUsr checks for the existance of Usr 'admin'.  If 'admin' does not exist, a new Usr
@@ -640,10 +658,9 @@ func (a *AppObj) initializeAdminUsr() {
 
 	err := a.services.Usr.Create(&usrAdmin)
 	if err != nil {
-		log.Printf("failed to create admin user in intializeAdminUsr: %v\n", err)
-		panic("Terminating...")
+		panic(fmt.Sprintf("failed to create admin user in intializeAdminUsr: %v\n", err))
 	}
-	log.Printf("admin user created with ID: %v and initial password of %v\n", usrAdmin.ID, "initpass")
+	lw.Console("admin user created with ID: %v and initial password of %v", usrAdmin.ID, "initpass")
 
 	// add the admin usr to the local cache
 	a.usrC.ActUsrsH.Lock()
@@ -682,7 +699,7 @@ func (a *AppObj) Run(lsg gmcom.GMLeaderSetterGetter) {
 	// push a true into the done channel.
 	go func() {
 		signal := <-sigs
-		log.Printf("signal received: %v\n", signal)
+		lw.Console("signal received: %v", signal)
 
 		// sending departing message to group-members
 		gv.SendDeparting()
@@ -690,45 +707,45 @@ func (a *AppObj) Run(lsg gmcom.GMLeaderSetterGetter) {
 	}()
 
 	if a.cfg.IsProd() {
-		fmt.Println("Production settings selected...")
+		lw.Console("Production settings selected...")
 
-				tlsCfg := &tls.Config{
+		tlsCfg := &tls.Config{
 			MinVersion: tls.VersionTLS10, // good enough?
 		}
 
 		tlsCfg.Certificates = make([]tls.Certificate, 1)
 		tlsCfg.Certificates[0], err = tls.LoadX509KeyPair(a.cfg.CertFile, a.cfg.KeyFile)
 		if err != nil {
-			log.Fatal(err)
+			lw.Fatal(err)
 		}
 		srv.TLSConfig = tlsCfg
 
 		// create a tlsListener
 		lsnr, err := net.Listen("tcp", a.cfg.ExternalAddress)
 		if err != nil {
-			log.Fatal(err)
+			lw.Fatal(err)
 		}
 		tlsListener := tls.NewListener(lsnr, tlsCfg)
 
-		fmt.Println("Starting https server on:", a.cfg.ExternalAddress)
+		lw.Console("Starting https server on: %v", a.cfg.ExternalAddress)
 		go func() {
 			err := srv.Serve(tlsListener)
 			if err != nil {
-				log.Fatal(err)
+				lw.Fatal(err)
 			}
 		}()
 
 	} else {
 		if a.cfg.IsDev() {
-			fmt.Println("Development settings selected...")
+			lw.Console("Development settings selected...")
 		} else {
-			fmt.Println("Default settings selected...")
+			lw.Console("Default settings selected...")
 		}
-		fmt.Println("Starting http server on:", a.cfg.ExternalAddress)
+		lw.Console("Starting http server on: %v", a.cfg.ExternalAddress)
 		go func() {
 			err := srv.ListenAndServe()
 			if err != nil {
-				log.Fatal(err)
+				lw.Fatal(err)
 			}
 		}()
 	}
@@ -736,11 +753,11 @@ func (a *AppObj) Run(lsg gmcom.GMLeaderSetterGetter) {
 	// handle shutdown
 	<- done
 	srv.Shutdown(ctx)
-	log.Println("Shutdown complete")
+	lw.Console("Shutdown complete")
 }
 
 func fatal(err error) {
 	if err != nil {
-		log.Fatal(err)
+		lw.Fatal(err)
 	}
-}
+} 

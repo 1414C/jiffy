@@ -4,7 +4,6 @@ import (
 	"crypto/ecdsa"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -14,6 +13,7 @@ import (
 	"{{.AppPath}}/models"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
+	"github.com/1414C/lw"
 )
 
 // UsrController - the usr controller type
@@ -33,7 +33,7 @@ type Token struct {
 
 // NewUsrController creates a new UsrController
 func NewUsrController(us models.UsrService, jwtKeyMap map[string]interface{}, jwtSignMethod string, jwtLifetime uint, internalAddress string) *UsrController {
-	log.Printf("Login() signing jwt's with %s\n", jwtSignMethod)
+	lw.Console("Login() signing jwt's with %s", jwtSignMethod)
 	return &UsrController{
 		us:              us,
 		jwtKeyMap:       jwtKeyMap,
@@ -70,23 +70,23 @@ func (uc *UsrController) Login(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		switch err {
 		case models.ErrNotFound:
-			log.Println(err)
+			lw.ErrorWithPrefixString("UsrController.Login():",err)
 			respondWithError(w, http.StatusBadRequest, err.Error())
 			return
 		default:
-			log.Println(err)
+			lw.ErrorWithPrefixString("UsrController.Login():",err)
 			respondWithError(w, http.StatusBadRequest, err.Error())
 			return
 		}
 	}
 
 	// groups
-	fmt.Println("Login()->user groups:", *authenticatedUsr.Groups)
+	lw.Console("Login()->user groups: %v", *authenticatedUsr.Groups)
 
 	var tokenString string
 	var httpStatus int
 
-	fmt.Println("AUTHENTICATED USR:", authenticatedUsr)
+	lw.Console("AUTHENTICATED USR: %v", authenticatedUsr)
 
 	// prepare claims for the token
 	claims := make(jwt.MapClaims)
@@ -110,14 +110,16 @@ func (uc *UsrController) Login(w http.ResponseWriter, r *http.Request) {
 	case "RS256", "RS384", "RS512":
 		tokenString, httpStatus, err = uc.signRSA(claims)
 
-	case "HS256": // not supported
+	// case "HS256": // not supported
 
 	default:
+		lw.Warning("Authentication failure for: %v", authenticatedUsr.Email)
 		respondWithError(w, http.StatusBadRequest, "authentication failure")
 		return
 	}
 
 	if err != nil {
+		lw.Warning("Authentication failure for: %v", authenticatedUsr.Email)
 		respondWithError(w, httpStatus, err.Error())
 		return
 	}
@@ -148,16 +150,22 @@ func (uc *UsrController) signECDSA(claims jwt.MapClaims) (tokenString string, ht
 		token = jwt.New(jwt.SigningMethodES512)
 		signKey, ok = uc.jwtKeyMap["ES521SignKey"].(*ecdsa.PrivateKey)
 	default:
-		return "", http.StatusForbidden, fmt.Errorf("error: unknown ECDSA signing-method %v", uc.jwtSignMethod)
+	    e := fmt.Errorf("error: unknown ECDSA signing-method %v", uc.jwtSignMethod)
+		lw.Error(e)
+		return "", http.StatusForbidden, e
 	}
 	if !ok {
-		return "", http.StatusForbidden, fmt.Errorf("error: could not read signKey in Login()")
+		e := fmt.Errorf("error: could not read signKey in Login()")
+		lw.Error(e)
+		return "", http.StatusForbidden, e
 	}
 
 	token.Claims = claims
 	tokenString, err = token.SignedString(signKey)
 	if err != nil {
-		return "", http.StatusInternalServerError, fmt.Errorf("error: failed to sign jwt with ECDSA signing-method %v", uc.jwtSignMethod)
+		e := fmt.Errorf("error: failed to sign jwt with ECDSA signing-method %v", uc.jwtSignMethod)
+		lw.Error(e)
+		return "", http.StatusInternalServerError, e
 	}
 	return tokenString, http.StatusOK, nil
 }
@@ -180,16 +188,22 @@ func (uc *UsrController) signRSA(claims jwt.MapClaims) (tokenString string, http
 		token = jwt.New(jwt.SigningMethodRS512)
 		signKey, ok = uc.jwtKeyMap["RS512SignKey"].(*rsa.PrivateKey)
 	default:
-		return "", http.StatusForbidden, fmt.Errorf("error: unknown RSA signing-method %v", uc.jwtSignMethod)
+	    e := fmt.Errorf("error: unknown RSA signing-method %v", uc.jwtSignMethod)
+	    lw.Error(e)
+		return "", http.StatusForbidden, e
 	}
 	if !ok {
-		return "", http.StatusForbidden, fmt.Errorf("error: could not read signKey in Login()")
+		e := fmt.Errorf("error: could not read signKey in Login()")
+		lw.Error(e)
+		return "", http.StatusForbidden, e
 	}
 
 	token.Claims = claims
 	tokenString, err = token.SignedString(signKey)
 	if err != nil {
-		return "", http.StatusInternalServerError, fmt.Errorf("error: failed to sign jwt with RSA signing-method %v", uc.jwtSignMethod)
+		e := fmt.Errorf("error: failed to sign jwt with ECDSA signing-method %v", uc.jwtSignMethod)
+		lw.Error(e)
+		return "", http.StatusInternalServerError, e
 	}
 	return tokenString, http.StatusOK, nil
 }
@@ -210,6 +224,7 @@ func (uc *UsrController) Create(w http.ResponseWriter, r *http.Request) {
 	var u models.Usr
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&u); err != nil {
+		lw.Warning("usrc: Invalid request payload")
 		respondWithError(w, http.StatusBadRequest, "usrc: Invalid request payload")
 		return
 	}
@@ -230,7 +245,7 @@ func (uc *UsrController) Create(w http.ResponseWriter, r *http.Request) {
 	// call the create method on the usr model
 	err := uc.us.Create(&usr)
 	if err != nil {
-		log.Println(err)
+		lw.Warning(err.Error())
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -253,7 +268,7 @@ func (uc *UsrController) Update(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
-		log.Println("Usr Update:", err)
+		lw.Warning("Usr Update:", err)
 		respondWithError(w, http.StatusBadRequest, "invalid request")
 		return
 	}
@@ -262,7 +277,7 @@ func (uc *UsrController) Update(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	defer r.Body.Close()
 	if err := decoder.Decode(&u); err != nil {
-		log.Println("Usr Update:", err)
+		lw.Warning("Usr Update:", err)
 		respondWithError(w, http.StatusBadRequest, "invalid request payload")
 		return
 	}
@@ -270,7 +285,7 @@ func (uc *UsrController) Update(w http.ResponseWriter, r *http.Request) {
 	// when a user-id is provided in the body, make sure that
 	// it matches the user-id sent in the request params
 	if u.ID != 0 && u.ID != id {
-		log.Printf("usr update target %d had a non-zero and non-matching user-id in the request body\n", id)
+		lw.Warning("usr update target %d had a non-zero and non-matching user-id in the request body\n", id)
 		respondWithError(w, http.StatusBadRequest, "invalid request")
 		return
 	}
@@ -282,7 +297,7 @@ func (uc *UsrController) Update(w http.ResponseWriter, r *http.Request) {
 
 	err = uc.us.Get(&staleUsr)
 	if err != nil {
-		log.Println("Usr Update:", err)
+		lw.Warning("Usr Update:", err)
 		respondWithError(w, http.StatusBadRequest, "invalid request")
 		return
 	}
@@ -307,7 +322,7 @@ func (uc *UsrController) Update(w http.ResponseWriter, r *http.Request) {
 	// call the update method on the model
 	err = uc.us.Update(&usr)
 	if err != nil {
-		log.Println("User Update:", err)
+		lw.ErrorWithPrefixString("User Update:", err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -331,7 +346,6 @@ func (uc *UsrController) Get(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
-		log.Println("Usr Get:", err)
 		respondWithError(w, http.StatusBadRequest, "invalid request")
 		return
 	}
@@ -346,7 +360,6 @@ func (uc *UsrController) Get(w http.ResponseWriter, r *http.Request) {
 
 	err = uc.us.Get(&usr)
 	if err != nil {
-		log.Println(err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -375,6 +388,7 @@ func (uc *UsrController) Delete(w http.ResponseWriter, r *http.Request) {
 	err = uc.us.Delete(&usr)
 	if err != nil {
 		if err != nil {
+			lw.Error(err)
 			respondWithError(w, http.StatusBadRequest, err.Error())
 			return
 		}
@@ -409,7 +423,7 @@ func (uc *UsrController) GetUsrs(w http.ResponseWriter, r *http.Request) {
 
 func fatal(err error) {
 	if err != nil {
-		log.Fatal(err)
+		lw.Fatal(err)
 	}
 }
 
@@ -427,6 +441,6 @@ func (uc *UsrController) disseminateUsrChange(id uint64, fwd, active bool) {
 
 	err := gmcl.AddUpdUsrCache(au, uc.internalAddress)
 	if err != nil {
-		log.Println("UsrController cache update error message:", err)
+		lw.ErrorWithPrefixString("UsrController cache update error message:", err)
 	}
 }

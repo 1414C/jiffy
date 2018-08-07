@@ -11,7 +11,6 @@ import (
 	"{{.AppPath}}/group/gmcl"
 	"{{.AppPath}}/group/gmcom"
 	"fmt"
-	"log"
 	"math/rand"
 	"net/http"
 	"os"
@@ -19,6 +18,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/1414C/lw"
 	"golang.org/x/net/websocket"
 )
 
@@ -145,16 +145,16 @@ func (gm *GMServ) processCmdChannel() {
 	// block on the channel
 	for v := range gm.chin {
 		gm.count++
-		log.Println("gm.count:", gm.count)
+		lw.Info("gm.count: %v", gm.count)
 
 		switch v.Type {
 		case gmcom.CJoin:
-			log.Println("JOIN received by processCmdChannel()")
+			lw.Info("JOIN received by processCmdChannel()")
 			rm := gm.processPing(v)
 			gm.chout <- rm
 
 		case gmcom.CJoinAck:
-			log.Println("JOIN has been accepted")
+			lw.Info("JOIN has been accepted")
 			jm := gmcom.GMMember{
 				ID:                v.TargetID,
 				IPAddress:         v.TargetIPAddress,
@@ -167,7 +167,7 @@ func (gm *GMServ) processCmdChannel() {
 			gm.chout <- v
 
 		case gmcom.CDeparting:
-			log.Println("DEPARTING: message received from:", v.SrcID, v.SrcIPAddress)
+			lw.Info("DEPARTING: message received from: %v %v", v.SrcID, v.SrcIPAddress)
 			dm := gmcom.GMMember{
 				ID:                v.SrcID,
 				IPAddress:         v.SrcIPAddress,
@@ -178,39 +178,40 @@ func (gm *GMServ) processCmdChannel() {
 			var err error
 			v.CheckElection, err = gm.memberMap.UpdFromDeparting(dm, gm.Leader.LeaderID)
 			if err != nil {
-				log.Println("error: gm.memberMap.UpdFromDeparting got:", err)
+				lw.ErrorWithPrefixString("error: gm.memberMap.UpdFromDeparting got:", err)
 			}
-			fmt.Println("========================================================================")
+			lw.Debug("========================================================================")
 			all := gm.memberMap.ReadAll()
 			for _, mem := range all {
-				fmt.Println("member:", mem)
+				lw.Debug("member: %v", mem)
 			}
-			fmt.Println("========================================================================")
+			lw.Debug("========================================================================")
 			gm.chout <- v
 
 		case gmcom.CFailure:
-			log.Println("FAILURE received")
+			lw.Info("FAILURE received")
 			ok := gm.memberMap.Delete(v.TargetID)
 			if !ok {
-				log.Println("failed to delete failed process-id:", v.TargetID)
+				e := fmt.Errorf("failed to delete failed process-id: %v", v.TargetID)
+				lw.Error(e)
 			}
 
 		case gmcom.CPing:
-			log.Println("PING received from process-id:", v.SrcID)
+			lw.Info("PING received from process-id: %v", v.SrcID)
 			rm := gm.processPing(v)
 			gm.chout <- rm
 
 		case gmcom.CAck:
-			log.Println("ACK received from process-id:", v.SrcID)
-			// log.Println("ACK received")
-			// log.Println("v.SrcID:", v.SrcID)
-			// log.Println("v.SrcIPAddress:", v.SrcIPAddress)
-			// log.Println("v.SrcStatus:", v.SrcStatus)
-			// log.Println("v.SrcIncarnationNumber:", v.SrcIncarnationNumber)
-			// log.Println("v.TargetID:", v.TargetID)
-			// log.Println("v.TargetIPAddress:", v.TargetIPAddress)
-			// log.Println("v.TargetStatus:", v.TargetStatus)
-			// log.Println("v.TargetIncarnationNumber:", v.TargetIncarnationNumber)
+			lw.Info("ACK received from process-id: %v", v.SrcID)
+			// lw.Debug("ACK received")
+			// lw.Debug("v.SrcID: %v", v.SrcID)
+			// lw.Debug("v.SrcIPAddress: %v", v.SrcIPAddress)
+			// lw.Debug("v.SrcStatus: %v", v.SrcStatus)
+			// lw.Debug("v.SrcIncarnationNumber: %v", v.SrcIncarnationNumber)
+			// lw.Debug("v.TargetID: %v", v.TargetID)
+			// lw.Debug("v.TargetIPAddress: %v", v.TargetIPAddress)
+			// lw.Debug("v.TargetStatus: %v", v.TargetStatus)
+			// lw.Debug("v.TargetIncarnationNumber: %v", v.TargetIncarnationNumber)
 			if v.SrcID != 0 {
 				am := gmcom.GMMember{
 					ID:                v.SrcID,
@@ -220,19 +221,19 @@ func (gm *GMServ) processCmdChannel() {
 					IncarnationNumber: v.SrcIncarnationNumber,
 				}
 				gm.memberMap.Add(v.SrcID, am)
-				// log.Println("post ACK memberMap:", gm.memberMap)
+				// lw.Debug("post ACK memberMap: %v", gm.memberMap)
 			}
 			gm.chout <- v
 
 		case gmcom.CinNoAck:
-			log.Println("NoACK received for process-id:", v.TargetID)
-			// log.Println("No ACK received for PING")
-			// log.Println("v.SrcID:", v.SrcID)
-			// log.Println("v.SrcIPAddress:", v.SrcIPAddress)
-			// log.Println("v.TargetID:", v.TargetID)
-			// log.Println("v.TargetIPAddress:", v.TargetIPAddress)
-			// log.Println("v.TargetStatus:", v.TargetStatus)
-			// log.Println("v.TargetIncarnationNumber:", v.TargetIncarnationNumber)
+			lw.Info("NoACK received for process-id: %v", v.TargetID)
+			// lw.Debug("No ACK received for PING")
+			// lw.Debug("v.SrcID: %v", v.SrcID)
+			// lw.Debug("v.SrcIPAddress: %v", v.SrcIPAddress)
+			// lw.Debug("v.TargetID: %v", v.TargetID)
+			// lw.Debug("v.TargetIPAddress: %v", v.TargetIPAddress)
+			// lw.Debug("v.TargetStatus: %v", v.TargetStatus)
+			// lw.Debug("v.TargetIncarnationNumber: %v", v.TargetIncarnationNumber)
 
 			// update the local member list
 			tm := gmcom.GMMember{
@@ -248,16 +249,16 @@ func (gm *GMServ) processCmdChannel() {
 			}
 			gm.memberMap.Add(v.TargetID, tm)
 
-			// log.Println("post-SUSPECT gm.memberMap update for process-id:", v.TargetID)
+			// lw.Debug("post-SUSPECT gm.memberMap update for process-id: %v", v.TargetID)
 			// for _, z := range gm.memberMap.IDMap {
-			// 	log.Println("local membermap post-NoAck processing:", z.ID, z.Status, z.StatusCount)
+			// 	lw.Debug("local membermap post-NoAck processing: %v %v %v", z.ID, z.Status, z.StatusCount)
 			// }
 			gm.chout <- v
 
 		case gmcom.CinFlushMemberMap:
 			ok := gm.memberMap.Flush()
 			if !ok {
-				log.Println("error: Requested gm.memberMap.Flush() did not succeed")
+				lw.Error(fmt.Errorf("error: Requested gm.memberMap.Flush() did not succeed"))
 				// panic("Requested gm.memberMap.Flush() did not succeed")
 				v.ErrCode = gmcom.CerrMemberMapFlushFailed
 			}
@@ -273,7 +274,7 @@ func (gm *GMServ) processCmdChannel() {
 			err := gm.memberMap.UpdFailedDepartedProcesses()
 			if err != nil {
 				// TODO: log
-				log.Println("error: gm.memberMap.UpdFailedDepartedProcesses() got:", err)
+				lw.ErrorWithPrefixString("error: gm.memberMap.UpdFailedDepartedProcesses() got:", err)
 			}
 
 			// populate the dissemination membermap with a deep-copy of the local membermap in order
@@ -339,16 +340,16 @@ func (gm *GMServ) processCmdChannel() {
 
 			err := gm.LSG.SetDBLeader(gm.Leader)
 			if err != nil {
-				log.Println(err)
+				lw.ErrorWithPrefixString("CinSetDBLeader failed:", err)
 			}
-			log.Printf("db and local leader set to %d, %s\n", v.TargetID, v.TargetIPAddress)
+			lw.Info("db and local leader set to %d, %s", v.TargetID, v.TargetIPAddress)
 			gm.chout <- v
 
 		case gmcom.CinSetLeader:
 			gm.Leader.LeaderID = v.TargetID
 			gm.Leader.LeaderIPAddress = v.TargetIPAddress
 			gm.InElection = v.InElection // should be false
-			log.Printf("local leader set to %d, %s\n", v.TargetID, v.TargetIPAddress)
+			lw.Info("local leader set to %d, %s", v.TargetID, v.TargetIPAddress)
 			gm.chout <- v
 
 		case gmcom.CinGetLocalLeader:
@@ -357,13 +358,13 @@ func (gm *GMServ) processCmdChannel() {
 			gm.chout <- v
 
 		case gmcom.CinStartElection:
-			log.Println("ELECTION: in gmcom.CinStartElection")
+			lw.Info("ELECTION: in gmcom.CinStartElection")
 			gm.chout <- v
 
 		case gmcom.CinRunElection:
 			// set the InElection flag in the GMServ struct
 			if gm.InElection == true {
-				// log.Println("ELECTION: CinRunElection detected active election and will exit")
+				lw.Debug("ELECTION: CinRunElection detected active election and will exit")
 				v.InElection = true
 				v.ErrCode = gmcom.CElectComplete // election is running, so don't continue
 				gm.chout <- v
@@ -376,7 +377,7 @@ func (gm *GMServ) processCmdChannel() {
 			if topMember == nil { // || (topMember.ID == gm.MyID && topMember.IPAddress == gm.MyIPAddress) {
 
 				// local process will become the leader
-				log.Println("COORDINATOR: no topMember found in memberMap.  Adding local process-id to local memberMap.")
+				lw.Info("COORDINATOR: no topMember found in memberMap.  Adding local process-id to local memberMap.")
 				gm.MyIncarnation++
 				gm.memberMap.Add(gm.MyID, gmcom.GMMember{
 					ID:                gm.MyID,
@@ -386,7 +387,7 @@ func (gm *GMServ) processCmdChannel() {
 					IncarnationNumber: gm.MyIncarnation,
 				})
 
-				log.Printf("COORDINATOR: local process setting local process-id %d as leader in persistent store\n", gm.MyID)
+				lw.Info("COORDINATOR: local process setting local process-id %d as leader in persistent store.", gm.MyID)
 				err := gm.LSG.SetDBLeader(gmcom.GMLeader{
 					LeaderID:        gm.MyID,
 					LeaderIPAddress: gm.MyIPAddress,
@@ -401,14 +402,14 @@ func (gm *GMServ) processCmdChannel() {
 				gm.chout <- v
 				continue
 			}
-			log.Println("COORDINATOR: found topMember:", topMember.ID)
+			lw.Info("COORDINATOR: found topMember: %d", topMember.ID)
 
 			// if the local process has the highest active ID in the local memberMap,
 			// make an attempt to become the leader
 			if topMember.ID == gm.MyID {
-				log.Println("COORDINATOR: topMember.ID == gm.MyID ==", gm.MyID)
-				log.Printf("COORDINATOR: local process setting local process-id %d as leader in persistent store\n", gm.MyID)
-				log.Printf("COORDINATOR: local process %d will send coordinator message to group\n", gm.MyID)
+				lw.Debug("COORDINATOR: topMember.ID == gm.MyID == %d", gm.MyID)
+				lw.Info("COORDINATOR: local process setting local process-id %d as leader in persistent store", gm.MyID)
+				lw.Info("COORDINATOR: local process %d will send coordinator message to group", gm.MyID)
 				gm.MyIncarnation++
 				gm.memberMap.Add(gm.MyID, gmcom.GMMember{
 					ID:                gm.MyID,
@@ -418,7 +419,7 @@ func (gm *GMServ) processCmdChannel() {
 					IncarnationNumber: gm.MyIncarnation,
 				})
 
-				log.Printf("COORDINATOR: local process setting local process-id %d as leader in persistent store\n", gm.MyID)
+				lw.Info("COORDINATOR: local process setting local process-id %d as leader in persistent store", gm.MyID)
 				err := gm.LSG.SetDBLeader(gmcom.GMLeader{
 					LeaderID:        gm.MyID,
 					LeaderIPAddress: gm.MyIPAddress,
@@ -431,7 +432,7 @@ func (gm *GMServ) processCmdChannel() {
 				gm.Leader.LeaderIPAddress = gm.MyIPAddress
 				gm.InElection = false
 
-				log.Println("COORDINATOR: sending coordinator messages to group members")
+				lw.Debug("COORDINATOR: sending coordinator messages to group members")
 				c := gmcom.GMMessage{
 					Type:                 gmcom.CCoordinator,
 					SrcID:                gm.MyID,
@@ -448,15 +449,15 @@ func (gm *GMServ) processCmdChannel() {
 						c.TargetIPAddress = m.IPAddress
 						err = gm.SendCoordinator(c)
 						if err != nil {
-							log.Printf("COORDINATOR: send of coordinator message to process-id %d with %d as leader failed.  got: %s", c.TargetID, c.SubjectID, err)
+							lw.Warning("COORDINATOR: send of coordinator message to process-id %d with %d as leader failed.  got: %s", c.TargetID, c.SubjectID, err.Error())
 						} else {
-							log.Printf("COORDINATOR: send coordinator message to process-id %d with %d as leader\n", c.TargetID, c.SubjectID)
+							lw.Info("COORDINATOR: send coordinator message to process-id %d with %d as leader", c.TargetID, c.SubjectID)
 						}
 					}
 				}
 				v.ErrCode = gmcom.CElectComplete
 				gm.chout <- v
-				log.Println("COORDINATOR: COMPLETE - set leader-id:", topMember.ID)
+				lw.Info("COORDINATOR: COMPLETE - set leader-id: %d", topMember.ID)
 				continue
 			}
 
@@ -469,7 +470,7 @@ func (gm *GMServ) processCmdChannel() {
 			// // process-id's.
 			// if topMember.ID > gm.MyID {
 			// 	log.Printf("ELECTION: local process-id %d is lower than topMember.ID %d\n", gm.MyID, topMember.ID)
-			// 	log.Println("ELECTION: triggering election via Election message dispatch")
+			// 	log.Debug("ELECTION: triggering election via Election message dispatch")
 			// 	e := gmcom.GMMessage{
 			// 		Type:                 gmcom.CElection,
 			// 		SrcID:                gm.MyID,
@@ -514,7 +515,7 @@ func (gm *GMServ) processCmdChannel() {
 			// 					gm.Leader.LeaderIPAddress = gm.MyIPAddress
 			// 					gm.InElection = false
 
-			// 					log.Println("ELECTION: sending coordinator messages to group members")
+			// 					log.Debug("ELECTION: sending coordinator messages to group members")
 			// 					c := gmcom.GMMessage{
 			// 						Type:                 gmcom.CCoordinator,
 			// 						SrcID:                gm.MyID,
@@ -603,7 +604,7 @@ func (gm *GMServ) Serve(myIPAddress string, lsg gmcom.GMLeaderSetterGetter, actU
 	wg.Add(1)
 	defer wg.Done()
 
-	log.Printf("listening for ws traffic on %s\n", gm.MyIPAddress)
+	lw.Console("Listening for ws traffic on: %s", gm.MyIPAddress)
 
 	// create the ws server - this can be stopped by calling cs.httpServer.Shutdown(...)
 	gm.HTTPServer = &http.Server{
@@ -615,7 +616,7 @@ func (gm *GMServ) Serve(myIPAddress string, lsg gmcom.GMLeaderSetterGetter, actU
 		err := gm.HTTPServer.ListenAndServe()
 		if err != nil {
 			// this will write something in a Shutdown scenario too
-			log.Printf("cs.httpServer.ListenAndServe() error - got: %s", err)
+			lw.ErrorWithPrefixString("cs.httpServer.ListenAndServe() error - got:", err)
 		}
 	}()
 
@@ -648,7 +649,7 @@ func (gm *GMServ) Serve(myIPAddress string, lsg gmcom.GMLeaderSetterGetter, actU
 			// 1. get leader from db - 3 attempts
 			gm.SendGetDBLeader(&lm)
 			if lm.TargetID == 0 || lm.TargetIPAddress == "" {
-				log.Println("get db leader attempt:", i)
+				lw.Console("get db leader attempt: %d", i)
 				time.Sleep(time.Duration(rand.Intn(1000)) * time.Millisecond)
 				continue
 			}
@@ -666,7 +667,7 @@ func (gm *GMServ) Serve(myIPAddress string, lsg gmcom.GMLeaderSetterGetter, actU
 		// i.e. {inGetDBLeader 0 192.168.1.42:5050 0  0 1 192.168.1.42:5050 0   0 0  true <nil>}
 		// see if the persisted leader is contactable or not...
 		if lm.TargetID != 0 && lm.TargetIPAddress != "" && lm.TargetIPAddress != myIPAddress {
-			log.Println("JOIN: leader read from persistent store:", lm)
+			lw.Info("JOIN: leader read from persistent store: %v", lm)
 			gm.SendSetLeader(&lm)
 
 			// try to join (really just a ping)
@@ -680,9 +681,10 @@ func (gm *GMServ) Serve(myIPAddress string, lsg gmcom.GMLeaderSetterGetter, actU
 			// 2. leader is okay, but the addresss is in use by an active or suspect(most likely) process-id
 			err = gm.SendJoin(&l)
 			if err, ok := err.(*gmcom.JoinError); ok {
-				log.Println(err.ErrCode, err.Err)
+				lw.Warning("SendJoin got errorCode: %v", err.ErrCode)
+				lw.Error(err)
 				lastJoinErr = err
-				log.Printf("JOIN: failed to join with leader process-id %d at %s - error code: %s", lm.TargetID, lm.TargetIPAddress, lastJoinErr.ErrorCode())
+				lw.Warning("JOIN: failed to join with leader process-id %d at %s - error code: %s", lm.TargetID, lm.TargetIPAddress, lastJoinErr.ErrorCode())
 				switch lastJoinErr.ErrorCode() {
 				case gmcom.CerrJoinNoContact, gmcom.CerrJoinNotLeader:
 					time.Sleep(time.Duration(rand.Intn(1000)) * time.Millisecond)
@@ -719,7 +721,7 @@ func (gm *GMServ) Serve(myIPAddress string, lsg gmcom.GMLeaderSetterGetter, actU
 
 	switch lastJoinErr.ErrorCode() {
 	case gmcom.CerrJoinNoContact:
-		log.Println("JOIN: no leader detected - setting myID = 1 as leader")
+		lw.Warning("JOIN: no leader detected - setting myID = 1 as leader")
 		gm.MyID = 1
 		lm.TargetID = gm.MyID
 		lm.TargetIPAddress = gm.MyIPAddress
@@ -740,15 +742,15 @@ func (gm *GMServ) Serve(myIPAddress string, lsg gmcom.GMLeaderSetterGetter, actU
 		gm.SendSetDBLeader(&lm)
 
 	case gmcom.CerrJoinNotLeader:
-		log.Println(lastJoinErr.ErrorSummary())
+		lw.Error(lastJoinErr)  //.ErrorSummary())
 		os.Exit(-1)
 
 	case gmcom.CerrJoinAddrInUse:
-		log.Println(lastJoinErr.ErrorSummary())
+		lw.Error(lastJoinErr)   //.ErrorSummary())
 		os.Exit(-1)
 
 	case gmcom.CerrJoinUnknownErr:
-		log.Println(lastJoinErr.ErrorSummary())
+		lw.Error(lastJoinErr)  //.ErrorSummary())
 		os.Exit(-1)
 
 	default:
@@ -765,19 +767,14 @@ func (gm *GMServ) Serve(myIPAddress string, lsg gmcom.GMLeaderSetterGetter, actU
 		evl := true
 		for evl {
 			time.Sleep(time.Duration(evlCycle) * time.Second)
-			log.Println("PING CYCLE: starting ping cycle...")
+			lw.Debug("PING CYCLE: starting ping cycle...")
 			gm.SendPing()
-			log.Println("PING CYCLE: ping cycle complete.")
+			lw.Debug("PING CYCLE: ping cycle complete.")
 		}
 	}()
 
-	// start whatever thing you are planning to actually run in the server
-	// go func() {
-	// run what you like in here?
-	// }()
-
-	log.Println("initialization complete...")
-	log.Println("leader info is:", gm.Leader)
+	lw.Console("initialization complete...")
+	lw.Console("leader info is: %v", gm.Leader)
 	wg.Wait()
 }
 
@@ -788,11 +785,11 @@ func (gm *GMServ) getDBLeader(ws *websocket.Conn) {
 	// call function
 	leader, err := gm.LSG.GetDBLeader()
 	if err != nil {
-		log.Println("getDBLeader() error - got:", err)
+		lw.ErrorWithPrefixString("getDBLeader() error - got:", err)
 		return
 	}
 	if leader != nil {
-		log.Println("getDBLeader() got leader", leader)
+		lw.Info("getDBLeader() got leader: %v", leader)
 	}
 }
 
@@ -816,7 +813,7 @@ func (gm *GMServ) PingHandler(ws *websocket.Conn) {
 		// process the ping and wait for the outbound channel to provide a ACK message
 		gm.chin <- *m
 		m2 := <-gm.chout
-		log.Println("PingHandler() channel result:", m2)
+		lw.Info("PingHandler() channel result: %v", m2)
 
 		// the inclusion of the MemberMap in m2 is problematic as the reference to the
 		// map is common with gm.  IDMap/MemberMap access is synchronized via the
@@ -839,11 +836,11 @@ func (gm *GMServ) PingHandler(ws *websocket.Conn) {
 		rawM2, err := gmcom.EncodeGMMessage(m2)
 		if err != nil {
 			// timeout the ws connection and drop a log message to stderr
-			log.Println("PingHandler() gobEncodeError:", err)
+			lw.ErrorWithPrefixString("PingHandler() gobEncodeError:", err)
 		} else {
 			_, err = ws.Write(rawM2)
 			if err != nil {
-				log.Println("PingHandler() ws.Write(rawM2) got error:", err)
+				lw.ErrorWithPrefixString("PingHandler() ws.Write(rawM2) got error:", err)
 				// did the sender disappear?  if so, this is suspicious,
 				// but the sender's pinger should pickup on the fact that
 				// the process is not responding.  if logging is enabled
@@ -856,8 +853,8 @@ func (gm *GMServ) PingHandler(ws *websocket.Conn) {
 			return
 		}
 
-		log.Println("ELECTION: PingHandler() starting election evaluation...")
-		log.Println("ELECTION: unsafe access to gm.InElection returns:", gm.InElection)
+		lw.Debug("ELECTION: PingHandler() starting election evaluation...")
+		lw.Debug("ELECTION: unsafe access to gm.InElection returns: %v", gm.InElection)
 
 		// maybe do all of the following in new CinRunElection?
 		s := gmcom.GMMessage{
@@ -866,11 +863,11 @@ func (gm *GMServ) PingHandler(ws *websocket.Conn) {
 		// for s.ErrCode != gmcom.CElectComplete {
 		gm.chin <- s
 		s = <-gm.chout
-		//	log.Println("ELECTION: election not completed.  Waiting 500ms for restart...")
+		//	lw.Debug("ELECTION: election not completed.  Waiting 500ms for restart...")
 		//	time.Sleep(500 * time.Millisecond)
 		// }
 
-		log.Println("PingHandler() complete")
+		lw.Debug("PingHandler() complete")
 		return
 	}
 }
@@ -878,18 +875,18 @@ func (gm *GMServ) PingHandler(ws *websocket.Conn) {
 // CoordinatorHandler deals with incoming coordinator messages sent by processes
 // stating that they are the new leader.
 func (gm *GMServ) CoordinatorHandler(ws *websocket.Conn) {
-	log.Println("COORDINATOR: in gm.CoordinatorHandler")
+	lw.Debug("COORDINATOR: in gm.CoordinatorHandler")
 
 	// decode the incoming COORDINATOR message and feed to inbound channel
 	c, err := gmcom.DecodeGMMessage(ws)
 	if err != nil {
-		log.Println("COORDINATOR: received /coordinator call with unreadable payload")
+		lw.Error(fmt.Errorf("COORDINATOR: received /coordinator call with unreadable payload"))
 		return
 	}
 
 	// check that the incoming message-type is correct
 	if c.Type != gmcom.CCoordinator {
-		log.Println("COORDINATOR: received /coordinator call with incorrect message-type.  got:", c.Type)
+		lw.Error(fmt.Errorf("COORDINATOR: received /coordinator call with incorrect message-type.  got:", c.Type))
 		return
 	}
 
@@ -913,20 +910,20 @@ func (gm *GMServ) DepartingHandler(ws *websocket.Conn) {
 	m, err := gmcom.DecodeGMMessage(ws)
 	if err == nil {
 
-		log.Println("DEPARTING: In DepartingHandler for:", m)
+		lw.Debug("DEPARTING: In DepartingHandler for: %v", m)
 
 		// process the departing message and wait for the outbound channel to provide a response
 		gm.chin <- *m
 		m2 := <-gm.chout
-		log.Println("DepartingHandler() channel result:", m2)
+		lw.Debug("DepartingHandler() channel result: %v", m2)
 
 		// is there a need to trigger an elelection?
 		if !m2.CheckElection {
 			return
 		}
 
-		log.Println("ELECTION: DepartingHandler() starting election evaluation...")
-		log.Println("ELECTION: unsafe access to gm.InElection returns:", gm.InElection)
+		lw.Debug("ELECTION: DepartingHandler() starting election evaluation...")
+		lw.Debug("ELECTION: unsafe access to gm.InElection returns: %v", gm.InElection)
 
 		s := gmcom.GMMessage{
 			Type: gmcom.CinRunElection,
@@ -934,7 +931,7 @@ func (gm *GMServ) DepartingHandler(ws *websocket.Conn) {
 
 		gm.chin <- s
 		s = <-gm.chout
-		log.Println("DepartingHandler() complete")
+		lw.Debug("DepartingHandler() complete")
 		return
 	}
 }
@@ -953,11 +950,11 @@ func (gm *GMServ) JoinHandler(ws *websocket.Conn) {
 		m2 := <-gm.chout
 
 		// gob-encode the ACK message for transmission
-		log.Println("JoinHandler() response GMMessage:", m2)
+		lw.Debug("JoinHandler() response GMMessage: %v", m2)
 		rawM2, err := gmcom.EncodeGMMessage(m2)
 		if err != nil {
 			// timeout the ws connection and drop a log message to stderr
-			log.Println("JoinHandler():", err)
+			lw.ErrorWithPrefixString("JoinHandler():", err)
 		} else {
 			_, err = ws.Write(rawM2)
 			if err != nil {
@@ -965,32 +962,32 @@ func (gm *GMServ) JoinHandler(ws *websocket.Conn) {
 				// but the sender's pinger should pickup on the fact that
 				// the process is not responding.  if logging is enabled
 				// drop a message to stderr.
-				log.Println("JoinHandler() ws.Write response error:", err)
+				lw.ErrorWithPrefixString("JoinHandler() ws.Write response error:", err)
 			}
 		}
 	} else {
-		log.Println("JoinHandler error:", err)
+		lw.ErrorWithPrefixString("JoinHandler error:", err)
 	}
 }
 
 // UsrUpdateHandler handles incoming traffic from other group-members containing information regarding
 // changes to the status of application Usr entities.
 func (gm *GMServ) UsrUpdateHandler(ws *websocket.Conn) {
-	log.Println("In UsrUpdateHandler!")
+	lw.Debug("In UsrUpdateHandler()")
 
 	// gob decoding
 	var u gmcom.ActUsrD
 	var msg = make([]byte, 1024)
 	l, err := ws.Read(msg)
 	if err != nil {
-		log.Printf("UsrUpdateHandler() ws.Read() error: %s", err)
+		lw.ErrorWithPrefixString("UsrUpdateHandler() ws.Read() error:", err)
 		return
 	}
 	raw := msg[0:l]
 	decBuf := bytes.NewBuffer(raw)
 	err = gob.NewDecoder(decBuf).Decode(&u)
 	if err != nil {
-		log.Printf("UsrUpdateHandler() gob.Decode() error: %s", err)
+		lw.ErrorWithPrefixString("UsrUpdateHandler() gob.Decode() error:", err)
 		return
 	}
 
@@ -1010,7 +1007,7 @@ func (gm *GMServ) UsrUpdateHandler(ws *websocket.Conn) {
 	// get a list of the active processes (this is inherently stale)
 	m := gm.SendGetLocalDetails()
 	if m == nil {
-		log.Println("Failed to read usr cache group server details in SendGetLocalDetails()")
+		lw.Warning("Failed to read usr cache group server details in SendGetLocalDetails()")
 		ws.Write([]byte("false"))
 	}
 
@@ -1020,10 +1017,10 @@ func (gm *GMServ) UsrUpdateHandler(ws *websocket.Conn) {
 		if g.ID == gm.MyID {
 			continue
 		}
-		log.Printf("CS: SENDING %v to %s\n", u, g.IPAddress)
+		lw.Info("CS: SENDING %v to %s", u, g.IPAddress)
 		err := gmcl.AddUpdUsrCache(u, g.IPAddress) //TODO go()
 		if err != nil {
-			log.Println("wscl.AddUpdUsrCache() error:", err)
+			lw.ErrorWithPrefixString("wscl.AddUpdUsrCache() error:", err)
 		}
 	}
 	ws.Write([]byte("true"))
@@ -1032,21 +1029,21 @@ func (gm *GMServ) UsrUpdateHandler(ws *websocket.Conn) {
 // GroupAuthUpdateHandler handles incoming traffic from other group-members containing information regarding
 // changes to GroupAuth entities.
 func (gm *GMServ) GroupAuthUpdateHandler(ws *websocket.Conn) {
-	log.Println("In GroupAuthUpdateHandler!")
+	lw.Debug("In GroupAuthUpdateHandler()")
 
 	// gob decoding
 	var ga gmcom.GroupAuthD
 	var msg = make([]byte, 1024)
 	l, err := ws.Read(msg)
 	if err != nil {
-		log.Printf("GroupAuthUpdateHandler() ws.Read() error: %s", err)
+		lw.ErrorWithPrefixString("GroupAuthUpdateHandler() ws.Read() error:", err)
 		return
 	}
 	raw := msg[0:l]
 	decBuf := bytes.NewBuffer(raw)
 	err = gob.NewDecoder(decBuf).Decode(&ga)
 	if err != nil {
-		log.Printf("GroupAuthUpdateHandler() gob.Decode() error: %s", err)
+		lw.ErrorWithPrefixString("GroupAuthUpdateHandler() gob.Decode() error:", err)
 		return
 	}
 
@@ -1054,7 +1051,7 @@ func (gm *GMServ) GroupAuthUpdateHandler(ws *websocket.Conn) {
 	ga.GroupName = gm.UsrGroupsH.GroupNames[ga.GroupID]
 	ga.AuthName = gm.AuthsH.Auths[ga.AuthID]
 	if ga.GroupName == "" || ga.AuthName == "" {
-		log.Printf("GroupAuthUpdateHandler() could not update with GroupName: %s and AuthName: %s", ga.GroupName, ga.AuthName)
+		lw.Warning("GroupAuthUpdateHandler() could not update with GroupName: %s and AuthName: %s", ga.GroupName, ga.AuthName)
 		return
 	}
 
@@ -1101,7 +1098,7 @@ func (gm *GMServ) GroupAuthUpdateHandler(ws *websocket.Conn) {
 	// get a list of the active processes (this is inherently stale)
 	m := gm.SendGetLocalDetails()
 	if m == nil {
-		log.Println("Failed to read groupauth cache group server details in SendGetLocalDetails()")
+		lw.Warning("Failed to read groupauth cache group server details in SendGetLocalDetails()")
 		ws.Write([]byte("false"))
 	}
 
@@ -1111,10 +1108,10 @@ func (gm *GMServ) GroupAuthUpdateHandler(ws *websocket.Conn) {
 		if g.ID == gm.MyID {
 			continue
 		}
-		log.Printf("CS: SENDING %v to %s\n", ga, g.IPAddress)
+		lw.Info("CS: SENDING %v to %s", ga, g.IPAddress)
 		err := gmcl.AddUpdGroupAuthCache(ga, g.IPAddress) //TODO go()
 		if err != nil {
-			log.Println("wscl.AddUpdGroupAuthCache() error:", err)
+			lw.ErrorWithPrefixString("wscl.AddUpdGroupAuthCache() error:", err)
 		}
 	}
 	ws.Write([]byte("true"))
@@ -1123,21 +1120,21 @@ func (gm *GMServ) GroupAuthUpdateHandler(ws *websocket.Conn) {
 // AuthUpdateHandler handles incoming traffic from other group-members containing information regarding
 // changes to the status of application Auth entities.
 func (gm *GMServ) AuthUpdateHandler(ws *websocket.Conn) {
-	log.Println("In AuthUpdateHandler!")
+	lw.Debug("In AuthUpdateHandler()")
 
 	// gob decoding
 	var a gmcom.AuthD
 	var msg = make([]byte, 1024)
 	l, err := ws.Read(msg)
 	if err != nil {
-		log.Printf("AuthUpdateHandler() ws.Read() error: %s", err)
+		lw.ErrorWithPrefixString("AuthUpdateHandler() ws.Read() error:", err)
 		return
 	}
 	raw := msg[0:l]
 	decBuf := bytes.NewBuffer(raw)
 	err = gob.NewDecoder(decBuf).Decode(&a)
 	if err != nil {
-		log.Printf("AuthUpdateHandler() gob.Decode() error: %s", err)
+		lw.ErrorWithPrefixString("AuthUpdateHandler() gob.Decode() error:", err)
 		return
 	}
 
@@ -1166,7 +1163,7 @@ func (gm *GMServ) AuthUpdateHandler(ws *websocket.Conn) {
 	// get a list of the active processes (this is inherently stale)
 	m := gm.SendGetLocalDetails()
 	if m == nil {
-		log.Println("Failed to read auth cache group server details in SendGetLocalDetails()")
+		lw.Warning("Failed to read auth cache group server details in SendGetLocalDetails()")
 		ws.Write([]byte("false"))
 	}
 
@@ -1176,10 +1173,10 @@ func (gm *GMServ) AuthUpdateHandler(ws *websocket.Conn) {
 		if g.ID == gm.MyID {
 			continue
 		}
-		log.Printf("CS: SENDING %v to %s\n", a, g.IPAddress)
+		lw.Info("CS: SENDING %v to %s", a, g.IPAddress)
 		err := gmcl.AddUpdAuthCache(a, g.IPAddress) //TODO go()
 		if err != nil {
-			log.Println("wscl.AddUpdAuthCache() error:", err)
+			lw.ErrorWithPrefixString("wscl.AddUpdAuthCache() error:", err)
 		}
 	}
 	ws.Write([]byte("true"))
@@ -1188,21 +1185,21 @@ func (gm *GMServ) AuthUpdateHandler(ws *websocket.Conn) {
 // UsrGroupUpdateHandler handles incoming traffic from other group-members containing information regarding
 // changes to the status of application UsrGroup entities.
 func (gm *GMServ) UsrGroupUpdateHandler(ws *websocket.Conn) {
-	log.Println("In UsrGroupUpdateHandler!")
+	lw.Debug("In UsrGroupUpdateHandler()")
 
 	// gob decoding
 	var ug gmcom.UsrGroupD
 	var msg = make([]byte, 1024)
 	l, err := ws.Read(msg)
 	if err != nil {
-		log.Printf("UsrGroupUpdateHandler() ws.Read() error: %s", err)
+		lw.ErrorWithPrefixString("UsrGroupUpdateHandler() ws.Read() error:", err)
 		return
 	}
 	raw := msg[0:l]
 	decBuf := bytes.NewBuffer(raw)
 	err = gob.NewDecoder(decBuf).Decode(&ug)
 	if err != nil {
-		log.Printf("UsrGroupUpdateHandler() gob.Decode() error: %s", err)
+		lw.ErrorWithPrefixString("UsrGroupUpdateHandler() gob.Decode() error:", err)
 		return
 	}
 
@@ -1231,7 +1228,7 @@ func (gm *GMServ) UsrGroupUpdateHandler(ws *websocket.Conn) {
 	// get a list of the active processes (this is inherently stale)
 	m := gm.SendGetLocalDetails()
 	if m == nil {
-		log.Println("Failed to read usrgroup cache group server details in SendGetLocalDetails()")
+		lw.Warning("Failed to read usrgroup cache group server details in SendGetLocalDetails()")
 		ws.Write([]byte("false"))
 	}
 
@@ -1241,10 +1238,10 @@ func (gm *GMServ) UsrGroupUpdateHandler(ws *websocket.Conn) {
 		if g.ID == gm.MyID {
 			continue
 		}
-		log.Printf("CS: SENDING %v to %s\n", ug, g.IPAddress)
+		lw.Info("CS: SENDING %v to %s", ug, g.IPAddress)
 		err := gmcl.AddUpdUsrGroupCache(ug, g.IPAddress) //TODO go()
 		if err != nil {
-			log.Println("wscl.AddUpdUsrGroupCache() error:", err)
+			lw.ErrorWithPrefixString("wscl.AddUpdUsrGroupCache() error:", err)
 		}
 	}
 	ws.Write([]byte("true"))

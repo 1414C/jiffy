@@ -376,7 +376,7 @@ func (us *usrSqac) ByEmail(email string) (*Usr, error) {
 	var usr Usr
 	err := us.handle.Get(&usr, "SELECT * FROM usr WHERE email = ?;", email)
 	if err != nil {
-		fmt.Println(err)
+		lw.Warning("reading Usr by email got: %s", err.Error())
 		return nil, err
 	}
 	return &usr, nil
@@ -392,7 +392,7 @@ func (us *usrSqac) ByID(id uint64) (*Usr, error) {
 	var usr Usr
 	err := us.handle.Get(&usr, "SELECT * FROM usr WHERE id = ?;", id)
 	if err != nil {
-		fmt.Println(err)
+		lw.Warning("reading Usr by id got: %s", err.Error())
 		return nil, err
 	}
 	return &usr, nil
@@ -426,7 +426,7 @@ func (us *usrSqac) GetUsrs() []Usr {
 
 	err := us.handle.GetEntities2(&getEnts)
 	if err != nil {
-		log.Println(err)
+		lw.Warning("GetUsrs got: %s", err.Error())
 		return getEnts.ents
 	}
 	return getEnts.ents
@@ -453,7 +453,7 @@ func (ge *UsrGetEntitiesT) Exec(sqh sqac.PublicDB) error {
 	// read the table rows
 	rows, err := sqh.ExecuteQueryx(selQuery)
 	if err != nil {
-		log.Printf("GetEntities2 for table usr returned error: %v\n", err.Error())
+		lw.Warning("GetEntities2 for table usr returned error: %v", err.Error())
 		return err
 	}
 	defer rows.Close()
@@ -462,13 +462,13 @@ func (ge *UsrGetEntitiesT) Exec(sqh sqac.PublicDB) error {
 		var ent Usr
 		err = rows.StructScan(&ent)
 		if err != nil {
-			fmt.Printf("error reading rows: %v\n", err)
+			lw.ErrorWithPrefixString("error reading usr rows via StructScan:", err)
 			return err
 		}
 		ge.ents = append(ge.ents, ent)
 	}
 	if sqh.IsLog() {
-		fmt.Println("UsrGroupGetEntitiesT.Exec() got:", ge.ents)
+		lw.Info("UsrGroupGetEntitiesT.Exec() got: %v", ge.ents)
 	}
 	return nil
 }

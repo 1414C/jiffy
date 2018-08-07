@@ -7,7 +7,6 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -16,6 +15,7 @@ import (
 	"{{.AppPath}}/group/gmcom"
 	"{{.AppPath}}/models"
 	"github.com/gorilla/mux"
+	"github.com/1414C/lw"
 )
 
 // UsrGroupController is the usrGroup controller type for route binding
@@ -42,7 +42,7 @@ func (uc *UsrGroupController) Create(w http.ResponseWriter, r *http.Request) {
 	var u models.UsrGroup
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&u); err != nil {
-		log.Println("User Group Create:", err)
+		lw.ErrorWithPrefixString("User Group Create:", err)
 		respondWithError(w, http.StatusBadRequest, "usrGroupc: Invalid request payload")
 		return
 	}
@@ -58,11 +58,9 @@ func (uc *UsrGroupController) Create(w http.ResponseWriter, r *http.Request) {
 	urlString := buildHrefStringFromCRUDReq(r, true)
 
 	// call the Create method on the usrgroup model
-	fmt.Println("uc:", uc)
-	fmt.Println("uc.us:", uc.us)
 	err := uc.us.Create(&usrgroup)
 	if err != nil {
-		log.Println("User Group Create:", err)
+		lw.ErrorWithPrefixString("User Group Create:", err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -83,7 +81,7 @@ func (uc *UsrGroupController) Update(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
-		log.Println("User Group Update:", err)
+		lw.Warning("User Group Update:", err)
 		respondWithError(w, http.StatusBadRequest, "Invalid usrgroup id")
 		return
 	}
@@ -91,7 +89,7 @@ func (uc *UsrGroupController) Update(w http.ResponseWriter, r *http.Request) {
 	var u models.UsrGroup
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&u); err != nil {
-		log.Println("User Group Update:", err)
+		lw.Warning("User Group Update:", err)
 		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
@@ -111,7 +109,7 @@ func (uc *UsrGroupController) Update(w http.ResponseWriter, r *http.Request) {
 	// call the update method on the model
 	err = uc.us.Update(&usrgroup)
 	if err != nil {
-		log.Println("User Group Update:", err)
+		lw.ErrorWithPrefixString("User Group Update:", err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -131,7 +129,7 @@ func (uc *UsrGroupController) Get(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
-		log.Println("User Group Get:", err)
+		lw.Warning("User Group Get:", err)
 		respondWithError(w, http.StatusBadRequest, "Invalid usrgroup ID")
 		return
 	}
@@ -145,7 +143,7 @@ func (uc *UsrGroupController) Get(w http.ResponseWriter, r *http.Request) {
 
 	err = uc.us.Get(&usrgroup)
 	if err != nil {
-		log.Println(err)
+		lw.Warning(err.Error())
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -161,7 +159,7 @@ func (uc *UsrGroupController) Delete(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
-		log.Println("User Group Delete:", err)
+		lw.Warning("User Group Delete:", err)
 		respondWithError(w, http.StatusBadRequest, "Invalid UsrGroup ID")
 		return
 	}
@@ -172,7 +170,7 @@ func (uc *UsrGroupController) Delete(w http.ResponseWriter, r *http.Request) {
 
 	err = uc.us.Delete(&usrgroup)
 	if err != nil {
-		log.Println("User Group Delete:", err)
+		lw.ErrorWithPrefixString("User Group Delete:", err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -296,7 +294,7 @@ func (uc *UsrGroupController) disseminateUsrGroupChange(id uint64, fwd bool, gro
 
 	err := gmcl.AddUpdUsrGroupCache(aa, uc.internalAddress)
 	if err != nil {
-		log.Println("UsrGroupController cache update error message:", err)
+		lw.ErrorWithPrefixString("UsrGroupController cache update error message:", err)
 	}
 }
 

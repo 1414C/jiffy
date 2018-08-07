@@ -9,7 +9,6 @@ import (
 	"bytes"
 	"encoding/gob"
 	"fmt"
-	"log"
 
 	"golang.org/x/net/websocket"
 )
@@ -119,9 +118,6 @@ type GMLeaderSetterGetter interface {
 // to interested parties.
 func EncodeGMMessage(m GMMessage) ([]byte, error) {
 
-	if m.MemberMap != nil {
-		log.Println("EncodeGMMessage &m.MemberMap:", &m.MemberMap)
-	}
 	encBuf := new(bytes.Buffer)
 	err := gob.NewEncoder(encBuf).Encode(m)
 	if err != nil {

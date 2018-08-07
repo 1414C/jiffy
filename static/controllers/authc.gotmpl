@@ -7,7 +7,6 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -16,6 +15,7 @@ import (
 	"{{.AppPath}}/group/gmcom"
 	"{{.AppPath}}/models"
 	"github.com/gorilla/mux"
+	"github.com/1414C/lw"
 )
 
 // AuthController is the Auth controller type for route binding
@@ -42,7 +42,7 @@ func (ac *AuthController) Create(w http.ResponseWriter, r *http.Request) {
 	var a models.Auth
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&a); err != nil {
-		log.Println("Group Resource Create:", err)
+		lw.ErrorWithPrefixString("Auth Resource Create() got:", err)
 		respondWithError(w, http.StatusBadRequest, "Authc: Invalid request payload")
 		return
 	}
@@ -61,7 +61,7 @@ func (ac *AuthController) Create(w http.ResponseWriter, r *http.Request) {
 	// call the Create method on the usrgroup model
 	err := ac.as.Create(&auth)
 	if err != nil {
-		log.Println("Group Resource Create:", err)
+		lw.ErrorWithPrefixString("Auth Resource Create() got:", err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -82,7 +82,7 @@ func (ac *AuthController) Update(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
-		log.Println("Group Resource Update:", err)
+		lw.ErrorWithPrefixString("Auth Resource Update() got:", err)
 		respondWithError(w, http.StatusBadRequest, "Invalid auth id")
 		return
 	}
@@ -90,7 +90,7 @@ func (ac *AuthController) Update(w http.ResponseWriter, r *http.Request) {
 	var a models.Auth
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&a); err != nil {
-		log.Println("Group Resource Update:", err)
+		lw.ErrorWithPrefixString("Auth Resource Update() got:", err)
 		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
@@ -111,7 +111,7 @@ func (ac *AuthController) Update(w http.ResponseWriter, r *http.Request) {
 	// call the update method on the model
 	err = ac.as.Update(&auth)
 	if err != nil {
-		log.Println("Group Resource Update:", err)
+		lw.ErrorWithPrefixString("Auth Resource Update() got:", err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -131,8 +131,8 @@ func (ac *AuthController) Get(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
-		log.Println("Group Resource Get:", err)
-		respondWithError(w, http.StatusBadRequest, "Invalid group resource ID")
+		lw.ErrorWithPrefixString("Auth Resource Get() got:", err)
+		respondWithError(w, http.StatusBadRequest, "Invalid auth resource ID")
 		return
 	}
 
@@ -145,7 +145,7 @@ func (ac *AuthController) Get(w http.ResponseWriter, r *http.Request) {
 
 	err = ac.as.Get(&auth)
 	if err != nil {
-		log.Println(err)
+		lw.Error(err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -161,7 +161,7 @@ func (ac *AuthController) Delete(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
-		log.Println("Group Resource Delete:", err)
+		lw.ErrorWithPrefixString("Auth Resource Delete() got:", err)
 		respondWithError(w, http.StatusBadRequest, "Invalid Auth ID")
 		return
 	}
@@ -172,7 +172,7 @@ func (ac *AuthController) Delete(w http.ResponseWriter, r *http.Request) {
 
 	err = ac.as.Delete(&auth)
 	if err != nil {
-		log.Println("Group Resource Delete:", err)
+		lw.ErrorWithPrefixString("Auth Resource Delete() got:", err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -295,7 +295,7 @@ func (ac *AuthController) disseminateAuthChange(id uint64, fwd bool, authName st
 
 	err := gmcl.AddUpdAuthCache(aa, ac.internalAddress)
 	if err != nil {
-		log.Println("AuthController cache update error message:", err)
+		lw.ErrorWithPrefixString("AuthController cache update error message:", err)
 	}
 }
 

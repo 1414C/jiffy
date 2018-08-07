@@ -7,7 +7,6 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -16,6 +15,7 @@ import (
 	"{{.AppPath}}/group/gmcom"
 	"{{.AppPath}}/models"
 	"github.com/gorilla/mux"
+	"github.com/1414C/lw"
 )
 
 // GroupAuthController is the GroupAuth controller type for route binding
@@ -42,7 +42,7 @@ func (gc *GroupAuthController) Create(w http.ResponseWriter, r *http.Request) {
 	var g models.GroupAuth
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&g); err != nil {
-		log.Println("Group Auth Create:", err)
+		lw.ErrorWithPrefixString("Group Auth Create:", err)
 		respondWithError(w, http.StatusBadRequest, "GroupAuthc: Invalid request payload")
 		return
 	}
@@ -60,7 +60,7 @@ func (gc *GroupAuthController) Create(w http.ResponseWriter, r *http.Request) {
 	// call the Create method on the usrgroup model
 	err := gc.gs.Create(&groupauth)
 	if err != nil {
-		log.Println("Group Auth Create:", err)
+		lw.ErrorWithPrefixString("Group Auth Create:", err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -81,7 +81,7 @@ func (gc *GroupAuthController) Create(w http.ResponseWriter, r *http.Request) {
 
 	err = gmcl.AddUpdGroupAuthCache(gu, gc.internalAddress)
 	if err != nil {
-		log.Println("GroupAuthController cache update error message:", err)
+		lw.ErrorWithPrefixString("GroupAuthController cache update error message:", err)
 	}
 }
 
@@ -95,7 +95,7 @@ func (gc *GroupAuthController) Update(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
-		log.Println("Group Auth Update:", err)
+		lw.ErrorWithPrefixString("Group Auth Update:", err)
 		respondWithError(w, http.StatusBadRequest, "Invalid groupauth id")
 		return
 	}
@@ -103,7 +103,7 @@ func (gc *GroupAuthController) Update(w http.ResponseWriter, r *http.Request) {
 	var g models.GroupAuth
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&g); err != nil {
-		log.Println("Group Auth Update:", err)
+		lw.ErrorWithPrefixString("Group Auth Update:", err)
 		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
@@ -123,7 +123,7 @@ func (gc *GroupAuthController) Update(w http.ResponseWriter, r *http.Request) {
 	// call the update method on the model
 	err = gc.gs.Update(&groupauth)
 	if err != nil {
-		log.Println("Group Auth Update:", err)
+		lw.ErrorWithPrefixString("Group Auth Update:", err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -144,7 +144,7 @@ func (gc *GroupAuthController) Update(w http.ResponseWriter, r *http.Request) {
 
 	err = gmcl.AddUpdGroupAuthCache(gu, gc.internalAddress)
 	if err != nil {
-		log.Println("GroupAuthController cache update error message:", err)
+		lw.ErrorWithPrefixString("GroupAuthController cache update error message:", err)
 	}
 }
 
@@ -157,7 +157,7 @@ func (gc *GroupAuthController) Get(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
-		log.Println("Group Auth Get:", err)
+		lw.ErrorWithPrefixString("Group Auth Get:", err)
 		respondWithError(w, http.StatusBadRequest, "Invalid group auth ID")
 		return
 	}
@@ -171,7 +171,7 @@ func (gc *GroupAuthController) Get(w http.ResponseWriter, r *http.Request) {
 
 	err = gc.gs.Get(&groupauth)
 	if err != nil {
-		log.Println(err)
+		lw.Error(err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -187,7 +187,7 @@ func (gc *GroupAuthController) Delete(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
-		log.Println("Group Auth Delete:", err)
+		lw.ErrorWithPrefixString("Group Auth Delete:", err)
 		respondWithError(w, http.StatusBadRequest, "Invalid GroupAuth ID")
 		return
 	}
@@ -198,7 +198,7 @@ func (gc *GroupAuthController) Delete(w http.ResponseWriter, r *http.Request) {
 
 	err = gc.gs.Delete(&groupauth)
 	if err != nil {
-		log.Println("Group Auth Delete:", err)
+		lw.ErrorWithPrefixString("Group Auth Delete:", err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -214,7 +214,7 @@ func (gc *GroupAuthController) Delete(w http.ResponseWriter, r *http.Request) {
 
 	err = gmcl.AddUpdGroupAuthCache(gu, gc.internalAddress)
 	if err != nil {
-		log.Println("GroupAuthController.Create cache update error message:", err)
+		lw.ErrorWithPrefixString("GroupAuthController.Create cache update error message:", err)
 	}
 }
 
@@ -368,7 +368,7 @@ func (gc *GroupAuthController) DeleteGroupAuthsByGroupID(w http.ResponseWriter, 
 
 	err := gc.gs.DeleteGroupAuthsByGroupID(groupID)
 	if err != nil {
-		log.Println("Group Auth DeleteGroupAuthsByGroupID error:", err)
+		lw.ErrorWithPrefixString("Group Auth DeleteGroupAuthsByGroupID error:", err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}

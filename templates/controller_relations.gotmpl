@@ -6,12 +6,12 @@ package controllers
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 
 	"{{.AppPath}}/models"
 	"github.com/1414C/sqac/common"
+	"github.com/1414C/lw"
 	"github.com/gorilla/mux"
 )
 
@@ -62,7 +62,7 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 	vars := mux.Vars(r)
 	{{$headerValue}}ID, err := strconv.ParseUint(vars["{{$headerValue}}_id"], 10, 64)
 	if err != nil {
-		log.Println("{{$headerName}} Get:", err)
+		lw.Warning("{{$headerName}} Get: %s", err.Error())
 		respondWithError(w, http.StatusBadRequest, "Invalid {{$headerValue}} number")
 		return
 	}
@@ -87,7 +87,7 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 	// retrieve the root entity
 	err = {{$pref}}c.{{$pref}}s.Get(&{{$headerValue}})
 	if err != nil {
-		log.Println(err)
+		lw.Warning(err.Error())
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -134,7 +134,7 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 
 	// build the root href for the {{.ToEntityLC}} entity
 	urlString := buildHrefBasic(r, true)
-	fmt.Println("urlString:", urlString)
+	lw.Debug("urlString: %s", urlString)
 	urlString = urlString + "{{.ToEntityLC}}/"
 
 	// call the ORM to retrieve the {{.ToEntityLC}} - call the set for
@@ -183,7 +183,7 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 	// check that a {{$headerValue}}_id has been provided (root entity id)
 	{{$headerValue}}ID, err := strconv.ParseUint(vars["{{$headerValue}}_id"], 10, 64)
 	if err != nil {
-		log.Println("{{$headerName}} Get:", err)
+		lw.Warning("{{$headerName}} Get: %s", err.Error())
 		respondWithError(w, http.StatusBadRequest, "Invalid {{$headerValue}} number")
 		return
 	}
@@ -209,7 +209,7 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 	// retrieve the root entity
 	err = {{$pref}}c.{{$pref}}s.Get(&{{$headerValue}})
 	if err != nil {
-		log.Println(err)
+		lw.Warning(err.Error())
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -262,13 +262,13 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 
 	// build the root href for each {{.ToEntityLC}}
 	urlString := buildHrefBasic(r, true)
-	fmt.Println("urlString:", urlString)
+	lw.Debug("urlString: %s", urlString)
 	urlString = urlString + "{{.ToEntityLC}}/"
 
 	// call the ORM to retrieve the {{.ToEntityLC}}s or count
 	{{.ToEntityLC}}s, count := lc.svcs.{{.ToEntity}}.Get{{.ToEntity}}s({{.ToEntityLC}}Params, mapCommands)
-	fmt.Println("mapCommands:", mapCommands)
-	fmt.Println("countReq:", countReq)
+	lw.Debug("mapCommands: %v", mapCommands)
+	lw.Debug("countReq: %v", countReq)
 	// retrieved []{{.ToEntity}} and not asked to $count
 	if {{.ToEntityLC}}s != nil && countReq == false {
 		for i, l := range {{.ToEntityLC}}s {
@@ -319,7 +319,7 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 	// check that a {{$headerValue}}id has been provided
 	{{$headerValue}}ID, err := strconv.ParseUint(vars["{{$headerValue}}_id"], 10, 64)
 	if err != nil {
-		log.Println("{{$headerName}} Get:", err)
+		lw.Warning("{{$headerName}} Get: %s", err.Error())
 		respondWithError(w, http.StatusBadRequest, "Invalid {{$headerValue}} id")
 		return
 	}
@@ -345,7 +345,7 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 	// retrieve the root entity
 	err = {{$pref}}c.{{$pref}}s.Get(&{{$headerValue}})
 	if err != nil {
-		log.Println(err)
+		lw.Warning(err.Error())
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -398,13 +398,13 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 
 	// build the root href for each {{$headerValue}}
 	urlString := buildHrefBasic(r, true)
-	fmt.Println("urlString:", urlString)
+	lw.Debug("urlString: %s", urlString)
 	urlString = urlString + "{{.ToEntityLC}}/"
 
 	// call the ORM to retrieve the {{.ToEntityLC}}s or count
 	{{.ToEntityLC}}s, count := bc.svcs.{{.ToEntity}}.Get{{.ToEntity}}s({{.ToEntityLC}}Params, mapCommands)
-	fmt.Println("mapCommands:", mapCommands)
-	fmt.Println("countReq:", countReq)
+	lw.Debug("mapCommands: %v", mapCommands)
+	lw.Debug("countReq: %v", countReq)
 
 	// retrieved []{{.ToEntity}} and not asked to $count
 	if {{.ToEntityLC}}s != nil && countReq == false {

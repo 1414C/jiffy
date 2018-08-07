@@ -6,6 +6,7 @@ import (
 	"{{.AppPath}}/appobj"
 	"{{.AppPath}}/group/gmcom"
 	"github.com/1414C/sluggo/wscl"
+	"github.com/1414C/lw"
 	
 	_ "github.com/SAP/go-hdb/driver"
 	_ "github.com/go-sql-driver/mysql"
@@ -22,7 +23,6 @@ func main() {
 	rsFlag := flag.Bool("rs", false, "rebuild the Auth allocations to the Super UsrGroup")
 	alFlag := flag.Bool("al", false, "enable application logging to stdout")
 	dlFlag := flag.Bool("dl", false, "enable database ORM logging to stdout")
-
 	flag.Parse()
 
 	a := appobj.AppObj{}

@@ -6,9 +6,9 @@ package models
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/1414C/sqac"
+	"github.com/1414C/lw"
 )
 
 // Auth structure
@@ -29,7 +29,6 @@ type AuthDB interface {
 	GetAuths() []Auth
 	GetAuthsByAuthName(op string, AuthName string) []Auth
 	GetAuthsByDescription(op string, Description string) []Auth
-	// GetRelAuthToUGResources(librarys *[]Library, mapParams map[string]interface{}) error
 }
 
 // authValidator checks and normalizes data prior to
@@ -115,7 +114,6 @@ func (gv *authValidator) Create(auth *Auth) error {
 	if err != nil {
 		return err
 	}
-
 	return gv.AuthDB.Create(auth)
 }
 
@@ -136,7 +134,6 @@ func (gv *authValidator) Update(auth *Auth) error {
 	if err != nil {
 		return err
 	}
-
 	return gv.AuthDB.Update(auth)
 }
 
@@ -241,7 +238,7 @@ func (gs *authSqac) GetAuths() []Auth {
 
 	err := gs.handle.GetEntities2(&getEnts)
 	if err != nil {
-		log.Println(err)
+		lw.Error(err)
 		return getEnts.ents
 	}
 	return getEnts.ents
@@ -268,7 +265,7 @@ func (ge *AuthGetEntitiesT) Exec(sqh sqac.PublicDB) error {
 	// read the table rows
 	rows, err := sqh.ExecuteQueryx(selQuery)
 	if err != nil {
-		log.Printf("GetEntities2 for table auth returned error: %v\n", err.Error())
+		lw.Warning("GetEntities2 for table auth returned error: %s", err.Error())
 		return err
 	}
 	defer rows.Close()
@@ -277,13 +274,13 @@ func (ge *AuthGetEntitiesT) Exec(sqh sqac.PublicDB) error {
 		var ent Auth
 		err = rows.StructScan(&ent)
 		if err != nil {
-			fmt.Printf("error reading rows: %v\n", err)
+			lw.ErrorWithPrefixString("error reading Auth rows via StructScan:", err)
 			return err
 		}
 		ge.ents = append(ge.ents, ent)
 	}
 	if sqh.IsLog() {
-		fmt.Println("AuthGetEntitiesT.Exec() got:", ge.ents)
+		lw.Info("AuthGetEntitiesT.Exec() got: %v", ge.ents)
 	}
 	return nil
 }
@@ -345,12 +342,12 @@ func (gs *authSqac) GetAuthsByAuthName(op string, AuthName string) []Auth {
 	qs := fmt.Sprintf("SELECT * FROM auth WHERE %s;", c)
 	err := gs.handle.Select(&auths, qs, AuthName)
 	if err != nil {
-		log.Println("GetAuthsByAuthName:", err)
+		lw.Warning("GetAuthsByAuthName: %s", err.Error())
 		return nil
 	}
 
 	if gs.handle.IsLog() {
-		log.Printf("GetAuthsByAuthName found: %v based on (%s %v)\n", auths, op, AuthName)
+		lw.Info("GetAuthsByAuthName found: %v based on (%s %v)", auths, op, AuthName)
 	}
 	return auths
 }
@@ -372,12 +369,12 @@ func (gs *authSqac) GetAuthsByDescription(op string, Description string) []Auth 
 	qs := fmt.Sprintf("SELECT * FROM auth WHERE %s;", c)
 	err := gs.handle.Select(&auths, qs, Description)
 	if err != nil {
-		log.Println("GetAuthsByDescription:", err)
+		lw.Warning("GetAuthsByDescription: %s", err.Error())
 		return nil
 	}
 
 	if gs.handle.IsLog() {
-		log.Printf("GetAuthsByDescription found: %v based on (%s %v)\n", auths, op, Description)
+		lw.Info("GetAuthsByDescription found: %v based on (%s %v)", auths, op, Description)
 	}
 	return auths
 }

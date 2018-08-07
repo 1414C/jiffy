@@ -8,9 +8,10 @@ package gmsrv
 import (
 	"{{.AppPath}}/group/gmcom"
 	"fmt"
-	"log"
 	"math/rand"
 	"sync/atomic"
+
+	"github.com/1414C/lw"
 )
 
 // SendGetDBLeader sends a non-protocol message via the serialization channels
@@ -141,7 +142,7 @@ func (gm *GMServ) SendFailure(f gmcom.GMMessage) {
 		// send the failure message to the target
 		err := gm.TxGMMessage(f)
 		if err != nil {
-			log.Println(err)
+			lw.Error(err)
 			return
 		}
 	}
@@ -152,7 +153,7 @@ func (gm *GMServ) SendFailure(f gmcom.GMMessage) {
 // update (or care about it).
 func (gm *GMServ) SendDeparting() {
 
-	log.Println("DEPARTING-1: SendDeparting called")
+	lw.Info("DEPARTING-1: SendDeparting called")
 
 	// do this on the channel?
 	gm.MyIncarnation++
@@ -179,7 +180,7 @@ func (gm *GMServ) SendDeparting() {
 	for requested {
 		f = <-gm.chout
 		if f.TargetID == 0 {
-			log.Println("DEPARTING-1B: SendDeparting got:", f)
+			lw.Info("DEPARTING-1B: SendDeparting got: %v", f)
 			break
 		}
 		// make some adjustments to the incoming message structure
@@ -188,12 +189,12 @@ func (gm *GMServ) SendDeparting() {
 		f.TargetPath = "/departing"
 		f.ExpectResponse = false
 
-		log.Println("DEPARTING-2: SendDeparting sending:", f)
+		lw.Info("DEPARTING-2: SendDeparting sending: %v", f)
 
 		// send the departing message to the target
 		err := gm.TxGMMessage(f)
 		if err != nil {
-			log.Println("DEPARTING-ERR: SendDeparting got:", err)
+			lw.ErrorWithPrefixString("DEPARTING-ERR: SendDeparting got:", err)
 		}
 	}
 }
@@ -252,8 +253,8 @@ func (gm *GMServ) sendPing(l *gmcom.GMLeader) error {
 
 	} else {
 		// join scenario
-		log.Println("in sendPing Join scenario")
-		log.Println("got leader info:", l)
+		lw.Debug("in sendPing Join scenario")
+		lw.Info("got leader info: %v", l)
 
 		// populate SrcID, SrcIPAddresss, SrcIncarnationNumber
 		p.Type = gmcom.CinGetMySrcInfo
@@ -272,7 +273,7 @@ func (gm *GMServ) sendPing(l *gmcom.GMLeader) error {
 	}
 
 	// log.Println("sendPing assembled ping list:", pl)
-	log.Println("sendPing assembled index slice:", o)
+	lw.Debug("sendPing assembled index slice: %v", o)
 
 	// send the pings
 	for _, iv := range o {
@@ -282,11 +283,11 @@ func (gm *GMServ) sendPing(l *gmcom.GMLeader) error {
 		// received for the ping.
 		p = pl[iv]
 		if p.TargetStatus != gmcom.CStatusFailed && p.TargetStatus != gmcom.CStatusDeparted {
-			log.Println("sending PING:", p)
+			lw.Info("sending PING: %v", p)
 
 			r, err := gm.TxRxGMMessage(p) //(pl[iv])
 			if err != nil {
-				log.Println("gm.TxRxGMMessage got error in sendPing:", err)
+				lw.ErrorWithPrefixString("gm.TxRxGMMessage got error in sendPing:", err)
 				// no ACK message received, so set the internal inNoAck message
 				// and then push into the serialization channel in order to update
 				// the target's status in the member list.
@@ -346,14 +347,14 @@ func (gm *GMServ) sendPing(l *gmcom.GMLeader) error {
 						}
 						gm.chin <- l
 						l = <-gm.chout
-						log.Println("NOACK-sendPing() detected failed process-id:", p.TargetID)
+						lw.Info("NOACK-sendPing() detected failed process-id: %v", p.TargetID)
 						if l.TargetID == p.TargetID &&
 							l.TargetIPAddress == p.TargetIPAddress {
 							// START AN ELECTION?
 							e := gmcom.GMMessage{
 								Type: gmcom.CinStartElection,
 							}
-							log.Println("Starting an election based on leader failure detection")
+							lw.Info("Starting an election based on leader failure detection")
 							gm.chin <- e
 							e = <-gm.chout // temporary
 						}
@@ -376,7 +377,7 @@ func (gm *GMServ) sendPing(l *gmcom.GMLeader) error {
 						ErrCode: gmcom.CerrJoinNoContact,
 					}
 				}
-				log.Printf("ping transmission failure - got: %s\n", err)
+				lw.ErrorWithPrefixString("ping transmission failure - got:", err)
 				continue
 			}
 
@@ -387,14 +388,14 @@ func (gm *GMServ) sendPing(l *gmcom.GMLeader) error {
 				// the local process's new process-id into the local gm.memberMap and read
 				// it back (wait).
 				if l != nil {
-					log.Println("Received r:", r)
+					lw.Info("Received r: %v", r)
 					if r.TargetID != 0 {
 						r.Type = gmcom.CJoinAck
 						gm.chin <- *r
 						*r = <-gm.chout
 						r.Type = gmcom.CAck
 					} else {
-						log.Println("JOIN failed - got:", r.ErrCode)
+						lw.ErrorWithPrefixString("JOIN failed - got:", fmt.Errorf("JOIN failure response received from leader"))
 						return &gmcom.JoinError{
 							Err:     "JOIN failure response received from leader",
 							ErrCode: r.ErrCode,
@@ -446,14 +447,14 @@ func (gm *GMServ) sendPing(l *gmcom.GMLeader) error {
 							}
 							gm.chin <- l
 							l = <-gm.chout
-							log.Println("ACK-sendPing() detected failed process-id:", p.TargetID)
+							lw.Info("ACK-sendPing() detected failed process-id: %v", p.TargetID)
 							if l.TargetID == p.TargetID &&
 								l.TargetIPAddress == p.TargetIPAddress {
 								// START AN ELECTION?
 								e := gmcom.GMMessage{
 									Type: gmcom.CinStartElection,
 								}
-								log.Println("Starting an election based on leader failure detection")
+								lw.Info("Starting an election based on leader failure detection")
 								gm.chin <- e
 								e = <-gm.chout // temporary
 							}
@@ -471,10 +472,10 @@ func (gm *GMServ) sendPing(l *gmcom.GMLeader) error {
 				}
 
 			} else {
-				log.Printf("MyID is: %d\n", gm.MyID)
-				log.Printf("Ping message received inappropriate message type as a response - got: %s\n", r.Type)
-				log.Printf("Failed Ping Message: %v\n", p)
-				log.Printf("Got Ping Response Message: %v\n", r)
+				lw.Debug("MyID is: %d", gm.MyID)
+				lw.Warning("Ping message received inappropriate message type as a response - got: %s", r.Type)
+				lw.Warning("Failed Ping Message: %v", p)
+				lw.Warning("Got Ping Response Message: %v", r)
 				panic(fmt.Errorf("Ping message received inappropriate message type as a response - got: %s", r.Type))
 			}
 		} else {

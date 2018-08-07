@@ -7,7 +7,7 @@ package gmcom
 
 import (
 	"fmt"
-	"log"
+	"github.com/1414C/lw"
 )
 
 type IDList []uint
@@ -103,7 +103,8 @@ func (o *OMap) AddWithoutID(g *GMMember) error {
 	g.ID = maxID + 1
 	o.IDMap[g.ID] = *g
 	o.IDList = append(o.IDList, g.ID)
-	log.Println("AddWithoutID resulted in o.IDMap:", o.IDMap)
+	lw.Info("AddWithoutID resulted in o.IDMap: &v", o.IDMap)
+	// log.Println("AddWithoutID resulted in o.IDMap:", o.IDMap)
 	return nil
 }
 
@@ -148,7 +149,7 @@ func (o *OMap) UpdFromDeparting(g GMMember, leaderID uint) (checkElect bool, err
 
 	if ok {
 		if w.IncarnationNumber < g.IncarnationNumber {
-			log.Printf("DEPARTING: g.IncarnationNumber (%d) > w.IncarnationNumber (%d)\n", g.IncarnationNumber, w.IncarnationNumber)
+			lw.Info("DEPARTING: g.IncarnationNumber (%d) > w.IncarnationNumber (%d)\n", g.IncarnationNumber, w.IncarnationNumber)
 			return false, fmt.Errorf("UpdFromDeparting() did not process departure request: incarnation number %d is not greater than %d", g.IncarnationNumber, w.IncarnationNumber)
 		}
 	}
@@ -157,7 +158,7 @@ func (o *OMap) UpdFromDeparting(g GMMember, leaderID uint) (checkElect bool, err
 		w.StatusCount = 1
 		w.Status = CStatusDeparted
 		err := o.Add(g.ID, w)
-		log.Printf("DEPARTING: set DEPARTED status for process %v in local membermap.\n", g.ID)
+		lw.Info("DEPARTING: set DEPARTED status for process %v in local membermap.\n", g.ID)
 		if err != nil {
 			// TODO: log
 		}
@@ -176,9 +177,9 @@ func (o *OMap) UpdFromDeparting(g GMMember, leaderID uint) (checkElect bool, err
 // the PING message and Pi is the receiver of the PING message.
 func (o *OMap) UpdFromPing(localID uint, id uint, mm *OMap, failureThreshold uint, leaderID uint) (checkElect bool, err error) {
 
-	log.Println("UpdFromPing() got the following from:", id)
+	lw.Info("UpdFromPing() got the following from: %v", id)
 	for _, v := range mm.IDMap {
-		log.Println("UpdFromPing()", id, v)
+		lw.Info("UpdFromPing() %v %v", id, v)
 	}
 
 	// process the incoming dissemination map in any order
@@ -221,7 +222,7 @@ func (o *OMap) UpdFromPing(localID uint, id uint, mm *OMap, failureThreshold uin
 				// TODO: log
 			}
 			// START AN ELECTION?
-			log.Println("ELECTION: SET checkElect BASED ON INCOMING MEMBERMAP FAILURE INDICATION")
+			lw.Info("ELECTION: SET checkElect BASED ON INCOMING MEMBERMAP FAILURE INDICATION")
 			if leaderID == v.ID {
 				checkElect = true
 			}
@@ -239,7 +240,7 @@ func (o *OMap) UpdFromPing(localID uint, id uint, mm *OMap, failureThreshold uin
 				// TODO: log
 			}
 			// start an election?
-			log.Println("ELECTION: SET checkElect BASED ON INCOMING MEMBERMAP DEPARTED INDICATION")
+			lw.Info("ELECTION: SET checkElect BASED ON INCOMING MEMBERMAP DEPARTED INDICATION")
 			if leaderID == v.ID {
 				checkElect = true
 			}
@@ -256,7 +257,7 @@ func (o *OMap) UpdFromPing(localID uint, id uint, mm *OMap, failureThreshold uin
 		//    number then perform an update.
 		if ok && v.Status == CStatusSuspect {
 			if v.IncarnationNumber < w.IncarnationNumber {
-				log.Printf("INCARNATION: SUSPECT: v.IncarnationNumber (%d) < w.IncarnationNumber (%d)\n", v.IncarnationNumber, w.IncarnationNumber)
+				lw.Info("INCARNATION: SUSPECT: v.IncarnationNumber (%d) < w.IncarnationNumber (%d)", v.IncarnationNumber, w.IncarnationNumber)
 				continue
 			}
 
@@ -292,7 +293,7 @@ func (o *OMap) UpdFromPing(localID uint, id uint, mm *OMap, failureThreshold uin
 					}
 
 					// START AN ELECTION?
-					log.Println("ELECTION: SET checkElect BASED ON SUPECT -> FAILURE TRANSITION")
+					lw.Info("ELECTION: SET checkElect BASED ON SUPECT -> FAILURE TRANSITION")
 					if leaderID == v.ID {
 						checkElect = true
 					}
@@ -324,7 +325,7 @@ func (o *OMap) UpdFromPing(localID uint, id uint, mm *OMap, failureThreshold uin
 		//    number then perform an update.
 		if ok && v.Status == CStatusAlive {
 			if v.IncarnationNumber < w.IncarnationNumber {
-				log.Printf("INCARNATION: ALIVE: v.IncarnationNumber (%d) < w.IncarnationNumber (%d)\n", v.IncarnationNumber, w.IncarnationNumber)
+				lw.Info("INCARNATION: ALIVE: v.IncarnationNumber (%d) < w.IncarnationNumber (%d)", v.IncarnationNumber, w.IncarnationNumber)
 				continue
 			}
 

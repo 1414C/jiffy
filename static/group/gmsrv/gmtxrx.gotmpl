@@ -11,9 +11,10 @@ import (
 	"{{.AppPath}}/group/gmcom"
 	"fmt"
 	"golang.org/x/net/websocket"
-	"log"
 	"net"
 	"time"
+
+	"github.com/1414C/lw"
 )
 
 // TxRxGMMessage sends message m to the target process (Pj) and
@@ -26,9 +27,9 @@ func (gm *GMServ) TxRxGMMessage(m gmcom.GMMessage) (*gmcom.GMMessage, error) {
 
 	// check for self-ping
 	selfPing := false
-	log.Printf("SELFPING-0: gm.MyIPAddress: %v m.TargetIPAddress: %v\n", gm.MyIPAddress, m.TargetIPAddress)
+	lw.Debug("SELFPING-0: gm.MyIPAddress: %v m.TargetIPAddress: %v", gm.MyIPAddress, m.TargetIPAddress)
 	if gm.MyIPAddress == m.TargetIPAddress {
-		log.Println("SELFPING-1: Self-ping scenario identified")
+		lw.Debug("SELFPING-1: Self-ping scenario identified")
 		selfPing = true
 	}
 
@@ -37,21 +38,21 @@ func (gm *GMServ) TxRxGMMessage(m gmcom.GMMessage) (*gmcom.GMMessage, error) {
 	// been down for any amount of time, it is likely that the membermap will be
 	// empty.
 	if selfPing && gm.MyNetworkOffline == true {
-		log.Println("SELFPING-2: Self-ping with existing offline network condition")
+		lw.Debug("SELFPING-2: Self-ping with existing offline network condition")
 		lm := &gmcom.GMMessage{}
 		gm.SendGetDBLeader(lm)
-		log.Println("SELFPING-3: gm.SendGetDBLeader() got:", lm)
+		lw.Debug("SELFPING-3: gm.SendGetDBLeader() got: %v", lm)
 		if lm.TargetID != 0 {
-			log.Println("SELFPING-4: calling gm.SendSetLeader()...")
+			lw.Debug("SELFPING-4: calling gm.SendSetLeader()...")
 			gm.SendSetLeader(lm)
 			gm.MyID = 0
 			gm.MyIncarnation = 1
-			log.Println("SELFPING-5: calling gm.SendJoin()...")
+			lw.Debug("SELFPING-5: calling gm.SendJoin()...")
 			err := gm.SendJoin(&gm.Leader)
 			if err != nil {
-				log.Println("SELFPING-6: gmcl.TxRxGMMessage() attempted to rejoin group. got:", err)
+				lw.Debug("SELFPING-6: gmcl.TxRxGMMessage() attempted to rejoin group. got: %v", err.Error())
 			} else {
-				log.Println("SELFPING-7: setting gm.MyNetworkOffline = false")
+				lw.Debug("SELFPING-7: setting gm.MyNetworkOffline = false")
 				gm.MyNetworkOffline = false
 			}
 		}
@@ -68,7 +69,7 @@ func (gm *GMServ) TxRxGMMessage(m gmcom.GMMessage) (*gmcom.GMMessage, error) {
 	}
 
 	// connect to the target
-	log.Printf("websocket.Dial: %s\n", url)
+	lw.Info("websocket.Dial: %s", url)
 	config, _ := websocket.NewConfig(url, origin)
 	config.Dialer = &net.Dialer{
 		// Deadline: time.Now().Add(-time.Minute),
@@ -77,24 +78,24 @@ func (gm *GMServ) TxRxGMMessage(m gmcom.GMMessage) (*gmcom.GMMessage, error) {
 
 	ws, err := websocket.DialConfig(config)
 	if err != nil {
-		log.Println("gm.TxRxGMMessage() ws connection failed - got:", err)
+		lw.ErrorWithPrefixString("gm.TxRxGMMessage() ws connection failed - got:", err)
 		if ws != nil {
 			ws.Close()
 		}
 		if selfPing {
-			log.Println("SELFPING-1B: setting gm.MyNetworkOffline = true")
+			lw.Debug("SELFPING-1B: setting gm.MyNetworkOffline = true")
 			gm.MyNetworkOffline = true // out of channel / no lock
 		}
 		return nil, err
 	}
 	
 	defer ws.Close()
-	log.Printf("websocket.Dial: %s complete\n", url)
+	lw.Info("websocket.Dial: %s complete", url)
 
 	// send the encoded GMMessage
 	_, err = ws.Write(raw)
 	if err != nil {
-		log.Println("gm.TxRxGMMessage() ws.Write error - got:", err)
+		lw.ErrorWithPrefixString("gm.TxRxGMMessage() ws.Write error - got:", err)
 		return nil, err
 	}
 
@@ -104,7 +105,7 @@ func (gm *GMServ) TxRxGMMessage(m gmcom.GMMessage) (*gmcom.GMMessage, error) {
 	// single read from the ws is okay here
 	l, err := ws.Read(msg)
 	if err != nil {
-		log.Println("gm.TxRxGMMessage() ws.Read error - got:", err)
+		lw.ErrorWithPrefixString("gm.TxRxGMMessage() ws.Read error - got:", err)
 		return nil, err
 	}
 
@@ -114,7 +115,7 @@ func (gm *GMServ) TxRxGMMessage(m gmcom.GMMessage) (*gmcom.GMMessage, error) {
 	decBuf := bytes.NewBuffer(raw)
 	err = gob.NewDecoder(decBuf).Decode(&rm)
 	if err != nil {
-		log.Println("gm.TxRxGMMessage() gob.Decode() error - got:", err)
+		lw.ErrorWithPrefixString("gm.TxRxGMMessage() gob.Decode() error - got:", err)
 		return nil, err
 	}
 	return &rm, nil
@@ -135,22 +136,22 @@ func (gm *GMServ) TxGMMessage(m gmcom.GMMessage) error {
 	}
 
 	// connect to the target
-	log.Printf("websocket.Dial: %s\n", url)
+	lw.Info("websocket.Dial: %s", url)
 	ws, err := websocket.Dial(url, "", origin)
 	if err != nil {
-		log.Println("gm.TxGMMessage() ws connection failed - got:", err)
+		lw.ErrorWithPrefixString("gm.TxGMMessage() ws connection failed - got:", err)
 		if ws != nil {
 			ws.Close()
 		}
 		return err
 	}
 	defer ws.Close()
-	log.Printf("websocket.Dial: %s complete\n", url)
+	lw.Info("websocket.Dial: %s complete", url)
 
 	// send the encoded GMMessage - successful write is enough validation
 	_, err = ws.Write(raw)
 	if err != nil {
-		log.Println("gm.TxGMMessage() ws.Write error - got:", err)
+		lw.ErrorWithPrefixString("gm.TxGMMessage() ws.Write error - got:", err)
 		return err
 	}
 	return nil

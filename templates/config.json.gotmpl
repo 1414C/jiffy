@@ -18,6 +18,25 @@
 		"password":   "gogogo123",
 		"name":       "glrestgen"
     },
+    "logging": {
+        "active": true,
+        "callLocation": true,
+        "colorMsgTypes": true,
+        {{if .GetIsProd -}}
+        "infoMsgs": false,
+        {{else -}}
+        "infoMsgs": true,
+        {{end -}}
+        "warningMsgs": true,
+        "errorMsgs": true,
+        {{if .GetIsProd -}}
+        "debugMsgs": false,
+        "traceMsgs": false
+        {{else -}}
+        "debugMsgs": true,
+        "traceMsgs": true
+        {{end -}}
+    },
     {{if .GetIsProd -}}
     "cert_file": "mycert1.cer",
     "key_file": "mycert1.key",

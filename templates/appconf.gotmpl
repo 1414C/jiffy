@@ -3,8 +3,9 @@ package appobj
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"os"
+
+	"github.com/1414C/lw"
 )
 
 // DBConfig type hold pg config info
@@ -15,6 +16,18 @@ type DBConfig struct {
 	Usr      string  `json:"Usr"`
 	Password  string `json:"Password"`
 	Name      string `json:"name"`
+}
+
+// LogConfig holds logging config info
+type LogConfig struct {
+	Active        bool `json:"active"`
+	CallLocation  bool `json:"callLocation"`
+	ColorMsgTypes bool `json:"colorMsgTypes"`
+	InfoMsgs      bool `json:"infoMsgs"`
+	WarningMsgs   bool `json:"warningMsgs"`
+	ErrorMsgs     bool `json:"errorMsgs"`
+	DebugMsgs     bool `json:"debugMsgs"`
+	TraceMsgs     bool `json:"traceMsgs"`
 }
 
 // ServiceActivation struct
@@ -73,6 +86,20 @@ func DefaultDBConfig() DBConfig {
 	}
 }
 
+// DefaultLogConfig provides a default logging
+// configuration defaulted to active.
+func DefaultLogConfig() LogConfig {
+	return LogConfig{
+		Active:        true,
+		ColorMsgTypes: true,
+		InfoMsgs:      true,
+		WarningMsgs:   true,
+		ErrorMsgs:     true,
+		DebugMsgs:     true,
+		TraceMsgs:     true,
+	}
+}
+
 // Config isProd := false
 // likely don't need ther private-keys beyond what you use in Login() to 
 // generate the jwt-token in cases where the access token was not created
@@ -85,6 +112,7 @@ type Config struct {
 	FailureThreshold    uint64              `json:"failure_threshold"`
 	Pepper         		string         		`json:"pepper"`
 	Database       		DBConfig       		`json:"database"`
+	Logging             LogConfig           `json:"logging"`
 	CertFile       		string         		`json:"cert_file"`
 	KeyFile        		string         		`json:"key_file"`
 	RSA256PrivKeyFile   string              `json:"rsa256_priv_key_file"`
@@ -143,6 +171,7 @@ func DefaultConfig() Config {
 		FailureThreshold:       {{.FailureThreshold}},
 		Pepper:         		"{{.Pepper}}",
 		Database:       		DefaultDBConfig(),
+		Logging:                DefaultLogConfig(),
 		CertFile:       		"{{.CertFile}}",    // https
 		KeyFile:        		"{{.KeyFile}}",     // https
 		RSA256PrivKeyFile:   	"",
@@ -159,7 +188,7 @@ func DefaultConfig() Config {
 		ECDSA521PubKeyFile:  	"",
 		JWTSignMethod:          "{{.JWTSignMethod}}",
 		JWTLifetime:            {{.JWTLifetime}},
-		ServiceActivations: DefaultServiceActivations(),
+		ServiceActivations: 	DefaultServiceActivations(),
 	}
 }
 
@@ -181,7 +210,7 @@ func LoadConfig(configReq RunMode) Config {
 		if configReq != cDef {
 			panic(err)
 		}
-		fmt.Println("using the default config...")
+		lw.Console("using the default config...")
 		return DefaultConfig()
 	}
 	var c Config
@@ -190,7 +219,7 @@ func LoadConfig(configReq RunMode) Config {
 	if err != nil {
 		panic(err)
 	}
-	log.Println("successfully loaded the config file...")
-	log.Println("config:", c)
+	lw.Console("successfully loaded the config file...")
+	// log.Println("config:", c)
 	return c
 }

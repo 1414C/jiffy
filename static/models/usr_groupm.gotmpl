@@ -6,9 +6,9 @@ package models
 
 import (
 	"fmt"
-	"log"
     
 	"github.com/1414C/sqac"
+	"github.com/1414C/lw"
 )
 
 // UsrGroup structure
@@ -114,7 +114,6 @@ func (uv *usrgroupValidator) Create(usrgroup *UsrGroup) error {
 	if err != nil {
 		return err
 	}
-
 	return uv.UsrGroupDB.Create(usrgroup)
 }
 
@@ -135,7 +134,6 @@ func (uv *usrgroupValidator) Update(usrgroup *UsrGroup) error {
 	if err != nil {
 		return err
 	}
-
 	return uv.UsrGroupDB.Update(usrgroup)
 }
 
@@ -240,7 +238,7 @@ func (us *usrgroupSqac) GetUsrGroups() []UsrGroup {
 
 	err := us.handle.GetEntities2(&getEnts)
 	if err != nil {
-		log.Println(err)
+		lw.Warning("GetUsrGroups got: %s", err.Error())
 		return getEnts.ents
 	}
 	return getEnts.ents
@@ -267,7 +265,7 @@ func (ge *UsrGroupGetEntitiesT) Exec(sqh sqac.PublicDB) error {
 	// read the table rows
 	rows, err := sqh.ExecuteQueryx(selQuery)
 	if err != nil {
-		log.Printf("GetEntities2 for table usrgroup returned error: %v\n", err.Error())
+		lw.Warning("GetEntities2 for table usrgroup returned error: %s", err.Error())
 		return err
 	}
 	defer rows.Close()
@@ -276,13 +274,13 @@ func (ge *UsrGroupGetEntitiesT) Exec(sqh sqac.PublicDB) error {
 		var ent UsrGroup
 		err = rows.StructScan(&ent)
 		if err != nil {
-			fmt.Printf("error reading rows: %v\n", err)
+			lw.ErrorWithPrefixString("error reading UsrGroup rows via StructScan:", err)
 			return err
 		}
 		ge.ents = append(ge.ents, ent)
 	}
 	if sqh.IsLog() {
-		fmt.Println("UsrGroupGetEntitiesT.Exec() got:", ge.ents)
+		lw.Info("UsrGroupGetEntitiesT.Exec() got:", ge.ents)
 	}
 	return nil
 }
@@ -344,12 +342,12 @@ func (us *usrgroupSqac) GetUsrGroupsByGroupName(op string, GroupName string) []U
 	qs := fmt.Sprintf("SELECT * FROM usrgroup WHERE %s;", c)
 	err := us.handle.Select(&usrgroups, qs, GroupName)
 	if err != nil {
-		log.Println("GetUsrGroupsByGroupName:", err)
+		lw.Warning("GetUsrGroupsByGroupName got: %s", err.Error())
 		return nil
 	}
 
 	if us.handle.IsLog() {
-		log.Printf("GetUsrGroupsByGroupName found: %v based on (%s %v)\n", usrgroups, op, GroupName)
+		lw.Info("GetUsrGroupsByGroupName found: %v based on (%s %v)", usrgroups, op, GroupName)
 	}
 	return usrgroups
 }
@@ -371,12 +369,12 @@ func (us *usrgroupSqac) GetUsrGroupsByDescription(op string, Description string)
 	qs := fmt.Sprintf("SELECT * FROM usrgroup WHERE %s;", c)
 	err := us.handle.Select(&usrgroups, qs, Description)
 	if err != nil {
-		log.Println("GetUsrGroupsByDescription:", err)
+		lw.Warning("GetUsrGroupsByDescription got: %s", err.Error())
 		return nil
 	}
 
 	if us.handle.IsLog() {
-		log.Printf("GetUsrGroupsByDescription found: %v based on (%s %v)\n", usrgroups, op, Description)
+		lw.Info("GetUsrGroupsByDescription found: %v based on (%s %v)", usrgroups, op, Description)
 	}
 	return usrgroups
 }

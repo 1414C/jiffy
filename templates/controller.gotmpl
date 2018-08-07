@@ -7,7 +7,6 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 
@@ -16,6 +15,7 @@ import (
 	{{end -}}
 	"{{.AppPath}}/models"
 	"github.com/1414C/sqac/common"
+	"github.com/1414C/lw"
 	"github.com/gorilla/mux"
 )
 
@@ -57,7 +57,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Create(w http.ResponseWriter, r *h
 	// TODO: safe to comment this block out if the extension-point is not needed
 	err = {{$pref}}c.ep.CrtEp.BeforeFirst(w, r)
 	if err != nil {
-		log.Println("{{.Header.Name}}Controller CreateBeforeFirst() error:", err)
+		lw.ErrorWithPrefixString("{{.Header.Name}}Controller CreateBeforeFirst() error:", err)
 		respondWithError(w, http.StatusBadRequest, "{{.Header.Value}}c: Invalid request")
 		return
 	}
@@ -66,7 +66,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Create(w http.ResponseWriter, r *h
 	
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&{{$pref}}m); err != nil {
-		log.Println("{{.Header.Name}} Create:",err)
+		lw.ErrorWithPrefixString("{{.Header.Name}} Create:",err)
 		respondWithError(w, http.StatusBadRequest, "{{.Header.Value}}c: Invalid request payload")
 		return
 	}
@@ -77,7 +77,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Create(w http.ResponseWriter, r *h
 	// TODO: safe to comment this block out if the extension-point is not needed
 	err = {{$pref}}c.ep.CrtEp.AfterBodyDecode(&{{$pref}}m)
 	if err != nil {
-		log.Println("{{.Header.Name}}Controller CreateAfterBodyDecode() error:", err)
+		lw.ErrorWithPrefixString("{{.Header.Name}}Controller CreateAfterBodyDecode() error:", err)
 		respondWithError(w, http.StatusBadRequest, "{{.Header.Value}}c: Invalid request payload")
 		return
 	}
@@ -97,7 +97,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Create(w http.ResponseWriter, r *h
 	// call the Create method on the {{.Header.Value}} model
 	err = {{$pref}}c.{{$pref}}s.Create(&{{.Header.Value}})
 	if err != nil {
-		log.Println("{{.Header.Name}} Create:",err)
+		lw.ErrorWithPrefixString("{{.Header.Name}} Create:",err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -108,7 +108,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Create(w http.ResponseWriter, r *h
 	// TODO: safe to comment this block out if the extension-point is not needed
 	err = {{$pref}}c.ep.CrtEp.BeforeResponse(&{{.Header.Value}})
 	if err != nil {
-		log.Println("{{.Header.Name}}Controller CreateBeforeResponse() error:", err)
+		lw.ErrorWithPrefixString("{{.Header.Name}}Controller CreateBeforeResponse() error:", err)
 		respondWithError(w, http.StatusBadRequest, "{{.Header.Value}}c: Invalid request")
 		return
 	}
@@ -131,7 +131,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Update(w http.ResponseWriter, r *h
 	// TODO: safe to comment this block out if the extension-point is not needed
 	err = {{$pref}}c.ep.UpdEp.BeforeFirst(w, r)
 	if err != nil {
-		log.Println("{{.Header.Name}}Controller UpdateBeforeFirst() error:", err)
+		lw.ErrorWithPrefixString("{{.Header.Name}}Controller UpdateBeforeFirst() error:", err)
 		respondWithError(w, http.StatusBadRequest, "{{.Header.Value}}c: Invalid request")
 		return
 	}
@@ -142,14 +142,14 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Update(w http.ResponseWriter, r *h
 	vars := mux.Vars(r)
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
-		log.Println("{{.Header.Name}} Update:",err)
+		lw.ErrorWithPrefixString("{{.Header.Name}} Update:",err)
 		respondWithError(w, http.StatusBadRequest, "Invalid {{.Header.Value}} id")
 		return
 	}
 
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&{{$pref}}m); err != nil {
-		log.Println("{{.Header.Name}} Update:",err)				
+		lw.ErrorWithPrefixString("{{.Header.Name}} Update:",err)				
 		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
@@ -160,7 +160,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Update(w http.ResponseWriter, r *h
 	// TODO: safe to comment this block out if the extension-point is not needed
 	err = {{$pref}}c.ep.UpdEp.AfterBodyDecode(&{{$pref}}m)
 	if err != nil {
-		log.Println("{{.Header.Name}}Controller UpdateAfterBodyDecode() error:", err)
+		lw.ErrorWithPrefixString("{{.Header.Name}}Controller UpdateAfterBodyDecode() error:", err)
 		respondWithError(w, http.StatusBadRequest, "{{.Header.Value}}c: Invalid request payload")
 		return
 	}
@@ -183,7 +183,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Update(w http.ResponseWriter, r *h
 	// call the update method on the model
 	err = {{$pref}}c.{{$pref}}s.Update(&{{.Header.Value}})
 	if err != nil {
-		log.Println("{{.Header.Name}} Update:",err)
+		lw.ErrorWithPrefixString("{{.Header.Name}} Update:",err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -194,7 +194,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Update(w http.ResponseWriter, r *h
 	// TODO: safe to comment this block out if the extension-point is not needed
 	err = {{$pref}}c.ep.UpdEp.BeforeResponse(&{{.Header.Value}})
 	if err != nil {
-		log.Println("{{.Header.Name}}Controller UpdateBeforeResponse() error:", err)
+		lw.ErrorWithPrefixString("{{.Header.Name}}Controller UpdateBeforeResponse() error:", err)
 		respondWithError(w, http.StatusBadRequest, "{{.Header.Value}}c: Invalid request")
 		return
 	}
@@ -216,7 +216,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Get(w http.ResponseWriter, r *http
 	// TODO: safe to comment this block out if the extension-point is not needed
 	err = {{$pref}}c.ep.GetEp.BeforeFirst(w, r)
 	if err != nil {
-		log.Println("{{.Header.Name}}Controller GetBeforeFirst() error:", err)
+		lw.Warning("{{.Header.Name}}Controller GetBeforeFirst() error: %s", err.Error())
 		respondWithError(w, http.StatusBadRequest, "{{.Header.Value}}c: Invalid request")
 		return
 	}
@@ -226,7 +226,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Get(w http.ResponseWriter, r *http
 	vars := mux.Vars(r)
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
-		log.Println("{{.Header.Name}} Get:",err)
+		lw.Warning("{{.Header.Name}} Get: %s", err.Error())
 		respondWithError(w, http.StatusBadRequest, "Invalid {{.Header.Value}} ID")
 		return
 	}
@@ -243,7 +243,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Get(w http.ResponseWriter, r *http
 	// TODO: safe to comment this block out if the extension-point is not needed
 	err = {{$pref}}c.ep.GetEp.BeforeModelCall(&{{.Header.Value}})
 	if err != nil {
-		log.Println("{{.Header.Name}}Controller GetBeforeModelCall() error:", err)
+		lw.Warning("{{.Header.Name}}Controller GetBeforeModelCall() error: %s", err.Error())
 		respondWithError(w, http.StatusBadRequest, "{{.Header.Value}}c: Invalid request")
 		return
 	}
@@ -252,7 +252,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Get(w http.ResponseWriter, r *http
 
 	err = {{$pref}}c.{{$pref}}s.Get(&{{.Header.Value}})
 	if err != nil {
-		log.Println(err)
+		lw.Warning(err.Error())
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -263,7 +263,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Get(w http.ResponseWriter, r *http
 	// TODO: safe to comment this block out if the extension-point is not needed
 	err = {{$pref}}c.ep.GetEp.BeforeResponse(&{{.Header.Value}})
 	if err != nil {
-		log.Println("{{.Header.Name}}Controller GetBeforeResponse() error:", err)
+		lw.Warning("{{.Header.Name}}Controller GetBeforeResponse() error: %s", err.Error())
 		respondWithError(w, http.StatusBadRequest, "{{.Header.Value}}c: Invalid request")
 		return
 	}
@@ -281,7 +281,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Delete(w http.ResponseWriter, r *h
 	vars := mux.Vars(r)
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
-		log.Println("{{.Header.Name}} Delete:",err)
+		lw.ErrorWithPrefixString("{{.Header.Name}} Delete:", err)
 		respondWithError(w, http.StatusBadRequest, "Invalid {{.Header.Name}} ID")
 		return
 	}
@@ -291,8 +291,8 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Delete(w http.ResponseWriter, r *h
 	}
 
 	err = {{$pref}}c.{{$pref}}s.Delete(&{{.Header.Value}})
-	if err != nil {
-		log.Println("{{.Header.Name}} Delete:",err)
+	if err != nil { 
+		lw.ErrorWithPrefixString("{{.Header.Name}} Delete:", err)
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}

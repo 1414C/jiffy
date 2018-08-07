@@ -6,9 +6,9 @@ package models
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/1414C/sqac"
+	"github.com/1414C/lw"
 )
 
 // GroupAuth structure
@@ -121,7 +121,6 @@ func (gv *groupauthValidator) Create(groupauth *GroupAuth) error {
 	if err != nil {
 		return err
 	}
-
 	return gv.GroupAuthDB.Create(groupauth)
 }
 
@@ -142,7 +141,6 @@ func (gv *groupauthValidator) Update(groupauth *GroupAuth) error {
 	if err != nil {
 		return err
 	}
-
 	return gv.GroupAuthDB.Update(groupauth)
 }
 
@@ -257,7 +255,7 @@ func (gs *groupauthSqac) Get(groupauth *GroupAuth) error {
 	// read the table row - can only be one due to db key contraint
 	rows, err := gs.handle.ExecuteQueryx(qs, groupauth.ID)
 	if err != nil {
-		log.Printf("Get for table groupauth returned error: %v\n", err.Error())
+		lw.Warning("Get for table groupauth returned error: %v", err.Error())
 		return err
 	}
 	defer rows.Close()
@@ -265,13 +263,13 @@ func (gs *groupauthSqac) Get(groupauth *GroupAuth) error {
 	for rows.Next() {
 		err = rows.StructScan(groupauth)
 		if err != nil {
-			fmt.Printf("error reading rows: %v\n", err)
+			lw.ErrorWithPrefixString("error reading GroupAuth rows via StructScan:", err)
 			return err
 		}
 	}
 
 	if gs.handle.IsLog() {
-		fmt.Println("Get for table groupauth got:", groupauth)
+		lw.Info("Get for table groupauth got: %v", groupauth)
 	}
 
 	if groupauth.GroupID == 0 || groupauth.AuthID == 0 {
@@ -293,7 +291,7 @@ func (gs *groupauthSqac) GetGroupAuths() []GroupAuth {
 	// read the table row - can only be one due to db key contraint
 	rows, err := gs.handle.ExecuteQueryx(qs)
 	if err != nil {
-		log.Printf("Get for table groupauth returned error: %v\n", err.Error())
+		lw.ErrorWithPrefixString("Get for table groupauth returned error: ", err)
 		return nil
 	}
 	defer rows.Close()
@@ -301,14 +299,14 @@ func (gs *groupauthSqac) GetGroupAuths() []GroupAuth {
 	for rows.Next() {
 		err = rows.StructScan(&groupauth)
 		if err != nil {
-			fmt.Printf("error reading rows: %v\n", err)
+			lw.ErrorWithPrefixString("error reading GroupAuth rows via StructScan: ", err)
 			return nil
 		}
 		groupauths = append(groupauths, groupauth)
 	}
 
 	if gs.handle.IsLog() {
-		fmt.Println("Get for table groupauth got:", groupauths)
+		lw.Info("Get for table groupauth got: %v", groupauths)
 	}
 	return groupauths
 }
@@ -336,7 +334,7 @@ func (ge *GroupAuthGetEntitiesT) Exec(sqh sqac.PublicDB) error {
 	// read the table rows
 	rows, err := sqh.ExecuteQueryx(selQuery)
 	if err != nil {
-		log.Printf("GetAuthEntitiesT for table groupauth returned error: %v\n", err.Error())
+		lw.Warning("GetAuthEntitiesT for table groupauth returned error: %s", err.Error())
 		return err
 	}
 	defer rows.Close()
@@ -345,13 +343,13 @@ func (ge *GroupAuthGetEntitiesT) Exec(sqh sqac.PublicDB) error {
 		var ent GroupAuth
 		err = rows.StructScan(&ent)
 		if err != nil {
-			fmt.Printf("error reading rows: %v\n", err)
+			lw.ErrorWithPrefixString("error reading GroupAuth rows via StructScan: ", err)
 			return err
 		}
 		ge.ents = append(ge.ents, ent)
 	}
 	if sqh.IsLog() {
-		fmt.Println("GroupAuthGetEntitiesT.Exec() got:", ge.ents)
+		lw.Info("GroupAuthGetEntitiesT.Exec() got: %v", ge.ents)
 	}
 	return nil
 }
@@ -416,12 +414,12 @@ func (gs *groupauthSqac) GetGroupAuthsByAuthName(op string, AuthName string) []G
 
 	err := gs.handle.Select(&groupauths, qs, AuthName)
 	if err != nil {
-		log.Println("GetGroupAuthsByAuthName:", err)
+		lw.Warning("GetGroupAuthsByAuthName got: %s", err.Error())
 		return nil
 	}
 
 	if gs.handle.IsLog() {
-		log.Printf("GetGroupAuthsByAuthName found: %v based on (%s %v)\n", groupauths, op, AuthName)
+		lw.Info("GetGroupAuthsByAuthName found: %v based on (%s %v)", groupauths, op, AuthName)
 	}
 	return groupauths
 }
@@ -447,12 +445,12 @@ func (gs *groupauthSqac) GetGroupAuthsByDescription(op string, Description strin
 
 	err := gs.handle.Select(&groupauths, qs, Description)
 	if err != nil {
-		log.Println("GetGroupAuthsByDescription:", err)
+		lw.Warning("GetGroupAuthsByDescription got: %s", err.Error())
 		return nil
 	}
 
 	if gs.handle.IsLog() {
-		log.Printf("GetGroupAuthsByDescription found: %v based on (%s %v)\n", groupauths, op, Description)
+		lw.Info("GetGroupAuthsByDescription found: %v based on (%s %v)", groupauths, op, Description)
 	}
 	return groupauths
 }
@@ -480,12 +478,12 @@ func (gs *groupauthSqac) GetGroupAuthsByGroupID(op string, GroupID string) []Gro
 
 	err := gs.handle.Select(&groupauths, qs, GroupID)
 	if err != nil {
-		log.Println("GetGroupAuthsByGroupID:", err)
+		lw.Warning("GetGroupAuthsByGroupID got: %s", err.Error())
 		return nil
 	}
 
 	if gs.handle.IsLog() {
-		log.Printf("GetGroupAuthsByGroupID found: %v based on (%s %v)\n", groupauths, op, GroupID)
+		lw.Info("GetGroupAuthsByGroupID found: %v based on (%s %v)", groupauths, op, GroupID)
 	}
 	return groupauths
 }
@@ -508,7 +506,7 @@ func (gs *groupauthSqac) CreateGroupAuthDirect(GroupID, AuthID uint64) error {
 	// call the Create method on the groupauth model
 	err := gs.Create(&groupauth)
 	if err != nil {
-		log.Println("Group Auth Create:", err)
+		lw.ErrorWithPrefixString("GroupAuth Create got:", err)
 		return err
 	}
 	return nil

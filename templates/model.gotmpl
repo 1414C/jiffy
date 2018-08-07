@@ -6,9 +6,9 @@ package models
 
 import (
 	"fmt"
-	"log"
 	"github.com/1414C/sqac"
 	"github.com/1414C/sqac/common"
+	"github.com/1414C/lw"
 )
 
 {{/*  Entity struct fields for use inside pipelines */}}
@@ -147,7 +147,6 @@ func ({{$pref}}v *{{.Header.Value}}Validator) Create({{.Header.Value}} *{{.Heade
 	if err != nil {
 		return err
 	}
-
 	return {{$pref}}v.{{.Header.Name}}DB.Create({{.Header.Value}})
 }
 
@@ -170,7 +169,6 @@ func ({{$pref}}v *{{.Header.Value}}Validator) Update({{.Header.Value}} *{{.Heade
 	if err != nil {
 		return err
 	}
-
 	return {{$pref}}v.{{.Header.Name}}DB.Update({{.Header.Value}})
 }
 
@@ -335,7 +333,7 @@ func ({{$pref}}s *{{.Header.Value}}Sqac) Get{{.Header.Name}}s(params []common.Ge
 	// call the ORM
 	result, err := {{$pref}}s.handle.GetEntitiesWithCommands({{.Header.Value}}s, params, cmdMap)
 	if err != nil {
-		log.Println("{{.Header.Name}}Model Get{{.Header.Name}}s() error:", err)
+		lw.Warning("{{.Header.Name}}Model Get{{.Header.Name}}s() error: %s", err.Error())
 		return nil, 0
 	}
 
@@ -349,7 +347,7 @@ func ({{$pref}}s *{{.Header.Value}}Sqac) Get{{.Header.Name}}s(params []common.Ge
 		for i := range {{.Header.Value}}s {
 			err = {{$pref}}s.ep.GetEp.AfterDB(&{{.Header.Value}}s[i])
 			if err != nil {
-				log.Println("{{.Header.Name}}Model Get{{.Header.Name}}s AfterDB() error:", err)
+				lw.Warning("{{.Header.Name}}Model Get{{.Header.Name}}s AfterDB() error: %s", err.Error())
 			}
 		}
 		{{end -}}
@@ -445,12 +443,12 @@ func ({{$pref}}s *{{.Header.Value}}Sqac) Get{{.Header.Name}}s(params []common.Ge
 		qs := fmt.Sprintf("SELECT * FROM {{$headerValue}} WHERE %s;",c)
 		err := {{$pref}}s.handle.Select(&{{$headerValue}}s, qs, {{.Name}})
 		if err != nil {
-			log.Println("Get{{$headerName}}sBy{{.Name}}:", err)
+			lw.Warning("Get{{$headerName}}sBy{{.Name}} got: %s", err.Error())
 			return nil
 		}
 
 		if {{$pref}}s.handle.IsLog() {
-			log.Printf("Get{{$headerName}}sBy{{.Name}} found: %v based on (%s %v)\n", {{$headerValue}}s, op, {{.Name}})
+			lw.Info("Get{{$headerName}}sBy{{.Name}} found: %v based on (%s %v)", {{$headerValue}}s, op, {{.Name}})
 		}
 
         {{if $headerGenModelExt -}}
@@ -458,7 +456,7 @@ func ({{$pref}}s *{{.Header.Value}}Sqac) Get{{.Header.Name}}s(params []common.Ge
 		for i := range {{$headerValue}}s {
 	  		err = {{$pref}}s.ep.GetEp.AfterDB(&{{$headerValue}}s[i])
 	  		if err != nil {
-	    		log.Println("{{$headerName}}Model Get{{$headerValue}}s AfterDB() error:", err)
+	    		lw.Warning("{{$headerName}}Model Get{{$headerValue}}s AfterDB() error: %s", err.Error())
 	  		}
 		}
 		{{end -}}

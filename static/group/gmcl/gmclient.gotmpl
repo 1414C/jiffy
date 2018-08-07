@@ -10,8 +10,9 @@ import (
 	"encoding/gob"
 	"{{.AppPath}}/group/gmcom"
 	"fmt"
-	"log"
 	"golang.org/x/net/websocket"
+
+	"github.com/1414C/lw"
 )
 
 // Cache access errors
@@ -69,7 +70,7 @@ func AddUpdUsrCache(u gmcom.ActUsrD, address string) error {
 	encBuf := new(bytes.Buffer)
 	err := gob.NewEncoder(encBuf).Encode(u)
 	if err != nil {
-		log.Println("failed to gob-encode Usr - got:", err)
+		lw.ErrorWithPrefixString("failed to gob-encode Usr - got:", err)
 		return err
 	}
 	encUsr := encBuf.Bytes()
@@ -79,7 +80,7 @@ func AddUpdUsrCache(u gmcom.ActUsrD, address string) error {
 	url := "ws://" + address + "/updateusrcache"
 	ws, err := websocket.Dial(url, "", origin)
 	if err != nil {
-		log.Println("AddUpdUsrCache() ws connection failed - got:", err)
+		lw.ErrorWithPrefixString("AddUpdUsrCache() ws connection failed - got:", err)
 		return err
 	}
 	defer ws.Close()
@@ -87,7 +88,7 @@ func AddUpdUsrCache(u gmcom.ActUsrD, address string) error {
 	// push the encoded (reduced) Usr
 	_, err = ws.Write(encUsr)
 	if err != nil {
-		log.Println("AddUpdUsrCache() ws.Write error - got:", err)
+		lw.ErrorWithPrefixString("AddUpdUsrCache() ws.Write error - got:", err)
 		return err
 	}
 
@@ -96,7 +97,7 @@ func AddUpdUsrCache(u gmcom.ActUsrD, address string) error {
 	// single read from the ws is okay here
 	n, err := ws.Read(msg)
 	if err != nil {
-		log.Println("AddUpdUsrCache() ws.Read error - got:", err)
+		lw.ErrorWithPrefixString("AddUpdUsrCache() ws.Read error - got:", err)
 		return err
 	}
 
@@ -104,7 +105,9 @@ func AddUpdUsrCache(u gmcom.ActUsrD, address string) error {
 	if string(msg[:n]) == "true" {
 		// cw <- na
 	} else {
-		return fmt.Errorf("AddUpdUsrCache() appeared to fail - got %v(raw),%v(string)", msg[:n], string(msg[:n]))
+		e := fmt.Errorf("AddUpdUsrCache() appeared to fail - got %v(raw),%v(string)", msg[:n], string(msg[:n]))
+		lw.Error(e)
+		return e
 	}
 	return nil
 }
@@ -119,7 +122,7 @@ func AddUpdGroupAuthCache(g gmcom.GroupAuthD, address string) error {
 	encBuf := new(bytes.Buffer)
 	err := gob.NewEncoder(encBuf).Encode(g)
 	if err != nil {
-		log.Println("failed to gob-encode GroupAuth - got:", err)
+		lw.ErrorWithPrefixString("failed to gob-encode GroupAuth - got:", err)
 		return err
 	}
 	encGA := encBuf.Bytes()
@@ -129,7 +132,7 @@ func AddUpdGroupAuthCache(g gmcom.GroupAuthD, address string) error {
 	url := "ws://" + address + "/updategroupauthcache"
 	ws, err := websocket.Dial(url, "", origin)
 	if err != nil {
-		log.Println("AddUpdGroupAuthCache() ws connection failed - got:", err)
+		lw.ErrorWithPrefixString("AddUpdGroupAuthCache() ws connection failed - got:", err)
 		return err
 	}
 	defer ws.Close()
@@ -137,7 +140,7 @@ func AddUpdGroupAuthCache(g gmcom.GroupAuthD, address string) error {
 	// push the encoded (reduced) GroupAuth
 	_, err = ws.Write(encGA)
 	if err != nil {
-		log.Println("AddUpdGroupAuthCache() ws.Write error - got:", err)
+		lw.ErrorWithPrefixString("AddUpdGroupAuthCache() ws.Write error - got:", err)
 		return err
 	}
 
@@ -146,7 +149,7 @@ func AddUpdGroupAuthCache(g gmcom.GroupAuthD, address string) error {
 	// single read from the ws is okay here
 	n, err := ws.Read(msg)
 	if err != nil {
-		log.Println("AddUpdGroupAuthCache() ws.Read error - got:", err)
+		lw.ErrorWithPrefixString("AddUpdGroupAuthCache() ws.Read error - got:", err)
 		return err
 	}
 
@@ -154,7 +157,9 @@ func AddUpdGroupAuthCache(g gmcom.GroupAuthD, address string) error {
 	if string(msg[:n]) == "true" {
 		// cw <- na
 	} else {
-		return fmt.Errorf("AddUpdGroupAuthCache() appeared to fail - got %v(raw),%v(string)", msg[:n], string(msg[:n]))
+		e := fmt.Errorf("AddUpdGroupAuthCache() appeared to fail - got %v(raw),%v(string)", msg[:n], string(msg[:n]))
+		lw.Error(e)
+		return e
 	}
 	return nil
 }
@@ -168,7 +173,7 @@ func AddUpdAuthCache(a gmcom.AuthD, address string) error {
 	encBuf := new(bytes.Buffer)
 	err := gob.NewEncoder(encBuf).Encode(a)
 	if err != nil {
-		log.Println("failed to gob-encode Usr - got:", err)
+		lw.ErrorWithPrefixString("failed to gob-encode Usr - got:", err)
 		return err
 	}
 	encAuth := encBuf.Bytes()
@@ -178,7 +183,7 @@ func AddUpdAuthCache(a gmcom.AuthD, address string) error {
 	url := "ws://" + address + "/updateauthcache"
 	ws, err := websocket.Dial(url, "", origin)
 	if err != nil {
-		log.Println("AddUpdAuthCache() ws connection failed - got:", err)
+		lw.ErrorWithPrefixString("AddUpdAuthCache() ws connection failed - got:", err)
 		return err
 	}
 	defer ws.Close()
@@ -186,7 +191,7 @@ func AddUpdAuthCache(a gmcom.AuthD, address string) error {
 	// push the encoded Auth
 	_, err = ws.Write(encAuth)
 	if err != nil {
-		log.Println("AddUpdAuthCache() ws.Write error - got:", err)
+		lw.ErrorWithPrefixString("AddUpdAuthCache() ws.Write error - got:", err)
 		return err
 	}
 
@@ -195,7 +200,7 @@ func AddUpdAuthCache(a gmcom.AuthD, address string) error {
 	// single read from the ws is okay here
 	n, err := ws.Read(msg)
 	if err != nil {
-		log.Println("AddUpdAuthCache() ws.Read error - got:", err)
+		lw.ErrorWithPrefixString("AddUpdAuthCache() ws.Read error - got:", err)
 		return err
 	}
 
@@ -203,7 +208,9 @@ func AddUpdAuthCache(a gmcom.AuthD, address string) error {
 	if string(msg[:n]) == "true" {
 		// cw <- na
 	} else {
-		return fmt.Errorf("AddUpdAuthCache() appeared to fail - got %v(raw),%v(string)", msg[:n], string(msg[:n]))
+		e := fmt.Errorf("AddUpdAuthCache() appeared to fail - got %v(raw),%v(string)", msg[:n], string(msg[:n]))
+		lw.Error(e)
+		return e
 	}
 	return nil
 }
@@ -217,7 +224,7 @@ func AddUpdUsrGroupCache(a gmcom.UsrGroupD, address string) error {
 	encBuf := new(bytes.Buffer)
 	err := gob.NewEncoder(encBuf).Encode(a)
 	if err != nil {
-		log.Println("failed to gob-encode Usr - got:", err)
+		lw.ErrorWithPrefixString("failed to gob-encode Usr - got:", err)
 		return err
 	}
 	encAuth := encBuf.Bytes()
@@ -227,7 +234,7 @@ func AddUpdUsrGroupCache(a gmcom.UsrGroupD, address string) error {
 	url := "ws://" + address + "/updateusrgroupcache"
 	ws, err := websocket.Dial(url, "", origin)
 	if err != nil {
-		log.Println("AddUpdUsrGroupCache() ws connection failed - got:", err)
+		lw.ErrorWithPrefixString("AddUpdUsrGroupCache() ws connection failed - got:", err)
 		return err
 	}
 	defer ws.Close()
@@ -235,7 +242,7 @@ func AddUpdUsrGroupCache(a gmcom.UsrGroupD, address string) error {
 	// push the encoded UsrGroup
 	_, err = ws.Write(encAuth)
 	if err != nil {
-		log.Println("AddUpdUsrGroupdCache() ws.Write error - got:", err)
+		lw.ErrorWithPrefixString("AddUpdUsrGroupdCache() ws.Write error - got:", err)
 		return err
 	}
 
@@ -244,7 +251,7 @@ func AddUpdUsrGroupCache(a gmcom.UsrGroupD, address string) error {
 	// single read from the ws is okay here
 	n, err := ws.Read(msg)
 	if err != nil {
-		log.Println("AddUpdUsrGroupCache() ws.Read error - got:", err)
+		lw.ErrorWithPrefixString("AddUpdUsrGroupCache() ws.Read error - got:", err)
 		return err
 	}
 
@@ -252,7 +259,9 @@ func AddUpdUsrGroupCache(a gmcom.UsrGroupD, address string) error {
 	if string(msg[:n]) == "true" {
 		// cw <- na
 	} else {
-		return fmt.Errorf("AddUpdUsrGroupCache() appeared to fail - got %v(raw),%v(string)", msg[:n], string(msg[:n]))
+		e := fmt.Errorf("AddUpdUsrGroupCache() appeared to fail - got %v(raw),%v(string)", msg[:n], string(msg[:n]))
+		lw.Error(e)
+		return e
 	}
 	return nil
 }
