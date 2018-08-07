@@ -81,12 +81,12 @@ func (uc *UsrController) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// groups
-	lw.Console("Login()->user groups: %v", *authenticatedUsr.Groups)
+	lw.Info("Login()->user groups: %v", *authenticatedUsr.Groups)
 
 	var tokenString string
 	var httpStatus int
 
-	lw.Console("AUTHENTICATED USR: %v", authenticatedUsr)
+	lw.Info("AUTHENTICATED USR: %v", authenticatedUsr)
 
 	// prepare claims for the token
 	claims := make(jwt.MapClaims)
