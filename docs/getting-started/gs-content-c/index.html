@@ -13,19 +13,19 @@
     <title>Let&#39;s Build Something :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1531887756" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1531887756" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1531887756" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1531887756" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1531887756" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1531887756" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1531887756" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1531887756" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1533655778" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1533655778" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1533655778" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1533655778" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1533655778" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1533655778" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1533655778" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1533655778" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1531887756" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1533655778" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1531887756"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1533655778"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1531887756"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1531887756"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1533655778"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1533655778"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1531887756"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1533655778"></script>
 
     
   </div>
@@ -1934,28 +1934,51 @@
         &quot;env&quot;: &quot;dev&quot;,
         &quot;pepper&quot;: &quot;secret-pepper-key&quot;,  
         &quot;database&quot;: {
-            &quot;db_dialect&quot;: &quot;sqlite&quot;,
-            &quot;host&quot;:       &quot;127.0.0.1&quot;,
-            &quot;port&quot;:       0,
-            &quot;usr&quot;:        &quot;&quot;,
-            &quot;password&quot;:   &quot;&quot;,
-            &quot;name&quot;:       &quot;testdb.sqlite&quot;
+            &quot;db_dialect&quot;:   &quot;sqlite&quot;,
+            &quot;host&quot;:         &quot;127.0.0.1&quot;,
+            &quot;port&quot;:         0,
+            &quot;usr&quot;:          &quot;&quot;,
+            &quot;password&quot;:     &quot;&quot;,
+            &quot;name&quot;:         &quot;testdb.sqlite&quot;,
+            &quot;ormLogActive&quot;: true
+        },
+        &quot;logging&quot;: {
+            &quot;active&quot;: true,
+            &quot;callLocation&quot;: false,
+            &quot;colorMsgTypes&quot;: true,
+            &quot;infoMsgs&quot;: true,
+            &quot;warningMsgs&quot;: true,
+            &quot;errorMsgs&quot;: true,
+            &quot;debugMsgs&quot;: true,
+            &quot;traceMsgs&quot;: false
         },
         &quot;cert_file&quot;: &quot;&quot;,
         &quot;key_file&quot;: &quot;&quot;,
-        &quot;jwt_priv_key_file&quot;: &quot;jwtkeys/private.pem&quot;,
-        &quot;jwt_pub_key_file&quot;: &quot;jwtkeys/public.pem&quot;,
+        &quot;rsa256_priv_key_file&quot;: &quot;&quot;,
+        &quot;rsa256_pub_key_file&quot;: &quot;&quot;,
+        &quot;rsa384_priv_key_file&quot;: &quot;&quot;,
+        &quot;rsa384_pub_key_file&quot;: &quot;&quot;,
+        &quot;rsa512_priv_key_file&quot;: &quot;&quot;,
+        &quot;rsa512_pub_key_file&quot;: &quot;&quot;,
+        &quot;ecdsa256_priv_key_file&quot;: &quot;&quot;,
+        &quot;ecdsa256_pub_key_file&quot;: &quot;&quot;,
+        &quot;ecdsa384_priv_key_file&quot;: &quot;jwtkeys/ecdsa384/ec384.priv.pem&quot;,
+        &quot;ecdsa384_pub_key_file&quot;: &quot;jwtkeys/ecdsa384/ec384.pub.pem&quot;,
+        &quot;ecdsa521_priv_key_file&quot;: &quot;&quot;,
+        &quot;ecdsa521_pub_key_file&quot;: &quot;&quot;,
+        &quot;jwt_sign_method&quot;: &quot;ES384&quot;,
+        &quot;jwt_lifetime&quot;: 120,
         &quot;service_activations&quot;: [
             {
                 &quot;service_name&quot;:   &quot;Person&quot;,
                 &quot;service_active&quot;: true
             }
-            ]
+        ]
     }
 
 </code></pre>
 
-<p>Jiffy decides by default to run against a sqlite database and generates what <em>should</em> be a suitable configuration file for most systems.  Again, we are not going to worry too much about what is in the configuration file at this point, but know that database file &lsquo;testdb.sqlite&rsquo; will be created in the generated application&rsquo;s root folder.</p>
+<p>Jiffy decides by default to run against a sqlite database and generates what <em>should</em> be a suitable configuration file for most systems.  Again, we are not going to worry too much about what is in the configuration file at this point, but know that database file &lsquo;testdb.sqlite&rsquo; will be created in the generated application&rsquo;s root folder.  For more information regarding the content of the configuration files see the <a href="/jiffy/usage/us-content-a/">Application Configuration Overview</a> section of this document.</p>
 
 
 <footer class=" footline" >
@@ -3257,20 +3280,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1531887756"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1531887756"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1531887756"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1531887756"></script>
-    <script src="/jiffy/js/featherlight.min.js?1531887756"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1531887756"></script>
-    <script src="/jiffy/js/highlight.pack.js?1531887756"></script>
+    <script src="/jiffy/js/clipboard.min.js?1533655778"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1533655778"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1533655778"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1533655778"></script>
+    <script src="/jiffy/js/featherlight.min.js?1533655778"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1533655778"></script>
+    <script src="/jiffy/js/highlight.pack.js?1533655778"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1531887756"></script>
-    <script src="/jiffy/js/learn.js?1531887756"></script>
-    <script src="/jiffy/js/hugo-learn.js?1531887756"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1533655778"></script>
+    <script src="/jiffy/js/learn.js?1533655778"></script>
+    <script src="/jiffy/js/hugo-learn.js?1533655778"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1531887756" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1531887756"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1533655778" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1533655778"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

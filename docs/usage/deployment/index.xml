@@ -48,7 +48,8 @@ All-In-One Deployment with Docker In a development or test setting it may make s
       <pubDate>Mon, 02 Jul 2018 13:29:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/usage/deployment/us-content-l/</guid>
-      <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts</description>
+      <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts. 
+Deployment on Kubernetes Jiffy applications are designed to run on Kubernetes and fully support the idea of disposable application containers and automated scale-up / scale-down. The best way to learn about deploying Jiffy applications in a Kubernetes cluster is to read through the Jiffy with Kubernetes tutorial.</description>
     </item>
     
   </channel>

@@ -10,12 +10,13 @@ import (
 
 // DBConfig type hold pg config info
 type DBConfig struct {
-	DBDialect string `json:"db_dialect"`
-	Host      string `json:"host"`
-	Port      int    `json:"port"`
-	Usr      string  `json:"Usr"`
-	Password  string `json:"Password"`
-	Name      string `json:"name"`
+	DBDialect string    `json:"db_dialect"`
+	Host      string    `json:"host"`
+	Port      int       `json:"port"`
+	Usr      string     `json:"Usr"`
+	Password  string    `json:"Password"`
+	Name      string    `json:"name"`
+	ORMLogActive bool   `json:"ormLogActive"`
 }
 
 // LogConfig holds logging config info
@@ -77,12 +78,13 @@ func (c DBConfig) Dialect() string {
 // for use in development testing
 func DefaultDBConfig() DBConfig {
 	return DBConfig{
-		DBDialect:  "{{.Database.DBDialect}}",
-		Host:     	"{{.Database.Host}}",
-		Port:     	{{.Database.Port}},
-		Usr:     	"{{.Database.Usr}}",
-		Password: 	"{{.Database.Password}}",
-		Name:     	"{{.Database.Name}}",
+		DBDialect:    "{{.Database.DBDialect}}",
+		Host:     	  "{{.Database.Host}}",
+		Port:     	  {{.Database.Port}},
+		Usr:     	  "{{.Database.Usr}}",
+		Password: 	  "{{.Database.Password}}",
+		Name:     	  "{{.Database.Name}}",
+		ORMLogActive: false,
 	}
 }
 
@@ -91,12 +93,13 @@ func DefaultDBConfig() DBConfig {
 func DefaultLogConfig() LogConfig {
 	return LogConfig{
 		Active:        true,
+		CallLocation:  false,
 		ColorMsgTypes: true,
 		InfoMsgs:      true,
 		WarningMsgs:   true,
 		ErrorMsgs:     true,
-		DebugMsgs:     true,
-		TraceMsgs:     true,
+		DebugMsgs:     false,
+		TraceMsgs:     false,
 	}
 }
 

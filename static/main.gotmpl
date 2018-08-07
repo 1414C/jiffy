@@ -21,12 +21,10 @@ func main() {
 	devFlag := flag.Bool("dev", false, "this flag should be set in a development environment")
 	drFlag := flag.Bool("dr", false, "db destructive reset")
 	rsFlag := flag.Bool("rs", false, "rebuild the Auth allocations to the Super UsrGroup")
-	alFlag := flag.Bool("al", false, "enable application logging to stdout")
-	dlFlag := flag.Bool("dl", false, "enable database ORM logging to stdout")
 	flag.Parse()
 
 	a := appobj.AppObj{}
-	a.Initialize(*devFlag, *prodFlag, *drFlag, *rsFlag, *alFlag, *dlFlag)
+	a.Initialize(*devFlag, *prodFlag, *drFlag, *rsFlag)
 	
 	lsg := &LeadSetGet{}
 	a.Run(lsg)

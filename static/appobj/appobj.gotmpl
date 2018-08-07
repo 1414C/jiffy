@@ -55,7 +55,7 @@ const (
 // prd indicates run with the prod profile
 // dr indicates run a destructive reset and exit
 // rs indicates a requested rebuild of the Auth allocations to the Super UsrGroup
-func (a *AppObj) Initialize(dev, prd, dr, rs, al, dl bool) {
+func (a *AppObj) Initialize(dev, prd, dr, rs bool) {
 
 	// retrieve the app config based on production/test setting
 	if prd && dev {
@@ -81,11 +81,11 @@ func (a *AppObj) Initialize(dev, prd, dr, rs, al, dl bool) {
 	// get the DB config
 	a.dbConfig = a.cfg.Database
 
-	// initialize logging
+	// initialize application logging
 	a.initializeLogging(a.cfg.Logging)
 
 	// create Services
-	a.createServices(al, dl)
+	a.createServices(a.dbConfig.ORMLogActive)
 
 	// perform destructive reset of db table content?
 	if dr {

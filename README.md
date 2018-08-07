@@ -14,7 +14,6 @@
 - [x] Add Self-ping network up/down check + Join in TxRxGMMessage(...)
 - [ ] Address logging
 
-
 ## TODO:
 
 - [ ] consider FAQ for calling db functions
@@ -24,7 +23,7 @@
 - [ ] code redis, memcached, etcd and sqlite kvs example implementations of gmcom.GetterSetter
 - [ ] code redis / memcached cache solution
 - [ ] code LEAVE message into group membership
-- [ ] update gmlist with LEAVE and shutdown code
+- [x] update gmlist with LEAVE and shutdown code
 - [ ] create a few runnable examples in Docker containers
 - [x] create a Docker tutorial
 - [x] create a kubernetes tutorial
@@ -33,6 +32,9 @@
 - [ ] consider creating an interface for the cache access which would allow the use of redis / memcached / etcd for cache management.  use of etcd would allow multiple processes to run in kubernetes without worrying about group-leader stuff.  Would it be fast enough, as the cached entries would be read by the middleware on each route access?
 
 ## Overview and Features
+
+This is an old set of docs.  See https://1414c.github.io/jiffy for a current description of the project.
+
 
 Jiffy is a model-based RESTful application services generator written in go.  It was developed as an experiment to offer an alternative avenue when developing native applications for SAP Hana.  The jiffy application allows a developer to treat the data persistence layer as an abstraction, thereby removing the need to make use of CDS and the SAP XS libraries.
 

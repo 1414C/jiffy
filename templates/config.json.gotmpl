@@ -16,7 +16,12 @@
 		"port":       5432,
 		"usr":        "godev",
 		"password":   "gogogo123",
-		"name":       "glrestgen"
+		"name":       "glrestgen",
+        {{if .GetIsProd -}}
+        "ormLogActive": false
+        {{}}
+        "ormLogActive": true
+        {{end -}}
     },
     "logging": {
         "active": true,

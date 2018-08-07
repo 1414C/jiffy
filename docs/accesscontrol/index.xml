@@ -47,7 +47,7 @@ Standard CRUD end-points for entity Library are generated as follows:
       <pubDate>Mon, 02 Jul 2018 13:29:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/accesscontrol/ac-content-d/</guid>
-      <description>Using External Identity Providers It is possible to use an external Identity Provider to supply JWT tokens capable of accessing jiffy-applications. In order for an external IDP to provide usable JWT&amp;rsquo;s to jiffy the following criteria have to be met:
+      <description>Using External Identity Providers It is possible to use an external Identity Provider to supply JWT tokens capable of accessing jiffy-applications. In order for an external IDP to provide usable JWT&amp;rsquo;s to jiffy the following criteria must be met:
  The IDP must sign the JWT&amp;rsquo;s with an algorithm that jiffy supports The IDP must provide the jiffy application with a public-key for signature verification A valid user-id must exist in the jiffy application The IDP must contain a mapping of user IDP ID&amp;rsquo;s to jiffy-application internal user id&amp;rsquo;s The IDP must contain a record of the Authorization-Groups that the user should have access to The IDP must include the jiffy-specific claims in the JWT payload The IDP must supply the &amp;lsquo;alg&amp;rsquo; and &amp;lsquo;typ&amp;rsquo; elements in the JWT header  Sample JWT for Jiffy Application Access  A user with an existing jiffy-application userID has been configured in an external IDP.</description>
     </item>
     
