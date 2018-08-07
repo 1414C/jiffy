@@ -468,7 +468,7 @@ func (ge *UsrGetEntitiesT) Exec(sqh sqac.PublicDB) error {
 		ge.ents = append(ge.ents, ent)
 	}
 	if sqh.IsLog() {
-		lw.Info("UsrGroupGetEntitiesT.Exec() got: %v", ge.ents)
+		lw.Debug("UsrGroupGetEntitiesT.Exec() got: %v", ge.ents)
 	}
 	return nil
 }

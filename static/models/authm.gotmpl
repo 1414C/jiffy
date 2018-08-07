@@ -280,7 +280,7 @@ func (ge *AuthGetEntitiesT) Exec(sqh sqac.PublicDB) error {
 		ge.ents = append(ge.ents, ent)
 	}
 	if sqh.IsLog() {
-		lw.Info("AuthGetEntitiesT.Exec() got: %v", ge.ents)
+		lw.Debug("AuthGetEntitiesT.Exec() got: %v", ge.ents)
 	}
 	return nil
 }
@@ -347,7 +347,7 @@ func (gs *authSqac) GetAuthsByAuthName(op string, AuthName string) []Auth {
 	}
 
 	if gs.handle.IsLog() {
-		lw.Info("GetAuthsByAuthName found: %v based on (%s %v)", auths, op, AuthName)
+		lw.Debug("GetAuthsByAuthName found: %v based on (%s %v)", auths, op, AuthName)
 	}
 	return auths
 }
@@ -374,7 +374,7 @@ func (gs *authSqac) GetAuthsByDescription(op string, Description string) []Auth 
 	}
 
 	if gs.handle.IsLog() {
-		lw.Info("GetAuthsByDescription found: %v based on (%s %v)", auths, op, Description)
+		lw.Debug("GetAuthsByDescription found: %v based on (%s %v)", auths, op, Description)
 	}
 	return auths
 }

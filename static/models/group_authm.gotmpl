@@ -269,7 +269,7 @@ func (gs *groupauthSqac) Get(groupauth *GroupAuth) error {
 	}
 
 	if gs.handle.IsLog() {
-		lw.Info("Get for table groupauth got: %v", groupauth)
+		lw.Debug("Get for table groupauth got: %v", groupauth)
 	}
 
 	if groupauth.GroupID == 0 || groupauth.AuthID == 0 {
@@ -306,7 +306,7 @@ func (gs *groupauthSqac) GetGroupAuths() []GroupAuth {
 	}
 
 	if gs.handle.IsLog() {
-		lw.Info("Get for table groupauth got: %v", groupauths)
+		lw.Debug("Get for table groupauth got: %v", groupauths)
 	}
 	return groupauths
 }
@@ -349,7 +349,7 @@ func (ge *GroupAuthGetEntitiesT) Exec(sqh sqac.PublicDB) error {
 		ge.ents = append(ge.ents, ent)
 	}
 	if sqh.IsLog() {
-		lw.Info("GroupAuthGetEntitiesT.Exec() got: %v", ge.ents)
+		lw.Debug("GroupAuthGetEntitiesT.Exec() got: %v", ge.ents)
 	}
 	return nil
 }
@@ -419,7 +419,7 @@ func (gs *groupauthSqac) GetGroupAuthsByAuthName(op string, AuthName string) []G
 	}
 
 	if gs.handle.IsLog() {
-		lw.Info("GetGroupAuthsByAuthName found: %v based on (%s %v)", groupauths, op, AuthName)
+		lw.Debug("GetGroupAuthsByAuthName found: %v based on (%s %v)", groupauths, op, AuthName)
 	}
 	return groupauths
 }
@@ -450,7 +450,7 @@ func (gs *groupauthSqac) GetGroupAuthsByDescription(op string, Description strin
 	}
 
 	if gs.handle.IsLog() {
-		lw.Info("GetGroupAuthsByDescription found: %v based on (%s %v)", groupauths, op, Description)
+		lw.Debug("GetGroupAuthsByDescription found: %v based on (%s %v)", groupauths, op, Description)
 	}
 	return groupauths
 }
@@ -483,7 +483,7 @@ func (gs *groupauthSqac) GetGroupAuthsByGroupID(op string, GroupID string) []Gro
 	}
 
 	if gs.handle.IsLog() {
-		lw.Info("GetGroupAuthsByGroupID found: %v based on (%s %v)", groupauths, op, GroupID)
+		lw.Debug("GetGroupAuthsByGroupID found: %v based on (%s %v)", groupauths, op, GroupID)
 	}
 	return groupauths
 }
