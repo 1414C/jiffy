@@ -13,19 +13,19 @@
     <title>Jiffy with Kubernetes :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1534223706" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1534223706" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1534223706" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1534223706" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1534223706" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1534223706" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1534223706" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1534223706" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1534819409" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1534819409" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1534819409" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1534819409" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1534819409" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1534819409" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1534819409" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1534819409" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1534223706" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1534819409" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1534223706"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1534819409"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -70,14 +70,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1534223706"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1534223706"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1534819409"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1534819409"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1534223706"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1534819409"></script>
 
     
   </div>
@@ -2135,7 +2135,7 @@ main: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, i
 
 <p>In order to deploy the compiled application in a Docker container, we need to create a Dockerfile.  The <em>docker build</em> command uses the Dockerfile as a set of instructions when building an image.  As mentioned previously, we will use Alpine Linux as the foundation (base image) for the new Docker container image.  <a href="https://hub.docker.com/_/alpine/">Dockerhub</a> has a number of pre-defined images that are available to be &lsquo;pulled&rsquo; into locally defined custom images.</p>
 
-<p>Create a new file called <em>Dockerfile</em> in the root folder of the pgelibraryapp source-tree and open it in your editor.  Copy the following content into the new Dockerfile.  An effort has been made to briefly describe what each line of the Dockerfile is used for.</p>
+<p>Create a new file called <em>Dockerfile</em> in the root folder of the <em>libappK8</em> source-tree and open it in your editor.  Copy the following content into the new Dockerfile.  An effort has been made to briefly describe what each line of the Dockerfile is used for.</p>
 
 <pre><code class="language-Dockerfile">
 # use the official docker hub alpine:3.7 base image
@@ -2196,7 +2196,7 @@ CMD [&quot;-dev&quot;]
 
 <h4 id="create-the-entrypoint-script">Create the Entrypoint Script</h4>
 
-<p>In a previous step <em>.dev.config.json</em> was updated with xxx.xxx.xxx.xxx ipv4 address masks.  In order to replace the masks with the container&rsquo;s ipv4 address, <em>docker run</em> and <em>docker start</em> will execute the <em>docker-entrypoint.sh</em> when running a container instance based on the image definition.  At the moment this is a problem however, as we have not written the script yet.  Create a new file called <em>docker-entrypoint.sh</em> in the root folder of the pgelibraryapp source-tree and open it in your editor.  Copy the following content into the new <em>docker-entrypoint.sh</em> file:</p>
+<p>In a previous step <em>.dev.config.json</em> was updated with xxx.xxx.xxx.xxx ipv4 address masks.  In order to replace the masks with the container&rsquo;s ipv4 address, <em>docker run</em> and <em>docker start</em> will execute the <em>docker-entrypoint.sh</em> when running a container instance based on the image definition.  At the moment this is a problem however, as we have not written the script yet.  Create a new file called <em>docker-entrypoint.sh</em> in the root folder of the <em>libappK8</em> source-tree and open it in your editor.  Copy the following content into the new <em>docker-entrypoint.sh</em> file:</p>
 
 <pre><code class="language-sh">
 #!/bin/sh
@@ -2327,7 +2327,7 @@ Removing intermediate container 60e5203ffd61
  ---&gt; c952825021e9
 Successfully built c952825021e9
 Successfully tagged libappk8:latest
-Aardvark:pgelibraryapp stevem$
+Aardvark:libappK8 stevem$
 
 </code></pre>
 
@@ -4256,20 +4256,20 @@ lo        Link encap:Local Loopback
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1534223706"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1534223706"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1534223706"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1534223706"></script>
-    <script src="/jiffy/js/featherlight.min.js?1534223706"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1534223706"></script>
-    <script src="/jiffy/js/highlight.pack.js?1534223706"></script>
+    <script src="/jiffy/js/clipboard.min.js?1534819409"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1534819409"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1534819409"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1534819409"></script>
+    <script src="/jiffy/js/featherlight.min.js?1534819409"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1534819409"></script>
+    <script src="/jiffy/js/highlight.pack.js?1534819409"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1534223706"></script>
-    <script src="/jiffy/js/learn.js?1534223706"></script>
-    <script src="/jiffy/js/hugo-learn.js?1534223706"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1534819409"></script>
+    <script src="/jiffy/js/learn.js?1534819409"></script>
+    <script src="/jiffy/js/hugo-learn.js?1534819409"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1534223706" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1534223706"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1534819409" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1534819409"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
