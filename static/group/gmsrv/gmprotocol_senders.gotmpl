@@ -74,7 +74,7 @@ func (gm *GMServ) SendGetLocalLeader(m *gmcom.GMMessage) {
 // SendGetLocalDetails sends a non-protocol message via the serialization channels
 // in order to get the local process information including a deep-copy of the
 // current memberMap.  It is inherent that the group-membership map content is
-// stale as soon as it has been created, but lets communicate by communicating
+// stale as soon as it has been created, but lets share by communicating
 // rather than communicate by sharing ;)
 func (gm *GMServ) SendGetLocalDetails() *gmcom.GMMessage {
 
