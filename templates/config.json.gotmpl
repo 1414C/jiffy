@@ -19,7 +19,7 @@
 		"name":       "glrestgen",
         {{if .GetIsProd -}}
         "ormLogActive": false
-        {{}}
+        {{else -}}
         "ormLogActive": true
         {{end -}}
     },
