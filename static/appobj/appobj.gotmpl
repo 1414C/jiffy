@@ -85,7 +85,7 @@ func (a *AppObj) Initialize(dev, prd, dr, rs bool) {
 	a.initializeLogging(a.cfg.Logging)
 
 	// create Services
-	a.createServices(a.dbConfig.ORMLogActive)
+	a.createServices(a.cfg.Logging.Active, a.dbConfig.ORMLogActive)
 
 	// perform destructive reset of db table content?
 	if dr {
