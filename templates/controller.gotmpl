@@ -301,7 +301,7 @@ func ({{$pref}}c *{{.Header.Name}}Controller) Delete(w http.ResponseWriter, r *h
 
 // get{{.Header.Name}}Set is used by all {{.Header.Name}}Set queries as a means of injecting parameters
 // returns ([]{{.Header.Name}}, $count, countRequested, error)
-func ({{$pref}}c *{{.Header.Name}}Controller) get{{.Header.Name}}Set(w http.ResponseWriter, r *http.Request, params []common.GetParam) ([]models.{{.Header.Name}}, uint64, bool, error) {
+func ({{$pref}}c *{{.Header.Name}}Controller) get{{.Header.Name}}Set(w http.ResponseWriter, r *http.Request, params []sqac.GetParam) ([]models.{{.Header.Name}}, uint64, bool, error) {
 
 	var mapCommands map[string]interface{}
 	var err error
@@ -424,13 +424,13 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}sBy{{.Name}} (w h
 	}
 
 	// build GetParam
-	p := common.GetParam{
+	p := sqac.GetParam{
 		FieldName:    "{{.SnakeCaseName}}",
 		Operand:      op,
 		ParamValue:   predicate,
 		NextOperator: "",
 	}
-	params := []common.GetParam{}
+	params := []sqac.GetParam{}
 	params = append(params, p)
 
 	// build base Href; common for each selected row

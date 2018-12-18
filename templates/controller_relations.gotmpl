@@ -105,8 +105,8 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 	}
 
 	// add the root entity-key to the selection parameter list
-	{{.ToEntityLC}}Params := []common.GetParam{}
-	{{.ToEntityLC}}Param := common.GetParam{
+	{{.ToEntityLC}}Params := []sqac.GetParam{}
+	{{.ToEntityLC}}Param := sqac.GetParam{
 		FieldName:    "{{$headerName}}ID",
 		Operand:      "=",
 		ParamValue:   {{$headerValue}}ID,
@@ -123,7 +123,7 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 		{{.ToEntityLC}}Param.NextOperator = "AND"
 		{{.ToEntityLC}}Params = append({{.ToEntityLC}}Params, {{.ToEntityLC}}Param)
 
-		{{.ToEntityLC}}Param = common.GetParam{
+		{{.ToEntityLC}}Param = sqac.GetParam{
 			FieldName:    "ID",
 			Operand:      "=",
 			ParamValue:   {{.ToEntityLC}}ID,
@@ -233,8 +233,8 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 	}
 
 	// add the root entity-key to the selection parameter list
-	{{.ToEntityLC}}Params := []common.GetParam{}
-	{{.ToEntityLC}}Param := common.GetParam{
+	{{.ToEntityLC}}Params := []sqac.GetParam{}
+	{{.ToEntityLC}}Param := sqac.GetParam{
 		FieldName:    "{{$headerName}}ID",
 		Operand:      "=",
 		ParamValue:   {{$headerValue}}ID,
@@ -251,7 +251,7 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 		{{.ToEntityLC}}Param.NextOperator = "AND"
 		{{.ToEntityLC}}Params = append({{.ToEntityLC}}Params, {{.ToEntityLC}}Param)
 
-		{{.ToEntityLC}}Param = common.GetParam{
+		{{.ToEntityLC}}Param = sqac.GetParam{
 			FieldName:    "ID",
 			Operand:      "=",
 			ParamValue:   {{.ToEntityLC}}ID,
@@ -387,8 +387,8 @@ func ({{$pref}}c *{{$headerName}}Controller) Get{{$headerName}}{{.RelName}} (w h
 		return
 	}
 
-	{{.ToEntityLC}}Params := []common.GetParam{}
-	{{.ToEntityLC}}Param := common.GetParam{
+	{{.ToEntityLC}}Params := []sqac.GetParam{}
+	{{.ToEntityLC}}Param := sqac.GetParam{
 		FieldName:    "ID",
 		Operand:      "=",
 		ParamValue:   {{.ToEntityLC}}ID,

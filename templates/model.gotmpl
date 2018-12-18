@@ -43,7 +43,7 @@ type {{.Header.Name}}DB interface {
 	Update({{.Header.Value}} *{{.Header.Name}}) error
 	Delete({{.Header.Value}} *{{.Header.Name}}) error
 	Get({{.Header.Value}} *{{.Header.Name}}) error
-	Get{{.Header.Name}}s(params []common.GetParam, cmdMap map[string]interface{}) ([]{{.Header.Name}}, uint64) // uint64 holds $count result
+	Get{{.Header.Name}}s(params []sqac.GetParam, cmdMap map[string]interface{}) ([]{{.Header.Name}}, uint64) // uint64 holds $count result
 {{/* iterate over .Fields (Info) to add support for selectable fields to the model's interface */ -}}
 {{range .Fields -}}
 	{{if .Selectable -}}
@@ -187,7 +187,7 @@ func ({{$pref}}v *{{.Header.Value}}Validator) Get({{.Header.Value}} *{{.Header.N
 }
 
 // Get{{.Header.Name}}s is passed through to the ORM with no validation
-func ({{$pref}}v *{{.Header.Value}}Validator) Get{{.Header.Name}}s(params []common.GetParam, cmdMap map[string]interface{}) ([]{{.Header.Name}}, uint64) {
+func ({{$pref}}v *{{.Header.Value}}Validator) Get{{.Header.Name}}s(params []sqac.GetParam, cmdMap map[string]interface{}) ([]{{.Header.Name}}, uint64) {
 
 	return {{$pref}}v.{{.Header.Name}}DB.Get{{.Header.Name}}s(params, cmdMap)
 }
@@ -323,7 +323,7 @@ func ({{$pref}}s *{{.Header.Value}}Sqac) Get({{.Header.Value}} *{{.Header.Name}}
 }
 
 // Get all existing {{.Header.Name}}s from the db via the ORM
-func ({{$pref}}s *{{.Header.Value}}Sqac) Get{{.Header.Name}}s(params []common.GetParam, cmdMap map[string]interface{}) ([]{{.Header.Name}}, uint64) {
+func ({{$pref}}s *{{.Header.Value}}Sqac) Get{{.Header.Name}}s(params []sqac.GetParam, cmdMap map[string]interface{}) ([]{{.Header.Name}}, uint64) {
 
     var err error
 
