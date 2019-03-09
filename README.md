@@ -20,7 +20,7 @@
 - [ ] consider FAQ for calling db functions
 - [ ] re-enable the ELECTION message and test on ARM
 - [x] look at service deployment
-- [ ] rationalize logging via custom logger
+- [x] rationalize logging via custom logger
 - [ ] code redis, memcached, etcd, sqlite, local-file kvs example implementations of gmcom.GetterSetter
 - [x] update gmlist with LEAVE and shutdown code
 - [ ] create a few runnable examples in Docker containers
@@ -29,7 +29,6 @@
 - [x] create a kubernetes tutorial
 - [ ] create an environment service
 - [ ] create a $metadata service
-- [ ] consider creating an interface for the cache access which would allow the use of redis / memcached / etcd for cache management.  use of etcd would allow multiple processes to run in kubernetes without worrying about group-leader stuff.  Would it be fast enough, as the cached entries would be read by the middleware on each route access?
 
 ## Overview and Features
 
