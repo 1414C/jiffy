@@ -112,6 +112,7 @@ type GMTarget struct {
 type GMLeaderSetterGetter interface {
 	GetDBLeader() (*GMLeader, error)
 	SetDBLeader(l GMLeader) error
+    Cleanup() error
 }
 
 // EncodeGMMessage is used to gob-encode a GMMessage for transmission

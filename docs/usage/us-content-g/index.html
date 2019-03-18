@@ -12,19 +12,19 @@
     <title>Automated Application Testing :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1545358456" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1552947811" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1545358456" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1552947811" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1545358456"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1552947811"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -53,14 +53,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1545358456"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1545358456"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1552947811"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1552947811"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1545358456"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1552947811"></script>
 
     
   </div>
@@ -924,8 +924,27 @@
  
   
     
-      <li data-nav-id="/jiffy/generation/gn-content-h/" title="Other Generated Folders" class="dd-item ">
+      <li data-nav-id="/jiffy/generation/gn-content-h/" title="Generated &#39;docker&#39; Folder" class="dd-item ">
         <a href="/jiffy/generation/gn-content-h/">
+        Generated &#39;docker&#39; Folder
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-j/" title="Other Generated Folders" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-j/">
         Other Generated Folders
         
         </a>
@@ -1679,25 +1698,6 @@
  
   
     
-      <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-c/" title="Jiffy with Docker Swarm, External PostgreSQL &amp; KVS" class="dd-item ">
-        <a href="/jiffy/tutorials/using-docker/dr-content-c/">
-        Jiffy with Docker Swarm, External PostgreSQL &amp; KVS
-        
-        </a>
-    </li>
-     
-  
- 
-
-            
-          
-            
-            
-
-
- 
-  
-    
       <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-d/" title="Jiffy with Kubernetes" class="dd-item ">
         <a href="/jiffy/tutorials/using-docker/dr-content-d/">
         Jiffy with Kubernetes
@@ -1862,7 +1862,7 @@
 
 <p>When jiffy generates the application, a set of automated tests are also generated for the application&rsquo;s end-points.  The  tests make use of the standard go test tooling.  Tests can be conducted using http or https, and run against the address:port that the application is presently serving on.  Remember, the application must be running prior to executing the test.</p>
 
-<p>The generated CRUD tests check the availability of the end-points and attempt to perform CRUD
+<p>The generated tests check the availability of the end-points and attempt to perform CRUD
 activities using representative data for the field-types.  If customization has occurred in the
 model normalization and validation enhancement points, the field values used in the generated
 main_test.go file should be updated accordingly.  <em>The generated CRUD tests are provided as a
@@ -1877,7 +1877,7 @@ file.  It is not necessary to have values populated in the database in order for
 
 <h4 id="run-go-test-with-https">Run go test With https</h4>
 
-<p>In order to conduct automated testing via a TLS connection, follow the instructions in the &lsquo;Testing with TLS&rsquo; section of this documentation.</p>
+<p>In order to conduct automated testing via a TLS connection, follow the instructions in the <a href="/jiffy/usage/us-content-f/">Testing with TLS</a> section of this documentation.</p>
 
 <pre><code class="language-bash">
     $ go test -v -https -address &quot;192.168.1.66:8080&quot;
@@ -2627,54 +2627,6 @@ file.  It is not necessary to have values populated in the database in order for
             
         
                     
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
                         
             
             
@@ -2706,22 +2658,6 @@ file.  It is not necessary to have values populated in the database in order for
                     
                     
 
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
                     
                         
             
@@ -2859,6 +2795,86 @@ file.  It is not necessary to have values populated in the database in order for
             
                 
                     
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
                     
                 
                 
@@ -3147,22 +3163,6 @@ file.  It is not necessary to have values populated in the database in order for
                     
                     
 
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
                     
                         
             
@@ -3253,20 +3253,20 @@ file.  It is not necessary to have values populated in the database in order for
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1545358456"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1545358456"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1545358456"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1545358456"></script>
-    <script src="/jiffy/js/featherlight.min.js?1545358456"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1545358456"></script>
-    <script src="/jiffy/js/highlight.pack.js?1545358456"></script>
+    <script src="/jiffy/js/clipboard.min.js?1552947811"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1552947811"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1552947811"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1552947811"></script>
+    <script src="/jiffy/js/featherlight.min.js?1552947811"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1552947811"></script>
+    <script src="/jiffy/js/highlight.pack.js?1552947811"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1545358456"></script>
-    <script src="/jiffy/js/learn.js?1545358456"></script>
-    <script src="/jiffy/js/hugo-learn.js?1545358456"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1552947811"></script>
+    <script src="/jiffy/js/learn.js?1552947811"></script>
+    <script src="/jiffy/js/hugo-learn.js?1552947811"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1545358456" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1545358456"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1552947811" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1552947811"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

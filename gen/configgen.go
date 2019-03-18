@@ -255,3 +255,153 @@ func (cfg *Config) GenerateSampleConfig(dstDir string) error {
 	}
 	return nil
 }
+
+// GenerateSampleDockerConfig creates a sample .config.json file
+// to hold the production application config.
+func (cfg *Config) GenerateSampleDockerConfig(dstDir string) error {
+
+	at := template.New("sample docker json configuration template")
+	at, err := template.ParseFiles("static/docker/docker_config.json.gotmpl")
+	if err != nil {
+		log.Fatal("Parse: ", err)
+		return err
+	}
+
+	// check the destination file-path and create if required
+	_, err = os.Stat(dstDir)
+	if err != nil {
+		os.Mkdir(dstDir, 0755)
+	}
+
+	// var tfDir string
+	tfDir := dstDir + "/.dev.config.json"
+	cfg.Env = "dev"
+
+	// create the .dev.config.json file
+	f, err := os.Create(tfDir)
+	if err != nil {
+		log.Fatal("GenerateSampleDockerConfig: ", err)
+		return err
+	}
+	defer f.Close()
+
+	// set permissions
+	err = f.Chmod(0755)
+	if err != nil {
+		log.Fatal("GenerateSampleDockerConfig: ", err)
+		return err
+	}
+
+	// execute the docker_config.json.gotmpl template using new file .dev.config.json as a target
+	err = at.Execute(f, cfg)
+	if err != nil {
+		log.Fatal("GenerateSampleDockerConfig: ", err)
+		return err
+	}
+	log.Println("generated:", tfDir)
+
+	// generate a sample Dockerfile
+	at = template.New("sample dockerfile")
+	at, err = template.ParseFiles("static/docker/Dockerfile.gotmpl")
+	if err != nil {
+		log.Fatal("Parse: ", err)
+		return err
+	}
+
+	tfDir = dstDir + "/Dockerfile"
+
+	// create the Dockerfile
+	f, err = os.Create(tfDir)
+	if err != nil {
+		log.Fatal("GenerateSampleDockerConfig: ", err)
+		return err
+	}
+	defer f.Close()
+
+	// set permissions on the Dockerfile
+	err = f.Chmod(0755)
+	if err != nil {
+		log.Fatal("GenerateSampleDockerConfig: ", err)
+		return err
+	}
+
+	// execute the Dockerfile.gotmpl template using new file Dockerfile as a target
+	err = at.Execute(f, cfg)
+	if err != nil {
+		log.Fatal("GenerateSampleDockerConfig: ", err)
+		return err
+	}
+	log.Println("generated:", tfDir)
+
+	// generate a sample docker-entrypoint.sh shell script to include in the
+	// docker image.  This script gets pulled into the docker image during
+	// the docker build process.
+	// generate a sample Dockerfile
+	at = template.New("sample docker-entrypoint.sh")
+	at, err = template.ParseFiles("static/docker/docker-entrypoint.sh.gotmpl")
+	if err != nil {
+		log.Fatal("Parse: ", err)
+		return err
+	}
+
+	tfDir = dstDir + "/docker-entrypoint.sh"
+
+	// create the docker-entrypoint.sh script
+	f, err = os.Create(tfDir)
+	if err != nil {
+		log.Fatal("GenerateSampleDockerConfig: ", err)
+		return err
+	}
+	defer f.Close()
+
+	// set permissions on the docker-entrypoint.sh script
+	err = f.Chmod(0755)
+	if err != nil {
+		log.Fatal("GenerateSampleDockerConfig: ", err)
+		return err
+	}
+
+	// execute the docker-entrypoint.sh.gotmpl template using new file
+	// docker-entrypoint.sh as a target
+	err = at.Execute(f, cfg)
+	if err != nil {
+		log.Fatal("GenerateSampleDockerConfig: ", err)
+		return err
+	}
+	log.Println("generated:", tfDir)
+
+	at = template.New("docker readme.md")
+	at, err = template.ParseFiles("static/docker/docker_readme.md.gotmpl")
+	if err != nil {
+		log.Fatal("Parse: ", err)
+		return err
+	}
+
+	tfDir = dstDir + "/docker_readme.md"
+
+	// create the docker_readme.md file
+	f, err = os.Create(tfDir)
+	if err != nil {
+		log.Fatal("GenerateSampleDockerConfig: ", err)
+		return err
+	}
+	defer f.Close()
+
+	// set permissions on the docker_readme.md file
+	err = f.Chmod(0755)
+	if err != nil {
+		log.Fatal("GenerateSampleDockerConfig: ", err)
+		return err
+	}
+
+	// execute the docker_readme.md.gotmpl template using new file
+	// docker_readme.md as a target
+	err = at.Execute(f, cfg)
+	if err != nil {
+		log.Fatal("GenerateSampleDockerConfig: ", err)
+		return err
+	}
+	log.Println("generated:", tfDir)
+
+	return nil
+}

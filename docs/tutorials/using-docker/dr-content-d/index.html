@@ -12,19 +12,19 @@
     <title>Jiffy with Kubernetes :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1545358456" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1552947811" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1545358456" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1552947811" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1545358456"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1552947811"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -53,14 +53,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1545358456"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1545358456"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1552947811"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1552947811"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1545358456"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1552947811"></script>
 
     
   </div>
@@ -924,8 +924,27 @@
  
   
     
-      <li data-nav-id="/jiffy/generation/gn-content-h/" title="Other Generated Folders" class="dd-item ">
+      <li data-nav-id="/jiffy/generation/gn-content-h/" title="Generated &#39;docker&#39; Folder" class="dd-item ">
         <a href="/jiffy/generation/gn-content-h/">
+        Generated &#39;docker&#39; Folder
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-j/" title="Other Generated Folders" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-j/">
         Other Generated Folders
         
         </a>
@@ -1679,25 +1698,6 @@
  
   
     
-      <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-c/" title="Jiffy with Docker Swarm, External PostgreSQL &amp; KVS" class="dd-item ">
-        <a href="/jiffy/tutorials/using-docker/dr-content-c/">
-        Jiffy with Docker Swarm, External PostgreSQL &amp; KVS
-        
-        </a>
-    </li>
-     
-  
- 
-
-            
-          
-            
-            
-
-
- 
-  
-    
       <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-d/" title="Jiffy with Kubernetes" class="dd-item active">
         <a href="/jiffy/tutorials/using-docker/dr-content-d/">
         Jiffy with Kubernetes
@@ -1846,7 +1846,7 @@
 <li><a href="#update-address-keys">Update Address Keys</a></li>
 <li><a href="#update-application-s-database-config">Update Application&rsquo;s Database Config</a></li>
 <li><a href="#ensure-postgresql-is-available">Ensure PostgreSQL is Available</a></li>
-<li><a href="#ensure-that-a-kvs-is-available">Ensure that a KVS is Available</a></li>
+<li><a href="#update-the-application-s-group-leader-kvs-config">Update the Application&rsquo;s Group Leader KVS Config</a></li>
 </ul></li>
 <li><a href="#build-a-static-application-binary-for-alpine-linux">Build a Static Application Binary for Alpine Linux</a>
 <ul>
@@ -2034,9 +2034,43 @@
 
 <p>By default, Postgres only allows connections from the localhost (127.0.0.1).  If your Postgres database is running on another machine, you will need to ensure that it allows connections from remote hosts.  A quick web-search will reveal how to maintain Postgres&rsquo;s <em>postgresql.conf</em> and <em>pg_hba.conf</em> files to allow remote connections to the database.  Make sure that you are able to connect to your Postgres database (use <em>psql</em>) from the Docker host environment before continuing.</p>
 
-<h5 id="ensure-that-a-kvs-is-available">Ensure that a KVS is Available</h5>
+<h5 id="update-the-application-s-group-leader-kvs-config">Update the Application&rsquo;s Group Leader KVS Config</h5>
 
-<p>Sluggo - link to the <em>sluggo</em> setup tutorial?</p>
+<p>Jiffy generates configuration files supporting a stand-alone / local group-leadership KVS by default.  When running more than one application instance, a group-leadership KVS is required in order for each group-member to obtain the group-leader information on start-up.  This example will make use of the <a href="https://github.com/1414C/sluggo">sluggo</a> KVS.  Examine the &lsquo;group_leader_kvs&rsquo; block in *.config.json to ensure the &lsquo;sluggo&rsquo; KVS option is active as shown below:</p>
+
+<pre><code class="language-json">.dev.config.json
+
+{
+    ...
+    &quot;group_leader_kvs&quot;: {
+        &quot;local_standalone&quot;: {
+            &quot;active&quot;: false,
+            &quot;internal_address&quot;: &quot;127.0.0.1:4444&quot;
+        },
+        &quot;redis&quot;: {
+            &quot;active&quot;: false,
+            &quot;max_idle&quot;: 80,
+            &quot;max_active&quot;: 12000,
+            &quot;redis_protocol&quot;: &quot;tcp&quot;,
+            &quot;redis_address&quot;: &quot;127.0.0.1:6379&quot;
+        },
+        &quot;memcached&quot;: {
+            &quot;active&quot;: false,
+            &quot;memcached_addresses&quot;: [
+                &quot;192.168.112.50:11211&quot;
+            ]
+        },
+        &quot;sluggo&quot;: {
+            &quot;active&quot;: true,
+            &quot;sluggo_address&quot;: &quot;192.168.111.24:7070&quot;
+        }
+    },
+    ...
+}
+
+</code></pre>
+
+<p>Ensure that a single instance of <a href="https://github.com/1414C/sluggo">sluggo</a> is running on a system accessible to the deployed containers.</p>
 
 <p><br></br></p>
 
@@ -2046,7 +2080,7 @@
 
 <p>This tutorial uses the popular <a href="https://alpinelinux.org/">Alpine Linux distribution</a> as the basis for the new container image.  Alpine Linux is a small and sparse distribution making it nice for use with containers.  There are a few things to be aware of however&hellip;</p>
 
-<p>Alpine Linux is based on <a href="https://www.musl-libc.org/">lib-musl</a> which means that binaries built by <em>go build</em> must target lib-musl rather than lib-gcc.  The binary resulting from the typical &lsquo;GOOS=linux GOARCH=amd64 go build -o main .&rsquo; command would almost certainly not work on Alpine.  The good news it is quite easy to build with musl-gcc, the bad news is that musl-gcc is available for Linux only.  If you are working on a system in which lib-musl is not supported, you will need to run the <em>go build</em> command in a supported build environment. <a href="https://wiki.musl-libc.org/supported-platforms.html">Most Linux distributions and architectures are supported</a>.</p>
+<p>Alpine Linux is based on <a href="https://www.musl-libc.org/">lib-musl</a> which means that binaries built by <em>go build</em> where the source makes use of cgo must target lib-musl rather than lib-gcc.   The binary resulting from the typical &lsquo;GOOS=linux GOARCH=amd64 go build -o main .&rsquo; command would almost certainly not work on Alpine.  The good news it is quite easy to build with musl-gcc, the bad news is that musl-gcc is available for Linux only.  If you are working on a system in which lib-musl is not supported, you will need to run the <em>go build</em> command in a supported build environment. <a href="https://wiki.musl-libc.org/supported-platforms.html">Most Linux distributions and architectures are supported</a>.</p>
 
 <p>Check if <em>lib-musl</em> has been installed in the build environment by running the <em>which</em> command:</p>
 
@@ -2088,7 +2122,7 @@ which musl-gcc
 <p>After ensuring that all of the required dependencies have been installed in the build environment, run the following command to build a statically-linked binary called <em>main</em> for the Alpine Linux target OS.  Setting the CC environment variable to point at <em>musl-gcc</em> ensures that the target (executable) will run in the Alpine Linux environment.  Adjust the GOARCH environment variable as necessary:</p>
 
 <pre><code class="language-shell">
-CGO=0 GOOS=linux GOARCH=amd64 CC=$(which musl-gcc) go build --ldflags '-w -linkmode external -extldflags &quot;-static&quot;' -a -tags netgo -installsuffix cgo -o main .
+CGO=0 GOOS=linux GOARCH=amd64 CC=$(which musl-gcc) go build --ldflags '-w -linkmode external -extldflags &quot;-static&quot;' -a -v -tags netgo -installsuffix cgo -o main .
 
 </code></pre>
 
@@ -2140,8 +2174,8 @@ main: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, i
 <p>Create a new file called <em>Dockerfile</em> in the root folder of the <em>libappK8</em> source-tree and open it in your editor.  Copy the following content into the new Dockerfile.  An effort has been made to briefly describe what each line of the Dockerfile is used for.</p>
 
 <pre><code class="language-Dockerfile">
-# use the official docker hub alpine:3.7 base image
-FROM alpine:3.7
+# use the official docker hub alpine:latest base image
+FROM alpine:latest
 
 # set the maintainer information for the new image
 LABEL maintainer=&quot;&lt;stevem@1414c.io&gt;&quot;
@@ -3644,54 +3678,6 @@ lo        Link encap:Local Loopback
             
         
                     
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
                         
             
             
@@ -3723,22 +3709,6 @@ lo        Link encap:Local Loopback
                     
                     
 
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
                     
                         
             
@@ -3881,6 +3851,86 @@ lo        Link encap:Local Loopback
 
                     
                     
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
                         
                     
                     
@@ -4202,22 +4252,6 @@ lo        Link encap:Local Loopback
             
                 
                     
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
                     
                 
                 
@@ -4262,7 +4296,7 @@ lo        Link encap:Local Loopback
 
 
         
-            <a class="nav nav-prev" href="/jiffy/tutorials/using-docker/dr-content-c/" title="Jiffy with Docker Swarm, External PostgreSQL &amp; KVS"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/jiffy/tutorials/using-docker/dr-content-b/" title="Jiffy with Docker and External PostgreSQL"> <i class="fa fa-chevron-left"></i></a>
         
         
             <a class="nav nav-next" href="/jiffy/tutorials/using-docker/dr-content-g/" title="Troubleshooting" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
@@ -4274,20 +4308,20 @@ lo        Link encap:Local Loopback
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1545358456"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1545358456"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1545358456"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1545358456"></script>
-    <script src="/jiffy/js/featherlight.min.js?1545358456"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1545358456"></script>
-    <script src="/jiffy/js/highlight.pack.js?1545358456"></script>
+    <script src="/jiffy/js/clipboard.min.js?1552947811"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1552947811"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1552947811"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1552947811"></script>
+    <script src="/jiffy/js/featherlight.min.js?1552947811"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1552947811"></script>
+    <script src="/jiffy/js/highlight.pack.js?1552947811"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1545358456"></script>
-    <script src="/jiffy/js/learn.js?1545358456"></script>
-    <script src="/jiffy/js/hugo-learn.js?1545358456"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1552947811"></script>
+    <script src="/jiffy/js/learn.js?1552947811"></script>
+    <script src="/jiffy/js/hugo-learn.js?1552947811"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1545358456" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1545358456"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1552947811" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1552947811"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

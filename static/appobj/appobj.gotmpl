@@ -3,6 +3,7 @@ package appobj
 import (
 	"context"
 	"crypto/tls"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net"
@@ -85,7 +86,7 @@ func (a *AppObj) Initialize(dev, prd, dr, rs bool) {
 	a.initializeLogging(a.cfg.Logging)
 
 	// create Services
-	a.createServices(a.cfg.Logging.Active, a.dbConfig.ORMLogActive)
+	a.createServices(a.dbConfig.ORMDebugTraceActive, a.dbConfig.ORMLogActive)
 
 	// perform destructive reset of db table content?
 	if dr {
@@ -162,15 +163,68 @@ func (a *AppObj) initializeLogging(l LogConfig) {
 		ColorEnabled:   l.ColorMsgTypes,
 	}
 	lw.InitWithSettings(ls, nil)
+}
 
+// CreateLeadSetGet reads the  keys related to the group-leader
+// KVS configuration and returns an appropriate implementation of
+// the gmcom.GMLeaderSetterGetter{} interface.
+func (a *AppObj) CreateLeadSetGet() gmcom.GMLeaderSetterGetter {
+
+	// check the number of active LeadSetGet configs - only one is permitted
+	c := 0
+	if a.cfg.LeadSetGet.StandAlone.Active {
+		c++
+	}
+	if a.cfg.LeadSetGet.Redis.Active {
+		c++
+	}
+	if a.cfg.LeadSetGet.Memcached.Active {
+		c++
+	}
+	if a.cfg.LeadSetGet.Sluggo.Active {
+		c++
+	}
+
+	if c == 0 || c > 1 {
+		lw.Fatal(errors.New("only one group_leader_kvs subsystem may be set as active in the application server configuration file"))
+	}
+
+	// create the specified gmcom.GMLeaderSetterGetter{} interface implemenation
+	if a.cfg.LeadSetGet.StandAlone.Active == true {
+		return &StandAloneLeadSetGet{
+			LocalLeaderIPAddress: a.cfg.LeadSetGet.StandAlone.InternalAddress,
+		}
+	}
+	if a.cfg.LeadSetGet.Redis.Active {
+		k := &RedisLeadSetGet{}
+		err := k.InitializeRedisLeadSetGet(a.cfg.LeadSetGet.Redis)
+		if err != nil {
+			panic(err)
+		}
+		return k
+	}
+	if a.cfg.LeadSetGet.Memcached.Active {
+		k := &MemcachedLeadSetGet{}
+		err := k.InitializeMemcachedLeadSetGet(a.cfg.LeadSetGet.Memcached)
+		if err != nil {
+			panic(err)
+		}
+		return k
+	}
+	if a.cfg.LeadSetGet.Sluggo.Active {
+		return &SluggoLeadSetGet{
+			internalAddress: a.cfg.LeadSetGet.Sluggo.SluggoAddress,
+		}
+	}
+	return nil
 }
 
 // createServices creates new services for the application object
-func (a *AppObj) createServices(appLog, dbLog bool) {
+func (a *AppObj) createServices(dbDebugLog, dbLog bool) {
 	var err error
 	a.services, err = models.NewServices(
 		models.WithSqac(a.dbConfig.Dialect(), a.dbConfig.ConnectionInfo(), dbLog),
-		models.WithLogMode(appLog),
+		models.WithLogMode(dbDebugLog),
 		models.WithUsr(a.cfg.Pepper),
 		models.WithUsrGroup(),
 		models.WithAuth(),
@@ -753,6 +807,7 @@ func (a *AppObj) Run(lsg gmcom.GMLeaderSetterGetter) {
 	// handle shutdown
 	<- done
 	srv.Shutdown(ctx)
+	lsg.Cleanup()
 	lw.Console("Shutdown complete")
 }
 

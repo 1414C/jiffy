@@ -357,6 +357,12 @@ func main() {
 		fmt.Println(err)
 	}
 
+	// generate sample Docker configuration / Dockerfile and docker-entrypoint.sh
+	err = conf.GenerateSampleDockerConfig(*projectPath + "/docker-sample")
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	// run gofmt / goimports on all generated .go files
 	for _, f := range generatedFiles {
 		err = gen.ExecuteGoTools(f)

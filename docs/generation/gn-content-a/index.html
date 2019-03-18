@@ -12,19 +12,19 @@
     <title>Generation Overview :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1545358456" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1552947811" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1545358456" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1552947811" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1545358456"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1552947811"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -53,14 +53,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1545358456"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1545358456"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1552947811"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1552947811"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1545358456"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1552947811"></script>
 
     
   </div>
@@ -924,8 +924,27 @@
  
   
     
-      <li data-nav-id="/jiffy/generation/gn-content-h/" title="Other Generated Folders" class="dd-item ">
+      <li data-nav-id="/jiffy/generation/gn-content-h/" title="Generated &#39;docker&#39; Folder" class="dd-item ">
         <a href="/jiffy/generation/gn-content-h/">
+        Generated &#39;docker&#39; Folder
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-j/" title="Other Generated Folders" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-j/">
         Other Generated Folders
         
         </a>
@@ -1679,25 +1698,6 @@
  
   
     
-      <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-c/" title="Jiffy with Docker Swarm, External PostgreSQL &amp; KVS" class="dd-item ">
-        <a href="/jiffy/tutorials/using-docker/dr-content-c/">
-        Jiffy with Docker Swarm, External PostgreSQL &amp; KVS
-        
-        </a>
-    </li>
-     
-  
- 
-
-            
-          
-            
-            
-
-
- 
-  
-    
       <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-d/" title="Jiffy with Kubernetes" class="dd-item ">
         <a href="/jiffy/tutorials/using-docker/dr-content-d/">
         Jiffy with Kubernetes
@@ -1863,7 +1863,8 @@
 FirstApp
 ├── appobj
 │   ├── appconf.go
-│   └── appobj.go
+│   ├── appobj.go
+|   └── lead_set_get.go
 ├── controllers
 │   ├── authc.go
 │   ├── controllerfuncs.go
@@ -1938,7 +1939,7 @@ FirstApp
 
 <ol>
 <li>When a jiffy-application is deployed as more than one process, there is a need for changes to users, auths, groups and group/auth associations to be communicated to all running instances.  These common application entities are cached locally on each running instance in order to avoid accessing the database unnecessarily.  An internal subsystem was chosen in order to avoid dependencies on external solutions like redis/memcached/etcd etc. (see footnote).  Changes to these objects are performed via standard jiffy-admin services that are present in every jiffy-application.  When one of the standard admin objects is updated via an admin service, the object&rsquo;s data is updated in the database.  Following a successful database update, the jiffy-application must disseminate the updated object data to the local cache of the application server that processed the change, as well as every other application server in the group.</li>
-<li>Given that there is interprocess communication for the cache updates, the status of the group members must be tracked.  The subsystem uses a SWIM (Scalable Weakly-Consistent Infection-Style Process-Membership) protocol to check and disseminate the statues of the group&rsquo;s processes.  A ping is sent from each process to every other known process in the group in random order once per ping-cycle.  The ping message contains a piggybacked process-map containing the pinging process&rsquo;s view of the world in terms of process status.  Processes may have one of the following three statuses <strong>(ALIVE, SUSPECT, FAILED)</strong>, as well as a status count indicating how many times the pinging process has noted that a process is in a particular state.</li>
+<li>Given that there is interprocess communication for the cache updates, the status of the group members must be tracked.  The subsystem uses a SWIM (Scalable Weakly-Consistent Infection-Style Process-Membership) protocol to check and disseminate the statues of the group&rsquo;s processes.  A ping is sent from each process to every other known process in the group in random order once per ping-cycle.  The ping message contains a piggybacked process-map containing the pinging process&rsquo;s view of the world in terms of process status.  Processes may have one of the following five statuses <strong>(ALIVE, SUSPECT, FAILED, DEPARTING, DEPARTED)</strong>, as well as a status count indicating how many times the pinging process has noted that a process is in a particular state.</li>
 </ol>
 
 <p>See the <a href="/jiffy/interprocess/ip-content-a/">Group Membership</a> section of this document for a detailed overview of the group-membership subsystem.</p>
@@ -2642,54 +2643,6 @@ FirstApp
             
         
                     
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
                         
             
             
@@ -2721,22 +2674,6 @@ FirstApp
                     
                     
 
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
                     
                         
             
@@ -2879,6 +2816,86 @@ FirstApp
 
                     
                     
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
                         
                     
                     
@@ -3154,22 +3171,6 @@ FirstApp
                     
                     
 
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
                     
                         
             
@@ -3260,20 +3261,20 @@ FirstApp
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1545358456"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1545358456"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1545358456"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1545358456"></script>
-    <script src="/jiffy/js/featherlight.min.js?1545358456"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1545358456"></script>
-    <script src="/jiffy/js/highlight.pack.js?1545358456"></script>
+    <script src="/jiffy/js/clipboard.min.js?1552947811"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1552947811"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1552947811"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1552947811"></script>
+    <script src="/jiffy/js/featherlight.min.js?1552947811"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1552947811"></script>
+    <script src="/jiffy/js/highlight.pack.js?1552947811"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1545358456"></script>
-    <script src="/jiffy/js/learn.js?1545358456"></script>
-    <script src="/jiffy/js/hugo-learn.js?1545358456"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1552947811"></script>
+    <script src="/jiffy/js/learn.js?1552947811"></script>
+    <script src="/jiffy/js/hugo-learn.js?1552947811"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1545358456" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1545358456"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1552947811" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1552947811"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

@@ -29,7 +29,7 @@ Database System The generated application will need to connect to a database sys
       <guid>https://1414c.github.io/jiffy/usage/deployment/us-content-j/</guid>
       <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts 
 All-In-One Deployment In a development or test setting it may make sense to deploy everything in one system. In this context &amp;lsquo;system&amp;rsquo; refers to a laptop, bare-metal server or a VM of some sort. To deploy an all-in-one type setup, the following artifacts are required:
- Database Jiffy application Optional Key-Value-Store  The All-In-One Deployment diagram shows a jiffy-application instance running on a system with an ip-address of 192.</description>
+ Database Jiffy application Set the &amp;lsquo;local_standalone&amp;rsquo; KVS to Active in the config.</description>
     </item>
     
     <item>

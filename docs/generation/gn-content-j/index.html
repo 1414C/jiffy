@@ -9,7 +9,7 @@
 
     <link rel="shortcut icon" href="/jiffy/images/favicon.png" type="image/x-icon" />
 <link rel="icon" href="/jiffy/images/favicon.png" type="image/x-icon" />
-    <title>Let&#39;s Test Something :: Jiffy Services Generator</title>
+    <title>Other Generated Folders :: Jiffy Services Generator</title>
     
     
     <link href="/jiffy/css/nucleus.css?1552947811" rel="stylesheet">
@@ -34,7 +34,7 @@
     </style>
     
   </head>
-  <body class="" data-url="/jiffy/getting-started/level-two/">
+  <body class="" data-url="/jiffy/generation/gn-content-j/">
     <nav id="sidebar" class="">
 
 
@@ -204,7 +204,7 @@
   
     
     <li data-nav-id="/jiffy/getting-started/" title="Getting Started" class="dd-item 
-        parent
+        
         
         
         ">
@@ -307,8 +307,8 @@
   
     
     <li data-nav-id="/jiffy/getting-started/level-two/" title="Let&#39;s Test Something" class="dd-item 
-        parent
-        active
+        
+        
         
         ">
       <a href="/jiffy/getting-started/level-two/">
@@ -767,7 +767,7 @@
   
     
     <li data-nav-id="/jiffy/generation/" title="Generation Reference" class="dd-item 
-        
+        parent
         
         
         ">
@@ -943,7 +943,7 @@
  
   
     
-      <li data-nav-id="/jiffy/generation/gn-content-j/" title="Other Generated Folders" class="dd-item ">
+      <li data-nav-id="/jiffy/generation/gn-content-j/" title="Other Generated Folders" class="dd-item active">
         <a href="/jiffy/generation/gn-content-j/">
         Other Generated Folders
         
@@ -1812,7 +1812,7 @@
             
           
           
-            <a href='/jiffy/'></a> > <a href='/jiffy/getting-started/'>Getting Started</a> > Let's Test Something
+            <a href='/jiffy/'></a> > <a href='/jiffy/generation/'>Generation Reference</a> > Other Generated Folders
           
          
           
@@ -1824,7 +1824,20 @@
                 
                     <div class="progress">
     <div class="wrapper">
-
+<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#the-ext-folders">The &lsquo;ext&rsquo; Folders</a></li>
+<li><a href="#the-group-gmcl-folder">The group/gmcl Folder</a></li>
+<li><a href="#the-group-gmcom-folder">The group/gmcom Folder</a></li>
+<li><a href="#the-group-gmsrv-folder">The group/gmsrv Folder</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
     </div>
 </div>
 
@@ -1836,34 +1849,35 @@
         
         <div id="body-inner">
           
-            <h1>Let&#39;s Test Something</h1>
+            <h1>Other Generated Folders</h1>
           
 
         
 
 
-<p>We have a running application, but what can we do with it?  Clicking on the <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a> link at the end of the preceding section, did not yield a good looking response&hellip;</p>
 
-<p>Jiffy services are best tested using an API test utility.  If you have a tool that works for you, use that to follow along.  If you don&rsquo;t have a test utility, Google&rsquo;s <a href="https://www.getpostman.com/">Postman is a great choice</a> and that is what we are going to use for the rest of the quick-start.</p>
 
-<p>Let&rsquo;s make a quick list of things that we are going to do in order to test our new Person service.</p>
+<h3 id="the-ext-folders">The &lsquo;ext&rsquo; Folders</h3>
 
-<ol>
-<li>Login</li>
-<li>Create a new &lsquo;Person&rsquo; entity</li>
-<li>Create another new &lsquo;Person&rsquo; entity</li>
-<li>Read each &lsquo;Person&rsquo; by their key</li>
-<li>Read a list of &lsquo;Person&rsquo; entities</li>
-<li>Update a &lsquo;Person&rsquo; entity</li>
-<li>Create yet another new &lsquo;Person&rsquo; entity</li>
-<li>See what options we can add to an entity request</li>
-<li>Delete an entity</li>
-</ol>
+<p>&lsquo;ext&rsquo; folders contain Jiffy application interface definitions and empty implementations of the same for controller and model extension-points.  See the <a href="/jiffy/extensionpoints/">Extension Points</a> section of this documentation.</p>
+
+<h3 id="the-group-gmcl-folder">The group/gmcl Folder</h3>
+
+<p>The group/gmcl folder contains the source files for the usr, auth, usrgroup and groupauth cache clients.  This package is for internal use only.  See the <a href="/jiffy/interprocess/ip-content-a/">Group Membership Overview</a> and <a href="/jiffy/interprocess/ip-content-b/">Failure Detector</a> sections of this documentation.</p>
+
+<h3 id="the-group-gmcom-folder">The group/gmcom Folder</h3>
+
+<p>The group/gmcom folder contains source files holding artifacts that are needed by the groups/&hellip; packages and those of the generated jiffy application.  This package is for internal use only.  See the <a href="/jiffy/interprocess/ip-content-a/">Group Membership Overview</a> and <a href="/jiffy/interprocess/ip-content-b/">Failure Detector</a> sections of this documentation.</p>
+
+<h3 id="the-group-gmsrv-folder">The group/gmsrv Folder</h3>
+
+<p>The group/gmsrv folder contains the source files for the group-membership service, the failure detector and the leader-election mechanism.  This package is for internal use only.  See the <a href="/jiffy/interprocess/ip-content-a/">Group Membership Overview</a> and <a href="/jiffy/interprocess/ip-content-b/">Failure Detector</a> sections of this documentation.</p>
 
 
 <footer class=" footline" >
 	
 </footer>
+
 
         
         </div> 
@@ -1995,7 +2009,6 @@
             
                 
                     
-                    
                 
                 
 
@@ -2010,9 +2023,6 @@
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -2078,7 +2088,6 @@
             
                 
                     
-                    
                 
                 
 
@@ -2091,9 +2100,6 @@
             
             
                 
-                    
-                        
-                        
                     
                 
                 
@@ -2421,6 +2427,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -2433,6 +2440,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -2562,6 +2572,7 @@
             
                 
                     
+                    
                 
                 
 
@@ -2580,6 +2591,9 @@
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -3163,10 +3177,10 @@
 
 
         
-            <a class="nav nav-prev" href="/jiffy/getting-started/gs-content-d/" title="Let&#39;s Run Something"> <i class="fa fa-chevron-left"></i></a>
+            <a class="nav nav-prev" href="/jiffy/generation/gn-content-h/" title="Generated &#39;docker&#39; Folder"> <i class="fa fa-chevron-left"></i></a>
         
         
-            <a class="nav nav-next" href="/jiffy/getting-started/level-two/l2-content-a/" title="Login" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+            <a class="nav nav-next" href="/jiffy/extensionpoints/" title="Extension Points" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
         
     </div>
 
@@ -3196,3 +3210,4 @@
 
   </body>
 </html>
+

@@ -31,16 +31,6 @@ As in the Jiffy with Docker and SQLite tutorial, our Dockerfile will be quite si
     </item>
     
     <item>
-      <title>Jiffy with Docker Swarm, External PostgreSQL &amp; KVS</title>
-      <link>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-c/</link>
-      <pubDate>Mon, 02 Jul 2018 12:22:10 -0702</pubDate>
-      
-      <guid>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-c/</guid>
-      <description>Overview We will create and deploy two instances of a sample application inside Docker containers. The containerized application instances will run in stand-alone containers on Docker&amp;rsquo;s default bridge network. Each container will communicate with a Postgres database and KVS on the container-host&amp;rsquo;s network. In this example the Postgres database and KVS will not be running in containers.
-As in the Jiffy with Docker and SQLite tutorial, our Dockerfile will be quite simple and we will go with some of the docker build defaults.</description>
-    </item>
-    
-    <item>
       <title>Jiffy with Kubernetes</title>
       <link>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-d/</link>
       <pubDate>Mon, 02 Jul 2018 12:27:10 -0700</pubDate>

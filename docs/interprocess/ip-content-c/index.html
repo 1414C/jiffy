@@ -12,19 +12,19 @@
     <title>Process Startup / Join :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1545358456" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1552947811" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1545358456" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1552947811" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1545358456"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1552947811"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -53,14 +53,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1545358456"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1545358456"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1552947811"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1552947811"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1545358456"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1552947811"></script>
 
     
   </div>
@@ -924,8 +924,27 @@
  
   
     
-      <li data-nav-id="/jiffy/generation/gn-content-h/" title="Other Generated Folders" class="dd-item ">
+      <li data-nav-id="/jiffy/generation/gn-content-h/" title="Generated &#39;docker&#39; Folder" class="dd-item ">
         <a href="/jiffy/generation/gn-content-h/">
+        Generated &#39;docker&#39; Folder
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-j/" title="Other Generated Folders" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-j/">
         Other Generated Folders
         
         </a>
@@ -1679,25 +1698,6 @@
  
   
     
-      <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-c/" title="Jiffy with Docker Swarm, External PostgreSQL &amp; KVS" class="dd-item ">
-        <a href="/jiffy/tutorials/using-docker/dr-content-c/">
-        Jiffy with Docker Swarm, External PostgreSQL &amp; KVS
-        
-        </a>
-    </li>
-     
-  
- 
-
-            
-          
-            
-            
-
-
- 
-  
-    
       <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-d/" title="Jiffy with Kubernetes" class="dd-item ">
         <a href="/jiffy/tutorials/using-docker/dr-content-d/">
         Jiffy with Kubernetes
@@ -1891,9 +1891,11 @@
 
 <h5 id="joining-overview">Joining Overview</h5>
 
-<p>Joining processes must access a well-known persistent store that holds the current group-leader information.  This means that each joining process must know the location of and the manner in which the persistent store can be queried.  The persistent store exists outside of the group-membership and is typically some sort of name-value key-store like redis or memcached.</p>
+<p>Joining processes must access a well-known persistent store that holds the current group-leader information.  This means that each joining process must know the location of, and the manner in which the persistent store can be queried.  The persistent store exists outside of the group-membership and is typically some sort of name-value key-store like redis or memcached.</p>
 
-<p>To this end, a general interface is provided by Jiffy to allow the implementing developer to access the persistent store of their choice.  The rationale here is that many implementers will have a preference in terms of the key-value store they use, and may already have a suitable KVS in their productive landscape.  The interface provided by Jiffy for this purpose is <em>gmcom.GMLeaderSetterGetter</em> and it must be implemented in the application&rsquo;s main.go file and passed into the AppObj.Run() method during application startup.
+<p>To this end, the .xxx.config.json file offers the option of running the application in stand-alone mode (self==leader), or with redis, memcached or sluggo as KVS repositories for the group-leader information.</p>
+
+<p>A general interface is provided by Jiffy to allow the implementing developer to add support for the persistent store of their choice.  Enhancement points have not been added for the &ldquo;custom_kvs_impl&rdquo; key yet, but it should be quite easy to insert the required code.  The rationale here is that many implementers will have a preference in terms of the key-value store they use, and may already have a suitable KVS in their productive landscape.  The interface provided by Jiffy for this purpose is <em>gmcom.GMLeaderSetterGetter</em> and it must be implemented in the appobj/lead_set_get.go file.
 <br></br></p>
 
 <h5 id="interface-gmcom-gmgettersetter">Interface gmcom.GMGetterSetter</h5>
@@ -1912,6 +1914,11 @@
   <tr>
     <td><h5>SetDBLeader(l GMLeader) error</h5>
     SetDBLeader is provided in order to allow the implementer to persist a newly elected leader&rsquo;s information in the persistent store.  The implementation of this method is intended to be self-contained.<p>  For example, if the implementation calls for the current leader information to be persisted in redis, the implementer should code a self-contained method to connect to redis and store the leader information provided by input parameter <em>l</em>. Failure to persist the provided leader information should result in the implementer returning a non-nil value in the <em>error</em> return parameter.<p>
+    </td>
+  </tr>
+  <tr>
+    <td><h5>Cleanup() error</h5>
+    Cleanup is provided in order to allow the implementer to cleanup connection pools, open and/or busy connections before the hosting application shuts down in response to a SIGKILL, os.Interrupt or SIGINT event.  If the implementation does not require any cleanup, this method can be implemented to simply return nil.
     </td>
   </tr>
 </table>
@@ -1959,6 +1966,14 @@ func (sg *LeadSetGet) SetDBLeader(l gmcom.GMLeader) error {
 
   // access the database here to set a new current leader
   wscl.AddUpdCacheEntry(&quot;LEADER&quot;, &amp;l, &quot;192.168.1.40:7070&quot;)
+  return nil
+}
+
+// Cleanup closes connections to group-leadership KVS when
+// prior to application shutdown.
+func (sg *LeadSetGet) Cleanup() error {
+  
+  // perform cleanup(s)
   return nil
 }
 
@@ -2706,54 +2721,6 @@ This is a catch-all for failed join attempts.  In this case, the starting proces
             
         
                     
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
                         
             
             
@@ -2834,55 +2801,6 @@ This is a catch-all for failed join attempts.  In this case, the starting proces
             
         
                     
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
             
         
                     
@@ -2895,63 +2813,6 @@ This is a catch-all for failed join attempts.  In this case, the starting proces
                 
 
                     
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                        
-                        
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                        
                     
                     
 
@@ -2987,6 +2848,144 @@ This is a catch-all for failed join attempts.  In this case, the starting proces
                     
             
         
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
                     
                         
             
@@ -3097,19 +3096,6 @@ This is a catch-all for failed join attempts.  In this case, the starting proces
                     
 
                     
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
             
         
                     
@@ -3138,46 +3124,6 @@ This is a catch-all for failed join attempts.  In this case, the starting proces
                 
 
                     
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-            
-        
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                        
                     
                     
 
@@ -3227,6 +3173,9 @@ This is a catch-all for failed join attempts.  In this case, the starting proces
                     
 
                     
+            
+        
+                    
                         
             
             
@@ -3242,6 +3191,72 @@ This is a catch-all for failed join attempts.  In this case, the starting proces
                     
             
         
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
                     
                         
             
@@ -3332,20 +3347,20 @@ This is a catch-all for failed join attempts.  In this case, the starting proces
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1545358456"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1545358456"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1545358456"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1545358456"></script>
-    <script src="/jiffy/js/featherlight.min.js?1545358456"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1545358456"></script>
-    <script src="/jiffy/js/highlight.pack.js?1545358456"></script>
+    <script src="/jiffy/js/clipboard.min.js?1552947811"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1552947811"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1552947811"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1552947811"></script>
+    <script src="/jiffy/js/featherlight.min.js?1552947811"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1552947811"></script>
+    <script src="/jiffy/js/highlight.pack.js?1552947811"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1545358456"></script>
-    <script src="/jiffy/js/learn.js?1545358456"></script>
-    <script src="/jiffy/js/hugo-learn.js?1545358456"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1552947811"></script>
+    <script src="/jiffy/js/learn.js?1552947811"></script>
+    <script src="/jiffy/js/hugo-learn.js?1552947811"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1545358456" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1545358456"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1552947811" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1552947811"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

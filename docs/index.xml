@@ -86,7 +86,7 @@ There may be a need to inspect the request details immediately once the request 
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-a/</guid>
       <description>Jiffy Application File Structure Running the Jiffy generator creates a set of files that comprise a basic working backend services application. Jiffy generates the following source code tree when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity.
-FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.go │ ├── personc.go │ ├── usrc.go │ ├── usr_groupc.</description>
+FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.go │ ├── personc.go │ ├── usrc.</description>
     </item>
     
     <item>
@@ -147,7 +147,7 @@ Jiffy allows a developer to generate a robust go-based application that treats t
       <pubDate>Mon, 02 Jul 2018 17:02:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/interprocess/ip-content-b/</guid>
-      <description>Group Membership Failure Detector  When discussing deployment of a Jiffy-generated application, each instance of the application is referred to as a process or application instance. Processes may fail. Processes exist with one of four publicly disseminated and well-known statuses: {ACTIVE; SUSPECT; FAILED; DEPARTED} Processes exist with a publicly (within the group) disseminated incarnation number. Process viability is checked at selectable intervals (ping-cycle time) via a ping-ack mechanism. Each process pings all other processes in the group in random order once per ping-cycle.</description>
+      <description>Group Membership Failure Detector  When discussing deployment of a Jiffy-generated application, each instance of the application is referred to as a process or application instance. Processes may fail. Processes exist with one of five publicly disseminated and well-known statuses: {ACTIVE; SUSPECT; FAILED; DEPARTING; DEPARTED} Processes exist with a publicly (within the group) disseminated incarnation number. Process viability is checked at selectable intervals (ping-cycle time) via a ping-ack mechanism. Each process pings all other processes in the group in random order once per ping-cycle.</description>
     </item>
     
     <item>
@@ -207,7 +207,7 @@ File ./myapp/controllers/ext/extc_interfaces.go contains the generated entity co
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-b/</guid>
       <description>Following the execution of the application generator, a folder containing the generated app&amp;rsquo;s files is created as shown. The application folder follows the name provided via the -p Jiffy execution flag. In this case, the name of the application folder is &amp;lsquo;FirstApp&amp;rsquo;.
-FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├── controllers │ ├── ... │ ├── ... . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  </description>
+FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go ├── controllers │ ├── ... │ ├── ... . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.</description>
     </item>
     
     <item>
@@ -286,17 +286,7 @@ Member Communication The group-membership service communicates between processes
       <guid>https://1414c.github.io/jiffy/usage/us-content-c/</guid>
       <description>Development Config The following command string may be used to run the program using the values defined in the ./.dev.config.json file.
 $ go run main.go -dev  The generated sample dev configuration file should be edited to match the local environment. Jiffy will generate a sample .dev.config.json file similar to the one shown below:
-{ &amp;quot;external_address&amp;quot;: &amp;quot;127.0.0.1:3000&amp;quot;, &amp;quot;internal_address&amp;quot;: &amp;quot;127.0.0.1:4444&amp;quot;, &amp;quot;env&amp;quot;: &amp;quot;dev&amp;quot;, &amp;quot;ping_cycle&amp;quot;: 1, &amp;quot;failure_threshold&amp;quot;: 5, &amp;quot;pepper&amp;quot;: &amp;quot;secret-pepper-key&amp;quot;, &amp;quot;hmac_Key&amp;quot;: &amp;quot;secret-hmac-key&amp;quot;, &amp;quot;database&amp;quot;: { &amp;quot;db_dialect&amp;quot;: &amp;quot;postgres&amp;quot;, &amp;quot;host&amp;quot;: &amp;quot;localhost&amp;quot;, &amp;quot;port&amp;quot;: 5432, &amp;quot;user&amp;quot;: &amp;quot;godev&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;gogogo123&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;glrestgen&amp;quot;, &amp;quot;ormLogActive&amp;quot;: true }, &amp;quot;logging&amp;quot;: { &amp;quot;active&amp;quot;: true, &amp;quot;callLocation&amp;quot;: true, &amp;quot;colorMsgTypes&amp;quot;: true, &amp;quot;infoMsgs&amp;quot;: true, &amp;quot;warningMsgs&amp;quot;: true, &amp;quot;errorMsgs&amp;quot;: true, &amp;quot;debugMsgs&amp;quot;: true, &amp;quot;traceMsgs&amp;quot;: false }, &amp;quot;cert_file&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;key_file&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;rsa256_priv_key_file&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;rsa256_pub_key_file&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;rsa384_priv_key_file&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;rsa384_pub_key_file&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;rsa512_priv_key_file&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;rsa512_pub_key_file&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;ecdsa256_priv_key_file&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;ecdsa256_pub_key_file&amp;quot;: &amp;quot;&amp;quot;, &amp;quot;ecdsa384_priv_key_file&amp;quot;: &amp;quot;jwtkeys/ecdsa384/ec384.</description>
-    </item>
-    
-    <item>
-      <title>Jiffy with Docker Swarm, External PostgreSQL &amp; KVS</title>
-      <link>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-c/</link>
-      <pubDate>Mon, 02 Jul 2018 12:22:10 -0702</pubDate>
-      
-      <guid>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-c/</guid>
-      <description>Overview We will create and deploy two instances of a sample application inside Docker containers. The containerized application instances will run in stand-alone containers on Docker&amp;rsquo;s default bridge network. Each container will communicate with a Postgres database and KVS on the container-host&amp;rsquo;s network. In this example the Postgres database and KVS will not be running in containers.
-As in the Jiffy with Docker and SQLite tutorial, our Dockerfile will be quite simple and we will go with some of the docker build defaults.</description>
+{ &amp;quot;external_address&amp;quot;: &amp;quot;127.0.0.1:3000&amp;quot;, &amp;quot;internal_address&amp;quot;: &amp;quot;127.0.0.1:4444&amp;quot;, &amp;quot;env&amp;quot;: &amp;quot;dev&amp;quot;, &amp;quot;ping_cycle&amp;quot;: 1, &amp;quot;failure_threshold&amp;quot;: 5, &amp;quot;pepper&amp;quot;: &amp;quot;secret-pepper-key&amp;quot;, &amp;quot;hmac_Key&amp;quot;: &amp;quot;secret-hmac-key&amp;quot;, &amp;quot;database&amp;quot;: { &amp;quot;db_dialect&amp;quot;: &amp;quot;postgres&amp;quot;, &amp;quot;host&amp;quot;: &amp;quot;localhost&amp;quot;, &amp;quot;port&amp;quot;: 5432, &amp;quot;usr&amp;quot;: &amp;quot;godev&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;gogogo123&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;glrestgen&amp;quot;, &amp;quot;ormLogActive&amp;quot;: true, &amp;quot;ormDebugTraceActive&amp;quot;: false }, &amp;quot;group_leader_kvs&amp;quot;: { &amp;quot;local_standalone&amp;quot;: { &amp;quot;active&amp;quot;: true, &amp;quot;internal_address&amp;quot;: &amp;quot;127.</description>
     </item>
     
     <item>
@@ -306,7 +296,7 @@ As in the Jiffy with Docker and SQLite tutorial, our Dockerfile will be quite si
       
       <guid>https://1414c.github.io/jiffy/overview/ov-content-c/</guid>
       <description>Jiffy Application File Structure iffy generates the following structure when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity. Explanations of each folder and its content are discussed throughout the documentation.
-FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.go │ ├── personc.go │ ├── usrc.go │ ├── usr_groupc.go │ └── ext │ ├── extc_interfaces.go │ └── personc_ext.</description>
+FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.go │ ├── personc.go │ ├── usrc.go │ ├── usr_groupc.go │ └── ext │ ├── extc_interfaces.</description>
     </item>
     
     <item>
@@ -337,7 +327,7 @@ File ./myapp/models/ext/extm_interfaces.go contains the generated entity model e
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-c/</guid>
       <description>The &amp;lsquo;appobj&amp;rsquo; Folder  The appobj folder contains the generated application&amp;rsquo;s configuration loader and the main application object. 
-FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├── controllers │ ├── ... │ ├── ... . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  appobj.go The entry point for go applications is always the main() function, but we seldom write the so-called &amp;lsquo;main&amp;rsquo; part of the application in this monolithic function.</description>
+FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go ├── controllers │ ├── ... │ ├── ... . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  appobj.go The entry point for go applications is always the main() function, but we seldom write the so-called &amp;lsquo;main&amp;rsquo; part of the application in this monolithic function.</description>
     </item>
     
     <item>
@@ -366,7 +356,7 @@ FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├�
       <guid>https://1414c.github.io/jiffy/usage/us-content-d/</guid>
       <description>Production Config The following command string may be used to run the program using the values defined in the ./.prd.config.json file.
 $ go run main.go -prod  The generated sample production configuration file should be edited to match the local environment. Jiffy will generate a sample .prod.config.json file similar to the one shown below:
-{ &amp;quot;external_address&amp;quot;: &amp;quot;127.0.0.1:8080&amp;quot;, &amp;quot;internal_address&amp;quot;: &amp;quot;127.0.0.1:4444&amp;quot;, &amp;quot;env&amp;quot;: &amp;quot;prod&amp;quot;, &amp;quot;ping_cycle&amp;quot;: 1, &amp;quot;failure_threshold&amp;quot;: 5, &amp;quot;pepper&amp;quot;: &amp;quot;secret-pepper-key&amp;quot;, &amp;quot;hmac_Key&amp;quot;: &amp;quot;secret-hmac-key&amp;quot;, &amp;quot;database&amp;quot;: { &amp;quot;db_dialect&amp;quot;: &amp;quot;postgres&amp;quot;, &amp;quot;host&amp;quot;: &amp;quot;localhost&amp;quot;, &amp;quot;port&amp;quot;: 5432, &amp;quot;user&amp;quot;: &amp;quot;godev&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;gogogo123&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;glrestgen&amp;quot;, &amp;quot;ormLogActive&amp;quot;: true }, &amp;quot;logging&amp;quot;: { &amp;quot;active&amp;quot;: true, &amp;quot;callLocation&amp;quot;: false, &amp;quot;colorMsgTypes&amp;quot;: true, &amp;quot;infoMsgs&amp;quot;: false, &amp;quot;warningMsgs&amp;quot;: true, &amp;quot;errorMsgs&amp;quot;: true, &amp;quot;debugMsgs&amp;quot;: false, &amp;quot;traceMsgs&amp;quot;: false }, &amp;quot;cert_file&amp;quot;: &amp;quot;srvcert.</description>
+{ &amp;quot;external_address&amp;quot;: &amp;quot;127.0.0.1:8080&amp;quot;, &amp;quot;internal_address&amp;quot;: &amp;quot;127.0.0.1:4444&amp;quot;, &amp;quot;env&amp;quot;: &amp;quot;prod&amp;quot;, &amp;quot;ping_cycle&amp;quot;: 1, &amp;quot;failure_threshold&amp;quot;: 5, &amp;quot;pepper&amp;quot;: &amp;quot;secret-pepper-key&amp;quot;, &amp;quot;hmac_Key&amp;quot;: &amp;quot;secret-hmac-key&amp;quot;, &amp;quot;database&amp;quot;: { &amp;quot;db_dialect&amp;quot;: &amp;quot;postgres&amp;quot;, &amp;quot;host&amp;quot;: &amp;quot;localhost&amp;quot;, &amp;quot;port&amp;quot;: 5432, &amp;quot;user&amp;quot;: &amp;quot;godev&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;gogogo123&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;glrestgen&amp;quot;, &amp;quot;ormLogActive&amp;quot;: true }, &amp;quot;group_leader_kvs&amp;quot;: { &amp;quot;local_standalone&amp;quot;: { &amp;quot;active&amp;quot;: true, &amp;quot;internal_address&amp;quot;: &amp;quot;127.</description>
     </item>
     
     <item>
@@ -406,7 +396,7 @@ graph TD; subgraph A(End-Points)--B(Middleware) B--C(Controllers) C--D(Models) D
       <pubDate>Mon, 05 Feb 2018 15:44:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-d/</guid>
-      <description>The &amp;lsquo;controllers&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.go │ ├── personc.go │ ├── usrc.go │ ├── usr_groupc.go │ └── ext │ ├── extc_interfaces.go │ └── personc_ext.go ├── group │ ├── ... │ │ ├── ... . . . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  A controller is created for each entity that has been declared in the model files, as well as a number of static controllers that are used to handle the application&amp;rsquo;s users and authorization objects.</description>
+      <description>The &amp;lsquo;controllers&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.go │ ├── personc.go │ ├── usrc.go │ ├── usr_groupc.go │ └── ext │ ├── extc_interfaces.go │ └── personc_ext.go ├── group │ ├── ... │ │ ├── ... . . . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  A controller is created for each entity that has been declared in the model files, as well as a number of static controllers that are used to handle the application&amp;rsquo;s users and authorization objects.</description>
     </item>
     
     <item>
@@ -455,7 +445,7 @@ Aardvark:pgelibraryapp stevem$ docker start pgelibraryapp -ia  When Docker start
       <pubDate>Mon, 05 Feb 2018 15:51:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-e/</guid>
-      <description>The &amp;lsquo;models&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ └── appobj.go . . . ├── models │ ├── authm.go │ ├── errors.go │ ├── group_authm.go │ ├── modelfuncs.go │ ├── personm_ext.go │ ├── personm.go │ ├── servicesm.go │ ├── usr_groupm.go │ ├── usrm.go │ └── ext │ └── model_ext_interfaces.go ├── util │ └── strings.go ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  A model is created for each entity that has been modeled in the my_model.</description>
+      <description>The &amp;lsquo;models&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go . . . ├── models │ ├── authm.go │ ├── errors.go │ ├── group_authm.go │ ├── modelfuncs.go │ ├── personm_ext.go │ ├── personm.go │ ├── servicesm.go │ ├── usr_groupm.go │ ├── usrm.go │ └── ext │ └── model_ext_interfaces.go ├── util │ └── strings.go ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  A model is created for each entity that has been modeled in the my_model.</description>
     </item>
     
     <item>
@@ -475,7 +465,7 @@ $ which -a openssl /usr/bin/openssl  If openssl is not shown in the &amp;lsquo;w
       <pubDate>Mon, 05 Feb 2018 17:23:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-f/</guid>
-      <description>The &amp;lsquo;middleware&amp;rsquo; Folder FirstApp ├── appobj │ ├── ... │ └── ... . . . ├── middleware │ └── requireuser.go . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  The middleware folder contains all of the code related to the Authentication and Authorization concepts discussed in the Access Control Overview and Authorizations sections of this document.</description>
+      <description>The &amp;lsquo;middleware&amp;rsquo; Folder FirstApp ├── appobj │ ├── ... │ ├── ... | └── ... . . . ├── middleware │ └── requireuser.go . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  The middleware folder contains all of the code related to the Authentication and Authorization concepts discussed in the Access Control Overview and Authorizations sections of this document.</description>
     </item>
     
     <item>
@@ -485,7 +475,7 @@ $ which -a openssl /usr/bin/openssl  If openssl is not shown in the &amp;lsquo;w
       
       <guid>https://1414c.github.io/jiffy/usage/us-content-g/</guid>
       <description>Automated Testing When jiffy generates the application, a set of automated tests are also generated for the application&amp;rsquo;s end-points. The tests make use of the standard go test tooling. Tests can be conducted using http or https, and run against the address:port that the application is presently serving on. Remember, the application must be running prior to executing the test.
-The generated CRUD tests check the availability of the end-points and attempt to perform CRUD activities using representative data for the field-types.</description>
+The generated tests check the availability of the end-points and attempt to perform CRUD activities using representative data for the field-types.</description>
     </item>
     
     <item>
@@ -494,7 +484,7 @@ The generated CRUD tests check the availability of the end-points and attempt to
       <pubDate>Mon, 05 Feb 2018 15:24:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-g/</guid>
-      <description>The &amp;lsquo;jwtkeys&amp;rsquo; Folder FirstApp ├── appobj │ ├── ... │ └── ... . . . ├── jwtkeys │ ├── ecdsa256 │ │ ├── ecdsa.priv.pem │ │ └── ecdsa.pub.pem │ ├── ecdsa384 │ │ ├── ecdsa384.prive.pem │ │ └── ecdsa384.pub.pem │ ├── ecdsa521 │ │ ├── ecdsa521.priv.pem │ │ └── ecdsa521.pub.pem │ ├── rsa256 │ │ ├── rsa.priv.pem │ │ └── rsa.pub.pem │ ├── rsa384 │ │ ├── rsa384.prive.pem │ │ └── rsa384.</description>
+      <description>The &amp;lsquo;jwtkeys&amp;rsquo; Folder FirstApp ├── appobj │ ├── ... │ ├── ... │ └── ... . . . ├── jwtkeys │ ├── ecdsa256 │ │ ├── ecdsa.priv.pem │ │ └── ecdsa.pub.pem │ ├── ecdsa384 │ │ ├── ecdsa384.prive.pem │ │ └── ecdsa384.pub.pem │ ├── ecdsa521 │ │ ├── ecdsa521.priv.pem │ │ └── ecdsa521.pub.pem │ ├── rsa256 │ │ ├── rsa.priv.pem │ │ └── rsa.pub.pem │ ├── rsa384 │ │ ├── rsa384.</description>
     </item>
     
     <item>
@@ -503,15 +493,25 @@ The generated CRUD tests check the availability of the end-points and attempt to
       <pubDate>Mon, 02 Jul 2018 13:29:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/usage/us-content-h/</guid>
-      <description>Overview A KVS is required in order to persist the current group-leader information in multi-instance jiffy-application deployments. This is discussed in the Joining Overview section of the Interprocess Communication documentation. Although we refer to the persistent store as a KVS, anything that manages access and allows read/write operations can be used. A sample implementation of the gmcom.GetterSetter interface is generated and used by default to communicate with the KVS.</description>
+      <description>Overview A KVS is required in order to persist the current group-leader information in multi-instance jiffy-application deployments. This is discussed in the Joining Overview section of the Interprocess Communication documentation. Although we refer to the persistent store as a KVS, anything that manages access and allows read/write operations can be used.
+Jiffy applications support the use of Redis, Memcached, Stand-Alone/Local or Sluggo KVS systems out of the box. The active group-leadership KVS can be configured in the .</description>
+    </item>
+    
+    <item>
+      <title>Generated &#39;docker&#39; Folder</title>
+      <link>https://1414c.github.io/jiffy/generation/gn-content-h/</link>
+      <pubDate>Thu, 15 Mar 2018 20:57:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/generation/gn-content-h/</guid>
+      <description>The &amp;lsquo;docker&amp;rsquo; Folder FirstApp ├── appobj │ ├── ... │ ├── ... │ └── ... . . . ├── docker │ ├── .dev.config.json │ ├── .dev.config.json │ ├── .dev.config.json │ └── Dockerfile . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  The docker folder contains files that can be used as a starting point for containerizing generated jiffy applications. The Docker related tutorials at XXXXXXXXXXX make use of these files, and they are provided as a learning aid, not as an example of how to deploy applications with Docker.</description>
     </item>
     
     <item>
       <title>Other Generated Folders</title>
-      <link>https://1414c.github.io/jiffy/generation/gn-content-h/</link>
+      <link>https://1414c.github.io/jiffy/generation/gn-content-j/</link>
       <pubDate>Mon, 05 Feb 2018 15:46:10 -0700</pubDate>
       
-      <guid>https://1414c.github.io/jiffy/generation/gn-content-h/</guid>
+      <guid>https://1414c.github.io/jiffy/generation/gn-content-j/</guid>
       <description>The &amp;lsquo;ext&amp;rsquo; Folders &amp;lsquo;ext&amp;rsquo; folders contain Jiffy application interface definitions and empty implementations of the same for controller and model extension-points. See the Extension Points section of this documentation.
 The group/gmcl Folder The group/gmcl folder contains the source files for the usr, auth, usrgroup and groupauth cache clients. This package is for internal use only. See the Group Membership Overview and Failure Detector sections of this documentation.
 The group/gmcom Folder The group/gmcom folder contains source files holding artifacts that are needed by the groups/&amp;hellip; packages and those of the generated jiffy application.</description>
@@ -546,7 +546,7 @@ When you have finished and your Postman (or other test utility) looks like the f
       <guid>https://1414c.github.io/jiffy/usage/deployment/us-content-j/</guid>
       <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts 
 All-In-One Deployment In a development or test setting it may make sense to deploy everything in one system. In this context &amp;lsquo;system&amp;rsquo; refers to a laptop, bare-metal server or a VM of some sort. To deploy an all-in-one type setup, the following artifacts are required:
- Database Jiffy application Optional Key-Value-Store  The All-In-One Deployment diagram shows a jiffy-application instance running on a system with an ip-address of 192.</description>
+ Database Jiffy application Set the &amp;lsquo;local_standalone&amp;rsquo; KVS to Active in the config.</description>
     </item>
     
     <item>

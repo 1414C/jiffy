@@ -10,13 +10,57 @@ import (
 
 // DBConfig type hold pg config info
 type DBConfig struct {
-	DBDialect string    `json:"db_dialect"`
-	Host      string    `json:"host"`
-	Port      int       `json:"port"`
-	Usr      string     `json:"Usr"`
-	Password  string    `json:"Password"`
-	Name      string    `json:"name"`
-	ORMLogActive bool   `json:"ormLogActive"`
+	DBDialect           string `json:"db_dialect"`
+	Host                string `json:"host"`
+	Port                int    `json:"port"`
+	Usr                 string `json:"Usr"`
+	Password            string `json:"Password"`
+	Name                string `json:"name"`
+	ORMLogActive        bool   `json:"ormLogActive"`
+	ORMDebugTraceActive bool   `json:"ormDebugTraceActive"`
+}
+
+// LeadSetGetConfig holds group leadership KVS config
+type LeadSetGetConfig struct {
+	StandAlone StandAloneGKVSConfig `json:"local_standalone"`
+	Redis      RedisGKVSConfig      `json:"redis"`
+	Memcached  MemcachedGKVSConfig  `json:"memcached"`
+	Sluggo     SluggoGKVSConfig     `json:"sluggo"`
+}
+
+// StandAloneGKVSConfig holds the configuration values used to establish
+// the connection to the group-leadership KVS when the application is
+// running with a single stand-alone application server.
+type StandAloneGKVSConfig struct {
+	Active          bool   `json:"active"`
+	InternalAddress string `json:"internal_address"`
+}
+
+// RedisGKVSConfig holds the configuration values used to establish
+// the connection to Redis when it is being used as the group-leadership
+// KVS.
+type RedisGKVSConfig struct {
+	Active        bool   `json:"active"`
+	MaxIdle       int    `json:"max_idle"`
+	MaxActive     int    `json:"max_active"`
+	RedisProtocol string `json:"redis_protocol"`
+	RedisAddress  string `json:"redis_address"`
+}
+
+// MemcachedGKVSConfig holds the configuration values used to establish
+// the connection to Memcached when it is being used as the group-
+// leadership KVS.
+type MemcachedGKVSConfig struct {
+	Active             bool     `json:"active"`
+	MemcachedAddresses []string `json:"memcached_addresses"`
+}
+
+// SluggoGKVSConfig holds the configuration values used to establish
+// the connection to Sluggo when it is being used as the group-
+// leadership KVS.
+type SluggoGKVSConfig struct {
+	Active        bool   `json:"active"`
+	SluggoAddress string `json:"sluggo_address"`
 }
 
 // LogConfig holds logging config info
@@ -78,13 +122,14 @@ func (c DBConfig) Dialect() string {
 // for use in development testing
 func DefaultDBConfig() DBConfig {
 	return DBConfig{
-		DBDialect:    "{{.Database.DBDialect}}",
-		Host:     	  "{{.Database.Host}}",
-		Port:     	  {{.Database.Port}},
-		Usr:     	  "{{.Database.Usr}}",
-		Password: 	  "{{.Database.Password}}",
-		Name:     	  "{{.Database.Name}}",
-		ORMLogActive: false,
+		DBDialect:           "postgres",
+		Host:                "localhost",
+		Port:                5432,
+		Usr:                 "godev",
+		Password:            "gogogo123",
+		Name:                "glrestgen",
+		ORMLogActive:        false,
+		ORMDebugTraceActive: false,
 	}
 }
 
@@ -103,21 +148,48 @@ func DefaultLogConfig() LogConfig {
 	}
 }
 
+// DefaultLeadSetGetConfig returns a valid default configuration
+// suitable for running a jiffy-application in stand-alone mode.
+func DefaultLeadSetGetConfig() LeadSetGetConfig {
+	return LeadSetGetConfig{
+		StandAlone: StandAloneGKVSConfig{
+			Active:          true,
+			InternalAddress: "127.0.0.1:4444",
+		},
+		Redis: RedisGKVSConfig{
+			Active:        false,
+			MaxIdle:       80,
+			MaxActive:     12000,
+			RedisProtocol: "tcp",
+			RedisAddress:  "127.0.0.1:6379",
+		},
+		Memcached: MemcachedGKVSConfig{
+			Active:             false,
+			MemcachedAddresses: []string{"192.168.112.50:11211"},
+		},
+		Sluggo: SluggoGKVSConfig{
+			Active:        false,
+			SluggoAddress: "127.0.0.1:7070",
+		},
+	}
+}
+
 // Config isProd := false
-// likely don't need ther private-keys beyond what you use in Login() to 
+// likely don't need ther private-keys beyond what you use in Login() to
 // generate the jwt-token in cases where the access token was not created
 // by an IDP.
 type Config struct {
 	ExternalAddress     string              `json:"external_address"`
 	InternalAddress     string              `json:"internal_address"`
-	Env            		string         		`json:"env"`
+	Env                 string              `json:"env"`
 	PingCycle           uint                `json:"ping_cycle"`
 	FailureThreshold    uint64              `json:"failure_threshold"`
-	Pepper         		string         		`json:"pepper"`
-	Database       		DBConfig       		`json:"database"`
+	Pepper              string              `json:"pepper"`
+	Database            DBConfig            `json:"database"`
+	LeadSetGet          LeadSetGetConfig    `json:"group_leader_kvs"`
 	Logging             LogConfig           `json:"logging"`
-	CertFile       		string         		`json:"cert_file"`
-	KeyFile        		string         		`json:"key_file"`
+	CertFile            string              `json:"cert_file"`
+	KeyFile             string              `json:"key_file"`
 	RSA256PrivKeyFile   string              `json:"rsa256_priv_key_file"`
 	RSA256PubKeyFile    string              `json:"rsa256_pub_key_file"`
 	RSA384PrivKeyFile   string              `json:"rsa384_priv_key_file"`
@@ -132,7 +204,7 @@ type Config struct {
 	ECDSA521PubKeyFile  string              `json:"ecdsa521_pub_key_file"`
 	JWTSignMethod       string              `json:"jwt_sign_method"`
 	JWTLifetime         uint                `json:"jwt_lifetime"`
-	ServiceActivations []ServiceActivation 	`json:"service_activations"`
+	ServiceActivations  []ServiceActivation `json:"service_activations"`
 }
 
 // IsProd informs the app which environment it is running in
@@ -155,49 +227,52 @@ func (c Config) IsDev() bool {
 func DefaultServiceActivations() []ServiceActivation {
 	s := ServiceActivation{}
 	sa := []ServiceActivation{}
-	{{range .ServiceActivations -}}
-	s.ServiceName = "{{.ServiceName}}"
+	s.ServiceName = "Library"
 	s.ServiceActive = true
 	sa = append(sa, s)
 
-	{{end -}}
+	s.ServiceName = "Book"
+	s.ServiceActive = true
+	sa = append(sa, s)
+
 	return sa
 }
 
 // DefaultConfig returns the app's default config in a Config structure
 func DefaultConfig() Config {
 	return Config{
-		ExternalAddress:        "{{.ExternalAddress}}",
-		InternalAddress:        "{{.InternalAddress}}",
-		Env:            		"{{.Env}}",
-		PingCycle:              {{.PingCycle}},
-		FailureThreshold:       {{.FailureThreshold}},
-		Pepper:         		"{{.Pepper}}",
-		Database:       		DefaultDBConfig(),
-		Logging:                DefaultLogConfig(),
-		CertFile:       		"{{.CertFile}}",    // https
-		KeyFile:        		"{{.KeyFile}}",     // https
-		RSA256PrivKeyFile:   	"",
-		RSA256PubKeyFile:    	"",
-		RSA384PrivKeyFile:   	"",
-		RSA384PubKeyFile:    	"",
-		RSA512PrivKeyFile:   	"",
-		RSA512PubKeyFile:    	"",
-		ECDSA256PrivKeyFile: 	"",
-		ECDSA256PubKeyFile:  	"",
-		ECDSA384PrivKeyFile: 	"{{.ECDSA384PrivKeyFile}}",
-		ECDSA384PubKeyFile:  	"{{.ECDSA384PrivKeyFile}}",
-		ECDSA521PrivKeyFile: 	"",
-		ECDSA521PubKeyFile:  	"",
-		JWTSignMethod:          "{{.JWTSignMethod}}",
-		JWTLifetime:            {{.JWTLifetime}},
-		ServiceActivations: 	DefaultServiceActivations(),
+		ExternalAddress:     "127.0.0.1:3000",
+		InternalAddress:     "127.0.0.1:4444",
+		Env:                 "def",
+		PingCycle:           1,
+		FailureThreshold:    5,
+		Pepper:              "secret-pepper-key",
+		Database:            DefaultDBConfig(),
+		LeadSetGet:          DefaultLeadSetGetConfig(),
+		Logging:             DefaultLogConfig(),
+		CertFile:            "", // https
+		KeyFile:             "", // https
+		RSA256PrivKeyFile:   "",
+		RSA256PubKeyFile:    "",
+		RSA384PrivKeyFile:   "",
+		RSA384PubKeyFile:    "",
+		RSA512PrivKeyFile:   "",
+		RSA512PubKeyFile:    "",
+		ECDSA256PrivKeyFile: "",
+		ECDSA256PubKeyFile:  "",
+		ECDSA384PrivKeyFile: "jwtkeys/ecdsa/ec384.priv.pem",
+		ECDSA384PubKeyFile:  "jwtkeys/ecdsa/ec384.priv.pem",
+		ECDSA521PrivKeyFile: "",
+		ECDSA521PubKeyFile:  "",
+		JWTSignMethod:       "ES384",
+		JWTLifetime:         120,
+		ServiceActivations:  DefaultServiceActivations(),
 	}
 }
 
 // LoadConfig loads the config file, or falls back to the default
 func LoadConfig(configReq RunMode) Config {
-	
+
 	var fName string
 	switch configReq {
 	case cDev:

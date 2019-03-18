@@ -12,19 +12,19 @@
     <title>Deployment with Containers :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1545358456" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1552947811" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1545358456" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1552947811" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1545358456"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1552947811"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -53,14 +53,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1545358456"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1545358456"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1552947811"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1552947811"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1545358456"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1552947811"></script>
 
     
   </div>
@@ -924,8 +924,27 @@
  
   
     
-      <li data-nav-id="/jiffy/generation/gn-content-h/" title="Other Generated Folders" class="dd-item ">
+      <li data-nav-id="/jiffy/generation/gn-content-h/" title="Generated &#39;docker&#39; Folder" class="dd-item ">
         <a href="/jiffy/generation/gn-content-h/">
+        Generated &#39;docker&#39; Folder
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-j/" title="Other Generated Folders" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-j/">
         Other Generated Folders
         
         </a>
@@ -1679,25 +1698,6 @@
  
   
     
-      <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-c/" title="Jiffy with Docker Swarm, External PostgreSQL &amp; KVS" class="dd-item ">
-        <a href="/jiffy/tutorials/using-docker/dr-content-c/">
-        Jiffy with Docker Swarm, External PostgreSQL &amp; KVS
-        
-        </a>
-    </li>
-     
-  
- 
-
-            
-          
-            
-            
-
-
- 
-  
-    
       <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-d/" title="Jiffy with Kubernetes" class="dd-item ">
         <a href="/jiffy/tutorials/using-docker/dr-content-d/">
         Jiffy with Kubernetes
@@ -1892,7 +1892,7 @@
 
 <h4 id="single-instance-deployment-with-docker">Single-Instance Deployment with Docker</h4>
 
-<p>Single instance deployments contain one jiffy-application instance, an optional KVS and a database.  In this example scenario the jiffy application is deployed in a Docker container, the database is running on a separate host and no KVS is used.  Ip-addresses are shown for illustrative purposes only and it is implied that Docker&rsquo;s default bridge network is used.  See the <a href="/jiffy/usage/deployment/us-content-k/#all-in-one-deployment-with-docker">All-In-One Deployment with Docker</a> section for a brief overview of the Docker containerization of a jiffy application.</p>
+<p>Single instance deployments contain one jiffy-application instance, an optional KVS and a database.  In this example scenario the jiffy application is deployed in a Docker container, the database is running on a separate host and the stand-alone/local KVS is used.  Ip-addresses are shown for illustrative purposes only and it is implied that Docker&rsquo;s default bridge network is used.  See the <a href="/jiffy/usage/deployment/us-content-k/#all-in-one-deployment-with-docker">All-In-One Deployment with Docker</a> section for a brief overview of the Docker containerization of a jiffy application.</p>
 
 <p>The <em>docker build</em> command can be used in conjunction with a Dockerfile to generate a new Docker image containing the application and a sparse Alpine Linux install.  <em>docker build</em> also assigns a static ipv4 address to the container image by default.  This ip-address needs to be added to the application&rsquo;s configuration file via the execution of a custom script during the image build.</p>
 
@@ -1902,9 +1902,9 @@
 
 <p>The Single-Instance Deployment diagram shows a jiffy-application instance running in a container with an ipv4 address of 172.17.0.2.  The container is using docker&rsquo;s default bridge network, as evidenced by the first two numbers of the ip-address.  The application instance is accepting http client connections on port :8080 and using port :7070 to listen for failure-detector &amp; cache synchronization messages.  The failure detector &lsquo;bus&rsquo; is used for group-leadership and inter-process cache messages, even when the application is run standalone (single process).</p>
 
-<p>It is not necessary to run an external KVS if only one container/jiffy-application instance will be run.  When running without a KVS it is fine to leave the default gmcom.GetterSetter implementation in the generated jiffy-application source code as it is.  The application instance will attempt to contact the default KVS (<em>sluggo</em>) four times, then give up, assign itself a PID of 1 and assert leadership inside it&rsquo;s own process.  The short version is: don&rsquo;t worry about the KVS if you plan to run a single jiffy application instance in a container.</p>
+<p>It is not necessary to run an external KVS if only one container/jiffy-application instance will be run.  When running without a KVS, set the &lsquo;local_standalone&rsquo; KVS to active in the xxx.config.json file.  The application instance will assign itself a PID of 1 and assert leadership inside it&rsquo;s own process.  The short version is: don&rsquo;t worry about the KVS if you want to run a single instance of your jiffy application.</p>
 
-<p>If you do choose to run a single application instance with a KVS, using <a href="/jiffy/usage/us-content-h/#key-value-store-a-id-key-value-store-a"><em>sluggo</em></a> and making use of the jiffy-application&rsquo;s default gmcom.GetterSetter implementation is the easiest way to get started.  You may also choose to create your own implementation of the gmcom.GetterSetter interface in the main.go file to support another KVS.</p>
+<p>If you do choose to run an All-In-One / single application instance with a KVS, using <a href="/jiffy/usage/us-content-h/#key-value-store-a-id-key-value-store-a"><em>sluggo</em></a> / setting the &lsquo;sluggo&rsquo; KVS to active in the xxx.config.json file is the easiest way to get started.  You may also choose to use Redis, Memcached or create your own implementation of the gmcom.GetterSetter interface to support another KVS.</p>
 
 <p>The application communicates with the KVS using whatever protocol/transport is required.  Remember that the selection of KVS is arbitrary and an <a href="/jiffy/usage/us-content-h/#interface-gmcom-gmgettersetter">interface is provided</a> to allow the implementer to write their own code to communicate with any KVS.</p>
 
@@ -1913,7 +1913,7 @@
 
 <h4 id="multi-instance-deployment-with-docker">Multi-Instance Deployment with Docker</h4>
 
-<p>Multi-instance deployments refer to non-swarm Docker deployments of &gt;1 jiffy-application containers, a KVS and a database.  In this scenario the database and KVS are running on separate systems on the host network.  When deploying more than one instance of a jiffy-application the KVS is not optional, as the group-leadership sub-system requires it in order to persist the group-leader information.  It would be possible to run the KVS and the database in Docker containers as well, but we will start by only running instances of the containerized jiffy-application in Docker.</p>
+<p>Multi-instance deployments refer to non-swarm Docker deployments of &gt;1 jiffy-application containers, a KVS and a database.  In this scenario the database and KVS are running on separate systems on the host network.  When deploying more than one instance of a jiffy-application the KVS is not optional, as the group-leadership sub-system requires it in order to globally persist the group-leader information.  It would be possible to run the KVS and the database in Docker containers as well, but we will start by only running instances of the containerized jiffy-application in Docker.</p>
 
 <p><img src="/jiffy/usage/images/DockerJiffynWithPostgres2.png" alt="DockerJiffynWithPostgres2" /></p>
 
@@ -1921,7 +1921,7 @@
 
 <p>The KVS is used to hold the current group-leader information when jiffy applications are deployed with more than one instance.  See the <a href="/jiffy/interprocess/">Interprocess Communication</a> section for details regarding the use of the KVS with group-membership and group-leader election.</p>
 
-<p>Running <a href="/jiffy/usage/us-content-h/#key-value-store-a-id-key-value-store-a"><em>sluggo</em></a> and making use of the default gmcom.GetterSetter implementation is the easiest way to get started with a KVS for jiffy.  You may also choose to create your own implementation of the gmcom.GetterSetter interface in the main.go file to support another KVS.</p>
+<p>Running <a href="/jiffy/usage/us-content-h/#key-value-store-a-id-key-value-store-a"><em>sluggo</em></a> is the easiest way to get started with a KVS for jiffy.  You may also choose to use an existing Redis or Memcached system or cluster.</p>
 
 <p>The application communicates with the KVS using whatever protocol/transport is required.  The diagram shows a web-socket connection from the containerized jiffy application to the KVS on port :4444, as this is how <em>sluggo</em> communicates.   Remember that the selection of KVS is arbitrary and an <a href="/jiffy/usage/us-content-h/#interface-gmcom-gmgettersetter">interface is provided</a> to allow the implementer to write their own code to communicate with any KVS.</p>
 
@@ -2619,54 +2619,6 @@
             
         
                     
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
                         
             
             
@@ -2698,22 +2650,6 @@
                     
                     
 
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
                     
                         
             
@@ -2851,6 +2787,86 @@
             
                 
                     
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
                     
                 
                 
@@ -3143,22 +3159,6 @@
                     
                     
 
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
                     
                         
             
@@ -3249,20 +3249,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1545358457"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1545358457"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1545358457"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1545358457"></script>
-    <script src="/jiffy/js/featherlight.min.js?1545358457"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1545358457"></script>
-    <script src="/jiffy/js/highlight.pack.js?1545358457"></script>
+    <script src="/jiffy/js/clipboard.min.js?1552947811"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1552947811"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1552947811"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1552947811"></script>
+    <script src="/jiffy/js/featherlight.min.js?1552947811"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1552947811"></script>
+    <script src="/jiffy/js/highlight.pack.js?1552947811"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1545358457"></script>
-    <script src="/jiffy/js/learn.js?1545358457"></script>
-    <script src="/jiffy/js/hugo-learn.js?1545358457"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1552947811"></script>
+    <script src="/jiffy/js/learn.js?1552947811"></script>
+    <script src="/jiffy/js/hugo-learn.js?1552947811"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1545358457" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1545358457"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1552947811" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1552947811"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

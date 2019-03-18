@@ -12,19 +12,19 @@
     <title>Key Value Store Support :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1545358456" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1545358456" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1552947811" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1545358456" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1552947811" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1545358456"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1552947811"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -53,14 +53,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1545358456"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1545358456"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1552947811"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1552947811"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1545358456"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1552947811"></script>
 
     
   </div>
@@ -924,8 +924,27 @@
  
   
     
-      <li data-nav-id="/jiffy/generation/gn-content-h/" title="Other Generated Folders" class="dd-item ">
+      <li data-nav-id="/jiffy/generation/gn-content-h/" title="Generated &#39;docker&#39; Folder" class="dd-item ">
         <a href="/jiffy/generation/gn-content-h/">
+        Generated &#39;docker&#39; Folder
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-j/" title="Other Generated Folders" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-j/">
         Other Generated Folders
         
         </a>
@@ -1679,25 +1698,6 @@
  
   
     
-      <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-c/" title="Jiffy with Docker Swarm, External PostgreSQL &amp; KVS" class="dd-item ">
-        <a href="/jiffy/tutorials/using-docker/dr-content-c/">
-        Jiffy with Docker Swarm, External PostgreSQL &amp; KVS
-        
-        </a>
-    </li>
-     
-  
- 
-
-            
-          
-            
-            
-
-
- 
-  
-    
       <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-d/" title="Jiffy with Kubernetes" class="dd-item ">
         <a href="/jiffy/tutorials/using-docker/dr-content-d/">
         Jiffy with Kubernetes
@@ -1864,18 +1864,54 @@
 
 <h4 id="overview">Overview</h4>
 
-<p>A KVS is required in order to persist the current group-leader information in multi-instance jiffy-application deployments.  This is discussed in the <a href="/jiffy/interprocess/ip-content-c/#joining-overview">Joining Overview</a> section of the Interprocess Communication documentation.  Although we refer to the persistent store as a KVS, anything that manages access and allows read/write operations can be used.  A sample implementation of the gmcom.GetterSetter interface is generated and used by default to communicate with the KVS.</p>
+<p>A KVS is required in order to persist the current group-leader information in multi-instance jiffy-application deployments.  This is discussed in the <a href="/jiffy/interprocess/ip-content-c/#joining-overview">Joining Overview</a> section of the Interprocess Communication documentation.  Although we refer to the persistent store as a KVS, anything that manages access and allows read/write operations can be used.</p>
 
-<p>The sample / default gmcom.GetterSetter implementation relies on a simple KVS called <a href="https://github.com/1414C/sluggo"><em>sluggo</em></a> that was written as a super-lightweight non-productive testing solution.  For now, the docs will refer to <em>sluggo</em> when discussing the KVS, but it recommended to use something more robust for real deployments.</p>
+<p>Jiffy applications support the use of Redis, Memcached, Stand-Alone/Local or Sluggo KVS systems out of the box.  The active group-leadership KVS can be configured in the .xxx.config.json file by making appropriate settings in the &ldquo;group_leader_kvs&rdquo; key.  As shown in the json excerpt below, the default config.json files are generated with the &lsquo;local_standalone&rsquo; group-leader KVS active.  In this mode, a single instance of the application may be tested without worrying about the group-leadership setup.</p>
+
+<pre><code class="language-json">  
+  &quot;group_leader_kvs&quot;: {
+    &quot;local_standalone&quot;: {
+      &quot;active&quot;: true,
+      &quot;internal_address&quot;: &quot;127.0.0.1:4444&quot;
+  },
+  &quot;redis&quot;: {
+    &quot;active&quot;: false,
+    &quot;max_idle&quot;: 80,
+    &quot;max_active&quot;: 12000,
+    &quot;redis_protocol&quot;: &quot;tcp&quot;,
+    &quot;redis_address&quot;: &quot;127.0.0.1:6379&quot;
+  },
+  &quot;memcached&quot;: {
+    &quot;active&quot;: false,
+    &quot;memcached_addresses&quot;: [
+        &quot;192.168.112.50:11211&quot;
+      ]
+    },
+    &quot;sluggo&quot;: {
+      &quot;active&quot;: false,
+        &quot;sluggo_address&quot;: &quot;127.0.0.1:7070&quot;
+    }
+  },
+
+</code></pre>
+
+<p>If you wish to test a multi-application server deployment but do not want to install redis or memcached, the application supports a simple KVS called <a href="https://github.com/1414C/sluggo"><em>sluggo</em></a> that was written as a lightweight-non-productive KVS testing solution.  For now, the docs will refer to <em>sluggo</em> when discussing the KVS, but it recommended to use something more robust for real deployments.</p>
 
 <p>Sluggo may be installed in your environment the following go get command:</p>
 
 <pre><code class="language-bash">
-    $ go get -u github.com/1414C/sluggo
+go get -u github.com/1414C/sluggo
 
 </code></pre>
 
-<p>Interface gmcom.GetterSetter should be implemented in the generated main.go file of the jiffy-application&rsquo;s source code.</p>
+<p>Sluggo may be run from a terminal session via the following command:</p>
+
+<pre><code class="language-bash">
+go run main.go -a 192.168.1.40:7070
+
+</code></pre>
+
+<p>If none of the supported KVS solutions are appealing, support can be added for the desired KVS via the implementation of interface gmcom.GMSetterGetter{} in appobj/lead_set_get.go.</p>
 
 <h4 id="example-gmcom-gettersetter-implementation">Example gmcom.GetterSetter Implementation</h4>
 
@@ -1895,6 +1931,11 @@
   <tr>
     <td><h5>SetDBLeader(l GMLeader) error</h5>
     SetDBLeader is provided in order to allow the implementer to persist a newly elected leader&rsquo;s information in the persistent store.  The implementation of this method is intended to be self-contained.<p>  For example, if the implementation calls for the current leader information to be persisted in redis, the implementer should code a self-contained method to connect to redis and store the leader information provided by input parameter <em>l</em>. Failure to persist the provided leader information should result in the implementer returning a non-nil value in the <em>error</em> return parameter.<p>
+    </td>
+  </tr>
+  <tr>
+    <td><h5>Cleanup() error</h5>
+    Cleanup is provided in order to allow the implementer to cleanup connection pools, open and/or busy connections before the hosting application shuts down in response to a SIGKILL, os.Interrupt or SIGINT event.  If the implementation does not require any cleanup, this method can be implemented to simply return nil.
     </td>
   </tr>
 </table>
@@ -1942,6 +1983,14 @@ func (sg *LeadSetGet) SetDBLeader(l gmcom.GMLeader) error {
 
   // access the database here to set a new current leader
   wscl.AddUpdCacheEntry(&quot;LEADER&quot;, &amp;l, &quot;192.168.1.40:7070&quot;)
+  return nil
+}
+
+// Cleanup closes connections to group-leadership KVS when
+// prior to application shutdown.
+func (sg *LeadSetGet) Cleanup() error {
+  
+  // perform cleanup(s)
   return nil
 }
 
@@ -2637,54 +2686,6 @@ func (sg *LeadSetGet) SetDBLeader(l gmcom.GMLeader) error {
             
         
                     
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
-                    
                         
             
             
@@ -2716,22 +2717,6 @@ func (sg *LeadSetGet) SetDBLeader(l gmcom.GMLeader) error {
                     
                     
 
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
                     
                         
             
@@ -2869,6 +2854,86 @@ func (sg *LeadSetGet) SetDBLeader(l gmcom.GMLeader) error {
             
                 
                     
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
                     
                 
                 
@@ -3157,22 +3222,6 @@ func (sg *LeadSetGet) SetDBLeader(l gmcom.GMLeader) error {
                     
                     
 
-                    
-                        
-            
-            
-                
-                    
-                
-                
-
-                    
-                    
-                    
-
-                    
-            
-        
                     
                         
             
@@ -3263,20 +3312,20 @@ func (sg *LeadSetGet) SetDBLeader(l gmcom.GMLeader) error {
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1545358456"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1545358456"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1545358456"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1545358456"></script>
-    <script src="/jiffy/js/featherlight.min.js?1545358456"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1545358456"></script>
-    <script src="/jiffy/js/highlight.pack.js?1545358456"></script>
+    <script src="/jiffy/js/clipboard.min.js?1552947811"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1552947811"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1552947811"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1552947811"></script>
+    <script src="/jiffy/js/featherlight.min.js?1552947811"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1552947811"></script>
+    <script src="/jiffy/js/highlight.pack.js?1552947811"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1545358456"></script>
-    <script src="/jiffy/js/learn.js?1545358456"></script>
-    <script src="/jiffy/js/hugo-learn.js?1545358456"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1552947811"></script>
+    <script src="/jiffy/js/learn.js?1552947811"></script>
+    <script src="/jiffy/js/hugo-learn.js?1552947811"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1545358456" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1545358456"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1552947811" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1552947811"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

@@ -28,7 +28,6 @@ type ServicesConfig func(*Services) error
 func WithSqac(dialect, connectionInfo string, dbLog bool) ServicesConfig {
 	return func(s *Services) error {
 		handle := sqac.Create(dialect, false, dbLog, connectionInfo)
-
 		s.handle = handle
 		return nil
 	}
