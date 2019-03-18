@@ -12,19 +12,19 @@
     <title>Group Membership Overview :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1552947811" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1552947811" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1552947811" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1552947811" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1552947811" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1552947811" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1552947811" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1552947811" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1552948181" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1552948181" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1552948181" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1552948181" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1552948181" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1552948181" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1552948181" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1552948181" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1552947811" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1552948181" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1552947811"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1552948181"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -53,14 +53,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1552947811"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1552947811"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1552948181"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1552948181"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1552947811"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1552948181"></script>
 
     
   </div>
@@ -1863,8 +1863,7 @@
 <li>Each application instance running the group-membership service can be thought of as a process.</li>
 <li>At any point in time, the group has an elected leader.<br /></li>
 <li>The group-leader information must be made available via an external persistent store, except in the case of single-instance operation.</li>
-<li>An interface is provided (gmcom.GMLeaderSetterGetter) in order to support the passing of implementation-specific persistent store accessors to a starting process.  Default implementations to permit access to redis, memcached, stand-alone, and sluggo are provided and are directly supported via configuration in the .xxx.config.json file.  The interface can also be used by the implementer to persist the current group-leader information in any other accessible medium (ie. db-of-your-choice).  Faster is better here.</li>
-<li>Jiffy ships with a sample implementation of gmcom.GMLeaderSetterGetter that facilitates the use of a simple web-sockets-based key-store application (<a href="https://github.com/1414C/sluggo">https://github.com/1414C/sluggo</a>).</li>
+<li>An interface is provided (gmcom.GMLeaderSetterGetter{}) in order to support the passing of implementation-specific persistent store accessors to a starting process.  Default implementations to permit access to redis, memcached, stand-alone, and sluggo are provided and are directly supported via configuration in the .xxx.config.json file.  The interface can also be used by the implementer to persist the current group-leader information in any other accessible medium (ie. db-of-your-choice).  Faster is better here.</li>
 <li>Each process has a uint id (PID) that is assigned by the group-leader upon joining the group.</li>
 <li>Processes join the group by querying the well-known persistent store to obtain the current group-leader information.  Once the group-leader is known, the joining instance contacts the leader&rsquo;s address:port and sends a JOIN message.  The leader will allocate a new PID for the joining process and send an ACK message in response.  The joining process set it&rsquo;s PID based on the PID contained in the ACK message.</li>
 <li>Processes can join and drop out of the group without any changes to the configuration.  Group-membership is managed dynamically via inter-process messaging between group-members.</li>
@@ -3185,20 +3184,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1552947811"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1552947811"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1552947811"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1552947811"></script>
-    <script src="/jiffy/js/featherlight.min.js?1552947811"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1552947811"></script>
-    <script src="/jiffy/js/highlight.pack.js?1552947811"></script>
+    <script src="/jiffy/js/clipboard.min.js?1552948181"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1552948181"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1552948181"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1552948181"></script>
+    <script src="/jiffy/js/featherlight.min.js?1552948181"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1552948181"></script>
+    <script src="/jiffy/js/highlight.pack.js?1552948181"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1552947811"></script>
-    <script src="/jiffy/js/learn.js?1552947811"></script>
-    <script src="/jiffy/js/hugo-learn.js?1552947811"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1552948181"></script>
+    <script src="/jiffy/js/learn.js?1552948181"></script>
+    <script src="/jiffy/js/hugo-learn.js?1552948181"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1552947811" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1552947811"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1552948181" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1552948181"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
