@@ -564,7 +564,7 @@
 	"title": "Credits",
 	"tags": [],
 	"description": "",
-	"content": " Contributors Thanks to them  for making Open Source Software a better place !\nPackages and libraries  sqlx jwt-go go-sql-driver/mysql lib/pq go-sqlite3 go-mssqldb go-hdb  Tooling  Hugo Hugo Learn Theme  "
+	"content": " Contributors Thanks to them  for making Open Source Software a better place !\nPackages and libraries  sqlx jwt-go go-sql-driver/mysql lib/pq go-sqlite3 go-mssqldb go-hdb redigo memcache  Tooling  Hugo Hugo Learn Theme  "
 },
 {
 	"uri": "https://1414c.github.io/jiffy/tags/",
