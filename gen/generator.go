@@ -373,9 +373,6 @@ func (ent *Entity) CreateModelExtensionPointsFile(tDir string) (fName string, er
 // file-names or an error.
 func (s *Static) GenerateStaticTemplates() (fNames []string, err error) {
 
-	// log.Println("s.DstDir:", s.DstDir)
-	// log.Println("s.SrcDir:", s.SrcDir)
-
 	tmlFiles, err := filepath.Glob(s.SrcDir + "/*" + ".gotmpl")
 	if err != nil {
 		log.Println(err)
@@ -475,7 +472,6 @@ func (i *Info) GetSqacTagLine(b bool) string {
 		i.sqacTagLineExtend("nullable:false")
 	} else {
 		i.sqacTagLineExtend("nullable:true")
-		// i.Value = fmt.Sprintf("*%s", i.Value)
 	}
 
 	// set the default

@@ -197,7 +197,6 @@ func buildEntityColumns(colString string, colType ColType) ([]Info, error) {
 		case DataColumn:
 			info.IsKey = false
 			info.Name = strings.Title(info.Name)
-			// info.SnakeCaseName = util.ToDBName(info.Name)
 			info.SnakeCaseName = common.CamelToSnake(info.Name)
 			info.Value, ok = extractString(attrObjMap["type"])
 			if !ok {
@@ -239,7 +238,6 @@ func buildEntityColumns(colString string, colType ColType) ([]Info, error) {
 			if !ok {
 				return nil, fmt.Errorf("incorrect element-type for entity \"unique\" field")
 			}
-			// info.Selectable, ok = extractBool(attrObjMap["selectable"])
 			info.Selectable, ok = extractString(attrObjMap["selectable"])
 			if !ok {
 				return nil, fmt.Errorf("incorrect element-type for entity \"selectable\" field")

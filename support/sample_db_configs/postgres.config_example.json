@@ -1,18 +1,18 @@
 {
     "external_address": "127.0.0.1:3000",
-    "internal_address": "127.0.0.1:4444",    
+    "internal_address": "127.0.0.1:4444",
     "env": "dev",
     "ping_cycle": 1,
-    "failure_threshold": 5,     
-    "pepper": "secret-pepper-key",  
+    "failure_threshold": 5,
+    "pepper": "secret-pepper-key",
     "hmac_Key": "secret-hmac-key",
     "database": {
         "db_dialect": "postgres",
-        "host":       "127.0.0.1",
-		"port":       5432,
-		"usr":        "godev",
-		"password":   "gogogo123",
-		"name":       "glrestgen"
+        "host": "127.0.0.1",
+        "port": 5432,
+        "usr": "godev",
+        "password": "gogogo123",
+        "name": "sqactst"
     },
     "cert_file": "",
     "key_file": "",
@@ -32,12 +32,12 @@
     "jwt_lifetime": 120,
     "service_activations": [
         {
-            "service_name":   "Library",
+            "service_name": "Library",
             "service_active": true
         },
         {
-            "service_name":   "Book",
+            "service_name": "Book",
             "service_active": true
         }
-        ]
+    ]
 }

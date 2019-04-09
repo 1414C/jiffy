@@ -1,18 +1,18 @@
 {
     "external_address": "127.0.0.1:3000",
-    "internal_address": "127.0.0.1:4444",    
+    "internal_address": "127.0.0.1:4444",
     "env": "dev",
     "ping_cycle": 1,
-    "failure_threshold": 5,  
-    "pepper": "secret-pepper-key",  
+    "failure_threshold": 5,
+    "pepper": "secret-pepper-key",
     "hmac_Key": "secret-hmac-key",
     "database": {
         "db_dialect": "hdb",
-        "host":       "clkhana01.lab.clockwork.ca",
-		"port":       30047,
-		"usr":        "SMACLEOD",
-		"password":   "Blockhead1",
-		"name":       ""
+        "host": "clkhana01.lab.clockwork.ca",
+        "port": 30047,
+        "usr": "godev",
+        "password": "gogogo123",
+        "name": ""
     },
     "cert_file": "",
     "key_file": "",
@@ -32,12 +32,12 @@
     "jwt_lifetime": 120,
     "service_activations": [
         {
-            "service_name":   "Library",
+            "service_name": "Library",
             "service_active": true
         },
         {
-            "service_name":   "Book",
+            "service_name": "Book",
             "service_active": true
         }
-        ]
+    ]
 }

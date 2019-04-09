@@ -73,19 +73,15 @@ func (c DBConfig) ConnectionInfo() string {
 		return fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", c.Host, c.Port, c.Usr, c.Password, c.Name)
 
 	case "mssql":
-		// "sqlserver://SA:Bunny123!!@localhost:1401?database=sqlx")
 		return fmt.Sprintf("sqlserver://%s:%s@l%s:%d?database=%s", c.Usr, c.Password, c.Host, c.Port, c.Name)
 
 	case "hdb":
-		// "hdb://SMACLEOD:Blockhead1@clkhana01.lab.clockwork.ca:30047")
 		return fmt.Sprintf("hdb://%s:%s@%s:%d", c.Usr, c.Password, c.Host, c.Port)
 
 	case "sqlite":
-		// "sqlite3", "testdb.sqlite"
 		return fmt.Sprintf("%s", c.Name)
 
 	case "mysql":
-		// "stevem:gogogo123@tcp(192.168.1.50:3306)/sqlx?charset=utf8&parseTime=True&loc=Local")
 		return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local", c.Usr, c.Password, c.Host, c.Port, c.Name)
 
 	default:
@@ -98,12 +94,6 @@ func (c DBConfig) ConnectionInfo() string {
 func (c *DBConfig) Validate() error {
 
 	connString := c.ConnectionInfo()
-
-	// if dbc.Password == "" {
-	// 	connString = fmt.Sprintf("host=%s port=%d user=%s dbname=%s sslmode=disable", dbc.Host, dbc.Port, dbc.User, dbc.Name)
-	// } else {
-	// 	connString = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", dbc.Host, dbc.Port, dbc.User, dbc.Password, dbc.Name)
-	// }
 
 	log.Printf("default %s validation: opening connection\n", c.DBDialect)
 	dbHandle, err := sql.Open(c.DBDialect, connString)
@@ -245,7 +235,6 @@ func (cfg *Config) GenerateSampleConfig(dstDir string) error {
 		}
 
 		// execute the config.json.gotmpl template using new file .xxx.config.json as a target
-		// fmt.Println("cfg:", cfg)
 		err = at.Execute(f, cfg)
 		if err != nil {
 			log.Fatal("GenerateSampleConfig: ", err)
