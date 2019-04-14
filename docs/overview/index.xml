@@ -37,7 +37,7 @@ Applications are generated based on model files which are encoded as simple JSON
       <pubDate>Sat, 10 Feb 2018 23:56:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/overview/ov-content-c/</guid>
-      <description>Jiffy Application File Structure iffy generates the following structure when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity. Explanations of each folder and its content are discussed throughout the documentation.
+      <description>Jiffy Application File Structure Jiffy generates the following structure when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity. Explanations of each folder and its content are discussed throughout the documentation.
 FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.go │ ├── personc.go │ ├── usrc.go │ ├── usr_groupc.go │ └── ext │ ├── extc_interfaces.</description>
     </item>
     
