@@ -20,7 +20,6 @@ See https://1414c.github.io/jiffy for a current description of the project.
 - [ ] Add support for relationships (or the suspension of them) in the generated jiffy test-suites.
 - [ ] Address logging(?)
 - [ ] consider FAQ for calling db functions
-- [ ] re-enable the ELECTION message and test on ARM
 - [ ] create a few runnable examples in Docker containers
 - [ ] create an environment service
 - [ ] create a $metadata service
