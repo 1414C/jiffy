@@ -6,6 +6,7 @@ See https://1414c.github.io/jiffy for a current description of the project.
 
 ## Latest
 
+- [ ] Update for modules support
 - [x] Send a DEPARTING message to the group when a SIGKILL, SIGTERM or os.Interrupt is detected
 - [x] Add CDeparting Message Type constant
 - [x] Add CinFlushMemberMap channel command constant
