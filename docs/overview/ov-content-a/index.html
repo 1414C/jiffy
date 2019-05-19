@@ -12,19 +12,19 @@
     <title>What is Jiffy? :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1555256989" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1555256989" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1555256989" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1555256989" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1555256989" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1555256989" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1555256989" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1555256989" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1558281736" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1558281736" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1558281736" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1558281736" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1558281736" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1558281736" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1558281736" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1558281736" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1555256989" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1558281736" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1555256989"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1558281736"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -53,14 +53,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1555256989"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1555256989"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1558281736"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1558281736"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1555256989"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1558281736"></script>
 
     
   </div>
@@ -1831,7 +1831,6 @@
 <li>
 <ul>
 <li><a href="#what-does-jiffy-do">What does Jiffy do?</a></li>
-<li><a href="#why-write-in-go">Why write in Go?</a></li>
 <li><a href="#what-does-a-jiffy-application-provide">What does a Jiffy application provide?</a></li>
 <li><a href="#how-does-jiffy-interface-to-the-underlying-database">How does Jiffy interface to the underlying database?</a></li>
 </ul></li>
@@ -1863,23 +1862,6 @@
 
 <p>Jiffy allows a developer to generate a robust go-based application that treats the data persistence layer in a generic manner.  This allows the generated application to connect to number of different database systems (outlined below), without any code changes.  Generated applications can be targeted at SAP Hana; Postgres, MySQL, MSSQL or SQLite simply by updating one configuration file.</p>
 
-<h3 id="why-write-in-go">Why write in Go?</h3>
-
-<ul>
-<li>Go has a good standard library, thereby keeping dependencies on public packages to a minimum</li>
-<li>Go offers concurrency via lightweight threads known as go-routines
-
-<ul>
-<li>no blocking in the i/o layer during compute intensive tasks</li>
-<li>no lost callbacks or broken promises</li>
-<li>go-routines will use all available cores to handle incoming requests</li>
-</ul></li>
-<li>Go offers type-safety</li>
-<li>Go is a small language</li>
-<li>Go projects compile to a static single binary which simplifies deployments</li>
-<li>Go cross-compiles to virtually any platform and architecture; write and test on a Chromebook - deploy to amd64/ppc64/arm64/s390</li>
-</ul>
-
 <h3 id="what-does-a-jiffy-application-provide">What does a Jiffy application provide?</h3>
 
 <p>Jiffy consumes simple JSON model-files and uses them to generate a working, secure and extensible application server codebase.  Generated applications need no additional coding to run, although in most situations custom checks should be added via <a href="/jiffy/extensionpoints/ep-content-a/#extension-points-ext-folders">extension-points</a> present in the generated codebase.</p>
@@ -1887,29 +1869,29 @@
 <p>Jiffy applications provide the following features:</p>
 
 <ul>
-<li>generated applications can be connected to Postgres, MSSQL, SAP Hana, SQLite or MariaDB</li>
-<li>no database specific code is compiled into the binary; an app can be pointed from SQLite to SAP Hana with no code changes</li>
-<li>login / authorization management via JWT</li>
-<li>built-in support for the creation of signing-keys for JWT (RS256, RS384, RS512, ES256, ES384, ES521)</li>
-<li>supports JWT&rsquo;s created by other IDP&rsquo;s (RS256, RS384, RS512, ES256, ES384, ES521)</li>
-<li>bcrypt salt/pepper based authentication scheme where passwords are never stored in the db</li>
+<li>Generated applications can be connected to Postgres, MSSQL, SAP Hana, SQLite or MariaDB</li>
+<li>No database specific code is compiled into the binary; an app can be pointed from SQLite to SAP Hana with no code changes</li>
+<li>Login / authorization management via JWT</li>
+<li>Built-in support for the creation of signing-keys for JWT (RS256, RS384, RS512, ES256, ES384, ES521)</li>
+<li>Supports JWT&rsquo;s created by other IDP&rsquo;s (RS256, RS384, RS512, ES256, ES384, ES521)</li>
+<li>Bcrypt salt/pepper based authentication scheme where passwords are never stored in the db</li>
 <li>JSON configuration (model) file(s) for Entity, Index, Foreign-Key and Relationship definitions</li>
-<li>models support persistent and non-persistent fields</li>
-<li>generated apps create and alter database artifacts based on the model file (tables, indices, sequences etc.)</li>
-<li>supports single and composite index declarations via the model file</li>
-<li>built-in support for https</li>
-<li>built-in normalization and validation in the model-layer</li>
-<li>each entity&rsquo;s corresponding service can be enabled and disabled on a per-app-server (process) basis based on config</li>
-<li>generates a working set of CRUD-type RESTful services for each entity in the model file</li>
-<li>get-set type end-points support /$count, $limit=n, $offset=n, $orderby=field_name ($asc|$desc)</li>
-<li>supports and generates working end-points for hasOne, hasMany and belongsTo entity relationships</li>
-<li>generates static query end-points</li>
-<li>end-points are secured by way of scope inspection (JWT claims) in the route handler middleware</li>
-<li>end-point security is generated by default via a auths -&gt; auth-groups -&gt; user arrangement</li>
-<li>generates a comprehensive set of working tests (go test)</li>
-<li>generated code is easily extended either via direct editing, or through an extension-point concept in the model and controller-layers</li>
-<li>a leader-election-based group-membership service exists between running instances of the application to facilitate internal caching of user information</li>
-<li>jiffy applications are designed for bare-metal, VM, containerized and managed container deployment (Kubernetes)</li>
+<li>Models support persistent and non-persistent fields</li>
+<li>Generated apps create and alter database artifacts based on the model file (tables, indices, sequences etc.)</li>
+<li>Supports single and composite index declarations via the model file</li>
+<li>Built-in support for https</li>
+<li>Built-in normalization and validation in the model-layer</li>
+<li>Each entity&rsquo;s corresponding service can be enabled and disabled on a per-app-server (process) basis based on config</li>
+<li>Generates a working set of CRUD-type RESTful services for each entity in the model file</li>
+<li>Get/set type end-points support /$count, $limit=n, $offset=n, $orderby=field_name ($asc|$desc)</li>
+<li>Supports and generates working end-points for hasOne, hasMany and belongsTo entity relationships</li>
+<li>Generates static query end-points</li>
+<li>End-points are secured by way of scope inspection (JWT claims) in the route handler middleware</li>
+<li>End-point security is generated by default via a auths -&gt; auth-groups -&gt; user arrangement</li>
+<li>Generates a comprehensive set of working tests (go test)</li>
+<li>Generated code is easily extended either via direct editing, or through an extension-point concept in the model and controller-layers</li>
+<li>A leader-election-based group-membership service exists between running instances of the application to facilitate internal caching of user information</li>
+<li>Jiffy applications are designed for bare-metal, VM, containerized and managed container deployment (Kubernetes)</li>
 </ul>
 
 <h3 id="how-does-jiffy-interface-to-the-underlying-database">How does Jiffy interface to the underlying database?</h3>
@@ -1918,7 +1900,7 @@
 
 <p><strong>ORM&rsquo;s sound like a bad idea to a lot of people.</strong>  That being said, as soon as you want to support more than one type of backend DBMS, a level of abstraction (like a thin ORM) starts to look a bit more appealing.  However&hellip;</p>
 
-<p>If you look at the generated code and don&rsquo;t like what you see, the ORM handle exposes the standard go/sql and the awesome jmoiron/sqlx libraries to you directly.  This will allow you to make use of the generated application while coding the SQL by hand.</p>
+<p>If you look at the generated code and don&rsquo;t like what you see, the ORM handle exposes the standard go/sql and the awesome jmoiron/sqlx libraries to the developer.  The generated ORM code can simply be replaced with hand-coded SQL.</p>
 
 
 <footer class=" footline" >
@@ -3230,20 +3212,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1555256989"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1555256989"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1555256989"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1555256989"></script>
-    <script src="/jiffy/js/featherlight.min.js?1555256989"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1555256989"></script>
-    <script src="/jiffy/js/highlight.pack.js?1555256989"></script>
+    <script src="/jiffy/js/clipboard.min.js?1558281736"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1558281736"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1558281736"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1558281736"></script>
+    <script src="/jiffy/js/featherlight.min.js?1558281736"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1558281736"></script>
+    <script src="/jiffy/js/highlight.pack.js?1558281736"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1555256989"></script>
-    <script src="/jiffy/js/learn.js?1555256989"></script>
-    <script src="/jiffy/js/hugo-learn.js?1555256989"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1558281736"></script>
+    <script src="/jiffy/js/learn.js?1558281736"></script>
+    <script src="/jiffy/js/hugo-learn.js?1558281736"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1555256989" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1555256989"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1558281736" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1558281736"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
