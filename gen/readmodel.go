@@ -15,7 +15,9 @@ import (
 type ColType int
 
 const (
-	KeyColumn ColType = iota // 0
+	// KeyColumn is a hold-over from an older iternation of the code
+	KeyColumn ColType = iota
+	// DataColumn is used in a (now) pointless check
 	DataColumn
 )
 

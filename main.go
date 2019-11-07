@@ -70,7 +70,6 @@ func main() {
 				for _, v := range fEntities {
 					entities = append(entities, v)
 				}
-				fEntities = nil
 			}
 		}
 	}

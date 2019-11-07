@@ -8,6 +8,7 @@ import (
 	"strings"
 	"text/template"
 
+	// needed
 	_ "github.com/SAP/go-hdb/driver"
 	_ "github.com/denisenkom/go-mssqldb"
 	_ "github.com/go-sql-driver/mysql"
