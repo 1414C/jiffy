@@ -1,6 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/overview/</loc>
+    <lastmod>2018-02-14T22:11:10-07:00</lastmod>
+  </url>
   
   <url>
     <loc>https://1414c.github.io/jiffy/getting-started/gs-content-a/</loc>
@@ -8,53 +13,53 @@
   </url>
   
   <url>
-    <loc>https://1414c.github.io/jiffy/overview/</loc>
-    <lastmod>2018-02-05T13:26:10-07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://1414c.github.io/jiffy/getting-started/</loc>
-    <lastmod>2018-02-05T13:26:10-07:00</lastmod>
+    <lastmod>2018-02-05T21:40:32-07:00</lastmod>
   </url>
   
   <url>
     <loc>https://1414c.github.io/jiffy/installation/</loc>
-    <lastmod>2018-02-05T13:26:10-07:00</lastmod>
+    <lastmod>2018-02-05T14:03:10-07:00</lastmod>
   </url>
   
   <url>
     <loc>https://1414c.github.io/jiffy/execution/</loc>
-    <lastmod>2018-02-05T13:26:13-07:00</lastmod>
+    <lastmod>2018-02-05T14:30:10-07:00</lastmod>
   </url>
   
   <url>
     <loc>https://1414c.github.io/jiffy/models/</loc>
-    <lastmod>2018-02-05T13:26:13-07:00</lastmod>
+    <lastmod>2018-02-05T15:03:10-07:00</lastmod>
   </url>
   
   <url>
     <loc>https://1414c.github.io/jiffy/generation/</loc>
-    <lastmod>2018-02-05T15:22:10-07:00</lastmod>
+    <lastmod>2018-03-15T20:57:10-07:00</lastmod>
   </url>
   
   <url>
     <loc>https://1414c.github.io/jiffy/extensionpoints/</loc>
-    <lastmod>2018-02-05T17:55:10-07:00</lastmod>
+    <lastmod>2018-02-05T18:08:10-07:00</lastmod>
   </url>
   
   <url>
     <loc>https://1414c.github.io/jiffy/accesscontrol/</loc>
-    <lastmod>2018-07-02T13:26:10-07:00</lastmod>
+    <lastmod>2018-07-02T13:29:10-07:00</lastmod>
   </url>
   
   <url>
     <loc>https://1414c.github.io/jiffy/interprocess/</loc>
-    <lastmod>2018-07-02T16:52:10-07:00</lastmod>
+    <lastmod>2018-07-02T17:03:10-07:01</lastmod>
   </url>
   
   <url>
     <loc>https://1414c.github.io/jiffy/interprocess/ip-content-a/</loc>
     <lastmod>2018-07-02T16:52:10-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://1414c.github.io/jiffy/usage/</loc>
+    <lastmod>2018-07-02T13:29:10-07:00</lastmod>
   </url>
   
   <url>
@@ -113,13 +118,8 @@
   </url>
   
   <url>
-    <loc>https://1414c.github.io/jiffy/usage/</loc>
-    <lastmod>2018-07-02T13:26:10-07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://1414c.github.io/jiffy/tutorials/</loc>
-    <lastmod>2018-02-05T13:26:13-07:00</lastmod>
+    <lastmod>2018-02-05T14:30:10-07:00</lastmod>
   </url>
   
   <url>
@@ -183,6 +183,11 @@
   </url>
   
   <url>
+    <loc>https://1414c.github.io/jiffy/tutorials/using-docker/</loc>
+    <lastmod>2018-07-04T13:27:10-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://1414c.github.io/jiffy/interprocess/ip-content-c/</loc>
     <lastmod>2018-07-02T17:03:10-07:00</lastmod>
   </url>
@@ -220,11 +225,6 @@
   <url>
     <loc>https://1414c.github.io/jiffy/models/mo-content-c/</loc>
     <lastmod>2018-02-05T14:57:10-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://1414c.github.io/jiffy/tutorials/using-docker/</loc>
-    <lastmod>2018-07-02T13:27:10-07:00</lastmod>
   </url>
   
   <url>
@@ -394,12 +394,12 @@
   
   <url>
     <loc>https://1414c.github.io/jiffy/</loc>
-    <lastmod>2018-02-05T13:26:10-07:00</lastmod>
+    <lastmod>2018-07-04T13:27:10-07:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://1414c.github.io/jiffy/categories/</loc>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -408,7 +408,6 @@
   
   <url>
     <loc>https://1414c.github.io/jiffy/tags/</loc>
-    <priority>0</priority>
   </url>
   
 </urlset>

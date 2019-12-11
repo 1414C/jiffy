@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Let&#39;s Test Something on Jiffy Services Generator</title>
@@ -84,8 +84,7 @@ Once you have successfully read &amp;lsquo;Person&amp;rsquo; entity 10000001 int
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-g/</guid>
       <description>We have seen how to Create, Get, and Update a &amp;lsquo;Person&amp;rsquo; entity, but before we get around to the Delete operation, let&amp;rsquo;s take a quick look at some other simple things we can do with Get entity lists.
-  Get a count of &amp;#39;Person&amp;#39; entities in the database   http://127.0.0.1:8080/persons/$count .
-    Get all &amp;#39;Person&amp;#39; entities in the database ordered-by age   http://127.0.0.1:8080/persons$orderby=age .</description>
+  Get a count of &amp;#39;Person&amp;#39; entities in the database   ![person-count.jpg](../images/person-count.jpg) `http://127.0.0.1:8080/persons/$count` .     Get all &amp;#39;Person&amp;#39; entities in the database ordered-by age   ![persons-orderby-age.jpg](../images/persons-orderby-age.jpg) `http://127.</description>
     </item>
     
     <item>

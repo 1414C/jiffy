@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Jiffy Overview on Jiffy Services Generator</title>
@@ -6,7 +6,7 @@
     <description>Recent content in Jiffy Overview on Jiffy Services Generator</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 05 Feb 2018 13:26:10 -0700</lastBuildDate>
+    <lastBuildDate>Wed, 14 Feb 2018 22:11:10 -0700</lastBuildDate>
     
 	<atom:link href="https://1414c.github.io/jiffy/overview/index.xml" rel="self" type="application/rss+xml" />
     
@@ -17,7 +17,7 @@
       <pubDate>Mon, 05 Feb 2018 13:26:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/overview/ov-content-a/</guid>
-      <description>What does Jiffy do? Jiffy is a model-based RESTful application services generator written in go. Think of Jiffy as an accelerator: Jiffy generates a complete backend services application, and that generated application is what will be run in production.
+      <description>What does Jiffy do? Jiffy is a model-based RESTful application services generator written in golang. Think of Jiffy as an accelerator: Jiffy generates a complete backend services application, and that generated application is what will be compiled and then run in production.
 Jiffy allows a developer to generate a robust go-based application that treats the data persistence layer in a generic manner. This allows the generated application to connect to number of different database systems (outlined below), without any code changes.</description>
     </item>
     

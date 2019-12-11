@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta name="generator" content="Hugo 0.52" />
+    <meta name="generator" content="Hugo 0.59.1" />
     <meta name="description" content="">
 
 
@@ -12,19 +12,19 @@
     <title> :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1558281736" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1558281736" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1558281736" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1558281736" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1558281736" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1558281736" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1558281736" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1558281736" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1576040680" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1576040680" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1576040680" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1576040680" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1576040680" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1576040680" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1576040680" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1576040680" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1558281736" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1576040680" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1558281736"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1576040680"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -53,14 +53,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1558281736"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1558281736"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1576040680"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1576040680"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1558281736"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1576040680"></script>
 
     
   </div>
@@ -1803,36 +1803,17 @@
 
 <h1 id="jiffy-services-generator">Jiffy Services Generator</h1>
 
-<p>Jiffy is a model-based RESTful application services generator written in Go.  Jiffy processes model files to generate Go source code for a complete backend services application. It was originally developed as an experiment to offer an alternative avenue when developing native applications for SAP Hana.  The Jiffy application allows a developer to treat the data persistence layer as an abstraction, thereby removing the need to make use of CDS and the SAP XS(A) libraries.</p>
+<p>Jiffy is a model-based RESTful application services generator written in golang.  Jiffy processes model files to generate go source code for a complete backend services application.  Jiffy&rsquo;s goal is to generate a robust services application that implements all (most?) of the gritty parts, thereby allowing the developer to focus on their application&rsquo;s model and functionality.</p>
 
-<p>While this is not for everybody, it does reduce the mental cost of entry and allows deployment of a web-based application on SAP Hana with virtually no prior Hana knowledge.  Jiffy also works nicely with other databases.</p>
+<p>Jiffy and the <a href="https://1414c.github.io/sqac/">underlying sqac ORM</a> were written as part of my effort to learn more about golang, jwt&rsquo;s, consensus protocols, inter-nodal traffic / distributed | replicated cache, containerization and ORM design.</p>
 
-<h3 id="features">Features</h3>
+<p>The idea of writing a services generator came to me while I was wishing for an alternative avenue for native SAP Hana application development and wrestling with some interesting OData related problems.  While the result is probably not everybody&rsquo;s cup of tea, it does reduce the mental cost of entry and allows deployment of a web-based application on SAP Hana with virtually no prior Hana knowledge.  Jiffy also works nicely with other databases.</p>
 
-<ol>
-<li>Generated applications can be connected to Postgres, MSSQL, SAP Hana, SQLite or MariaDB with no source-code changes</li>
-<li>No database specific code is compiled into the binary</li>
-<li>Bcrypt salt/pepper based authentication scheme</li>
-<li>Session management and end-point authorizations are provided via jwt</li>
-<li>Built-in support for the creation of jwt signing-keys</li>
-<li>Service end-points are secured by way of jwt claims in the route handler middleware</li>
-<li>Service end-point security is generated by default, along with corresponding authorization objects</li>
-<li>Uses JSON model file(s) for Entity, Index, Relationship and Foreign-Key definitions</li>
-<li>Generates a set of CRUD-type RESTful services for each entity in the model file(s)</li>
-<li>Built-in support for https</li>
-<li>GetSet type end-points support /$count, $limit=n, $offset=n, $orderby=field_name ($asc|$desc)</li>
-<li>Generates end-points for hasOne, hasMany and belongsTo entity relationships</li>
-<li>Generates static query end-points</li>
-<li>Each entity&rsquo;s corresponding service can be enabled and disabled on a per process basis</li>
-<li>Generated models support persistent and non-persistent fields</li>
-<li>Generated apps create and alter backend database artifacts based on model definitions</li>
-<li>Baked in normalization and validation in the model-layer</li>
-<li>Generates a comprehensive set of working tests via go test</li>
-<li>Generated code is easily extended either via direct editing, or through an extension-point concept</li>
-<li>Designed to be deployed across multiple VM&rsquo;s or containers by way of a leader-election and failure detection subsystem</li>
-<li>Utilizes an internally replicated cache for user, user-group and authorization artifacts</li>
-<li>Entity caching can be easily extensible via enhancement-points in the controller or model layers (redis / memcached for example)</li>
-</ol>
+<p>Jiffy was written in the go 1.9 / 1.10 time-frame, has some external dependencies and has not been updated to use go modules.  Maybe one day the updates will happen, but for now the documentation refers to &lsquo;go get -u &hellip;&rsquo; when referring to the fulfillment of dependencies.</p>
+
+<p>A list of some of Jiffy&rsquo;s features can be found in the following <a href="/jiffy/overview/ov-content-a/">What is Jiffy?</a> section.</p>
+
+<p>Jiffy makes use of a number of external packages provided by some really talented people.  These are listed in the <a href="/jiffy/credits">CREDITS</a> section and I am grateful for their excellent work, without which none of this would have been possible.</p>
 	
   
         
@@ -1985,12 +1966,24 @@
 
                     
                     
+                        
+                    
                     
 
                     
+                        
             
-        
+            
+                
+                    
+                
+                
+
+                    
+                    
                     
+
+                    
                         
             
             
@@ -2051,6 +2044,9 @@
                     
                     
 
+                    
+            
+        
                     
                         
             
@@ -2128,10 +2124,44 @@
                     
                     
 
+                    
+            
+        
                     
             
         
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
                     
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
                         
             
             
@@ -2195,10 +2225,36 @@
                     
             
         
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
                     
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
             
         
                     
@@ -2214,6 +2270,9 @@
                     
                     
 
+                    
+            
+        
                     
                         
             
@@ -2249,7 +2308,38 @@
                     
             
         
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
                     
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
                         
             
             
@@ -2262,6 +2352,9 @@
                     
                     
 
+                    
+            
+        
                     
                         
             
@@ -2294,7 +2387,20 @@
                     
             
         
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
                     
+                    
+
+                    
             
         
                     
@@ -2310,6 +2416,9 @@
                     
                     
 
+                    
+            
+        
                     
                         
             
@@ -2371,12 +2480,30 @@
                     
                     
 
+                    
+            
+        
                     
             
         
                     
             
         
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
                     
                         
             
@@ -2538,6 +2665,9 @@
             
         
                     
+            
+        
+                    
                         
             
             
@@ -2598,7 +2728,20 @@
                     
             
         
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
                     
+                    
+                    
+
+                    
             
         
                     
@@ -2615,6 +2758,9 @@
                     
 
                     
+            
+        
+                    
                         
             
             
@@ -2675,6 +2821,9 @@
                     
                     
 
+                    
+            
+        
                     
             
         
@@ -2723,10 +2872,26 @@
                     
                     
 
+                    
+            
+        
                     
             
         
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
                     
+
+                    
                         
             
             
@@ -2771,8 +2936,6 @@
                 
 
                     
-                    
-                        
                     
                     
 
@@ -2840,7 +3003,23 @@
                     
             
         
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
                     
+                    
+                    
+
+                    
                         
             
             
@@ -2918,6 +3097,9 @@
                     
 
                     
+            
+        
+                    
                         
             
             
@@ -2985,9 +3167,19 @@
             
         
                     
+                        
             
-        
+            
+                
+                    
+                
+                
+
+                    
                     
+                    
+
+                    
                         
             
             
@@ -2995,13 +3187,30 @@
                     
                 
                 
+
+                    
+                    
+                    
 
                     
+            
+        
                     
                         
+            
+            
+                
+                    
+                
+                
+
                     
                     
+                    
 
+                    
+            
+        
                     
                         
             
@@ -3018,7 +3227,23 @@
                     
             
         
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
                     
+                    
+                    
+
+                    
                         
             
             
@@ -3031,6 +3256,1230 @@
                     
                     
 
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
                     
             
         
@@ -3135,20 +4584,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1558281736"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1558281736"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1558281736"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1558281736"></script>
-    <script src="/jiffy/js/featherlight.min.js?1558281736"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1558281736"></script>
-    <script src="/jiffy/js/highlight.pack.js?1558281736"></script>
+    <script src="/jiffy/js/clipboard.min.js?1576040680"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1576040680"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1576040680"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1576040680"></script>
+    <script src="/jiffy/js/featherlight.min.js?1576040680"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1576040680"></script>
+    <script src="/jiffy/js/highlight.pack.js?1576040680"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1558281736"></script>
-    <script src="/jiffy/js/learn.js?1558281736"></script>
-    <script src="/jiffy/js/hugo-learn.js?1558281736"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1576040680"></script>
+    <script src="/jiffy/js/learn.js?1576040680"></script>
+    <script src="/jiffy/js/hugo-learn.js?1576040680"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1558281736" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1558281736"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1576040680" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1576040680"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

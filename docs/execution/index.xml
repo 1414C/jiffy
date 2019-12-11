@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Jiffy Execution on Jiffy Services Generator</title>
@@ -6,7 +6,7 @@
     <description>Recent content in Jiffy Execution on Jiffy Services Generator</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 05 Feb 2018 13:26:13 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 05 Feb 2018 14:30:10 -0700</lastBuildDate>
     
 	<atom:link href="https://1414c.github.io/jiffy/execution/index.xml" rel="self" type="application/rss+xml" />
     
@@ -31,8 +31,9 @@
       <pubDate>Mon, 05 Feb 2018 14:30:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/execution/ex-content-b/</guid>
-      <description>Generation Flags Flags are kept to a minimum, but there are a few flags that can be appended to the execution command:
- go run main.go -m ./my_model.json  By default, the application will attempt to use ./support/testing_models/models.json as the model source, but inclusion of the -m flag permits the use of a more useful model file. The path of model file in the application base directory must be prefaced with .</description>
+      <description>Generation Flags Flags are kept to a minimum, but there are a few that can be appended to the execution command:
+ go run main.go -m ./my_model.json
+ By default, the application will attempt to use ./support/testing_models/models.json as the model source, but inclusion of the -m flag permits the use of a more useful model file. The path of model file in the application base directory must be prefaced with .</description>
     </item>
     
   </channel>

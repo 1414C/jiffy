@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Extension Points on Jiffy Services Generator</title>
@@ -6,7 +6,7 @@
     <description>Recent content in Extension Points on Jiffy Services Generator</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 05 Feb 2018 17:55:10 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 05 Feb 2018 18:08:10 -0700</lastBuildDate>
     
 	<atom:link href="https://1414c.github.io/jiffy/extensionpoints/index.xml" rel="self" type="application/rss+xml" />
     

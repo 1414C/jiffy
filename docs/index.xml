@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Jiffy Services Generator</title>
@@ -6,7 +6,7 @@
     <description>Recent content on Jiffy Services Generator</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 05 Feb 2018 13:26:10 -0700</lastBuildDate>
+    <lastBuildDate>Wed, 04 Jul 2018 13:27:10 -0700</lastBuildDate>
     
 	<atom:link href="https://1414c.github.io/jiffy/index.xml" rel="self" type="application/rss+xml" />
     
@@ -137,7 +137,7 @@ Supported Databases  PostgreSQL tested with version 10+ SAP HanaDB tested with H
       <pubDate>Mon, 05 Feb 2018 13:26:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/overview/ov-content-a/</guid>
-      <description>What does Jiffy do? Jiffy is a model-based RESTful application services generator written in go. Think of Jiffy as an accelerator: Jiffy generates a complete backend services application, and that generated application is what will be run in production.
+      <description>What does Jiffy do? Jiffy is a model-based RESTful application services generator written in golang. Think of Jiffy as an accelerator: Jiffy generates a complete backend services application, and that generated application is what will be compiled and then run in production.
 Jiffy allows a developer to generate a robust go-based application that treats the data persistence layer in a generic manner. This allows the generated application to connect to number of different database systems (outlined below), without any code changes.</description>
     </item>
     
@@ -235,8 +235,9 @@ FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └
       <pubDate>Mon, 05 Feb 2018 14:30:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/execution/ex-content-b/</guid>
-      <description>Generation Flags Flags are kept to a minimum, but there are a few flags that can be appended to the execution command:
- go run main.go -m ./my_model.json  By default, the application will attempt to use ./support/testing_models/models.json as the model source, but inclusion of the -m flag permits the use of a more useful model file. The path of model file in the application base directory must be prefaced with .</description>
+      <description>Generation Flags Flags are kept to a minimum, but there are a few that can be appended to the execution command:
+ go run main.go -m ./my_model.json
+ By default, the application will attempt to use ./support/testing_models/models.json as the model source, but inclusion of the -m flag permits the use of a more useful model file. The path of model file in the application base directory must be prefaced with .</description>
     </item>
     
     <item>
@@ -427,7 +428,8 @@ Aardvark:pgelibraryapp stevem$ docker start pgelibraryapp -ia  When Docker start
       
       <guid>https://1414c.github.io/jiffy/usage/us-content-e/</guid>
       <description>Application Server Flags Flags are generally not used, as the configuration files (models.json) are easier to deal with. There are however, a few flags that can be used when starting the server:
- -dr  The -dr switch is used to perform a destructive reset of the application&amp;rsquo;s data tables. This flag causes the application tables to be dropped and recreated, but does not affect the user, user-group, or authorization tables.</description>
+ -dr
+ The -dr switch is used to perform a destructive reset of the application&amp;rsquo;s data tables. This flag causes the application tables to be dropped and recreated, but does not affect the user, user-group, or authorization tables.</description>
     </item>
     
     <item>
@@ -631,8 +633,7 @@ Once you have successfully read &amp;lsquo;Person&amp;rsquo; entity 10000001 int
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-g/</guid>
       <description>We have seen how to Create, Get, and Update a &amp;lsquo;Person&amp;rsquo; entity, but before we get around to the Delete operation, let&amp;rsquo;s take a quick look at some other simple things we can do with Get entity lists.
-  Get a count of &amp;#39;Person&amp;#39; entities in the database   http://127.0.0.1:8080/persons/$count .
-    Get all &amp;#39;Person&amp;#39; entities in the database ordered-by age   http://127.0.0.1:8080/persons$orderby=age .</description>
+  Get a count of &amp;#39;Person&amp;#39; entities in the database   ![person-count.jpg](../images/person-count.jpg) `http://127.0.0.1:8080/persons/$count` .     Get all &amp;#39;Person&amp;#39; entities in the database ordered-by age   ![persons-orderby-age.jpg](../images/persons-orderby-age.jpg) `http://127.</description>
     </item>
     
     <item>

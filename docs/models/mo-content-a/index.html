@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta name="generator" content="Hugo 0.52" />
+    <meta name="generator" content="Hugo 0.59.1" />
     <meta name="description" content="">
 
 
@@ -12,19 +12,19 @@
     <title>Model Overview :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1558281736" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1558281736" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1558281736" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1558281736" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1558281736" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1558281736" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1558281736" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1558281736" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1576040680" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1576040680" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1576040680" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1576040680" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1576040680" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1576040680" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1576040680" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1576040680" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1558281736" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1576040680" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1558281736"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1576040680"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -53,14 +53,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1558281736"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1558281736"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1576040680"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1576040680"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1558281736"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1576040680"></script>
 
     
   </div>
@@ -1871,7 +1871,7 @@
 <h4 id="making-changes-to-a-model">Making Changes to a Model</h4>
 
 <p>Each time the Jiffy-generated application is started, a check is performed to see if it&rsquo;s models match any database artifacts.  For example, if the generated application contains a model called &lsquo;Widget&rsquo;, a check is performed to see if table &lsquo;widget&rsquo; exists in the database.
-If a table matching the model name is detected in the database, the application will attempt to process the model definition as an ALTER TABLE-type operation rather than CREATE TABLE.  The application will add new model elements to the existing database table schema, but will not delete database artifacts if model elements are removed.  During the development-cycle it is recommended to <a href="/jiffy/usage/us-content-e/">drop and recreate the database artifacts</a> when making changes to the model.  This can be done using the <em>-dr</em> flag option when executing your generated application.  See the application startup sequence section of this document for details regarding database artifact creation and updates.</p>
+If a table matching the model name is detected in the database, the application will attempt to process the model definition as an ALTER TABLE-type operation rather than CREATE TABLE.  The application will add new model elements to the existing database table schema, but will not delete database artifacts if model elements are removed.  During the development-cycle it is recommended to <a href="/jiffy/usage/us-content-e/">drop and recreate the database artifacts</a> when making changes to the model.  This can be done using the <strong>-dr</strong> flag option when executing your generated application.  See the application startup sequence section of this document for details regarding database artifact creation and updates.</p>
 
 <h4 id="simple-single-entity-model">Simple Single Entity Model</h4>
 
@@ -1933,6 +1933,8 @@ If a table matching the model name is detected in the database, the application 
 <br></br></p>
 
 <h4 id="annotated-simple-single-entity-model">Annotated Simple Single Entity Model</h4>
+
+<p>The following block outlines and describes the JSON structure and element values that can be used to create a valid model file.</p>
 
 <pre><code class="language-JSON">{
     &quot;entities&quot;: [
@@ -2239,12 +2241,24 @@ If a table matching the model name is detected in the database, the application 
 
                     
                     
+                        
+                    
                     
 
                     
+                        
             
-        
+            
+                
+                    
+                
+                
+
+                    
+                    
                     
+
+                    
                         
             
             
@@ -2305,6 +2319,9 @@ If a table matching the model name is detected in the database, the application 
                     
                     
 
+                    
+            
+        
                     
                         
             
@@ -2382,10 +2399,44 @@ If a table matching the model name is detected in the database, the application 
                     
                     
 
+                    
+            
+        
                     
             
         
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
                     
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
                         
             
             
@@ -2449,10 +2500,36 @@ If a table matching the model name is detected in the database, the application 
                     
             
         
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
                     
             
         
                     
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
             
         
                     
@@ -2468,6 +2545,9 @@ If a table matching the model name is detected in the database, the application 
                     
                     
 
+                    
+            
+        
                     
                         
             
@@ -2503,7 +2583,25 @@ If a table matching the model name is detected in the database, the application 
                     
             
         
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
                     
+
+                    
                         
             
             
@@ -2548,7 +2646,20 @@ If a table matching the model name is detected in the database, the application 
                     
             
         
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
                     
+                    
+
+                    
             
         
                     
@@ -2556,7 +2667,6 @@ If a table matching the model name is detected in the database, the application 
             
             
                 
-                    
                     
                 
                 
@@ -2566,11 +2676,13 @@ If a table matching the model name is detected in the database, the application 
                     
 
                     
+            
+        
+                    
                         
             
             
                 
-                    
                     
                 
                 
@@ -2588,8 +2700,21 @@ If a table matching the model name is detected in the database, the application 
             
                 
                     
-                        
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
                         
+            
+            
+                
                     
                 
                 
@@ -2630,14 +2755,32 @@ If a table matching the model name is detected in the database, the application 
                     
                     
 
+                    
+            
+        
                     
             
         
                     
             
         
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
                     
                         
+                    
+                    
+
+                    
+                        
             
             
                 
@@ -2790,6 +2933,9 @@ If a table matching the model name is detected in the database, the application 
                     
                     
 
+                    
+            
+        
                     
             
         
@@ -2857,6 +3003,19 @@ If a table matching the model name is detected in the database, the application 
                     
             
         
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
                     
             
         
@@ -2873,6 +3032,9 @@ If a table matching the model name is detected in the database, the application 
                     
                     
 
+                    
+            
+        
                     
                         
             
@@ -2941,6 +3103,9 @@ If a table matching the model name is detected in the database, the application 
             
         
                     
+            
+        
+                    
                         
             
             
@@ -2982,10 +3147,26 @@ If a table matching the model name is detected in the database, the application 
                     
                     
 
+                    
+            
+        
                     
             
         
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
                     
+                    
+
+                    
                         
             
             
@@ -3025,14 +3206,13 @@ If a table matching the model name is detected in the database, the application 
             
             
                 
+                    
                     
                 
                 
 
                     
                     
-                        
-                    
                     
 
                     
@@ -3041,6 +3221,7 @@ If a table matching the model name is detected in the database, the application 
             
                 
                     
+                    
                 
                 
 
@@ -3056,6 +3237,9 @@ If a table matching the model name is detected in the database, the application 
             
             
                 
+                    
+                        
+                        
                     
                 
                 
@@ -3096,10 +3280,26 @@ If a table matching the model name is detected in the database, the application 
                     
                     
 
+                    
+            
+        
                     
             
         
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
                     
+
+                    
                         
             
             
@@ -3176,6 +3376,9 @@ If a table matching the model name is detected in the database, the application 
                     
                     
 
+                    
+            
+        
                     
                         
             
@@ -3244,8 +3447,18 @@ If a table matching the model name is detected in the database, the application 
             
         
                     
+                        
             
-        
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
                     
                         
             
@@ -3254,13 +3467,30 @@ If a table matching the model name is detected in the database, the application 
                     
                 
                 
+
+                    
+                    
+                    
 
                     
+            
+        
                     
                         
+            
+            
+                
+                    
+                
+                
+
                     
                     
+                    
 
+                    
+            
+        
                     
                         
             
@@ -3274,6 +3504,9 @@ If a table matching the model name is detected in the database, the application 
                     
                     
 
+                    
+            
+        
                     
             
         
@@ -3286,10 +3519,1247 @@ If a table matching the model name is detected in the database, the application 
                 
                 
 
+                    
                     
+                    
+
                     
+                        
+            
+            
+                
                     
+                
+                
 
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
                     
             
         
@@ -3396,20 +4866,20 @@ If a table matching the model name is detected in the database, the application 
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1558281736"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1558281736"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1558281736"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1558281736"></script>
-    <script src="/jiffy/js/featherlight.min.js?1558281736"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1558281736"></script>
-    <script src="/jiffy/js/highlight.pack.js?1558281736"></script>
+    <script src="/jiffy/js/clipboard.min.js?1576040680"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1576040680"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1576040680"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1576040680"></script>
+    <script src="/jiffy/js/featherlight.min.js?1576040680"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1576040680"></script>
+    <script src="/jiffy/js/highlight.pack.js?1576040680"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1558281736"></script>
-    <script src="/jiffy/js/learn.js?1558281736"></script>
-    <script src="/jiffy/js/hugo-learn.js?1558281736"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1576040680"></script>
+    <script src="/jiffy/js/learn.js?1576040680"></script>
+    <script src="/jiffy/js/hugo-learn.js?1576040680"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1558281736" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1558281736"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1576040680" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1576040680"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

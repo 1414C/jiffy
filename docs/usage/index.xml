@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Testing and Deployment on Jiffy Services Generator</title>
@@ -6,7 +6,7 @@
     <description>Recent content in Testing and Deployment on Jiffy Services Generator</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 02 Jul 2018 13:26:10 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 02 Jul 2018 13:29:10 -0700</lastBuildDate>
     
 	<atom:link href="https://1414c.github.io/jiffy/usage/index.xml" rel="self" type="application/rss+xml" />
     
@@ -59,7 +59,8 @@ $ go run main.go -prod  The generated sample production configuration file shoul
       
       <guid>https://1414c.github.io/jiffy/usage/us-content-e/</guid>
       <description>Application Server Flags Flags are generally not used, as the configuration files (models.json) are easier to deal with. There are however, a few flags that can be used when starting the server:
- -dr  The -dr switch is used to perform a destructive reset of the application&amp;rsquo;s data tables. This flag causes the application tables to be dropped and recreated, but does not affect the user, user-group, or authorization tables.</description>
+ -dr
+ The -dr switch is used to perform a destructive reset of the application&amp;rsquo;s data tables. This flag causes the application tables to be dropped and recreated, but does not affect the user, user-group, or authorization tables.</description>
     </item>
     
     <item>
