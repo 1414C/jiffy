@@ -6,7 +6,7 @@ See https://1414c.github.io/jiffy for a current description of the project.
 
 ## Latest
 
-- [ ] Update for modules support
+- [x] Update for modules support
 - [x] Send a DEPARTING message to the group when a SIGKILL, SIGTERM or os.Interrupt is detected
 - [x] Add CDeparting Message Type constant
 - [x] Add CinFlushMemberMap channel command constant
@@ -24,6 +24,10 @@ See https://1414c.github.io/jiffy for a current description of the project.
 - [ ] create a few runnable examples in Docker containers
 - [ ] create an environment service
 - [ ] create a $metadata service
+- [ ] update docs to reflect new build instructions
+- [ ] update docs to better explain end-point functions
+- [ ] examine initial startup / auth cache
+- [ ] update sqac to use modules and include in release
 
 ### What does the Jiffy application provide?
 
@@ -49,4 +53,3 @@ See https://1414c.github.io/jiffy for a current description of the project.
 - generates a comprehensive set of working tests (go test)
 - generated code is easily extended either via direct editing, or through an extension-point concept in the model and controller-layers
 - a leader-election-based group-membership service exists between running instances of the application to facilitate internal caching of user information
-

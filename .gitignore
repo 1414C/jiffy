@@ -20,3 +20,6 @@
 # don't take the .DS_Store on macs
 .DS_Store
 testdb.sqlite
+
+# don't take the packaged .gotmpl files
+pkged.go 

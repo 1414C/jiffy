@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/1414C/sqac/common"
+	"github.com/markbates/pkger"
 )
 
 // Info is used to hold name-value-pairs for Entity definitions
@@ -114,17 +115,49 @@ const (
 
 // CreateModelFile generates a model file for the Entity using the user-defined model.json file in conjunction
 // with the model.gotmpl text/template.  Returns the fully-qualified file-name / error.
+// pkger is used to bundle the .gotmpl files into the binary.  Pkger implements the File interface, so the
+// file handling is a little more pedantic than it would be with ioutil.
 func (ent *Entity) CreateModelFile(tDir string) (fName string, err error) {
 
 	// https://medium.com/@IndianGuru/understanding-go-s-template-package-c5307758fab0
-	mt := template.New("Entity model template")
-	mt, err = template.ParseFiles("templates/model.gotmpl")
+	// fi, err := pkger.Stat("/templates/model.gotmpl")
+	// if err != nil {
+	// 	log.Fatal("Stat: ", err)
+	// 	return "", err
+	// }
+
+	// tf, err := pkger.Open("/templates/model.gotmpl")
+	// if err != nil {
+	// 	log.Fatal("Open: ", err)
+	// 	return "", err
+	// }
+	// defer tf.Close()
+
+	// // read the template source from pkger
+	// buf := make([]byte, fi.Size())
+	// _, err = tf.Read(buf)
+	// if err != nil {
+	// 	log.Fatal("Unable to read template: ", err)
+	// 	return "", err
+	// }
+
+	// mt := template.Must(template.New("Entity model template").Parse(string(buf)))
+	// // mt := template.New("Entity model template")
+	// // mt, err = template.ParseFiles("templates/model.gotmpl")
+	// // if err != nil {
+	// if mt == nil {
+	// 	log.Fatal("Parse: ", err)
+	// 	return "", err
+	// }
+
+	// new part
+	mt, err := prepareTemplate("/templates/model.gotmpl")
 	if err != nil {
-		log.Fatal("Parse: ", err)
 		return "", err
 	}
+	// end of new part
 
-	// create the model file path and create if required
+	// stat the target model file path and create if required
 	tDir = tDir + "/models"
 	_, err = os.Stat(tDir)
 	if err != nil {
@@ -135,7 +168,7 @@ func (ent *Entity) CreateModelFile(tDir string) (fName string, err error) {
 	tfDir := tDir + "/" + ent.Header.Value + "m.go"
 	f, err := os.Create(tfDir)
 	if err != nil {
-		log.Fatal("CreateModelFile: ", err)
+		log.Printf("CreateModelFile: %v\n", err)
 		return "", err
 	}
 	defer f.Close()
@@ -143,14 +176,14 @@ func (ent *Entity) CreateModelFile(tDir string) (fName string, err error) {
 	// set permissions
 	err = f.Chmod(0644)
 	if err != nil {
-		log.Fatal("CreateModelFile: ", err)
+		log.Printf("CreateModelFile: %v\n", err)
 		return "", err
 	}
 
 	// execute the template using the new model file as a target
 	err = mt.Execute(f, ent)
 	if err != nil {
-		log.Fatal("CreateModelFile: ", err)
+		log.Printf("CreateModelFile: %v\n", err)
 		return "", err
 	}
 	log.Println("generated:", tfDir)
@@ -163,12 +196,46 @@ func (ent *Entity) CreateModelFile(tDir string) (fName string, err error) {
 // with the controller.gotmpl text/template.  Returns the fully-qualified
 // file-name / error.
 func (ent *Entity) CreateControllerFile(tDir string) (fName string, err error) {
-	ct := template.New("Entity controller template")
-	ct, err = template.ParseFiles("templates/controller.gotmpl")
+	// fi, err := pkger.Stat("/templates/controller.gotmpl")
+	// if err != nil {
+	// 	log.Fatal("Stat: ", err)
+	// 	return "", err
+	// }
+
+	// tf, err := pkger.Open("/templates/controller.gotmpl")
+	// if err != nil {
+	// 	log.Fatal("Open: ", err)
+	// 	return "", err
+	// }
+	// defer tf.Close()
+
+	// // read the template source from pkger
+	// buf := make([]byte, fi.Size())
+	// _, err = tf.Read(buf)
+	// if err != nil {
+	// 	log.Fatal("Unable to read template: ", err)
+	// 	return "", err
+	// }
+
+	// ct := template.Must(template.New("Entity controller template").Parse(string(buf)))
+	// if ct == nil {
+	// 	log.Fatal("Parse: ", err)
+	// 	return "", err
+	// }
+
+	// new part
+	ct, err := prepareTemplate("/templates/controller.gotmpl")
 	if err != nil {
-		log.Fatal("Parse: ", err)
 		return "", err
 	}
+	// end of new part
+
+	// ct := template.New("Entity controller template")
+	// ct, err = template.ParseFiles("templates/controller.gotmpl")
+	// if err != nil {
+	// 	log.Fatal("Parse: ", err)
+	// 	return "", err
+	// }
 
 	// check the controller file path and create if required
 	tDir = tDir + "/controllers"
@@ -181,7 +248,7 @@ func (ent *Entity) CreateControllerFile(tDir string) (fName string, err error) {
 	tfDir := tDir + "/" + ent.Header.Value + "c.go"
 	f, err := os.Create(tfDir)
 	if err != nil {
-		log.Fatal("CreateControllerFile: ", err)
+		log.Printf("CreateControllerFile: %v\n", err)
 		return "", err
 	}
 	defer f.Close()
@@ -189,14 +256,14 @@ func (ent *Entity) CreateControllerFile(tDir string) (fName string, err error) {
 	// set permissions
 	err = f.Chmod(0644)
 	if err != nil {
-		log.Fatal("CreateControllerFile: ", err)
+		log.Printf("CreateControllerFile: %v\n", err)
 		return "", err
 	}
 
 	// execute the template using the new controller file as a target
 	err = ct.Execute(f, ent)
 	if err != nil {
-		log.Fatal("CreateControllerFile: ", err)
+		log.Printf("CreateControllerFile: %v\n", err)
 		return "", err
 	}
 	log.Println("generated:", tfDir)
@@ -212,12 +279,45 @@ func (ent *Entity) CreateControllerFile(tDir string) (fName string, err error) {
 // foreign-key definition.
 // Returns the fully-qualified file-name / error.
 func (ent *Entity) CreateControllerRelationsFile(tDir string, entities []Entity) (fName string, err error) {
-	ct := template.New("Entity controller relations template")
-	ct, err = template.ParseFiles("templates/controller_relations.gotmpl")
+	// fi, err := pkger.Stat("/templates/controller_relations.gotmpl")
+	// if err != nil {
+	// 	log.Fatal("Stat: ", err)
+	// 	return "", err
+	// }
+
+	// tf, err := pkger.Open("/templates/controller_relations.gotmpl")
+	// if err != nil {
+	// 	log.Fatal("Open: ", err)
+	// 	return "", err
+	// }
+	// defer tf.Close()
+
+	// // read the template source from pkger
+	// buf := make([]byte, fi.Size())
+	// _, err = tf.Read(buf)
+	// if err != nil {
+	// 	log.Fatal("Unable to read template: ", err)
+	// 	return "", err
+	// }
+
+	// ctr := template.Must(template.New("Entity model template").Parse(string(buf)))
+	// if ctr == nil {
+	// 	log.Fatal("Parse: ", err)
+	// 	return "", err
+	// }
+	// ct := template.New("Entity controller relations template")
+	// ct, err = template.ParseFiles("templates/controller_relations.gotmpl")
+	// if err != nil {
+	// 	log.Fatal("Parse: ", err)
+	// 	return "", err
+	// }
+
+	// new part
+	ctr, err := prepareTemplate("/templates/controller_relations.gotmpl")
 	if err != nil {
-		log.Fatal("Parse: ", err)
 		return "", err
 	}
+	// end of new part
 
 	// check the controller file path and create if required
 	tDir = tDir + "/controllers"
@@ -230,7 +330,7 @@ func (ent *Entity) CreateControllerRelationsFile(tDir string, entities []Entity)
 	tfDir := tDir + "/" + ent.Header.Value + "_relationsc.go"
 	f, err := os.Create(tfDir)
 	if err != nil {
-		log.Fatal("CreateControllerRelationsFile: ", err)
+		log.Printf("CreateControllerRelationsFile: %v\n", err)
 		return "", err
 	}
 	defer f.Close()
@@ -238,14 +338,14 @@ func (ent *Entity) CreateControllerRelationsFile(tDir string, entities []Entity)
 	// set permissions
 	err = f.Chmod(0644)
 	if err != nil {
-		log.Fatal("CreateControllerRelationsFile: ", err)
+		log.Printf("CreateControllerRelationsFile: %v\n", err)
 		return "", err
 	}
 
 	// execute the template using the new controller_relationsc.go file as a target
-	err = ct.Execute(f, ent)
+	err = ctr.Execute(f, ent)
 	if err != nil {
-		log.Fatal("CreateControllerRelationsFile: ", err)
+		log.Printf("CreateControllerRelationsFile: %v\n", err)
 		return "", err
 	}
 	log.Println("generated:", tfDir)
@@ -258,12 +358,45 @@ func (ent *Entity) CreateControllerRelationsFile(tDir string, entities []Entity)
 // is set to true in the user-defined model.json file.
 // Returns the fully-qualified file-name / error.
 func (ent *Entity) CreateControllerExtensionPointsFile(tDir string) (fName string, err error) {
-	ct := template.New("Entity controller extension-point template")
-	ct, err = template.ParseFiles("templates/controller_ext.gotmpl")
+	// fi, err := pkger.Stat("/templates/controller_ext.gotmpl")
+	// if err != nil {
+	// 	log.Fatal("Stat: ", err)
+	// 	return "", err
+	// }
+
+	// tf, err := pkger.Open("/templates/controller_ext.gotmpl")
+	// if err != nil {
+	// 	log.Fatal("Open: ", err)
+	// 	return "", err
+	// }
+	// defer tf.Close()
+
+	// // read the template source from pkger
+	// buf := make([]byte, fi.Size())
+	// _, err = tf.Read(buf)
+	// if err != nil {
+	// 	log.Fatal("Unable to read template: ", err)
+	// 	return "", err
+	// }
+
+	// ctx := template.Must(template.New("Entity model template").Parse(string(buf)))
+	// if ctx == nil {
+	// 	log.Fatal("Parse: ", err)
+	// 	return "", err
+	// }
+	// ct := template.New("Entity controller extension-point template")
+	// ct, err = template.ParseFiles("templates/controller_ext.gotmpl")
+	// if err != nil {
+	// 	log.Fatal("Parse: ", err)
+	// 	return "", err
+	// }
+
+	// new part
+	ctx, err := prepareTemplate("/templates/controller_ext.gotmpl")
 	if err != nil {
-		log.Fatal("Parse: ", err)
-		return "", err
+		log.Fatal(err)
 	}
+	// end of new part
 
 	// check the controller file path and create if required
 	tDir = tDir + "/controllers/ext"
@@ -286,7 +419,7 @@ func (ent *Entity) CreateControllerExtensionPointsFile(tDir string) (fName strin
 	// tfDir := tDir + "/" + ent.Header.Value + "c_ext.go"
 	f, err := os.Create(tfDir)
 	if err != nil {
-		log.Fatal("CreateControllerExtensionPointsFile: ", err)
+		log.Printf("CreateControllerExtensionPointsFile: %v\n", err)
 		return "", err
 	}
 	defer f.Close()
@@ -294,14 +427,14 @@ func (ent *Entity) CreateControllerExtensionPointsFile(tDir string) (fName strin
 	// set permissions
 	err = f.Chmod(0644)
 	if err != nil {
-		log.Fatal("CreateControllerExtensionPointsFile: ", err)
+		log.Printf("CreateControllerExtensionPointsFile: %v\n", err)
 		return "", err
 	}
 
 	// execute the template using the new controller extension-point file as a target
-	err = ct.Execute(f, ent)
+	err = ctx.Execute(f, ent)
 	if err != nil {
-		log.Fatal("CreateControllerExtensionPointsFile: ", err)
+		log.Printf("CreateControllerExtensionPointsFile: %v\n", err)
 		return "", err
 	}
 	log.Println("generated:", tfDir)
@@ -314,12 +447,46 @@ func (ent *Entity) CreateControllerExtensionPointsFile(tDir string) (fName strin
 // is set to true in the user-defined model.json file.
 // Returns the fully-qualified file-name / error.
 func (ent *Entity) CreateModelExtensionPointsFile(tDir string) (fName string, err error) {
-	ct := template.New("Entity model extension-point template")
-	ct, err = template.ParseFiles("templates/model_ext.gotmpl")
+	// fi, err := pkger.Stat("/templates/model_ext.gotmpl")
+	// if err != nil {
+	// 	log.Fatal("Stat: ", err)
+	// 	return "", err
+	// }
+
+	// tf, err := pkger.Open("/templates/model_ext.gotmpl")
+	// if err != nil {
+	// 	log.Fatal("Open: ", err)
+	// 	return "", err
+	// }
+	// defer tf.Close()
+
+	// // read the template source from pkger
+	// buf := make([]byte, fi.Size())
+	// _, err = tf.Read(buf)
+	// if err != nil {
+	// 	log.Fatal("Unable to read template: ", err)
+	// 	return "", err
+	// }
+
+	// mtx := template.Must(template.New("Entity model template").Parse(string(buf)))
+	// if mtx == nil {
+	// 	log.Fatal("Parse: ", err)
+	// 	return "", err
+	// }
+
+	// ct := template.New("Entity model extension-point template")
+	// ct, err = template.ParseFiles("templates/model_ext.gotmpl")
+	// if err != nil {
+	// 	log.Fatal("Parse: ", err)
+	// 	return "", err
+	// }
+
+	// new part
+	mtx, err := prepareTemplate("/templates/model_ext.gotmpl")
 	if err != nil {
-		log.Fatal("Parse: ", err)
 		return "", err
 	}
+	// end of new part
 
 	// check the model file path and create if required
 	tDir = tDir + "/models"
@@ -341,7 +508,7 @@ func (ent *Entity) CreateModelExtensionPointsFile(tDir string) (fName string, er
 	// create the model extension-point file
 	f, err := os.Create(tfDir)
 	if err != nil {
-		log.Fatal("CreateModelExtensionPointsFile: ", err)
+		log.Printf("CreateModelExtensionPointsFile: %v\n", err)
 		return "", err
 	}
 	defer f.Close()
@@ -349,14 +516,14 @@ func (ent *Entity) CreateModelExtensionPointsFile(tDir string) (fName string, er
 	// set permissions
 	err = f.Chmod(0644)
 	if err != nil {
-		log.Fatal("CreateModelExtensionPointsFile: ", err)
+		log.Printf("CreateModelExtensionPointsFile: %v\n", err)
 		return "", err
 	}
 
 	// execute the template using the new model extension-point file as a target
-	err = ct.Execute(f, ent)
+	err = mtx.Execute(f, ent)
 	if err != nil {
-		log.Fatal("CreateModelExtensionPointsFile: ", err)
+		log.Printf("CreateModelExtensionPointsFile: %v\n", err)
 		return "", err
 	}
 	log.Println("generated:", tfDir)
@@ -367,26 +534,65 @@ func (ent *Entity) CreateModelExtensionPointsFile(tDir string) (fName string, er
 //=============================================================================================
 // static generation functions
 //=============================================================================================
-
 // GenerateStaticTemplates reads the ./static folder and uses Glob
 // to execute each template in-turn.  Returns the fully-qualified
 // file-names or an error.
 func (s *Static) GenerateStaticTemplates() (fNames []string, err error) {
 
-	tmlFiles, err := filepath.Glob(s.SrcDir + "/*" + ".gotmpl")
+	// begin of old part
+	// tmlFiles, err := filepath.Glob(s.SrcDir + "/*" + ".gotmpl")
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// fmt.Println(tmlFiles)
+	// end of old part
+
+	// begin of new part
+	tmlFiles, err := glob(s.SrcDir, "*"+".gotmpl")
 	if err != nil {
-		log.Println(err)
 		return nil, err
 	}
+	// end of new part
 
 	for _, f := range tmlFiles {
 
-		st := template.New("Static template")
-		st, err := template.ParseFiles(f)
+		// start of new part
+		fi, err := pkger.Stat(f)
 		if err != nil {
-			log.Fatal("Parse: ", err)
+			log.Printf("Stat: %v\n", err)
 			return nil, err
 		}
+
+		tf, err := pkger.Open(f)
+		if err != nil {
+			log.Printf("Open: %v\n", err)
+			return nil, err
+		}
+		defer tf.Close()
+
+		// read the template source from pkger
+		buf := make([]byte, fi.Size())
+		_, err = tf.Read(buf)
+		if err != nil {
+			log.Printf("Unable to read template: %s %v\n", f, err)
+			return nil, err
+		}
+
+		st := template.Must(template.New("Static template").Parse(string(buf)))
+		if st == nil {
+			log.Printf("Parse error: %v\n", err)
+			return nil, err
+		}
+		// end of new part
+
+		// start of old part
+		// st := template.New("Static template")
+		// st, err := template.ParseFiles(f)
+		// if err != nil {
+		// 	log.Fatal("Parse: ", err)
+		// 	return nil, err
+		// }
+		// end of old part
 
 		// create the file-path if required
 		_, err = os.Stat(s.DstDir)
@@ -397,10 +603,9 @@ func (s *Static) GenerateStaticTemplates() (fNames []string, err error) {
 		// create the static source file
 		fileName := filepath.Base(f)
 		fileName = strings.TrimSuffix(fileName, "tmpl")
-		// log.Println(fileName)
 		f, err := os.Create(s.DstDir + "/" + fileName)
 		if err != nil {
-			log.Fatal("generateStaticTemplates: ", err)
+			log.Printf("generateStaticTemplates: %v\n", err)
 			return nil, err
 		}
 		defer f.Close()
@@ -408,14 +613,14 @@ func (s *Static) GenerateStaticTemplates() (fNames []string, err error) {
 		// set permissions
 		err = f.Chmod(0755)
 		if err != nil {
-			log.Fatal("generateStaticTemplates: ", err)
+			log.Printf("generateStaticTemplates: %v\n", err)
 			return nil, err
 		}
 
 		// execute the template using the new controller file as a target
 		err = st.Execute(f, s)
 		if err != nil {
-			log.Fatal("generateStaticTemplates: ", err)
+			log.Printf("generateStaticTemplates: %v\n", err)
 			return nil, err
 		}
 		fName := s.DstDir + "/" + fileName
@@ -1292,6 +1497,74 @@ func superCleanString(s string) string {
 	s = strings.Replace(s, " ", "", 100)
 	s = strings.Replace(s, "\n", "", 100)
 	return s
+}
+
+// prepareTemplate is used to read a template source from the pkged
+// or local location, create a *Template and return it to the caller.
+func prepareTemplate(templateName string) (*template.Template, error) {
+	// stat for .gotmpl file size
+	fi, err := pkger.Stat(templateName)
+	if err != nil {
+		log.Printf("Stat: %v\n", err)
+		return nil, err
+	}
+
+	tf, err := pkger.Open(templateName)
+	if err != nil {
+		log.Printf("Open: %v\n", err)
+		return nil, err
+	}
+	defer tf.Close()
+
+	// read the template source from pkger
+	buf := make([]byte, fi.Size())
+	_, err = tf.Read(buf)
+	if err != nil {
+		log.Printf("Unable to read template %s\n", templateName)
+		return nil, err
+	}
+
+	// create the template
+	t := template.Must(template.New("Entity model template").Parse(string(buf)))
+	if t == nil {
+		log.Printf("Parse: %v\n", err)
+		return nil, err
+	}
+	return t, nil
+}
+
+// glob is used to read files matching the pattern string
+// parameter from the directory specified by the dir parameter.
+// There is a slight argument for making this walk the tree, but
+// the needs of jiffy are mostly served by reading single directories.
+// The pkger.Walk(...) function would be a place to start.
+func glob(dir, pattern string) ([]string, error) {
+	m := make([]string, 0)
+	fi, err := pkger.Stat(dir)
+	if err != nil {
+		return nil, err
+	}
+	if !fi.IsDir() {
+		return nil, err
+	}
+	d, err := pkger.Open(dir)
+	if err != nil {
+		return nil, err
+	}
+	defer d.Close()
+
+	names, _ := d.Readdir(-1)
+
+	for _, n := range names {
+		matched, err := filepath.Match(pattern, n.Name())
+		if err != nil {
+			return m, err
+		}
+		if matched {
+			m = append(m, dir+"/"+n.Name())
+		}
+	}
+	return m, nil
 }
 
 // ExecuteGoTools runs gofmt -w and goimports on the specified file

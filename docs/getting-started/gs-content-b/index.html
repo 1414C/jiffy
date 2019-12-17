@@ -12,19 +12,19 @@
     <title>Installing Jiffy :: Jiffy Services Generator</title>
     
     
-    <link href="/jiffy/css/nucleus.css?1576040680" rel="stylesheet">
-    <link href="/jiffy/css/font-awesome.min.css?1576040680" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1576040680" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1576040680" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1576040680" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1576040680" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1576040680" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1576040680" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1576559879" rel="stylesheet">
+    <link href="/jiffy/css/font-awesome.min.css?1576559879" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1576559879" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1576559879" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1576559879" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1576559879" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1576559879" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1576559879" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1576040680" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1576559879" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-2.x.min.js?1576040680"></script>
+    <script src="/jiffy/js/jquery-2.x.min.js?1576559879"></script>
     
     <style type="text/css">
       :root #header + #content > #left > #rlblock_left{ 
@@ -53,14 +53,14 @@
     <span data-search-clear=""><i class="fa fa-close"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1576040680"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1576040680"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1576559879"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1576559879"></script>
 <script type="text/javascript">
     
         var baseurl = '\/jiffy\/';
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1576040680"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1576559879"></script>
 
     
   </div>
@@ -1842,30 +1842,32 @@
         
 
 
-<p>The easiest way to install Jiffy is to use <em>go get</em> on the command-line to pull the latest version from github, as shown below:</p>
+<p>At the moment, the easiest way to install Jiffy is to use <em>go get</em> on the command-line to pull the latest version from github, as shown below:</p>
 
 <pre><code class="language-bash">
-    $ go get -u github.com/1414C/jiffy
+    go get -u github.com/1414C/jiffy
 
 </code></pre>
 
-<p>The &lsquo;go get&rsquo; command will pull the Jiffy github repository into your $GOPATH/src/github.com folder, as well as any dependencies referenced by the Jiffy source code.  The <em>-u</em> flag is included to instruct <em>go get</em> to check for and pull updates to Jiffy packages and their dependencies.  This is the least sophisticated way of managing dependencies in go.  At the time of this writing go-modules were not yet part of the official golang toolchain.</p>
+<p>The &lsquo;go get&rsquo; command will pull the Jiffy github repository into your $GOPATH/src/github.com folder, as well as any dependencies referenced by the Jiffy source code.  The <em>-u</em> flag is included to instruct <em>go get</em> to check for and pull updates to Jiffy packages and their dependencies based on the content of the project&rsquo;s go.mod file.</p>
 
-<p>Once the Jiffy source code and dependencies have been installed into the $GOPATH, <em>go build</em> can be used to compile a binary from the Jiffy sources.  The easiest way to do this is to open a terminal window, switch to $GOPATH/src/github.com/1414C/jiffy and run <em>go build</em> as shown below.</p>
+<p>Jiffy was written prior to the release of go modules, so all of the instructions have been written from the perspective of $GOPATH.</p>
+
+<p>Once the Jiffy source code and dependencies have been installed into the $GOPATH, <em>make install</em> can be used to compile a binary from the Jiffy sources and install it in /usr/local/bin.  The easiest way to do this is to open a terminal window, switch to $GOPATH/src/github.com/1414C/jiffy and run <em>make install</em> as shown below.  The <em>make install</em> section of the Makefile builds for GOOS=darwin.  If you are running linux, update the Makefile to set GOOS=linux where needed.</p>
 
 <pre><code class="language-bash">
-    $ go build -v
+    make install
 
 </code></pre>
 
-<p>This will result in the creation of a binary file called &lsquo;jiffy&rsquo;.  You may move the &lsquo;jiffy&rsquo; binary anywhere in your $PATH, but convention would have it installed in /usr/local/bin.  Once the &lsquo;jiffy&rsquo; binary has been moved to its new home, open a new terminal window and use the <em>which</em> command to ensure that the binary is in the $PATH.</p>
+<p>This will result in the creation of a binary file named &lsquo;jiffy&rsquo; and its subsequent installation in /usr/local/bin.  You may move the &lsquo;jiffy&rsquo; binary anywhere in your $PATH, but for now /usr/local/bin will be fine.  Once the &lsquo;jiffy&rsquo; binary has been moved to its new home, open a new terminal window and use the <em>which</em> command to ensure that the binary is in the $PATH.</p>
 
 <pre><code class="language-bash">
-    $ which jiffy -a
+    which jiffy -a
 
 </code></pre>
 
-<p>If <em>which</em> cannot find the jiffy binary (or finds the wrong one!), make sure that the $PATH environment variable is set correctly.  Alternatively, Jiffy can be run directly from the source via &lsquo;go run main.go &hellip; &hellip;&rsquo;.</p>
+<p>If <em>which</em> cannot find the jiffy binary (or finds the wrong one!), make sure that your $PATH environment variable is set correctly, and maybe remove versions that were previously installed.  Alternatively, Jiffy can be run directly from the source via &lsquo;go run main.go &hellip; &hellip;&rsquo;.</p>
 
 
 <footer class=" footline" >
@@ -4651,20 +4653,20 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1576040680"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1576040680"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1576040680"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1576040680"></script>
-    <script src="/jiffy/js/featherlight.min.js?1576040680"></script>
-    <script src="/jiffy/js/html5shiv-printshiv.min.js?1576040680"></script>
-    <script src="/jiffy/js/highlight.pack.js?1576040680"></script>
+    <script src="/jiffy/js/clipboard.min.js?1576559879"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1576559879"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1576559879"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1576559879"></script>
+    <script src="/jiffy/js/featherlight.min.js?1576559879"></script>
+    <script src="/jiffy/js/html5shiv-printshiv.min.js?1576559879"></script>
+    <script src="/jiffy/js/highlight.pack.js?1576559879"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom.71422.js?1576040680"></script>
-    <script src="/jiffy/js/learn.js?1576040680"></script>
-    <script src="/jiffy/js/hugo-learn.js?1576040680"></script>
+    <script src="/jiffy/js/modernizr.custom.71422.js?1576559879"></script>
+    <script src="/jiffy/js/learn.js?1576559879"></script>
+    <script src="/jiffy/js/hugo-learn.js?1576559879"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1576040680" type="text/css" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1576040680"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1576559879" type="text/css" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1576559879"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

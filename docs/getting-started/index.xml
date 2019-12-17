@@ -27,8 +27,8 @@ Go is easy to setup and can be installed from source or binary package, both whi
       <pubDate>Mon, 05 Feb 2018 20:39:34 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/getting-started/gs-content-b/</guid>
-      <description>The easiest way to install Jiffy is to use go get on the command-line to pull the latest version from github, as shown below:
-$ go get -u github.com/1414C/jiffy  The &amp;lsquo;go get&amp;rsquo; command will pull the Jiffy github repository into your $GOPATH/src/github.com folder, as well as any dependencies referenced by the Jiffy source code. The -u flag is included to instruct go get to check for and pull updates to Jiffy packages and their dependencies.</description>
+      <description>At the moment, the easiest way to install Jiffy is to use go get on the command-line to pull the latest version from github, as shown below:
+go get -u github.com/1414C/jiffy  The &amp;lsquo;go get&amp;rsquo; command will pull the Jiffy github repository into your $GOPATH/src/github.com folder, as well as any dependencies referenced by the Jiffy source code. The -u flag is included to instruct go get to check for and pull updates to Jiffy packages and their dependencies based on the content of the project&amp;rsquo;s go.</description>
     </item>
     
     <item>

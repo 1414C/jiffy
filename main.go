@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"go/build"
 	"io/ioutil"
 	"log"
@@ -89,6 +88,9 @@ func main() {
 		}
 	}
 
+	// walk over the template files to ensure they have been packaged
+	// into the binary.
+
 	generatedFiles := make([]string, 0)
 
 	// iterate over the entities to create model and controller files
@@ -98,75 +100,75 @@ func main() {
 		entities[i].AppPath = appPath
 		fn, err := ent.CreateModelFile(*projectPath)
 		if err != nil {
-			fmt.Println(err)
+			log.Fatal(err)
 		}
 		generatedFiles = append(generatedFiles, fn)
 
 		fn, err = ent.CreateModelExtensionPointsFile(*projectPath)
 		if err != nil {
-			fmt.Println(err)
+			log.Fatal(err)
 		}
 		generatedFiles = append(generatedFiles, fn)
 
 		fn, err = ent.CreateControllerFile(*projectPath)
 		if err != nil {
-			fmt.Println(err)
+			log.Fatal(err)
 		}
 		generatedFiles = append(generatedFiles, fn)
 
 		fn, err = ent.CreateControllerExtensionPointsFile(*projectPath)
 		if err != nil {
-			fmt.Println(err)
+			log.Fatal(err)
 		}
 		generatedFiles = append(generatedFiles, fn)
 	}
 
 	// generate static model source files
 	s := gen.Static{
-		SrcDir:   "static/models",
+		SrcDir:   "/static/models",
 		DstDir:   *projectPath + "/models",
 		AppPath:  appPath,
 		Entities: entities,
 	}
 	fs, err := s.GenerateStaticTemplates()
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	generatedFiles = append(generatedFiles, fs...)
 
 	// generate static model extension-point source files
 	s = gen.Static{
-		SrcDir:  "static/models/ext",
+		SrcDir:  "/static/models/ext",
 		DstDir:  *projectPath + "/models/ext",
 		AppPath: appPath,
 	}
 	fs, err = s.GenerateStaticTemplates()
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	generatedFiles = append(generatedFiles, fs...)
 
 	// generate static controller source files
 	s = gen.Static{
-		SrcDir:  "static/controllers",
+		SrcDir:  "/static/controllers",
 		DstDir:  *projectPath + "/controllers",
 		AppPath: appPath,
 	}
 	fs, err = s.GenerateStaticTemplates()
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	generatedFiles = append(generatedFiles, fs...)
 
 	// generate static controller extension-point source files
 	s = gen.Static{
-		SrcDir:  "static/controllers/ext",
+		SrcDir:  "/static/controllers/ext",
 		DstDir:  *projectPath + "/controllers/ext",
 		AppPath: appPath,
 	}
 	fs, err = s.GenerateStaticTemplates()
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	generatedFiles = append(generatedFiles, fs...)
 
@@ -175,14 +177,14 @@ func main() {
 	for _, ent := range entities {
 		fn, err := ent.CreateControllerRelationsFile(*projectPath, entities)
 		if err != nil {
-			fmt.Println(err)
+			log.Fatal(err)
 		}
 		generatedFiles = append(generatedFiles, fn)
 	}
 
 	// generate static middleware source files
 	s = gen.Static{
-		SrcDir:  "static/middleware",
+		SrcDir:  "/static/middleware",
 		DstDir:  *projectPath + "/middleware",
 		AppPath: appPath,
 		ECDSA:   []string{"256", "384", "521"},
@@ -190,7 +192,7 @@ func main() {
 	}
 	fs, err = s.GenerateStaticTemplates()
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	generatedFiles = append(generatedFiles, fs...)
 
@@ -203,43 +205,43 @@ func main() {
 
 	// generate static group-membership client files
 	s = gen.Static{
-		SrcDir:  "static/group/gmcl",
+		SrcDir:  "/static/group/gmcl",
 		DstDir:  *projectPath + "/group/gmcl",
 		AppPath: appPath,
 	}
 	fs, err = s.GenerateStaticTemplates()
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	generatedFiles = append(generatedFiles, fs...)
 
 	// generate static group-membership common files
 	s = gen.Static{
-		SrcDir:  "static/group/gmcom",
+		SrcDir:  "/static/group/gmcom",
 		DstDir:  *projectPath + "/group/gmcom",
 		AppPath: appPath,
 	}
 	fs, err = s.GenerateStaticTemplates()
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	generatedFiles = append(generatedFiles, fs...)
 
 	// generate static group-membership server files
 	s = gen.Static{
-		SrcDir:  "static/group/gmsrv",
+		SrcDir:  "/static/group/gmsrv",
 		DstDir:  *projectPath + "/group/gmsrv",
 		AppPath: appPath,
 	}
 	fs, err = s.GenerateStaticTemplates()
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	generatedFiles = append(generatedFiles, fs...)
 
 	// generate static main application source files
 	s = gen.Static{
-		SrcDir:   "static/appobj",
+		SrcDir:   "/static/appobj",
 		DstDir:   *projectPath + "/appobj",
 		AppPath:  appPath,
 		Entities: entities,
@@ -248,14 +250,14 @@ func main() {
 	}
 	fs, err = s.GenerateStaticTemplates()
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	generatedFiles = append(generatedFiles, fs...)
 
 	// generate main application source files
 	// (main.go, main_test.go,)
 	s = gen.Static{
-		SrcDir:   "static",
+		SrcDir:   "/static",
 		DstDir:   *projectPath,
 		AppPath:  appPath,
 		Entities: entities,
@@ -263,21 +265,21 @@ func main() {
 
 	fs, err = s.GenerateStaticTemplates()
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	generatedFiles = append(generatedFiles, fs...)
 
-	// generate static util package
-	s = gen.Static{
-		SrcDir:  "templates/util",
-		DstDir:  *projectPath + "/util",
-		AppPath: appPath,
-	}
-	fs, err = s.GenerateStaticTemplates()
-	if err != nil {
-		fmt.Println(err)
-	}
-	generatedFiles = append(generatedFiles, fs...)
+	// // generate static util package
+	// s = gen.Static{
+	// 	SrcDir:  "templates/util",
+	// 	DstDir:  *projectPath + "/util",
+	// 	AppPath: appPath,
+	// }
+	// fs, err = s.GenerateStaticTemplates()
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// generatedFiles = append(generatedFiles, fs...)
 
 	// JWT key generation
 	keyConf := gen.KeyConfig{
@@ -292,7 +294,7 @@ func main() {
 	conf := gen.Config{}
 	err = keyConf.GenerateJWTKeys(&conf)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 
 	// test default DB connection
@@ -307,7 +309,7 @@ func main() {
 
 	err = dbConf.Validate()
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 
 	// complete the initial app configuration
@@ -335,27 +337,27 @@ func main() {
 
 	fn, err := conf.GenerateAppConf(*projectPath + "/appobj")
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	generatedFiles = append(generatedFiles, fn)
 
 	// generate a sample .config.json file
 	err = conf.GenerateSampleConfig(*projectPath)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 
 	// generate sample Docker configuration / Dockerfile and docker-entrypoint.sh
 	err = conf.GenerateSampleDockerConfig(*projectPath + "/docker-sample")
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 
 	// run gofmt / goimports on all generated .go files
 	for _, f := range generatedFiles {
 		err = gen.ExecuteGoTools(f)
 		if err != nil {
-			fmt.Println(err)
+			log.Fatal(err)
 		}
 	}
 }
