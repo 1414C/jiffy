@@ -11,5 +11,4 @@ require (
 	github.com/markbates/pkger v0.12.10
 	github.com/mattn/go-sqlite3 v2.0.1+incompatible
 	golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550 // indirect
-	google.golang.org/appengine v1.6.5 // indirect
 )
