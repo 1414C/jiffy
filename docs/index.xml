@@ -217,7 +217,7 @@ FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └
       
       <guid>https://1414c.github.io/jiffy/installation/in-content-b/</guid>
       <description>Installation Steps The easiest way to install Jiffy is to use go get on the command-line to pull the latest version from github, as shown below:
-$ go get -u github.com/1414C/jiffy  The &amp;lsquo;go get -u&amp;rsquo; command will pull the jiffy github repository into your $GOPATH/src/github.com folder, as well as any dependencies referenced by the Jiffy source code. The -u flag is included to instruct go get to check for and pull updates to jiffy packages and their dependencies.</description>
+$ go get -u github.com/1414C/jiffy  The &amp;lsquo;go get&amp;rsquo; command will pull the Jiffy github repository into your $GOPATH/src/github.com folder, as well as any dependencies referenced by the Jiffy source code. The -u flag is included to instruct go get to check for and pull updates to Jiffy packages and their dependencies based on the content of the project&amp;rsquo;s go.</description>
     </item>
     
     <item>
@@ -227,7 +227,7 @@ $ go get -u github.com/1414C/jiffy  The &amp;lsquo;go get -u&amp;rsquo; command 
       
       <guid>https://1414c.github.io/jiffy/getting-started/gs-content-a/</guid>
       <description>If you already have Go installed and know that your installation is working, you should skip to the next section. If you need to get Go installed on your machine, keep reading.
-Go is easy to setup and can be installed from source or binary package, both which are available at golang.org. Jiffy is presently built and tested using golang version 1.10, but it is best to use the latest stable 1.</description>
+Go is easy to setup and can be installed from source or binary package, both which are available at golang.org. Jiffy is presently built and tested using golang version 1.13.5, but it is safe to use the latest stable 1.</description>
     </item>
     
     <item>

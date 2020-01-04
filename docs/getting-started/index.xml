@@ -18,7 +18,7 @@
       
       <guid>https://1414c.github.io/jiffy/getting-started/gs-content-a/</guid>
       <description>If you already have Go installed and know that your installation is working, you should skip to the next section. If you need to get Go installed on your machine, keep reading.
-Go is easy to setup and can be installed from source or binary package, both which are available at golang.org. Jiffy is presently built and tested using golang version 1.10, but it is best to use the latest stable 1.</description>
+Go is easy to setup and can be installed from source or binary package, both which are available at golang.org. Jiffy is presently built and tested using golang version 1.13.5, but it is safe to use the latest stable 1.</description>
     </item>
     
     <item>
