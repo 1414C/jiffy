@@ -17,7 +17,7 @@
       <pubDate>Mon, 05 Feb 2018 13:26:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/installation/in-content-a/</guid>
-      <description>What does Jiffy need to run? Wherever possible and reasonable, Jiffy relies on packages found in the Go standard library. As of this writing, Go version 1.10 is required in order to build the Jiffy binary. Jiffy requires a running database from the following list of supported databases:
+      <description>What does Jiffy need to run? Wherever possible and reasonable, Jiffy relies on packages found in the Go standard library. As of this writing, Go version 1.13.5 is recommended in order to build the Jiffy binary. Jiffy requires a running database from the following list of supported databases:
 Supported Databases  PostgreSQL tested with version 10+ SAP HanaDB tested with HDB 2.0 MSSQL tested with MSSQL 2017 MySQL SQLite3 Firebird (future) DB2 (future)  Database Drivers The following golang database drivers are required, even if you are only planning to make use of one of the DBMS&amp;rsquo;s in the supported list.</description>
     </item>
     
