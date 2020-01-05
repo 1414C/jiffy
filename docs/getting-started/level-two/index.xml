@@ -18,8 +18,7 @@
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-a/</guid>
       <description>Launch Postman and specify a target URL of: http://127.0.0.1:8080/usr/login making sure to select the http POST method. Maintain the request body to provide a user-id and password as shown in the following JSON snippet. Typically the user-id for a Jiffy application is an email address, but we make an exception for the default administration user.
-{ &amp;quot;email&amp;quot;: &amp;quot;admin&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;initpass&amp;quot; }  
-When you have finished and your Postman (or other test utility) looks like the following image, click the &amp;lsquo;Send&amp;rsquo; button to post your login request to the running application.</description>
+{ &amp;#34;email&amp;#34;: &amp;#34;admin&amp;#34;, &amp;#34;password&amp;#34;: &amp;#34;initpass&amp;#34; } When you have finished and your Postman (or other test utility) looks like the following image, click the &amp;lsquo;Send&amp;rsquo; button to post your login request to the running application.</description>
     </item>
     
     <item>
@@ -38,10 +37,8 @@ Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/pe
       <pubDate>Tue, 06 Feb 2018 22:34:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-c/</guid>
-      <description>Let&amp;rsquo;s change a few things in our request-body and create another &amp;lsquo;Person&amp;rsquo; entity. Edit the JSON body in the request section of your Postman session and click &amp;lsquo;Send&amp;rsquo; when you are ready.
-
+      <description>Let&#39;s change a few things in our request-body and create another &amp;lsquo;Person&amp;rsquo; entity. Edit the JSON body in the request section of your Postman session and click &amp;lsquo;Send&amp;rsquo; when you are ready.
 Another &amp;lsquo;Person&amp;rsquo; entity has been created.
-
 Create one more &amp;lsquo;Person&amp;rsquo; entity so we have three (or more) in total.</description>
     </item>
     
@@ -51,7 +48,7 @@ Create one more &amp;lsquo;Person&amp;rsquo; entity so we have three (or more) i
       <pubDate>Tue, 06 Feb 2018 22:34:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-d/</guid>
-      <description>So far we have created a few &amp;lsquo;Person&amp;rsquo; entities. We have observed that upon successful creation of an entity, a JSON representation of that entity is passed back to us via the response-writer. Let&amp;rsquo;s now look at how we can get a list of all of our &amp;lsquo;Person&amp;rsquo; entities.
+      <description>So far we have created a few &amp;lsquo;Person&amp;rsquo; entities. We have observed that upon successful creation of an entity, a JSON representation of that entity is passed back to us via the response-writer. Let&#39;s now look at how we can get a list of all of our &amp;lsquo;Person&amp;rsquo; entities.
 Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/persons making sure to select the http GET method. Next, add the following key-value pair to the http header:</description>
     </item>
     
@@ -61,7 +58,7 @@ Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/pe
       <pubDate>Tue, 06 Feb 2018 22:34:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-e/</guid>
-      <description>What if we need to read a single &amp;lsquo;Person&amp;rsquo;, or isolate a &amp;lsquo;Person&amp;rsquo; entity from a list of entities? Let&amp;rsquo;s try reading a &amp;lsquo;Person&amp;rsquo; entity using its &amp;lsquo;id&amp;rsquo; key.
+      <description>What if we need to read a single &amp;lsquo;Person&amp;rsquo;, or isolate a &amp;lsquo;Person&amp;rsquo; entity from a list of entities? Let&#39;s try reading a &amp;lsquo;Person&amp;rsquo; entity using its &amp;lsquo;id&amp;rsquo; key.
 Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/person/10000001 making sure to select the http GET method. Next, add the following key-value pair to the http header:
  Authorization : Bearer *paste-your-JWT-here*  When you have finished, the test session should look as follows and it is time to read &amp;lsquo;Person&amp;rsquo; 10000001 from the database.</description>
     </item>
@@ -83,8 +80,9 @@ Once you have successfully read &amp;lsquo;Person&amp;rsquo; entity 10000001 int
       <pubDate>Tue, 06 Feb 2018 22:34:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-g/</guid>
-      <description>We have seen how to Create, Get, and Update a &amp;lsquo;Person&amp;rsquo; entity, but before we get around to the Delete operation, let&amp;rsquo;s take a quick look at some other simple things we can do with Get entity lists.
-  Get a count of &amp;#39;Person&amp;#39; entities in the database   ![person-count.jpg](../images/person-count.jpg) `http://127.0.0.1:8080/persons/$count` .     Get all &amp;#39;Person&amp;#39; entities in the database ordered-by age   ![persons-orderby-age.jpg](../images/persons-orderby-age.jpg) `http://127.</description>
+      <description>We have seen how to Create, Get, and Update a &amp;lsquo;Person&amp;rsquo; entity, but before we get around to the Delete operation, let&#39;s take a quick look at some other simple things we can do with Get entity lists.
+  Get a count of &amp;#39;Person&amp;#39; entities in the database   http://127.0.0.1:8080/persons/$count .
+    Get all &amp;#39;Person&amp;#39; entities in the database ordered-by age   http://127.0.0.1:8080/persons$orderby=age .</description>
     </item>
     
     <item>

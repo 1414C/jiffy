@@ -26,7 +26,17 @@
       <pubDate>Mon, 02 Jul 2018 13:27:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-b/</guid>
-      <description>Overview We will create and deploy a sample application inside a Docker container. The containerized application will run as a single-instance and communicate with a Postgres database on the container-host&amp;rsquo;s network. In this example the Postgres database will not be running in a container.
+      <description>Overview We will create and deploy a sample application inside a Docker container. The containerized application will run as a single-instance and communicate with a Postgres database on the container-host&#39;s network. In this example the Postgres database will not be running in a container.
+As in the Jiffy with Docker and SQLite tutorial, our Dockerfile will be quite simple and we will go with some of the docker build defaults. These include allowing docker build to determine the ipv4 address to assign to the image, and also using the default Docker networking setup (&amp;ndash;network-bridge).</description>
+    </item>
+    
+    <item>
+      <title>Jiffy with Docker Swarm, External PostgreSQL &amp; KVS</title>
+      <link>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-c/</link>
+      <pubDate>Mon, 02 Jul 2018 12:22:10 -0702</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-c/</guid>
+      <description>Overview We will create and deploy two instances of a sample application inside Docker containers. The containerized application instances will run in stand-alone containers on Docker&#39;s default bridge network. Each container will communicate with a Postgres database and KVS on the container-host&#39;s network. In this example the Postgres database and KVS will not be running in containers.
 As in the Jiffy with Docker and SQLite tutorial, our Dockerfile will be quite simple and we will go with some of the docker build defaults.</description>
     </item>
     
@@ -36,7 +46,7 @@ As in the Jiffy with Docker and SQLite tutorial, our Dockerfile will be quite si
       <pubDate>Mon, 02 Jul 2018 12:27:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-d/</guid>
-      <description>Overview We will create and deploy a sample jiffy application in Kubernetes using the preconfigured minikube cluster. The containerized jiffy application will be deployed in the Kubernetes cluster and will communicate with a Postgres database and KVS running on the cluster-host&amp;rsquo;s network. In this example the Postgres database and KVS will not be running in containers.
+      <description>Overview We will create and deploy a sample jiffy application in Kubernetes using the preconfigured minikube cluster. The containerized jiffy application will be deployed in the Kubernetes cluster and will communicate with a Postgres database and KVS running on the cluster-host&#39;s network. In this example the Postgres database and KVS will not be running in containers.
 The goal of this example is to get a feel for Kubernetes deployment of a jiffy-application.</description>
     </item>
     
@@ -47,8 +57,8 @@ The goal of this example is to get a feel for Kubernetes deployment of a jiffy-a
       
       <guid>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-g/</guid>
       <description>Overview If a container crashes when executing the entrypoint, there are a few things that can be done to help figure out what is going on.
-Start the Container in Interactive Mode Docker allows containers to be started with flags that direct the console output to the starter&amp;rsquo;s session. For example, to start a containerized jiffy application in this manner use the following command/flags:
-Aardvark:pgelibraryapp stevem$ docker start pgelibraryapp -ia  When Docker starts the container, the ENTRYPOINT specified in the image&amp;rsquo;s Dockerfile will be executed.</description>
+Start the Container in Interactive Mode Docker allows containers to be started with flags that direct the console output to the starter&#39;s session. For example, to start a containerized jiffy application in this manner use the following command/flags:
+Aardvark:pgelibraryapp stevem$ docker start pgelibraryapp -ia When Docker starts the container, the ENTRYPOINT specified in the image&#39;s Dockerfile will be executed.</description>
     </item>
     
   </channel>

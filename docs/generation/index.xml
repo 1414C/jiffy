@@ -18,7 +18,7 @@
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-a/</guid>
       <description>Jiffy Application File Structure Running the Jiffy generator creates a set of files that comprise a basic working backend services application. Jiffy generates the following source code tree when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity.
-FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.go │ ├── personc.go │ ├── usrc.</description>
+FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.go │ ├── personc.go │ ├── usrc.go │ ├── usr_groupc.</description>
     </item>
     
     <item>
@@ -27,7 +27,7 @@ FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └
       <pubDate>Mon, 05 Feb 2018 15:34:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-b/</guid>
-      <description>Following the execution of the application generator, a folder containing the generated app&amp;rsquo;s files is created as shown. The application folder follows the name provided via the -p Jiffy execution flag. In this case, the name of the application folder is &amp;lsquo;FirstApp&amp;rsquo;.
+      <description>Following the execution of the application generator, a folder containing the generated app&#39;s files is created as shown. The application folder follows the name provided via the -p Jiffy execution flag. In this case, the name of the application folder is &amp;lsquo;FirstApp&amp;rsquo;.
 FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go ├── controllers │ ├── ... │ ├── ... . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.</description>
     </item>
     
@@ -37,8 +37,7 @@ FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └
       <pubDate>Mon, 05 Feb 2018 15:32:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-c/</guid>
-      <description>The &amp;lsquo;appobj&amp;rsquo; Folder  The appobj folder contains the generated application&amp;rsquo;s configuration loader and the main application object. 
-FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go ├── controllers │ ├── ... │ ├── ... . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  appobj.go The entry point for go applications is always the main() function, but we seldom write the so-called &amp;lsquo;main&amp;rsquo; part of the application in this monolithic function.</description>
+      <description>The &amp;lsquo;appobj&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go ├── controllers │ ├── ... │ ├── ... . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go appobj.go The entry point for go applications is always the main() function, but we seldom write the so-called &amp;lsquo;main&amp;rsquo; part of the application in this monolithic function. To that end, an AppObj struct is declared and the main thread of the application runs against it.</description>
     </item>
     
     <item>
@@ -47,7 +46,7 @@ FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └
       <pubDate>Mon, 05 Feb 2018 15:44:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-d/</guid>
-      <description>The &amp;lsquo;controllers&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.go │ ├── personc.go │ ├── usrc.go │ ├── usr_groupc.go │ └── ext │ ├── extc_interfaces.go │ └── personc_ext.go ├── group │ ├── ... │ │ ├── ... . . . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  A controller is created for each entity that has been declared in the model files, as well as a number of static controllers that are used to handle the application&amp;rsquo;s users and authorization objects.</description>
+      <description>The &amp;lsquo;controllers&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.go │ ├── personc.go │ ├── usrc.go │ ├── usr_groupc.go │ └── ext │ ├── extc_interfaces.go │ └── personc_ext.go ├── group │ ├── ... │ │ ├── ... . . . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go A controller is created for each entity that has been declared in the model files, as well as a number of static controllers that are used to handle the application&#39;s users and authorization objects.</description>
     </item>
     
     <item>
@@ -56,7 +55,7 @@ FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └
       <pubDate>Mon, 05 Feb 2018 15:51:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-e/</guid>
-      <description>The &amp;lsquo;models&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go . . . ├── models │ ├── authm.go │ ├── errors.go │ ├── group_authm.go │ ├── modelfuncs.go │ ├── personm_ext.go │ ├── personm.go │ ├── servicesm.go │ ├── usr_groupm.go │ ├── usrm.go │ └── ext │ └── model_ext_interfaces.go ├── util │ └── strings.go ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  A model is created for each entity that has been modeled in the my_model.</description>
+      <description>The &amp;lsquo;models&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go . . . ├── models │ ├── authm.go │ ├── errors.go │ ├── group_authm.go │ ├── modelfuncs.go │ ├── personm_ext.go │ ├── personm.go │ ├── servicesm.go │ ├── usr_groupm.go │ ├── usrm.go │ └── ext │ └── model_ext_interfaces.go ├── util │ └── strings.go ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go A model is created for each entity that has been modeled in the my_model.</description>
     </item>
     
     <item>
@@ -65,7 +64,7 @@ FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └
       <pubDate>Mon, 05 Feb 2018 17:23:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-f/</guid>
-      <description>The &amp;lsquo;middleware&amp;rsquo; Folder FirstApp ├── appobj │ ├── ... │ ├── ... | └── ... . . . ├── middleware │ └── requireuser.go . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  The middleware folder contains all of the code related to the Authentication and Authorization concepts discussed in the Access Control Overview and Authorizations sections of this document.</description>
+      <description>The &amp;lsquo;middleware&amp;rsquo; Folder FirstApp ├── appobj │ ├── ... │ ├── ... | └── ... . . . ├── middleware │ └── requireuser.go . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go The middleware folder contains all of the code related to the Authentication and Authorization concepts discussed in the Access Control Overview and Authorizations sections of this document.</description>
     </item>
     
     <item>
@@ -83,7 +82,7 @@ FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └
       <pubDate>Thu, 15 Mar 2018 20:57:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-h/</guid>
-      <description>The &amp;lsquo;docker&amp;rsquo; Folder FirstApp ├── appobj │ ├── ... │ ├── ... │ └── ... . . . ├── docker │ ├── .dev.config.json │ ├── .dev.config.json │ ├── .dev.config.json │ └── Dockerfile . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go  The docker folder contains files that can be used as a starting point for containerizing generated jiffy applications. The Docker related tutorials at XXXXXXXXXXX make use of these files, and they are provided as a learning aid, not as an example of how to deploy applications with Docker.</description>
+      <description>The &amp;lsquo;docker&amp;rsquo; Folder FirstApp ├── appobj │ ├── ... │ ├── ... │ └── ... . . . ├── docker │ ├── .dev.config.json │ ├── .dev.config.json │ ├── .dev.config.json │ └── Dockerfile . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go The docker folder contains files that can be used as a starting point for containerizing generated jiffy applications. The Docker related tutorials at XXXXXXXXXXX make use of these files, and they are provided as a learning aid, not as an example of how to deploy applications with Docker.</description>
     </item>
     
     <item>

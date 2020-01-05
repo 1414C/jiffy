@@ -37,8 +37,8 @@
       
       <guid>https://1414c.github.io/jiffy/usage/us-content-c/</guid>
       <description>Development Config The following command string may be used to run the program using the values defined in the ./.dev.config.json file.
-$ go run main.go -dev  The generated sample dev configuration file should be edited to match the local environment. Jiffy will generate a sample .dev.config.json file similar to the one shown below:
-{ &amp;quot;external_address&amp;quot;: &amp;quot;127.0.0.1:3000&amp;quot;, &amp;quot;internal_address&amp;quot;: &amp;quot;127.0.0.1:4444&amp;quot;, &amp;quot;env&amp;quot;: &amp;quot;dev&amp;quot;, &amp;quot;ping_cycle&amp;quot;: 1, &amp;quot;failure_threshold&amp;quot;: 5, &amp;quot;pepper&amp;quot;: &amp;quot;secret-pepper-key&amp;quot;, &amp;quot;hmac_Key&amp;quot;: &amp;quot;secret-hmac-key&amp;quot;, &amp;quot;database&amp;quot;: { &amp;quot;db_dialect&amp;quot;: &amp;quot;postgres&amp;quot;, &amp;quot;host&amp;quot;: &amp;quot;localhost&amp;quot;, &amp;quot;port&amp;quot;: 5432, &amp;quot;usr&amp;quot;: &amp;quot;godev&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;gogogo123&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;glrestgen&amp;quot;, &amp;quot;ormLogActive&amp;quot;: true, &amp;quot;ormDebugTraceActive&amp;quot;: false }, &amp;quot;group_leader_kvs&amp;quot;: { &amp;quot;local_standalone&amp;quot;: { &amp;quot;active&amp;quot;: true, &amp;quot;internal_address&amp;quot;: &amp;quot;127.</description>
+$ go run main.go -dev The generated sample dev configuration file should be edited to match the local environment. Jiffy will generate a sample .dev.config.json file similar to the one shown below:
+{ &amp;#34;external_address&amp;#34;: &amp;#34;127.0.0.1:3000&amp;#34;, &amp;#34;internal_address&amp;#34;: &amp;#34;127.0.0.1:4444&amp;#34;, &amp;#34;env&amp;#34;: &amp;#34;dev&amp;#34;, &amp;#34;ping_cycle&amp;#34;: 1, &amp;#34;failure_threshold&amp;#34;: 5, &amp;#34;pepper&amp;#34;: &amp;#34;secret-pepper-key&amp;#34;, &amp;#34;hmac_Key&amp;#34;: &amp;#34;secret-hmac-key&amp;#34;, &amp;#34;database&amp;#34;: { &amp;#34;db_dialect&amp;#34;: &amp;#34;postgres&amp;#34;, &amp;#34;host&amp;#34;: &amp;#34;localhost&amp;#34;, &amp;#34;port&amp;#34;: 5432, &amp;#34;usr&amp;#34;: &amp;#34;godev&amp;#34;, &amp;#34;password&amp;#34;: &amp;#34;gogogo123&amp;#34;, &amp;#34;name&amp;#34;: &amp;#34;glrestgen&amp;#34;, &amp;#34;ormLogActive&amp;#34;: true, &amp;#34;ormDebugTraceActive&amp;#34;: false }, &amp;#34;group_leader_kvs&amp;#34;: { &amp;#34;local_standalone&amp;#34;: { &amp;#34;active&amp;#34;: true, &amp;#34;internal_address&amp;#34;: &amp;#34;127.</description>
     </item>
     
     <item>
@@ -48,8 +48,8 @@ $ go run main.go -dev  The generated sample dev configuration file should be edi
       
       <guid>https://1414c.github.io/jiffy/usage/us-content-d/</guid>
       <description>Production Config The following command string may be used to run the program using the values defined in the ./.prd.config.json file.
-$ go run main.go -prod  The generated sample production configuration file should be edited to match the local environment. Jiffy will generate a sample .prod.config.json file similar to the one shown below:
-{ &amp;quot;external_address&amp;quot;: &amp;quot;127.0.0.1:8080&amp;quot;, &amp;quot;internal_address&amp;quot;: &amp;quot;127.0.0.1:4444&amp;quot;, &amp;quot;env&amp;quot;: &amp;quot;prod&amp;quot;, &amp;quot;ping_cycle&amp;quot;: 1, &amp;quot;failure_threshold&amp;quot;: 5, &amp;quot;pepper&amp;quot;: &amp;quot;secret-pepper-key&amp;quot;, &amp;quot;hmac_Key&amp;quot;: &amp;quot;secret-hmac-key&amp;quot;, &amp;quot;database&amp;quot;: { &amp;quot;db_dialect&amp;quot;: &amp;quot;postgres&amp;quot;, &amp;quot;host&amp;quot;: &amp;quot;localhost&amp;quot;, &amp;quot;port&amp;quot;: 5432, &amp;quot;user&amp;quot;: &amp;quot;godev&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;gogogo123&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;glrestgen&amp;quot;, &amp;quot;ormLogActive&amp;quot;: true }, &amp;quot;group_leader_kvs&amp;quot;: { &amp;quot;local_standalone&amp;quot;: { &amp;quot;active&amp;quot;: true, &amp;quot;internal_address&amp;quot;: &amp;quot;127.</description>
+$ go run main.go -prod The generated sample production configuration file should be edited to match the local environment. Jiffy will generate a sample .prod.config.json file similar to the one shown below:
+{ &amp;#34;external_address&amp;#34;: &amp;#34;127.0.0.1:8080&amp;#34;, &amp;#34;internal_address&amp;#34;: &amp;#34;127.0.0.1:4444&amp;#34;, &amp;#34;env&amp;#34;: &amp;#34;prod&amp;#34;, &amp;#34;ping_cycle&amp;#34;: 1, &amp;#34;failure_threshold&amp;#34;: 5, &amp;#34;pepper&amp;#34;: &amp;#34;secret-pepper-key&amp;#34;, &amp;#34;hmac_Key&amp;#34;: &amp;#34;secret-hmac-key&amp;#34;, &amp;#34;database&amp;#34;: { &amp;#34;db_dialect&amp;#34;: &amp;#34;postgres&amp;#34;, &amp;#34;host&amp;#34;: &amp;#34;localhost&amp;#34;, &amp;#34;port&amp;#34;: 5432, &amp;#34;user&amp;#34;: &amp;#34;godev&amp;#34;, &amp;#34;password&amp;#34;: &amp;#34;gogogo123&amp;#34;, &amp;#34;name&amp;#34;: &amp;#34;glrestgen&amp;#34;, &amp;#34;ormLogActive&amp;#34;: true }, &amp;#34;group_leader_kvs&amp;#34;: { &amp;#34;local_standalone&amp;#34;: { &amp;#34;active&amp;#34;: true, &amp;#34;internal_address&amp;#34;: &amp;#34;127.</description>
     </item>
     
     <item>
@@ -59,8 +59,7 @@ $ go run main.go -prod  The generated sample production configuration file shoul
       
       <guid>https://1414c.github.io/jiffy/usage/us-content-e/</guid>
       <description>Application Server Flags Flags are generally not used, as the configuration files (models.json) are easier to deal with. There are however, a few flags that can be used when starting the server:
- -dr
- The -dr switch is used to perform a destructive reset of the application&amp;rsquo;s data tables. This flag causes the application tables to be dropped and recreated, but does not affect the user, user-group, or authorization tables.</description>
+ -dr  The -dr switch is used to perform a destructive reset of the application&#39;s data tables. This flag causes the application tables to be dropped and recreated, but does not affect the user, user-group, or authorization tables.</description>
     </item>
     
     <item>
@@ -69,9 +68,8 @@ $ go run main.go -prod  The generated sample production configuration file shoul
       <pubDate>Mon, 02 Jul 2018 13:29:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/usage/us-content-f/</guid>
-      <description>Generate Self-Signed Certs for https Testing If you wish to perform local https-based testing, it is possible to do so through the use of self-signed certificates. Self-signed certificates can be easily created through the use of the openssl tool on *nix systems. 
-Verify the OpenSSL Installation Open a terminal session and verify that openssl is available:
-$ which -a openssl /usr/bin/openssl  If openssl is not shown in the &amp;lsquo;which&amp;rsquo; command output, check your path to ensure you have access to /usr/bin or /usr/local/bin.</description>
+      <description>Generate Self-Signed Certs for https Testing If you wish to perform local https-based testing, it is possible to do so through the use of self-signed certificates. Self-signed certificates can be easily created through the use of the openssl tool on *nix systems. Verify the OpenSSL Installation Open a terminal session and verify that openssl is available:
+$ which -a openssl /usr/bin/openssl If openssl is not shown in the &amp;lsquo;which&amp;rsquo; command output, check your path to ensure you have access to /usr/bin or /usr/local/bin.</description>
     </item>
     
     <item>
@@ -80,7 +78,7 @@ $ which -a openssl /usr/bin/openssl  If openssl is not shown in the &amp;lsquo;w
       <pubDate>Mon, 02 Jul 2018 13:29:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/usage/us-content-g/</guid>
-      <description>Automated Testing When jiffy generates the application, a set of automated tests are also generated for the application&amp;rsquo;s end-points. The tests make use of the standard go test tooling. Tests can be conducted using http or https, and run against the address:port that the application is presently serving on. Remember, the application must be running prior to executing the test.
+      <description>Automated Testing When jiffy generates the application, a set of automated tests are also generated for the application&#39;s end-points. The tests make use of the standard go test tooling. Tests can be conducted using http or https, and run against the address:port that the application is presently serving on. Remember, the application must be running prior to executing the test.
 The generated tests check the availability of the end-points and attempt to perform CRUD activities using representative data for the field-types.</description>
     </item>
     
