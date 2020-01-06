@@ -38,7 +38,7 @@ go get -u github.com/1414C/jiffy The go get command will pull the Jiffy github r
       
       <guid>https://1414c.github.io/jiffy/getting-started/gs-content-c/</guid>
       <description>Now that Jiffy is installed, we will build a simple service to test it out.
-Jiffy&#39;s source tree comes with a number of sample model files that you can be used to get the hang of things. We are going to use a simple model file that contains an entity named &amp;lsquo;Person&amp;rsquo;. The model file can be found in the Jiffy source tree, or pulled directly from the Jiffy github repository.</description>
+Jiffys source tree comes with a number of sample model files that you can be used to get the hang of things. We are going to use a simple model file that contains an entity named &amp;lsquo;Person&amp;rsquo;. The model file can be found in the Jiffy source tree, or pulled directly from the Jiffy github repository.</description>
     </item>
     
     <item>
