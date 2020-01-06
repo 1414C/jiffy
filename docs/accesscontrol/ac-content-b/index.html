@@ -12,20 +12,20 @@
     <title>Authorizations :: Jiffy Services Generator</title>
 
     
-    <link href="/jiffy/css/nucleus.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/fontawesome-all.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1578203693" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1578295967" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1578203693" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1578295967" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-3.3.1.min.js?1578203693"></script>
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1578295967"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -54,14 +54,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578203693"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578295967"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578295967"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1578295967"></script>
 
     
   </div>
@@ -1882,15 +1882,13 @@
 <h3 id="standard-crud-authorizations">Standard CRUD Authorizations</h3>
 <p>As discussed in the <a href="/jiffy/accesscontrol/ac-content-a/">Access Control Overview</a>, each of the generated services end-points is assigned a name which is used as an Authorization object by the router middleware.</p>
 <p>Standard CRUD end-points for entity Library are generated as follows:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">
-    <span style="color:#75715e">// ====================== Library protected routes for standard CRUD access ======================
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/librarys&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">GetLibrarys</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;GET&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.GET_SET&#34;</span>)
-    <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/library&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">Create</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;POST&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.CREATE&#34;</span>)
-    <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/library/{id:[0-9]+}&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">Get</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;GET&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.GET_ID&#34;</span>)
-    <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/library/{id:[0-9]+}&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">Update</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;PUT&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.UPDATE&#34;</span>)
-    <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/library/{id:[0-9]+}&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">Delete</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;DELETE&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.DELETE&#34;</span>)
-
-</code></pre></div><p>Notice that each end-point handler is assigned a name via the gorilla.mux.Route.Name(&ldquo;string&rdquo;) method.  The generated end-point names follow the standard shown here, but in practice it is safe to change them to whatever works best for your implementation.  Duplicate names in the same router will cause the existing name-route combination to be overwritten by the latest name-route addition as per the gorilla API docs.  Avoid the use of duplicate names.  The set of generated Authorizations for the Library entities CRUD end-points are:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#75715e">// ====================== Library protected routes for standard CRUD access ======================
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/librarys&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">GetLibrarys</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;GET&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.GET_SET&#34;</span>)
+<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/library&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">Create</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;POST&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.CREATE&#34;</span>)
+<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/library/{id:[0-9]+}&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">Get</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;GET&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.GET_ID&#34;</span>)
+<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/library/{id:[0-9]+}&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">Update</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;PUT&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.UPDATE&#34;</span>)
+<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/library/{id:[0-9]+}&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">Delete</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;DELETE&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.DELETE&#34;</span>)
+</code></pre></div><p>Notice that each end-point handler is assigned a name via the <em>gorilla.mux.Route.Name(&ldquo;string&rdquo;)</em> method.  The generated end-point names follow the standard shown here, but in practice it is safe to change them to whatever works best for your implementation.  Duplicate names in the same router will cause the existing name-route combination to be overwritten by the latest name-route addition as per the gorilla API docs.  Avoid the use of duplicate names.  The set of generated Authorizations for the Library entitys CRUD end-points are:</p>
 <ul>
 <li>library.GET_SET</li>
 <li>library.CREATE</li>
@@ -1900,16 +1898,14 @@
 </ul>
 <h4 id="static-filter-authorizations">Static Filter Authorizations</h4>
 <p>Static Filter end-points for entity Library follow the same rules as mentioned above and are generated as follows:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">
-    <span style="color:#75715e">//=================================== Library Static Filters ===================================
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// http://127.0.0.1:&lt;port&gt;/librarys/name(EQ &#39;&lt;sel_string&gt;&#39;)
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/librarys/name{name:[(]+(?:EQ|eq|LIKE|like)+[ &#39;]+[a-zA-Z0-9_]+[&#39;)]+}&#34;</span>,
-        <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">GetLibrarysByName</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;GET&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.STATICFLTR_ByName&#34;</span>)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#75715e">//=================================== Library Static Filters ===================================
+</span><span style="color:#75715e"></span><span style="color:#75715e">// http://127.0.0.1:&lt;port&gt;/librarys/name(EQ &#39;&lt;sel_string&gt;&#39;)
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/librarys/name{name:[(]+(?:EQ|eq|LIKE|like)+[ &#39;]+[a-zA-Z0-9_]+[&#39;)]+}&#34;</span>,
+    <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">GetLibrarysByName</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;GET&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.STATICFLTR_ByName&#34;</span>)
 
-    <span style="color:#75715e">// http://127.0.0.1:&lt;port&gt;/librarys/city(EQ &#39;&lt;sel_string&gt;&#39;)
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/librarys/city{city:[(]+(?:EQ|eq)+[ &#39;]+[a-zA-Z0-9_]+[&#39;)]+}&#34;</span>,
-        <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">GetLibrarysByCity</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;GET&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.STATICFLTR_ByCity&#34;</span>)
-
+<span style="color:#75715e">// http://127.0.0.1:&lt;port&gt;/librarys/city(EQ &#39;&lt;sel_string&gt;&#39;)
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/librarys/city{city:[(]+(?:EQ|eq)+[ &#39;]+[a-zA-Z0-9_]+[&#39;)]+}&#34;</span>,
+    <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">GetLibrarysByCity</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;GET&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.STATICFLTR_ByCity&#34;</span>)
 </code></pre></div><p>The set of generated Authorizations for the Library entity's static filter end-points are:</p>
 <ul>
 <li>library.STATICFLTR_ByName</li>
@@ -3283,19 +3279,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578203693"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1578203693"></script>
-    <script src="/jiffy/js/featherlight.min.js?1578203693"></script>
-    <script src="/jiffy/js/highlight.pack.js?1578203693"></script>
+    <script src="/jiffy/js/clipboard.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578295967"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1578295967"></script>
+    <script src="/jiffy/js/featherlight.min.js?1578295967"></script>
+    <script src="/jiffy/js/highlight.pack.js?1578295967"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578203693"></script>
-    <script src="/jiffy/js/learn.js?1578203693"></script>
-    <script src="/jiffy/js/hugo-learn.js?1578203693"></script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578295967"></script>
+    <script src="/jiffy/js/learn.js?1578295967"></script>
+    <script src="/jiffy/js/hugo-learn.js?1578295967"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1578203693" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1578203693"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1578295967" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1578295967"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

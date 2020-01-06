@@ -12,20 +12,20 @@
     <title>Application Configuration Overview :: Jiffy Services Generator</title>
 
     
-    <link href="/jiffy/css/nucleus.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/fontawesome-all.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1578203693" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1578295967" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1578203693" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1578295967" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-3.3.1.min.js?1578203693"></script>
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1578295967"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -54,14 +54,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578203693"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578295967"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578295967"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1578295967"></script>
 
     
   </div>
@@ -1969,7 +1969,7 @@ instructions regarding the generation of certificates suitable for <em>local tes
         ]
     }
 
-</code></pre></div><!-- raw HTML omitted -->
+</code></pre></div><br/>
 <h5 id="configuration-file-fields">Configuration File Fields</h5>
 <table>
 <thead>
@@ -1983,37 +1983,37 @@ instructions regarding the generation of certificates suitable for <em>local tes
 <tr>
 <td>&ldquo;external_address&rdquo;</td>
 <td>mandatory</td>
-<td>'external_address&rsquo; is used to instruct the service instance which tcp address:port to publish the service end-points on. <!-- raw HTML omitted --><em>Example: &ldquo;external_address&rdquo;: &ldquo;192.168.1.66:8080&rdquo;</em></td>
+<td>'external_address&rsquo; is used to instruct the service instance which tcp address:port to publish the service end-points on. <p><em>Example: &ldquo;external_address&rdquo;: &ldquo;192.168.1.66:8080&rdquo;</em></td>
 </tr>
 <tr>
 <td>&quot;internal_address&rdquo;</td>
 <td>mandatory</td>
-<td>'internal_address&rsquo; is used to instruct the service instance which address:port to use when accepting inter-group-member web-sockets requests.  This address:port should ideally be hosted on a separate interface, as the web-sockets communication is conducted without authentication or encryption.  <!-- raw HTML omitted --><em>Example:  &ldquo;internal_address&rdquo;: &ldquo;192.168.1.66:4444&rdquo;</em></td>
+<td>'internal_address&rsquo; is used to instruct the service instance which address:port to use when accepting inter-group-member web-sockets requests.  This address:port should ideally be hosted on a separate interface, as the web-sockets communication is conducted without authentication or encryption.  <p><em>Example:  &ldquo;internal_address&rdquo;: &ldquo;192.168.1.66:4444&rdquo;</em></td>
 </tr>
 <tr>
 <td>&quot;env&rdquo;</td>
 <td>mandatory</td>
-<td>'env&rsquo; is used to inform the generated server which mode to run in.  The material difference between &ldquo;dev&rdquo;, &ldquo;def&rdquo; and &ldquo;prod&rdquo; is slight; the &ldquo;dev&rdquo; and &ldquo;def&rdquo; modes run the ORM in debugging mode, thereby causing the generated SQL statements to be written as a log to stdout. <!-- raw HTML omitted --> Valid values: &ldquo;dev&rdquo; or &ldquo;def&rdquo; or &ldquo;prod&rdquo; <!-- raw HTML omitted --><em>Example: &ldquo;env&rdquo;: &ldquo;dev&rdquo;</em></td>
+<td>'env&rsquo; is used to inform the generated server which mode to run in.  The material difference between &ldquo;dev&rdquo;, &ldquo;def&rdquo; and &ldquo;prod&rdquo; is slight; the &ldquo;dev&rdquo; and &ldquo;def&rdquo; modes run the ORM in debugging mode, thereby causing the generated SQL statements to be written as a log to stdout. <p> Valid values: &ldquo;dev&rdquo; or &ldquo;def&rdquo; or &ldquo;prod&rdquo; <p><em>Example: &ldquo;env&rdquo;: &ldquo;dev&rdquo;</em></td>
 </tr>
 <tr>
 <td>&ldquo;ping_cycle&rdquo;</td>
 <td>mandatory</td>
-<td>'ping_cycle&rsquo; is used to determine the frequency with which the group-members execute a round of pinging.  The value must be a whole number &gt; 0.  See the Group Membership section of this file for details regarding the execution of a ping-cycle. <!-- raw HTML omitted --><em>Example: &ldquo;ping_cycle&rdquo;: 1</em></td>
+<td>'ping_cycle&rsquo; is used to determine the frequency with which the group-members execute a round of pinging.  The value must be a whole number &gt; 0.  See the Group Membership section of this file for details regarding the execution of a ping-cycle. <p><em>Example: &ldquo;ping_cycle&rdquo;: 1</em></td>
 </tr>
 <tr>
 <td>&ldquo;failure_threshold&rdquo;</td>
 <td>mandatory</td>
-<td>'failure_threshold&rsquo; is used to set the limit for recorded ping failures against any process in the group.  At the moment this number is used verbatim, but in the future the number of ping failures required to move a process-status from SUSPECT to FAILED will be dependent on the number of processes in the group.  See the Group Membership section of this file for greater detail regarding the ALIVE -&gt; SUSPECT -&gt; FAILED chain of process statuses. <!-- raw HTML omitted --><em>Example: &ldquo;failure_threshold&rdquo;: 5</em></td>
+<td>'failure_threshold&rsquo; is used to set the limit for recorded ping failures against any process in the group.  At the moment this number is used verbatim, but in the future the number of ping failures required to move a process-status from SUSPECT to FAILED will be dependent on the number of processes in the group.  See the Group Membership section of this file for greater detail regarding the ALIVE -&gt; SUSPECT -&gt; FAILED chain of process statuses. <p><em>Example: &ldquo;failure_threshold&rdquo;: 5</em></td>
 </tr>
 <tr>
 <td>&ldquo;pepper&rdquo;</td>
 <td>mandatory</td>
-<td>'pepper&rsquo; is used as a pepper seed to the bcrypt password hash.  The generated server handles user login authentication via bcrypt hashing of the password the user entered, then comparing the resulting hash to the stored bcrypt password hash that was created when the user set their initial password.  Passwords are not kept anywhere in the system.  <!-- raw HTML omitted --><em>Example:&ldquo;pepper&rdquo;: &ldquo;secret-pepper-key&rdquo;</em></td>
+<td>'pepper&rsquo; is used as a pepper seed to the bcrypt password hash.  The generated server handles user login authentication via bcrypt hashing of the password the user entered, then comparing the resulting hash to the stored bcrypt password hash that was created when the user set their initial password.  Passwords are not kept anywhere in the system.  <p><em>Example:&ldquo;pepper&rdquo;: &ldquo;secret-pepper-key&rdquo;</em></td>
 </tr>
 <tr>
 <td>&ldquo;hmac_key&rdquo;</td>
 <td>N/A</td>
-<td>'hmac_key&rsquo; is a legacy configuration option left over from the old CSRF implementation.  This field has been deprecated. <!-- raw HTML omitted --><em>Example: &ldquo;hmac_key&rdquo;: &ldquo;some_easily_shoulder_surfable_value&rdquo;</em></td>
+<td>'hmac_key&rsquo; is a legacy configuration option left over from the old CSRF implementation.  This field has been deprecated. <p><em>Example: &ldquo;hmac_key&rdquo;: &ldquo;some_easily_shoulder_surfable_value&rdquo;</em></td>
 </tr>
 <tr>
 <td>&ldquo;database&rdquo;</td>
@@ -2023,37 +2023,37 @@ instructions regarding the generation of certificates suitable for <em>local tes
 <tr>
 <td>&ldquo;db_dialect&rdquo;</td>
 <td>mandatory</td>
-<td>'dialect&rsquo; belongs to the &lsquo;database&rsquo; structure and refers to the database dialect to use to connect to the backend DBMS.  <!-- raw HTML omitted --><em>Example: &ldquo;db_dialect&rdquo;: &ldquo;postgres&rdquo;</em> <!-- raw HTML omitted -->The following values are permitted: {&ldquo;postgres&rdquo;, &ldquo;mssql&rdquo;, &ldquo;hdb&rdquo;, &ldquo;sqlite3&rdquo;, &ldquo;mysql&rdquo;}</td>
+<td>'dialect&rsquo; belongs to the &lsquo;database&rsquo; structure and refers to the database dialect to use to connect to the backend DBMS.  <p><em>Example: &ldquo;db_dialect&rdquo;: &ldquo;postgres&rdquo;</em> <p>The following values are permitted: {&ldquo;postgres&rdquo;, &ldquo;mssql&rdquo;, &ldquo;hdb&rdquo;, &ldquo;sqlite3&rdquo;, &ldquo;mysql&rdquo;}</td>
 </tr>
 <tr>
 <td>&ldquo;host&rdquo;</td>
 <td>mandatory</td>
-<td>'host&rsquo; belongs to the &lsquo;database&rsquo; structure and refers to the ip-address or canonical name of the system hosting the database. <!-- raw HTML omitted --><em>Example: &ldquo;host&rdquo;: &ldquo;localhost&rdquo;</em></td>
+<td>'host&rsquo; belongs to the &lsquo;database&rsquo; structure and refers to the ip-address or canonical name of the system hosting the database. <p><em>Example: &ldquo;host&rdquo;: &ldquo;localhost&rdquo;</em></td>
 </tr>
 <tr>
 <td>&ldquo;port&rdquo;</td>
 <td>mandatory</td>
-<td>'port&rsquo; belongs to the &lsquo;database&rsquo; structure and refers to the port that the database accepts client connections with. <!-- raw HTML omitted --><em>Example: &ldquo;port&rdquo;: 5432</em></td>
+<td>'port&rsquo; belongs to the &lsquo;database&rsquo; structure and refers to the port that the database accepts client connections with. <p><em>Example: &ldquo;port&rdquo;: 5432</em></td>
 </tr>
 <tr>
 <td>&ldquo;user&rdquo;</td>
 <td>mandatory</td>
-<td>'user&rsquo; belongs to the &lsquo;database&rsquo; structure and refers to the username used by the application to login to the database. <!-- raw HTML omitted --><em>Example: &ldquo;user&rdquo;: &ldquo;godev&rdquo;</em></td>
+<td>'user&rsquo; belongs to the &lsquo;database&rsquo; structure and refers to the username used by the application to login to the database. <p><em>Example: &ldquo;user&rdquo;: &ldquo;godev&rdquo;</em></td>
 </tr>
 <tr>
 <td>&ldquo;password&rdquo;</td>
 <td>mandatory</td>
-<td>'password&rsquo; belongs to the &lsquo;database&rsquo; structure and refers to the password required for the application to login to the database. <!-- raw HTML omitted --><em>Example: &ldquo;password&rdquo;: &ldquo;gogogo123&rdquo;</em></td>
+<td>'password&rsquo; belongs to the &lsquo;database&rsquo; structure and refers to the password required for the application to login to the database. <p><em>Example: &ldquo;password&rdquo;: &ldquo;gogogo123&rdquo;</em></td>
 </tr>
 <tr>
 <td>&ldquo;name&rdquo;</td>
 <td>mandatory</td>
-<td>'name&rsquo; belongs to the &lsquo;database&rsquo; structure and refers to the name of the database that the application client should connect to. <!-- raw HTML omitted --><em>Example: &ldquo;name&rdquo;: &ldquo;testdb&rdquo;</em></td>
+<td>'name&rsquo; belongs to the &lsquo;database&rsquo; structure and refers to the name of the database that the application client should connect to. <p><em>Example: &ldquo;name&rdquo;: &ldquo;testdb&rdquo;</em></td>
 </tr>
 <tr>
 <td>&ldquo;ormLogActive&rdquo;</td>
 <td>mandatory</td>
-<td>&lsquo;ormLogActive&rsquo; belongs to the &lsquo;database&rsquo; structure and is used to activate log output from the sqac ORM. <!-- raw HTML omitted --><em>Example: &ldquo;ormLogActive&rdquo;: false</em></td>
+<td>&lsquo;ormLogActive&rsquo; belongs to the &lsquo;database&rsquo; structure and is used to activate log output from the sqac ORM. <p><em>Example: &ldquo;ormLogActive&rdquo;: false</em></td>
 </tr>
 <tr>
 <td>&ldquo;group_leader_kvs&rdquo;</td>
@@ -2168,17 +2168,17 @@ instructions regarding the generation of certificates suitable for <em>local tes
 <tr>
 <td>&ldquo;cert_file&rdquo;</td>
 <td>optional</td>
-<td>&lsquo;cert_file&rsquo; should point to the location of a self-signed or purchased certificate file and is used to support https.  Maintaining a &lsquo;cert_file&rsquo; and &lsquo;key_file&rsquo; in the configuration informs the generated server to publish via https. <!-- raw HTML omitted --><em>Example: &ldquo;cert_file&rdquo;: &ldquo;myCert.cer&rdquo;</em></td>
+<td>&lsquo;cert_file&rsquo; should point to the location of a self-signed or purchased certificate file and is used to support https.  Maintaining a &lsquo;cert_file&rsquo; and &lsquo;key_file&rsquo; in the configuration informs the generated server to publish via https. <p><em>Example: &ldquo;cert_file&rdquo;: &ldquo;myCert.cer&rdquo;</em></td>
 </tr>
 <tr>
 <td>&ldquo;key_file&rdquo;</td>
 <td>optional</td>
-<td>'key_file&rsquo; should point to the location of the key-file for the self-signed or purchased certificate file referenced in the &lsquo;key_file&rsquo; configuration key.  Maintaining a &lsquo;cert_file&rsquo; and &lsquo;key_file&rsquo; in the configuration informs the generated server to publish via https. <!-- raw HTML omitted --><em>Example: &ldquo;key_file&rdquo;: &ldquo;myKeyFile.key&rdquo;</em></td>
+<td>'key_file&rsquo; should point to the location of the key-file for the self-signed or purchased certificate file referenced in the &lsquo;key_file&rsquo; configuration key.  Maintaining a &lsquo;cert_file&rsquo; and &lsquo;key_file&rsquo; in the configuration informs the generated server to publish via https. <p><em>Example: &ldquo;key_file&rdquo;: &ldquo;myKeyFile.key&rdquo;</em></td>
 </tr>
 <tr>
 <td>&quot;rsa256_priv_key_file&rdquo;</td>
 <td>optional</td>
-<td>Private key file for rsa256 JWT verification. <!-- raw HTML omitted -->Application access is handled via claims embedded in JWT tokens.  The JWT header and payload contain the claims and are encoded as base64.  In order to ensure the JWT content has not been tampered with, a verification signature based on the JWT content and a set of public-private keys is included in the JWT.  Jiffy generates a set of public-private keys for each supported signing algorithm, but only populates the key configuration files with the set corresponding the value set in the &lsquo;jwt_sign_method&rsquo;. <!-- raw HTML omitted -->Look in the <!-- raw HTML omitted -->/jwtkeys folder to see the public-private keys generated by Jiffy.<!-- raw HTML omitted -->If you have an external system that signs JWT's with RSA256, it is possible to  provide the Jiffy-generated application with the public-private key-pair by setting their locations and names in the &lsquo;rsa256_priv_key_file&rsquo; and &lsquo;rsa256_pub_key_file&rsquo;.  This would allow the external authentication system to create access tokens for the Jiffy-generated application, provided that the correct claims were embedded in the JWT header and payload.  This effectively enables a very simple single-sign-on facsimile.  <!-- raw HTML omitted -->The following pub/priv keys can be used for this purpose.</td>
+<td>Private key file for rsa256 JWT verification. <p>Application access is handled via claims embedded in JWT tokens.  The JWT header and payload contain the claims and are encoded as base64.  In order to ensure the JWT content has not been tampered with, a verification signature based on the JWT content and a set of public-private keys is included in the JWT.  Jiffy generates a set of public-private keys for each supported signing algorithm, but only populates the key configuration files with the set corresponding the value set in the &lsquo;jwt_sign_method&rsquo;. <p>Look in the <appfolder>/jwtkeys folder to see the public-private keys generated by Jiffy.<p>If you have an external system that signs JWT's with RSA256, it is possible to  provide the Jiffy-generated application with the public-private key-pair by setting their locations and names in the &lsquo;rsa256_priv_key_file&rsquo; and &lsquo;rsa256_pub_key_file&rsquo;.  This would allow the external authentication system to create access tokens for the Jiffy-generated application, provided that the correct claims were embedded in the JWT header and payload.  This effectively enables a very simple single-sign-on facsimile.  <p>The following pub/priv keys can be used for this purpose.</td>
 </tr>
 <tr>
 <td>&quot;rsa256_pub_key_file&rdquo;</td>
@@ -2238,17 +2238,17 @@ instructions regarding the generation of certificates suitable for <em>local tes
 <tr>
 <td>&ldquo;jwt_sign_method&rdquo;</td>
 <td>mandatory</td>
-<td>&lsquo;jwt_sign_method&rsquo; informs the application which algorithm should be used to sign the JWT created during the login process.  In this example, the ecdsa384_pub_key_file &amp; ecdsa384_priv_key_file key files will be used to sign the JWT.  Note that this only applies to JWTs that are created via a direct login into the application via the https://<a href="appurl:port">appurl:port</a>/login end-point.  It is possible that a user will access the application using a JWT generated somewhere with a set of keys that are also known to the application. <!-- raw HTML omitted --><em>Example: &ldquo;jwt_sign_method&rdquo;: &ldquo;ES384&rdquo;</em></td>
+<td>&lsquo;jwt_sign_method&rsquo; informs the application which algorithm should be used to sign the JWT created during the login process.  In this example, the ecdsa384_pub_key_file &amp; ecdsa384_priv_key_file key files will be used to sign the JWT.  Note that this only applies to JWTs that are created via a direct login into the application via the https://<a href="appurl:port">appurl:port</a>/login end-point.  It is possible that a user will access the application using a JWT generated somewhere with a set of keys that are also known to the application. <p><em>Example: &ldquo;jwt_sign_method&rdquo;: &ldquo;ES384&rdquo;</em></td>
 </tr>
 <tr>
 <td>&quot;jwt_lifetime&rdquo;</td>
 <td>mandatory</td>
-<td>&lsquo;jwt_lifetime&rsquo; informs the application how long generated JWT's are valid for in minutes.  The &lsquo;jwt_lifetime&rsquo; value is used to determine the value of the JWT's &lsquo;exp&rsquo; claim. <!-- raw HTML omitted --><em>Example:&ldquo;jwt_lifetime&rdquo;: 120</em></td>
+<td>&lsquo;jwt_lifetime&rsquo; informs the application how long generated JWT's are valid for in minutes.  The &lsquo;jwt_lifetime&rsquo; value is used to determine the value of the JWT's &lsquo;exp&rsquo; claim. <p><em>Example:&ldquo;jwt_lifetime&rdquo;: 120</em></td>
 </tr>
 <tr>
 <td>&quot;service_activations&rdquo;</td>
 <td>mandatory</td>
-<td>When an application is generated based on the model file(s), all service aspects of the complete set of entities will be created.  There may be scenarios where it is appropriate to limit the set of activated services on a running instance of an application server.  This can be achieved by maintaining the activation status of each modeled entity in the service_activations list. <!-- raw HTML omitted --> &lsquo;service_activations is an array containing sets of &lsquo;service_name and &lsquo;service_activation&rsquo;.</td>
+<td>When an application is generated based on the model file(s), all service aspects of the complete set of entities will be created.  There may be scenarios where it is appropriate to limit the set of activated services on a running instance of an application server.  This can be achieved by maintaining the activation status of each modeled entity in the service_activations list. <p> &lsquo;service_activations is an array containing sets of &lsquo;service_name and &lsquo;service_activation&rsquo;.</td>
 </tr>
 <tr>
 <td>&quot;service_name&rdquo;</td>
@@ -3627,19 +3627,19 @@ instructions regarding the generation of certificates suitable for <em>local tes
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578203693"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1578203693"></script>
-    <script src="/jiffy/js/featherlight.min.js?1578203693"></script>
-    <script src="/jiffy/js/highlight.pack.js?1578203693"></script>
+    <script src="/jiffy/js/clipboard.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578295967"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1578295967"></script>
+    <script src="/jiffy/js/featherlight.min.js?1578295967"></script>
+    <script src="/jiffy/js/highlight.pack.js?1578295967"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578203693"></script>
-    <script src="/jiffy/js/learn.js?1578203693"></script>
-    <script src="/jiffy/js/hugo-learn.js?1578203693"></script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578295967"></script>
+    <script src="/jiffy/js/learn.js?1578295967"></script>
+    <script src="/jiffy/js/hugo-learn.js?1578295967"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1578203693" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1578203693"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1578295967" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1578295967"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

@@ -28,7 +28,7 @@ There may be a need to inspect the request details immediately once the request 
       
       <guid>https://1414c.github.io/jiffy/extensionpoints/ep-content-b/</guid>
       <description>Overview Controller extension-points exist for the Create, Update and Get CRUD operations. Each operation has a related extension-point interface, for which an empty implementation may be created when the application is generated. If the generator sees that the extension-point implementation file for an entity has already been created, it will not over-write or create a new version.
-File ./myapp/controllers/ext/extc_interfaces.go contains the generated entity controller extension-point interface declarations. Each interface and interface method is documented in this file.</description>
+File myapp/controllers/ext/extc_interfaces.go contains the generated entity controller extension-point interface declarations. Each interface and interface method is documented in this file.</description>
     </item>
     
     <item>

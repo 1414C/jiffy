@@ -12,20 +12,20 @@
     <title>Generated &#39;models&#39; Folder :: Jiffy Services Generator</title>
 
     
-    <link href="/jiffy/css/nucleus.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/fontawesome-all.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1578203693" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1578295967" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1578203693" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1578295967" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-3.3.1.min.js?1578203693"></script>
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1578295967"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -54,14 +54,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578203693"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578295967"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578295967"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1578295967"></script>
 
     
   </div>
@@ -1880,8 +1880,7 @@
 
 
 <h3 id="the-models-folder">The &lsquo;models&rsquo; Folder</h3>
-<pre><code class="language-code" data-lang="code">
-FirstApp
+<pre><code class="language-code" data-lang="code">FirstApp
 ├── appobj
 │   ├── appconf.go
 │   ├── appobj.go
@@ -1907,13 +1906,11 @@ FirstApp
 ├── .prd.config.json
 ├── main_test.go
 └── main.go
-
 </code></pre><p>A model is created for each entity that has been modeled in the my_model.json files, as well as well as the static models used to support users and authorizations.</p>
 <p>Models define an entity's structure and member field characteristics such as type, required/not-required, db-type etc.  Each model has a corresponding controller that examines the request, parses the incoming JSON data into the model structure, and then calls the appropriate method in the entity-model based on the end-point / http method.  The model provides a validator, which can be used to perform detailed checks and normalizations on the entity data prior to making the call to the sqac ORM.</p>
 <p>Empty model validations are generated for each entity field, and are designed to be extended by the application developer.  Validation methods are generated for each entity field and added to the model's entity validator.  For example, the model source file for entity &lsquo;Library&rsquo; (./models/librarym.go), contains a &lsquo;libraryValidator&rsquo; type.  Validation methods for each of the library entity's fields are attached to this type.</p>
 <p>The validator type also contains methods matching the public interface (LibraryDB) of the model's service definition.  The model's service declaration includes a validator member, and due to the manner of the declaration, it is the validator that is passed back to the caller (controller) when model access is needed.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">
-    <span style="color:#75715e">// newLibraryValidator returns a new libraryValidator
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">    <span style="color:#75715e">// newLibraryValidator returns a new libraryValidator
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newLibraryValidator</span>(<span style="color:#a6e22e">ldb</span> <span style="color:#a6e22e">LibraryDB</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">libraryValidator</span> {
         <span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">libraryValidator</span>{
         <span style="color:#a6e22e">LibraryDB</span>: <span style="color:#a6e22e">ldb</span>,
@@ -1930,22 +1927,20 @@ FirstApp
             <span style="color:#a6e22e">LibraryDB</span>: <span style="color:#a6e22e">lv</span>,
         }
     }
-
 </code></pre></div><p>In the NewLibraryService function, see that two members are declared:</p>
 <ul>
 <li>ls contains an implementation of the generated LibraryDB interface which is used to call the ORM layer following successful execution of the model's validations</li>
 <li>lv contains an implementation of the generated LibraryDB interface, as well as the set of empty generated field validation methods</li>
 </ul>
 <p>Using the creation of a new &lsquo;Library&rsquo; entity as an example, the controller will parse the JSON body of the incoming request into a &lsquo;Library&rsquo; entity struct.  The controller will then call the entity's model.Create method.  The &lsquo;libraryValidator.Create&rsquo; method (on lv) will execute the implemented field validations, then call the service's model.Create() method (on ls)which will in-turn make the required call to the ORM.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">
-    <span style="color:#75715e">// Create validates and normalizes data used in the library creation.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">    <span style="color:#75715e">// Create validates and normalizes data used in the library creation.
 </span><span style="color:#75715e"></span>    <span style="color:#75715e">// Create then calls the creation code contained in LibraryService.
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">lv</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">libraryValidator</span>) <span style="color:#a6e22e">Create</span>(<span style="color:#a6e22e">library</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Library</span>) <span style="color:#66d9ef">error</span> {
 
-        <span style="color:#75715e">// perform normalization and validation -- comment out checks that are not required
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// note that the check calls are generated as a straight enumeration of the entity
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// structure.  It may be neccessary to adjust the calling order depending on the
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// relationships between the fields in the entity structure.
+        <span style="color:#75715e">// perform normalization and validation -- comment out checks that are not
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// required note that the check calls are generated as a straight enumeration
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// of the entity structure.  It may be neccessary to adjust the calling order
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// depending on the relationships between the fields in the entity structure.
 </span><span style="color:#75715e"></span>        <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">runLibraryValFuncs</span>(<span style="color:#a6e22e">library</span>,
             <span style="color:#a6e22e">lv</span>.<span style="color:#a6e22e">normvalName</span>,
             <span style="color:#a6e22e">lv</span>.<span style="color:#a6e22e">normvalCity</span>,
@@ -1958,9 +1953,8 @@ FirstApp
         <span style="color:#75715e">// use method-chaining to call the library service Create method
 </span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">lv</span>.<span style="color:#a6e22e">LibraryDB</span>.<span style="color:#a6e22e">Create</span>(<span style="color:#a6e22e">library</span>)
     }
-
 </code></pre></div><p>The last line of the method is the most interesting, as it demonstrates something known as method-chaining which allows the call to implicitly access the &lsquo;ls&rsquo; methods.  Look carefully at the code in this area so you understand what is happening, and perhaps lookup &lsquo;method-chaining&rsquo; as it pertains to golang.</p>
-<p><strong>Note that at the moment, validations are intended to be coded directly in the body of the generated model code.</strong>  This is in contrast with the extension-point technique implemented in the controller and at the sqacService level in the model file (see <a href="/jiffy/extensionpoints/">Extension Points</a>).  The reasons for this are as follows:</p>
+<p><em>Note that at the moment, validations are intended to be coded directly in the body of the generated model code even though model extension points are available.</em>  This is in contrast with the extension-point technique implemented in the controller and at the sqacService level in the model file (see <a href="/jiffy/extensionpoints/">Extension Points</a>).  The reasons for this are as follows:</p>
 <ul>
 <li>It is expected that no validations will be coded until the model has been stabilized.</li>
 <li>It is generally desirable to get an application working (or mostly working), then start worrying about validations.</li>
@@ -1970,24 +1964,20 @@ FirstApp
 <li>If there is a concern regarding the over-writing of coded validations due to application regeneration, it is simple for an application developer to implement their own sub-package with methods or functions containing the check code.  Jiffy application generation will not overwrite files that it is not responsible for during a regeneration of an application.</li>
 </ul>
 <p>By default, a CRUD interface is generated for each entity.  Using the &lsquo;Library&rsquo; example, the generated code for the CRUD end-points look as follows:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">
-    <span style="color:#75715e">// ====================== Library protected routes for standard CRUD access ======================
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/librarys&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">GetLibrarys</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;GET&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.GET_SET&#34;</span>)
-    <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/library&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">Create</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;POST&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.CREATE&#34;</span>)
-    <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/library/{id:[0-9]+}&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">Get</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;GET&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.GET_ID&#34;</span>)
-    <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/library/{id:[0-9]+}&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">Update</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;PUT&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.UPDATE&#34;</span>)
-    <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/library/{id:[0-9]+}&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">Delete</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;DELETE&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.DELETE&#34;</span>)
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#75715e">// ====================== Library protected routes for standard CRUD access ======================
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/librarys&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">GetLibrarys</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;GET&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.GET_SET&#34;</span>)
+<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/library&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">Create</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;POST&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.CREATE&#34;</span>)
+<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/library/{id:[0-9]+}&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">Get</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;GET&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.GET_ID&#34;</span>)
+<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/library/{id:[0-9]+}&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">Update</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;PUT&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.UPDATE&#34;</span>)
+<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/library/{id:[0-9]+}&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">Delete</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;DELETE&#34;</span>).<span style="color:#a6e22e">Name</span>(<span style="color:#e6db74">&#34;library.DELETE&#34;</span>)
 </code></pre></div><p>The generated go struct for the &lsquo;Library&rsquo; model looks as follows:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">
-    <span style="color:#75715e">// Library structure
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">    <span style="color:#75715e">// Library structure
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Library</span> <span style="color:#66d9ef">struct</span> {
       <span style="color:#a6e22e">ID</span>   <span style="color:#66d9ef">uint64</span> <span style="color:#e6db74">`</span><span style="color:#e6db74">json:&#34;id&#34; db:&#34;id&#34; sqac:&#34;primary_key:inc&#34;</span><span style="color:#e6db74">`</span>
       <span style="color:#a6e22e">Href</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`</span><span style="color:#e6db74">json:&#34;href&#34; db:&#34;href&#34; sqac:&#34;-&#34;</span><span style="color:#e6db74">`</span>
       <span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`</span><span style="color:#e6db74">json:&#34;name&#34; db:&#34;name&#34; sqac:&#34;nullable:false;index:non-unique;index:idx_library_name_city&#34;</span><span style="color:#e6db74">`</span>
       <span style="color:#a6e22e">City</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`</span><span style="color:#e6db74">json:&#34;city&#34; db:&#34;city&#34; sqac:&#34;nullable:false;index:idx_library_name_city&#34;</span><span style="color:#e6db74">`</span>
     }
-
 </code></pre></div><p>The model structure and tags are explained:</p>
 <table>
 <thead>
@@ -2015,8 +2005,8 @@ FirstApp
 </tr>
 </tbody>
 </table>
-<p>For a more complete explanation of the Sqac ORM tags and operation, see the README.md of the sqac library at: <a href="https://github.com/1414C/sqac">https://github.com/1414C/sqac</a></p>
-<p>The models folder also contains an &lsquo;ext&rsquo; sub-directory which is used to hold the interface definitions for model extension-points.  See the <a href="/jiffy/extensionpoints/">Extension Points</a> section of this document for more details.</p>
+<p>For a more complete explanation of the Sqac ORM tags and operation, see the examples contained in README.md of the sqac library at: <a href="https://github.com/1414C/sqac">https://github.com/1414C/sqac</a> or the <a href="https://1414c.github.io/sqac">sqac ORM documentation</a>.</p>
+<p>The models folder also contains an &lsquo;ext&rsquo; sub-directory which is used to hold the interface definitions for model extension-points if you wish to use them.  See the <a href="/jiffy/extensionpoints/">Extension Points</a> section of this document for more details.</p>
 
 
 <footer class=" footline" >
@@ -3353,19 +3343,19 @@ FirstApp
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578203693"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1578203693"></script>
-    <script src="/jiffy/js/featherlight.min.js?1578203693"></script>
-    <script src="/jiffy/js/highlight.pack.js?1578203693"></script>
+    <script src="/jiffy/js/clipboard.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578295967"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1578295967"></script>
+    <script src="/jiffy/js/featherlight.min.js?1578295967"></script>
+    <script src="/jiffy/js/highlight.pack.js?1578295967"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578203693"></script>
-    <script src="/jiffy/js/learn.js?1578203693"></script>
-    <script src="/jiffy/js/hugo-learn.js?1578203693"></script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578295967"></script>
+    <script src="/jiffy/js/learn.js?1578295967"></script>
+    <script src="/jiffy/js/hugo-learn.js?1578295967"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1578203693" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1578203693"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1578295967" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1578295967"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

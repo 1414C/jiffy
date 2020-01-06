@@ -36,7 +36,7 @@
       
       <guid>https://1414c.github.io/jiffy/accesscontrol/ac-content-a/</guid>
       <description>Overview Access to application resources (entities) is controlled in four ways:
- Configuration based service activation Secure user authentication Authorization checks via JWT token claim inspection embedded as middleware in the protected route declarations (end-points) Usr/Auth/Group/GroupAuth caches are maintained on each group-member and updated via an internal API and dissemination protocol in the group-membership service  Configuration Based Service Activation An internal service is created for each of the the application&#39;s entities.</description>
+ Configuration based service activation. Secure user authentication. Authorization checks via JWT token claim inspection embedded as middleware in the protected route declarations (end-points). Usr/Auth/Group/GroupAuth caches are maintained on each group-member and updated via an internal API and dissemination protocol in the group-membership service.  Configuration Based Service Activation An internal service is created for each of the the application&#39;s entities.</description>
     </item>
     
     <item>
@@ -65,7 +65,7 @@ There may be a need to inspect the request details immediately once the request 
       <pubDate>Mon, 05 Feb 2018 15:22:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-a/</guid>
-      <description>Jiffy Application File Structure Running the Jiffy generator creates a set of files that comprise a basic working backend services application. Jiffy generates the following source code tree when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity.
+      <description>Jiffy Application File Structure Running the Jiffy generator creates a set of files that comprise a working backend services application. Jiffy generates the following source code tree when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity.
 FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.go │ ├── personc.go │ ├── usrc.go │ ├── usr_groupc.</description>
     </item>
     
@@ -75,7 +75,7 @@ FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └
       <pubDate>Mon, 05 Feb 2018 13:26:13 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/tutorials/tt-content-a/</guid>
-      <description>Manual Join Creation </description>
+      <description>Manual Join Creation TODO </description>
     </item>
     
     <item>
@@ -84,7 +84,8 @@ FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └
       <pubDate>Mon, 05 Feb 2018 13:26:13 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/models/mo-content-a/</guid>
-      <description>Model Files Model files contain the Entity, Index and Relation definitions that you wish to generate services for. Entity model definition consists of an array of JSON objects, with each object being limited to a flat hierarchy and basic go-data-types, (although this is easily extended). By default, the Jiffy generator expects a models.json file in the execution directory, but a correctly formatted JSON file can be loaded from any location by executing jiffy with the -m flag.</description>
+      <description>Model Files Model files contain the Entity, Index and Relation definitions that you wish to generate services and database artifacts for. Jiffy determines the location of the model file(s) via the -m or -mf flags provided at the time of execution. See the Execution Options section of the documentation for details regarding the use of the -m and -mf flags.
+It is possible to use more than one model-file, as long as there is no duplication of entity definitions across the files.</description>
     </item>
     
     <item>
@@ -94,11 +95,11 @@ FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └
       
       <guid>https://1414c.github.io/jiffy/execution/ex-content-a/</guid>
       <description>Execution In order to run the Jiffy application generator, ensure the following:
-  Make sure go has been installed in the test environment. See http://www.golang.org for installation files and instructions.
+  Make sure Go has been installed in the test environment. See http://www.golang.org for installation files and instructions.
   Make sure that the Jiffy source code and dependencies have been installed.
   One of the supported databases is available, either locally or over the network.
   Jiffy can be started in two ways:
- From $GOPATH/src/github.</description>
+ Using the binary installed by following the instructions located in the Jiffy Installation section of this documentation.</description>
     </item>
     
     <item>
@@ -108,7 +109,7 @@ FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └
       
       <guid>https://1414c.github.io/jiffy/installation/in-content-a/</guid>
       <description>What does Jiffy need to run? Wherever possible and reasonable, Jiffy relies on packages found in the Go standard library. As of this writing, Go version 1.13.5 is recommended in order to build the Jiffy binary. Jiffy requires a running database from the following list of supported databases:
-Supported Databases  PostgreSQL tested with version 10+ SAP HanaDB tested with HDB 2.0 MSSQL tested with MSSQL 2017 MySQL SQLite3 Firebird (future) DB2 (future)  Database Drivers The following golang database drivers are required, even if you are only planning to make use of one of the DBMS&#39;s in the supported list.</description>
+Supported Databases  PostgreSQL tested with version 10+ SAP HanaDB tested with HDB 2.0 MSSQL tested with MSSQL 2017 MySQL SQLite3 Firebird (future) DB2 (future)  Database Drivers The following Go database drivers are required, even if you are only planning to make use of one of the DBMS&#39;s in the supported list.</description>
     </item>
     
     <item>
@@ -127,11 +128,11 @@ Jiffy generates a robust go-based application that treats the data persistence l
       <pubDate>Mon, 02 Jul 2018 17:02:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/interprocess/ip-content-b/</guid>
-      <description>Group Membership Failure Detector   When discussing deployment of a Jiffy-generated application, each instance of the application is referred to as a process or application instance.
+      <description>Group Membership Failure Detector   When discussing deployment of a Jiffy-generated application, each instance of the application is referred to as a process, application instance or node.
   Processes may fail.
   Processes exist with one of five publicly disseminated and well-known statuses: {ACTIVE; SUSPECT; FAILED; DEPARTING; DEPARTED}
   Processes exist with a publicly (within the group) disseminated incarnation number.
-  Process viability is checked at selectable intervals (ping-cycle time) via a ping-ack mechanism.</description>
+  Process viability is checked at selectable intervals (ping-cycle time) via a configurable ping-ack mechanism.</description>
     </item>
     
     <item>
@@ -142,7 +143,7 @@ Jiffy generates a robust go-based application that treats the data persistence l
       <guid>https://1414c.github.io/jiffy/accesscontrol/ac-content-b/</guid>
       <description>Standard CRUD Authorizations As discussed in the Access Control Overview, each of the generated services end-points is assigned a name which is used as an Authorization object by the router middleware.
 Standard CRUD end-points for entity Library are generated as follows:
-// ====================== Library protected routes for standard CRUD access ======================  a.router.HandleFunc(&amp;#34;/librarys&amp;#34;, requireUserMw.ApplyFn(a.libraryC.GetLibrarys)).Methods(&amp;#34;GET&amp;#34;).Name(&amp;#34;library.GET_SET&amp;#34;) a.router.HandleFunc(&amp;#34;/library&amp;#34;, requireUserMw.ApplyFn(a.libraryC.Create)).Methods(&amp;#34;POST&amp;#34;).Name(&amp;#34;library.CREATE&amp;#34;) a.router.HandleFunc(&amp;#34;/library/{id:[0-9]+}&amp;#34;, requireUserMw.ApplyFn(a.libraryC.Get)).Methods(&amp;#34;GET&amp;#34;).Name(&amp;#34;library.GET_ID&amp;#34;) a.router.HandleFunc(&amp;#34;/library/{id:[0-9]+}&amp;#34;, requireUserMw.ApplyFn(a.libraryC.Update)).Methods(&amp;#34;PUT&amp;#34;).Name(&amp;#34;library.UPDATE&amp;#34;) a.router.HandleFunc(&amp;#34;/library/{id:[0-9]+}&amp;#34;, requireUserMw.ApplyFn(a.libraryC.Delete)).Methods(&amp;#34;DELETE&amp;#34;).Name(&amp;#34;library.DELETE&amp;#34;) Notice that each end-point handler is assigned a name via the gorilla.</description>
+// ====================== Library protected routes for standard CRUD access ====================== a.router.HandleFunc(&amp;#34;/librarys&amp;#34;, requireUserMw.ApplyFn(a.libraryC.GetLibrarys)).Methods(&amp;#34;GET&amp;#34;).Name(&amp;#34;library.GET_SET&amp;#34;) a.router.HandleFunc(&amp;#34;/library&amp;#34;, requireUserMw.ApplyFn(a.libraryC.Create)).Methods(&amp;#34;POST&amp;#34;).Name(&amp;#34;library.CREATE&amp;#34;) a.router.HandleFunc(&amp;#34;/library/{id:[0-9]+}&amp;#34;, requireUserMw.ApplyFn(a.libraryC.Get)).Methods(&amp;#34;GET&amp;#34;).Name(&amp;#34;library.GET_ID&amp;#34;) a.router.HandleFunc(&amp;#34;/library/{id:[0-9]+}&amp;#34;, requireUserMw.ApplyFn(a.libraryC.Update)).Methods(&amp;#34;PUT&amp;#34;).Name(&amp;#34;library.UPDATE&amp;#34;) a.router.HandleFunc(&amp;#34;/library/{id:[0-9]+}&amp;#34;, requireUserMw.ApplyFn(a.libraryC.Delete)).Methods(&amp;#34;DELETE&amp;#34;).Name(&amp;#34;library.DELETE&amp;#34;) Notice that each end-point handler is assigned a name via the gorilla.</description>
     </item>
     
     <item>
@@ -171,7 +172,7 @@ As in the Jiffy with Docker and SQLite tutorial, our Dockerfile will be quite si
       
       <guid>https://1414c.github.io/jiffy/extensionpoints/ep-content-b/</guid>
       <description>Overview Controller extension-points exist for the Create, Update and Get CRUD operations. Each operation has a related extension-point interface, for which an empty implementation may be created when the application is generated. If the generator sees that the extension-point implementation file for an entity has already been created, it will not over-write or create a new version.
-File ./myapp/controllers/ext/extc_interfaces.go contains the generated entity controller extension-point interface declarations. Each interface and interface method is documented in this file.</description>
+File myapp/controllers/ext/extc_interfaces.go contains the generated entity controller extension-point interface declarations. Each interface and interface method is documented in this file.</description>
     </item>
     
     <item>
@@ -200,7 +201,7 @@ FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └
       <pubDate>Mon, 05 Feb 2018 14:30:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/tutorials/tt-content-b/</guid>
-      <description>Supporting mixed/multipart </description>
+      <description>Supporting mixed/multipart TODO </description>
     </item>
     
     <item>
@@ -209,8 +210,8 @@ FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └
       <pubDate>Mon, 05 Feb 2018 14:30:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/execution/ex-content-b/</guid>
-      <description>Generation Flags Flags are kept to a minimum, but there are a few that can be appended to the execution command:
- go run main.go -m ./my_model.json  By default, the application will attempt to use ./support/testing_models/models.json as the model source, but inclusion of the -m flag permits the use of a more useful model file. The path of model file in the application base directory must be prefaced with .</description>
+      <description>Execution Flags Jiffy requires a small number of flags to be specified at runtime.
+ -m Inclusion of the -m flag instructs jiffy to build a new application using the specified model file. Jiffy expects a fully-qualified path to a model file to follow the -m flag. The -m and -mf flags are mutually exclusive. -mf Inclusion of the -mf flag instructs jiffy to read and process all model files contained in the specified folder.</description>
     </item>
     
     <item>
@@ -220,7 +221,7 @@ FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └
       
       <guid>https://1414c.github.io/jiffy/installation/in-content-b/</guid>
       <description>Installation Steps The easiest way to install Jiffy is to use go get on the command-line to pull the latest version from github, as shown below:
-$ go get -u github.com/1414C/jiffy The &amp;lsquo;go get&amp;rsquo; command will pull the Jiffy github repository into your $GOPATH/src/github.com folder, as well as any dependencies referenced by the Jiffy source code. The -u flag is included to instruct go get to check for and pull updates to Jiffy packages and their dependencies based on the content of the project&#39;s go.</description>
+go get -u github.com/1414C/jiffy The go get command will pull the Jiffy github repository into your $GOPATH/src/github.com folder, as well as any dependencies referenced by the Jiffy source code. The -u flag is included to instruct go get to check for and pull updates to Jiffy packages and their dependencies based on the content of the project&#39;s go.</description>
     </item>
     
     <item>
@@ -269,7 +270,7 @@ Member Communication The group-membership service communicates between processes
       
       <guid>https://1414c.github.io/jiffy/usage/us-content-c/</guid>
       <description>Development Config The following command string may be used to run the program using the values defined in the ./.dev.config.json file.
-$ go run main.go -dev The generated sample dev configuration file should be edited to match the local environment. Jiffy will generate a sample .dev.config.json file similar to the one shown below:
+go run main.go -dev The generated sample dev configuration file should be edited to match the local environment. Jiffy will generate a sample .dev.config.json file similar to the one shown below:
 { &amp;#34;external_address&amp;#34;: &amp;#34;127.0.0.1:3000&amp;#34;, &amp;#34;internal_address&amp;#34;: &amp;#34;127.0.0.1:4444&amp;#34;, &amp;#34;env&amp;#34;: &amp;#34;dev&amp;#34;, &amp;#34;ping_cycle&amp;#34;: 1, &amp;#34;failure_threshold&amp;#34;: 5, &amp;#34;pepper&amp;#34;: &amp;#34;secret-pepper-key&amp;#34;, &amp;#34;hmac_Key&amp;#34;: &amp;#34;secret-hmac-key&amp;#34;, &amp;#34;database&amp;#34;: { &amp;#34;db_dialect&amp;#34;: &amp;#34;postgres&amp;#34;, &amp;#34;host&amp;#34;: &amp;#34;localhost&amp;#34;, &amp;#34;port&amp;#34;: 5432, &amp;#34;usr&amp;#34;: &amp;#34;godev&amp;#34;, &amp;#34;password&amp;#34;: &amp;#34;gogogo123&amp;#34;, &amp;#34;name&amp;#34;: &amp;#34;glrestgen&amp;#34;, &amp;#34;ormLogActive&amp;#34;: true, &amp;#34;ormDebugTraceActive&amp;#34;: false }, &amp;#34;group_leader_kvs&amp;#34;: { &amp;#34;local_standalone&amp;#34;: { &amp;#34;active&amp;#34;: true, &amp;#34;internal_address&amp;#34;: &amp;#34;127.</description>
     </item>
     
@@ -319,7 +320,7 @@ File ./myapp/models/ext/extm_interfaces.go contains the generated entity model e
       <pubDate>Mon, 05 Feb 2018 15:32:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-c/</guid>
-      <description>The &amp;lsquo;appobj&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go ├── controllers │ ├── ... │ ├── ... . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go appobj.go The entry point for go applications is always the main() function, but we seldom write the so-called &amp;lsquo;main&amp;rsquo; part of the application in this monolithic function. To that end, an AppObj struct is declared and the main thread of the application runs against it.</description>
+      <description>The &amp;lsquo;appobj&amp;rsquo; Folder  The appobj folder contains the generated application&#39;s configuration loader and the main application object.  FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go ├── controllers │ ├── ... │ ├── ... . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go appobj.go The entry point for go applications is always the main() function, but we seldom write the so-called &amp;lsquo;main&amp;rsquo; part of the application in this monolithic function.</description>
     </item>
     
     <item>
@@ -347,7 +348,7 @@ File ./myapp/models/ext/extm_interfaces.go contains the generated entity model e
       
       <guid>https://1414c.github.io/jiffy/usage/us-content-d/</guid>
       <description>Production Config The following command string may be used to run the program using the values defined in the ./.prd.config.json file.
-$ go run main.go -prod The generated sample production configuration file should be edited to match the local environment. Jiffy will generate a sample .prod.config.json file similar to the one shown below:
+go run main.go -prod The generated sample production configuration file should be edited to match the local environment. Jiffy will generate a sample .prod.config.json file similar to the one shown below:
 { &amp;#34;external_address&amp;#34;: &amp;#34;127.0.0.1:8080&amp;#34;, &amp;#34;internal_address&amp;#34;: &amp;#34;127.0.0.1:4444&amp;#34;, &amp;#34;env&amp;#34;: &amp;#34;prod&amp;#34;, &amp;#34;ping_cycle&amp;#34;: 1, &amp;#34;failure_threshold&amp;#34;: 5, &amp;#34;pepper&amp;#34;: &amp;#34;secret-pepper-key&amp;#34;, &amp;#34;hmac_Key&amp;#34;: &amp;#34;secret-hmac-key&amp;#34;, &amp;#34;database&amp;#34;: { &amp;#34;db_dialect&amp;#34;: &amp;#34;postgres&amp;#34;, &amp;#34;host&amp;#34;: &amp;#34;localhost&amp;#34;, &amp;#34;port&amp;#34;: 5432, &amp;#34;user&amp;#34;: &amp;#34;godev&amp;#34;, &amp;#34;password&amp;#34;: &amp;#34;gogogo123&amp;#34;, &amp;#34;name&amp;#34;: &amp;#34;glrestgen&amp;#34;, &amp;#34;ormLogActive&amp;#34;: true }, &amp;#34;group_leader_kvs&amp;#34;: { &amp;#34;local_standalone&amp;#34;: { &amp;#34;active&amp;#34;: true, &amp;#34;internal_address&amp;#34;: &amp;#34;127.</description>
     </item>
     
@@ -358,7 +359,7 @@ $ go run main.go -prod The generated sample production configuration file should
       
       <guid>https://1414c.github.io/jiffy/accesscontrol/ac-content-d/</guid>
       <description>Using External Identity Providers It is possible to use an external Identity Provider to supply JWT tokens capable of accessing jiffy-applications. In order for an external IDP to provide usable JWT&#39;s to jiffy the following criteria must be met:
- The IDP must sign the JWT&#39;s with an algorithm that jiffy supports The IDP must provide the jiffy application with a public-key for signature verification A valid user-id must exist in the jiffy application The IDP must contain a mapping of user IDP ID&#39;s to jiffy-application internal user id&#39;s The IDP must contain a record of the Authorization-Groups that the user should have access to The IDP must include the jiffy-specific claims in the JWT payload The IDP must supply the &amp;lsquo;alg&amp;rsquo; and &amp;lsquo;typ&amp;rsquo; elements in the JWT header  Sample JWT for Jiffy Application Access  A user with an existing jiffy-application userID has been configured in an external IDP.</description>
+ The IDP must sign the JWT&#39;s with an algorithm that jiffy supports (RSA / ECDSA). The IDP must provide the jiffy application with a public-key for signature verification. A valid user-id must exist in the jiffy application.</description>
     </item>
     
     <item>
@@ -378,7 +379,8 @@ The goal of this example is to get a feel for Kubernetes deployment of a jiffy-a
       
       <guid>https://1414c.github.io/jiffy/overview/ov-content-d/</guid>
       <description>Jiffy Application Architecture Jiffy approaches the API from a services perspective. Each entity has a corresponding service that can be started when the application initializes. The Usr, UsrGroup, Auth and GroupAuth services are always generated by default when creating a Jiffy application. Additional services are generated based on the content of your project&#39;s model files.
-Generated application services can be broken down into five high-level areas:  graph TD; subgraph A(End-Points)--B(Middleware) B--C(Controllers) C--D(Models) D--E(Database) end   End-Points expose the service APIs to the consumer, such as a web-app or another server.</description>
+Generated application services can be broken down into five high-level areas: 
+ graph TD; subgraph A(End-Points)--B(Middleware) B--C(Controllers) C--D(Models) D--E(Database) end</description>
     </item>
     
     <item>
@@ -407,7 +409,7 @@ Jiffy&#39;s source tree comes with a number of sample model files that you can b
       
       <guid>https://1414c.github.io/jiffy/models/mo-content-d/</guid>
       <description>Modeling Entity Relationships Relationships between entities can be declared in the application model file via the addition of a &amp;lsquo;relations&amp;rsquo; block inside an entity&#39;s declaration. Relationships are based on resource id&#39;s by default, although it is possible to specify non-default key fields in the configuration, or implement complex joins directly by maintaining the entity&#39;s controller and model. &amp;lsquo;relations&amp;rsquo; blocks look as follows:
-&amp;#34;relations&amp;#34;: [ { &amp;#34;relName&amp;#34;: &amp;#34;ToOwner&amp;#34;, &amp;#34;properties&amp;#34;: { &amp;#34;relType&amp;#34;: &amp;#34;hasOne&amp;#34;, &amp;#34;toEntity&amp;#34;: &amp;#34;Owner&amp;#34; } } ] The sample relations block illustrates the declaration of a &amp;lsquo;hasOne&amp;rsquo; relationship between &amp;lsquo;Car&amp;rsquo; and &amp;lsquo;Owner&amp;rsquo; making use of default-keys.</description>
+&amp;#34;relations&amp;#34;: [ { &amp;#34;relName&amp;#34;: &amp;#34;ToOwner&amp;#34;, &amp;#34;properties&amp;#34;: { &amp;#34;relType&amp;#34;: &amp;#34;hasOne&amp;#34;, &amp;#34;toEntity&amp;#34;: &amp;#34;Owner&amp;#34; } } ] The sample relations block illustrates the declaration of a &amp;lsquo;hasOne&amp;rsquo; relationship between &amp;lsquo;Car&amp;rsquo; and &amp;lsquo;Owner&amp;rsquo; making use of default-keys (ID).</description>
     </item>
     
     <item>
@@ -447,7 +449,7 @@ Aardvark:pgelibraryapp stevem$ docker start pgelibraryapp -ia When Docker starts
       
       <guid>https://1414c.github.io/jiffy/getting-started/gs-content-d/</guid>
       <description>Let&#39;s execute our first application!
-$ cd $GOPATH/src/jiffy_tests/first_app $ go run main.go -dev -rs Executing with the -dev and -rs flags instructs our new application to initialize itself using the development configuration file, and forces a rebuild of the &amp;lsquo;Super&amp;rsquo; authorization-group. Consequently, some warning and info messages will scroll up the screen which is expected.
+cd $GOPATH/src/jiffy_tests/first_app go run main.go -dev -rs Executing with the -dev and -rs flags instructs our new application to initialize itself using the development configuration file, and forces a rebuild of the &amp;lsquo;Super&amp;rsquo; authorization-group. Consequently, some warning and info messages will scroll up the screen which is expected.
 2018/02/05 22:29:26 package sqac init is running 2018/02/05 22:29:26 successfully loaded the config file... 2018/02/05 22:29:26 JWTPrivKeyFile: jwtkeys/private.</description>
     </item>
     
@@ -466,8 +468,9 @@ $ cd $GOPATH/src/jiffy_tests/first_app $ go run main.go -dev -rs Executing with 
       <pubDate>Mon, 02 Jul 2018 13:29:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/usage/us-content-f/</guid>
-      <description>Generate Self-Signed Certs for https Testing If you wish to perform local https-based testing, it is possible to do so through the use of self-signed certificates. Self-signed certificates can be easily created through the use of the openssl tool on *nix systems. Verify the OpenSSL Installation Open a terminal session and verify that openssl is available:
-$ which -a openssl /usr/bin/openssl If openssl is not shown in the &amp;lsquo;which&amp;rsquo; command output, check your path to ensure you have access to /usr/bin or /usr/local/bin.</description>
+      <description>Generate Self-Signed Certs for https Testing If you wish to perform local https-based testing, it is possible to do so through the use of self-signed certificates. Self-signed certificates can be easily created through the use of the openssl tool on *nix systems. 
+Verify the OpenSSL Installation Open a terminal session and verify that openssl is available:
+which -a openssl /usr/bin/openssl If openssl is not shown in the &amp;lsquo;which&amp;rsquo; command output, check your path to ensure you have access to /usr/bin or /usr/local/bin.</description>
     </item>
     
     <item>
@@ -514,7 +517,7 @@ Jiffy applications support the use of Redis, Memcached, Stand-Alone/Local or Slu
       <pubDate>Thu, 15 Mar 2018 20:57:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-h/</guid>
-      <description>The &amp;lsquo;docker&amp;rsquo; Folder FirstApp ├── appobj │ ├── ... │ ├── ... │ └── ... . . . ├── docker │ ├── .dev.config.json │ ├── .dev.config.json │ ├── .dev.config.json │ └── Dockerfile . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go The docker folder contains files that can be used as a starting point for containerizing generated jiffy applications. The Docker related tutorials at XXXXXXXXXXX make use of these files, and they are provided as a learning aid, not as an example of how to deploy applications with Docker.</description>
+      <description>The &amp;lsquo;docker&amp;rsquo; Folder FirstApp ├── appobj │ ├── ... │ ├── ... │ └── ... . . . ├── docker │ ├── .dev.config.json │ ├── .dev.config.json │ ├── .dev.config.json │ └── Dockerfile . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go The docker folder contains files that can be used as a starting point for containerizing generated jiffy applications. The Using Docker with Jiffy Applications tutorials make use of these files.</description>
     </item>
     
     <item>
@@ -535,7 +538,7 @@ The group/gmcom Folder The group/gmcom folder contains source files holding arti
       
       <guid>https://1414c.github.io/jiffy/usage/deployment/us-content-i/</guid>
       <description>Overview Jiffy was written with the idea of generating sidecar-free backend service applications. While this is a nice goal, the current version of Jiffy relies on the presence of some external processes and/or services depending on the target environment.
-Database System The generated application will need to connect to a database system from the supported list. We suggest using sqlite3 for initial testing if you do not want to install a full DBMS on your development machine.</description>
+Database System The generated application will need to connect to a database system from the supported list. It is easiest to use sqlite3 for initial testing if you do not want to install a full DBMS in the development environment.</description>
     </item>
     
     <item>
@@ -545,7 +548,7 @@ Database System The generated application will need to connect to a database sys
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-a/</guid>
       <description>Launch Postman and specify a target URL of: http://127.0.0.1:8080/usr/login making sure to select the http POST method. Maintain the request body to provide a user-id and password as shown in the following JSON snippet. Typically the user-id for a Jiffy application is an email address, but we make an exception for the default administration user.
-{ &amp;#34;email&amp;#34;: &amp;#34;admin&amp;#34;, &amp;#34;password&amp;#34;: &amp;#34;initpass&amp;#34; } When you have finished and your Postman (or other test utility) looks like the following image, click the &amp;lsquo;Send&amp;rsquo; button to post your login request to the running application.</description>
+{ &amp;#34;email&amp;#34;: &amp;#34;admin&amp;#34;, &amp;#34;password&amp;#34;: &amp;#34;initpass&amp;#34; }  When you have finished and your Postman (or other test utility) looks like the following image, click the &amp;lsquo;Send&amp;rsquo; button to post your login request to the running application.</description>
     </item>
     
     <item>
@@ -554,7 +557,8 @@ Database System The generated application will need to connect to a database sys
       <pubDate>Mon, 02 Jul 2018 13:29:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/usage/deployment/us-content-j/</guid>
-      <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts All-In-One Deployment In a development or test setting it may make sense to deploy everything in one system. In this context &amp;lsquo;system&amp;rsquo; refers to a laptop, bare-metal server or a VM of some sort. To deploy an all-in-one type setup, the following artifacts are required:
+      <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts 
+All-In-One Deployment In a development or test setting it may make sense to deploy everything in one system. In this context &amp;lsquo;system&amp;rsquo; refers to a laptop, bare-metal server or a VM of some sort. To deploy an all-in-one type setup, the following artifacts are required:
  Database Jiffy application Set the &amp;lsquo;local_standalone&amp;rsquo; KVS to Active in the config.</description>
     </item>
     
@@ -574,7 +578,8 @@ Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/pe
       <pubDate>Mon, 02 Jul 2018 14:29:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/usage/deployment/us-content-k/</guid>
-      <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts All-In-One Deployment with Docker In a development or test setting it may make sense to deploy everything in one container. SQLite is a good choice for this type of container deployment, as it is a file-based database and therefore does not need to be started as a service. Containers typically offer single services and their configuration is geared to this usage pattern.</description>
+      <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts 
+All-In-One Deployment with Docker In a development or test setting it may make sense to deploy everything in one container. SQLite is a good choice for this type of container deployment, as it is a file-based database and therefore does not need to be started as a service. Containers typically offer single services and their configuration is geared to this usage pattern.</description>
     </item>
     
     <item>
@@ -584,7 +589,9 @@ Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/pe
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-c/</guid>
       <description>Let&#39;s change a few things in our request-body and create another &amp;lsquo;Person&amp;rsquo; entity. Edit the JSON body in the request section of your Postman session and click &amp;lsquo;Send&amp;rsquo; when you are ready.
+
 Another &amp;lsquo;Person&amp;rsquo; entity has been created.
+
 Create one more &amp;lsquo;Person&amp;rsquo; entity so we have three (or more) in total.</description>
     </item>
     
@@ -594,7 +601,8 @@ Create one more &amp;lsquo;Person&amp;rsquo; entity so we have three (or more) i
       <pubDate>Mon, 02 Jul 2018 13:29:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/usage/deployment/us-content-l/</guid>
-      <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts. Deployment on Kubernetes Jiffy applications are designed to run on Kubernetes and fully support the idea of disposable application containers and automated scale-up / scale-down. The best way to learn about deploying Jiffy applications in a Kubernetes cluster is to read through the Jiffy with Kubernetes tutorial.</description>
+      <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts. 
+Deployment on Kubernetes Jiffy applications are designed to run on Kubernetes and fully support the idea of disposable application containers and automated scale-up / scale-down. The best way to learn about deploying Jiffy applications in a Kubernetes cluster is to read through the Jiffy with Kubernetes tutorial.</description>
     </item>
     
     <item>
@@ -624,7 +632,7 @@ Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/pe
       <pubDate>Tue, 06 Feb 2018 22:34:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-f/</guid>
-      <description>If you have been following along, we have created &amp;lsquo;Person&amp;rsquo; entities, read &amp;lsquo;Person&amp;rsquo; entities both in bulk and by &amp;lsquo;id&amp;rsquo; key. We are now going to take a look at updating an existing entity.
+      <description>If you have been following along, we have created &amp;lsquo;Person&amp;rsquo; entities, read &amp;lsquo;Person&amp;rsquo; entities both in bulk and by &amp;lsquo;id&amp;rsquo; key. We are now going to take a look at updating an existing &amp;lsquo;Person&amp;rsquo; entity.
 Read &amp;lsquo;Person&amp;rsquo; entity 10000001 from the database as shown in the Get a Person example.
 Once you have successfully read &amp;lsquo;Person&amp;rsquo; entity 10000001 into your Postman session, copy the content of the response body to your clipboard.</description>
     </item>
@@ -636,8 +644,7 @@ Once you have successfully read &amp;lsquo;Person&amp;rsquo; entity 10000001 int
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-g/</guid>
       <description>We have seen how to Create, Get, and Update a &amp;lsquo;Person&amp;rsquo; entity, but before we get around to the Delete operation, let&#39;s take a quick look at some other simple things we can do with Get entity lists.
-  Get a count of &amp;#39;Person&amp;#39; entities in the database   http://127.0.0.1:8080/persons/$count .
-    Get all &amp;#39;Person&amp;#39; entities in the database ordered-by age   http://127.0.0.1:8080/persons$orderby=age .</description>
+Each of the following bullet points can be expanded to show various ways that entities can be read, sorted and counted via a standardized set of URL suffixes. Remember to include the JWT and correct http verb in your requests when testing these operations in your test environment.</description>
     </item>
     
     <item>
@@ -646,7 +653,7 @@ Once you have successfully read &amp;lsquo;Person&amp;rsquo; entity 10000001 int
       <pubDate>Tue, 06 Feb 2018 22:34:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-h/</guid>
-      <description>Next we will delete one of our &amp;lsquo;Person&amp;rsquo; entities. Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/person/10000000 with the http DELETE method. Next, add the following key-value pairs to the http header:
+      <description>Next we will delete one of our &amp;lsquo;Person&amp;rsquo; entities. Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/person/10000000 with the http DELETE verb. As usual, add the following key-value pairs to the http header:
  Content-Type : application\json Authorization : Bearer *paste-your-JWT-here*  When you have something that looks as follows, click the &amp;lsquo;Send&amp;rsquo; button to issue the delete request to the application.
 If the delete request was successful, you will see a http response-code of 202 (Accepted).</description>
     </item>
@@ -667,8 +674,8 @@ Good places to start would be in the Jiffy Overview and the Model Maintenance se
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://1414c.github.io/jiffy/credits/</guid>
-      <description>Contributors Thanks to them for making Open Source Software a better place !
-Packages and libraries  sqlx jwt-go go-sql-driver/mysql lib/pq go-sqlite3 go-mssqldb go-hdb redigo memcache  Tooling  Hugo Hugo Learn Theme  </description>
+      <description>Contributors Thanks to them  for making Open Source Software a better place !
+Packages and libraries  sqlx jwt-go go-sql-driver/mysql lib/pq go-sqlite3 go-mssqldb go-hdb redigo memcache pkger  Tooling  Hugo Hugo Learn Theme  </description>
     </item>
     
   </channel>

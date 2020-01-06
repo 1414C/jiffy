@@ -12,20 +12,20 @@
     <title>Jiffy Dependencies :: Jiffy Services Generator</title>
 
     
-    <link href="/jiffy/css/nucleus.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/fontawesome-all.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1578203693" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1578295967" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1578203693" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1578295967" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-3.3.1.min.js?1578203693"></script>
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1578295967"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -54,14 +54,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578203693"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578295967"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578295967"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1578295967"></script>
 
     
   </div>
@@ -1892,7 +1892,7 @@
 <li><a href="https://www.ibm.com/developerworks/downloads/im/db2express/index.html">DB2</a> (future)</li>
 </ul>
 <h4 id="database-drivers">Database Drivers</h4>
-<p>The following golang database drivers are required, even if you are only planning to make use of one of the DBMS's in the supported list.  This is due to the fact that Jiffy attempts to connect to your test database during the code generation process and there is no guarantee what that database may be.  It is possible that a developer tests with SQLite locally when generating the code and performing initial tests, but intends to ultimately connect to Postgres.</p>
+<p>The following Go database drivers are required, even if you are only planning to make use of one of the DBMS's in the supported list.  This is due to the fact that Jiffy attempts to connect to your test database during the code generation process and there is no guarantee what that database may be.  It is possible that a developer tests with SQLite locally when generating the code and performing initial tests, but intends to ultimately connect to Postgres.</p>
 <table>
 <thead>
 <tr>
@@ -1923,11 +1923,9 @@
 </tr>
 </tbody>
 </table>
-<p>The database drivers can be pulled down from their respective repositories via the <em>go get -u</em> command.  Correct versions of the database drivers will be pulled from their respective repositories based on the <em>go.mod</em> file in the project codebase.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">
-  go get -u github.com/lib/pq
-
-</code></pre></div><p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p>The database drivers can be pulled down from their respective repositories via the <em>go get -u</em> command.  However, correct versions of the database drivers will be pulled from their respective repositories based on the <em>go.mod</em> file in the project codebase during the build process.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">  go get -u github.com/lib/pq
+</code></pre></div><p><br></br></p>
 <h4 id="other-dependencies">Other Dependencies</h4>
 <table>
 <thead>
@@ -1971,10 +1969,9 @@
 </tr>
 </tbody>
 </table>
-<p>If you wish to be certain that you have everything, copy and execute the following script in your development and build environments:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">
-<span style="color:#75715e">#!/usr/bin/bash</span>
-
+<p>If you wish to be certain that you have everything, copy and execute the following script in your development and build environments.  <em>go get</em> should pull the libraries based on the content of jiffy's <em>go.mod</em> file.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/usr/bin/bash
+</span><span style="color:#75715e"></span>
 go get -u github.com/1414C/sqac
 go get -u github.com/1414C/sluggo/wscl
 go get -u github.com/dgrijalva/jwt-go
@@ -1988,7 +1985,6 @@ go get -u github.com/lib/pq
 go get -u github.com/mattn/go-sqlite3
 go get -u github.com/garyburd/redigo/redis
 go get -u github.com/bradfitz/gomemcache/memcache
-
 </code></pre></div>
 
 <footer class=" footline" >
@@ -3322,19 +3318,19 @@ go get -u github.com/bradfitz/gomemcache/memcache
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578203693"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1578203693"></script>
-    <script src="/jiffy/js/featherlight.min.js?1578203693"></script>
-    <script src="/jiffy/js/highlight.pack.js?1578203693"></script>
+    <script src="/jiffy/js/clipboard.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578295967"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1578295967"></script>
+    <script src="/jiffy/js/featherlight.min.js?1578295967"></script>
+    <script src="/jiffy/js/highlight.pack.js?1578295967"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578203693"></script>
-    <script src="/jiffy/js/learn.js?1578203693"></script>
-    <script src="/jiffy/js/hugo-learn.js?1578203693"></script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578295967"></script>
+    <script src="/jiffy/js/learn.js?1578295967"></script>
+    <script src="/jiffy/js/hugo-learn.js?1578295967"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1578203693" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1578203693"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1578295967" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1578295967"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

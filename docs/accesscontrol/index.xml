@@ -18,7 +18,7 @@
       
       <guid>https://1414c.github.io/jiffy/accesscontrol/ac-content-a/</guid>
       <description>Overview Access to application resources (entities) is controlled in four ways:
- Configuration based service activation Secure user authentication Authorization checks via JWT token claim inspection embedded as middleware in the protected route declarations (end-points) Usr/Auth/Group/GroupAuth caches are maintained on each group-member and updated via an internal API and dissemination protocol in the group-membership service  Configuration Based Service Activation An internal service is created for each of the the application&#39;s entities.</description>
+ Configuration based service activation. Secure user authentication. Authorization checks via JWT token claim inspection embedded as middleware in the protected route declarations (end-points). Usr/Auth/Group/GroupAuth caches are maintained on each group-member and updated via an internal API and dissemination protocol in the group-membership service.  Configuration Based Service Activation An internal service is created for each of the the application&#39;s entities.</description>
     </item>
     
     <item>
@@ -29,7 +29,7 @@
       <guid>https://1414c.github.io/jiffy/accesscontrol/ac-content-b/</guid>
       <description>Standard CRUD Authorizations As discussed in the Access Control Overview, each of the generated services end-points is assigned a name which is used as an Authorization object by the router middleware.
 Standard CRUD end-points for entity Library are generated as follows:
-// ====================== Library protected routes for standard CRUD access ======================  a.router.HandleFunc(&amp;#34;/librarys&amp;#34;, requireUserMw.ApplyFn(a.libraryC.GetLibrarys)).Methods(&amp;#34;GET&amp;#34;).Name(&amp;#34;library.GET_SET&amp;#34;) a.router.HandleFunc(&amp;#34;/library&amp;#34;, requireUserMw.ApplyFn(a.libraryC.Create)).Methods(&amp;#34;POST&amp;#34;).Name(&amp;#34;library.CREATE&amp;#34;) a.router.HandleFunc(&amp;#34;/library/{id:[0-9]+}&amp;#34;, requireUserMw.ApplyFn(a.libraryC.Get)).Methods(&amp;#34;GET&amp;#34;).Name(&amp;#34;library.GET_ID&amp;#34;) a.router.HandleFunc(&amp;#34;/library/{id:[0-9]+}&amp;#34;, requireUserMw.ApplyFn(a.libraryC.Update)).Methods(&amp;#34;PUT&amp;#34;).Name(&amp;#34;library.UPDATE&amp;#34;) a.router.HandleFunc(&amp;#34;/library/{id:[0-9]+}&amp;#34;, requireUserMw.ApplyFn(a.libraryC.Delete)).Methods(&amp;#34;DELETE&amp;#34;).Name(&amp;#34;library.DELETE&amp;#34;) Notice that each end-point handler is assigned a name via the gorilla.</description>
+// ====================== Library protected routes for standard CRUD access ====================== a.router.HandleFunc(&amp;#34;/librarys&amp;#34;, requireUserMw.ApplyFn(a.libraryC.GetLibrarys)).Methods(&amp;#34;GET&amp;#34;).Name(&amp;#34;library.GET_SET&amp;#34;) a.router.HandleFunc(&amp;#34;/library&amp;#34;, requireUserMw.ApplyFn(a.libraryC.Create)).Methods(&amp;#34;POST&amp;#34;).Name(&amp;#34;library.CREATE&amp;#34;) a.router.HandleFunc(&amp;#34;/library/{id:[0-9]+}&amp;#34;, requireUserMw.ApplyFn(a.libraryC.Get)).Methods(&amp;#34;GET&amp;#34;).Name(&amp;#34;library.GET_ID&amp;#34;) a.router.HandleFunc(&amp;#34;/library/{id:[0-9]+}&amp;#34;, requireUserMw.ApplyFn(a.libraryC.Update)).Methods(&amp;#34;PUT&amp;#34;).Name(&amp;#34;library.UPDATE&amp;#34;) a.router.HandleFunc(&amp;#34;/library/{id:[0-9]+}&amp;#34;, requireUserMw.ApplyFn(a.libraryC.Delete)).Methods(&amp;#34;DELETE&amp;#34;).Name(&amp;#34;library.DELETE&amp;#34;) Notice that each end-point handler is assigned a name via the gorilla.</description>
     </item>
     
     <item>
@@ -48,7 +48,7 @@ Standard CRUD end-points for entity Library are generated as follows:
       
       <guid>https://1414c.github.io/jiffy/accesscontrol/ac-content-d/</guid>
       <description>Using External Identity Providers It is possible to use an external Identity Provider to supply JWT tokens capable of accessing jiffy-applications. In order for an external IDP to provide usable JWT&#39;s to jiffy the following criteria must be met:
- The IDP must sign the JWT&#39;s with an algorithm that jiffy supports The IDP must provide the jiffy application with a public-key for signature verification A valid user-id must exist in the jiffy application The IDP must contain a mapping of user IDP ID&#39;s to jiffy-application internal user id&#39;s The IDP must contain a record of the Authorization-Groups that the user should have access to The IDP must include the jiffy-specific claims in the JWT payload The IDP must supply the &amp;lsquo;alg&amp;rsquo; and &amp;lsquo;typ&amp;rsquo; elements in the JWT header  Sample JWT for Jiffy Application Access  A user with an existing jiffy-application userID has been configured in an external IDP.</description>
+ The IDP must sign the JWT&#39;s with an algorithm that jiffy supports (RSA / ECDSA). The IDP must provide the jiffy application with a public-key for signature verification. A valid user-id must exist in the jiffy application.</description>
     </item>
     
   </channel>

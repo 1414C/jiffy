@@ -17,7 +17,7 @@
       <pubDate>Mon, 05 Feb 2018 15:22:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-a/</guid>
-      <description>Jiffy Application File Structure Running the Jiffy generator creates a set of files that comprise a basic working backend services application. Jiffy generates the following source code tree when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity.
+      <description>Jiffy Application File Structure Running the Jiffy generator creates a set of files that comprise a working backend services application. Jiffy generates the following source code tree when provided with a model-file describing a simple &amp;lsquo;Person&amp;rsquo; entity.
 FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go ├── controllers │ ├── authc.go │ ├── controllerfuncs.go │ ├── groupauthc.go │ ├── person_relationsc.go │ ├── personc.go │ ├── usrc.go │ ├── usr_groupc.</description>
     </item>
     
@@ -37,7 +37,7 @@ FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └
       <pubDate>Mon, 05 Feb 2018 15:32:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-c/</guid>
-      <description>The &amp;lsquo;appobj&amp;rsquo; Folder FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go ├── controllers │ ├── ... │ ├── ... . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go appobj.go The entry point for go applications is always the main() function, but we seldom write the so-called &amp;lsquo;main&amp;rsquo; part of the application in this monolithic function. To that end, an AppObj struct is declared and the main thread of the application runs against it.</description>
+      <description>The &amp;lsquo;appobj&amp;rsquo; Folder  The appobj folder contains the generated application&#39;s configuration loader and the main application object.  FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └── lead_set_get.go ├── controllers │ ├── ... │ ├── ... . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go appobj.go The entry point for go applications is always the main() function, but we seldom write the so-called &amp;lsquo;main&amp;rsquo; part of the application in this monolithic function.</description>
     </item>
     
     <item>
@@ -82,7 +82,7 @@ FirstApp ├── appobj │ ├── appconf.go │ ├── appobj.go | └
       <pubDate>Thu, 15 Mar 2018 20:57:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/generation/gn-content-h/</guid>
-      <description>The &amp;lsquo;docker&amp;rsquo; Folder FirstApp ├── appobj │ ├── ... │ ├── ... │ └── ... . . . ├── docker │ ├── .dev.config.json │ ├── .dev.config.json │ ├── .dev.config.json │ └── Dockerfile . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go The docker folder contains files that can be used as a starting point for containerizing generated jiffy applications. The Docker related tutorials at XXXXXXXXXXX make use of these files, and they are provided as a learning aid, not as an example of how to deploy applications with Docker.</description>
+      <description>The &amp;lsquo;docker&amp;rsquo; Folder FirstApp ├── appobj │ ├── ... │ ├── ... │ └── ... . . . ├── docker │ ├── .dev.config.json │ ├── .dev.config.json │ ├── .dev.config.json │ └── Dockerfile . . . ├── .dev.config.json ├── .prd.config.json ├── main_test.go └── main.go The docker folder contains files that can be used as a starting point for containerizing generated jiffy applications. The Using Docker with Jiffy Applications tutorials make use of these files.</description>
     </item>
     
     <item>

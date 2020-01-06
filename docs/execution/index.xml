@@ -18,11 +18,11 @@
       
       <guid>https://1414c.github.io/jiffy/execution/ex-content-a/</guid>
       <description>Execution In order to run the Jiffy application generator, ensure the following:
-  Make sure go has been installed in the test environment. See http://www.golang.org for installation files and instructions.
+  Make sure Go has been installed in the test environment. See http://www.golang.org for installation files and instructions.
   Make sure that the Jiffy source code and dependencies have been installed.
   One of the supported databases is available, either locally or over the network.
   Jiffy can be started in two ways:
- From $GOPATH/src/github.</description>
+ Using the binary installed by following the instructions located in the Jiffy Installation section of this documentation.</description>
     </item>
     
     <item>
@@ -31,8 +31,8 @@
       <pubDate>Mon, 05 Feb 2018 14:30:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/execution/ex-content-b/</guid>
-      <description>Generation Flags Flags are kept to a minimum, but there are a few that can be appended to the execution command:
- go run main.go -m ./my_model.json  By default, the application will attempt to use ./support/testing_models/models.json as the model source, but inclusion of the -m flag permits the use of a more useful model file. The path of model file in the application base directory must be prefaced with .</description>
+      <description>Execution Flags Jiffy requires a small number of flags to be specified at runtime.
+ -m Inclusion of the -m flag instructs jiffy to build a new application using the specified model file. Jiffy expects a fully-qualified path to a model file to follow the -m flag. The -m and -mf flags are mutually exclusive. -mf Inclusion of the -mf flag instructs jiffy to read and process all model files contained in the specified folder.</description>
     </item>
     
   </channel>

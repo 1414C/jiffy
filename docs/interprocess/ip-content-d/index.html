@@ -12,20 +12,20 @@
     <title>Process Shutdown :: Jiffy Services Generator</title>
 
     
-    <link href="/jiffy/css/nucleus.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/fontawesome-all.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1578203693" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1578295967" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1578203693" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1578295967" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-3.3.1.min.js?1578203693"></script>
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1578295967"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -54,14 +54,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578203693"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578295967"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578295967"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1578295967"></script>
 
     
   </div>
@@ -1885,15 +1885,15 @@
 <li>Application shutdowns consider the need to complete work in progress by listening for SIGTERM, SIGKILL and os.Interrupt &lsquo;events&rsquo; in a dedicated goroutine which we will refer to here as the &lsquo;shutdown detector goroutine&rsquo;.</li>
 <li>When a signal of interest is detected, the shutdown detector goroutine passes a value through a channel being listened to in the main services loop.
 <ul>
-<li>Upon receiving the channel value indicating a shutdown, the application instance sends a DEPARTING message to all group-members.</li>
-<li>Each group-member updates the process status of the departing application instance to DEPARTED upon receiving the DEPARTING message.</li>
-<li>DEPARTING messages contain a double-incremented (+=2) incarnation number and override ALIVE and SUSPECT statuses in the receiving application instance's local group-membership list.</li>
+<li>Upon receiving the channel value indicating a shutdown, the application instance sends a <em>DEPARTING</em> message to all group-members.</li>
+<li>Each group-member updates the process status of the departing application instance to <em>DEPARTED</em> upon receiving the <em>DEPARTING</em> message.</li>
+<li><em>DEPARTING</em> messages contain a double-incremented (+=2) incarnation number and override ALIVE and SUSPECT statuses in the receiving application instance's local group-membership list.</li>
 <li>The departing instance calls a Server.Shutdown(&hellip;) method with a timeout context of 5 seconds to permit work in progress to complete.</li>
 <li>The departing instance then shuts down.</li>
 </ul>
 </li>
-<li>While the departing instance sends a DEPARTING message to all application instances that it knows about, this may not constitute the complete group-membership.</li>
-<li>Processes disseminate DEPARTED statuses of departed peers for a few ping cycles in order to ensure that the information is made available as widely as possible.  After a short period of dissemination, each running application instance purges the DEPARTED application instance information from its local group-membership list.</li>
+<li>While the departing instance sends a <em>DEPARTING</em> message to all application instances that it knows about, this may not constitute the complete group-membership.</li>
+<li>Processes disseminate <em>DEPARTED</em> statuses of departed peers for a few ping cycles in order to ensure that the information is made available as widely as possible.  After a short period of dissemination, each running application instance purges the <em>DEPARTED</em> application instance information from its local group-membership list.</li>
 </ul>
 
 
@@ -3231,19 +3231,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578203693"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1578203693"></script>
-    <script src="/jiffy/js/featherlight.min.js?1578203693"></script>
-    <script src="/jiffy/js/highlight.pack.js?1578203693"></script>
+    <script src="/jiffy/js/clipboard.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578295967"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1578295967"></script>
+    <script src="/jiffy/js/featherlight.min.js?1578295967"></script>
+    <script src="/jiffy/js/highlight.pack.js?1578295967"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578203693"></script>
-    <script src="/jiffy/js/learn.js?1578203693"></script>
-    <script src="/jiffy/js/hugo-learn.js?1578203693"></script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578295967"></script>
+    <script src="/jiffy/js/learn.js?1578295967"></script>
+    <script src="/jiffy/js/hugo-learn.js?1578295967"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1578203693" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1578203693"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1578295967" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1578295967"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

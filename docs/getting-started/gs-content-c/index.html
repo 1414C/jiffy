@@ -12,20 +12,20 @@
     <title>Let&#39;s Build Something :: Jiffy Services Generator</title>
 
     
-    <link href="/jiffy/css/nucleus.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/fontawesome-all.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1578203693" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1578295967" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1578203693" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1578295967" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-3.3.1.min.js?1578203693"></script>
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1578295967"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -54,14 +54,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578203693"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578295967"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578295967"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1578295967"></script>
 
     
   </div>
@@ -1894,13 +1894,13 @@
 <div class="notices info" ><p>&lsquo;sqac&rsquo; tags are used to pass information to Jiffy's ORM layer.</p>
 </div>
 
-<!-- raw HTML omitted -->
+<br/>
 <p>Create a new target directory for the project under $GOPATH/src.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">
     cd $GOPATH/src
     mkdir jiffy_tests
 
-</code></pre></div><!-- raw HTML omitted -->
+</code></pre></div><br/>
 <p>Execute the jiffy binary, specifying the model file to use, as well as the target directory/project name.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">
     jiffy -m $GOPATH/src/github.com/1414C/jiffy/support/testing_models/simpleSingleEntityModel.json -p /jiffy_tests/first_app
@@ -1911,7 +1911,7 @@
 <div class="notices tip" ><p>Note that the location of the folder specified by the -p flag is deemed to be relative to $GOPATH/src.</p>
 </div>
 
-<!-- raw HTML omitted -->
+<br/>
 <p>If everything has gone according to plan, a new application has been generated and should be ready to run. Let's take a look at what jiffy generated for us!</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">
     cd $GOPATH/src/jiffy_tests/first_app
@@ -1933,7 +1933,7 @@
     drwxr-xr-x   <span style="color:#ae81ff">3</span> stevem  staff     <span style="color:#ae81ff">96</span>  <span style="color:#ae81ff">5</span> Feb 21:44 util
     $
 
-</code></pre></div><p>Jiffy generates two sample configuration files each time it is executed.  We are going to run our application with development environment settings, so lets take a quick look at .dev.config.json to make sure there are no horrible surprises.</p>
+</code></pre></div><p>Jiffy generates two sample configuration files each time it is executed.  We are going to run our application with development environment settings, so lets take a quick look at the <em>.dev.config.json</em> file to make sure there are no horrible surprises.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">
     {
         <span style="color:#f92672">&#34;external_address&#34;</span>: <span style="color:#e6db74">&#34;127.0.0.1:3000&#34;</span>,
@@ -2010,7 +2010,7 @@
         ]
     }
 
-</code></pre></div><p>Jiffy decides by default to run against a sqlite database and generates what <em>should</em> be a suitable configuration file for most systems.  Again, we are not going to worry too much about what is in the configuration file at this point, but know that database file &lsquo;testdb.sqlite&rsquo; will be created in the generated application's root folder.  For more information regarding the content of the configuration files see the <a href="/jiffy/usage/us-content-a/">Application Configuration Overview</a> section of this document.</p>
+</code></pre></div><p>Jiffy decides by default to run against a sqlite database and generates what should be a suitable configuration file for most systems.  Again, we are not going to worry too much about what is in the configuration file at this point, but know that database file &lsquo;testdb.sqlite&rsquo; will be created in the generated application's root folder.  For more information regarding the content of the configuration files see the <a href="/jiffy/usage/us-content-a/">Application Configuration Overview</a> section of this document.</p>
 
 
 <footer class=" footline" >
@@ -3347,19 +3347,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578203693"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1578203693"></script>
-    <script src="/jiffy/js/featherlight.min.js?1578203693"></script>
-    <script src="/jiffy/js/highlight.pack.js?1578203693"></script>
+    <script src="/jiffy/js/clipboard.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578295967"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1578295967"></script>
+    <script src="/jiffy/js/featherlight.min.js?1578295967"></script>
+    <script src="/jiffy/js/highlight.pack.js?1578295967"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578203693"></script>
-    <script src="/jiffy/js/learn.js?1578203693"></script>
-    <script src="/jiffy/js/hugo-learn.js?1578203693"></script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578295967"></script>
+    <script src="/jiffy/js/learn.js?1578295967"></script>
+    <script src="/jiffy/js/hugo-learn.js?1578295967"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1578203693" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1578203693"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1578295967" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1578295967"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

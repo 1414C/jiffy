@@ -12,20 +12,20 @@
     <title>Update a Person :: Jiffy Services Generator</title>
 
     
-    <link href="/jiffy/css/nucleus.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/fontawesome-all.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1578203693" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1578295967" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1578203693" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1578295967" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-3.3.1.min.js?1578203693"></script>
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1578295967"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -54,14 +54,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578203693"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578295967"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578295967"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1578295967"></script>
 
     
   </div>
@@ -1877,15 +1877,14 @@
 
 
 
-<p>If you have been following along, we have created &lsquo;Person&rsquo; entities, read &lsquo;Person&rsquo; entities both in bulk and by &lsquo;id&rsquo; key.  We are now going to take a look at updating an existing entity.</p>
+<p>If you have been following along, we have created &lsquo;Person&rsquo; entities, read &lsquo;Person&rsquo; entities both in bulk and by &lsquo;id&rsquo; key.  We are now going to take a look at updating an existing &lsquo;Person&rsquo; entity.</p>
 <p>Read &lsquo;Person&rsquo; entity 10000001 from the database as shown in the <a href="../l2-content-e">Get a Person</a> example.</p>
-<p>Once you have successfully read &lsquo;Person&rsquo; entity 10000001 into your Postman session, copy the content of the response body to your clipboard.  We are going to reuse our GET Person Postman tab to perform an update, so change the http verb from GET to PUT.  Changing the http verb to PUT will allow us to maintain the request-body in our Postman tab.  Next, add the following key-value pair to the http header:</p>
+<p>Once you have successfully read &lsquo;Person&rsquo; entity 10000001 into your Postman session, copy the content of the response body to your clipboard.  Next, create a new tab in Postman and paste the content of the GET response into the new request's body.  Set the new request's target URL to <code>http://127.0.0.1:8080/person/10000001</code> and ensure that the http verb is set to PUT.  Next, add the following key-value pair to the http header:</p>
 <ul>
 <li><code>Content-Type</code>   : <code>application\json</code></li>
 </ul>
-<p>Now paste the GET Person response-body into the request-body of our new PUT request, then edit it so that Opus's full name is given.  Strictly speaking, you do not need to include the &lsquo;id&rsquo; or &lsquo;href&rsquo; fields in an update, but it does not hurt anything to do so.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">
-    {
+<p>Now edit the new request's JSON body so that Opus's full name is given along with an accurate weight and driving ability.  Strictly speaking, you do not need to include the &lsquo;id&rsquo; or &lsquo;href&rsquo; fields in an update, but it does not hurt to do so as the application runtime will ignore them in the case of an update operation.  Remember that the key (id) of the &lsquo;Person&rsquo; entity we are updating is specified in the update request's URL.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">    {
         <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">10000001</span>,
         <span style="color:#f92672">&#34;href&#34;</span>: <span style="color:#e6db74">&#34;http://127.0.0.1:8080/person/10000001&#34;</span>,
         <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Opus the Penguin&#34;</span>,
@@ -1893,11 +1892,8 @@
         <span style="color:#f92672">&#34;weight&#34;</span>: <span style="color:#ae81ff">385</span>,
         <span style="color:#f92672">&#34;valid_license&#34;</span>: <span style="color:#66d9ef">false</span>
     }
-
-</code></pre></div><!-- raw HTML omitted -->
-<p>When you have finished, you should have something that looks as follows.  Click &lsquo;Send&rsquo; to issue the PUT request to the application.</p>
-<p><img src="../images/l2-update-person-a.jpg" alt="l2-update-person-a">
-<!-- raw HTML omitted --></p>
+</code></pre></div><p>When you have finished, you should have something that looks as follows.  Click &lsquo;Send&rsquo; to issue the PUT request to the application.
+<img src="../images/l2-update-person-a.jpg" alt="l2-update-person-a"></p>
 <p>The PUT request should update the entity using the &lsquo;id&rsquo; key as its update criteria, and then return a JSON representation of the updated entity.  <em>This is a little different than standard PUT/MERGE approaches, where the result of an update is measured simply by the http response code.</em>  If you don't like the way the application handles update operations, it is very easy to update the generated source code to omit the response body following a PUT.</p>
 <p><img src="../images/l2-update-person-b.jpg" alt="l2-update-person-b"></p>
 
@@ -3240,19 +3236,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578203693"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1578203693"></script>
-    <script src="/jiffy/js/featherlight.min.js?1578203693"></script>
-    <script src="/jiffy/js/highlight.pack.js?1578203693"></script>
+    <script src="/jiffy/js/clipboard.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578295967"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1578295967"></script>
+    <script src="/jiffy/js/featherlight.min.js?1578295967"></script>
+    <script src="/jiffy/js/highlight.pack.js?1578295967"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578203693"></script>
-    <script src="/jiffy/js/learn.js?1578203693"></script>
-    <script src="/jiffy/js/hugo-learn.js?1578203693"></script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578295967"></script>
+    <script src="/jiffy/js/learn.js?1578295967"></script>
+    <script src="/jiffy/js/hugo-learn.js?1578295967"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1578203693" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1578203693"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1578295967" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1578295967"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

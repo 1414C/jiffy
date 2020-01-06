@@ -12,20 +12,20 @@
     <title>Access Revocation and Renewal :: Jiffy Services Generator</title>
 
     
-    <link href="/jiffy/css/nucleus.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/fontawesome-all.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1578203693" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1578295967" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1578203693" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1578295967" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-3.3.1.min.js?1578203693"></script>
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1578295967"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -54,14 +54,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578203693"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578295967"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578295967"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1578295967"></script>
 
     
   </div>
@@ -1854,7 +1854,6 @@
         <li><a href="#jwt-tokens-and-access-revocation">JWT Tokens and Access Revocation</a></li>
         <li><a href="#jwt-token-expiration">JWT Token Expiration</a></li>
         <li><a href="#jwt-token-renewal">JWT Token Renewal</a></li>
-        <li><a href="#using-external-identity-providers">Using External Identity Providers</a></li>
       </ul>
     </li>
   </ul>
@@ -1888,13 +1887,13 @@
 <p><strong>Conditions</strong></p>
 <ol>
 <li>User &lsquo;<a href="mailto:tester@test.com">tester@test.com</a>&rsquo; has access to a number of services in a Jiffy-generated application.  We now wish to remove access from this user.</li>
-<li>JWT lifetime in our test system is set to 12 hours.</li>
+<li>The JWT lifetime in our test system is set to 12 hours.</li>
 <li><a href="mailto:tester@test.com">tester@test.com</a> has a current and valid JWT that will expire in 8 hours.</li>
 </ol>
 <p><strong>Revocation Steps</strong></p>
 <ol>
-<li>A user with administrative privileges in the Jiffy-generated application makes a call to the Usr service of the Jiffy-generated application to deactivate the &lsquo;<a href="mailto:tester@test.com">tester@test.com</a>&rsquo; account.  This call can be made to any running instance of the application.</li>
-<li>Once the Usr record has been updated in the backend, the id in question will not be able to login to the application.</li>
+<li>A user with administrative privileges in the Jiffy-generated application makes a call to the Usr service of the Jiffy-generated application to deactivate the &lsquo;<a href="mailto:tester@test.com">tester@test.com</a>&rsquo; account.  This call can be made to any running instance (node) of the application.</li>
+<li>Once the Usr record has been updated in the backend, the Usr in question will not be able to login to the application.</li>
 <li>On confirmation of the successful update to the Usr record, the Usr controller will disseminate the new status of the Usr record to the other group-members.  Each group-member will update their Usr cache with the new information.</li>
 </ol>
 <p><strong>Revocation Results</strong></p>
@@ -1911,44 +1910,10 @@
 <li>This approach allows us to focus on the maintenance and buffering of the persistent object (Usr) rather than trying to maintain/cache the transient JWT.</li>
 </ul>
 <h3 id="jwt-token-expiration">JWT Token Expiration</h3>
-<p>JWT's contain a standard set of registered claims as outlined in RFC7519 <code>https://tools.ietf.org/html/rfc7519#section-4.1</code>.  Login to a jiffy generated application results in the creation of a new JWT where the standard &lsquo;exp&rsquo; claim is set based on the value of the &lsquo;jwt_lifetime&rsquo; key in the application's configuration file.  When the current (server) date-time exceeds the value contained in a JWT's &lsquo;exp&rsquo; claim, the token is no longer accepted by the application.  After JWT expiration, the used is forced to login again.</p>
+<p>Jiffy application JWTs contain a standard set of registered claims as outlined in <a href="https://tools.ietf.org/html/rfc7519#section-4.1">RFC7519</a> .  Login to a jiffy generated application results in the creation of a new JWT where the standard &lsquo;exp&rsquo; claim is set based on the value of the &lsquo;jwt_lifetime&rsquo; key in the application's configuration file.  When the current (server) date-time exceeds the value contained in a JWT's &lsquo;exp&rsquo; claim, the token is no longer accepted by the application.  After JWT expiration, the used is forced to login again.</p>
 <h3 id="jwt-token-renewal">JWT Token Renewal</h3>
 <p>It would be possible to alter the Jiffy application to create self-renewing JWT's.  Doing so would mandate that the client developer compare the Authorization field in the response header to the one that was sent in the request.  For now, the strategy is to have the application configuration set a JWT validity of ~12 hours, and then force the user to login again once the time limit expires.</p>
 <p>On one hand, this approach to (not supporting) JWT renewal means that the client/consumer of the RESTful services need not worry about checking the JWT content at the end of each exchange.  On the other hand, the current strategy may be a concern in system-to-system interfaces especially where it is not acceptable to set a very long JWT expiry limit in the configuration.</p>
-<h3 id="using-external-identity-providers">Using External Identity Providers</h3>
-<p>It is possible to use an external Identity Provider to supply JWT tokens capable of accessing jiffy-applications.  In order for an external IDP to provide usable JWT's to jiffy the following criteria have to be met:</p>
-<ul>
-<li>The IDP must sign the JWT's with an algorithm that jiffy supports</li>
-<li>The IDP must provide the jiffy application with a public-key for signature verification</li>
-<li>A valid user-id must exist in the jiffy application</li>
-<li>The IDP must contain a mapping of user IDP ID's to jiffy-application <em>internal</em> user id's</li>
-<li>The IDP must contain a record of the Authorization-Groups that the user should have access to</li>
-<li>The IDP must include the jiffy-specific claims in the JWT payload</li>
-<li>The IDP must supply the &lsquo;alg&rsquo; and &lsquo;typ&rsquo; elements in the JWT header</li>
-</ul>
-<h4 id="sample-jwt-for-jiffy-application-access">Sample JWT for Jiffy Application Access</h4>
-<ul>
-<li>A user with an existing jiffy-application userID has been configured in an external IDP.</li>
-<li>The user's internal jiffy-application ID is 12, and the user has been granted access to end-points encompassed by Authorization-Groups &lsquo;GroupA&rsquo; and &lsquo;GroupC&rsquo;.</li>
-<li>The IDP is signing JWT's with ECDSA-SHA384.</li>
-</ul>
-<p>The user logs into the IDP, then attempts to access a jiffy-application resource through some means by which a jiffy-compliant JWT generated by the IDP is included in the http request-header &lsquo;Authorization&rsquo; field:</p>
-<h5 id="base64-encoded-jwt-in-the-authorization-compliments-of-jwtio">Base64 Encoded JWT in the Authorization (compliments of jwt.io)</h5>
-<p><img src="/jiffy/accesscontrol/images/ES384JWT.png" alt="Sample ES384 JWT"></p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<h5 id="decoded-jwt-header-red-section">Decoded JWT Header (Red Section)</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-  <span style="color:#f92672">&#34;alg&#34;</span>: <span style="color:#e6db74">&#34;ES384&#34;</span>,
-  <span style="color:#f92672">&#34;typ&#34;</span>: <span style="color:#e6db74">&#34;JWT&#34;</span>
-}
-</code></pre></div><!-- raw HTML omitted -->
-<p>When this JWT is included in the http header of a jiffy-application request, the jiffy-application will decode the JWT header to determine the algorithm used to sign the token.  Next, the application will use the appropriate public-key to verify the JWT&quot;s signature (blue section).  If the application is not able to verify the signature, the request will be rejected.</p>
-<p>Once the JWT integrity has been verified, the middleware performs the following checks before allowing the request to proceed to the entity controller method:</p>
-<ul>
-<li>Verify that the JWT has not expired by examining the unix epoch timestamp in &lsquo;exp&rsquo; claim.  If the system time exceeds the value contained in the &lsquo;exp&rsquo; claim, the request will be rejected.</li>
-<li>Ensure that the user-id contained in the custom &lsquo;uid&rsquo; claim is valid by performing a lookup in the application server cache.  If the user is not valid, or is not found in the cache the request is rejected.</li>
-<li>Each authorization-group in the custom &lsquo;Groups&rsquo; claim is then checked to see if it contains authorization for the requested end-point.  The middleware performs this check by examining the cached values of the Group-Authorizations for each Group in the &lsquo;Groups&rsquo; claim.</li>
-</ul>
 
 
 <footer class=" footline" >
@@ -3285,19 +3250,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578203693"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1578203693"></script>
-    <script src="/jiffy/js/featherlight.min.js?1578203693"></script>
-    <script src="/jiffy/js/highlight.pack.js?1578203693"></script>
+    <script src="/jiffy/js/clipboard.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578295967"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1578295967"></script>
+    <script src="/jiffy/js/featherlight.min.js?1578295967"></script>
+    <script src="/jiffy/js/highlight.pack.js?1578295967"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578203693"></script>
-    <script src="/jiffy/js/learn.js?1578203693"></script>
-    <script src="/jiffy/js/hugo-learn.js?1578203693"></script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578295967"></script>
+    <script src="/jiffy/js/learn.js?1578295967"></script>
+    <script src="/jiffy/js/hugo-learn.js?1578295967"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1578203693" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1578203693"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1578295967" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1578295967"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

@@ -12,20 +12,20 @@
     <title>Generated &#39;controllers&#39; Folder :: Jiffy Services Generator</title>
 
     
-    <link href="/jiffy/css/nucleus.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/fontawesome-all.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1578203693" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1578295967" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1578203693" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1578295967" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-3.3.1.min.js?1578203693"></script>
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1578295967"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -54,14 +54,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578203693"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578295967"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578295967"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1578295967"></script>
 
     
   </div>
@@ -1880,8 +1880,7 @@
 
 
 <h3 id="the-controllers-folder">The &lsquo;controllers&rsquo; Folder</h3>
-<pre><code class="language-code" data-lang="code">
-FirstApp
+<pre><code class="language-code" data-lang="code">FirstApp
 ├── appobj
 │   ├── appconf.go
 │   ├── appobj.go
@@ -1907,25 +1906,17 @@ FirstApp
 ├── .prd.config.json
 ├── main_test.go
 └── main.go
-
 </code></pre><p>A controller is created for each entity that has been declared in the model files, as well as a number of static controllers that are used to handle the application's users and authorization objects.</p>
 <p>Controllers act as a bridge between an entity's routes and its model layer.  Each entity mux route is assigned a method in their respective controller based on the intent of that route.  For example, to create a new new &lsquo;Library&rsquo; entity the following POST could be made:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-http" data-lang="http"><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">h</span><span style="color:#960050;background-color:#1e0010">t</span><span style="color:#960050;background-color:#1e0010">t</span><span style="color:#960050;background-color:#1e0010">p</span><span style="color:#960050;background-color:#1e0010">s</span><span style="color:#960050;background-color:#1e0010">:</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#960050;background-color:#1e0010">s</span><span style="color:#960050;background-color:#1e0010">e</span><span style="color:#960050;background-color:#1e0010">r</span><span style="color:#960050;background-color:#1e0010">v</span><span style="color:#960050;background-color:#1e0010">e</span><span style="color:#960050;background-color:#1e0010">r</span><span style="color:#960050;background-color:#1e0010">n</span><span style="color:#960050;background-color:#1e0010">a</span><span style="color:#960050;background-color:#1e0010">m</span><span style="color:#960050;background-color:#1e0010">e</span><span style="color:#960050;background-color:#1e0010">:</span><span style="color:#960050;background-color:#1e0010">p</span><span style="color:#960050;background-color:#1e0010">o</span><span style="color:#960050;background-color:#1e0010">r</span><span style="color:#960050;background-color:#1e0010">t</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#960050;background-color:#1e0010">l</span><span style="color:#960050;background-color:#1e0010">i</span><span style="color:#960050;background-color:#1e0010">b</span><span style="color:#960050;background-color:#1e0010">r</span><span style="color:#960050;background-color:#1e0010">a</span><span style="color:#960050;background-color:#1e0010">r</span><span style="color:#960050;background-color:#1e0010">y</span><span style="color:#960050;background-color:#1e0010"> </span><span style="color:#960050;background-color:#1e0010">{</span><span style="color:#960050;background-color:#1e0010">J</span><span style="color:#960050;background-color:#1e0010">S</span><span style="color:#960050;background-color:#1e0010">O</span><span style="color:#960050;background-color:#1e0010">N</span><span style="color:#960050;background-color:#1e0010"> </span><span style="color:#960050;background-color:#1e0010">b</span><span style="color:#960050;background-color:#1e0010">o</span><span style="color:#960050;background-color:#1e0010">d</span><span style="color:#960050;background-color:#1e0010">y</span><span style="color:#960050;background-color:#1e0010">}</span><span style="color:#960050;background-color:#1e0010"> </span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#960050;background-color:#1e0010"> </span><span style="color:#960050;background-color:#1e0010">P</span><span style="color:#960050;background-color:#1e0010">O</span><span style="color:#960050;background-color:#1e0010">S</span><span style="color:#960050;background-color:#1e0010">T</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">https</span><span style="color:#f92672">:</span><span style="color:#75715e">//servername:port/library {JSON body} + POST
 </span></code></pre></div><p>The route for this call is defined in appobj.go as follows, where &lsquo;a&rsquo; is the one-and-only instance of the AppObj:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">
-<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/library&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">Create</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;POST&#34;</span>)
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/library&#34;</span>, <span style="color:#a6e22e">requireUserMw</span>.<span style="color:#a6e22e">ApplyFn</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">libraryC</span>.<span style="color:#a6e22e">Create</span>)).<span style="color:#a6e22e">Methods</span>(<span style="color:#e6db74">&#34;POST&#34;</span>)
 </code></pre></div><p>The &lsquo;/library&rsquo;-POST route is assigned a HandleFunc belonging to the instance of the LibraryController that has been created on the appobj.  Controller method a.libraryC.Create is called for the &lsquo;library&rsquo; route when the http method equals &lsquo;POST&rsquo;.  The route contains some additional code related to authentication and authorization of the requester but this can be ignored for now.  The handler function for a mux.route must conform to the standard go http.Handler interface:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">
-    <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Handler</span> <span style="color:#66d9ef">interface</span> {
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">    <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Handler</span> <span style="color:#66d9ef">interface</span> {
         <span style="color:#a6e22e">ServeHTTP</span>(<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">Request</span>)
     }
-
 </code></pre></div><p>This interface facilitates the passing of the incoming request header and body to the controller method, as well as the passing of the formatted response back to the router.  With this out of out the way, let's look at generated Controller method LibraryController.Create:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">
-    <span style="color:#75715e">// Create facilitates the creation of a new Library.  This method is bound
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">    <span style="color:#75715e">// Create facilitates the creation of a new Library.  This method is bound
 </span><span style="color:#75715e"></span>    <span style="color:#75715e">// to the gorilla.mux router in main.go.
 </span><span style="color:#75715e"></span>    <span style="color:#75715e">//
 </span><span style="color:#75715e"></span>    <span style="color:#75715e">// POST /library
@@ -1959,25 +1950,23 @@ FirstApp
         <span style="color:#a6e22e">library</span>.<span style="color:#a6e22e">Href</span> = <span style="color:#a6e22e">urlString</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">FormatUint</span>(uint64(<span style="color:#a6e22e">library</span>.<span style="color:#a6e22e">ID</span>), <span style="color:#ae81ff">10</span>)
         <span style="color:#a6e22e">respondWithJSON</span>(<span style="color:#a6e22e">w</span>, <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusCreated</span>, <span style="color:#a6e22e">library</span>)
 }
-
 </code></pre></div><p>The complete Library.Create(http.Handler) controller method is shown exactly as it has been generated.</p>
 <p>Each section of the method is broken down in the following subsets of commented code:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">
-        <span style="color:#75715e">// declare a local variable of struct type models.Library to hold the decoded
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">        <span style="color:#75715e">// declare a local variable of struct type models.Library to hold the decoded
 </span><span style="color:#75715e"></span>        <span style="color:#75715e">// JSON body provided in the request.Body.
 </span><span style="color:#75715e"></span>        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">l</span> <span style="color:#a6e22e">models</span>.<span style="color:#a6e22e">Library</span>
 
         <span style="color:#75715e">// create a new JSON decoder passing in the request.Body
 </span><span style="color:#75715e"></span>        <span style="color:#a6e22e">decoder</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">NewDecoder</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Body</span>)
 
-        <span style="color:#75715e">// call the Decoder.Decode(interface{}) method passing a reference to the locally
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// declared models.Library struct &#39;l&#39;.  if the decoder is able to decode the JSON
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// contained in the request.Body, the member fields of &#39;l&#39; will be populated.  if
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// the decoder fails to parse and map the incoming JSON to the models.Library
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// struct, it will return an error.  The problem will be logged to stdout (for now)
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// on the server-instance, and a response conforming to the http.Handler interface
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// will be constructed and passed back to the router.  if the JSON was parsed
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// closed upon exit of the method.
+        <span style="color:#75715e">// call the Decoder.Decode(interface{}) method passing a reference to the
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// locally declared models.Library struct &#39;l&#39;.  if the decoder is able to
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// decode the JSON contained in the request.Body, the member fields of &#39;l&#39;
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// will be populated.  if the decoder fails to parse and map the incoming
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// JSON to the models.Library struct, it will return an error.  The problem
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// will be logged to stdout (for now) on the server-instance, and a response
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// conforming to the http.Handler interface will be constructed and passed
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// back to the router.  if the JSON was parsed closed upon exit of the method.
 </span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">decoder</span>.<span style="color:#a6e22e">Decode</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">l</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
             <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Library Create:&#34;</span>, <span style="color:#a6e22e">err</span>)
             <span style="color:#a6e22e">respondWithError</span>(<span style="color:#a6e22e">w</span>, <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusBadRequest</span>, <span style="color:#e6db74">&#34;libraryc: Invalid request payload&#34;</span>)
@@ -2027,7 +2016,6 @@ FirstApp
 </span><span style="color:#75715e"></span>        <span style="color:#a6e22e">library</span>.<span style="color:#a6e22e">Href</span> = <span style="color:#a6e22e">urlString</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">FormatUint</span>(uint64(<span style="color:#a6e22e">library</span>.<span style="color:#a6e22e">ID</span>), <span style="color:#ae81ff">10</span>)
         <span style="color:#a6e22e">respondWithJSON</span>(<span style="color:#a6e22e">w</span>, <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusCreated</span>, <span style="color:#a6e22e">library</span>)
     }
-
 </code></pre></div><p>The controllers folder also contains an &lsquo;ext&rsquo; sub-directory which is used to hold the interface definitions for controller extension-points as well as the associated empty implementation for each entity.  See the <a href="/jiffy/extensionpoints/ep-content-b/">Controller Extension Points</a> section of this document for more details.</p>
 
 
@@ -3365,19 +3353,19 @@ FirstApp
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578203693"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1578203693"></script>
-    <script src="/jiffy/js/featherlight.min.js?1578203693"></script>
-    <script src="/jiffy/js/highlight.pack.js?1578203693"></script>
+    <script src="/jiffy/js/clipboard.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578295967"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1578295967"></script>
+    <script src="/jiffy/js/featherlight.min.js?1578295967"></script>
+    <script src="/jiffy/js/highlight.pack.js?1578295967"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578203693"></script>
-    <script src="/jiffy/js/learn.js?1578203693"></script>
-    <script src="/jiffy/js/hugo-learn.js?1578203693"></script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578295967"></script>
+    <script src="/jiffy/js/learn.js?1578295967"></script>
+    <script src="/jiffy/js/hugo-learn.js?1578295967"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1578203693" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1578203693"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1578295967" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1578295967"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

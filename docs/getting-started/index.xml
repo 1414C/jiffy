@@ -48,7 +48,7 @@ Jiffy&#39;s source tree comes with a number of sample model files that you can b
       
       <guid>https://1414c.github.io/jiffy/getting-started/gs-content-d/</guid>
       <description>Let&#39;s execute our first application!
-$ cd $GOPATH/src/jiffy_tests/first_app $ go run main.go -dev -rs Executing with the -dev and -rs flags instructs our new application to initialize itself using the development configuration file, and forces a rebuild of the &amp;lsquo;Super&amp;rsquo; authorization-group. Consequently, some warning and info messages will scroll up the screen which is expected.
+cd $GOPATH/src/jiffy_tests/first_app go run main.go -dev -rs Executing with the -dev and -rs flags instructs our new application to initialize itself using the development configuration file, and forces a rebuild of the &amp;lsquo;Super&amp;rsquo; authorization-group. Consequently, some warning and info messages will scroll up the screen which is expected.
 2018/02/05 22:29:26 package sqac init is running 2018/02/05 22:29:26 successfully loaded the config file... 2018/02/05 22:29:26 JWTPrivKeyFile: jwtkeys/private.</description>
     </item>
     

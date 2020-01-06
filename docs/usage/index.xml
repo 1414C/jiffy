@@ -37,7 +37,7 @@
       
       <guid>https://1414c.github.io/jiffy/usage/us-content-c/</guid>
       <description>Development Config The following command string may be used to run the program using the values defined in the ./.dev.config.json file.
-$ go run main.go -dev The generated sample dev configuration file should be edited to match the local environment. Jiffy will generate a sample .dev.config.json file similar to the one shown below:
+go run main.go -dev The generated sample dev configuration file should be edited to match the local environment. Jiffy will generate a sample .dev.config.json file similar to the one shown below:
 { &amp;#34;external_address&amp;#34;: &amp;#34;127.0.0.1:3000&amp;#34;, &amp;#34;internal_address&amp;#34;: &amp;#34;127.0.0.1:4444&amp;#34;, &amp;#34;env&amp;#34;: &amp;#34;dev&amp;#34;, &amp;#34;ping_cycle&amp;#34;: 1, &amp;#34;failure_threshold&amp;#34;: 5, &amp;#34;pepper&amp;#34;: &amp;#34;secret-pepper-key&amp;#34;, &amp;#34;hmac_Key&amp;#34;: &amp;#34;secret-hmac-key&amp;#34;, &amp;#34;database&amp;#34;: { &amp;#34;db_dialect&amp;#34;: &amp;#34;postgres&amp;#34;, &amp;#34;host&amp;#34;: &amp;#34;localhost&amp;#34;, &amp;#34;port&amp;#34;: 5432, &amp;#34;usr&amp;#34;: &amp;#34;godev&amp;#34;, &amp;#34;password&amp;#34;: &amp;#34;gogogo123&amp;#34;, &amp;#34;name&amp;#34;: &amp;#34;glrestgen&amp;#34;, &amp;#34;ormLogActive&amp;#34;: true, &amp;#34;ormDebugTraceActive&amp;#34;: false }, &amp;#34;group_leader_kvs&amp;#34;: { &amp;#34;local_standalone&amp;#34;: { &amp;#34;active&amp;#34;: true, &amp;#34;internal_address&amp;#34;: &amp;#34;127.</description>
     </item>
     
@@ -48,7 +48,7 @@ $ go run main.go -dev The generated sample dev configuration file should be edit
       
       <guid>https://1414c.github.io/jiffy/usage/us-content-d/</guid>
       <description>Production Config The following command string may be used to run the program using the values defined in the ./.prd.config.json file.
-$ go run main.go -prod The generated sample production configuration file should be edited to match the local environment. Jiffy will generate a sample .prod.config.json file similar to the one shown below:
+go run main.go -prod The generated sample production configuration file should be edited to match the local environment. Jiffy will generate a sample .prod.config.json file similar to the one shown below:
 { &amp;#34;external_address&amp;#34;: &amp;#34;127.0.0.1:8080&amp;#34;, &amp;#34;internal_address&amp;#34;: &amp;#34;127.0.0.1:4444&amp;#34;, &amp;#34;env&amp;#34;: &amp;#34;prod&amp;#34;, &amp;#34;ping_cycle&amp;#34;: 1, &amp;#34;failure_threshold&amp;#34;: 5, &amp;#34;pepper&amp;#34;: &amp;#34;secret-pepper-key&amp;#34;, &amp;#34;hmac_Key&amp;#34;: &amp;#34;secret-hmac-key&amp;#34;, &amp;#34;database&amp;#34;: { &amp;#34;db_dialect&amp;#34;: &amp;#34;postgres&amp;#34;, &amp;#34;host&amp;#34;: &amp;#34;localhost&amp;#34;, &amp;#34;port&amp;#34;: 5432, &amp;#34;user&amp;#34;: &amp;#34;godev&amp;#34;, &amp;#34;password&amp;#34;: &amp;#34;gogogo123&amp;#34;, &amp;#34;name&amp;#34;: &amp;#34;glrestgen&amp;#34;, &amp;#34;ormLogActive&amp;#34;: true }, &amp;#34;group_leader_kvs&amp;#34;: { &amp;#34;local_standalone&amp;#34;: { &amp;#34;active&amp;#34;: true, &amp;#34;internal_address&amp;#34;: &amp;#34;127.</description>
     </item>
     
@@ -68,8 +68,9 @@ $ go run main.go -prod The generated sample production configuration file should
       <pubDate>Mon, 02 Jul 2018 13:29:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/usage/us-content-f/</guid>
-      <description>Generate Self-Signed Certs for https Testing If you wish to perform local https-based testing, it is possible to do so through the use of self-signed certificates. Self-signed certificates can be easily created through the use of the openssl tool on *nix systems. Verify the OpenSSL Installation Open a terminal session and verify that openssl is available:
-$ which -a openssl /usr/bin/openssl If openssl is not shown in the &amp;lsquo;which&amp;rsquo; command output, check your path to ensure you have access to /usr/bin or /usr/local/bin.</description>
+      <description>Generate Self-Signed Certs for https Testing If you wish to perform local https-based testing, it is possible to do so through the use of self-signed certificates. Self-signed certificates can be easily created through the use of the openssl tool on *nix systems. 
+Verify the OpenSSL Installation Open a terminal session and verify that openssl is available:
+which -a openssl /usr/bin/openssl If openssl is not shown in the &amp;lsquo;which&amp;rsquo; command output, check your path to ensure you have access to /usr/bin or /usr/local/bin.</description>
     </item>
     
     <item>

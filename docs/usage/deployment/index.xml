@@ -18,7 +18,7 @@
       
       <guid>https://1414c.github.io/jiffy/usage/deployment/us-content-i/</guid>
       <description>Overview Jiffy was written with the idea of generating sidecar-free backend service applications. While this is a nice goal, the current version of Jiffy relies on the presence of some external processes and/or services depending on the target environment.
-Database System The generated application will need to connect to a database system from the supported list. We suggest using sqlite3 for initial testing if you do not want to install a full DBMS on your development machine.</description>
+Database System The generated application will need to connect to a database system from the supported list. It is easiest to use sqlite3 for initial testing if you do not want to install a full DBMS in the development environment.</description>
     </item>
     
     <item>
@@ -27,7 +27,8 @@ Database System The generated application will need to connect to a database sys
       <pubDate>Mon, 02 Jul 2018 13:29:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/usage/deployment/us-content-j/</guid>
-      <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts All-In-One Deployment In a development or test setting it may make sense to deploy everything in one system. In this context &amp;lsquo;system&amp;rsquo; refers to a laptop, bare-metal server or a VM of some sort. To deploy an all-in-one type setup, the following artifacts are required:
+      <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts 
+All-In-One Deployment In a development or test setting it may make sense to deploy everything in one system. In this context &amp;lsquo;system&amp;rsquo; refers to a laptop, bare-metal server or a VM of some sort. To deploy an all-in-one type setup, the following artifacts are required:
  Database Jiffy application Set the &amp;lsquo;local_standalone&amp;rsquo; KVS to Active in the config.</description>
     </item>
     
@@ -37,7 +38,8 @@ Database System The generated application will need to connect to a database sys
       <pubDate>Mon, 02 Jul 2018 14:29:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/usage/deployment/us-content-k/</guid>
-      <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts All-In-One Deployment with Docker In a development or test setting it may make sense to deploy everything in one container. SQLite is a good choice for this type of container deployment, as it is a file-based database and therefore does not need to be started as a service. Containers typically offer single services and their configuration is geared to this usage pattern.</description>
+      <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts 
+All-In-One Deployment with Docker In a development or test setting it may make sense to deploy everything in one container. SQLite is a good choice for this type of container deployment, as it is a file-based database and therefore does not need to be started as a service. Containers typically offer single services and their configuration is geared to this usage pattern.</description>
     </item>
     
     <item>
@@ -46,7 +48,8 @@ Database System The generated application will need to connect to a database sys
       <pubDate>Mon, 02 Jul 2018 13:29:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/usage/deployment/us-content-l/</guid>
-      <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts. Deployment on Kubernetes Jiffy applications are designed to run on Kubernetes and fully support the idea of disposable application containers and automated scale-up / scale-down. The best way to learn about deploying Jiffy applications in a Kubernetes cluster is to read through the Jiffy with Kubernetes tutorial.</description>
+      <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts. 
+Deployment on Kubernetes Jiffy applications are designed to run on Kubernetes and fully support the idea of disposable application containers and automated scale-up / scale-down. The best way to learn about deploying Jiffy applications in a Kubernetes cluster is to read through the Jiffy with Kubernetes tutorial.</description>
     </item>
     
   </channel>

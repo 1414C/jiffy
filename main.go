@@ -14,8 +14,8 @@ import (
 func main() {
 
 	projectPath := flag.String("p", "/exp", "project path starting in &GOPATH/src")
-	modelFile := flag.String("m", "", "model file relative to application base directory")
-	modelDirectory := flag.String("md", "", "process all model files in the specified directory")
+	modelFile := flag.String("m", "", "use the model file located at a fully-qualified path")
+	modelDirectory := flag.String("md", "", "process all model files in the fully-qualified directory location")
 	rsaBits := flag.Uint("rb", 2048, "length of generated RSA keys")
 
 	flag.Parse()
@@ -33,7 +33,12 @@ func main() {
 
 	// check that -m and -md have not both been included in the arg list
 	if *modelFile != "" && *modelDirectory != "" {
-		log.Fatal("the m and md flag are mutually exclusive. exiting...")
+		log.Fatal("the -m and -md flag are mutually exclusive. exiting...")
+	}
+
+	// check that at least one of -m or -md have been included in the arg list
+	if *modelFile == "" && *modelDirectory == "" {
+		log.Fatal("either the -m or -md flag must be specified in order to build a project. exiting...")
 	}
 
 	// read the JSON models file to get the Entity definitions if a single

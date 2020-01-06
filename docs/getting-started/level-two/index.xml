@@ -18,7 +18,7 @@
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-a/</guid>
       <description>Launch Postman and specify a target URL of: http://127.0.0.1:8080/usr/login making sure to select the http POST method. Maintain the request body to provide a user-id and password as shown in the following JSON snippet. Typically the user-id for a Jiffy application is an email address, but we make an exception for the default administration user.
-{ &amp;#34;email&amp;#34;: &amp;#34;admin&amp;#34;, &amp;#34;password&amp;#34;: &amp;#34;initpass&amp;#34; } When you have finished and your Postman (or other test utility) looks like the following image, click the &amp;lsquo;Send&amp;rsquo; button to post your login request to the running application.</description>
+{ &amp;#34;email&amp;#34;: &amp;#34;admin&amp;#34;, &amp;#34;password&amp;#34;: &amp;#34;initpass&amp;#34; }  When you have finished and your Postman (or other test utility) looks like the following image, click the &amp;lsquo;Send&amp;rsquo; button to post your login request to the running application.</description>
     </item>
     
     <item>
@@ -38,7 +38,9 @@ Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/pe
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-c/</guid>
       <description>Let&#39;s change a few things in our request-body and create another &amp;lsquo;Person&amp;rsquo; entity. Edit the JSON body in the request section of your Postman session and click &amp;lsquo;Send&amp;rsquo; when you are ready.
+
 Another &amp;lsquo;Person&amp;rsquo; entity has been created.
+
 Create one more &amp;lsquo;Person&amp;rsquo; entity so we have three (or more) in total.</description>
     </item>
     
@@ -69,7 +71,7 @@ Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/pe
       <pubDate>Tue, 06 Feb 2018 22:34:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-f/</guid>
-      <description>If you have been following along, we have created &amp;lsquo;Person&amp;rsquo; entities, read &amp;lsquo;Person&amp;rsquo; entities both in bulk and by &amp;lsquo;id&amp;rsquo; key. We are now going to take a look at updating an existing entity.
+      <description>If you have been following along, we have created &amp;lsquo;Person&amp;rsquo; entities, read &amp;lsquo;Person&amp;rsquo; entities both in bulk and by &amp;lsquo;id&amp;rsquo; key. We are now going to take a look at updating an existing &amp;lsquo;Person&amp;rsquo; entity.
 Read &amp;lsquo;Person&amp;rsquo; entity 10000001 from the database as shown in the Get a Person example.
 Once you have successfully read &amp;lsquo;Person&amp;rsquo; entity 10000001 into your Postman session, copy the content of the response body to your clipboard.</description>
     </item>
@@ -81,8 +83,7 @@ Once you have successfully read &amp;lsquo;Person&amp;rsquo; entity 10000001 int
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-g/</guid>
       <description>We have seen how to Create, Get, and Update a &amp;lsquo;Person&amp;rsquo; entity, but before we get around to the Delete operation, let&#39;s take a quick look at some other simple things we can do with Get entity lists.
-  Get a count of &amp;#39;Person&amp;#39; entities in the database   http://127.0.0.1:8080/persons/$count .
-    Get all &amp;#39;Person&amp;#39; entities in the database ordered-by age   http://127.0.0.1:8080/persons$orderby=age .</description>
+Each of the following bullet points can be expanded to show various ways that entities can be read, sorted and counted via a standardized set of URL suffixes. Remember to include the JWT and correct http verb in your requests when testing these operations in your test environment.</description>
     </item>
     
     <item>
@@ -91,7 +92,7 @@ Once you have successfully read &amp;lsquo;Person&amp;rsquo; entity 10000001 int
       <pubDate>Tue, 06 Feb 2018 22:34:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/getting-started/level-two/l2-content-h/</guid>
-      <description>Next we will delete one of our &amp;lsquo;Person&amp;rsquo; entities. Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/person/10000000 with the http DELETE method. Next, add the following key-value pairs to the http header:
+      <description>Next we will delete one of our &amp;lsquo;Person&amp;rsquo; entities. Create a new tab in Postman and specify a target URL of http://127.0.0.1:8080/person/10000000 with the http DELETE verb. As usual, add the following key-value pairs to the http header:
  Content-Type : application\json Authorization : Bearer *paste-your-JWT-here*  When you have something that looks as follows, click the &amp;lsquo;Send&amp;rsquo; button to issue the delete request to the application.
 If the delete request was successful, you will see a http response-code of 202 (Accepted).</description>
     </item>

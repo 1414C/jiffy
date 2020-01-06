@@ -26,11 +26,11 @@
       <pubDate>Mon, 02 Jul 2018 17:02:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/interprocess/ip-content-b/</guid>
-      <description>Group Membership Failure Detector   When discussing deployment of a Jiffy-generated application, each instance of the application is referred to as a process or application instance.
+      <description>Group Membership Failure Detector   When discussing deployment of a Jiffy-generated application, each instance of the application is referred to as a process, application instance or node.
   Processes may fail.
   Processes exist with one of five publicly disseminated and well-known statuses: {ACTIVE; SUSPECT; FAILED; DEPARTING; DEPARTED}
   Processes exist with a publicly (within the group) disseminated incarnation number.
-  Process viability is checked at selectable intervals (ping-cycle time) via a ping-ack mechanism.</description>
+  Process viability is checked at selectable intervals (ping-cycle time) via a configurable ping-ack mechanism.</description>
     </item>
     
     <item>

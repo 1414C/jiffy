@@ -12,20 +12,20 @@
     <title>Generated &#39;appobj&#39; Folder :: Jiffy Services Generator</title>
 
     
-    <link href="/jiffy/css/nucleus.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/fontawesome-all.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1578203693" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1578295967" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1578203693" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1578295967" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-3.3.1.min.js?1578203693"></script>
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1578295967"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -54,14 +54,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578203693"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578295967"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578295967"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1578295967"></script>
 
     
   </div>
@@ -1880,9 +1880,10 @@
 
 
 <h3 id="the-appobj-folder">The &lsquo;appobj&rsquo; Folder</h3>
-<!-- raw HTML omitted -->
-<pre><code class="language-code" data-lang="code">
-FirstApp
+<br/>
+The appobj folder contains the generated application's configuration loader and the main application object.
+<br/>
+<pre><code class="language-code" data-lang="code">FirstApp
 ├── appobj
 │   ├── appconf.go
 │   ├── appobj.go
@@ -1897,7 +1898,6 @@ FirstApp
 ├── .prd.config.json
 ├── main_test.go
 └── main.go
-
 </code></pre><h4 id="appobjgo">appobj.go</h4>
 <p>The entry point for go applications is always the main() function, but we seldom write the so-called &lsquo;main&rsquo; part of the application in this monolithic function.  To that end, an AppObj struct is declared and the main thread of the application runs against it.  The content of main.go simply creates an instance of an AppObj struct, parses the flags and then calls the AppObj.Run() method.</p>
 <p>When the generated application is started, AppObj.Run() is responsible for:</p>
@@ -1918,7 +1918,7 @@ FirstApp
 <h4 id="appconfgo">appconf.go</h4>
 <p>The code in appconf.go contains the functions used to load application configuration files, as well as functions containing so-called &lsquo;default&rsquo; configuration.  It is possible to edit the DefaultConfig() function so that it holds values specific to the local test/development environment.  This prevents the need for maintaining a set of configuration files that the development staff need to keep in sync.</p>
 <h4 id="lead-set-getgo">lead_set_get.go</h4>
-<p>The code in lead_set_get.go contains implementation of interface gmcom.GMLeaderSetterGetter.  As explained in section XXXXXXXXX, jiffy applications can be deployed as standalone servers, or as a group utilizing a group-leadership model and synchronized access and authorization caching.  Default implementations of the Group Leader KVS accessors include support for redis, memcached, stand-alone operation and the dime-store cache server sluggo.  The interface is simple to understand and utilizes well-known and well-supported client implementations to access redis and memcached.  Although no extension points have been declared in the code to support other KVS servers, it would be a simple matter to do so.  See section XXXXXXXX for a detailed overview of interface gmcom.GMLeaderSetterGetter.</p>
+<p>The code in lead_set_get.go contains implementation of interface gmcom.GMLeaderSetterGetter.  As explained in section <a href="/jiffy/usage/deployment/">Deployment Overview</a> jiffy applications can be deployed as standalone servers, or as a group utilizing a group-leadership model and synchronized access and authorization caching.  Default implementations of the Group Leader KVS accessors include support for redis, memcached, stand-alone operation and the dime-store cache server sluggo.  The interface is simple to understand and utilizes well-known and well-supported client implementations to access redis and memcached.  Although no extension points have been declared in the code to support other KVS servers, it would be a simple matter to do so.  See section <a href="/jiffy/interprocess">Interprocess Communication</a> and <a href="/jiffy/usage/deployment/us-content-j/#multi-instance-deployment">Multi-Instance Deployment</a> for a detailed overview of interface gmcom.GMLeaderSetterGetter.</p>
 
 
 <footer class=" footline" >
@@ -3255,19 +3255,19 @@ FirstApp
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578203693"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1578203693"></script>
-    <script src="/jiffy/js/featherlight.min.js?1578203693"></script>
-    <script src="/jiffy/js/highlight.pack.js?1578203693"></script>
+    <script src="/jiffy/js/clipboard.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578295967"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1578295967"></script>
+    <script src="/jiffy/js/featherlight.min.js?1578295967"></script>
+    <script src="/jiffy/js/highlight.pack.js?1578295967"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578203693"></script>
-    <script src="/jiffy/js/learn.js?1578203693"></script>
-    <script src="/jiffy/js/hugo-learn.js?1578203693"></script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578295967"></script>
+    <script src="/jiffy/js/learn.js?1578295967"></script>
+    <script src="/jiffy/js/hugo-learn.js?1578295967"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1578203693" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1578203693"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1578295967" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1578295967"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

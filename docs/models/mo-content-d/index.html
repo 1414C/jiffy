@@ -12,20 +12,20 @@
     <title>Entity Relations :: Jiffy Services Generator</title>
 
     
-    <link href="/jiffy/css/nucleus.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/fontawesome-all.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1578203693" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1578295967" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1578203693" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1578295967" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-3.3.1.min.js?1578203693"></script>
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1578295967"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -54,14 +54,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578203693"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578295967"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578295967"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1578295967"></script>
 
     
   </div>
@@ -1885,8 +1885,7 @@
 
 <h3 id="modeling-entity-relationships">Modeling Entity Relationships</h3>
 <p>Relationships between entities can be declared in the application model file via the addition of a &lsquo;relations&rsquo; block inside an entity's declaration.  Relationships are based on resource id's by default, although it is possible to specify non-default key fields in the configuration, or implement complex joins directly by maintaining the entity's controller and model.  &lsquo;relations&rsquo; blocks look as follows:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">
-            <span style="color:#e6db74">&#34;relations&#34;</span><span style="color:#f92672">:</span> [
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">            <span style="color:#e6db74">&#34;relations&#34;</span><span style="color:#f92672">:</span> [
                     {
                     <span style="color:#e6db74">&#34;relName&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;ToOwner&#34;</span>,
                         <span style="color:#e6db74">&#34;properties&#34;</span><span style="color:#f92672">:</span> {
@@ -1895,25 +1894,25 @@
                         }
                     }
                 ]
-
-</code></pre></div><p>The sample relations block illustrates the declaration of a &lsquo;hasOne&rsquo; relationship between &lsquo;Car&rsquo; and &lsquo;Owner&rsquo; making use of default-keys.</p>
+</code></pre></div><p>The sample relations block illustrates the declaration of a &lsquo;hasOne&rsquo; relationship between &lsquo;Car&rsquo; and &lsquo;Owner&rsquo; making use of default-keys (<em>ID</em>).</p>
 <h3 id="hasone-relationship">hasOne Relationship</h3>
 <p>&lsquo;hasOne&rsquo; relationships establish a one-to-one relationship between two modeled entities.  As an example, let's posit that a car can have one owner.  If the car and owner were modeled as entities, we could declare a &lsquo;hasOne&rsquo; (1:1) relationship between them.  The relation would be added to the &lsquo;relations&rsquo; block inside the &lsquo;Car&rsquo; entity definition (as shown above).</p>
 <p>A break-down of the relations block fields is as follows:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">
-{
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">{
     <span style="color:#e6db74">&#34;relations&#34;</span><span style="color:#f92672">:</span> [
-    <span style="color:#75715e">// The &#39;entities&#39; block contains an array of relations belonging to the containing entity definition.
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// Each relation is defined from the perspective of the containing entity having a relationship of
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// the specified type (in this case hasOne), with the entity referenced in the declaration.  A &#39;Car&#39;
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// has one &#39;Owner&#39; - in our example at least.
+    <span style="color:#75715e">// The &#39;entities&#39; block contains an array of relations belonging to the containing
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// entity definition.  Each relation is defined from the perspective of the
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// containing entity having a relationship of the specified type (in this case
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// hasOne), with the entity referenced in the declaration.  A &#39;Car&#39; has one &#39;Owner&#39;
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// - in our example at least.
 </span><span style="color:#75715e"></span>    {
         <span style="color:#e6db74">&#34;relName&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Owner&#34;</span>
-        <span style="color:#75715e">// Field &#39;relName&#39; refers to the name the relationship will be known by inside the application
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// and in the mux route end-point definition.  It must be capitalized and written in
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// CamelCase.  Any name may be chosen for this field, but keep in mind the name will be exposed
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// to the service consumer via the URI, so something respecting the relationship enities and
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// cardinality is best.  For the example, we have chosen a relName of &#39;ToOwner&#39; to demonstrate
+        <span style="color:#75715e">// Field &#39;relName&#39; refers to the name the relationship will be known by inside
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// the application and in the mux route end-point definition.  It must be
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// capitalized and written in CamelCase.  Any name may be chosen for this
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// field, but keep in mind the name will be exposed to the service consumer via
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// the URI, so something respecting the relationship enities and cardinality is
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// best.  For the example, we have chosen a relName of &#39;ToOwner&#39; to demonstrate
 </span><span style="color:#75715e"></span>        <span style="color:#75715e">// the difference between the toEntity and relName fields.
 </span><span style="color:#75715e"></span>        <span style="color:#75715e">// &#39;relName&#39; is a mandatory field in a relations declaration.
 </span><span style="color:#75715e"></span>
@@ -1921,24 +1920,24 @@
             <span style="color:#75715e">// The &#39;properties&#39; block contains the details of the relationship.
 </span><span style="color:#75715e"></span>
             <span style="color:#e6db74">&#34;relType&#34;</span><span style="color:#f92672">:</span>
-            <span style="color:#75715e">// Field &#39;relType&#39; is used to indicate what sort of relationship is being declared between
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// the containing (from) entity and the toEntity.  
+            <span style="color:#75715e">// Field &#39;relType&#39; is used to indicate what sort of relationship is being
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// declared between the containing (from) entity and the toEntity.  
 </span><span style="color:#75715e"></span>            <span style="color:#75715e">// Valid values are {hasOne, hasMany and belongsTo}.
 </span><span style="color:#75715e"></span>            <span style="color:#75715e">// This is a mandatory field.
 </span><span style="color:#75715e"></span>
             <span style="color:#e6db74">&#34;toEntity&#34;</span><span style="color:#f92672">:</span>
-            <span style="color:#75715e">// Field &#39;toEntity&#39; is used to specify the target entity in the relationship. The toEnity
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// must be capitalized and provided in CamelCase that matches that used in the toEntity&#39;s
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// declaration.  The toEntity need not appear prior to the containing entity in the model
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// file or files.
+            <span style="color:#75715e">// Field &#39;toEntity&#39; is used to specify the target entity in the
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// relationship. The toEnity must be capitalized and provided in CamelCase
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// that matches that used in the toEntity&#39;s declaration.  The toEntity need
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// not appear prior to the containing entity in the model file or files.
 </span><span style="color:#75715e"></span>            <span style="color:#75715e">// This is a mandatory field.
 </span><span style="color:#75715e"></span>            }
     }
     ]
 }
-
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">
-{
+</code></pre></div><p>A complete example of a model file containing &lsquo;Car&rsquo; and &lsquo;Owner&rsquo; entity definitions along with the &lsquo;hasOne&rsquo; relationship is shown below.  Notice that the &lsquo;Car&rsquo; entity has been declared with an &lsquo;OwnerID&rsquo; field.  As our &lsquo;Car&rsquo; model specifies that a &lsquo;Car&rsquo; may have one &lsquo;Owner&rsquo;, it makes sense for the key-relationship to go from &lsquo;Car&rsquo; back to the &lsquo;Owner&rsquo;.</p>
+<p>By default jiffy looks for a <em>targetEntity</em> + <em>ID</em> field when attempting to generate the constraint on the database system.  Although it is possible to override this behavior, it is recommended to use the jiffy standard.  It is incumbent on the model designer to include the correct foreign-key fields in the model.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">{
     <span style="color:#f92672">&#34;entities&#34;</span>:  [
         {
             <span style="color:#f92672">&#34;typeName&#34;</span>: <span style="color:#e6db74">&#34;Owner&#34;</span>,
@@ -2018,12 +2017,11 @@
         }
     ]
 }
-
 </code></pre></div><p>The sample model file can be downloaded from the following location: <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/hasOne.json">hasOne.json</a>.</p>
 <h3 id="hasmany-relationship">hasMany Relationship</h3>
-<p>&lsquo;hasMany&rsquo; relationships establish a one-to-many relationship between two modeled entities.  As an example, let's posit that a library can have many books.  If library and book were modeled as entities, we could declare a &lsquo;hasMany&rsquo; (1:N) relationship between them.  The relation would be added to the &lsquo;relations&rsquo; block inside the &lsquo;Library&rsquo; entity definition:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">
-{
+<p>&lsquo;hasMany&rsquo; relationships establish a one-to-many relationship between two modeled entities.  As an example, let's posit that a library can have many books.  If library and book were modeled as entities, we could declare a &lsquo;hasMany&rsquo; (1:N) relationship between them.  The relation would be added to the &lsquo;relations&rsquo; block inside the &lsquo;Library&rsquo; entity definition.  Notice that the &lsquo;Book&rsquo; entity has been declared with an &lsquo;LibraryID&rsquo; field.  As our &lsquo;Library&rsquo; model specifies that a &lsquo;Library&rsquo; may have many &lsquo;Book&rsquo; entities, it makes sense for the key-relationship to go from &lsquo;Book&rsquo; back to the &lsquo;Library&rsquo;.</p>
+<p>By default jiffy looks for a <em>targetEntity</em> + <em>ID</em> field when attempting to generate the constraint on the database system.  Although it is possible to override this behavior, it is recommended to use the jiffy standard.  It is incumbent on the model designer to include the correct foreign-key fields in the model.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">{
     <span style="color:#f92672">&#34;entities&#34;</span>:  [
         {
             <span style="color:#f92672">&#34;typeName&#34;</span>: <span style="color:#e6db74">&#34;Library&#34;</span>,
@@ -2101,12 +2099,11 @@
     }
     ]
 }
-
 </code></pre></div><p>The sample model file can be downloaded from the following location: <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/hasManyDefaultKeys.json">hasManyDefaultKeys.json</a>.</p>
+<p>Again, it seems that this model does not capture the entire story, as each book belongs to its respective library.  This brings us to the &lsquo;belongsTo&rsquo; relationship type.</p>
 <h3 id="belongsto-relationship">belongsTo Relationship</h3>
-<p>&lsquo;belongsTo&rsquo; relationships are used to form the inverse of the &lsquo;hasOne&rsquo; and &lsquo;hasMany&rsquo; relations.  Consider the library &lsquo;hasMany&rsquo; books example; A library has many books, but we can also posit that &lsquo;a book belongs to a library&rsquo;; this is an example of a &lsquo;belongsTo&rsquo; relationship.  The JSON below extends the &lsquo;Library&rsquo; -&gt; &lsquo;Book&rsquo; example by adding the &lsquo;belongsTo&rsquo; relationship to the &lsquo;Book&rsquo; entity definition:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">
-{
+<p>&lsquo;belongsTo&rsquo; relationships are used to form the inverse of the &lsquo;hasOne&rsquo; and &lsquo;hasMany&rsquo; relations.  Consider the library &lsquo;hasMany&rsquo; books example; A library has many books, but we can also posit that a book belongs to a library; this is an example of a &lsquo;belongsTo&rsquo; relationship.  The JSON below extends the &lsquo;Library&rsquo; -&gt; &lsquo;Book&rsquo; example by adding the &lsquo;belongsTo&rsquo; relationship to the &lsquo;Book&rsquo; entity definition:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">{
     <span style="color:#f92672">&#34;entities&#34;</span>:  [
         {
             <span style="color:#f92672">&#34;typeName&#34;</span>: <span style="color:#e6db74">&#34;Library&#34;</span>,
@@ -2202,7 +2199,6 @@
     }
     ]
 }
-
 </code></pre></div><p>The sample model file can be downloaded from the following location: <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/hasManyBelongsTo.json">hasManyBelongsTo.json</a>.</p>
 <p>By relying on the default key determinations for the &lsquo;belongsTo&rsquo; relationship, the generator determines that the Book.LibraryID field should be matched against field Library.ID.  If alternate keys are desired, they can be specified in the &lsquo;refKey&rsquo; and &lsquo;foreignKey&rsquo; property fields in the &lsquo;belongsTo&rsquo; relation declaration.</p>
 <h3 id="what-if-more-complex-relationships-are-required">What if more complex relationships are required?</h3>
@@ -3543,19 +3539,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578203693"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1578203693"></script>
-    <script src="/jiffy/js/featherlight.min.js?1578203693"></script>
-    <script src="/jiffy/js/highlight.pack.js?1578203693"></script>
+    <script src="/jiffy/js/clipboard.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578295967"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1578295967"></script>
+    <script src="/jiffy/js/featherlight.min.js?1578295967"></script>
+    <script src="/jiffy/js/highlight.pack.js?1578295967"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578203693"></script>
-    <script src="/jiffy/js/learn.js?1578203693"></script>
-    <script src="/jiffy/js/hugo-learn.js?1578203693"></script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578295967"></script>
+    <script src="/jiffy/js/learn.js?1578295967"></script>
+    <script src="/jiffy/js/hugo-learn.js?1578295967"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1578203693" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1578203693"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1578295967" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1578295967"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

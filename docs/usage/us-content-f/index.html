@@ -12,20 +12,20 @@
     <title>Testing with TLS :: Jiffy Services Generator</title>
 
     
-    <link href="/jiffy/css/nucleus.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/fontawesome-all.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1578203693" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1578295967" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1578203693" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1578295967" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-3.3.1.min.js?1578203693"></script>
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1578295967"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -54,14 +54,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578203693"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578295967"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578295967"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1578295967"></script>
 
     
   </div>
@@ -1883,54 +1883,45 @@
 <p>If you wish to perform local https-based testing, it is possible to do so through the use of self-signed
 certificates.  Self-signed certificates can be easily created through the use of the openssl tool on
 *nix systems.
-<!-- raw HTML omitted --></p>
+<br/></p>
 <h4 id="verify-the-openssl-installation">Verify the OpenSSL Installation</h4>
 <p>Open a terminal session and verify that openssl is available:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">
-$ which -a openssl
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">which -a openssl
 /usr/bin/openssl
-
 </code></pre></div><p>If openssl is not shown in the &lsquo;which&rsquo; command output, check your path to ensure you have access to /usr/bin
 or /usr/local/bin.  If you have access to the ./bin directories, but still cannot find the openssl tool,
 it can be downloaded from <a href="https://www.openssl.org/source/">https://www.openssl.org/source/</a> .  Follow the directions on the site to correctly
 download and install the tool.
-<!-- raw HTML omitted --></p>
+<br/></p>
 <h4 id="generate-a-private-certificate-authority-ca-certificate-key">Generate a Private Certificate Authority (CA) Certificate Key</h4>
 <p>Open a terminal session and execute the openssl command as shown:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ openssl genrsa -out <span style="color:#e6db74">&#34;myCA.key&#34;</span> <span style="color:#e6db74">&#34;2048&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">openssl genrsa -out <span style="color:#e6db74">&#34;myCA.key&#34;</span> <span style="color:#e6db74">&#34;2048&#34;</span>
 Generating RSA private key, <span style="color:#ae81ff">2048</span> bit long modulus
 ...................................+++
 ..........................................................................................+++
 e is <span style="color:#ae81ff">65537</span> <span style="color:#f92672">(</span>0x10001<span style="color:#f92672">)</span>
-$
-
 </code></pre></div><p>Verify that a file called &ldquo;myCA.key&rdquo; has been created.
-<!-- raw HTML omitted --></p>
+<br/></p>
 <h4 id="generate-a-private-certificate-authority-ca-certificate">Generate a Private Certificate Authority (CA) Certificate</h4>
 <p>Open a terminal session and execute the openssl command as shown:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">
-$ openssl req -x509 -new -days <span style="color:#ae81ff">365</span> -key <span style="color:#e6db74">&#34;myCA.key&#34;</span> -out <span style="color:#e6db74">&#34;myCA.cer&#34;</span> -subj <span style="color:#e6db74">&#34;/CN=\&#34;&#34;</span>MyCompanyName<span style="color:#e6db74">&#34;\&#34;&#34;</span>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">openssl req -x509 -new -days <span style="color:#ae81ff">365</span> -key <span style="color:#e6db74">&#34;myCA.key&#34;</span> -out <span style="color:#e6db74">&#34;myCA.cer&#34;</span> -subj <span style="color:#e6db74">&#34;/CN=\&#34;&#34;</span>MyCompanyName<span style="color:#e6db74">&#34;\&#34;&#34;</span>
 </code></pre></div><p>There is no output to this command, so verify that a file called &ldquo;myCA.cer&rdquo; has been created.
-<!-- raw HTML omitted --></p>
+<br/></p>
 <h4 id="generate-a-private-server-key">Generate a Private Server Key</h4>
 <p>Open a terminal session and execute the openssl command as shown:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">
-$ openssl genrsa -out <span style="color:#e6db74">&#34;srvcert.key&#34;</span> <span style="color:#e6db74">&#34;2048&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">openssl genrsa -out <span style="color:#e6db74">&#34;srvcert.key&#34;</span> <span style="color:#e6db74">&#34;2048&#34;</span>
 Generating RSA private key, <span style="color:#ae81ff">2048</span> bit long modulus
 ..............................................................................................+++
 .....+++
 e is <span style="color:#ae81ff">65537</span> <span style="color:#f92672">(</span>0x10001<span style="color:#f92672">)</span>
-$
-
 </code></pre></div><p>Verify that a file called &ldquo;srvcert.key&rdquo; has been created.
-<!-- raw HTML omitted --></p>
+<br/></p>
 <h4 id="create-a-private-server-certificate-signing-request">Create a Private Server Certificate Signing Request</h4>
 <p>This generates an intermediate certificate signing request file (.csr) based on the Private Server
 Key created in the previous step.  The creation of the CSR is an interrogative process, but for
 self-signed testing, most of the inputs can safely be ignored.  Follow the prompts as per the
 example shown below:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ openssl req -new -key srvcert.key -out srvcert.csr
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">openssl req -new -key srvcert.key -out srvcert.csr
 You are about to be asked to enter information that will be incorporated
 into your certificate request.
 What you are about to enter is what is called a Distinguished Name or a DN.
@@ -1950,23 +1941,19 @@ Please enter the following <span style="color:#e6db74">&#39;extra&#39;</span> at
 to be sent with your certificate request
 A challenge password <span style="color:#f92672">[</span><span style="color:#f92672">]</span>:
 An optional company name <span style="color:#f92672">[</span><span style="color:#f92672">]</span>:
-$
-
 </code></pre></div><p>Verify that a file called &ldquo;srvcert.crt&rdquo; has been created.
-<!-- raw HTML omitted --></p>
+<br/></p>
 <h4 id="create-a-private-server-certificate">Create a Private Server Certificate</h4>
 <p>This is the final step in getting the required certificate and key files to support local https
 testing.  In this step, the CA certificate and private key files will be used in conjunction
 with the private server key and private server signing-request to generate a private server
 certificate.  Execute the following command in your terminal session:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">
-$ openssl x509 -req -in srvcert.csr -out srvcert.cer -CAkey myCA.key -CA myCA.cer -days <span style="color:#ae81ff">365</span> -CAcreateserial -CAserial <span style="color:#ae81ff">123456</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">openssl x509 -req -in srvcert.csr -out srvcert.cer -CAkey myCA.key -CA myCA.cer -days <span style="color:#ae81ff">365</span> -CAcreateserial -CAserial <span style="color:#ae81ff">123456</span>
 Signature ok
 subject<span style="color:#f92672">=</span>/C<span style="color:#f92672">=</span>CA/ST<span style="color:#f92672">=</span>AB/O<span style="color:#f92672">=</span>MyCompany
 Getting CA Private Key
-
 </code></pre></div><p>Verify that a file called &ldquo;srvcert.cer&rdquo; has been created.
-<!-- raw HTML omitted --></p>
+<br/></p>
 <h4 id="ensure-mycacer-is-trusted-locally">Ensure myCA.cer is Trusted Locally</h4>
 <p>Ensure that myCA.cer is fully-trusted in your local certificate store.  The process to do this will differ per operating system, so look online for instructions regarding &lsquo;trusting a self-signed CA certificate&rsquo;.  You may also need to adjust the settings in test tools like Postman in order for them to accept self-signed certs.</p>
 <h4 id="add-certificates-to-the-configuration-file">Add Certificates to the Configuration File</h4>
@@ -3307,19 +3294,19 @@ Getting CA Private Key
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578203693"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1578203693"></script>
-    <script src="/jiffy/js/featherlight.min.js?1578203693"></script>
-    <script src="/jiffy/js/highlight.pack.js?1578203693"></script>
+    <script src="/jiffy/js/clipboard.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578295967"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1578295967"></script>
+    <script src="/jiffy/js/featherlight.min.js?1578295967"></script>
+    <script src="/jiffy/js/highlight.pack.js?1578295967"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578203693"></script>
-    <script src="/jiffy/js/learn.js?1578203693"></script>
-    <script src="/jiffy/js/hugo-learn.js?1578203693"></script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578295967"></script>
+    <script src="/jiffy/js/learn.js?1578295967"></script>
+    <script src="/jiffy/js/hugo-learn.js?1578295967"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1578203693" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1578203693"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1578295967" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1578295967"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

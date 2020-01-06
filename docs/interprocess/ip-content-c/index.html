@@ -12,20 +12,20 @@
     <title>Process Startup / Join :: Jiffy Services Generator</title>
 
     
-    <link href="/jiffy/css/nucleus.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/fontawesome-all.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1578203693" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1578295967" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1578203693" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1578295967" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-3.3.1.min.js?1578203693"></script>
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1578295967"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -54,14 +54,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578203693"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578295967"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578295967"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1578295967"></script>
 
     
   </div>
@@ -1882,21 +1882,41 @@
 <h3 id="process-startup">Process Startup</h3>
 <p>When an application instance (process) starts, the group-membership subsystem is started as a go-routine within the application.</p>
 <h4 id="member-communication">Member Communication</h4>
-<p>The group-membership service communicates between processes via web-sockets connections.  Each process accepts group-membership messages on the address:port specified by the &lsquo;internal_address&rsquo; key in the application configuration file.  This port is not secured, and the group-membership messages are not encrypted in any way.  <strong>It is advisable that the address:port used here is not accessible to the outside world.</strong></p>
-<p>Due to the round-robin every-process-pings-every-other-process model used by the failure detector, the group-membership service can be rather busy.
-<!-- raw HTML omitted --></p>
+<p>The group-membership service communicates between processes via web-sockets connections.  Each process accepts group-membership messages on the address:port specified by the &lsquo;internal_address&rsquo; key in the application configuration file.  This port is not secured, and the group-membership messages are not encrypted in any way.  <em>It is advisable that the address:port used here is not accessible to the outside world.</em></p>
+<p>Due to the round-robin-every-process-pings-every-other-process model used by the failure detector, the group-membership service can be rather busy.
+<br></p>
 <h4 id="group-leadership-overview">Group Leadership Overview</h4>
 <h5 id="election-overview">Election Overview</h5>
 <p>In order to participate in a group, each starting process needs to know who the current group-leader is.  Group-leadership is determined internally via the failure-detector and a bully-type leader-election.  Each process knows who the current group-leader is at any given time.  If a failure of the group-leader is detected, an election is held whereby the process with the highest process-id (PID) assumes leadership of the group.</p>
-<p>Assertion of leadership is disseminated to all group-members by the new leader via the COORDINATOR message.  This takes care of the current group-members, but processes wishing to join the group must have a way to determine who the current group-leader is.</p>
+<p>Assertion of leadership is disseminated to all group-members by the new leader via the <em>COORDINATOR</em> message.  This takes care of the current group-members, but processes wishing to join the group must have a way to determine who the current group-leader is.</p>
 <h5 id="joining-overview">Joining Overview</h5>
 <p>Joining processes must access a well-known persistent store that holds the current group-leader information.  This means that each joining process must know the location of, and the manner in which the persistent store can be queried.  The persistent store exists outside of the group-membership and is typically some sort of name-value key-store like redis or memcached.</p>
 <p>To this end, the .xxx.config.json file offers the option of running the application in stand-alone mode (self==leader), or with redis, memcached or sluggo as KVS repositories for the group-leader information.</p>
 <p>A general interface is provided by Jiffy to allow the implementing developer to add support for the persistent store of their choice.  Enhancement points have not been added for the &ldquo;custom_kvs_impl&rdquo; key yet, but it should be quite easy to insert the required code.  The rationale here is that many implementers will have a preference in terms of the key-value store they use, and may already have a suitable KVS in their productive landscape.  The interface provided by Jiffy for this purpose is <em>gmcom.GMLeaderSetterGetter</em> and it must be implemented in the appobj/lead_set_get.go file.
-<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<br></br></p>
 <h5 id="interface-gmcomgmgettersetter">Interface gmcom.GMGetterSetter</h5>
 <p>Interface gmcom.GMGetterSetter contains methods to facilitate read/write access to the one-and-only persisted leader record in any key-value-store.  Applications implementing the interface may choose to store the persisted current leader in a number of mediums; flat-file, db table record, redis, memcached etc.</p>
-<!-- raw HTML omitted -->
+<table style="width:100%">
+  <tr>
+    <td><h5><i>Interface gmcom.GMGetterSetter</i></h5></td>
+  </tr>
+  <tr>  
+    <td><h5>GetDBLeader() (*GMLeader, error)</h5>
+    GetDBLeader is provided in order to allow the implementer to retrieve the current group-leader information from the persistent store.  The implementation of this method is intended to be self-contained.<p>  For example, if the implementation calls for the current leader information to be persisted in redis, the implementer should code a self-contained method to connect to redis, retrieve the leader information and return it in the GMLeader pointer.  Failure to read a current leader from the persistent store should result in the return of a nil in place of the *GMLeader pointer and a non-nil error value.<p>
+    </td>
+  </tr>
+  <tr>
+    <td><h5>SetDBLeader(l GMLeader) error</h5>
+    SetDBLeader is provided in order to allow the implementer to persist a newly elected leader's information in the persistent store.  The implementation of this method is intended to be self-contained.<p>  For example, if the implementation calls for the current leader information to be persisted in redis, the implementer should code a self-contained method to connect to redis and store the leader information provided by input parameter *l*. Failure to persist the provided leader information should result in the implementer returning a non-nil value in the *error* return parameter.<p>
+    </td>
+  </tr>
+  <tr>
+    <td><h5>Cleanup() error</h5>
+    Cleanup is provided in order to allow the implementer to cleanup connection pools, open and/or busy connections before the hosting application shuts down in response to a SIGKILL, os.Interrupt or SIGINT event.  If the implementation does not require any cleanup, this method can be implemented to simply return nil.
+    </td>
+  </tr>
+</table>
+<br>
 <h5 id="interface-gmcomgmsettergetter-sample-implementation">Interface gmcom.GMSetterGetter Sample Implementation</h5>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">
 <span style="color:#75715e">// LeadSetGet provides a sample implementation of the GMLeaderSetterGetter
@@ -3329,19 +3349,19 @@ This is a catch-all for failed join attempts.  In this case, the starting proces
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578203693"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1578203693"></script>
-    <script src="/jiffy/js/featherlight.min.js?1578203693"></script>
-    <script src="/jiffy/js/highlight.pack.js?1578203693"></script>
+    <script src="/jiffy/js/clipboard.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578295967"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1578295967"></script>
+    <script src="/jiffy/js/featherlight.min.js?1578295967"></script>
+    <script src="/jiffy/js/highlight.pack.js?1578295967"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578203693"></script>
-    <script src="/jiffy/js/learn.js?1578203693"></script>
-    <script src="/jiffy/js/hugo-learn.js?1578203693"></script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578295967"></script>
+    <script src="/jiffy/js/learn.js?1578295967"></script>
+    <script src="/jiffy/js/hugo-learn.js?1578295967"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1578203693" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1578203693"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1578295967" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1578295967"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

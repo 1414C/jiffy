@@ -12,20 +12,20 @@
     <title>Jiffy with Docker and SQLite :: Jiffy Services Generator</title>
 
     
-    <link href="/jiffy/css/nucleus.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/fontawesome-all.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1578203693" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1578295967" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1578203693" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1578295967" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-3.3.1.min.js?1578203693"></script>
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1578295967"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -54,14 +54,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578203693"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578295967"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578295967"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1578295967"></script>
 
     
   </div>
@@ -1908,13 +1908,10 @@
 <h4 id="generate-the-application">Generate the Application</h4>
 <p>We will generate a new application from a <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/hasManyBelongsTo.json">model file</a> that contains a &lsquo;Library&rsquo; and &lsquo;Book&rsquo; entity.  Two relationships are maintained in the model; a Library hasMany Books and a Book belongsTo a specific Library.  An application generated from this model will allow many Jiffy application features to be tested.</p>
 <p>Open a terminal window on your workstation and run jiffy using the Library-Book model file to generate the source-code for our test application as follows:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-  jiffy -m $GOPATH/src/github.com/1414C/jiffy/support/testing_models/hasManyBelongsTo.json -p /exp/libraryapp
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">  jiffy -m $GOPATH/src/github.com/1414C/jiffy/support/testing_models/hasManyBelongsTo.json -p /exp/libraryapp
 </code></pre></div><p><a href="/jiffy/execution/ex-content-b/#generation-flags">Remember that jiffy's -p flag</a> expects to be provided with an existing path underneath your $GOPATH/src folder.  In the example invocation shown above, jiffy will create the <em>libraryapp</em> folder underneath $GOPATH/src/exp/ and then write the generated source-code to this location.</p>
-<p>Execution of the generator (jiffy) should result in similar to:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-2018/06/15 14:44:11 generated: /Users/stevem/gowork/src/exp/libraryapp/models/librarym.go
+<p>Execution of the generator (jiffy) should result in output similar to:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">2018/06/15 14:44:11 generated: /Users/stevem/gowork/src/exp/libraryapp/models/librarym.go
 2018/06/15 14:44:11 generated: /Users/stevem/gowork/src/exp/libraryapp/models/librarym_ext.go
 2018/06/15 14:44:11 generated: /Users/stevem/gowork/src/exp/libraryapp/controllers/libraryc.go
 ...
@@ -1924,144 +1921,118 @@
 2018/06/15 14:44:13 executing /usr/local/go/bin/gofmt -w /Users/stevem/gowork/src/exp/libraryapp/util/strings.go
 2018/06/15 14:44:13 executing /usr/local/go/bin/goimports -w /Users/stevem/gowork/src/exp/libraryapp/appobj/appconf.go
 2018/06/15 14:44:13 executing /usr/local/go/bin/gofmt -w /Users/stevem/gowork/src/exp/libraryapp/appobj/appconf.go
-
 </code></pre></div><p>Your output may look slightly different, particularly the database connection test which will almost certainly fail.  This is nothing to be concerned about, as the generator is attempting to connect to a local postgres instance using bad credentials.
-<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<br></br></p>
 <h4 id="edit-the-application-configuration-file">Edit the Application Configuration File</h4>
 <h5 id="update-address-keys">Update Address Keys</h5>
 <p>The next step is to edit the generated application's configuration files.  Docker allocates a static ip-address for each container by default, and we will use that address in our application's configuration file.  &lsquo;external_address&rsquo; refers to the address at which the application's end-points will be available, while the &lsquo;internal_address&rsquo; is used for cache updates and interprocess communication over web-socket connections.  Strictly speaking, in a single-instance Docker deployment we could get away with maintaining the address-keys as follows:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">d</span><span style="color:#960050;background-color:#1e0010">e</span><span style="color:#960050;background-color:#1e0010">v</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">c</span><span style="color:#960050;background-color:#1e0010">o</span><span style="color:#960050;background-color:#1e0010">n</span><span style="color:#960050;background-color:#1e0010">f</span><span style="color:#960050;background-color:#1e0010">i</span><span style="color:#960050;background-color:#1e0010">g</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">j</span><span style="color:#960050;background-color:#1e0010">s</span><span style="color:#960050;background-color:#1e0010">o</span><span style="color:#960050;background-color:#1e0010">n</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">.<span style="color:#a6e22e">dev</span>.<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">json</span>
 
 {
-    <span style="color:#f92672">&#34;external_address&#34;</span>: <span style="color:#e6db74">&#34;:8080&#34;</span>,
-    <span style="color:#f92672">&#34;internal_address&#34;</span>: <span style="color:#e6db74">&#34;:4444&#34;</span>,
-    <span style="color:#f92672">&#34;env&#34;</span>: <span style="color:#e6db74">&#34;dev&#34;</span>,
-    <span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span>
-    <span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span>
+    <span style="color:#e6db74">&#34;external_address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;:8080&#34;</span>,
+    <span style="color:#e6db74">&#34;internal_address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;:4444&#34;</span>,
+    <span style="color:#e6db74">&#34;env&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;dev&#34;</span>,
+    ...
+    ...
 }
-
 </code></pre></div><p>However, we will show how to obtain and insert the container's real ip-address into the configuration file.  This will be useful later if you deploy multiple application instances in Docker containers.</p>
 <p>Open the generated <em>.dev.config.json</em> file in an editor and update the &lsquo;external_address&rsquo; and &lsquo;internal_address&rsquo; values with &ldquo;xxx.xxx.xxx.xxx:8080&rdquo; and &ldquo;xxx.xxx.xxx.xxx:4444&rdquo; respectively.  Using an illegal ipv4 address as a placeholder/mask ensures that the container will not start in the event that the container's address could not be assigned to the config keys.  When you have finished, save the file after verifying that it looks like this:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">d</span><span style="color:#960050;background-color:#1e0010">e</span><span style="color:#960050;background-color:#1e0010">v</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">c</span><span style="color:#960050;background-color:#1e0010">o</span><span style="color:#960050;background-color:#1e0010">n</span><span style="color:#960050;background-color:#1e0010">f</span><span style="color:#960050;background-color:#1e0010">i</span><span style="color:#960050;background-color:#1e0010">g</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">j</span><span style="color:#960050;background-color:#1e0010">s</span><span style="color:#960050;background-color:#1e0010">o</span><span style="color:#960050;background-color:#1e0010">n</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">.<span style="color:#a6e22e">dev</span>.<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">json</span>
 
 {
-    <span style="color:#f92672">&#34;external_address&#34;</span>: <span style="color:#e6db74">&#34;xxx.xxx.xxx.xxx:8080&#34;</span>,
-    <span style="color:#f92672">&#34;internal_address&#34;</span>: <span style="color:#e6db74">&#34;xxx.xxx.xxx.xxx:4444&#34;</span>,
-    <span style="color:#f92672">&#34;env&#34;</span>: <span style="color:#e6db74">&#34;dev&#34;</span>,
-    <span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span>
-    <span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span>
+    <span style="color:#e6db74">&#34;external_address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;xxx.xxx.xxx.xxx:8080&#34;</span>,
+    <span style="color:#e6db74">&#34;internal_address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;xxx.xxx.xxx.xxx:4444&#34;</span>,
+    <span style="color:#e6db74">&#34;env&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;dev&#34;</span>,
+    ...
+    ...
 
 }
-
 </code></pre></div><h5 id="update-the-applications-database-config">Update the Application's Database Config</h5>
-<p>Jiffy generates configuration files targeting a Postgres database by default.  As we intend to use SQLite in our all-in-one Docker test deployment, the &lsquo;database&rsquo; block in <em>.dev.config.json</em> must be updated as follows:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">d</span><span style="color:#960050;background-color:#1e0010">e</span><span style="color:#960050;background-color:#1e0010">v</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">c</span><span style="color:#960050;background-color:#1e0010">o</span><span style="color:#960050;background-color:#1e0010">n</span><span style="color:#960050;background-color:#1e0010">f</span><span style="color:#960050;background-color:#1e0010">i</span><span style="color:#960050;background-color:#1e0010">g</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">j</span><span style="color:#960050;background-color:#1e0010">s</span><span style="color:#960050;background-color:#1e0010">o</span><span style="color:#960050;background-color:#1e0010">n</span>
+<p>As we intend to use SQLite in our all-in-one Docker test deployment, the &lsquo;database&rsquo; block in <em>.dev.config.json</em> must be updated as follows:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">.<span style="color:#a6e22e">dev</span>.<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">json</span>
 
 {
-    <span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span>
-    <span style="color:#f92672">&#34;database&#34;</span>: {
-        <span style="color:#f92672">&#34;db_dialect&#34;</span>: <span style="color:#e6db74">&#34;sqlite&#34;</span>,
-        <span style="color:#f92672">&#34;host&#34;</span>:       <span style="color:#e6db74">&#34;&#34;</span>,
-        <span style="color:#f92672">&#34;port&#34;</span>:       <span style="color:#ae81ff">0</span>,
-        <span style="color:#f92672">&#34;usr&#34;</span>:        <span style="color:#e6db74">&#34;&#34;</span>,
-        <span style="color:#f92672">&#34;password&#34;</span>:   <span style="color:#e6db74">&#34;&#34;</span>,
-        <span style="color:#f92672">&#34;name&#34;</span>:       <span style="color:#e6db74">&#34;testdb.db&#34;</span>
+    ...
+    <span style="color:#e6db74">&#34;database&#34;</span><span style="color:#f92672">:</span> {
+        <span style="color:#e6db74">&#34;db_dialect&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;sqlite&#34;</span>,
+        <span style="color:#e6db74">&#34;host&#34;</span><span style="color:#f92672">:</span>       <span style="color:#e6db74">&#34;&#34;</span>,
+        <span style="color:#e6db74">&#34;port&#34;</span><span style="color:#f92672">:</span>       <span style="color:#ae81ff">0</span>,
+        <span style="color:#e6db74">&#34;usr&#34;</span><span style="color:#f92672">:</span>        <span style="color:#e6db74">&#34;&#34;</span>,
+        <span style="color:#e6db74">&#34;password&#34;</span><span style="color:#f92672">:</span>   <span style="color:#e6db74">&#34;&#34;</span>,
+        <span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">:</span>       <span style="color:#e6db74">&#34;testdb.db&#34;</span>
     },
-    <span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span>
+    ...
 }
-
 </code></pre></div><h5 id="update-the-applications-group-leader-kvs-config">Update the Application's Group Leader KVS Config</h5>
 <p>Jiffy generates configuration files supporting a stand-alone / local group-leadership KVS by default.  Examine the &lsquo;group_leader_kvs&rsquo; block in *.config.json to ensure the &lsquo;local_standalone&rsquo; KVS option is active as shown below:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">d</span><span style="color:#960050;background-color:#1e0010">e</span><span style="color:#960050;background-color:#1e0010">v</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">c</span><span style="color:#960050;background-color:#1e0010">o</span><span style="color:#960050;background-color:#1e0010">n</span><span style="color:#960050;background-color:#1e0010">f</span><span style="color:#960050;background-color:#1e0010">i</span><span style="color:#960050;background-color:#1e0010">g</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">j</span><span style="color:#960050;background-color:#1e0010">s</span><span style="color:#960050;background-color:#1e0010">o</span><span style="color:#960050;background-color:#1e0010">n</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">.<span style="color:#a6e22e">dev</span>.<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">json</span>
 
 {
-    <span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span>
-    <span style="color:#f92672">&#34;group_leader_kvs&#34;</span>: {
-        <span style="color:#f92672">&#34;local_standalone&#34;</span>: {
-            <span style="color:#f92672">&#34;active&#34;</span>: <span style="color:#66d9ef">true</span>,
-            <span style="color:#f92672">&#34;internal_address&#34;</span>: <span style="color:#e6db74">&#34;127.0.0.1:4444&#34;</span>
+    ...
+    <span style="color:#e6db74">&#34;group_leader_kvs&#34;</span><span style="color:#f92672">:</span> {
+        <span style="color:#e6db74">&#34;local_standalone&#34;</span><span style="color:#f92672">:</span> {
+            <span style="color:#e6db74">&#34;active&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+            <span style="color:#e6db74">&#34;internal_address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;127.0.0.1:4444&#34;</span>
         },
-        <span style="color:#f92672">&#34;redis&#34;</span>: {
-            <span style="color:#f92672">&#34;active&#34;</span>: <span style="color:#66d9ef">false</span>,
-            <span style="color:#f92672">&#34;max_idle&#34;</span>: <span style="color:#ae81ff">80</span>,
-            <span style="color:#f92672">&#34;max_active&#34;</span>: <span style="color:#ae81ff">12000</span>,
-            <span style="color:#f92672">&#34;redis_protocol&#34;</span>: <span style="color:#e6db74">&#34;tcp&#34;</span>,
-            <span style="color:#f92672">&#34;redis_address&#34;</span>: <span style="color:#e6db74">&#34;127.0.0.1:6379&#34;</span>
+        <span style="color:#e6db74">&#34;redis&#34;</span><span style="color:#f92672">:</span> {
+            <span style="color:#e6db74">&#34;active&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
+            <span style="color:#e6db74">&#34;max_idle&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">80</span>,
+            <span style="color:#e6db74">&#34;max_active&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">12000</span>,
+            <span style="color:#e6db74">&#34;redis_protocol&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;tcp&#34;</span>,
+            <span style="color:#e6db74">&#34;redis_address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;127.0.0.1:6379&#34;</span>
         },
-        <span style="color:#f92672">&#34;memcached&#34;</span>: {
-            <span style="color:#f92672">&#34;active&#34;</span>: <span style="color:#66d9ef">false</span>,
-            <span style="color:#f92672">&#34;memcached_addresses&#34;</span>: [
+        <span style="color:#e6db74">&#34;memcached&#34;</span><span style="color:#f92672">:</span> {
+            <span style="color:#e6db74">&#34;active&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
+            <span style="color:#e6db74">&#34;memcached_addresses&#34;</span><span style="color:#f92672">:</span> [
                 <span style="color:#e6db74">&#34;192.168.112.50:11211&#34;</span>
             ]
         },
-        <span style="color:#f92672">&#34;sluggo&#34;</span>: {
-            <span style="color:#f92672">&#34;active&#34;</span>: <span style="color:#66d9ef">false</span>,
-            <span style="color:#f92672">&#34;sluggo_address&#34;</span>: <span style="color:#e6db74">&#34;127.0.0.1:7070&#34;</span>
+        <span style="color:#e6db74">&#34;sluggo&#34;</span><span style="color:#f92672">:</span> {
+            <span style="color:#e6db74">&#34;active&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
+            <span style="color:#e6db74">&#34;sluggo_address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;127.0.0.1:7070&#34;</span>
         }
     },
-    <span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span>
+    ...
 }
-
 </code></pre></div><p>Once the database block in <em>.dev.config.json</em> has been updated, save the file and close the editor.</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p><br></br></p>
 <h4 id="build-a-static-application-binary-for-alpine-linux">Build a Static Application Binary for Alpine Linux</h4>
 <p>Next, we need to build a static application binary for linux/amd64.  To build the application, a number of dependencies are required as outlined in the <a href="/jiffy/installation/in-content-a/#what-does-jiffy-need-to-run">Jiffy Dependencies</a> section of the documentation.  Check that your build environment contains the correct packages and import any that are missing.</p>
 <p>This tutorial uses the popular <a href="https://alpinelinux.org/">Alpine Linux distribution</a> as the basis for the new container image.  Alpine Linux is a small and sparse distribution making it nice for use with containers.  There are a few things to be aware of however&hellip;</p>
 <p>Alpine Linux is based on <a href="https://www.musl-libc.org/">lib-musl</a> which means that binaries built by <em>go build</em> where the source makes use of cgo must target lib-musl rather than lib-gcc.  The binary resulting from the typical &lsquo;GOOS=linux GOARCH=amd64 go build -o main .&rsquo; command would almost certainly not work on Alpine.  The good news is that it is quite easy to build with musl-gcc, the bad news is that musl-gcc is available for Linux only.  If you are working on a system in which lib-musl is not supported, you will need to run the <em>go build</em> command in a supported build environment. <a href="https://wiki.musl-libc.org/supported-platforms.html">Most Linux distributions and architectures are supported</a>.</p>
 <p>Check if <em>lib-musl</em> has been installed in the build environment by running the <em>which</em> command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-  which musl-gcc
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">  which musl-gcc
 </code></pre></div><p>If <em>musl-gcc</em> was found in the $PATH, <em>which</em> will return output similar to:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-/usr/bin/musl-gcc
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">/usr/bin/musl-gcc
 </code></pre></div><p>If <em>musl-gcc</em> was not found, follow the installation instructions below to download and install the required packages.</p>
 <h5 id="install-musl-gcc">Install Musl-gcc</h5>
 <p>We will go over how to install <em>musl-gcc</em> on a Debian system, but the steps are largely the same for any Linux distribution.  Use your distribution's package manager to install the musl lib, musl development files and musl development tools.  Run the following commands (or their equivalents) in a terminal window on your Linux build system:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-sudo apt-get update
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo apt-get update
 sudo apt-get install musl
 sudo apt-get install musl-dev
 sudo apt-get install musl-tools
-
 </code></pre></div><p>Check to make sure that <em>musl-gcc</em> is now in the $PATH:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-which musl-gcc
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">which musl-gcc
 </code></pre></div><h5 id="build-a-static-application-binary">Build a Static Application Binary</h5>
 <p>After ensuring that all of the required dependencies have been installed in the build environment, run the following command to build a statically-linked binary called <em>main</em> for the Alpine Linux target OS.  Setting the CC environment variable to point at <em>musl-gcc</em> ensures that the target (executable) will run in the Alpine Linux environment.  Adjust the GOARCH environment variable as necessary:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-CGO<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> GOOS<span style="color:#f92672">=</span>linux GOARCH<span style="color:#f92672">=</span>amd64 CC<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>which musl-gcc<span style="color:#66d9ef">)</span> go build --ldflags <span style="color:#e6db74">&#39;-w -linkmode external -extldflags &#34;-static&#34;&#39;</span> -a -tags netgo -installsuffix cgo -o main .
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">CGO<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> GOOS<span style="color:#f92672">=</span>linux GOARCH<span style="color:#f92672">=</span>amd64 CC<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>which musl-gcc<span style="color:#66d9ef">)</span> go build --ldflags <span style="color:#e6db74">&#39;-w -linkmode external -extldflags &#34;-static&#34;&#39;</span> -a -tags netgo -installsuffix cgo -o main .
 </code></pre></div><p>Running <em>go build</em> with CGO=0 and setting the -a flag forces a rebuild without cross-compilation dependencies.  Setting &ndash;ldflags as shown instructs <em>go build</em> to produce a statically linked binary.  Setting the CC environment variable to point at musl-gcc ensures that the target (executable) will run in the Alpine Linux environment.  Once the build has completed, a new &lsquo;main&rsquo; file will have been created.  Check the file via the <em>file</em> command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-file main
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">file main
 </code></pre></div><p>You should see output similar to:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-main: ELF 64-bit LSB executable, x86-64, version <span style="color:#ae81ff">1</span> <span style="color:#f92672">(</span>SYSV<span style="color:#f92672">)</span>, statically linked, not stripped
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">main: ELF 64-bit LSB executable, x86-64, version <span style="color:#ae81ff">1</span> <span style="color:#f92672">(</span>SYSV<span style="color:#f92672">)</span>, statically linked, not stripped
 </code></pre></div><h5 id="build-a-dynamically-linked-application-binary">Build a Dynamically-Linked Application Binary</h5>
 <p>This is optional and will produce a marginally smaller binary.  We will not use a dynamically-linked binary in our image, but have included a suitable <em>go build</em> command for reference purposes.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-CGO<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> GOOS<span style="color:#f92672">=</span>linux GOARCH<span style="color:#f92672">=</span>amd64 CC<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>which musl-gcc<span style="color:#66d9ef">)</span> go build -a -tags netgo -installsuffix cgo -o main .
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">CGO<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> GOOS<span style="color:#f92672">=</span>linux GOARCH<span style="color:#f92672">=</span>amd64 CC<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>which musl-gcc<span style="color:#66d9ef">)</span> go build -a -tags netgo -installsuffix cgo -o main .
 </code></pre></div><p>Running <em>go build</em> with CGO=0 and setting the -a flag forces a rebuild without cross-compilation dependencies.  <em>go build</em> produces dynamically-linked binaries by default, so no linker instructions have been provided.  Setting the CC environment variable to point at <em>musl-gcc</em> ensures that the target (executable) will run in the Alpine Linux environment.  Once the build has completed, a new &lsquo;main&rsquo; file will have been created.  Check the file via the <em>file</em> command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-file main
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">file main
 </code></pre></div><p>You should see output similar to:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-main: ELF 64-bit LSB executable, x86-64, version <span style="color:#ae81ff">1</span> <span style="color:#f92672">(</span>SYSV<span style="color:#f92672">)</span>, dynamically linked, interpreter /lib/ld-musl-x86_64.so.1, not stripped
-
-</code></pre></div><p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">main: ELF 64-bit LSB executable, x86-64, version <span style="color:#ae81ff">1</span> <span style="color:#f92672">(</span>SYSV<span style="color:#f92672">)</span>, dynamically linked, interpreter /lib/ld-musl-x86_64.so.1, not stripped
+</code></pre></div><p><br></br></p>
 <h4 id="create-a-dockerfile">Create a Dockerfile</h4>
 <p>Verify that you have Docker installed in your build environment.  The easiest way to do this is to run <em>which docker</em> in a terminal window to ensure the <em>docker</em> application is in the $PATH.  If there is no response, check the $PATH or install Docker following the instructions at <a href="https://www.docker.com/get-docker">www.docker.com</a>.  Verify that the Docker daemon is running by opening a terminal window in your build environment and running the <em>docker ps</em> command.  If Docker is not running, an error message will be displayed.  Start the Docker daemon before continuing.</p>
 <p>In order to deploy the compiled all-in-one application in a Docker container, we need to create a Dockerfile.  The <em>docker build</em> command uses the Dockerfile as a set of instructions when building an image.  As mentioned previously, we will use Alpine Linux as the foundation (base image) for the new Docker container image.  <a href="https://hub.docker.com/_/alpine/">Dockerhub</a> has a number of pre-defined images that are available to be &lsquo;pulled&rsquo; into locally defined custom images.</p>
 <p>Create a new file called <em>Dockerfile</em> in the root folder of the libraryapp source-tree and open it in your editor.  Edit the content of the Dockerfile as shown below.  An effort has been made to briefly describe what each line of the Dockerfile is used for.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># use the official docker hub alpine:latest base image</span><span style="color:#960050;background-color:#1e0010">
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#75715e"># use the official docker hub alpine:latest base image</span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> alpine:latest</span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># set the maintainer information for the new image</span><span style="color:#960050;background-color:#1e0010">
@@ -2099,7 +2070,8 @@ main: ELF 64-bit LSB executable, x86-64, version <span style="color:#ae81ff">1</
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># add unix file command - this is not a requirement</span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apk add file<span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># create a test.db file in the root folder (don&#39;t really need to do this, but it is a nice test when getting started)</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># create a test.db file in the root folder (don&#39;t really need to do this,</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># but it is a nice test when getting started)</span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> /usr/bin/sqlite3 /test.db<span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># set the container entrypoint - container executes this once it is up and running</span><span style="color:#960050;background-color:#1e0010">
@@ -2107,13 +2079,11 @@ main: ELF 64-bit LSB executable, x86-64, version <span style="color:#ae81ff">1</
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># specify the flag(s) to be used with the ENTRYPOINT</span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;-dev&#34;</span>]<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+</span></code></pre></div><p><br></br></p>
 <h4 id="create-the-entrypoint-script">Create the Entrypoint Script</h4>
 <p>In a previous step <em>.dev.config.json</em> was updated with xxx.xxx.xxx.xxx ipv4 address masks.  In order to replace the masks with the container's ipv4 address, <em>docker run</em> and <em>docker start</em> will execute the <em>docker-entrypoint.sh</em> when creating a container instance based on the image definition.  At the moment this is a problem however, as we have not written the script yet.  Create a new file called <em>docker-entrypoint.sh</em> in the root folder of the libraryapp source-tree and open it in your editor.  Copy the following content into the new <em>docker-entrypoint.sh</em> file:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">
-<span style="color:#75715e">#!/bin/sh</span>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/sh
+</span><span style="color:#75715e"></span>
 <span style="color:#75715e"># get the ipv4 address assigned to eth0</span>
 replace<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>ifconfig eth0 | grep <span style="color:#e6db74">&#34;inet addr&#34;</span> | cut -d <span style="color:#e6db74">&#39;:&#39;</span> -f <span style="color:#ae81ff">2</span> | cut -d <span style="color:#e6db74">&#39; &#39;</span> -f 1<span style="color:#66d9ef">)</span>
 
@@ -2130,17 +2100,14 @@ search<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;xxx.x
   sed -i <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">s/</span><span style="color:#e6db74">${</span>search<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span>replace<span style="color:#e6db74">}</span><span style="color:#e6db74">/g</span><span style="color:#e6db74">&#34;</span> .dev.config.json
   exec /main <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
 <span style="color:#66d9ef">fi</span>
-
 </code></pre></div><blockquote>
 <p>Note that the docker-entrypoint.sh script assumes the ipv4 address should be read
 from the eth0 interface.  This may not be the case in more complex deployments.</p>
 </blockquote>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p><br></br></p>
 <h4 id="build-the-image">Build the Image</h4>
 <p>Assuming the previous steps have been successful, it is now time to build the new Docker image.  Execute the following command from the libraryapp root folder:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-docker build -t libraryapp .
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker build -t libraryapp .
 </code></pre></div><p>Running <em>docker build</em> as shown instructs Docker to construct an image called <em>libraryapp</em> using the Dockerfile in the current working directory.  You should see output similar to:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">Sending build context to Docker daemon  16.41MB
 Step 1/17 : FROM alpine:3.7
@@ -2233,19 +2200,13 @@ Aardvark:libraryapp stevem$
 
 </code></pre></div><h5 id="view-the-image">View the Image</h5>
 <p>You can run the <em>docker image</em> command to view some basic data regarding the new image:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-docker image ls library*
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker image ls library*
 </code></pre></div><p>You should see output similar to:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-REPOSITORY      TAG                 IMAGE ID            CREATED                  SIZE
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">REPOSITORY      TAG                 IMAGE ID            CREATED                  SIZE
 libraryapp      latest              5ef02199fb7e        Less than a second ago   23.6MB
-
 </code></pre></div><h5 id="use-the-image">Use the Image</h5>
 <p>Once the image has been created, the next step is to use it to create a container.  This can be done in a single step where Docker creates the container and then starts it.  Run the following command to create and start a new container from the <em>libraryapp</em> image:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-docker run --name libraryapp -p 8080:8080 -d libraryapp
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker run --name libraryapp -p 8080:8080 -d libraryapp
 </code></pre></div><p>If all went well, docker created a container from the <em>libraryapp</em> image and then started it.  The flags provided with the <em>docker run</em> command do the following:</p>
 <ul>
 <li>&ndash;name - the image to use</li>
@@ -2254,29 +2215,22 @@ docker run --name libraryapp -p 8080:8080 -d libraryapp
 </ul>
 <h5 id="check-the-container-status">Check the Container Status</h5>
 <p>Container status can be checked via the <em>docker ps</em> command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-docker ps -a
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker ps -a
 </code></pre></div><p>You should see output similar to:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES
 532180e4716c        libraryapp          <span style="color:#e6db74">&#34;/main -dev&#34;</span>        About an hour ago   Up About an hour    0.0.0.0:8080-&gt;8080/tcp   libraryapp
-
 </code></pre></div><p>The output of the command shows that the <em>libraryapp</em> container was started with entrypoint &lsquo;/main -dev&rsquo; and that container port :8080 is mapped to host port :8080.  For a discussion of what to do if the container entrypoint fails, see the <a href="/jiffy/tutorials/using-docker/dr-content-g/">Troubleshooting</a> section of this document.</p>
 <h5 id="ssh-into-the-container">SSH into the Container</h5>
 <p>We can ssh into the running container to see what is going on using the command shown in the following terminal session.  The command logs in as root using the specified interactive shell (in this case /bin/sh).  Check that &lsquo;main -dev&rsquo; is running as expected using the Linux <em>ps</em> command.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-docker exec -it libraryapp /bin/sh
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker exec -it libraryapp /bin/sh
 / <span style="color:#75715e"># ps -ef</span>
 PID   USER     TIME   COMMAND
     <span style="color:#ae81ff">1</span> root       0:13 /main -dev
    <span style="color:#ae81ff">25</span> root       0:00 /bin/sh
    <span style="color:#ae81ff">31</span> root       0:00 ps -ef
 / #
-
 </code></pre></div><p>Take a look around the in the container environment and verify that the content of <em>.dev.config.json</em> has been updated with the correct ip-address using the <em>ifconfig/cat</em> commands.  Remember that the docker container is created with a static ipv4 address assigned to the eth0 interface.  Verify that the eth0 ipv4 address has been added to the &lsquo;external_address&rsquo; and &lsquo;internal_address&rsquo; keys in <em>.dev.config.json</em>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
-/ <span style="color:#75715e"># ifconfig</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">/ <span style="color:#75715e"># ifconfig</span>
 eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:02
           inet addr:172.17.0.2  Bcast:172.17.255.255  Mask:255.255.0.0
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
@@ -2306,20 +2260,20 @@ lo        Link encap:Local Loopback
         <span style="color:#f92672">}</span>
         <span style="color:#f92672">]</span>
 <span style="color:#f92672">}</span>/ #
-
-</code></pre></div><p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+</code></pre></div><p><br></br></p>
 <h4 id="login-to-the-application">Login to the Application</h4>
 <p>Launch Postman or your favorite RESTful service testing tool and specify a target URL of: <code>http://172.17.0.2:8080/usr/login</code> making sure to select the http POST method.  Maintain the request body to provide a user-id and password as shown in the following JSON snippet.  Typically the user-id for a jiffy application is an email address, but an exception is made for the default administration user definition.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">
-    {
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">    {
         <span style="color:#f92672">&#34;email&#34;</span>: <span style="color:#e6db74">&#34;admin&#34;</span>,
         <span style="color:#f92672">&#34;password&#34;</span>: <span style="color:#e6db74">&#34;initpass&#34;</span>
     }
-
-</code></pre></div><!-- raw HTML omitted -->
+</code></pre></div><br/>
 <p>When you have finished and your Postman (or other test utility) looks like the following image, click the &lsquo;Send&rsquo; button to post your login request to the running application.
 <img src="../../images/login-a.jpg" alt="Enter login credentials"></p>
-<!-- raw HTML omitted -->
+<br/>
+If all goes well, you will get a http response code of 200 (status ok), and a block of JSON with a single 'token' tag containing a jumble of letters and numbers.  This is the JWT that will be used to validate the 'admin' user's authorization to access the 'Library' and 'Book' entity service end-points.  If you want to read more about JWT's, [jwt.io](https://jwt.io) is a good place to start, or you can refer to the [Access Control](/jiffy/accesscontrol/index.html) section of this document set.
+![Login](../../images/login-b.jpg)
+<br/>
 <h4 id="create-a-library">Create a Library</h4>
 <p>We will create a new &lsquo;Library&rsquo; entity.  Configure your test-tool to POST to the &lsquo;library&rsquo; service as shown in the following image:</p>
 <p><img src="../../images/post_lib_1.jpg" alt="PostLib1"></p>
@@ -3682,19 +3636,19 @@ lo        Link encap:Local Loopback
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578203693"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1578203693"></script>
-    <script src="/jiffy/js/featherlight.min.js?1578203693"></script>
-    <script src="/jiffy/js/highlight.pack.js?1578203693"></script>
+    <script src="/jiffy/js/clipboard.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578295967"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1578295967"></script>
+    <script src="/jiffy/js/featherlight.min.js?1578295967"></script>
+    <script src="/jiffy/js/highlight.pack.js?1578295967"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578203693"></script>
-    <script src="/jiffy/js/learn.js?1578203693"></script>
-    <script src="/jiffy/js/hugo-learn.js?1578203693"></script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578295967"></script>
+    <script src="/jiffy/js/learn.js?1578295967"></script>
+    <script src="/jiffy/js/hugo-learn.js?1578295967"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1578203693" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1578203693"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1578295967" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1578295967"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

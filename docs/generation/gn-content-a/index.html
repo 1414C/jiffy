@@ -12,20 +12,20 @@
     <title>Generation Overview :: Jiffy Services Generator</title>
 
     
-    <link href="/jiffy/css/nucleus.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/fontawesome-all.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1578203693" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1578203693" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1578295967" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1578295967" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1578203693" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1578295967" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-3.3.1.min.js?1578203693"></script>
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1578295967"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -54,14 +54,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578203693"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578295967"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578295967"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1578203693"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1578295967"></script>
 
     
   </div>
@@ -1881,9 +1881,8 @@
 
 
 <h3 id="jiffy-application-file-structure">Jiffy Application File Structure</h3>
-<p>Running the Jiffy generator creates a set of files that comprise a basic working backend services application.  Jiffy generates the following source code tree when provided with a model-file describing a simple &lsquo;Person&rsquo; entity.</p>
-<pre><code class="language-code" data-lang="code">
-FirstApp
+<p>Running the Jiffy generator creates a set of files that comprise a working backend services application.  Jiffy generates the following source code tree when provided with a model-file describing a simple &lsquo;Person&rsquo; entity.</p>
+<pre><code class="language-code" data-lang="code">FirstApp
 ├── appobj
 │   ├── appconf.go
 │   ├── appobj.go
@@ -1951,13 +1950,12 @@ FirstApp
 ├── .prd.config.json
 ├── main_test.go
 └── main.go
-
 </code></pre><h3 id="basic-application-flow">Basic Application Flow</h3>
 <p>Incoming service requests are handled by a mux, which validates / authenticates the request, and then matches it to a route.  The selected route passes the request to a controller specific to the entity-type, where the incoming information is mapped into a go struct matching the entity declaration.  The controller then calls the appropriate model method for the http operation and entity-type combination, passing it the entity structure.  The model handler passes the entity struct through a member-field validation layer, and then to the model's interface to the underlying sqac ORM.  The database request is handled by the ORM, and then the response is passed from the model back to the controller where it is marshaled into a JSON payload and sent back to the caller in the response-writer's body.</p>
 <p>Jiffy applications contain an embedded leader-based group-membership sub-system that is used for interprocess communication when the generated jiffy application is deployed as multiple processes.</p>
 <ol>
-<li>When a jiffy-application is deployed as more than one process (node), there is a need for changes to users, auths, groups and group/auth associations to be communicated to all running instances.  These common application entities are cached locally on each running instance in order to avoid accessing a database unnecessarily.  An internal subsystem was chosen in order to avoid dependencies on external solutions like redis/memcached/etcd etc. (see footnote).  Changes to these objects are performed via standard jiffy-admin services that are present in every jiffy-application.  When one of the standard admin objects is updated via an admin service, the object's data is updated in the database.  Following a successful database update, the jiffy-application must disseminate the updated object data to the local cache of the application server that processed the change, as well as every other application server (node) in the group.</li>
-<li>Given that there is interprocess / inter-nodal communication for the cache updates, the status of the group members must be tracked.  The subsystem uses a SWIM (Scalable Weakly-Consistent Infection-Style Process-Membership) protocol to check and disseminate the statues of the group's processes.  A ping is sent from each process to every other known process in the group in random order once per ping-cycle.  The ping message contains a piggybacked process-map containing the pinging process's (node's) view of the world in terms of process status.  Processes (nodes) may have one of the following five statuses <strong>(ALIVE, SUSPECT, FAILED, DEPARTING, DEPARTED)</strong>, as well as a status count indicating how many times the pinging process has noted that a process is in a particular state.</li>
+<li>When a jiffy-application is deployed as more than one process (node), there is a need for changes to users, auths, groups and group/auth associations to be communicated to all running instances.  These common application entities are cached locally on each running instance in order to avoid accessing a database unnecessarily.  An internal cache subsystem was chosen in order to avoid dependencies on external solutions like redis/memcached/etcd etc. (see footnote).  Changes to these objects are performed via standard jiffy-admin services that are present in every jiffy-application.  When one of the standard admin objects is updated via an admin service, the object's data is updated in the database.  Following a successful database update, the jiffy-application will disseminate the updated object data to the local cache of the application server that processed the change, as well as every other application server (node) in the group.</li>
+<li>Given that there is interprocess / inter-nodal communication for the cache updates, the status of the group members must be tracked.  The subsystem uses a SWIM (Scalable Weakly-Consistent Infection-Style Process-Membership) protocol to check and disseminate the statues of the group's processes.  A ping is sent from each process to every other known process in the group in random order once per ping-cycle.  The ping message contains a piggybacked process-map containing the pinging process's (node's) view of the world in terms of process status.  Processes (nodes) may have one of the following five statuses <em>(ALIVE, SUSPECT, FAILED, DEPARTING, DEPARTED)</em>, as well as a status count indicating how many times the pinging process has noted that a process is in a particular state.</li>
 </ol>
 <p>See the <a href="/jiffy/interprocess/ip-content-a/">Group Membership</a> section of this document for a detailed overview of the group-membership subsystem.</p>
 <p>There are more elegant ways to express certain aspects of the generated application.  The coding style has been deliberately kept as simple and straight-forward as possible in order to facilitate easier understanding and adjustment of the generated code.</p>
@@ -3295,19 +3293,19 @@ FirstApp
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1578203693"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578203693"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1578203693"></script>
-    <script src="/jiffy/js/featherlight.min.js?1578203693"></script>
-    <script src="/jiffy/js/highlight.pack.js?1578203693"></script>
+    <script src="/jiffy/js/clipboard.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1578295967"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578295967"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1578295967"></script>
+    <script src="/jiffy/js/featherlight.min.js?1578295967"></script>
+    <script src="/jiffy/js/highlight.pack.js?1578295967"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578203693"></script>
-    <script src="/jiffy/js/learn.js?1578203693"></script>
-    <script src="/jiffy/js/hugo-learn.js?1578203693"></script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578295967"></script>
+    <script src="/jiffy/js/learn.js?1578295967"></script>
+    <script src="/jiffy/js/hugo-learn.js?1578295967"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1578203693" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1578203693"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1578295967" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1578295967"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

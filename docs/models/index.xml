@@ -17,7 +17,8 @@
       <pubDate>Mon, 05 Feb 2018 13:26:13 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/models/mo-content-a/</guid>
-      <description>Model Files Model files contain the Entity, Index and Relation definitions that you wish to generate services for. Entity model definition consists of an array of JSON objects, with each object being limited to a flat hierarchy and basic go-data-types, (although this is easily extended). By default, the Jiffy generator expects a models.json file in the execution directory, but a correctly formatted JSON file can be loaded from any location by executing jiffy with the -m flag.</description>
+      <description>Model Files Model files contain the Entity, Index and Relation definitions that you wish to generate services and database artifacts for. Jiffy determines the location of the model file(s) via the -m or -mf flags provided at the time of execution. See the Execution Options section of the documentation for details regarding the use of the -m and -mf flags.
+It is possible to use more than one model-file, as long as there is no duplication of entity definitions across the files.</description>
     </item>
     
     <item>
@@ -46,7 +47,7 @@
       
       <guid>https://1414c.github.io/jiffy/models/mo-content-d/</guid>
       <description>Modeling Entity Relationships Relationships between entities can be declared in the application model file via the addition of a &amp;lsquo;relations&amp;rsquo; block inside an entity&#39;s declaration. Relationships are based on resource id&#39;s by default, although it is possible to specify non-default key fields in the configuration, or implement complex joins directly by maintaining the entity&#39;s controller and model. &amp;lsquo;relations&amp;rsquo; blocks look as follows:
-&amp;#34;relations&amp;#34;: [ { &amp;#34;relName&amp;#34;: &amp;#34;ToOwner&amp;#34;, &amp;#34;properties&amp;#34;: { &amp;#34;relType&amp;#34;: &amp;#34;hasOne&amp;#34;, &amp;#34;toEntity&amp;#34;: &amp;#34;Owner&amp;#34; } } ] The sample relations block illustrates the declaration of a &amp;lsquo;hasOne&amp;rsquo; relationship between &amp;lsquo;Car&amp;rsquo; and &amp;lsquo;Owner&amp;rsquo; making use of default-keys.</description>
+&amp;#34;relations&amp;#34;: [ { &amp;#34;relName&amp;#34;: &amp;#34;ToOwner&amp;#34;, &amp;#34;properties&amp;#34;: { &amp;#34;relType&amp;#34;: &amp;#34;hasOne&amp;#34;, &amp;#34;toEntity&amp;#34;: &amp;#34;Owner&amp;#34; } } ] The sample relations block illustrates the declaration of a &amp;lsquo;hasOne&amp;rsquo; relationship between &amp;lsquo;Car&amp;rsquo; and &amp;lsquo;Owner&amp;rsquo; making use of default-keys (ID).</description>
     </item>
     
   </channel>
