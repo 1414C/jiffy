@@ -275,16 +275,6 @@ go run main.go -dev The generated sample dev configuration file should be edited
     </item>
     
     <item>
-      <title>Jiffy with Docker Swarm, External PostgreSQL &amp; KVS</title>
-      <link>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-c/</link>
-      <pubDate>Mon, 02 Jul 2018 12:22:10 -0702</pubDate>
-      
-      <guid>https://1414c.github.io/jiffy/tutorials/using-docker/dr-content-c/</guid>
-      <description>Overview We will create and deploy two instances of a sample application inside Docker containers. The containerized application instances will run in stand-alone containers on Docker&#39;s default bridge network. Each container will communicate with a Postgres database and KVS on the container-host&#39;s network. In this example the Postgres database and KVS will not be running in containers.
-As in the Jiffy with Docker and SQLite tutorial, our Dockerfile will be quite simple and we will go with some of the docker build defaults.</description>
-    </item>
-    
-    <item>
       <title>Jiffy Application Structure</title>
       <link>https://1414c.github.io/jiffy/overview/ov-content-c/</link>
       <pubDate>Sat, 10 Feb 2018 23:56:10 -0700</pubDate>
@@ -676,6 +666,18 @@ Good places to start would be in the Jiffy Overview and the Model Maintenance se
       <guid>https://1414c.github.io/jiffy/credits/</guid>
       <description>Contributors Thanks to them  for making Open Source Software a better place !
 Packages and libraries  sqlx jwt-go go-sql-driver/mysql lib/pq go-sqlite3 go-mssqldb go-hdb redigo memcache pkger  Tooling  Hugo Hugo Learn Theme  </description>
+    </item>
+    
+    <item>
+      <title>Showcases</title>
+      <link>https://1414c.github.io/jiffy/showcase/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/showcase/</guid>
+      <description>Simple Single Entity Application This repository contains a Jiffy application that has been generated from the simpleSingleEntityModel.json model file located in the Jiffy repository.
+This model is the same one used in the Jiffy Getting Started tutorial in the documentation set.
+Simple Application to Demonstrate Relationships The GeneratedLibraryApplication contains a Jiffy application that has been generated from the hasManyBelongsTo.json model file located in the Jiffy repository.
+This model contains a Library entity and a Book entity and declares relationships between them.</description>
     </item>
     
   </channel>
