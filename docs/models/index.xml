@@ -6,7 +6,7 @@
     <description>Recent content in Model Maintenance on Jiffy Services Generator</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 05 Feb 2018 15:03:10 -0700</lastBuildDate>
+    <lastBuildDate>Wed, 08 Jan 2020 22:08:33 -0700</lastBuildDate>
     
 	<atom:link href="https://1414c.github.io/jiffy/models/index.xml" rel="self" type="application/rss+xml" />
     
@@ -48,6 +48,16 @@ It is possible to use more than one model-file, as long as there is no duplicati
       <guid>https://1414c.github.io/jiffy/models/mo-content-d/</guid>
       <description>Modeling Entity Relationships Relationships between entities can be declared in the application model file via the addition of a &amp;lsquo;relations&amp;rsquo; block inside an entity&#39;s declaration. Relationships are based on resource id&#39;s by default, although it is possible to specify non-default key fields in the configuration, or implement complex joins directly by maintaining the entity&#39;s controller and model. &amp;lsquo;relations&amp;rsquo; blocks look as follows:
 &amp;#34;relations&amp;#34;: [ { &amp;#34;relName&amp;#34;: &amp;#34;ToOwner&amp;#34;, &amp;#34;properties&amp;#34;: { &amp;#34;relType&amp;#34;: &amp;#34;hasOne&amp;#34;, &amp;#34;toEntity&amp;#34;: &amp;#34;Owner&amp;#34; } } ] The sample relations block illustrates the declaration of a &amp;lsquo;hasOne&amp;rsquo; relationship between &amp;lsquo;Car&amp;rsquo; and &amp;lsquo;Owner&amp;rsquo; making use of default-keys (ID).</description>
+    </item>
+    
+    <item>
+      <title>Accessing Entity Relations</title>
+      <link>https://1414c.github.io/jiffy/models/mo-content-e/</link>
+      <pubDate>Wed, 08 Jan 2020 22:08:33 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/models/mo-content-e/</guid>
+      <description>Entity Relationship URL&#39;s In the previous section we saw how model files can be used to define relationships between declared entities. We will now look at how to access and test the relationships via Postman tests.
+This section uses the hasManyBelongsTo.json model from the jiffy repository. Rather than generate a new application from the model, you may choose to pull a pre-generated jiffy application source tree based on the model. To do so, switch to a sub-directory under your $GOPATH/src folder and run the following command in a terminal window.</description>
     </item>
     
   </channel>
