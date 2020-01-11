@@ -12,20 +12,20 @@
     <title>Group Membership Overview :: Jiffy Services Generator</title>
 
     
-    <link href="/jiffy/css/nucleus.css?1578640121" rel="stylesheet">
-    <link href="/jiffy/css/fontawesome-all.min.css?1578640121" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1578640121" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1578640121" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1578640121" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1578640121" rel="stylesheet">
-    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578640121" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1578640121" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1578640121" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1578767926" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1578767926" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1578767926" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1578767926" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1578767926" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1578767926" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1578767926" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1578767926" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1578767926" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1578640121" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1578767926" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-3.3.1.min.js?1578640121"></script>
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1578767926"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -34,6 +34,34 @@
       
     </style>
     
+    <script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
   </head>
   <body class="" data-url="/jiffy/interprocess/ip-content-a/">
     <nav id="sidebar" class="">
@@ -54,14 +82,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578640121"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578640121"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1578767926"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1578767926"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1578640121"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1578767926"></script>
 
     
   </div>
@@ -1852,6 +1880,7 @@
     <li>
       <ul>
         <li><a href="#overview">Overview</a></li>
+        <li><a href="#notes">Notes</a></li>
       </ul>
     </li>
   </ul>
@@ -1894,6 +1923,24 @@
 <li>Each process knows the PID of and maintains a local status of every other process in the group.</li>
 <li>Each process maintains a status-count for every other process in the group.</li>
 </ul>
+<h3 id="notes">Notes</h3>
+<p>I tried a number of different algorithms while writing the group membership / consensus subsystem.  The current approach models the Bully algorithm and a little bit of what I remember of the way a large hardware vendor's node-network operated in the early 2000's.</p>
+<p>I like the approach I used, as every node is in contact with every other node and consensus tends to be reached quickly.  However there are some drawbacks that become clear as the size of the node-network increases.</p>
+<p>Lets start with a scenario where a jiffy application has been deployed with two nodes.  In this scenario, each instance will ping the other instance with a frequency dictated by the <em>ping_cycle</em> attribute in the <em>.prod.config.json</em> file; each node will ping the other node every <em>n</em> seconds.</p>
+<p>Next, lets increase the number of deployed nodes from two to four.  Each node will ping each of its colleague nodes once per ping-cycle, which means three pings per node, per ping-cycle with a net ping load of 12.</p>
+<p>What does the series of pings per ping-cycle look like as the number of nodes increases?</p>
+<ul>
+<li>1 node = 0 pings / ping-cycle</li>
+<li>2 nodes = 1 outbound ping  / node / ping-cycle; 2 pings issued by the group</li>
+<li>3 nodes = 2 outbound pings / node / ping-cycle; <em>6</em> pings issued by the group</li>
+<li>4 nodes = 3 outbound pings / node / ping-cycle <em>12</em> pings issued by the group</li>
+<li>&hellip;</li>
+</ul>
+<p>This is a well-known series of numbers: $S=[0, 2 ,6, 12, 20, 30, 42, 56, 72 &hellip; ]$</p>
+<p>So where we have <em>n</em> nodes, the number of pings per ping-cycle can be determined by $a_n=(n-1)*n$ which does not look great when the number of nodes starts to grow.  I didn't have octal installed, so I created this quick graph at <a href="https://www.desmos.com/calculator">desmos.com</a> to illustrate the problem.</p>
+<p><img src="../images/ping_graph.jpg" alt="ping-graph"></p>
+<p>Not pretty.  However&hellip;</p>
+<p>The group sub-system is self-contained in the generated code-body, so in theory one could drop their own implementation into the codebase.  It might be fun to experiment with making the group sub-system more modular and configurable.</p>
 
 
 <footer class=" footline" >
@@ -3227,19 +3274,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1578640121"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1578640121"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578640121"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1578640121"></script>
-    <script src="/jiffy/js/featherlight.min.js?1578640121"></script>
-    <script src="/jiffy/js/highlight.pack.js?1578640121"></script>
+    <script src="/jiffy/js/clipboard.min.js?1578767926"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1578767926"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1578767926"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1578767926"></script>
+    <script src="/jiffy/js/featherlight.min.js?1578767926"></script>
+    <script src="/jiffy/js/highlight.pack.js?1578767926"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578640121"></script>
-    <script src="/jiffy/js/learn.js?1578640121"></script>
-    <script src="/jiffy/js/hugo-learn.js?1578640121"></script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1578767926"></script>
+    <script src="/jiffy/js/learn.js?1578767926"></script>
+    <script src="/jiffy/js/hugo-learn.js?1578767926"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1578640121" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1578640121"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1578767926" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1578767926"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
