@@ -12,20 +12,20 @@
     <title>Access Revocation and Renewal :: Jiffy Services Generator</title>
 
     
-    <link href="/jiffy/css/nucleus.css?1582912662" rel="stylesheet">
-    <link href="/jiffy/css/fontawesome-all.min.css?1582912662" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1582912662" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1582912662" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1582912662" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1582912662" rel="stylesheet">
-    <link href="/jiffy/css/atom-one-dark-reasonable.css?1582912662" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1582912662" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1582912662" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1582915132" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1582915132" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1582915132" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1582915132" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1582915132" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1582915132" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1582915132" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1582915132" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1582915132" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1582912662" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1582915132" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-3.3.1.min.js?1582912662"></script>
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1582915132"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -82,14 +82,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1582912662"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1582912662"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1582915132"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1582915132"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1582912662"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1582915132"></script>
 
     
   </div>
@@ -1921,8 +1921,9 @@
 <p><strong>Revocation Steps</strong></p>
 <ol>
 <li>A user with administrative privileges in the Jiffy-generated application makes a call to the Usr service of the Jiffy-generated application to deactivate the &lsquo;<a href="mailto:tester@test.com">tester@test.com</a>&rsquo; account.  This call can be made to any running instance (node) of the application.</li>
-<li>Once the Usr record has been updated in the backend, the Usr in question will not be able to login to the application.</li>
-<li>On confirmation of the successful update to the Usr record, the Usr controller will disseminate the new status of the Usr record to the other group-members.  Each group-member will update their Usr cache with the new information.</li>
+<li>The call updates the Usr record in the backend database.</li>
+<li>On confirmation of the successful update to the Usr record, the Usr controller of the node that made the deactivation request will disseminate the new status of the Usr record to the other group-members (nodes).  Each group-member will update their Usr cache with the new information.</li>
+<li>The user will no longer be able to login to the application.</li>
 </ol>
 <p><strong>Revocation Results</strong></p>
 <ol>
@@ -1937,6 +1938,7 @@
 <li>In this example, the middleware cache will indicate that the user is no longer active.</li>
 <li>This approach allows us to focus on the maintenance and buffering of the persistent object (Usr) rather than trying to maintain/cache the transient JWT.</li>
 </ul>
+<p>These steps are the same whether a user is being disabled, being granted more access, or having access to certain services revoked.</p>
 <h3 id="jwt-token-expiration">JWT Token Expiration</h3>
 <p>Jiffy application JWTs contain a standard set of registered claims as outlined in <a href="https://tools.ietf.org/html/rfc7519#section-4.1">RFC7519</a> .  Login to a jiffy generated application results in the creation of a new JWT where the standard &lsquo;exp&rsquo; claim is set based on the value of the &lsquo;jwt_lifetime&rsquo; key in the application's configuration file.  When the current (server) date-time exceeds the value contained in a JWT's &lsquo;exp&rsquo; claim, the token is no longer accepted by the application.  After JWT expiration, the used is forced to login again.</p>
 <h3 id="jwt-token-renewal">JWT Token Renewal</h3>
@@ -3278,19 +3280,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1582912662"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1582912662"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1582912662"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1582912662"></script>
-    <script src="/jiffy/js/featherlight.min.js?1582912662"></script>
-    <script src="/jiffy/js/highlight.pack.js?1582912662"></script>
+    <script src="/jiffy/js/clipboard.min.js?1582915132"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1582915132"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1582915132"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1582915132"></script>
+    <script src="/jiffy/js/featherlight.min.js?1582915132"></script>
+    <script src="/jiffy/js/highlight.pack.js?1582915132"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1582912662"></script>
-    <script src="/jiffy/js/learn.js?1582912662"></script>
-    <script src="/jiffy/js/hugo-learn.js?1582912662"></script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1582915132"></script>
+    <script src="/jiffy/js/learn.js?1582915132"></script>
+    <script src="/jiffy/js/hugo-learn.js?1582915132"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1582912662" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1582912662"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1582915132" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1582915132"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>

@@ -12,20 +12,20 @@
     <title>Jiffy with Kubernetes :: Jiffy Services Generator</title>
 
     
-    <link href="/jiffy/css/nucleus.css?1582912662" rel="stylesheet">
-    <link href="/jiffy/css/fontawesome-all.min.css?1582912662" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1582912662" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1582912662" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1582912662" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1582912662" rel="stylesheet">
-    <link href="/jiffy/css/atom-one-dark-reasonable.css?1582912662" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1582912662" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1582912662" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1582915132" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1582915132" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1582915132" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1582915132" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1582915132" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1582915132" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1582915132" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1582915132" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1582915132" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1582912662" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1582915132" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-3.3.1.min.js?1582912662"></script>
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1582915132"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -82,14 +82,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1582912662"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1582912662"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1582915132"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1582915132"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1582912662"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1582915132"></script>
 
     
   </div>
@@ -2060,7 +2060,7 @@ sudo apt-get install musl-tools
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">main: ELF 64-bit LSB executable, x86-64, version <span style="color:#ae81ff">1</span> <span style="color:#f92672">(</span>SYSV<span style="color:#f92672">)</span>, dynamically linked, interpreter /lib/ld-musl-x86_64.so.1, not stripped
 </code></pre></div><p><br></br></p>
 <h4 id="create-a-dockerfile">Create a Dockerfile</h4>
-<p>Verify that you have Docker installed in your build environment.  The easiest way to do this is to run <em>which docker</em> in a terminal window to ensure the <em>docker</em> application is in the $PATH.  If there is no response, check the $PATH or install Docker following the instructions at <a href="https://www.docker.com/get-docker">www.docker.com</a>.  Verify that the Docker daemon is running by opening a terminal window in your build environment and running the <em>docker ps</em> command.  If Docker is not running, an error message will be displayed.  Start the Docker daemon before continuing.</p>
+<p>Verify that you have Docker installed in your build environment.  The easiest way to do this is to run <em>which docker</em> in a terminal window to ensure the <em>docker</em> application is in the \$PATH.  If there is no response, check the $PATH or install Docker following the instructions at <a href="https://www.docker.com/get-docker">www.docker.com</a>.  Verify that the Docker daemon is running by opening a terminal window in your build environment and running the <em>docker ps</em> command.  If Docker is not running, an error message will be displayed.  Start the Docker daemon before continuing.</p>
 <p>In order to deploy the compiled application in a Docker container, we need to create a Dockerfile.  The <em>docker build</em> command uses the Dockerfile as a set of instructions when building an image.  As mentioned previously, we will use Alpine Linux as the foundation (base image) for the new Docker container image.  <a href="https://hub.docker.com/_/alpine/">Dockerhub</a> has a number of pre-defined images that are available to be &lsquo;pulled&rsquo; into locally defined custom images.</p>
 <p>Create a new file called <em>Dockerfile</em> in the root folder of the <em>libappK8</em> source-tree and open it in your editor.  Copy the following content into the new Dockerfile.  An effort has been made to briefly describe what each line of the Dockerfile is used for.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#75715e"># use the official docker hub alpine:latest base image</span><span style="color:#960050;background-color:#1e0010">
@@ -3897,19 +3897,19 @@ lo        Link encap:Local Loopback
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1582912662"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1582912662"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1582912662"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1582912662"></script>
-    <script src="/jiffy/js/featherlight.min.js?1582912662"></script>
-    <script src="/jiffy/js/highlight.pack.js?1582912662"></script>
+    <script src="/jiffy/js/clipboard.min.js?1582915132"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1582915132"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1582915132"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1582915132"></script>
+    <script src="/jiffy/js/featherlight.min.js?1582915132"></script>
+    <script src="/jiffy/js/highlight.pack.js?1582915132"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1582912662"></script>
-    <script src="/jiffy/js/learn.js?1582912662"></script>
-    <script src="/jiffy/js/hugo-learn.js?1582912662"></script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1582915132"></script>
+    <script src="/jiffy/js/learn.js?1582915132"></script>
+    <script src="/jiffy/js/hugo-learn.js?1582915132"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1582912662" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1582912662"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1582915132" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1582915132"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
