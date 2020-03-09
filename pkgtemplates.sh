@@ -11,6 +11,10 @@
 # resulting binary will not run due to the misssing .gotmpl
 # files.
 
+# You can always execute the application from the
+# source using 'go run main.go ....'.  See the docs at 
+# https://1414c.github.io/jiffy for details.
+
 # get a list of all .gotmpl files from the project root
 TEMPLATE_LIST=$(find . -name \*.gotmpl)
 
