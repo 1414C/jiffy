@@ -92,11 +92,11 @@ func (c DBConfig) ConnectionInfo() string {
 		return fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", c.Host, c.Port, c.Usr, c.Password, c.Name)
 
 	case "mssql":
-		// "sqlserver://SA:Bunny123!!@localhost:1401?database=sqlx")
+		// "sqlserver://SA:my_passwd@my_mssql.server.com:1401?database=sqlx")
 		return fmt.Sprintf("sqlserver://%s:%s@%s:%d?database=%s", c.Usr, c.Password, c.Host, c.Port, c.Name)
 
 	case "hdb":
-		// "hdb://SMACLEOD:Blockhead1@clkhana01.lab.clockwork.ca:30047")
+		// "hdb://my_user:my_passwd@my_hdb.server.com:30047")
 		return fmt.Sprintf("hdb://%s:%s@%s:%d", c.Usr, c.Password, c.Host, c.Port)
 
 	case "sqlite":
@@ -104,7 +104,7 @@ func (c DBConfig) ConnectionInfo() string {
 		return fmt.Sprintf("%s", c.Name)
 
 	case "mysql":
-		// "stevem:gogogo123@tcp(192.168.1.50:3306)/sqlx?charset=utf8&parseTime=True&loc=Local")
+		// "my_user:my_passwd@tcp(my_mysql.server.com:3306)/sqlx?charset=utf8&parseTime=True&loc=Local")
 		return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local", c.Usr, c.Password, c.Host, c.Port, c.Name)
 
 	default:
@@ -125,8 +125,8 @@ func DefaultDBConfig() DBConfig {
 		DBDialect:           "postgres",
 		Host:                "localhost",
 		Port:                5432,
-		Usr:                 "godev",
-		Password:            "gogogo123",
+		Usr:                 "my_user",
+		Password:            "my_passwd",
 		Name:                "glrestgen",
 		ORMLogActive:        false,
 		ORMDebugTraceActive: false,
@@ -165,7 +165,7 @@ func DefaultLeadSetGetConfig() LeadSetGetConfig {
 		},
 		Memcached: MemcachedGKVSConfig{
 			Active:             false,
-			MemcachedAddresses: []string{"192.168.112.50:11211"},
+			MemcachedAddresses: []string{"127.0.0.1:11211"},
 		},
 		Sluggo: SluggoGKVSConfig{
 			Active:        false,
