@@ -23,6 +23,3 @@ testdb.sqlite
 
 # don't take the packaged .gotmpl files
 pkged.go 
-
-# don't take local note files
-*.note
