@@ -674,8 +674,7 @@ Good places to start would be in the Jiffy Overview and the Model Maintenance se
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://1414c.github.io/jiffy/credits/</guid>
-      <description>Contributors Thanks to them  for making Open Source Software a better place !
-Packages and libraries  sqlx jwt-go go-sql-driver/mysql lib/pq go-sqlite3 go-mssqldb go-hdb redigo memcache pkger  Tooling  Hugo Hugo Learn Theme  </description>
+      <description>Packages and libraries  sqlx jwt-go go-sql-driver/mysql lib/pq go-sqlite3 go-mssqldb go-hdb redigo memcache pkger  Tooling  Hugo Hugo Learn Theme  </description>
     </item>
     
     <item>

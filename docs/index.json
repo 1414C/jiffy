@@ -557,7 +557,7 @@
 	"title": "",
 	"tags": [],
 	"description": "",
-	"content": "Jiffy Services Generator Jiffy is a model-based RESTful application services generator written in Go. Jiffy processes model files to generate Go source code for a complete backend services application. Jiffys goal is to generate a robust services application that implements all (most?) of the gritty parts, thereby allowing the developer to focus on their application's model and functionality.\nJiffy and the underlying sqac ORM were written as part of my effort to learn more about Go, jwt, consensus protocols, inter-nodal traffic / distributed | replicated cache, containerization and ORM design.\nThe idea of writing a services generator came to me while I was wishing for an alternative avenue for native SAP Hana application development and wrestling with some interesting OData related problems. While the result is probably not for everybody, it does reduce the mental cost of entry and allows deployment of a web-based application on SAP Hana with virtually no prior Hana knowledge. Jiffy also works nicely with other databases.\nJiffy was written in the go 1.9 / 1.10 time-frame, but has been minimally updated to use go modules and now requires a minimum Go version of 1.13.5.\nA list of some of Jiffys features can be found in the following What is Jiffy? section.\nJiffy makes use of a number of external packages provided by some really talented people. These are listed in the CREDITS section and I am grateful for their excellent work.\n"
+	"content": "Jiffy Services Generator Jiffy is a model-based RESTful application services generator written in Go. Jiffy processes model files to generate Go source code for a complete backend services application. Jiffys goal is to generate a robust services application that implements all (most?) of the gritty parts, thereby allowing the developer to focus on their application's model and functionality.\nJiffy and the underlying sqac ORM were written as part of my effort to learn more about Go, jwt, consensus protocols, inter-nodal traffic / distributed | replicated cache, containerization and ORM design.\nThe idea of writing a services generator came to me while I was wishing for an alternative avenue for native SAP Hana application development and wrestling with some interesting OData related problems. While the result is probably not for everybody, it does reduce the mental cost of entry and allows deployment of a web-based application on SAP Hana with virtually no prior Hana knowledge. Jiffy also works nicely with other databases.\nJiffy was written in the go 1.9 / 1.10 time-frame, but has been minimally updated to use go modules and now requires a minimum Go version of 1.13.5.\nA list of some of Jiffys features can be found in the following What is Jiffy? section.\nJiffy makes use of a number of external packages provided by some really talented people. These are listed in the CREDITS section.\n"
 },
 {
 	"uri": "https://1414c.github.io/jiffy/categories/",
@@ -571,7 +571,7 @@
 	"title": "Credits",
 	"tags": [],
 	"description": "",
-	"content": "Contributors Thanks to them  for making Open Source Software a better place !\nPackages and libraries  sqlx jwt-go go-sql-driver/mysql lib/pq go-sqlite3 go-mssqldb go-hdb redigo memcache pkger  Tooling  Hugo Hugo Learn Theme  "
+	"content": "Packages and libraries  sqlx jwt-go go-sql-driver/mysql lib/pq go-sqlite3 go-mssqldb go-hdb redigo memcache pkger  Tooling  Hugo Hugo Learn Theme  "
 },
 {
 	"uri": "https://1414c.github.io/jiffy/showcase/",
