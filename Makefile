@@ -8,7 +8,7 @@ install:
 	mv jiffy /usr/local/bin
 
 install-linux:
-	pkgtemplates.sh
+	./pkgtemplates.sh
 	GOOS=linux go build -v -o jiffy
 	mv jiffy /usr/local/bin
 
