@@ -39,5 +39,5 @@ UNIQ_DIRS_ARRAY=($(printf "%s\n" "${TEMPLATE_DIRS_ARRAY[@]}" | sort -u))
 TEMPLATE_LIST+=' '
 TEMPLATE_LIST+=${UNIQ_DIRS_ARRAY[@]/./'-include '}
 
-echo 'pkger '$TEMPLATE_LIST
+echo '$GOPATH/bin/pkger '$TEMPLATE_LIST
 pkger $TEMPLATE_LIST
