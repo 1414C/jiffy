@@ -34,4 +34,4 @@ jobs:
       run: go install github.com/markbates/pkger
 
     - name: Build
-      run: make install-linux
+      run: go build -v .
