@@ -32,6 +32,9 @@ jobs:
         
     - name: Install pkger
       run: go install github.com/markbates/pkger
+      
+    - name: Which pkget
+      run: which pkger
 
     - name: Build
       run: make install-linux
