@@ -15,6 +15,9 @@
 # source using 'go run main.go ....'.  See the docs at 
 # https://1414c.github.io/jiffy for details.
 
+# make sure that pkger is installed
+go get github.com/markbates/pkger/cmd/pkger
+
 # get a list of all .gotmpl files from the project root
 TEMPLATE_LIST=$(find . -name \*.gotmpl)
 
