@@ -1,0 +1,3303 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.69.2" />
+    <meta name="description" content="">
+
+
+    <link rel="shortcut icon" href="/jiffy/images/favicon.png" type="image/x-icon" />
+<link rel="icon" href="/jiffy/images/favicon.png" type="image/x-icon" />
+    <title>Create a Person :: Jiffy Services Generator</title>
+
+    
+    <link href="/jiffy/css/nucleus.css?1590359686" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1590359686" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1590359686" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1590359686" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1590359686" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1590359686" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1590359686" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1590359686" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1590359686" rel="stylesheet">
+    
+      <link href="/jiffy/css/theme-blue.css?1590359686" rel="stylesheet">
+    
+
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1590359686"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+    </style>
+    
+    <script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
+  </head>
+  <body class="" data-url="/jiffy/getting-started/level-two/l2-content-b/">
+    <nav id="sidebar" class="">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <a id="logo" href="https://1414c.github.io/jiffy">
+  <img src="/jiffy/logo_transparent.png" alt="Jiffy Logo" height="200">
+</a>
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1590359686"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1590359686"></script>
+<script type="text/javascript">
+    
+        var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
+    
+</script>
+<script type="text/javascript" src="/jiffy/js/search.js?1590359686"></script>
+
+    
+  </div>
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/overview/" title="Jiffy Overview" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/overview/">
+          <i class='fab fa-fw fa-github'></i>Jiffy Overview
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/overview/ov-content-a/" title="What is Jiffy?" class="dd-item ">
+        <a href="/jiffy/overview/ov-content-a/">
+        What is Jiffy?
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/overview/ov-content-b/" title="Jiffy Application Overview" class="dd-item ">
+        <a href="/jiffy/overview/ov-content-b/">
+        Jiffy Application Overview
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/overview/ov-content-c/" title="Jiffy Application Structure" class="dd-item ">
+        <a href="/jiffy/overview/ov-content-c/">
+        Jiffy Application Structure
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/overview/ov-content-d/" title="Jiffy Application Architecture" class="dd-item ">
+        <a href="/jiffy/overview/ov-content-d/">
+        Jiffy Application Architecture
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/overview/ov-content-e/" title="Jiffy Development Steps" class="dd-item ">
+        <a href="/jiffy/overview/ov-content-e/">
+        Jiffy Development Steps
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/getting-started/" title="Getting Started" class="dd-item 
+        parent
+        
+        
+        ">
+      <a href="/jiffy/getting-started/">
+          <i class='fab fa-fw fa-github'></i>Getting Started
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/gs-content-a/" title="Go Environment" class="dd-item ">
+        <a href="/jiffy/getting-started/gs-content-a/">
+        Go Environment
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/gs-content-b/" title="Installing Jiffy" class="dd-item ">
+        <a href="/jiffy/getting-started/gs-content-b/">
+        Installing Jiffy
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/gs-content-c/" title="Let&#39;s Build Something" class="dd-item ">
+        <a href="/jiffy/getting-started/gs-content-c/">
+        Let&#39;s Build Something
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/gs-content-d/" title="Let&#39;s Run Something" class="dd-item ">
+        <a href="/jiffy/getting-started/gs-content-d/">
+        Let&#39;s Run Something
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/getting-started/level-two/" title="Let&#39;s Test Something" class="dd-item 
+        parent
+        
+        
+        ">
+      <a href="/jiffy/getting-started/level-two/">
+          Let&#39;s Test Something
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-a/" title="Login" class="dd-item ">
+        <a href="/jiffy/getting-started/level-two/l2-content-a/">
+        Login
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-b/" title="Create a Person" class="dd-item active">
+        <a href="/jiffy/getting-started/level-two/l2-content-b/">
+        Create a Person
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-c/" title="Create Another Person" class="dd-item ">
+        <a href="/jiffy/getting-started/level-two/l2-content-c/">
+        Create Another Person
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-d/" title="Get Some Persons" class="dd-item ">
+        <a href="/jiffy/getting-started/level-two/l2-content-d/">
+        Get Some Persons
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-e/" title="Get a Person" class="dd-item ">
+        <a href="/jiffy/getting-started/level-two/l2-content-e/">
+        Get a Person
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-f/" title="Update a Person" class="dd-item ">
+        <a href="/jiffy/getting-started/level-two/l2-content-f/">
+        Update a Person
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-g/" title="Get Persons With Restrictions" class="dd-item ">
+        <a href="/jiffy/getting-started/level-two/l2-content-g/">
+        Get Persons With Restrictions
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-h/" title="Delete a Person" class="dd-item ">
+        <a href="/jiffy/getting-started/level-two/l2-content-h/">
+        Delete a Person
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-i/" title="Next Steps" class="dd-item ">
+        <a href="/jiffy/getting-started/level-two/l2-content-i/">
+        Next Steps
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/installation/" title="Jiffy Installation" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/installation/">
+          <i class='fab fa-fw fa-github'></i>Jiffy Installation
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/installation/in-content-a/" title="Jiffy Dependencies" class="dd-item ">
+        <a href="/jiffy/installation/in-content-a/">
+        Jiffy Dependencies
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/installation/in-content-b/" title="Jiffy Installation" class="dd-item ">
+        <a href="/jiffy/installation/in-content-b/">
+        Jiffy Installation
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/execution/" title="Jiffy Execution" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/execution/">
+          <i class='fab fa-fw fa-github'></i>Jiffy Execution
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/execution/ex-content-a/" title="Running Jiffy" class="dd-item ">
+        <a href="/jiffy/execution/ex-content-a/">
+        Running Jiffy
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/execution/ex-content-b/" title="Jiffy Execution Flags" class="dd-item ">
+        <a href="/jiffy/execution/ex-content-b/">
+        Jiffy Execution Flags
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/models/" title="Jiffy Models" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/models/">
+          <i class='fab fa-fw fa-github'></i>Jiffy Models
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/models/mo-content-a/" title="Model Overview" class="dd-item ">
+        <a href="/jiffy/models/mo-content-a/">
+        Model Overview
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/models/mo-content-b/" title="Simple Two Entity Model" class="dd-item ">
+        <a href="/jiffy/models/mo-content-b/">
+        Simple Two Entity Model
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/models/mo-content-c/" title="Model with Composite Index" class="dd-item ">
+        <a href="/jiffy/models/mo-content-c/">
+        Model with Composite Index
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/models/mo-content-d/" title="Entity Relations" class="dd-item ">
+        <a href="/jiffy/models/mo-content-d/">
+        Entity Relations
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/models/mo-content-e/" title="Accessing Entity Relations" class="dd-item ">
+        <a href="/jiffy/models/mo-content-e/">
+        Accessing Entity Relations
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/generation/" title="Generation Reference" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/generation/">
+          <i class='fab fa-fw fa-github'></i>Generation Reference
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-a/" title="Generation Overview" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-a/">
+        Generation Overview
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-b/" title="Generated &#39;application&#39; Folder" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-b/">
+        Generated &#39;application&#39; Folder
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-c/" title="Generated &#39;appobj&#39; Folder" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-c/">
+        Generated &#39;appobj&#39; Folder
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-d/" title="Generated &#39;controllers&#39; Folder" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-d/">
+        Generated &#39;controllers&#39; Folder
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-e/" title="Generated &#39;models&#39; Folder" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-e/">
+        Generated &#39;models&#39; Folder
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-f/" title="Generated &#39;middleware&#39; Folder" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-f/">
+        Generated &#39;middleware&#39; Folder
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-g/" title="Generated &#39;jwtkeys&#39; Folder" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-g/">
+        Generated &#39;jwtkeys&#39; Folder
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-h/" title="Generated &#39;docker&#39; Folder" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-h/">
+        Generated &#39;docker&#39; Folder
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-j/" title="Other Generated Folders" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-j/">
+        Other Generated Folders
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/extensionpoints/" title="Extension Points" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/extensionpoints/">
+          <i class='fab fa-fw fa-github'></i>Extension Points
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/extensionpoints/ep-content-a/" title="Extension Point Overview" class="dd-item ">
+        <a href="/jiffy/extensionpoints/ep-content-a/">
+        Extension Point Overview
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/extensionpoints/ep-content-b/" title="Controller Extension Points" class="dd-item ">
+        <a href="/jiffy/extensionpoints/ep-content-b/">
+        Controller Extension Points
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/extensionpoints/ep-content-c/" title="Model Extension Points" class="dd-item ">
+        <a href="/jiffy/extensionpoints/ep-content-c/">
+        Model Extension Points
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/accesscontrol/" title="Access Control" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/accesscontrol/">
+          <i class='fab fa-fw fa-github'></i>Access Control
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/accesscontrol/ac-content-a/" title="Access Control Overview" class="dd-item ">
+        <a href="/jiffy/accesscontrol/ac-content-a/">
+        Access Control Overview
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/accesscontrol/ac-content-b/" title="Authorizations" class="dd-item ">
+        <a href="/jiffy/accesscontrol/ac-content-b/">
+        Authorizations
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/accesscontrol/ac-content-c/" title="Access Revocation and Renewal" class="dd-item ">
+        <a href="/jiffy/accesscontrol/ac-content-c/">
+        Access Revocation and Renewal
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/accesscontrol/ac-content-d/" title="Using External Identity Providers" class="dd-item ">
+        <a href="/jiffy/accesscontrol/ac-content-d/">
+        Using External Identity Providers
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/interprocess/" title="Interprocess Communication" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/interprocess/">
+          <i class='fab fa-fw fa-github'></i>Interprocess Communication
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/interprocess/ip-content-a/" title="Group Membership Overview" class="dd-item ">
+        <a href="/jiffy/interprocess/ip-content-a/">
+        Group Membership Overview
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/interprocess/ip-content-b/" title="Failure Detector" class="dd-item ">
+        <a href="/jiffy/interprocess/ip-content-b/">
+        Failure Detector
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/interprocess/ip-content-c/" title="Process Startup / Join" class="dd-item ">
+        <a href="/jiffy/interprocess/ip-content-c/">
+        Process Startup / Join
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/interprocess/ip-content-d/" title="Process Shutdown" class="dd-item ">
+        <a href="/jiffy/interprocess/ip-content-d/">
+        Process Shutdown
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/usage/" title="Testing and Deployment" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/usage/">
+          <i class='fab fa-fw fa-github'></i>Testing and Deployment
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/us-content-a/" title="Application Configuration Overview" class="dd-item ">
+        <a href="/jiffy/usage/us-content-a/">
+        Application Configuration Overview
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/us-content-b/" title="Default Configuration" class="dd-item ">
+        <a href="/jiffy/usage/us-content-b/">
+        Default Configuration
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/us-content-c/" title="Development Configuration" class="dd-item ">
+        <a href="/jiffy/usage/us-content-c/">
+        Development Configuration
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/us-content-d/" title="Production Configuration" class="dd-item ">
+        <a href="/jiffy/usage/us-content-d/">
+        Production Configuration
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/us-content-e/" title="Application Server Flags" class="dd-item ">
+        <a href="/jiffy/usage/us-content-e/">
+        Application Server Flags
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/us-content-f/" title="Testing with TLS" class="dd-item ">
+        <a href="/jiffy/usage/us-content-f/">
+        Testing with TLS
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/us-content-g/" title="Automated Application Testing" class="dd-item ">
+        <a href="/jiffy/usage/us-content-g/">
+        Automated Application Testing
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/us-content-h/" title="Key Value Store Support" class="dd-item ">
+        <a href="/jiffy/usage/us-content-h/">
+        Key Value Store Support
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/usage/deployment/" title="Deployment Overview" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/usage/deployment/">
+          Deployment Overview
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/deployment/us-content-i/" title="Deployment Requirements" class="dd-item ">
+        <a href="/jiffy/usage/deployment/us-content-i/">
+        Deployment Requirements
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/deployment/us-content-j/" title="Deployment on Bare Metal / VM&#39;s" class="dd-item ">
+        <a href="/jiffy/usage/deployment/us-content-j/">
+        Deployment on Bare Metal / VM&#39;s
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/deployment/us-content-k/" title="Deployment with Containers" class="dd-item ">
+        <a href="/jiffy/usage/deployment/us-content-k/">
+        Deployment with Containers
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/deployment/us-content-l/" title="Deployment on Kubernetes" class="dd-item ">
+        <a href="/jiffy/usage/deployment/us-content-l/">
+        Deployment on Kubernetes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/tutorials/" title="Jiffy Tutorials" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/tutorials/">
+          <i class='fab fa-fw fa-github'></i>Jiffy Tutorials
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/tt-content-a/" title="Hand Coding a Custom Join" class="dd-item ">
+        <a href="/jiffy/tutorials/tt-content-a/">
+        Hand Coding a Custom Join
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/tt-content-b/" title="Dealing with mixed/multipart" class="dd-item ">
+        <a href="/jiffy/tutorials/tt-content-b/">
+        Dealing with mixed/multipart
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/tutorials/using-docker/" title="Using Docker" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/tutorials/using-docker/">
+          <i class='fab fa-fw fa-github'></i>Using Docker
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-a/" title="Jiffy with Docker and SQLite" class="dd-item ">
+        <a href="/jiffy/tutorials/using-docker/dr-content-a/">
+        Jiffy with Docker and SQLite
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-b/" title="Jiffy with Docker and External PostgreSQL" class="dd-item ">
+        <a href="/jiffy/tutorials/using-docker/dr-content-b/">
+        Jiffy with Docker and External PostgreSQL
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-d/" title="Jiffy with Kubernetes" class="dd-item ">
+        <a href="/jiffy/tutorials/using-docker/dr-content-d/">
+        Jiffy with Kubernetes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-g/" title="Troubleshooting" class="dd-item ">
+        <a href="/jiffy/tutorials/using-docker/dr-content-g/">
+        Troubleshooting
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+         
+    </ul>
+
+    
+    
+      <section id="shortcuts">
+        <h3>More</h3>
+        <ul>
+          
+              <li> 
+                  <a class="padding" href="https://github.com/1414C/jiffy/"><i class='fab fa-fw fa-github'></i> Github repo</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://1414c.github.io/jiffy/showcase"><i class='fa fa-fw fa-camera'></i> Showcases</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://1414c.github.io/jiffy/credits"><i class='fa fa-fw fa-bullhorn'></i> Credits</a>
+              </li>
+          
+        </ul>
+      </section>
+    
+
+    
+    <section id="footer">
+      <p>Built with <a href="https://github.com/matcornic/hugo-theme-learn"><i class="fas fa-heart"></i></a> from <a href="https://getgrav.org">Grav</a> and <a href="https://gohugo.io/">Hugo</a></p>
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/jiffy/'></a> > <a href='/jiffy/getting-started/'>Getting Started</a> > <a href='/jiffy/getting-started/level-two/'>Let's Test Something</a> > Create a Person
+          
+         
+          
+         
+          
+         
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#what-just-happened">What Just Happened?</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Create a Person
+            </h1>
+          
+
+        
+
+
+
+<p>Now that we have successfully logged into the application and received our first JWT, it is time to create a new &lsquo;Person&rsquo; entity.  Start by copying the content of the &lsquo;token&rsquo; tag from the login response body to the clipboard.  This JWT must henceforth be included in the http header of every subsequent request.</p>
+<p>Create a new tab in Postman and specify a target URL of <code>http://127.0.0.1:8080/person</code> with the http POST method.  Next, add the following key-value pairs to the http header:</p>
+<ul>
+<li><code>Content-Type</code>   : <code>application\json</code></li>
+<li><code>Authorization</code> : <code>Bearer *paste-your-JWT-here*</code></li>
+</ul>
+<p><img src="../images/person-a.jpg" alt="person-a"></p>
+<p>When you have finished maintaining the http header-values, click on &lsquo;Body&rsquo; and maintain it using the &lsquo;raw&rsquo; setting.  This will allow you to paste the following JSON code snippet into the request&rsquo;s body:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">    {
+	    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Steve Dallas&#34;</span>,
+	    <span style="color:#f92672">&#34;age&#34;</span>: <span style="color:#ae81ff">46</span>,
+	    <span style="color:#f92672">&#34;weight&#34;</span>: <span style="color:#ae81ff">185</span>,
+	    <span style="color:#f92672">&#34;valid_license&#34;</span>: <span style="color:#66d9ef">true</span>,
+	    <span style="color:#f92672">&#34;license_class&#34;</span>: <span style="color:#e6db74">&#34;A&#34;</span>
+    }
+</code></pre></div><br/>
+<p>When you have finished, the test session should look as follows and it is time to create our first &lsquo;Person&rsquo; entity.  Click &lsquo;Send&rsquo; to post the new entity to the application.</p>
+<p><img src="../images/person-b.jpg" alt="person-b">
+<br/></p>
+<p>Congratulations!  You have created your first &lsquo;Person&rsquo; entity!</p>
+<p><img src="../images/person-c.jpg" alt="person-c"></p>
+<h3 id="what-just-happened">What Just Happened?</h3>
+<p>The router matched the request URL to a route (service end-point), the middleware layer in the matched route examined the JWT, verified it was okay to proceed and then passed the raw JSON from the request body to the &lsquo;Person&rsquo; entity&rsquo;s controller.  The controller unmarshalled the JSON into a &lsquo;Person&rsquo; struct and then passed the result to the Create method in the model/validation layer.  Validation of the &lsquo;Person&rsquo; struct&rsquo;s content occurred, and then a call was made to the underlying <a href="http://1414c.github.io/sqac">sqac ORM</a> to create the entity on the database.</p>
+<p>The sqac ORM-layer returned the new entity to the application&rsquo;s model-layer, where it was checked and passed back to the controller layer, whereupon it was marshaled (struct content becomes JSON) and written to the the response-writer.</p>
+<p>This is a high-level view of what transpired, but the <em>general</em> flow of things is accurate.</p>
+<p>Notice that the entity passed back to us seems to have a couple of extra fields?  All entities created via a Jiffy model file are injected with a primary-key of &lsquo;id&rsquo; as well as a non-persistent &lsquo;href&rsquo; field.  In this example, our entity&rsquo;s &lsquo;id&rsquo; field was specified in the model file to be auto-incrementing with a starting value of 10000000.  &lsquo;href&rsquo; is included in each entity&rsquo;s GET responses, and acts as a self-reference providing the entity&rsquo;s direct access URI to the consumer.</p>
+<p>See the <a href="/jiffy/models/mo-content-a/#annotated-simple-single-entity-model">Annotated Simple Single Entity Model</a> in the <a href="/jiffy/models">Model Maintenance</a> section for details regarding key options.</p>
+
+
+<footer class=" footline" >
+	
+</footer>
+
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="/jiffy/getting-started/level-two/l2-content-a/" title="Login"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="/jiffy/getting-started/level-two/l2-content-c/" title="Create Another Person" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="/jiffy/js/clipboard.min.js?1590359686"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1590359686"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1590359686"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1590359686"></script>
+    <script src="/jiffy/js/featherlight.min.js?1590359686"></script>
+    <script src="/jiffy/js/highlight.pack.js?1590359686"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1590359686"></script>
+    <script src="/jiffy/js/learn.js?1590359686"></script>
+    <script src="/jiffy/js/hugo-learn.js?1590359686"></script>
+
+    <link href="/jiffy/mermaid/mermaid.css?1590359686" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1590359686"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    
+
+  </body>
+</html>
+

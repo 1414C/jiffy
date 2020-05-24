@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jiffy Execution on Jiffy Services Generator</title>
+    <link>https://1414c.github.io/jiffy/execution/</link>
+    <description>Recent content in Jiffy Execution on Jiffy Services Generator</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 05 Feb 2018 14:30:10 -0700</lastBuildDate>
+    
+	<atom:link href="https://1414c.github.io/jiffy/execution/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Running Jiffy</title>
+      <link>https://1414c.github.io/jiffy/execution/ex-content-a/</link>
+      <pubDate>Mon, 05 Feb 2018 13:26:13 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/execution/ex-content-a/</guid>
+      <description>Execution In order to run the Jiffy application generator, ensure the following:
+  Make sure Go has been installed in the test environment. See http://www.golang.org for installation files and instructions.
+  Make sure that the Jiffy source code and dependencies have been installed.
+  One of the supported databases is available, either locally or over the network.
+  Jiffy can be started in two ways:
+ Using the binary installed by following the instructions located in the Jiffy Installation section of this documentation.</description>
+    </item>
+    
+    <item>
+      <title>Jiffy Execution Flags</title>
+      <link>https://1414c.github.io/jiffy/execution/ex-content-b/</link>
+      <pubDate>Mon, 05 Feb 2018 14:30:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/execution/ex-content-b/</guid>
+      <description>Execution Flags Jiffy requires a small number of flags to be specified at runtime.
+ -m Inclusion of the -m flag instructs jiffy to build a new application using the specified model file. Jiffy expects a fully-qualified path to a model file to follow the -m flag. The -m and -mf flags are mutually exclusive. -mf Inclusion of the -mf flag instructs jiffy to read and process all model files contained in the specified folder.</description>
+    </item>
+    
+  </channel>
+</rss>

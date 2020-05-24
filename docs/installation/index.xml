@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jiffy Installation on Jiffy Services Generator</title>
+    <link>https://1414c.github.io/jiffy/installation/</link>
+    <description>Recent content in Jiffy Installation on Jiffy Services Generator</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 05 Feb 2018 14:03:10 -0700</lastBuildDate>
+    
+	<atom:link href="https://1414c.github.io/jiffy/installation/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Jiffy Dependencies</title>
+      <link>https://1414c.github.io/jiffy/installation/in-content-a/</link>
+      <pubDate>Mon, 05 Feb 2018 13:26:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/installation/in-content-a/</guid>
+      <description>What does Jiffy need to run? Wherever possible and reasonable, Jiffy relies on packages found in the Go standard library. As of this writing, Go version 1.13.5 is recommended in order to build the Jiffy binary. Jiffy requires a running database from the following list of supported databases:
+Supported Databases  PostgreSQL tested with version 10+ SAP HanaDB tested with HDB 2.0 MSSQL tested with MSSQL 2017 MySQL SQLite3 Firebird (future) DB2 (future)  Database Drivers The following Go database drivers are required, even if you are only planning to make use of one of the DBMS&amp;rsquo;s in the supported list.</description>
+    </item>
+    
+    <item>
+      <title>Jiffy Installation</title>
+      <link>https://1414c.github.io/jiffy/installation/in-content-b/</link>
+      <pubDate>Mon, 05 Feb 2018 14:03:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/installation/in-content-b/</guid>
+      <description>Installation Steps The easiest way to install Jiffy is to use go get on the command-line to pull the latest version from github, as shown below:
+go get -u github.com/1414C/jiffy The go get command will pull the Jiffy github repository into your $GOPATH/src/github.com folder, as well as any dependencies referenced by the Jiffy source code. The -u flag is included to instruct go get to check for and pull updates to Jiffy packages and their dependencies based on the content of the project&amp;rsquo;s go.</description>
+    </item>
+    
+  </channel>
+</rss>

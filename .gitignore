@@ -22,4 +22,4 @@
 testdb.sqlite
 
 # don't take the packaged .gotmpl files
-pkged.go 
+pkged.go

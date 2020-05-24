@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Deployment Overview on Jiffy Services Generator</title>
+    <link>https://1414c.github.io/jiffy/usage/deployment/</link>
+    <description>Recent content in Deployment Overview on Jiffy Services Generator</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 06 Feb 2018 22:40:21 -0700</lastBuildDate>
+    
+	<atom:link href="https://1414c.github.io/jiffy/usage/deployment/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Deployment Requirements</title>
+      <link>https://1414c.github.io/jiffy/usage/deployment/us-content-i/</link>
+      <pubDate>Mon, 02 Jul 2018 10:29:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/usage/deployment/us-content-i/</guid>
+      <description>Overview Jiffy was written with the idea of generating sidecar-free backend service applications. While this is a nice goal, the current version of Jiffy relies on the presence of some external processes and/or services depending on the target environment.
+Database System The generated application will need to connect to a database system from the supported list. It is easiest to use sqlite3 for initial testing if you do not want to install a full DBMS in the development environment.</description>
+    </item>
+    
+    <item>
+      <title>Deployment on Bare Metal / VM&#39;s</title>
+      <link>https://1414c.github.io/jiffy/usage/deployment/us-content-j/</link>
+      <pubDate>Mon, 02 Jul 2018 13:29:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/usage/deployment/us-content-j/</guid>
+      <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts 
+All-In-One Deployment In a development or test setting it may make sense to deploy everything in one system. In this context &amp;lsquo;system&amp;rsquo; refers to a laptop, bare-metal server or a VM of some sort. To deploy an all-in-one type setup, the following artifacts are required:
+ Database Jiffy application Set the &amp;lsquo;local_standalone&amp;rsquo; KVS to Active in the config.</description>
+    </item>
+    
+    <item>
+      <title>Deployment with Containers</title>
+      <link>https://1414c.github.io/jiffy/usage/deployment/us-content-k/</link>
+      <pubDate>Mon, 02 Jul 2018 14:29:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/usage/deployment/us-content-k/</guid>
+      <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts 
+All-In-One Deployment with Docker In a development or test setting it may make sense to deploy everything in one container. SQLite is a good choice for this type of container deployment, as it is a file-based database and therefore does not need to be started as a service. Containers typically offer single services and their configuration is geared to this usage pattern.</description>
+    </item>
+    
+    <item>
+      <title>Deployment on Kubernetes</title>
+      <link>https://1414c.github.io/jiffy/usage/deployment/us-content-l/</link>
+      <pubDate>Mon, 02 Jul 2018 13:29:10 -0700</pubDate>
+      
+      <guid>https://1414c.github.io/jiffy/usage/deployment/us-content-l/</guid>
+      <description>Deployment Overview See the Deployment Overview chapter for a brief outline of jiffy-application deployment artifacts. 
+Deployment on Kubernetes Jiffy applications are designed to run on Kubernetes and fully support the idea of disposable application containers and automated scale-up / scale-down. The best way to learn about deploying Jiffy applications in a Kubernetes cluster is to read through the Jiffy with Kubernetes tutorial.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,3591 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.69.2" />
+    <meta name="description" content="">
+
+
+    <link rel="shortcut icon" href="/jiffy/images/favicon.png" type="image/x-icon" />
+<link rel="icon" href="/jiffy/images/favicon.png" type="image/x-icon" />
+    <title>Accessing Entity Relations :: Jiffy Services Generator</title>
+
+    
+    <link href="/jiffy/css/nucleus.css?1590359686" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1590359686" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1590359686" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1590359686" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1590359686" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1590359686" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1590359686" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1590359686" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1590359686" rel="stylesheet">
+    
+      <link href="/jiffy/css/theme-blue.css?1590359686" rel="stylesheet">
+    
+
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1590359686"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+    </style>
+    
+    <script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
+  </head>
+  <body class="" data-url="/jiffy/models/mo-content-e/">
+    <nav id="sidebar" class="">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <a id="logo" href="https://1414c.github.io/jiffy">
+  <img src="/jiffy/logo_transparent.png" alt="Jiffy Logo" height="200">
+</a>
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1590359686"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1590359686"></script>
+<script type="text/javascript">
+    
+        var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
+    
+</script>
+<script type="text/javascript" src="/jiffy/js/search.js?1590359686"></script>
+
+    
+  </div>
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/overview/" title="Jiffy Overview" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/overview/">
+          <i class='fab fa-fw fa-github'></i>Jiffy Overview
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/overview/ov-content-a/" title="What is Jiffy?" class="dd-item ">
+        <a href="/jiffy/overview/ov-content-a/">
+        What is Jiffy?
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/overview/ov-content-b/" title="Jiffy Application Overview" class="dd-item ">
+        <a href="/jiffy/overview/ov-content-b/">
+        Jiffy Application Overview
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/overview/ov-content-c/" title="Jiffy Application Structure" class="dd-item ">
+        <a href="/jiffy/overview/ov-content-c/">
+        Jiffy Application Structure
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/overview/ov-content-d/" title="Jiffy Application Architecture" class="dd-item ">
+        <a href="/jiffy/overview/ov-content-d/">
+        Jiffy Application Architecture
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/overview/ov-content-e/" title="Jiffy Development Steps" class="dd-item ">
+        <a href="/jiffy/overview/ov-content-e/">
+        Jiffy Development Steps
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/getting-started/" title="Getting Started" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/getting-started/">
+          <i class='fab fa-fw fa-github'></i>Getting Started
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/gs-content-a/" title="Go Environment" class="dd-item ">
+        <a href="/jiffy/getting-started/gs-content-a/">
+        Go Environment
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/gs-content-b/" title="Installing Jiffy" class="dd-item ">
+        <a href="/jiffy/getting-started/gs-content-b/">
+        Installing Jiffy
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/gs-content-c/" title="Let&#39;s Build Something" class="dd-item ">
+        <a href="/jiffy/getting-started/gs-content-c/">
+        Let&#39;s Build Something
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/gs-content-d/" title="Let&#39;s Run Something" class="dd-item ">
+        <a href="/jiffy/getting-started/gs-content-d/">
+        Let&#39;s Run Something
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/getting-started/level-two/" title="Let&#39;s Test Something" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/getting-started/level-two/">
+          Let&#39;s Test Something
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-a/" title="Login" class="dd-item ">
+        <a href="/jiffy/getting-started/level-two/l2-content-a/">
+        Login
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-b/" title="Create a Person" class="dd-item ">
+        <a href="/jiffy/getting-started/level-two/l2-content-b/">
+        Create a Person
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-c/" title="Create Another Person" class="dd-item ">
+        <a href="/jiffy/getting-started/level-two/l2-content-c/">
+        Create Another Person
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-d/" title="Get Some Persons" class="dd-item ">
+        <a href="/jiffy/getting-started/level-two/l2-content-d/">
+        Get Some Persons
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-e/" title="Get a Person" class="dd-item ">
+        <a href="/jiffy/getting-started/level-two/l2-content-e/">
+        Get a Person
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-f/" title="Update a Person" class="dd-item ">
+        <a href="/jiffy/getting-started/level-two/l2-content-f/">
+        Update a Person
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-g/" title="Get Persons With Restrictions" class="dd-item ">
+        <a href="/jiffy/getting-started/level-two/l2-content-g/">
+        Get Persons With Restrictions
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-h/" title="Delete a Person" class="dd-item ">
+        <a href="/jiffy/getting-started/level-two/l2-content-h/">
+        Delete a Person
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/getting-started/level-two/l2-content-i/" title="Next Steps" class="dd-item ">
+        <a href="/jiffy/getting-started/level-two/l2-content-i/">
+        Next Steps
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/installation/" title="Jiffy Installation" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/installation/">
+          <i class='fab fa-fw fa-github'></i>Jiffy Installation
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/installation/in-content-a/" title="Jiffy Dependencies" class="dd-item ">
+        <a href="/jiffy/installation/in-content-a/">
+        Jiffy Dependencies
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/installation/in-content-b/" title="Jiffy Installation" class="dd-item ">
+        <a href="/jiffy/installation/in-content-b/">
+        Jiffy Installation
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/execution/" title="Jiffy Execution" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/execution/">
+          <i class='fab fa-fw fa-github'></i>Jiffy Execution
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/execution/ex-content-a/" title="Running Jiffy" class="dd-item ">
+        <a href="/jiffy/execution/ex-content-a/">
+        Running Jiffy
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/execution/ex-content-b/" title="Jiffy Execution Flags" class="dd-item ">
+        <a href="/jiffy/execution/ex-content-b/">
+        Jiffy Execution Flags
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/models/" title="Jiffy Models" class="dd-item 
+        parent
+        
+        
+        ">
+      <a href="/jiffy/models/">
+          <i class='fab fa-fw fa-github'></i>Jiffy Models
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/models/mo-content-a/" title="Model Overview" class="dd-item ">
+        <a href="/jiffy/models/mo-content-a/">
+        Model Overview
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/models/mo-content-b/" title="Simple Two Entity Model" class="dd-item ">
+        <a href="/jiffy/models/mo-content-b/">
+        Simple Two Entity Model
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/models/mo-content-c/" title="Model with Composite Index" class="dd-item ">
+        <a href="/jiffy/models/mo-content-c/">
+        Model with Composite Index
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/models/mo-content-d/" title="Entity Relations" class="dd-item ">
+        <a href="/jiffy/models/mo-content-d/">
+        Entity Relations
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/models/mo-content-e/" title="Accessing Entity Relations" class="dd-item active">
+        <a href="/jiffy/models/mo-content-e/">
+        Accessing Entity Relations
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/generation/" title="Generation Reference" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/generation/">
+          <i class='fab fa-fw fa-github'></i>Generation Reference
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-a/" title="Generation Overview" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-a/">
+        Generation Overview
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-b/" title="Generated &#39;application&#39; Folder" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-b/">
+        Generated &#39;application&#39; Folder
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-c/" title="Generated &#39;appobj&#39; Folder" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-c/">
+        Generated &#39;appobj&#39; Folder
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-d/" title="Generated &#39;controllers&#39; Folder" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-d/">
+        Generated &#39;controllers&#39; Folder
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-e/" title="Generated &#39;models&#39; Folder" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-e/">
+        Generated &#39;models&#39; Folder
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-f/" title="Generated &#39;middleware&#39; Folder" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-f/">
+        Generated &#39;middleware&#39; Folder
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-g/" title="Generated &#39;jwtkeys&#39; Folder" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-g/">
+        Generated &#39;jwtkeys&#39; Folder
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-h/" title="Generated &#39;docker&#39; Folder" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-h/">
+        Generated &#39;docker&#39; Folder
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/generation/gn-content-j/" title="Other Generated Folders" class="dd-item ">
+        <a href="/jiffy/generation/gn-content-j/">
+        Other Generated Folders
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/extensionpoints/" title="Extension Points" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/extensionpoints/">
+          <i class='fab fa-fw fa-github'></i>Extension Points
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/extensionpoints/ep-content-a/" title="Extension Point Overview" class="dd-item ">
+        <a href="/jiffy/extensionpoints/ep-content-a/">
+        Extension Point Overview
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/extensionpoints/ep-content-b/" title="Controller Extension Points" class="dd-item ">
+        <a href="/jiffy/extensionpoints/ep-content-b/">
+        Controller Extension Points
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/extensionpoints/ep-content-c/" title="Model Extension Points" class="dd-item ">
+        <a href="/jiffy/extensionpoints/ep-content-c/">
+        Model Extension Points
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/accesscontrol/" title="Access Control" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/accesscontrol/">
+          <i class='fab fa-fw fa-github'></i>Access Control
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/accesscontrol/ac-content-a/" title="Access Control Overview" class="dd-item ">
+        <a href="/jiffy/accesscontrol/ac-content-a/">
+        Access Control Overview
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/accesscontrol/ac-content-b/" title="Authorizations" class="dd-item ">
+        <a href="/jiffy/accesscontrol/ac-content-b/">
+        Authorizations
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/accesscontrol/ac-content-c/" title="Access Revocation and Renewal" class="dd-item ">
+        <a href="/jiffy/accesscontrol/ac-content-c/">
+        Access Revocation and Renewal
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/accesscontrol/ac-content-d/" title="Using External Identity Providers" class="dd-item ">
+        <a href="/jiffy/accesscontrol/ac-content-d/">
+        Using External Identity Providers
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/interprocess/" title="Interprocess Communication" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/interprocess/">
+          <i class='fab fa-fw fa-github'></i>Interprocess Communication
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/interprocess/ip-content-a/" title="Group Membership Overview" class="dd-item ">
+        <a href="/jiffy/interprocess/ip-content-a/">
+        Group Membership Overview
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/interprocess/ip-content-b/" title="Failure Detector" class="dd-item ">
+        <a href="/jiffy/interprocess/ip-content-b/">
+        Failure Detector
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/interprocess/ip-content-c/" title="Process Startup / Join" class="dd-item ">
+        <a href="/jiffy/interprocess/ip-content-c/">
+        Process Startup / Join
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/interprocess/ip-content-d/" title="Process Shutdown" class="dd-item ">
+        <a href="/jiffy/interprocess/ip-content-d/">
+        Process Shutdown
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/usage/" title="Testing and Deployment" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/usage/">
+          <i class='fab fa-fw fa-github'></i>Testing and Deployment
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/us-content-a/" title="Application Configuration Overview" class="dd-item ">
+        <a href="/jiffy/usage/us-content-a/">
+        Application Configuration Overview
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/us-content-b/" title="Default Configuration" class="dd-item ">
+        <a href="/jiffy/usage/us-content-b/">
+        Default Configuration
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/us-content-c/" title="Development Configuration" class="dd-item ">
+        <a href="/jiffy/usage/us-content-c/">
+        Development Configuration
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/us-content-d/" title="Production Configuration" class="dd-item ">
+        <a href="/jiffy/usage/us-content-d/">
+        Production Configuration
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/us-content-e/" title="Application Server Flags" class="dd-item ">
+        <a href="/jiffy/usage/us-content-e/">
+        Application Server Flags
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/us-content-f/" title="Testing with TLS" class="dd-item ">
+        <a href="/jiffy/usage/us-content-f/">
+        Testing with TLS
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/us-content-g/" title="Automated Application Testing" class="dd-item ">
+        <a href="/jiffy/usage/us-content-g/">
+        Automated Application Testing
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/us-content-h/" title="Key Value Store Support" class="dd-item ">
+        <a href="/jiffy/usage/us-content-h/">
+        Key Value Store Support
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/usage/deployment/" title="Deployment Overview" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/usage/deployment/">
+          Deployment Overview
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/deployment/us-content-i/" title="Deployment Requirements" class="dd-item ">
+        <a href="/jiffy/usage/deployment/us-content-i/">
+        Deployment Requirements
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/deployment/us-content-j/" title="Deployment on Bare Metal / VM&#39;s" class="dd-item ">
+        <a href="/jiffy/usage/deployment/us-content-j/">
+        Deployment on Bare Metal / VM&#39;s
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/deployment/us-content-k/" title="Deployment with Containers" class="dd-item ">
+        <a href="/jiffy/usage/deployment/us-content-k/">
+        Deployment with Containers
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/usage/deployment/us-content-l/" title="Deployment on Kubernetes" class="dd-item ">
+        <a href="/jiffy/usage/deployment/us-content-l/">
+        Deployment on Kubernetes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/tutorials/" title="Jiffy Tutorials" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/tutorials/">
+          <i class='fab fa-fw fa-github'></i>Jiffy Tutorials
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/tt-content-a/" title="Hand Coding a Custom Join" class="dd-item ">
+        <a href="/jiffy/tutorials/tt-content-a/">
+        Hand Coding a Custom Join
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/tt-content-b/" title="Dealing with mixed/multipart" class="dd-item ">
+        <a href="/jiffy/tutorials/tt-content-b/">
+        Dealing with mixed/multipart
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+    <li data-nav-id="/jiffy/tutorials/using-docker/" title="Using Docker" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/jiffy/tutorials/using-docker/">
+          <i class='fab fa-fw fa-github'></i>Using Docker
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-a/" title="Jiffy with Docker and SQLite" class="dd-item ">
+        <a href="/jiffy/tutorials/using-docker/dr-content-a/">
+        Jiffy with Docker and SQLite
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-b/" title="Jiffy with Docker and External PostgreSQL" class="dd-item ">
+        <a href="/jiffy/tutorials/using-docker/dr-content-b/">
+        Jiffy with Docker and External PostgreSQL
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-d/" title="Jiffy with Kubernetes" class="dd-item ">
+        <a href="/jiffy/tutorials/using-docker/dr-content-d/">
+        Jiffy with Kubernetes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/jiffy/tutorials/using-docker/dr-content-g/" title="Troubleshooting" class="dd-item ">
+        <a href="/jiffy/tutorials/using-docker/dr-content-g/">
+        Troubleshooting
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+         
+    </ul>
+
+    
+    
+      <section id="shortcuts">
+        <h3>More</h3>
+        <ul>
+          
+              <li> 
+                  <a class="padding" href="https://github.com/1414C/jiffy/"><i class='fab fa-fw fa-github'></i> Github repo</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://1414c.github.io/jiffy/showcase"><i class='fa fa-fw fa-camera'></i> Showcases</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://1414c.github.io/jiffy/credits"><i class='fa fa-fw fa-bullhorn'></i> Credits</a>
+              </li>
+          
+        </ul>
+      </section>
+    
+
+    
+    <section id="footer">
+      <p>Built with <a href="https://github.com/matcornic/hugo-theme-learn"><i class="fas fa-heart"></i></a> from <a href="https://getgrav.org">Grav</a> and <a href="https://gohugo.io/">Hugo</a></p>
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/jiffy/'></a> > <a href='/jiffy/models/'>Jiffy Models</a> > Accessing Entity Relations
+          
+         
+          
+         
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#entity-relationship-urls">Entity Relationship URL&rsquo;s</a></li>
+        <li><a href="#login">Login</a></li>
+        <li><a href="#create-a-library">Create a Library</a></li>
+        <li><a href="#create-a-second-library">Create a Second Library</a></li>
+        <li><a href="#create-a-book-for-library-1">Create a Book for Library 1</a></li>
+        <li><a href="#create-more-books-for-library-1">Create More Books for Library 1</a></li>
+        <li><a href="#get-all-of-the-books-for-all-librarys">Get All of the Books For All Librarys</a></li>
+        <li><a href="#get-all-of-the-books-for-library-1">Get All of the Books for Library 1</a></li>
+        <li><a href="#get-a-count-of-all-books">Get a Count of All Books</a></li>
+        <li><a href="#get-a-count-of-books-belonging-to-library-1">Get a Count of Books Belonging to Library 1</a></li>
+        <li><a href="#get-a-count-of-books-belonging-to-library-2">Get a Count of Books Belonging to Library 2</a></li>
+        <li><a href="#finding-a-books-library">Finding A Book&rsquo;s Library</a></li>
+        <li><a href="#what-else">What Else?</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Accessing Entity Relations
+            </h1>
+          
+
+        
+
+
+
+<h3 id="entity-relationship-urls">Entity Relationship URL&rsquo;s</h3>
+<p>In the <a href="/jiffy/models/mo-content-d/">previous section</a> we saw how model files can be used to define relationships between declared entities.  We will now look at how to access and test the relationships via <a href="https://www.getpostman.com">Postman</a> tests.</p>
+<p>This section uses the <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/hasManyBelongsTo.json">hasManyBelongsTo.json</a> model from the jiffy repository.  Rather than generate a new application from the model, you may choose to pull a pre-generated jiffy application source tree based on the model.  To do so, switch to a sub-directory under your $GOPATH/src folder and run the following command in a terminal window.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">    go get -u github.com/1414C/GeneratedLibraryApplication
+</code></pre></div><p>This will have the effect of pulling the application source code into a folder (GeneratedLibraryApplication).  Follow the instructions at the following <a href="https://github.com/1414C/GeneratedLibraryApp#generatedlibraryapp">link</a> to start the application on your test machine.</p>
+<p>To recap, our model contains two entities - Library and Book.  A Library may have <em>0:n</em> Books, and a Book must belong to one and only one Library.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">{
+    <span style="color:#f92672">&#34;entities&#34;</span>:  [
+        {
+            <span style="color:#f92672">&#34;typeName&#34;</span>: <span style="color:#e6db74">&#34;Library&#34;</span>,
+            <span style="color:#f92672">&#34;properties&#34;</span>: {
+                <span style="color:#f92672">&#34;Name&#34;</span>: {
+                    <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;string&#34;</span>,
+                    <span style="color:#f92672">&#34;format&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>, 
+                    <span style="color:#f92672">&#34;required&#34;</span>: <span style="color:#66d9ef">true</span>,
+                    <span style="color:#f92672">&#34;unique&#34;</span>: <span style="color:#66d9ef">false</span>,
+                    <span style="color:#f92672">&#34;index&#34;</span>: <span style="color:#e6db74">&#34;nonUnique&#34;</span>,
+                    <span style="color:#f92672">&#34;selectable&#34;</span>: <span style="color:#e6db74">&#34;eq,like&#34;</span>
+                },
+                <span style="color:#f92672">&#34;City&#34;</span>: {
+                    <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;string&#34;</span>,
+                    <span style="color:#f92672">&#34;format&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>, 
+                    <span style="color:#f92672">&#34;required&#34;</span>: <span style="color:#66d9ef">true</span>,
+                    <span style="color:#f92672">&#34;unique&#34;</span>: <span style="color:#66d9ef">false</span>,
+                    <span style="color:#f92672">&#34;index&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+                    <span style="color:#f92672">&#34;selectable&#34;</span>: <span style="color:#e6db74">&#34;eq,lt,gt,like&#34;</span>
+                }
+            },
+            <span style="color:#f92672">&#34;compositeIndexes&#34;</span>: [ 
+                {<span style="color:#f92672">&#34;index&#34;</span>: <span style="color:#e6db74">&#34;name, city&#34;</span>}
+            ],
+            <span style="color:#f92672">&#34;relations&#34;</span>: [
+                    { 
+                    <span style="color:#f92672">&#34;relName&#34;</span>: <span style="color:#e6db74">&#34;ToBooks&#34;</span>,
+                        <span style="color:#f92672">&#34;properties&#34;</span>: {
+                            <span style="color:#f92672">&#34;relType&#34;</span>: <span style="color:#e6db74">&#34;hasMany&#34;</span>,
+                            <span style="color:#f92672">&#34;toEntity&#34;</span>: <span style="color:#e6db74">&#34;Book&#34;</span>
+                        }
+                    }
+                ],
+                <span style="color:#f92672">&#34;ext_points&#34;</span>: {
+                    <span style="color:#f92672">&#34;gen_controller&#34;</span>: <span style="color:#66d9ef">true</span>,
+                    <span style="color:#f92672">&#34;gen_model&#34;</span>: <span style="color:#66d9ef">true</span>
+                }
+    },
+    {
+        <span style="color:#f92672">&#34;typeName&#34;</span>: <span style="color:#e6db74">&#34;Book&#34;</span>,
+        <span style="color:#f92672">&#34;properties&#34;</span>: {
+            <span style="color:#f92672">&#34;Title&#34;</span>: {
+                <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;string&#34;</span>,
+                <span style="color:#f92672">&#34;format&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>, 
+                <span style="color:#f92672">&#34;required&#34;</span>: <span style="color:#66d9ef">true</span>,
+                <span style="color:#f92672">&#34;default&#34;</span>: <span style="color:#e6db74">&#34;unknown title&#34;</span>,
+                <span style="color:#f92672">&#34;index&#34;</span>: <span style="color:#e6db74">&#34;nonUnique&#34;</span>,
+                <span style="color:#f92672">&#34;selectable&#34;</span>: <span style="color:#e6db74">&#34;eq,like&#34;</span>
+            },
+            <span style="color:#f92672">&#34;Author&#34;</span>: {
+                <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;string&#34;</span>,
+                <span style="color:#f92672">&#34;format&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>, 
+                <span style="color:#f92672">&#34;required&#34;</span>: <span style="color:#66d9ef">false</span>,
+                <span style="color:#f92672">&#34;degault&#34;</span>: <span style="color:#e6db74">&#34;unknown author&#34;</span>,
+                <span style="color:#f92672">&#34;index&#34;</span>: <span style="color:#e6db74">&#34;nonUnique&#34;</span>,
+                <span style="color:#f92672">&#34;selectable&#34;</span>: <span style="color:#e6db74">&#34;eq,like&#34;</span>
+            },
+            <span style="color:#f92672">&#34;Hardcover&#34;</span>: {
+                <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;bool&#34;</span>,
+                <span style="color:#f92672">&#34;format&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>, 
+                <span style="color:#f92672">&#34;required&#34;</span>: <span style="color:#66d9ef">true</span>,
+                <span style="color:#f92672">&#34;index&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+                <span style="color:#f92672">&#34;selectable&#34;</span>: <span style="color:#e6db74">&#34;eq,ne&#34;</span>
+            },
+            <span style="color:#f92672">&#34;Copies&#34;</span>: {
+                <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;uint64&#34;</span>,
+                <span style="color:#f92672">&#34;format&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>, 
+                <span style="color:#f92672">&#34;required&#34;</span>: <span style="color:#66d9ef">true</span>,
+                <span style="color:#f92672">&#34;index&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+                <span style="color:#f92672">&#34;selectable&#34;</span>: <span style="color:#e6db74">&#34;eq,lt,gt&#34;</span>
+            },
+            <span style="color:#f92672">&#34;LibraryID&#34;</span>: {
+                <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;uint64&#34;</span>,
+                <span style="color:#f92672">&#34;format&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>, 
+                <span style="color:#f92672">&#34;required&#34;</span>: <span style="color:#66d9ef">true</span>,
+                <span style="color:#f92672">&#34;index&#34;</span>: <span style="color:#e6db74">&#34;nonUnique&#34;</span>,
+                <span style="color:#f92672">&#34;selectable&#34;</span>: <span style="color:#e6db74">&#34;eq,like&#34;</span>
+            }
+        },
+        <span style="color:#f92672">&#34;relations&#34;</span>: [
+                    { 
+                    <span style="color:#f92672">&#34;relName&#34;</span>: <span style="color:#e6db74">&#34;ToLibrary&#34;</span>,
+                        <span style="color:#f92672">&#34;properties&#34;</span>: {
+                            <span style="color:#f92672">&#34;relType&#34;</span>: <span style="color:#e6db74">&#34;belongsTo&#34;</span>,
+                            <span style="color:#f92672">&#34;toEntity&#34;</span>: <span style="color:#e6db74">&#34;Library&#34;</span>
+                        }
+                    }
+                ],
+                <span style="color:#f92672">&#34;ext_points&#34;</span>: {
+                    <span style="color:#f92672">&#34;gen_controller&#34;</span>: <span style="color:#66d9ef">true</span>,
+                    <span style="color:#f92672">&#34;gen_model&#34;</span>: <span style="color:#66d9ef">true</span>
+                }
+    }
+    ]
+}
+</code></pre></div><p>Start the application.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">    go run main.go -dev -rs   <span style="color:#75715e"># use -rs the first time you start the app</span>
+</code></pre></div><br>
+<h3 id="login">Login</h3>
+<p>Launch Postman and create a new test specifying a target URL of: <code>http://&lt;your-ip-address:8080/usr/login</code> making sure to select the http POST method.  Maintain the request header as shown below to add the correct Content-Type.</p>
+<p><img src="../images/set-content-type.jpg" alt="set-content-type"></p>
+<p>Next, maintain the request body to provide a user-id and password as shown in the following JSON snippet.  Typically the user-id for a Jiffy application is an email address, but we make an exception for the default administration user.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">    <span style="color:#f92672">{</span>
+        <span style="color:#e6db74">&#34;email&#34;</span>: <span style="color:#e6db74">&#34;admin&#34;</span>,
+        <span style="color:#e6db74">&#34;password&#34;</span>: <span style="color:#e6db74">&#34;initpass&#34;</span>
+    <span style="color:#f92672">}</span>
+</code></pre></div><br/>
+<p>When you have finished and your Postman (or other test utility) looks like the following image, click the &lsquo;Send&rsquo; button to post your login request to the running application.</p>
+<p><img src="../images/completed_login_req.jpg" alt="completed-login-req"></p>
+<p>If all goes well, you will get a http response code of 200 (status ok), and a block of JSON with a single &lsquo;token&rsquo; tag containing a jumble of letters and numbers.  This is the JSON Web Token (JWT) that will be used to validate your authorization to access the Person entity&rsquo;s service end-points.  If you want to read more about JWTs, <a href="https://jwt.io">jwt.io</a> is a good place to start, or you can refer to the <a href="/jiffy/accesscontrol/index.html">Access Control</a> section of this document set.</p>
+<p><img src="../images/login-jwt.jpg" alt="login-jwt">
+<br></p>
+<h3 id="create-a-library">Create a Library</h3>
+<p>Now that you have successfully logged into the application and received your first JWT, it is time to create a new &lsquo;Person&rsquo; entity.  Start by copying the content of the &lsquo;token&rsquo; tag from the login response body to the clipboard.  This JWT must henceforth be included in the http header of every subsequent request.</p>
+<p>Create a new tab in Postman and specify a target URL of <code>http://your-ip-address:8080/library</code> with the http POST method.  Next, add the following key-value pairs to the http header:</p>
+<ul>
+<li><code>Content-Type</code>   : <code>application\json</code></li>
+<li><code>Authorization</code> : <code>Bearer *paste-your-JWT-here*</code></li>
+</ul>
+<p><img src="../images/create-library-1.jpg" alt="create-library-1"></p>
+<p>When you have finished maintaining the http header-values, click on &lsquo;Body&rsquo; and maintain it using the &lsquo;raw&rsquo; setting.  This will allow you to paste the following JSON code snippet into the request&rsquo;s body:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">    {
+        <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Bill the Cat Public Libary&#34;</span>,
+        <span style="color:#f92672">&#34;city&#34;</span>: <span style="color:#e6db74">&#34;Denver&#34;</span>
+    }
+</code></pre></div><p>When you have finished, the test session should look as follows and it is time to create your first &lsquo;Library&rsquo; entity.  Click &lsquo;Send&rsquo; to post the new entity to the application.</p>
+<p><img src="../images/create-library-2.jpg" alt="create-library-2"></p>
+<p>Congratulations!  You have created your first &lsquo;Library&rsquo; entity!</p>
+<p><img src="../images/create-library-3.jpg" alt="create-library-3"></p>
+<h4 id="what-just-happened">What Just Happened?</h4>
+<p>The router matched the request URL to a route (service end-point), the middleware layer in the matched route examined the JWT, verified it was okay to proceed and then passed the raw JSON from the request body to the &lsquo;Library&rsquo; entity&rsquo;s controller.  The controller unmarshalled the JSON into a &lsquo;Library&rsquo; struct and then passed the result to the Create method in the model/validation layer.  Validation of the &lsquo;Library&rsquo; struct&rsquo;s content occurred, and then a call was made to the underlying <a href="http://1414c.github.io/sqac">sqac ORM</a> to create the entity on the database.</p>
+<p>The sqac ORM-layer returned the new entity to the application&rsquo;s model-layer, where it was checked and passed back to the controller layer, whereupon it was marshaled (struct content becomes JSON) and written to the the response-writer.</p>
+<p>This is a high-level view of what transpired, but the <em>general</em> flow of things is accurate.</p>
+<p>Notice that the entity passed back to us seems to have a couple of extra fields?  All entities created via a Jiffy model file are injected with a primary-key of &lsquo;id&rsquo; as well as a non-persistent &lsquo;href&rsquo; field.  In this example, our entity&rsquo;s &lsquo;id&rsquo; field was specified in the model file to be auto-incrementing with no starting value.  &lsquo;href&rsquo; is included in each entity&rsquo;s GET responses, and acts as a self-reference providing the entity&rsquo;s direct access URI to the consumer.</p>
+<p>See the <a href="/jiffy/models/mo-content-a/#annotated-simple-single-entity-model">Annotated Simple Single Entity Model</a> in the <a href="/jiffy/models">Model Maintenance</a> section for details regarding key options.</p>
+<h3 id="create-a-second-library">Create a Second Library</h3>
+<p>Following the same steps as above, adjust the Body of the Library POST request to create another &lsquo;Library&rsquo; entity as follows:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">    {
+        <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Opus the Penguin Public Library&#34;</span>,
+        <span style="color:#f92672">&#34;city&#34;</span>: <span style="color:#e6db74">&#34;Denver&#34;</span>
+    }
+</code></pre></div><p>Submission of the request should result in the creation of a new &lsquo;Library&rsquo; entity:</p>
+<p><img src="../images/create-library-4.jpg" alt="create-library-4">
+<br/></p>
+<h3 id="create-a-book-for-library-1">Create a Book for Library 1</h3>
+<p>At the moment, your libraries don&rsquo;t have any books but that is about to change.  Create a new POST request in Postman, making sure to maintain the header as follows:</p>
+<ul>
+<li><code>Content-Type</code>   : <code>application\json</code></li>
+<li><code>Authorization</code> : <code>Bearer *paste-your-JWT-here*</code></li>
+</ul>
+<p><img src="../images/create-book-header.jpg" alt="create-book-header"></p>
+<p>When you have finished maintaining the http header-values, click on &lsquo;Body&rsquo; and maintain it using the &lsquo;raw&rsquo; setting.  This will allow you to paste the following JSON code snippet into the request&rsquo;s body:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">    {
+        <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;Peter Rabbit tricks Mr. Turtle&#34;</span>,
+        <span style="color:#f92672">&#34;author&#34;</span>: <span style="color:#e6db74">&#34;Beatrix Potter&#34;</span>,
+        <span style="color:#f92672">&#34;hardcover&#34;</span>: <span style="color:#66d9ef">true</span>,
+        <span style="color:#f92672">&#34;copies&#34;</span>: <span style="color:#ae81ff">3</span>,
+        <span style="color:#f92672">&#34;library_id&#34;</span>: <span style="color:#ae81ff">1</span>
+    }
+</code></pre></div><p>When you have finished, the test session should look as follows and it is time to create your first &lsquo;Book&rsquo; entity.  Click &lsquo;Send&rsquo; to post the new entity to the application.</p>
+<p><img src="../images/create-book-1.jpg" alt="create-book-1"></p>
+<p>If all went well, you will see something like this in the response:</p>
+<p><img src="../images/create-book-2.jpg" alt="create-book-2"></p>
+<p>Notice that we have allocated the new &lsquo;Book&rsquo; entity to &lsquo;Library&rsquo; entity <code>1</code>.
+<br/></p>
+<h3 id="create-more-books-for-library-1">Create More Books for Library 1</h3>
+<p>Following the same steps as above, adjust the Body of the Book POST request to create another &lsquo;Book&rsquo; entity as follows:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">    {
+        <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;Peter Rabbit tricks Mr. Fox&#34;</span>,
+        <span style="color:#f92672">&#34;author&#34;</span>: <span style="color:#e6db74">&#34;Beatrix Potter&#34;</span>,
+        <span style="color:#f92672">&#34;hardcover&#34;</span>: <span style="color:#66d9ef">false</span>,
+        <span style="color:#f92672">&#34;copies&#34;</span>: <span style="color:#ae81ff">4</span>,
+        <span style="color:#f92672">&#34;library_id&#34;</span>: <span style="color:#ae81ff">1</span>
+    }
+</code></pre></div><p>Submission of the request should result in the creation of another new &lsquo;Library&rsquo; entity:</p>
+<p><img src="../images/create-book-3.jpg" alt="create-book-3"></p>
+<p>Use the following JSON snippets to create a few more books for librarys 1 &amp; 2:</p>
+<h4 id="create-books-for-library-1">Create Books for Library 1</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">    {
+        <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;Peter Rabbit tricks Mr. Wolf&#34;</span>,
+        <span style="color:#f92672">&#34;author&#34;</span>: <span style="color:#e6db74">&#34;Beatrix Potter&#34;</span>,
+        <span style="color:#f92672">&#34;hardcover&#34;</span>: <span style="color:#66d9ef">false</span>,
+        <span style="color:#f92672">&#34;copies&#34;</span>: <span style="color:#ae81ff">2</span>,
+        <span style="color:#f92672">&#34;library_id&#34;</span>: <span style="color:#ae81ff">1</span>
+    }
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">    {
+        <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;Peter Rabbit tricks Mr. Turtle&#34;</span>,
+        <span style="color:#f92672">&#34;author&#34;</span>: <span style="color:#e6db74">&#34;Beatrix Potter&#34;</span>,
+        <span style="color:#f92672">&#34;hardcover&#34;</span>: <span style="color:#66d9ef">true</span>,
+        <span style="color:#f92672">&#34;copies&#34;</span>: <span style="color:#ae81ff">2</span>,
+        <span style="color:#f92672">&#34;library_id&#34;</span>: <span style="color:#ae81ff">1</span>
+    }
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">    {
+        <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;Peter Rabbit tricks Mr. Turtle&#34;</span>,
+        <span style="color:#f92672">&#34;author&#34;</span>: <span style="color:#e6db74">&#34;Beatrix Potter&#34;</span>,
+        <span style="color:#f92672">&#34;hardcover&#34;</span>: <span style="color:#66d9ef">false</span>,
+        <span style="color:#f92672">&#34;copies&#34;</span>: <span style="color:#ae81ff">5</span>,
+        <span style="color:#f92672">&#34;library_id&#34;</span>: <span style="color:#ae81ff">1</span>
+    }
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">    {
+        <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;Peter Rabbit&#34;</span>,
+        <span style="color:#f92672">&#34;author&#34;</span>: <span style="color:#e6db74">&#34;Beatrix Potter&#34;</span>,
+        <span style="color:#f92672">&#34;hardcover&#34;</span>: <span style="color:#66d9ef">true</span>,
+        <span style="color:#f92672">&#34;copies&#34;</span>: <span style="color:#ae81ff">2</span>,
+        <span style="color:#f92672">&#34;library_id&#34;</span>: <span style="color:#ae81ff">1</span>
+    }
+</code></pre></div><br/>
+<h4 id="create-books-for-library-2">Create Books for Library 2</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">    {
+        <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;Peter Rabbit tricks Mr. Turtle&#34;</span>,
+        <span style="color:#f92672">&#34;author&#34;</span>: <span style="color:#e6db74">&#34;Beatrix Potter&#34;</span>,
+        <span style="color:#f92672">&#34;hardcover&#34;</span>: <span style="color:#66d9ef">false</span>,
+        <span style="color:#f92672">&#34;copies&#34;</span>: <span style="color:#ae81ff">2</span>,
+        <span style="color:#f92672">&#34;library_id&#34;</span>: <span style="color:#ae81ff">2</span>
+    }
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">    {
+        <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;Peter Rabbit&#34;</span>,
+        <span style="color:#f92672">&#34;author&#34;</span>: <span style="color:#e6db74">&#34;Beatrix Potter&#34;</span>,
+        <span style="color:#f92672">&#34;hardcover&#34;</span>: <span style="color:#66d9ef">true</span>,
+        <span style="color:#f92672">&#34;copies&#34;</span>: <span style="color:#ae81ff">1</span>,
+        <span style="color:#f92672">&#34;library_id&#34;</span>: <span style="color:#ae81ff">2</span>
+    }
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JSON" data-lang="JSON">    {
+        <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;Peter Rabbit Tricks Mr. Owl&#34;</span>,
+        <span style="color:#f92672">&#34;author&#34;</span>: <span style="color:#e6db74">&#34;Beatrix Potter&#34;</span>,
+        <span style="color:#f92672">&#34;hardcover&#34;</span>: <span style="color:#66d9ef">false</span>,
+        <span style="color:#f92672">&#34;copies&#34;</span>: <span style="color:#ae81ff">4</span>,
+        <span style="color:#f92672">&#34;library_id&#34;</span>: <span style="color:#ae81ff">2</span>
+    }
+</code></pre></div><br/>
+<h3 id="get-all-of-the-books-for-all-librarys">Get All of the Books For All Librarys</h3>
+<p>Create a new GET request in Postman specifying a target URL of <code>http://your-ip-address:8080/books</code>, making sure to maintain the header as follows:</p>
+<ul>
+<li><code>Authorization</code> : <code>Bearer *paste-your-JWT-here*</code></li>
+</ul>
+<p>When you have finished, the request should look as follows:</p>
+<p><img src="../images/get-books-1.jpg" alt="get-books-1"></p>
+<p>When you submit the request, the application should send a response containing all of the Book entities for both Libraries:</p>
+<p><img src="../images/get-books-2.jpg" alt="get-books-2">
+<br/></p>
+<h3 id="get-all-of-the-books-for-library-1">Get All of the Books for Library 1</h3>
+<p>Create a new GET request in Postman specifying a target URL of <code>http://your-ip-address:8080/library/1/toBooks</code>, making sure to maintain the header as follows:</p>
+<ul>
+<li><code>Authorization</code> : <code>Bearer *paste-your-JWT-here*</code></li>
+</ul>
+<p>When you have finished, the request should look as follows:</p>
+<p><img src="../images/tobooks-1.jpg" alt="tobooks-1"></p>
+<p>When you submit the request, the application should send a response containing all of the Book entities that are owned by Library 1.  As Libraries tend to have more than one title to lend, the <em>tobooks</em> relationship has been defined as a <em>hasMany</em> relationship (1:n).  The end-point handler for the <em>./library/1/tobooks</em> URI knows that there is a relationship between the Library and Book entities, and is therefore able to process the request.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">    <span style="color:#e6db74">&#34;relations&#34;</span><span style="color:#f92672">:</span> [
+                    { 
+                    <span style="color:#e6db74">&#34;relName&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;ToBooks&#34;</span>,
+                        <span style="color:#e6db74">&#34;properties&#34;</span><span style="color:#f92672">:</span> {
+                            <span style="color:#e6db74">&#34;relType&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;hasMany&#34;</span>,
+                            <span style="color:#e6db74">&#34;toEntity&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Book&#34;</span>
+                        }
+                    }
+                ],
+</code></pre></div><p>The <em>relations</em> array in the Library block of the model file instructed jiffy to generate the end-point, end-point handler as well as database constraints to formally implement the relationship.</p>
+<p>Try the same test to retrieve a list of all of the Book entities belonging to Library 2.
+<br/></p>
+<h3 id="get-a-count-of-all-books">Get a Count of All Books</h3>
+<p>Rather than read potentially thousands of Books via a GET request, you may wish to simply get a count of how many Books exist.  Use the following URI to create a new GET request to return the number of Books.</p>
+<p><code>http://your-ip-address:8080/books/$count</code></p>
+<p>The response should look similar to:</p>
+<p><img src="../images/books-count-1.jpg" alt="books-count-1"></p>
+<p>Jiffy applications return the result of a <em>$count</em> command in the response body rather than in the response header.  In this case, the response body contains the number &lsquo;9&rsquo; indicating that there are 9 Books in total.
+<br/></p>
+<h3 id="get-a-count-of-books-belonging-to-library-1">Get a Count of Books Belonging to Library 1</h3>
+<p>Use the following URI to create a new GET request to return the number of Books that belong to Library 1.</p>
+<p><code>http://your-ip-address:8080/library/1/tobooks/$count</code></p>
+<p>The response should look similar to:</p>
+<p><img src="../images/book-count-2.jpg" alt="books-count-2">
+<br/></p>
+<h3 id="get-a-count-of-books-belonging-to-library-2">Get a Count of Books Belonging to Library 2</h3>
+<p>Use the following URI to create a new GET request to return the number of Books that belong to Library 2.</p>
+<p><code>http://your-ip-address:8080/library/2/tobooks/$count</code></p>
+<p>The response should look similar to:</p>
+<p><img src="../images/book-count-3.jpg" alt="books-count-3"></p>
+<p>Library 1 has 6 Books, while Library 2 has 3 giving a total of 9 Books.<br>
+<br/></p>
+<h3 id="finding-a-books-library">Finding A Book&rsquo;s Library</h3>
+<p>If the application has read a Book and needs details regarding that Book&rsquo;s Library, the <em>hasOne</em> relationship can be leveraged to read the Library details.  In the following example, a Book with an <em>ID</em> of 2 has been read from the database.  The response body indicates that the Book <em>belongsTo</em> Library 1.  The inverse of the <em>hasMany</em> relationship is the <em>belongsTo</em> relationship, which was defined in the model file that the application was generated from:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">     <span style="color:#e6db74">&#34;relations&#34;</span><span style="color:#f92672">:</span> [
+                    { 
+                    <span style="color:#e6db74">&#34;relName&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;ToLibrary&#34;</span>,
+                        <span style="color:#e6db74">&#34;properties&#34;</span><span style="color:#f92672">:</span> {
+                            <span style="color:#e6db74">&#34;relType&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;belongsTo&#34;</span>,
+                            <span style="color:#e6db74">&#34;toEntity&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Library&#34;</span>
+                        }
+                    }
+                ],
+</code></pre></div><p><img src="../images/has-one-1.jpg" alt="has-one-1"></p>
+<p>Use the following URI to create a new GET request to read a Book&rsquo;s Library details from the database:</p>
+<p><code>http://your-ip-address:8080/book/2/tolibrary</code></p>
+<p>The response should look similar to:</p>
+<p><img src="../images/book-to-library-1.jpg" alt="book-to-library-1"></p>
+<h3 id="what-else">What Else?</h3>
+<p>There are a number of suffixes that can be applied to the GET URI in order to influence what is returned to the caller.  Refer to the <a href="/jiffy/overview/ov-content-b/#simple-crud-access">CRUD Access</a>, <a href="/jiffy/overview/ov-content-b/#filters-and-relationships">Filters and Relationships</a> and <a href="/jiffy/overview/ov-content-b/#commands">Commands</a> section in the Jiffy Application Overview section of the documentation for details.</p>
+<p>As an example, a call to GET Books from Library 1 could be constructed with the following parameters:</p>
+<p><code>https://your-ip-address:8080/library/1/tobooks/\$limit=3\$offset=2\$orderby=name$asc</code></p>
+<ul>
+<li>return no more than 3 Books ($limit=3)</li>
+<li>do not return the first 2 Books ($offset=2)</li>
+<li>sort the returned list by name in ascending order</li>
+</ul>
+<p>Offset and limit are common operations when you wish to return pages of results.</p>
+
+
+<footer class=" footline" >
+	
+</footer>
+
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="/jiffy/models/mo-content-d/" title="Entity Relations"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="/jiffy/generation/" title="Generation Reference" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="/jiffy/js/clipboard.min.js?1590359686"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1590359686"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1590359686"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1590359686"></script>
+    <script src="/jiffy/js/featherlight.min.js?1590359686"></script>
+    <script src="/jiffy/js/highlight.pack.js?1590359686"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1590359686"></script>
+    <script src="/jiffy/js/learn.js?1590359686"></script>
+    <script src="/jiffy/js/hugo-learn.js?1590359686"></script>
+
+    <link href="/jiffy/mermaid/mermaid.css?1590359686" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1590359686"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    
+
+  </body>
+</html>
+
