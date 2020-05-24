@@ -274,17 +274,17 @@ func main() {
 	}
 	generatedFiles = append(generatedFiles, fs...)
 
-	// // generate static util package
-	// s = gen.Static{
-	// 	SrcDir:  "templates/util",
-	// 	DstDir:  *projectPath + "/util",
-	// 	AppPath: appPath,
-	// }
-	// fs, err = s.GenerateStaticTemplates()
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// generatedFiles = append(generatedFiles, fs...)
+	// generate the go.mod file
+	s = gen.Static{
+		SrcDir:  "/static/modules",
+		DstDir:  *projectPath,
+		AppPath: appPath,
+	}
+
+	err = s.GenerateGoMod()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// JWT key generation
 	keyConf := gen.KeyConfig{

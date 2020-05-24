@@ -20,6 +20,7 @@ See https://1414c.github.io/jiffy for current documentation.
 - [x] Add SendDeparting(...) method
 - [x] Add Self-ping network up/down check + Join in TxRxGMMessage(...)
 - [ ] Add automatic JWT renewal option.  If the parameter is set (in minutes), any access that occurs between expiry-time - renewal time will result in the issuance of a new JWT.  Renewed JWT's will have to be regenerated based on the latest auth information in the buffers.
+- [ ] Switch to https://github.com/jackc/pgx for postgres support.
 - [ ] Add support for relationships (or the suspension of them) in the generated jiffy test-suites.
 - [ ] Address logging(?)
 - [ ] consider FAQ for calling db functions

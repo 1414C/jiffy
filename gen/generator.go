@@ -6,7 +6,6 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"runtime"
 	"strings"
 	"text/template"
 	"time"
@@ -119,37 +118,6 @@ const (
 // file handling is a little more pedantic than it would be with ioutil.
 func (ent *Entity) CreateModelFile(tDir string) (fName string, err error) {
 
-	// https://medium.com/@IndianGuru/understanding-go-s-template-package-c5307758fab0
-	// fi, err := pkger.Stat("/templates/model.gotmpl")
-	// if err != nil {
-	// 	log.Fatal("Stat: ", err)
-	// 	return "", err
-	// }
-
-	// tf, err := pkger.Open("/templates/model.gotmpl")
-	// if err != nil {
-	// 	log.Fatal("Open: ", err)
-	// 	return "", err
-	// }
-	// defer tf.Close()
-
-	// // read the template source from pkger
-	// buf := make([]byte, fi.Size())
-	// _, err = tf.Read(buf)
-	// if err != nil {
-	// 	log.Fatal("Unable to read template: ", err)
-	// 	return "", err
-	// }
-
-	// mt := template.Must(template.New("Entity model template").Parse(string(buf)))
-	// // mt := template.New("Entity model template")
-	// // mt, err = template.ParseFiles("templates/model.gotmpl")
-	// // if err != nil {
-	// if mt == nil {
-	// 	log.Fatal("Parse: ", err)
-	// 	return "", err
-	// }
-
 	// new part
 	mt, err := prepareTemplate("/templates/model.gotmpl")
 	if err != nil {
@@ -196,32 +164,6 @@ func (ent *Entity) CreateModelFile(tDir string) (fName string, err error) {
 // with the controller.gotmpl text/template.  Returns the fully-qualified
 // file-name / error.
 func (ent *Entity) CreateControllerFile(tDir string) (fName string, err error) {
-	// fi, err := pkger.Stat("/templates/controller.gotmpl")
-	// if err != nil {
-	// 	log.Fatal("Stat: ", err)
-	// 	return "", err
-	// }
-
-	// tf, err := pkger.Open("/templates/controller.gotmpl")
-	// if err != nil {
-	// 	log.Fatal("Open: ", err)
-	// 	return "", err
-	// }
-	// defer tf.Close()
-
-	// // read the template source from pkger
-	// buf := make([]byte, fi.Size())
-	// _, err = tf.Read(buf)
-	// if err != nil {
-	// 	log.Fatal("Unable to read template: ", err)
-	// 	return "", err
-	// }
-
-	// ct := template.Must(template.New("Entity controller template").Parse(string(buf)))
-	// if ct == nil {
-	// 	log.Fatal("Parse: ", err)
-	// 	return "", err
-	// }
 
 	// new part
 	ct, err := prepareTemplate("/templates/controller.gotmpl")
@@ -229,13 +171,6 @@ func (ent *Entity) CreateControllerFile(tDir string) (fName string, err error) {
 		return "", err
 	}
 	// end of new part
-
-	// ct := template.New("Entity controller template")
-	// ct, err = template.ParseFiles("templates/controller.gotmpl")
-	// if err != nil {
-	// 	log.Fatal("Parse: ", err)
-	// 	return "", err
-	// }
 
 	// check the controller file path and create if required
 	tDir = tDir + "/controllers"
@@ -279,38 +214,6 @@ func (ent *Entity) CreateControllerFile(tDir string) (fName string, err error) {
 // foreign-key definition.
 // Returns the fully-qualified file-name / error.
 func (ent *Entity) CreateControllerRelationsFile(tDir string, entities []Entity) (fName string, err error) {
-	// fi, err := pkger.Stat("/templates/controller_relations.gotmpl")
-	// if err != nil {
-	// 	log.Fatal("Stat: ", err)
-	// 	return "", err
-	// }
-
-	// tf, err := pkger.Open("/templates/controller_relations.gotmpl")
-	// if err != nil {
-	// 	log.Fatal("Open: ", err)
-	// 	return "", err
-	// }
-	// defer tf.Close()
-
-	// // read the template source from pkger
-	// buf := make([]byte, fi.Size())
-	// _, err = tf.Read(buf)
-	// if err != nil {
-	// 	log.Fatal("Unable to read template: ", err)
-	// 	return "", err
-	// }
-
-	// ctr := template.Must(template.New("Entity model template").Parse(string(buf)))
-	// if ctr == nil {
-	// 	log.Fatal("Parse: ", err)
-	// 	return "", err
-	// }
-	// ct := template.New("Entity controller relations template")
-	// ct, err = template.ParseFiles("templates/controller_relations.gotmpl")
-	// if err != nil {
-	// 	log.Fatal("Parse: ", err)
-	// 	return "", err
-	// }
 
 	// new part
 	ctr, err := prepareTemplate("/templates/controller_relations.gotmpl")
@@ -358,38 +261,6 @@ func (ent *Entity) CreateControllerRelationsFile(tDir string, entities []Entity)
 // is set to true in the user-defined model.json file.
 // Returns the fully-qualified file-name / error.
 func (ent *Entity) CreateControllerExtensionPointsFile(tDir string) (fName string, err error) {
-	// fi, err := pkger.Stat("/templates/controller_ext.gotmpl")
-	// if err != nil {
-	// 	log.Fatal("Stat: ", err)
-	// 	return "", err
-	// }
-
-	// tf, err := pkger.Open("/templates/controller_ext.gotmpl")
-	// if err != nil {
-	// 	log.Fatal("Open: ", err)
-	// 	return "", err
-	// }
-	// defer tf.Close()
-
-	// // read the template source from pkger
-	// buf := make([]byte, fi.Size())
-	// _, err = tf.Read(buf)
-	// if err != nil {
-	// 	log.Fatal("Unable to read template: ", err)
-	// 	return "", err
-	// }
-
-	// ctx := template.Must(template.New("Entity model template").Parse(string(buf)))
-	// if ctx == nil {
-	// 	log.Fatal("Parse: ", err)
-	// 	return "", err
-	// }
-	// ct := template.New("Entity controller extension-point template")
-	// ct, err = template.ParseFiles("templates/controller_ext.gotmpl")
-	// if err != nil {
-	// 	log.Fatal("Parse: ", err)
-	// 	return "", err
-	// }
 
 	// new part
 	ctx, err := prepareTemplate("/templates/controller_ext.gotmpl")
@@ -447,39 +318,6 @@ func (ent *Entity) CreateControllerExtensionPointsFile(tDir string) (fName strin
 // is set to true in the user-defined model.json file.
 // Returns the fully-qualified file-name / error.
 func (ent *Entity) CreateModelExtensionPointsFile(tDir string) (fName string, err error) {
-	// fi, err := pkger.Stat("/templates/model_ext.gotmpl")
-	// if err != nil {
-	// 	log.Fatal("Stat: ", err)
-	// 	return "", err
-	// }
-
-	// tf, err := pkger.Open("/templates/model_ext.gotmpl")
-	// if err != nil {
-	// 	log.Fatal("Open: ", err)
-	// 	return "", err
-	// }
-	// defer tf.Close()
-
-	// // read the template source from pkger
-	// buf := make([]byte, fi.Size())
-	// _, err = tf.Read(buf)
-	// if err != nil {
-	// 	log.Fatal("Unable to read template: ", err)
-	// 	return "", err
-	// }
-
-	// mtx := template.Must(template.New("Entity model template").Parse(string(buf)))
-	// if mtx == nil {
-	// 	log.Fatal("Parse: ", err)
-	// 	return "", err
-	// }
-
-	// ct := template.New("Entity model extension-point template")
-	// ct, err = template.ParseFiles("templates/model_ext.gotmpl")
-	// if err != nil {
-	// 	log.Fatal("Parse: ", err)
-	// 	return "", err
-	// }
 
 	// new part
 	mtx, err := prepareTemplate("/templates/model_ext.gotmpl")
@@ -536,16 +374,8 @@ func (ent *Entity) CreateModelExtensionPointsFile(tDir string) (fName string, er
 //=============================================================================================
 // GenerateStaticTemplates reads the ./static folder and uses Glob
 // to execute each template in-turn.  Returns the fully-qualified
-// file-names or an error.
+// file-names or an error.  Processes .gotmpl files into .go files.
 func (s *Static) GenerateStaticTemplates() (fNames []string, err error) {
-
-	// begin of old part
-	// tmlFiles, err := filepath.Glob(s.SrcDir + "/*" + ".gotmpl")
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// fmt.Println(tmlFiles)
-	// end of old part
 
 	// begin of new part
 	tmlFiles, err := glob(s.SrcDir, "*"+".gotmpl")
@@ -585,15 +415,6 @@ func (s *Static) GenerateStaticTemplates() (fNames []string, err error) {
 		}
 		// end of new part
 
-		// start of old part
-		// st := template.New("Static template")
-		// st, err := template.ParseFiles(f)
-		// if err != nil {
-		// 	log.Fatal("Parse: ", err)
-		// 	return nil, err
-		// }
-		// end of old part
-
 		// create the file-path if required
 		_, err = os.Stat(s.DstDir)
 		if err != nil {
@@ -629,6 +450,49 @@ func (s *Static) GenerateStaticTemplates() (fNames []string, err error) {
 		f.Close()
 	}
 	return fNames, nil
+}
+
+func (s *Static) GenerateGoMod() error {
+	// func (s *Static) GenerateGoMod(tDir string) (fName string, err error) {
+	st, err := prepareTemplate("/static/modules/go.mod.gotmpl")
+	if err != nil {
+		return err
+	}
+	// end of new part
+
+	// check the controller file path and create if required
+	// tDir = tDir + "/controllers"
+	// _, err = os.Stat(tDir)
+	// if err != nil {
+	// 	os.Mkdir(tDir, 0755)
+	// }
+
+	// create the go.mod file
+	// tfDir := tDir + "go.mod"
+	tfDir := s.DstDir + "/" + "go.mod"
+	f, err := os.Create(tfDir)
+	if err != nil {
+		log.Printf("CreateGoModFile: %v\n", err)
+		return err
+	}
+	defer f.Close()
+
+	// set permissions
+	err = f.Chmod(0644)
+	if err != nil {
+		log.Printf("CreateGoModFile: %v\n", err)
+		return err
+	}
+
+	// execute the template using the new go.mod file as a target
+	err = st.Execute(f, s)
+	if err != nil {
+		log.Printf("CreateGoModFile: %v\n", err)
+		return err
+	}
+	log.Println("generated:", tfDir)
+	f.Close()
+	return nil
 }
 
 //=============================================================================================
@@ -1499,7 +1363,7 @@ func superCleanString(s string) string {
 	return s
 }
 
-// prepareTemplate is used to read a template source from the pkged
+// prepareTemplate is used to read a template source from the pkger
 // or local location, create a *Template and return it to the caller.
 func prepareTemplate(templateName string) (*template.Template, error) {
 	// stat for .gotmpl file size
@@ -1574,18 +1438,47 @@ func ExecuteGoTools(fileName string) error {
 	// android darwin dragonfly freebsd linux nacl netbsd openbsd plan9 solaris windows zos
 
 	// commands to run
-	tools := []string{"/bin/goimports", "/bin/gofmt"}
-	toolArgs := make(map[string]string)
-	toolArgs["/bin/gofmt"] = "-w"
-	toolArgs["/bin/goimports"] = "-w"
+	var tools []string
 
-	for _, t := range tools {
-		goftmPath := runtime.GOROOT() + t
-		_, err := os.Stat(goftmPath)
-		if err != nil {
-			log.Printf("could not stat %s to format %s\n", t, fileName)
+	toolArgs := make(map[string]string)
+	_, err := exec.LookPath("gofmt")
+	if err == nil {
+		tools = append(tools, "gofmt")
+		toolArgs["gofmt"] = "-w"
+	} else {
+		log.Printf("WARNING: gofmt not found in the path!")
+	}
+
+	_, err = exec.LookPath("goimports")
+	if err == nil {
+		tools = append(tools, "goimports")
+		toolArgs["goimports"] = "-w"
+	} else {
+		log.Println("WARNING: Could not find goimports!")
+		log.Println("WARNING: Installing goimports:")
+		log.Println("EXEC: go get golang.org/x/tools/cmd/goimports")
+		cmd2 := exec.Command("go", "get", "golang.org/x/tools/cmd/goimports")
+		err = cmd2.Run()
+		if err == nil {
+			tools = append(tools, "goimports")
+			toolArgs["goimports"] = "-w"
+		} else {
+			fmt.Println(err)
+			log.Println("===================================================================")
+			log.Println("WARNING: goimports was not found in any path")
+			log.Println("WARNING: goimports must be run on the project source files in order")
+			log.Println("WARNING: to resolve problems with extraneous import statements.")
+			log.Println("WARNING: Install goimports using:")
+			log.Println("WARNING:     \"go get golang.org/x/tools/cmd/goimports\"")
+			log.Println("WARNING: Once goimports has been installed, regenerate the project")
+			log.Println("WARNING: (easiest), or run \"goimports -w <filename>\" on each of ")
+			log.Println("WARNING: the generated .go files.")
+			log.Println("===================================================================")
 			return err
 		}
+	}
+
+	for _, t := range tools {
 
 		_, err = os.Stat(fileName)
 		if err != nil {
@@ -1593,13 +1486,12 @@ func ExecuteGoTools(fileName string) error {
 			return err
 		}
 
-		log.Printf("executing %s %s %s\n", goftmPath, toolArgs[t], fileName)
-		// cmd1 := exec.Command(goftmPath, "-w", fileName)
+		log.Printf("executing %s %s %s\n", t, toolArgs[t], fileName)
 		var cmd1 *exec.Cmd
 		if toolArgs[t] != "" {
-			cmd1 = exec.Command(goftmPath, toolArgs[t], fileName)
+			cmd1 = exec.Command(t, toolArgs[t], fileName)
 		} else {
-			cmd1 = exec.Command(goftmPath, fileName)
+			cmd1 = exec.Command(t, fileName)
 		}
 		err = cmd1.Run()
 		if err != nil {

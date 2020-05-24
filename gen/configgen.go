@@ -254,13 +254,6 @@ func (cfg *Config) GenerateSampleDockerConfig(dstDir string) error {
 		return err
 	}
 
-	// at := template.New("sample docker json configuration template")
-	// at, err := template.ParseFiles("static/docker/docker_config.json.gotmpl")
-	// if err != nil {
-	// 	log.Fatal("Parse: ", err)
-	// 	return err
-	// }
-
 	// check the destination file-path and create if required
 	_, err = os.Stat(dstDir)
 	if err != nil {
@@ -300,13 +293,6 @@ func (cfg *Config) GenerateSampleDockerConfig(dstDir string) error {
 		return err
 	}
 
-	// at = template.New("sample dockerfile")
-	// at, err = template.ParseFiles("static/docker/Dockerfile.gotmpl")
-	// if err != nil {
-	// 	log.Fatal("Parse: ", err)
-	// 	return err
-	// }
-
 	tfDir = dstDir + "/Dockerfile"
 
 	// create the Dockerfile
@@ -341,13 +327,6 @@ func (cfg *Config) GenerateSampleDockerConfig(dstDir string) error {
 		return err
 	}
 
-	// at = template.New("sample docker-entrypoint.sh")
-	// at, err = template.ParseFiles("static/docker/docker-entrypoint.sh.gotmpl")
-	// if err != nil {
-	// 	log.Fatal("Parse: ", err)
-	// 	return err
-	// }
-
 	tfDir = dstDir + "/docker-entrypoint.sh"
 
 	// create the docker-entrypoint.sh script
@@ -379,13 +358,6 @@ func (cfg *Config) GenerateSampleDockerConfig(dstDir string) error {
 	if err != nil {
 		return err
 	}
-
-	// at = template.New("docker readme.md")
-	// at, err = template.ParseFiles("static/docker/docker_readme.md.gotmpl")
-	// if err != nil {
-	// 	log.Fatal("Parse: ", err)
-	// 	return err
-	// }
 
 	tfDir = dstDir + "/docker_readme.md"
 
