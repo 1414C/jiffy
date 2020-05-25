@@ -27,8 +27,8 @@ Supported Databases  PostgreSQL tested with version 10+ SAP HanaDB tested with H
       <pubDate>Mon, 05 Feb 2018 14:03:10 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/installation/in-content-b/</guid>
-      <description>Installation Steps The easiest way to install Jiffy is to use go get on the command-line to pull the latest version from github, as shown below:
-go get -u github.com/1414C/jiffy The go get command will pull the Jiffy github repository into your $GOPATH/src/github.com folder, as well as any dependencies referenced by the Jiffy source code. The -u flag is included to instruct go get to check for and pull updates to Jiffy packages and their dependencies based on the content of the project&amp;rsquo;s go.</description>
+      <description>Install from Binary Distribution At the moment, the easiest way to install Jiffy is to pull down the binary distribution matching your build environment from the latest release area in the jiffy repository. There you will find builds of the jiffy executable for the following GOOS and GOARCH combinations.
+   GOOS GOARCH FILE     darwin amd64 jiffy-darwin-amd64.tar.gz   linux amd64 jiffy-linux-amd64.tar.gz   linux arm jiffy-linux-arm.</description>
     </item>
     
   </channel>
