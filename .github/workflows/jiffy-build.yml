@@ -41,4 +41,3 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: jiffy
-          path: binary_distributions
