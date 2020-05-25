@@ -52,8 +52,8 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            jiffy-darwin-amd64.tar.gzip
-            jiffy-linux-amd64.tar.gzip
+            jiffy-darwin-amd64.tar.gz
+            jiffy-linux-amd64.tar.gz
           #body_path: ${{ github.workflow }}-CHANGELOG.txt
           body_path: CHANGELOG.txt
         env:
