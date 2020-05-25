@@ -1,0 +1,19 @@
+# This is a basic workflow to help you get started with Actions
+
+- name: Go Release Binaries
+  uses: wangyoucao577/go-release-action@v1.4
+  with:
+    # GITHUB_TOKEN for uploading releases to Github asserts.
+    github_token: ${{ secrets.GITHUB_TOKEN }}
+    goos: darwin
+    goarch: amd64
+    # The `Go` compiler version.
+    goversion: # optional, default is 
+    build_flags: -v
+    ldflags: # optional, default is 
+    # Where to run `go build .`
+    project_path: # optional, default is .
+    # Specify another binary name if do not want to use repository basename
+    binary_name: # optional, default is 
+    # Extra command that will be executed before `go build`, may for solving dependency
+    pre_command: pkgtemplates.sh
