@@ -39,11 +39,65 @@ jobs:
       - name: Gzip darwin-amd64
         run: tar cvzf jiffy-darwin-amd64.tar.gz jiffy README.md
 
+      - name: Build freebsd-amd64
+        run: GOOS=freebsd GOARCH=amd64 go build -v -o jiffy
+
+      - name: Gzip freebsd-amd64
+        run: tar cvzf jiffy-freebsd-amd64.tar.gz jiffy README.md
+
+      - name: Build freebsd-arm
+        run: GOOS=freebsd GOARCH=arm go build -v -o jiffy
+
+      - name: Gzip freebsd-arm
+        run: tar cvzf jiffy-freebsd-arm.tar.gz jiffy README.md
+
+      - name: Build openbsd-amd64
+        run: GOOS=openbsd GOARCH=amd64 go build -v -o jiffy
+
+      - name: Gzip openbsd-amd64
+        run: tar cvzf jiffy-openbsd-amd64.tar.gz jiffy README.md
+
+      - name: Build openbsd-arm
+        run: GOOS=openbsd GOARCH=arm go build -v -o jiffy
+
+      - name: Gzip openbsd-arm
+        run: tar cvzf jiffy-openbsd-arm.tar.gz jiffy README.md
+
       - name: Build linux-amd64
-        run: GOOS=darwin GOARCH=amd64 go build -v -o jiffy
+        run: GOOS=linux GOARCH=amd64 go build -v -o jiffy
 
       - name: Gzip linux-amd64
         run: tar cvzf jiffy-linux-amd64.tar.gz jiffy README.md
+
+      - name: Build linux-arm
+        run: GOOS=linux GOARCH=arm go build -v -o jiffy
+
+      - name: Gzip linux-arm
+        run: tar cvzf jiffy-linux-arm.tar.gz jiffy README.md
+
+      - name: Build linux-arm64
+        run: GOOS=linux GOARCH=arm64 go build -v -o jiffy
+
+      - name: Gzip linux-arm64
+        run: tar cvzf jiffy-linux-arm64.tar.gz jiffy README.md
+
+      - name: Build linux-mips64
+        run: GOOS=linux GOARCH=mips64 go build -v -o jiffy
+
+      - name: Gzip linux-mips64
+        run: tar cvzf jiffy-linux-mips64.tar.gz jiffy README.md
+
+      - name: Build linux-ppc64
+        run: GOOS=linux GOARCH=ppc64 go build -v -o jiffy
+
+      - name: Gzip linux-ppc64
+        run: tar cvzf jiffy-linux-ppc64.tar.gz jiffy README.md
+
+      - name: Build linux-s390x
+        run: GOOS=linux GOARCH=s390x go build -v -o jiffy
+
+      - name: Gzip linux-s390x
+        run: tar cvzf jiffy-linux-s390x.tar.gz jiffy README.md
 
       #- name: Generate Changelog
       #run: echo "# Good things have arrived" > ${{ github.workflow }}-CHANGELOG.txt
@@ -53,7 +107,16 @@ jobs:
         with:
           files: |
             jiffy-darwin-amd64.tar.gz
+            jiffy-freebsd-amd64.tar.gz
+            jiffy-freebsd-arm.tar.gz
+            jiffy-openbsd-amd64.tar.gz
+            jiffy-openbsd-arm.tar.gz
             jiffy-linux-amd64.tar.gz
+            jiffy-linux-arm.tar.gz
+            jiffy-linux-arm64.tar.gz
+            jiffy-linux-mips64.tar.gz
+            jiffy-linux-ppc64.tar.gz
+            jiffy-linux-s390x64.tar.gz
           #body_path: ${{ github.workflow }}-CHANGELOG.txt
           body_path: CHANGELOG.txt
         env:
