@@ -39,6 +39,12 @@ jobs:
       - name: Gzip darwin-amd64
         run: tar cvzf jiffy-darwin-amd64.tar.gz jiffy README.md
 
+      - name: Build linux-amd64
+        run: GOOS=darwin GOARCH=amd64 go build -v -o jiffy
+
+      - name: Gzip linux-amd64
+        run: tar cvzf jiffy-linux-amd64.tar.gz jiffy README.md
+
       #- name: Generate Changelog
       #run: echo "# Good things have arrived" > ${{ github.workflow }}-CHANGELOG.txt
       - name: Release
@@ -46,7 +52,8 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            jiffy-darwin-amd64.gzip
+            jiffy-darwin-amd64.tar.gzip
+            jiffy-linux-amd64.tar.gzip
           #body_path: ${{ github.workflow }}-CHANGELOG.txt
           body_path: CHANGELOG.txt
         env:
