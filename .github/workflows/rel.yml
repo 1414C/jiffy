@@ -36,6 +36,9 @@ jobs:
       - name: Build
         run: go build -v .
 
+      - name: Gzip
+        run: tar cvzf jiffy-darwin-amd64.tar.gz jiffy README.md
+
       #- name: Generate Changelog
       #run: echo "# Good things have arrived" > ${{ github.workflow }}-CHANGELOG.txt
       - name: Release
