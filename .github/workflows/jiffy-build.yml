@@ -34,7 +34,7 @@ jobs:
       run: go install github.com/markbates/pkger
       
     - name: Run pkger
-      run: pkgtemplates.sh
+      run: ./pkgtemplates.sh
 
     - name: Build
       run: go build -v .
