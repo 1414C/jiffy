@@ -1,8 +1,13 @@
 # jiffy
 
-![jiffy-build](https://github.com/1414C/jiffy/workflows/jiffy-build/badge.svg)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/1414C/jiffy)
-![GitHub go.mod Go version (subfolder of monorepo)](https://img.shields.io/github/go-mod/go-version/1414C/jiffy)
+<a href="https://github.com/1414C/jiffy/actions?query=workflow%3Ajiffy-build" alt="BuildStatus">
+        <img src="https://github.com/1414C/jiffy/workflows/jiffy-build/badge.svg" /></a>
+
+<a href="https://github.com/1414C/jiffy/releases" alt="Releases">
+        <img src="https://img.shields.io/github/v/release/1414C/jiffy" /></a>
+
+<a href="https://golang.org/dl/" alt="GoVersion">
+        <img src="https://img.shields.io/github/go-mod/go-version/1414C/jiffy" /></a>
 
 Jiffy is a model-based RESTful application services generator written in Go.  It was developed as an experiment to offer an alternative avenue when developing native applications for SAP Hana, but also works nicely with Postgres, MariaDB, SQLite and MSSQL.  The jiffy application allows a developer to treat the data persistence layer as an abstraction, thereby allowing retargeting of the backend db system without the need to recompile.
 
