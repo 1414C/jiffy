@@ -16,7 +16,7 @@ jobs:
           go-version: ^1.14
         id: go
 
-      - name: Check ouf code into go module directory
+      - name: Check out code into go module directory
         uses: actions/checkout@v2
 
       - name: Get dependencies
@@ -116,7 +116,7 @@ jobs:
             jiffy-linux-arm64.tar.gz
             jiffy-linux-mips64.tar.gz
             jiffy-linux-ppc64.tar.gz
-            jiffy-linux-s390x64.tar.gz
+            jiffy-linux-s390x.tar.gz
           #body_path: ${{ github.workflow }}-CHANGELOG.txt
           body_path: CHANGELOG.txt
         env:

@@ -12,20 +12,20 @@
     <title>Installing Jiffy :: Jiffy Services Generator</title>
 
     
-    <link href="/jiffy/css/nucleus.css?1590359686" rel="stylesheet">
-    <link href="/jiffy/css/fontawesome-all.min.css?1590359686" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1590359686" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1590359686" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1590359686" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1590359686" rel="stylesheet">
-    <link href="/jiffy/css/atom-one-dark-reasonable.css?1590359686" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1590359686" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1590359686" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1590442698" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1590442698" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1590442698" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1590442698" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1590442698" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1590442698" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1590442698" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1590442698" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1590442698" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1590359686" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1590442698" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-3.3.1.min.js?1590359686"></script>
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1590442698"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -82,14 +82,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1590359686"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1590359686"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1590442698"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1590442698"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1590359686"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1590442698"></script>
 
     
   </div>
@@ -1905,64 +1905,77 @@
 
 
 <h2 id="install-from-binary-distribution">Install from Binary Distribution</h2>
-<p>At the moment, the easiest way to install Jiffy is to pull down the binary distribution matching your build environment from the <a href="https://github.com/1414C/jiffy/blob/master/binary_distributions">binary_distributions</a> folder in the jiffy repository.  There you will find builds of the jiffy executable for the following GOOS and GOARCH combinations.</p>
+<p>At the moment, the easiest way to install Jiffy is to pull down the binary distribution matching your build environment from the <a href="https://github.com/1414C/jiffy/releases">latest release</a> area in the jiffy repository.  There you will find builds of the jiffy executable for the following GOOS and GOARCH combinations.</p>
 <table>
 <thead>
 <tr>
 <th>GOOS</th>
 <th>GOARCH</th>
+<th>FILE</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>darwin</td>
 <td>amd64</td>
+<td>jiffy-darwin-amd64.tar.gz</td>
 </tr>
 <tr>
 <td>linux</td>
 <td>amd64</td>
+<td>jiffy-linux-amd64.tar.gz</td>
 </tr>
 <tr>
 <td>linux</td>
 <td>arm</td>
+<td>jiffy-linux-arm.tar.gz</td>
 </tr>
 <tr>
 <td>linux</td>
 <td>arm64</td>
+<td>jiffy-linux-arm64.tar.gz</td>
 </tr>
 <tr>
 <td>linux</td>
 <td>mips64</td>
+<td>jiffy-linux-mips64.tar.gz</td>
 </tr>
 <tr>
 <td>linux</td>
 <td>ppc64</td>
+<td>jiffy-linux-ppc64.tar.gz</td>
 </tr>
 <tr>
 <td>linux</td>
 <td>s390x</td>
+<td>jiffy-linux-s390x.tar.gz</td>
 </tr>
 <tr>
 <td>freebsd</td>
 <td>amd64</td>
+<td>jiffy-freebsd-amd64.tar.gz</td>
 </tr>
 <tr>
 <td>freebsd</td>
 <td>arm</td>
+<td>jiffy-freebsd-arm.tar.gz</td>
 </tr>
 <tr>
 <td>openbsd</td>
 <td>amd64</td>
+<td>jiffy-openbsd-amd64.tar.gz</td>
 </tr>
 <tr>
 <td>openbsd</td>
 <td>arm</td>
+<td>jiffy-openbsd-arm.tar.gz</td>
 </tr>
 </tbody>
 </table>
 <p>This list is not exhaustive.  If your GOOS/GOARCH are not found in this list, you may build jiffy from source by following the instructions in the next section.</p>
-<p>Once downloaded, you may move the &lsquo;jiffy&rsquo; binary anywhere in your $PATH, but /usr/local/bin is typical.  Once the &lsquo;jiffy&rsquo; binary has been moved to its new home, open a new terminal window and use the <em>which</em> command to ensure that the binary is in the $PATH.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">
+<p>Once downloaded, you may extract the &lsquo;jiffy&rsquo; binary to a location anywhere in your $PATH, (/usr/local/bin is typical).  Once the &lsquo;jiffy&rsquo; binary has been moved to its new home, open a new terminal window and use the <em>which</em> command to ensure that the binary is in the $PATH.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">    tar -xvf jiffy-linux-amd64.tar.gz
+    mv jiffy /usr/local/bin
     which jiffy -a
 
 </code></pre></div><p>If <em>which</em> cannot find the jiffy binary (or finds the wrong one!), make sure that your $PATH environment variable is set correctly, and maybe remove versions that were previously installed.</p>
@@ -1972,7 +1985,7 @@
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">
     go get -u github.com/1414C/jiffy
 
-</code></pre></div><p>The <em>go get</em> command will pull the Jiffy github repository into your $GOPATH/src/github.com folder, as well as any dependencies referenced by the Jiffy source code.  The <em>-u</em> flag is included to instruct <em>go get</em> to check for and pull updates to Jiffy packages and their dependencies based on the content of the project&rsquo;s go.mod file.</p>
+</code></pre></div><p>The <em>go get</em> command will pull the master branch of the Jiffy github repository into your $GOPATH/src/github.com folder, as well as any dependencies referenced by the Jiffy source code.  The <em>-u</em> flag is included to instruct <em>go get</em> to check for and pull updates to Jiffy packages and their dependencies based on the content of the project&rsquo;s go.mod file.</p>
 <p>Once the Jiffy source code and dependencies have been installed into the $GOPATH, <em>make</em> can be used to compile a binary from the Jiffy sources and install it in /usr/local/bin.  Open a terminal window, switch to $GOPATH/src/github.com/1414C/jiffy and run <em>make install-mac</em> or <em>make install-linux</em> as shown below.  <em>make install-mac</em> and <em>make install-linux</em> both build for a GOARCH=amd64.  If you need to build for another architecture, edit the Makefile accordingly.  Check the <em>all</em> section of the Makefile; you can probably just copy one of the existing entries as these are used to generate the <em>binary_distributions</em> tree.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">
     make install-mac  or
@@ -3319,19 +3332,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1590359686"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1590359686"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1590359686"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1590359686"></script>
-    <script src="/jiffy/js/featherlight.min.js?1590359686"></script>
-    <script src="/jiffy/js/highlight.pack.js?1590359686"></script>
+    <script src="/jiffy/js/clipboard.min.js?1590442698"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1590442698"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1590442698"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1590442698"></script>
+    <script src="/jiffy/js/featherlight.min.js?1590442698"></script>
+    <script src="/jiffy/js/highlight.pack.js?1590442698"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1590359686"></script>
-    <script src="/jiffy/js/learn.js?1590359686"></script>
-    <script src="/jiffy/js/hugo-learn.js?1590359686"></script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1590442698"></script>
+    <script src="/jiffy/js/learn.js?1590442698"></script>
+    <script src="/jiffy/js/hugo-learn.js?1590442698"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1590359686" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1590359686"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1590442698" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1590442698"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
