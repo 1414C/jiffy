@@ -1,5 +1,5 @@
-github.com/1414C/sqac v0.1.0 h1:Mn/wTJzOXSHfBRJFD9a8IMoWsGRBhCZR5GyC3pzIMUM=
-github.com/1414C/sqac v0.1.0/go.mod h1:chtY1A4Hm0W4V9HyZu+i4BgQbvxlqaAA49/PKqpyJ5k=
+github.com/1414C/sqac v0.0.2 h1:son8+OqS0l2lE1IJBAY6NDjulO9WCmM2Phqd5zF7Fho=
+github.com/1414C/sqac v0.0.2/go.mod h1:80sP3J0gdWrCS15Z7A+mTZTJA611/Hzu8NUaa3cYRFw=
 github.com/SAP/go-hdb v0.14.1 h1:hkw4ozGZ/i4eak7ZuGkY5e0hxiXFdNUBNhr4AvZVNFE=
 github.com/SAP/go-hdb v0.14.1/go.mod h1:7fdQLVC2lER3urZLjZCm0AuMQfApof92n3aylBPEkMo=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
