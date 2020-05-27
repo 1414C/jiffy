@@ -49,7 +49,7 @@
     },
     "logging": {
         "active": true,
-        "callLocation": true,
+        "callLocation": false,
         "colorMsgTypes": true,
         {{if .GetIsProd -}}
         "infoMsgs": false,
@@ -62,8 +62,8 @@
         "debugMsgs": false,
         "traceMsgs": false
         {{else -}}
-        "debugMsgs": true,
-        "traceMsgs": true
+        "debugMsgs": false,
+        "traceMsgs": false
         {{end -}}
     },
     {{if .GetIsProd -}}
