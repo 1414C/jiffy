@@ -1,2 +1,3 @@
-- add binary for linux-s390x
-- remove old binary_distributions folder
+v0.1.4
+- update docs to add libraryapp containerized example
+- small doc fixes
