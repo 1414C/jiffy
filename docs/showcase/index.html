@@ -12,20 +12,20 @@
     <title>Showcases :: Jiffy Services Generator</title>
 
     
-    <link href="/jiffy/css/nucleus.css?1590445709" rel="stylesheet">
-    <link href="/jiffy/css/fontawesome-all.min.css?1590445709" rel="stylesheet">
-    <link href="/jiffy/css/hybrid.css?1590445709" rel="stylesheet">
-    <link href="/jiffy/css/featherlight.min.css?1590445709" rel="stylesheet">
-    <link href="/jiffy/css/perfect-scrollbar.min.css?1590445709" rel="stylesheet">
-    <link href="/jiffy/css/auto-complete.css?1590445709" rel="stylesheet">
-    <link href="/jiffy/css/atom-one-dark-reasonable.css?1590445709" rel="stylesheet">
-    <link href="/jiffy/css/theme.css?1590445709" rel="stylesheet">
-    <link href="/jiffy/css/hugo-theme.css?1590445709" rel="stylesheet">
+    <link href="/jiffy/css/nucleus.css?1590635264" rel="stylesheet">
+    <link href="/jiffy/css/fontawesome-all.min.css?1590635264" rel="stylesheet">
+    <link href="/jiffy/css/hybrid.css?1590635264" rel="stylesheet">
+    <link href="/jiffy/css/featherlight.min.css?1590635264" rel="stylesheet">
+    <link href="/jiffy/css/perfect-scrollbar.min.css?1590635264" rel="stylesheet">
+    <link href="/jiffy/css/auto-complete.css?1590635264" rel="stylesheet">
+    <link href="/jiffy/css/atom-one-dark-reasonable.css?1590635264" rel="stylesheet">
+    <link href="/jiffy/css/theme.css?1590635264" rel="stylesheet">
+    <link href="/jiffy/css/hugo-theme.css?1590635264" rel="stylesheet">
     
-      <link href="/jiffy/css/theme-blue.css?1590445709" rel="stylesheet">
+      <link href="/jiffy/css/theme-blue.css?1590635264" rel="stylesheet">
     
 
-    <script src="/jiffy/js/jquery-3.3.1.min.js?1590445709"></script>
+    <script src="/jiffy/js/jquery-3.3.1.min.js?1590635264"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -82,14 +82,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/jiffy/js/lunr.min.js?1590445709"></script>
-<script type="text/javascript" src="/jiffy/js/auto-complete.js?1590445709"></script>
+<script type="text/javascript" src="/jiffy/js/lunr.min.js?1590635264"></script>
+<script type="text/javascript" src="/jiffy/js/auto-complete.js?1590635264"></script>
 <script type="text/javascript">
     
         var baseurl = "https:\/\/1414c.github.io\/jiffy\/";
     
 </script>
-<script type="text/javascript" src="/jiffy/js/search.js?1590445709"></script>
+<script type="text/javascript" src="/jiffy/js/search.js?1590635264"></script>
 
     
   </div>
@@ -1887,10 +1887,43 @@
 <h2 id="simple-single-entity-application">Simple Single Entity Application</h2>
 <p><a href="https://github.com/1414C/GeneratedPersonApp">This repository</a> contains a Jiffy application that has been generated from the <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/simpleSingleEntityModel.json">simpleSingleEntityModel.json</a> model file located in the Jiffy repository.</p>
 <p>This model is the same one used in the Jiffy <a href="https://1414c.github.io/jiffy/getting-started/">Getting Started</a> tutorial in the documentation set.</p>
-<h2 id="simple-application-to-demonstrate-relationships">Simple Application to Demonstrate Relationships</h2>
-<p>The <a href="https://github.com/1414C/GeneratedLibraryApp">GeneratedLibraryApplication</a> contains a Jiffy application that has been generated from the <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/hasManyBelongsTo.json">hasManyBelongsTo.json</a> model file located in the Jiffy repository.</p>
-<p>This model contains a Library entity and a Book entity and declares relationships between them.  The relationships allow for mice modes of access where we can do things like read all of the Book entities belonging to a Library, or ask a Book which Library it belongs to.  See the <a href="https://1414c.github.io/jiffy/models/mo-content-d/">Entity Relations</a> section in the Jiffy documentation.</p>
-<p>** The jiffy documentation set does not presently show an example of Relationship tests.  This is on the TODO list. **</p>
+<ol>
+<li>Ensure that the latest release of go is installed on your local system.</li>
+<li>Clone the repository to your local system and follow the <strong>Getting Started</strong> tutorial link above.</li>
+</ol>
+<br>
+<h2 id="ready-to-run-dockerized-application">Ready-to-Run Dockerized Application</h2>
+<p>The <a href="https://github.com/1414C/libraryapp">libraryapp repository</a> contains a Jiffy application that has been generated from the <a href="https://github.com/1414C/jiffy/blob/master/support/testing_models/hasManyBelongsTo.json">hasManyBelongsTo.json</a> model file located in the Jiffy repository.</p>
+<p>This model contains a Library entity and a Book entity and declares relationships between them.  The relationships allow for nice modes of access where we can do things like read all of the Book entities belonging to a Library, or ask a Book which Library it belongs to.  See the <a href="https://1414c.github.io/jiffy/models/mo-content-d/">Entity Relations</a> section in the Jiffy documentation for details regarding relationships.</p>
+<p>This repository contains a runnable docker image which makes use of Alpine linux and a sqlite database to expose an application supporting the Library and Book services @ localhost:8080.</p>
+<h3 id="getting-the-docker-image-installed">Getting the Docker Image Installed</h3>
+<ol>
+<li>Make sure port 8080 is not being held by another process on the host system.</li>
+<li>Ensure that Docker is installed and running on the host machine.</li>
+<li>Clone the libraryapp repository to the host system, or minimally download the <a href="https://github.com/1414C/libraryapp/blob/master/libraryapp.tar">libraryapp.tar</a> file from the libraryapp repository.</li>
+<li>Use <em>docker load</em> to load the image.</li>
+<li>Start the libraryapp image and run some tests with Postman.</li>
+</ol>
+<h4 id="docker-load">Docker Load</h4>
+<p>The docker load command can be used to extract the libraryapp image from the <a href="https://github.com/1414C/libraryapp/blob/master/libraryapp.tar">libraryapp.tar</a> file and load it as a docker image.</p>
+<pre><code class="language-code" data-lang="code">Aardvark:libraryapp stevem$ docker load --input libraryapp.tar
+01d7fe70da5c: Loading layer [==================================================&gt;]  15.43MB/15.43MB
+c12245161295: Loading layer [==================================================&gt;]  4.096kB/4.096kB
+f210cee51b6f: Loading layer [==================================================&gt;]   2.56kB/2.56kB
+06867f677dc6: Loading layer [==================================================&gt;]   2.56kB/2.56kB
+90571e324a88: Loading layer [==================================================&gt;]  2.048kB/2.048kB
+b8fb7e4542f7: Loading layer [==================================================&gt;]  24.58kB/24.58kB
+fd23e9cd4bef: Loading layer [==================================================&gt;]  1.428MB/1.428MB
+0f2acd65de52: Loading layer [==================================================&gt;]  5.811MB/5.811MB
+6bb5b02469f6: Loading layer [==================================================&gt;]   4.67MB/4.67MB
+Loaded image: libraryapp:latest
+Aardvark:libraryapp stevem$
+</code></pre><p>Check that the image has been loaded correctly.</p>
+<pre><code class="language-code" data-lang="code">Aardvark:libraryapp stevem$ docker image ls libraryapp
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+libraryapp          latest              1c2810de379f        3 hours ago         48.2MB
+Aardvark:libraryapp stevem$
+</code></pre><p>Once you have reached this point, the image is ready to be used and you may pick up at the <a href="/jiffy/tutorials/using-docker/dr-content-a/#view-the-image">View the Image Section</a> of the Jiffy with Docker and SQLite tutorial.</p>
 
 
 <footer class=" footline" >
@@ -3217,19 +3250,19 @@
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/jiffy/js/clipboard.min.js?1590445709"></script>
-    <script src="/jiffy/js/perfect-scrollbar.min.js?1590445709"></script>
-    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1590445709"></script>
-    <script src="/jiffy/js/jquery.sticky.js?1590445709"></script>
-    <script src="/jiffy/js/featherlight.min.js?1590445709"></script>
-    <script src="/jiffy/js/highlight.pack.js?1590445709"></script>
+    <script src="/jiffy/js/clipboard.min.js?1590635264"></script>
+    <script src="/jiffy/js/perfect-scrollbar.min.js?1590635264"></script>
+    <script src="/jiffy/js/perfect-scrollbar.jquery.min.js?1590635264"></script>
+    <script src="/jiffy/js/jquery.sticky.js?1590635264"></script>
+    <script src="/jiffy/js/featherlight.min.js?1590635264"></script>
+    <script src="/jiffy/js/highlight.pack.js?1590635264"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1590445709"></script>
-    <script src="/jiffy/js/learn.js?1590445709"></script>
-    <script src="/jiffy/js/hugo-learn.js?1590445709"></script>
+    <script src="/jiffy/js/modernizr.custom-3.6.0.js?1590635264"></script>
+    <script src="/jiffy/js/learn.js?1590635264"></script>
+    <script src="/jiffy/js/hugo-learn.js?1590635264"></script>
 
-    <link href="/jiffy/mermaid/mermaid.css?1590445709" rel="stylesheet" />
-    <script src="/jiffy/mermaid/mermaid.js?1590445709"></script>
+    <link href="/jiffy/mermaid/mermaid.css?1590635264" rel="stylesheet" />
+    <script src="/jiffy/mermaid/mermaid.js?1590635264"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
