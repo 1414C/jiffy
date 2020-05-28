@@ -27,7 +27,7 @@ Go is easy to setup and can be installed from source or binary package, both whi
       <pubDate>Mon, 05 Feb 2018 20:39:34 -0700</pubDate>
       
       <guid>https://1414c.github.io/jiffy/getting-started/gs-content-b/</guid>
-      <description>Skip the Details and Try an Application If you want to try a small jiffy generated application without install jiffy thats fine! Check out the libraryapp showcase to pull a docker image of a compiled jiffy application and follow the tutorial to test it out. If you want to install Jiffy and generate a services application yourself, keep reading!
+      <description>Skip the Details and Try an Application If you want to try a small jiffy generated application without installing jiffy thats fine! Check out the libraryapp showcase to pull a docker image of a compiled jiffy application and follow the tutorial to test it out. If you want to install Jiffy and generate a services application yourself, keep reading!
 Install from Binary Distribution At the moment, the easiest way to install Jiffy is to pull down the binary distribution matching your build environment from the latest release area in the jiffy repository.</description>
     </item>
     
