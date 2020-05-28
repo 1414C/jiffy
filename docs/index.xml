@@ -695,7 +695,7 @@ Good places to start would be in the Jiffy Overview and the Model Maintenance se
       <guid>https://1414c.github.io/jiffy/showcase/</guid>
       <description>Simple Single Entity Application This repository contains a Jiffy application that has been generated from the simpleSingleEntityModel.json model file located in the Jiffy repository.
 This model is the same one used in the Jiffy Getting Started tutorial in the documentation set.
- Ensure that the latest release of go is installed on your local system. Clone the repository to your local system and follow the Getting Started tutorial link above.  Ready-to-Run Dockerized Application The libraryapp repository contains a Jiffy application that has been generated from the hasManyBelongsTo.</description>
+ Ensure that the latest release of go is installed on your local system. Clone the repository to your local system and follow the Getting Started tutorial link above.  libraryapp with Docker The libraryapp repository contains a Jiffy application that has been generated from the hasManyBelongsTo.</description>
     </item>
     
   </channel>
