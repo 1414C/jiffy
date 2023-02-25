@@ -10,5 +10,5 @@ require (
 	github.com/lib/pq v1.2.0
 	github.com/markbates/pkger v0.16.0
 	github.com/mattn/go-sqlite3 v2.0.1+incompatible
-	golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550 // indirect
+	golang.org/x/crypto v0.1.0 // indirect
 )
