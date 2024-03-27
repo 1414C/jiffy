@@ -19,7 +19,7 @@ docker:
 	# docker run -p 3000:3000 pkger:jiffy
 
 all:
-	pkgtemplates.sh
+	./pkgtemplates.sh
 
 	# macos
 	GOOS=darwin GOARCH=amd64 go build -v -o jiffy 
