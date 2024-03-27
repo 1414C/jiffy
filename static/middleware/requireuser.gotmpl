@@ -15,8 +15,8 @@ import (
 	"{{.AppPath}}/models"
 	"{{.AppPath}}/group/gmcom"
 	"github.com/gorilla/mux"
-	"github.com/dgrijalva/jwt-go"
-	"github.com/dgrijalva/jwt-go/request"
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/golang-jwt/jwt/v5/request"
 	"github.com/1414C/lw"
 )
 
@@ -124,7 +124,7 @@ func (mw *RequireUsr) ApplyFn(next http.HandlerFunc) http.HandlerFunc {
 	// CustomClaims are used to facilitate access to application-specific
 	// claims that are not part of the JWT standard set.
 	type CustomClaims struct {
-		*jwt.StandardClaims
+		*jwt.RegisteredClaims
 		TokenType string
 		Groups    string
 		UID       uint64
