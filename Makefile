@@ -27,36 +27,36 @@ all:
 
 	# linux
 	GOOS=linux GOARCH=amd64 go build -v -o jiffy 
-	mv jiffy ./binary_distributions/linux_amd64
+	mv jiffy ./binary_distributions/jiffy_linux_amd64
 
 	GOOS=linux GOARCH=arm go build -v -o jiffy 
-	mv jiffy ./binary_distributions/linux_arm
+	mv jiffy ./binary_distributions/jiffy_linux_arm
 
 	GOOS=linux GOARCH=arm64 go build -v -o jiffy 
-	mv jiffy ./binary_distributions/linux_arm64
+	mv jiffy ./binary_distributions/jiffy_linux_arm64
 
 	GOOS=linux GOARCH=ppc64 go build -v -o jiffy 
-	mv jiffy ./binary_distributions/linux_ppc64
+	mv jiffy ./binary_distributions/jiffy_linux_ppc64
 
 	GOOS=linux GOARCH=mips64 go build -v -o jiffy 
-	mv jiffy ./binary_distributions/linux_mips64
+	mv jiffy ./binary_distributions/jiffy_linux_mips64
 	
 	GOOS=linux GOARCH=s390x go build -v -o jiffy 
-	mv jiffy ./binary_distributions/linux_s390x
+	mv jiffy ./binary_distributions/jiffy_linux_s390x
 
 	# freebsd
 	GOOS=freebsd GOARCH=amd64 go build -v -o jiffy 
-	mv jiffy ./binary_distributions/freebsd_amd64
+	mv jiffy ./binary_distributions/jiffy_freebsd_amd64
 	
 	GOOS=freebsd GOARCH=arm go build -v -o jiffy 
-	mv jiffy ./binary_distributions/freebsd_arm
+	mv jiffy ./binary_distributions/jiffy_freebsd_arm
 
 	# openbsd
 	GOOS=openbsd GOARCH=amd64 go build -v -o jiffy 
-	mv jiffy ./binary_distributions/openbsd_amd64
+	mv jiffy ./binary_distributions/jiffy_openbsd_amd64
 	
 	GOOS=openbsd GOARCH=arm go build -v -o jiffy 
-	mv jiffy ./binary_distributions/openbsd_arm
+	mv jiffy ./binary_distributions/jiffy_openbsd_arm
 
 
 
