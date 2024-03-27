@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"strings"
 
 	"github.com/1414C/jiffy/gen"
@@ -364,5 +365,16 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+	}
+
+	// run go mod tidy against the generated app
+	err = os.Chdir(*projectPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	cmd2 := exec.Command("go", "mod", "tidy")
+	err = cmd2.Run()
+	if err != nil {
+		log.Fatal(err)
 	}
 }
