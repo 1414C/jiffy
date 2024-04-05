@@ -3,7 +3,7 @@ package gen
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"reflect"
 	"strconv"
 	"strings"
@@ -31,7 +31,7 @@ func ReadModelFile(mf string) ([]Entity, error) {
 	var idMap map[string]json.RawMessage
 
 	// read the models.json file as []byte
-	raw, err := ioutil.ReadFile(mf)
+	raw, err := os.ReadFile(mf)
 	if err != nil {
 		return nil, err
 	}
@@ -427,7 +427,7 @@ func completeRelations(entities []Entity) error {
 						entities[i].Relations[j].RefKeyOptional = !f.Required
 					}
 				}
-				if bValid == false {
+				if !bValid {
 					return fmt.Errorf("RefKey %s is not a valid field-name in %s relationship %s", v.RefKey, entities[i].Header.Name, v.RelName)
 				}
 			}
@@ -458,7 +458,7 @@ func completeRelations(entities []Entity) error {
 						entities[i].Relations[j].ForeignPKOptional = !f.Required
 					}
 				}
-				if bValid == false {
+				if !bValid {
 					return fmt.Errorf("ForeignPK %s is not a valid field-name in %s relationship %s", v.ForeignPK, entities[i].Header.Name, v.RelName)
 				}
 			}

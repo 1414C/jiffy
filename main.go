@@ -1,9 +1,9 @@
 package main
 
 import (
+	"embed"
 	"flag"
 	"go/build"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -11,6 +11,51 @@ import (
 
 	"github.com/1414C/jiffy/gen"
 )
+
+// build directives
+//
+//go:embed static/middleware/requireuser.gotmpl
+//go:embed static/docker/docker_config.json.gotmpl
+//go:embed static/docker/docker-entrypoint.sh.gotmpl
+//go:embed static/docker/docker_readme.md.gotmpl
+//go:embed static/docker/Dockerfile.gotmpl
+//go:embed static/group/gmcl/gmclient.gotmpl
+//go:embed static/group/gmcom/gmomap.gotmpl
+//go:embed static/group/gmcom/gmerrors.gotmpl
+//go:embed static/group/gmcom/gmclsrv.gotmpl
+//go:embed static/group/gmcom/gmcache.gotmpl
+//go:embed static/group/gmsrv/gmserver.gotmpl
+//go:embed static/group/gmsrv/gmprocessors.gotmpl
+//go:embed static/group/gmsrv/gmtxrx.gotmpl
+//go:embed static/group/gmsrv/gmprotocol_senders.gotmpl
+//go:embed static/main_test.gotmpl
+//go:embed static/main.gotmpl
+//go:embed static/models/group_authm.gotmpl
+//go:embed static/models/usrm.gotmpl
+//go:embed static/models/errors.gotmpl
+//go:embed static/models/ext/model_ext_interfaces.gotmpl
+//go:embed static/models/servicesm.gotmpl
+//go:embed static/models/authm.gotmpl
+//go:embed static/models/modelfuncs.gotmpl
+//go:embed static/models/usr_groupm.gotmpl
+//go:embed static/appobj/lead_set_get.gotmpl
+//go:embed static/appobj/appobj.gotmpl
+//go:embed static/modules/go.mod.gotmpl
+//go:embed static/controllers/group_authc.gotmpl
+//go:embed static/controllers/ext/extc_interfaces.gotmpl
+//go:embed static/controllers/controllerfuncs.gotmpl
+//go:embed static/controllers/authc.gotmpl
+//go:embed static/controllers/userc.gotmpl
+//go:embed static/controllers/usr_groupc.gotmpl
+//go:embed templates/model.gotmpl
+//go:embed templates/model_ext.gotmpl
+//go:embed templates/strings.gotmpl
+//go:embed templates/controller_relations.gotmpl
+//go:embed templates/appconf.gotmpl
+//go:embed templates/config.json.gotmpl
+//go:embed templates/controller_ext.gotmpl
+//go:embed templates/controller.gotmpl
+var ef embed.FS
 
 func main() {
 
@@ -60,7 +105,7 @@ func main() {
 			log.Fatal(err, "exiting...")
 		}
 
-		files, err := ioutil.ReadDir(*modelDirectory)
+		files, err := os.ReadDir(*modelDirectory)
 		if err != nil {
 			log.Fatal(err, "exiting...")
 		}
@@ -87,7 +132,7 @@ func main() {
 
 	for _, v := range entities {
 		b := mapEntities[v.Header.Name]
-		if b == false {
+		if !b {
 			mapEntities[v.Header.Name] = true
 		} else {
 			log.Fatalf("duplicate entity %s found in model files.  please check the model sources and try again.  exiting...\n", v.Header.Name)
@@ -104,25 +149,25 @@ func main() {
 
 		ent.AppPath = appPath
 		entities[i].AppPath = appPath
-		fn, err := ent.CreateModelFile(*projectPath)
+		fn, err := ent.CreateModelFile(*projectPath, ef)
 		if err != nil {
 			log.Fatal(err)
 		}
 		generatedFiles = append(generatedFiles, fn)
 
-		fn, err = ent.CreateModelExtensionPointsFile(*projectPath)
+		fn, err = ent.CreateModelExtensionPointsFile(*projectPath, ef)
 		if err != nil {
 			log.Fatal(err)
 		}
 		generatedFiles = append(generatedFiles, fn)
 
-		fn, err = ent.CreateControllerFile(*projectPath)
+		fn, err = ent.CreateControllerFile(*projectPath, ef)
 		if err != nil {
 			log.Fatal(err)
 		}
 		generatedFiles = append(generatedFiles, fn)
 
-		fn, err = ent.CreateControllerExtensionPointsFile(*projectPath)
+		fn, err = ent.CreateControllerExtensionPointsFile(*projectPath, ef)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -181,7 +226,7 @@ func main() {
 	// iterate over the entities to create their relations
 	// via the generation of entity-specific controllers.
 	for _, ent := range entities {
-		fn, err := ent.CreateControllerRelationsFile(*projectPath, entities)
+		fn, err := ent.CreateControllerRelationsFile(*projectPath, entities, ef)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -282,7 +327,7 @@ func main() {
 		AppPath: appPath,
 	}
 
-	err = s.GenerateGoMod()
+	err = s.GenerateGoMod(ef)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -341,20 +386,20 @@ func main() {
 		conf.ServiceActivations = append(conf.ServiceActivations, service)
 	}
 
-	fn, err := conf.GenerateAppConf(*projectPath + "/appobj")
+	fn, err := conf.GenerateAppConf(*projectPath+"/appobj", ef)
 	if err != nil {
 		log.Fatal(err)
 	}
 	generatedFiles = append(generatedFiles, fn)
 
 	// generate a sample .config.json file
-	err = conf.GenerateSampleConfig(*projectPath)
+	err = conf.GenerateSampleConfig(*projectPath, ef)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// generate sample Docker configuration / Dockerfile and docker-entrypoint.sh
-	err = conf.GenerateSampleDockerConfig(*projectPath + "/docker-sample")
+	err = conf.GenerateSampleDockerConfig(*projectPath+"/docker-sample", ef)
 	if err != nil {
 		log.Fatal(err)
 	}

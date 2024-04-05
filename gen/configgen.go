@@ -2,10 +2,12 @@ package gen
 
 import (
 	"database/sql"
+	"embed"
 	"fmt"
 	"log"
 	"os"
 	"strings"
+
 	//	"text/template"
 
 	// needed
@@ -146,10 +148,10 @@ func (cfg Config) IsLastServiceActivationRec(name string) bool {
 
 // GenerateAppConf generates the default application configuration
 // source file appconf.go.
-func (cfg *Config) GenerateAppConf(dstDir string) (fName string, err error) {
+func (cfg *Config) GenerateAppConf(dstDir string, ef embed.FS) (fName string, err error) {
 
 	// get a *Template
-	at, err := prepareTemplate("/templates/appconf.gotmpl")
+	at, err := prepareTemplate("templates/appconf.gotmpl", ef)
 	if err != nil {
 		return "", err
 	}
@@ -189,10 +191,10 @@ func (cfg *Config) GenerateAppConf(dstDir string) (fName string, err error) {
 
 // GenerateSampleConfig creates a sample .config.json file
 // to hold the production application config.
-func (cfg *Config) GenerateSampleConfig(dstDir string) error {
+func (cfg *Config) GenerateSampleConfig(dstDir string, ef embed.FS) error {
 
 	// get a *Template
-	at, err := prepareTemplate("/templates/config.json.gotmpl")
+	at, err := prepareTemplate("templates/config.json.gotmpl", ef)
 	if err != nil {
 		return err
 	}
@@ -246,10 +248,10 @@ func (cfg *Config) GenerateSampleConfig(dstDir string) error {
 
 // GenerateSampleDockerConfig creates a sample .config.json file
 // to hold the production application config.
-func (cfg *Config) GenerateSampleDockerConfig(dstDir string) error {
+func (cfg *Config) GenerateSampleDockerConfig(dstDir string, ef embed.FS) error {
 
 	// get a *Template
-	at, err := prepareTemplate("/static/docker/docker_config.json.gotmpl")
+	at, err := prepareTemplate("static/docker/docker_config.json.gotmpl", ef)
 	if err != nil {
 		return err
 	}
@@ -288,7 +290,7 @@ func (cfg *Config) GenerateSampleDockerConfig(dstDir string) error {
 	log.Println("generated:", tfDir)
 
 	// get a *Template for a sample Dockerfile
-	at, err = prepareTemplate("/static/docker/Dockerfile.gotmpl")
+	at, err = prepareTemplate("static/docker/Dockerfile.gotmpl", ef)
 	if err != nil {
 		return err
 	}
@@ -322,7 +324,7 @@ func (cfg *Config) GenerateSampleDockerConfig(dstDir string) error {
 	// docker image.  This script gets pulled into the docker image during
 	// the docker build process.
 	// generate a sample Dockerfile
-	at, err = prepareTemplate("/static/docker/docker-entrypoint.sh.gotmpl")
+	at, err = prepareTemplate("static/docker/docker-entrypoint.sh.gotmpl", ef)
 	if err != nil {
 		return err
 	}
@@ -354,7 +356,7 @@ func (cfg *Config) GenerateSampleDockerConfig(dstDir string) error {
 	log.Println("generated:", tfDir)
 
 	// generate a readme.md
-	at, err = prepareTemplate("/static/docker/docker_readme.md.gotmpl")
+	at, err = prepareTemplate("static/docker/docker_readme.md.gotmpl", ef)
 	if err != nil {
 		return err
 	}

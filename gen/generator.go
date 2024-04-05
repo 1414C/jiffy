@@ -1,6 +1,7 @@
 package gen
 
 import (
+	"embed"
 	"fmt"
 	"log"
 	"os"
@@ -116,10 +117,10 @@ const (
 // with the model.gotmpl text/template.  Returns the fully-qualified file-name / error.
 // pkger is used to bundle the .gotmpl files into the binary.  Pkger implements the File interface, so the
 // file handling is a little more pedantic than it would be with ioutil.
-func (ent *Entity) CreateModelFile(tDir string) (fName string, err error) {
+func (ent *Entity) CreateModelFile(tDir string, ef embed.FS) (fName string, err error) {
 
 	// new part
-	mt, err := prepareTemplate("/templates/model.gotmpl")
+	mt, err := prepareTemplate("templates/model.gotmpl", ef)
 	if err != nil {
 		return "", err
 	}
@@ -163,10 +164,10 @@ func (ent *Entity) CreateModelFile(tDir string) (fName string, err error) {
 // using the user-defined model.json file in conjunction
 // with the controller.gotmpl text/template.  Returns the fully-qualified
 // file-name / error.
-func (ent *Entity) CreateControllerFile(tDir string) (fName string, err error) {
+func (ent *Entity) CreateControllerFile(tDir string, ef embed.FS) (fName string, err error) {
 
 	// new part
-	ct, err := prepareTemplate("/templates/controller.gotmpl")
+	ct, err := prepareTemplate("templates/controller.gotmpl", ef)
 	if err != nil {
 		return "", err
 	}
@@ -213,10 +214,10 @@ func (ent *Entity) CreateControllerFile(tDir string) (fName string, err error) {
 // facilitate the validation of the ToEntity field used in the
 // foreign-key definition.
 // Returns the fully-qualified file-name / error.
-func (ent *Entity) CreateControllerRelationsFile(tDir string, entities []Entity) (fName string, err error) {
+func (ent *Entity) CreateControllerRelationsFile(tDir string, entities []Entity, ef embed.FS) (fName string, err error) {
 
 	// new part
-	ctr, err := prepareTemplate("/templates/controller_relations.gotmpl")
+	ctr, err := prepareTemplate("templates/controller_relations.gotmpl", ef)
 	if err != nil {
 		return "", err
 	}
@@ -260,10 +261,10 @@ func (ent *Entity) CreateControllerRelationsFile(tDir string, entities []Entity)
 // point implementation file for the Entity if the 'gen_controller' element
 // is set to true in the user-defined model.json file.
 // Returns the fully-qualified file-name / error.
-func (ent *Entity) CreateControllerExtensionPointsFile(tDir string) (fName string, err error) {
+func (ent *Entity) CreateControllerExtensionPointsFile(tDir string, ef embed.FS) (fName string, err error) {
 
 	// new part
-	ctx, err := prepareTemplate("/templates/controller_ext.gotmpl")
+	ctx, err := prepareTemplate("templates/controller_ext.gotmpl", ef)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -317,10 +318,10 @@ func (ent *Entity) CreateControllerExtensionPointsFile(tDir string) (fName strin
 // implementation file for the Entity if the 'gen_controller' element
 // is set to true in the user-defined model.json file.
 // Returns the fully-qualified file-name / error.
-func (ent *Entity) CreateModelExtensionPointsFile(tDir string) (fName string, err error) {
+func (ent *Entity) CreateModelExtensionPointsFile(tDir string, ef embed.FS) (fName string, err error) {
 
 	// new part
-	mtx, err := prepareTemplate("/templates/model_ext.gotmpl")
+	mtx, err := prepareTemplate("templates/model_ext.gotmpl", ef)
 	if err != nil {
 		return "", err
 	}
@@ -369,9 +370,9 @@ func (ent *Entity) CreateModelExtensionPointsFile(tDir string) (fName string, er
 	return tfDir, nil
 }
 
-//=============================================================================================
+// =============================================================================================
 // static generation functions
-//=============================================================================================
+// =============================================================================================
 // GenerateStaticTemplates reads the ./static folder and uses Glob
 // to execute each template in-turn.  Returns the fully-qualified
 // file-names or an error.  Processes .gotmpl files into .go files.
@@ -452,9 +453,9 @@ func (s *Static) GenerateStaticTemplates() (fNames []string, err error) {
 	return fNames, nil
 }
 
-func (s *Static) GenerateGoMod() error {
+func (s *Static) GenerateGoMod(ef embed.FS) error {
 	// func (s *Static) GenerateGoMod(tDir string) (fName string, err error) {
-	st, err := prepareTemplate("/static/modules/go.mod.gotmpl")
+	st, err := prepareTemplate("static/modules/go.mod.gotmpl", ef)
 	if err != nil {
 		return err
 	}
@@ -1159,24 +1160,25 @@ func (s *Static) GetConcatenatedEntities() string {
 // in from the template.  The intent is to create
 // a body which can be edited by the developer in
 // order to add more meaningful data.
-// * string types will be assigned: "string_value"
-// * float64 type will be assigned an incrementing
-//   float value starting at 9.91
-// * int types will be assigned an incrementing int
-//   value starting at 10.
-// * uint types will be assigned an incrementing uint
-//   value starting at 10.
+//   - string types will be assigned: "string_value"
+//   - float64 type will be assigned an incrementing
+//     float value starting at 9.91
+//   - int types will be assigned an incrementing int
+//     value starting at 10.
+//   - uint types will be assigned an incrementing uint
+//     value starting at 10.
 //
 // `{"name":"test_product",
-// 	"height":55.5,
-// 	"cost":66.6,
-// 	"supplier":"Ace Hardware",
-// 	"weight":88.8,
-// 	"length":44.4,
-// 	"width":33.3,
-// 	"name":"TEST_PRODUCT",
-// 	"description":"a nice test product",
-// 	"uom":"EA"}`
+//
+//	"height":55.5,
+//	"cost":66.6,
+//	"supplier":"Ace Hardware",
+//	"weight":88.8,
+//	"length":44.4,
+//	"width":33.3,
+//	"name":"TEST_PRODUCT",
+//	"description":"a nice test product",
+//	"uom":"EA"}`
 func (ent *Entity) BuildTestPostJSON(isUpdate bool) string {
 
 	var result string
@@ -1347,9 +1349,9 @@ func getTestValue(isUpdate bool, dataType string) interface{} {
 	return nil
 }
 
-//=============================================================================================
+// =============================================================================================
 // local functions
-//=============================================================================================
+// =============================================================================================
 func cleanString(s string) string {
 	s = strings.TrimPrefix(s, "\"")
 	s = strings.TrimSuffix(s, "\"")
@@ -1365,31 +1367,38 @@ func superCleanString(s string) string {
 
 // prepareTemplate is used to read a template source from the pkger
 // or local location, create a *Template and return it to the caller.
-func prepareTemplate(templateName string) (*template.Template, error) {
+func prepareTemplate(templateName string, ef embed.FS) (*template.Template, error) {
 	// stat for .gotmpl file size
-	fi, err := pkger.Stat(templateName)
+	//fi, err := pkger.Stat(templateName)
+	//if err != nil {
+	//	log.Printf("Stat: %v\n", err)
+	//	return nil, err
+	//}
+
+	tf, err := ef.ReadFile(templateName)
 	if err != nil {
-		log.Printf("Stat: %v\n", err)
+		log.Printf("ReadFile: %v\n", err)
 		return nil, err
 	}
 
-	tf, err := pkger.Open(templateName)
-	if err != nil {
-		log.Printf("Open: %v\n", err)
-		return nil, err
-	}
-	defer tf.Close()
+	// tf, err := ef.Open(templateName)
+	// if err != nil {
+	// 	log.Printf("Open: %v\n", err)
+	// 	return nil, err
+	// }
+	// defer tf.Close()
 
 	// read the template source from pkger
-	buf := make([]byte, fi.Size())
-	_, err = tf.Read(buf)
-	if err != nil {
-		log.Printf("Unable to read template %s\n", templateName)
-		return nil, err
-	}
+	// buf := make([]byte, fi.Size())
+	// _, err = tf.Read(buf)
+	// if err != nil {
+	// 	log.Printf("Unable to read template %s\n", templateName)
+	//	return nil, err
+	// }
 
 	// create the template
-	t := template.Must(template.New("Entity model template").Parse(string(buf)))
+	// t := template.Must(template.New("Entity model template").Parse(string(buf)))
+	t := template.Must(template.New("Entity model template").Parse(string(tf)))
 	if t == nil {
 		log.Printf("Parse: %v\n", err)
 		return nil, err
