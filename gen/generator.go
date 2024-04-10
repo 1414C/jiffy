@@ -12,7 +12,6 @@ import (
 	"time"
 
 	"github.com/1414C/sqac/common"
-	"github.com/markbates/pkger"
 )
 
 // Info is used to hold name-value-pairs for Entity definitions
@@ -115,8 +114,6 @@ const (
 
 // CreateModelFile generates a model file for the Entity using the user-defined model.json file in conjunction
 // with the model.gotmpl text/template.  Returns the fully-qualified file-name / error.
-// pkger is used to bundle the .gotmpl files into the binary.  Pkger implements the File interface, so the
-// file handling is a little more pedantic than it would be with ioutil.
 func (ent *Entity) CreateModelFile(tDir string, ef embed.FS) (fName string, err error) {
 
 	// new part
@@ -373,48 +370,34 @@ func (ent *Entity) CreateModelExtensionPointsFile(tDir string, ef embed.FS) (fNa
 // =============================================================================================
 // static generation functions
 // =============================================================================================
-// GenerateStaticTemplates reads the ./static folder and uses Glob
-// to execute each template in-turn.  Returns the fully-qualified
-// file-names or an error.  Processes .gotmpl files into .go files.
-func (s *Static) GenerateStaticTemplates() (fNames []string, err error) {
+// GenerateStaticTemplates reads the ./static folder and executes each template in-turn.
+// Returns the fully-qualified file-names or an error.  Processes .gotmpl files into .go files.
+func (s *Static) GenerateStaticTemplates(ef embed.FS) (fNames []string, err error) {
 
-	// begin of new part
-	tmlFiles, err := glob(s.SrcDir, "*"+".gotmpl")
+	// rewrite to use embed
+	dirEntries, err := ef.ReadDir(s.SrcDir)
 	if err != nil {
+		log.Printf("failed to read %s: got: %s", s.SrcDir, err.Error())
 		return nil, err
 	}
-	// end of new part
 
-	for _, f := range tmlFiles {
+	for _, dirEntry := range dirEntries {
 
-		// start of new part
-		fi, err := pkger.Stat(f)
+		if dirEntry.IsDir() {
+			continue
+		}
+
+		tf, err := ef.ReadFile(s.SrcDir + "/" + dirEntry.Name())
 		if err != nil {
-			log.Printf("Stat: %v\n", err)
+			log.Printf("failed to read %s: got: %s", s.SrcDir+"/"+dirEntry.Name(), err.Error())
 			return nil, err
 		}
 
-		tf, err := pkger.Open(f)
-		if err != nil {
-			log.Printf("Open: %v\n", err)
-			return nil, err
-		}
-		defer tf.Close()
-
-		// read the template source from pkger
-		buf := make([]byte, fi.Size())
-		_, err = tf.Read(buf)
-		if err != nil {
-			log.Printf("Unable to read template: %s %v\n", f, err)
-			return nil, err
-		}
-
-		st := template.Must(template.New("Static template").Parse(string(buf)))
+		st := template.Must(template.New("Static template").Parse(string(tf)))
 		if st == nil {
 			log.Printf("Parse error: %v\n", err)
 			return nil, err
 		}
-		// end of new part
 
 		// create the file-path if required
 		_, err = os.Stat(s.DstDir)
@@ -423,7 +406,8 @@ func (s *Static) GenerateStaticTemplates() (fNames []string, err error) {
 		}
 
 		// create the static source file
-		fileName := filepath.Base(f)
+		// fileName := filepath.Base(f)
+		fileName := filepath.Base(dirEntry.Name())
 		fileName = strings.TrimSuffix(fileName, "tmpl")
 		f, err := os.Create(s.DstDir + "/" + fileName)
 		if err != nil {
@@ -459,14 +443,6 @@ func (s *Static) GenerateGoMod(ef embed.FS) error {
 	if err != nil {
 		return err
 	}
-	// end of new part
-
-	// check the controller file path and create if required
-	// tDir = tDir + "/controllers"
-	// _, err = os.Stat(tDir)
-	// if err != nil {
-	// 	os.Mkdir(tDir, 0755)
-	// }
 
 	// create the go.mod file
 	// tfDir := tDir + "go.mod"
@@ -1365,36 +1341,15 @@ func superCleanString(s string) string {
 	return s
 }
 
-// prepareTemplate is used to read a template source from the pkger
-// or local location, create a *Template and return it to the caller.
+// prepareTemplate is used to read a template source from the embedded
+// location, create a *Template and return it to the caller.
 func prepareTemplate(templateName string, ef embed.FS) (*template.Template, error) {
-	// stat for .gotmpl file size
-	//fi, err := pkger.Stat(templateName)
-	//if err != nil {
-	//	log.Printf("Stat: %v\n", err)
-	//	return nil, err
-	//}
 
 	tf, err := ef.ReadFile(templateName)
 	if err != nil {
 		log.Printf("ReadFile: %v\n", err)
 		return nil, err
 	}
-
-	// tf, err := ef.Open(templateName)
-	// if err != nil {
-	// 	log.Printf("Open: %v\n", err)
-	// 	return nil, err
-	// }
-	// defer tf.Close()
-
-	// read the template source from pkger
-	// buf := make([]byte, fi.Size())
-	// _, err = tf.Read(buf)
-	// if err != nil {
-	// 	log.Printf("Unable to read template %s\n", templateName)
-	//	return nil, err
-	// }
 
 	// create the template
 	// t := template.Must(template.New("Entity model template").Parse(string(buf)))
@@ -1404,40 +1359,6 @@ func prepareTemplate(templateName string, ef embed.FS) (*template.Template, erro
 		return nil, err
 	}
 	return t, nil
-}
-
-// glob is used to read files matching the pattern string
-// parameter from the directory specified by the dir parameter.
-// There is a slight argument for making this walk the tree, but
-// the needs of jiffy are mostly served by reading single directories.
-// The pkger.Walk(...) function would be a place to start.
-func glob(dir, pattern string) ([]string, error) {
-	m := make([]string, 0)
-	fi, err := pkger.Stat(dir)
-	if err != nil {
-		return nil, err
-	}
-	if !fi.IsDir() {
-		return nil, err
-	}
-	d, err := pkger.Open(dir)
-	if err != nil {
-		return nil, err
-	}
-	defer d.Close()
-
-	names, _ := d.Readdir(-1)
-
-	for _, n := range names {
-		matched, err := filepath.Match(pattern, n.Name())
-		if err != nil {
-			return m, err
-		}
-		if matched {
-			m = append(m, dir+"/"+n.Name())
-		}
-	}
-	return m, nil
 }
 
 // ExecuteGoTools runs gofmt -w and goimports on the specified file

@@ -176,12 +176,14 @@ func main() {
 
 	// generate static model source files
 	s := gen.Static{
-		SrcDir:   "/static/models",
+		SrcDir:   "static/models",
 		DstDir:   *projectPath + "/models",
 		AppPath:  appPath,
 		Entities: entities,
 	}
-	fs, err := s.GenerateStaticTemplates()
+	log.Printf("ef: %v", ef)
+
+	fs, err := s.GenerateStaticTemplates(ef)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -189,11 +191,11 @@ func main() {
 
 	// generate static model extension-point source files
 	s = gen.Static{
-		SrcDir:  "/static/models/ext",
+		SrcDir:  "static/models/ext",
 		DstDir:  *projectPath + "/models/ext",
 		AppPath: appPath,
 	}
-	fs, err = s.GenerateStaticTemplates()
+	fs, err = s.GenerateStaticTemplates(ef)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -201,11 +203,11 @@ func main() {
 
 	// generate static controller source files
 	s = gen.Static{
-		SrcDir:  "/static/controllers",
+		SrcDir:  "static/controllers",
 		DstDir:  *projectPath + "/controllers",
 		AppPath: appPath,
 	}
-	fs, err = s.GenerateStaticTemplates()
+	fs, err = s.GenerateStaticTemplates(ef)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -213,11 +215,11 @@ func main() {
 
 	// generate static controller extension-point source files
 	s = gen.Static{
-		SrcDir:  "/static/controllers/ext",
+		SrcDir:  "static/controllers/ext",
 		DstDir:  *projectPath + "/controllers/ext",
 		AppPath: appPath,
 	}
-	fs, err = s.GenerateStaticTemplates()
+	fs, err = s.GenerateStaticTemplates(ef)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -235,13 +237,13 @@ func main() {
 
 	// generate static middleware source files
 	s = gen.Static{
-		SrcDir:  "/static/middleware",
+		SrcDir:  "static/middleware",
 		DstDir:  *projectPath + "/middleware",
 		AppPath: appPath,
 		ECDSA:   []string{"256", "384", "521"},
 		RSA:     []string{"256", "384", "512"},
 	}
-	fs, err = s.GenerateStaticTemplates()
+	fs, err = s.GenerateStaticTemplates(ef)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -256,11 +258,11 @@ func main() {
 
 	// generate static group-membership client files
 	s = gen.Static{
-		SrcDir:  "/static/group/gmcl",
+		SrcDir:  "static/group/gmcl",
 		DstDir:  *projectPath + "/group/gmcl",
 		AppPath: appPath,
 	}
-	fs, err = s.GenerateStaticTemplates()
+	fs, err = s.GenerateStaticTemplates(ef)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -268,11 +270,11 @@ func main() {
 
 	// generate static group-membership common files
 	s = gen.Static{
-		SrcDir:  "/static/group/gmcom",
+		SrcDir:  "static/group/gmcom",
 		DstDir:  *projectPath + "/group/gmcom",
 		AppPath: appPath,
 	}
-	fs, err = s.GenerateStaticTemplates()
+	fs, err = s.GenerateStaticTemplates(ef)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -280,11 +282,11 @@ func main() {
 
 	// generate static group-membership server files
 	s = gen.Static{
-		SrcDir:  "/static/group/gmsrv",
+		SrcDir:  "static/group/gmsrv",
 		DstDir:  *projectPath + "/group/gmsrv",
 		AppPath: appPath,
 	}
-	fs, err = s.GenerateStaticTemplates()
+	fs, err = s.GenerateStaticTemplates(ef)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -292,14 +294,14 @@ func main() {
 
 	// generate static main application source files
 	s = gen.Static{
-		SrcDir:   "/static/appobj",
+		SrcDir:   "static/appobj",
 		DstDir:   *projectPath + "/appobj",
 		AppPath:  appPath,
 		Entities: entities,
 		ECDSA:    []string{"256", "384", "521"},
 		RSA:      []string{"256", "384", "512"},
 	}
-	fs, err = s.GenerateStaticTemplates()
+	fs, err = s.GenerateStaticTemplates(ef)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -308,13 +310,13 @@ func main() {
 	// generate main application source files
 	// (main.go, main_test.go,)
 	s = gen.Static{
-		SrcDir:   "/static",
+		SrcDir:   "static",
 		DstDir:   *projectPath,
 		AppPath:  appPath,
 		Entities: entities,
 	}
 
-	fs, err = s.GenerateStaticTemplates()
+	fs, err = s.GenerateStaticTemplates(ef)
 	if err != nil {
 		log.Fatal(err)
 	}

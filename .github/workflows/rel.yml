@@ -34,12 +34,6 @@ jobs:
       - name: Tidy
         run: go mod tidy
 
-      - name: Install pkger
-        run: go install github.com/markbates/pkger
-
-      - name: Run pkger
-        run: ./pkgtemplates.sh
-
       - name: Build darwin-amd64
         run: GOOS=darwin GOARCH=amd64 go build -v -o jiffy
 
